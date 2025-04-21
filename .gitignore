@@ -1,0 +1,16 @@
+# Python cache
+__pycache__/
+**/__pycache__/
+
+# NLTK data
+nltk_data/
+
+# Bytecode files
+*.pyc
+
+# VSCode settings (optional)
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
