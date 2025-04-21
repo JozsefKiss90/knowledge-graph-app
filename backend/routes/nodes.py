@@ -35,6 +35,17 @@ def list_nodes(label: Optional[str] = None):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to list nodes: {str(e)}")
 
+@router.get("/{name}")
+def get_node_by_name(name: str):
+    try:
+        cypher = "MATCH (n {name: $name}) RETURN n"
+        result = db.query(cypher, {"name": name})
+        if not result:
+            raise HTTPException(status_code=404, detail="Node not found")
+        return {"node": result[0]}  # Return the first matched node
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch node: {str(e)}")
+
 @router.put("/")
 def update_node(request: NodeUpdateRequest):
     try:

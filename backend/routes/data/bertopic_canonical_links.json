@@ -1,0 +1,1774 @@
+[
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_security",
+    "relation": "shared_topic",
+    "score": 0.469,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.633,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "european_economic_security_strategy",
+    "relation": "shared_topic",
+    "score": 0.419,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_missions",
+    "relation": "shared_topic",
+    "score": 0.572,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.542,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.623,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "eu_security_research",
+    "relation": "shared_topic",
+    "score": 0.429,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "synergies_with_eu_programmes",
+    "relation": "shared_topic",
+    "score": 0.522,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.538,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "european_research_area_policy_agenda",
+    "relation": "shared_topic",
+    "score": 0.65,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.36,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.423,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.458,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.443,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.368,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.443,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.51,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.611,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "european_economic_security_strategy",
+    "relation": "shared_topic",
+    "score": 0.496,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_missions",
+    "relation": "shared_topic",
+    "score": 0.508,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.592,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.42,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_cybersecurity_strategy",
+    "relation": "shared_topic",
+    "score": 0.554,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains",
+    "relation": "shared_topic",
+    "score": 0.375,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "european_economic_security_strategy",
+    "relation": "shared_topic",
+    "score": 0.387,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_missions",
+    "relation": "shared_topic",
+    "score": 0.42,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.58,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_strategy_plan_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.351,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.499,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "horizon_europe",
+    "relation": "shared_topic",
+    "score": 0.437,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "synergies_with_eu_programmes",
+    "relation": "shared_topic",
+    "score": 0.434,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.67,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "european_research_area_policy_agenda",
+    "relation": "shared_topic",
+    "score": 0.441,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.544,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.478,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.479,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.491,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.578,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.41,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.521,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.464,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.456,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.429,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.354,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.434,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.456,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.473,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.376,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.372,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.368,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.582,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "european_research_area_policy_agenda",
+    "relation": "shared_topic",
+    "score": 0.572,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.58,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.601,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.555,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.502,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.508,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.492,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.479,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.367,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_research_area_policy_agenda",
+    "relation": "shared_topic",
+    "score": 0.588,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.578,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.546,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.573,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.643,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.659,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.583,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.549,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.539,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.362,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.524,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.554,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.536,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.462,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.482,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.545,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "eu_missions",
+    "relation": "shared_topic",
+    "score": 0.494,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.444,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.489,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "eu_cybersecurity_strategy",
+    "relation": "shared_topic",
+    "score": 0.354,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.504,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.524,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.447,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.39,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.547,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.41,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.382,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.508,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_strategy_plan_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.452,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.642,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.563,
+    "topic_id": 1,
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.569,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.511,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.477,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.457,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.64,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.584,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.573,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.614,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.623,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.59,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.515,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.512,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.469,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.526,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_research_area",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.53,
+    "topic_id": 0,
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_strategy",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_strategy_plan_2025_2027",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_research_area",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "source": "european_union",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  },
+  {
+    "source": "eu_cybersecurity_strategy",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  }
+]

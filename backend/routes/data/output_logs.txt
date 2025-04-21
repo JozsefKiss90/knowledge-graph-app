@@ -1,0 +1,938 @@
+Entity A: European Chips Act (policy)
+Entity B: EU security (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "eu_security", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'Strengthening social and economic resilience and sustainability'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: Strengthening social and economic resilience and sustainability (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "strengthening_social_and_economic_resilience_and_sustainability", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'Actions to strengthen the resilience of critical infrastructure'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: Actions to strengthen the resilience of critical infrastructure (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "actions_to_strengthen_the_resilience_of_critical_infrastructure", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'Reinvigorating democratic governance'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: Reinvigorating democratic governance (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "reinvigorating_democratic_governance", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'European Partnerships for Transport'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: European Partnerships for Transport (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "european_partnerships_for_transport", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'Actions for crisis management'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: Actions for crisis management (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "actions_for_crisis_management", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'EU Missions'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: EU Missions (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "eu_missions", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'European Commission: Global Approach to Research and Innovation'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: European Commission: Global Approach to Research and Innovation (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "european_commission_global_approach_to_research_and_innovation", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Chips Act' and 'Developing and using new tools, technologies, and digital solutions for a healthy society'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Chips Act (policy)
+Entity B: Developing and using new tools, technologies, and digital solutions for a healthy society (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_chips_act", "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan | 2025 – 2027' and 'European Digital Innovation Hubs'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan | 2025 – 2027 (programme)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_2025_2027", "target": "european_digital_innovation_hubs", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan | 2025 – 2027' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan | 2025 – 2027 (programme)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_2025_2027", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan | 2025 – 2027' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan | 2025 – 2027 (programme)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_2025_2027", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan | 2025 – 2027' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan | 2025 – 2027 (programme)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_2025_2027", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan | 2025 – 2027' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan | 2025 – 2027 (programme)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_2025_2027", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU health sector' and 'European Digital Innovation Hubs'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU health sector (mission)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_health_sector", "target": "european_digital_innovation_hubs", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU health sector' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...    
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU health sector (mission)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_health_sector", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}    
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU health sector' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU health sector (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_health_sector", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU health sector' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU health sector (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_health_sector", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}   
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU health sector' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU health sector (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_health_sector", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU security' and 'European Digital Innovation Hubs'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU security (mission)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_security", "target": "european_digital_innovation_hubs", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU security' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU security (mission)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_security", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU security' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU security (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_security", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU security' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'... 
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU security (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_security", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}        
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU security' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU security (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_security", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Strengthening social and economic resilience and sustainability' and 'European Digital Innovation Hubs'...        
+Is there a policy or strategic relationship between the following entities?
+Entity A: Strengthening social and economic resilience and sustainability (mission)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "strengthening_social_and_economic_resilience_and_sustainability", "target": "european_digital_innovation_hubs", "relation": "..."}       
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Strengthening social and economic resilience and sustainability' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Strengthening social and economic resilience and sustainability (mission)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "strengthening_social_and_economic_resilience_and_sustainability", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Strengthening social and economic resilience and sustainability' and 'EU-India Trade and Technology Council)'...  
+Is there a policy or strategic relationship between the following entities?
+Entity A: Strengthening social and economic resilience and sustainability (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "strengthening_social_and_economic_resilience_and_sustainability", "target": "eu_india_trade_and_technology_council", "relation": "..."}  
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Strengthening social and economic resilience and sustainability' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Strengthening social and economic resilience and sustainability (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "strengthening_social_and_economic_resilience_and_sustainability", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Strengthening social and economic resilience and sustainability' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Strengthening social and economic resilience and sustainability (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "strengthening_social_and_economic_resilience_and_sustainability", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions to strengthen the resilience of critical infrastructure' and 'European Digital Innovation Hubs'...        
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions to strengthen the resilience of critical infrastructure (mission)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_to_strengthen_the_resilience_of_critical_infrastructure", "target": "european_digital_innovation_hubs", "relation": "..."}       
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions to strengthen the resilience of critical infrastructure' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions to strengthen the resilience of critical infrastructure (mission)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_to_strengthen_the_resilience_of_critical_infrastructure", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions to strengthen the resilience of critical infrastructure' and 'EU-India Trade and Technology Council)'...  
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions to strengthen the resilience of critical infrastructure (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_to_strengthen_the_resilience_of_critical_infrastructure", "target": "eu_india_trade_and_technology_council", "relation": "..."}  
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions to strengthen the resilience of critical infrastructure' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions to strengthen the resilience of critical infrastructure (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_to_strengthen_the_resilience_of_critical_infrastructure", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions to strengthen the resilience of critical infrastructure' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions to strengthen the resilience of critical infrastructure (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_to_strengthen_the_resilience_of_critical_infrastructure", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' and 'Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries (policy)
+Entity B: Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries", "target": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' and 'Reinvigorating democratic governance'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries (policy)
+Entity B: Reinvigorating democratic governance (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries", "target": "reinvigorating_democratic_governance", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' and 'European Partnerships for Transport'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries (policy)
+Entity B: European Partnerships for Transport (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries", "target": "european_partnerships_for_transport", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' and 'Actions for crisis management'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries (policy)
+Entity B: Actions for crisis management (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries", "target": "actions_for_crisis_management", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' and 'EU Missions'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries (policy)
+Entity B: EU Missions (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries", "target": "eu_missions", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' and 'European Commission: Global Approach to Research and Innovation'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries (policy)
+Entity B: European Commission: Global Approach to Research and Innovation (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries", "target": "european_commission_global_approach_to_research_and_innovation", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' and 'Developing and using new tools, technologies, and digital solutions for a healthy society'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries (policy)
+Entity B: Developing and using new tools, technologies, and digital solutions for a healthy society (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries", "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Synergies with EU programmes' and 'European Digital Innovation Hubs'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Synergies with EU programmes (programme)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "synergies_with_eu_programmes", "target": "european_digital_innovation_hubs", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Synergies with EU programmes' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Synergies with EU programmes (programme)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "synergies_with_eu_programmes", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Synergies with EU programmes' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Synergies with EU programmes (programme)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "synergies_with_eu_programmes", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Synergies with EU programmes' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Synergies with EU programmes (programme)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "synergies_with_eu_programmes", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Synergies with EU programmes' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Synergies with EU programmes (programme)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "synergies_with_eu_programmes", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains' and 'European Digital Innovation Hubs'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains (mission)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains", "target": "european_digital_innovation_hubs", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains (mission)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Achieving global leadership in climate-neutral, circular and digitised industrial and digital value chains (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action on R&I foreign interference' and 'Reinvigorating democratic governance'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action on R&I foreign interference (policy)
+Entity B: Reinvigorating democratic governance (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_on_ri_foreign_interference", "target": "reinvigorating_democratic_governance", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action on R&I foreign interference' and 'European Partnerships for Transport'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action on R&I foreign interference (policy)
+Entity B: European Partnerships for Transport (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_on_ri_foreign_interference", "target": "european_partnerships_for_transport", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action on R&I foreign interference' and 'Actions for crisis management'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action on R&I foreign interference (policy)
+Entity B: Actions for crisis management (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_on_ri_foreign_interference", "target": "actions_for_crisis_management", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action on R&I foreign interference' and 'EU Missions'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action on R&I foreign interference (policy)
+Entity B: EU Missions (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_on_ri_foreign_interference", "target": "eu_missions", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action on R&I foreign interference' and 'European Commission: Global Approach to Research and Innovation'...   
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action on R&I foreign interference (policy)
+Entity B: European Commission: Global Approach to Research and Innovation (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_on_ri_foreign_interference", "target": "european_commission_global_approach_to_research_and_innovation", "relation": "..."}    
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU action on R&I foreign interference' and 'Developing and using new tools, technologies, and digital solutions for a healthy society'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU action on R&I foreign interference (policy)
+Entity B: Developing and using new tools, technologies, and digital solutions for a healthy society (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_action_on_ri_foreign_interference", "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Reinvigorating democratic governance' and 'European Digital Innovation Hubs'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Reinvigorating democratic governance (mission)
+Entity B: European Digital Innovation Hubs (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "reinvigorating_democratic_governance", "target": "european_digital_innovation_hubs", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Reinvigorating democratic governance' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Reinvigorating democratic governance (mission)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "reinvigorating_democratic_governance", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Reinvigorating democratic governance' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Reinvigorating democratic governance (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "reinvigorating_democratic_governance", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Reinvigorating democratic governance' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Reinvigorating democratic governance (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "reinvigorating_democratic_governance", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Reinvigorating democratic governance' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Reinvigorating democratic governance (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "reinvigorating_democratic_governance", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Research Area Policy Agenda' and 'European Partnerships for Transport'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Research Area Policy Agenda (policy)
+Entity B: European Partnerships for Transport (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_research_area_policy_agenda", "target": "european_partnerships_for_transport", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Research Area Policy Agenda' and 'Actions for crisis management'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Research Area Policy Agenda (policy)
+Entity B: Actions for crisis management (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_research_area_policy_agenda", "target": "actions_for_crisis_management", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Research Area Policy Agenda' and 'EU Missions'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Research Area Policy Agenda (policy)
+Entity B: EU Missions (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_research_area_policy_agenda", "target": "eu_missions", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Research Area Policy Agenda' and 'European Commission: Global Approach to Research and Innovation'...    
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Research Area Policy Agenda (policy)
+Entity B: European Commission: Global Approach to Research and Innovation (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_research_area_policy_agenda", "target": "european_commission_global_approach_to_research_and_innovation", "relation": "..."}    
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Research Area Policy Agenda' and 'Developing and using new tools, technologies, and digital solutions for a healthy society'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Research Area Policy Agenda (policy)
+Entity B: Developing and using new tools, technologies, and digital solutions for a healthy society (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_research_area_policy_agenda", "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU biodiversity strategy for 2030' and 'European Partnerships for Transport'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU biodiversity strategy for 2030 (policy)
+Entity B: European Partnerships for Transport (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_biodiversity_strategy_for_2030", "target": "european_partnerships_for_transport", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU biodiversity strategy for 2030' and 'Actions for crisis management'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU biodiversity strategy for 2030 (policy)
+Entity B: Actions for crisis management (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_biodiversity_strategy_for_2030", "target": "actions_for_crisis_management", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU biodiversity strategy for 2030' and 'EU Missions'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU biodiversity strategy for 2030 (policy)
+Entity B: EU Missions (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_biodiversity_strategy_for_2030", "target": "eu_missions", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU biodiversity strategy for 2030' and 'European Commission: Global Approach to Research and Innovation'...       
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU biodiversity strategy for 2030 (policy)
+Entity B: European Commission: Global Approach to Research and Innovation (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_biodiversity_strategy_for_2030", "target": "european_commission_global_approach_to_research_and_innovation", "relation": "..."}       
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU biodiversity strategy for 2030' and 'Developing and using new tools, technologies, and digital solutions for a healthy society'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU biodiversity strategy for 2030 (policy)
+Entity B: Developing and using new tools, technologies, and digital solutions for a healthy society (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_biodiversity_strategy_for_2030", "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European health policy' and 'European Partnerships for Transport'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European health policy (policy)
+Entity B: European Partnerships for Transport (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_health_policy", "target": "european_partnerships_for_transport", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European health policy' and 'Actions for crisis management'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European health policy (policy)
+Entity B: Actions for crisis management (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_health_policy", "target": "actions_for_crisis_management", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European health policy' and 'EU Missions'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European health policy (policy)
+Entity B: EU Missions (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_health_policy", "target": "eu_missions", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European health policy' and 'European Commission: Global Approach to Research and Innovation'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European health policy (policy)
+Entity B: European Commission: Global Approach to Research and Innovation (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_health_policy", "target": "european_commission_global_approach_to_research_and_innovation", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European health policy' and 'Developing and using new tools, technologies, and digital solutions for a healthy society'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European health policy (policy)
+Entity B: Developing and using new tools, technologies, and digital solutions for a healthy society (mission)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_health_policy", "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Digital Innovation Hubs' and 'climate change'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Digital Innovation Hubs (cluster)
+Entity B: climate change (impact_area)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_digital_innovation_hubs", "target": "climate_change", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Digital Innovation Hubs' and 'European Union'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Digital Innovation Hubs (cluster)
+Entity B: European Union (impact_area)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_digital_innovation_hubs", "target": "european_union", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Partnerships for Transport' and 'Cluster 2 will programme investment to achieve the following four expected impacts.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Partnerships for Transport (mission)
+Entity B: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_partnerships_for_transport", "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Partnerships for Transport' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Partnerships for Transport (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_partnerships_for_transport", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Partnerships for Transport' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Partnerships for Transport (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_partnerships_for_transport", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Partnerships for Transport' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Partnerships for Transport (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_partnerships_for_transport", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Cluster 2 will programme investment to achieve the following four expected impacts.' and 'climate change'...      
+Is there a policy or strategic relationship between the following entities?
+Entity A: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+Entity B: climate change (impact_area)
+
+Summarize the relationship as a JSON triple:
+{"source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "target": "climate_change", "relation": "..."}      
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Cluster 2 will programme investment to achieve the following four expected impacts.' and 'European Union'...      
+Is there a policy or strategic relationship between the following entities?
+Entity A: Cluster 2 will programme investment to achieve the following four expected impacts. (cluster)
+Entity B: European Union (impact_area)
+
+Summarize the relationship as a JSON triple:
+{"source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts", "target": "european_union", "relation": "..."}      
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions for crisis management' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions for crisis management (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_for_crisis_management", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions for crisis management' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions for crisis management (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_for_crisis_management", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Actions for crisis management' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Actions for crisis management (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "actions_for_crisis_management", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Commission, Horizon Europe, 2025-2027' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Commission, Horizon Europe, 2025-2027 (programme)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_commission_horizon_europe_2025_2027", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Commission, Horizon Europe, 2025-2027' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Commission, Horizon Europe, 2025-2027 (programme)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_commission_horizon_europe_2025_2027", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Commission, Horizon Europe, 2025-2027' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Commission, Horizon Europe, 2025-2027 (programme)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_commission_horizon_europe_2025_2027", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU Missions' and 'EU-India Trade and Technology Council)'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU Missions (mission)
+Entity B: EU-India Trade and Technology Council) (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_missions", "target": "eu_india_trade_and_technology_council", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU Missions' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'... 
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU Missions (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_missions", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}        
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU Missions' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU Missions (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_missions", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU-India Trade and Technology Council)' and 'European Union'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU-India Trade and Technology Council) (cluster)
+Entity B: European Union (impact_area)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_india_trade_and_technology_council", "target": "european_union", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU strategy plan 2025 – 2027' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU strategy plan 2025 – 2027 (programme)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_strategy_plan_2025_2027", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU strategy plan 2025 – 2027' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU strategy plan 2025 – 2027 (programme)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_strategy_plan_2025_2027", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Synergies with other EU funding programmes' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Synergies with other EU funding programmes (programme)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "synergies_with_other_eu_funding_programmes", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'Synergies with other EU funding programmes' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: Synergies with other EU funding programmes (programme)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "synergies_with_other_eu_funding_programmes", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Commission: Global Approach to Research and Innovation' and '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Commission: Global Approach to Research and Innovation (mission)
+Entity B: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_commission_global_approach_to_research_and_innovation", "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'European Commission: Global Approach to Research and Innovation' and 'EU Research Area'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: European Commission: Global Approach to Research and Innovation (mission)
+Entity B: EU Research Area (cluster)
+
+Summarize the relationship as a JSON triple:
+{"source": "european_commission_global_approach_to_research_and_innovation", "target": "eu_research_area", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between '1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings.' and 'European Union'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: 1. HEALTH 2. HEALTH & health-active mobility 3. Health & safety in transport and buildings. (cluster)
+Entity B: European Union (impact_area)
+
+Summarize the relationship as a JSON triple:
+{"source": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings", "target": "european_union", "relation": "..."}     
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🧪 Prompting for relation between 'EU Research Area' and 'European Union'...
+Is there a policy or strategic relationship between the following entities?
+Entity A: EU Research Area (cluster)
+Entity B: European Union (impact_area)
+
+Summarize the relationship as a JSON triple:
+{"source": "eu_research_area", "target": "european_union", "relation": "..."}
+If no relation exists, respond with 'None'.
+📝 Model output: None
+🔎 Total pairs checked: 143
+✅ Total relationships extracted: 0
+📤 Saved relationships to relationship_output.json
+'relationship_output.json'

@@ -1,0 +1,2450 @@
+[
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_policy",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "security",
+      "research",
+      "civil",
+      "civil security",
+      "destination"
+    ]
+  },
+  {
+    "source": "european_research_infrastructures",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "process_industries",
+    "target": "topic_6",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "existing",
+      "place based",
+      "place",
+      "hubs4circularity",
+      "reducing"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "eu_rural_and_coastal_resilience_and_sustainability_cluster_6",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "european_chips_act",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_health_sector",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "investment",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "security",
+      "research",
+      "civil",
+      "civil security",
+      "destination"
+    ]
+  },
+  {
+    "source": "strengthening_social_and_economic_resilience_and_sustainability",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "reinvigorating_democratic_governance",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_biodiversity_strategy_for_2030",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "european_health_policy",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "european_digital_innovation_hubs",
+    "target": "topic_6",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "existing",
+      "place based",
+      "place",
+      "hubs4circularity",
+      "reducing"
+    ]
+  },
+  {
+    "source": "european_partnerships_for_transport",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_rural_development",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "actions_for_crisis_management",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_european_research_and_innovation_for_security_ceris",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "security",
+      "research",
+      "civil",
+      "civil security",
+      "destination"
+    ]
+  },
+  {
+    "source": "european_commission_horizon_europe_2025_2027",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "topic_7",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "iii",
+      "improvements",
+      "ii",
+      "climate",
+      "european"
+    ]
+  },
+  {
+    "source": "eu_strategy",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "climate_change",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "eu_strategy_plan_2025_2027",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "achieving_open_strategic_autonomy_in_global_space_based_infrastructures_services_applications_and_data",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings",
+    "target": "topic_6",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "existing",
+      "place based",
+      "place",
+      "hubs4circularity",
+      "reducing"
+    ]
+  },
+  {
+    "source": "eu_research_area",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_union",
+    "target": "topic_7",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "iii",
+      "improvements",
+      "ii",
+      "climate",
+      "european"
+    ]
+  },
+  {
+    "source": "eu_cybersecurity_strategy",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_action_plan_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.527,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "strengthening_social_and_economic_resilience_and_sustainability",
+    "relation": "shared_topic",
+    "score": 0.422,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "relation": "shared_topic",
+    "score": 0.477,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "horizon_europe",
+    "relation": "shared_topic",
+    "score": 0.359,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.454,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "european_economic_security_strategy",
+    "relation": "shared_topic",
+    "score": 0.419,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.426,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.442,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.642,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_policy",
+    "target": "investment",
+    "relation": "shared_topic",
+    "score": 0.396,
+    "topic_id": 5,
+    "keywords": [
+      "security",
+      "research",
+      "civil",
+      "civil security",
+      "destination"
+    ]
+  },
+  {
+    "source": "eu_policy",
+    "target": "eu_strategy_for_european_research_and_innovation_for_security_ceris",
+    "relation": "shared_topic",
+    "score": 0.558,
+    "topic_id": 5,
+    "keywords": [
+      "security",
+      "research",
+      "civil",
+      "civil security",
+      "destination"
+    ]
+  },
+  {
+    "source": "european_research_infrastructures",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "shared_topic",
+    "score": 0.535,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_research_infrastructures",
+    "target": "synergies_with_eu_programmes",
+    "relation": "shared_topic",
+    "score": 0.432,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_research_infrastructures",
+    "target": "european_research_area_policy_agenda",
+    "relation": "shared_topic",
+    "score": 0.519,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_research_infrastructures",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.414,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "process_industries",
+    "target": "european_digital_innovation_hubs",
+    "relation": "shared_topic",
+    "score": 0.621,
+    "topic_id": 6,
+    "keywords": [
+      "existing",
+      "place based",
+      "place",
+      "hubs4circularity",
+      "reducing"
+    ]
+  },
+  {
+    "source": "process_industries",
+    "target": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings",
+    "relation": "shared_topic",
+    "score": 0.478,
+    "topic_id": 6,
+    "keywords": [
+      "existing",
+      "place based",
+      "place",
+      "hubs4circularity",
+      "reducing"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "eu_health_sector",
+    "relation": "shared_topic",
+    "score": 0.486,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "european_health_policy",
+    "relation": "shared_topic",
+    "score": 0.522,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.578,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society",
+    "relation": "shared_topic",
+    "score": 0.389,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "synergies_with_eu_programmes",
+    "relation": "shared_topic",
+    "score": 0.522,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "european_research_area_policy_agenda",
+    "relation": "shared_topic",
+    "score": 0.65,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.423,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.458,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "eu_rural_and_coastal_resilience_and_sustainability_cluster_6",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "shared_topic",
+    "score": 0.37,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_rural_and_coastal_resilience_and_sustainability_cluster_6",
+    "target": "eu_strategy_for_rural_development",
+    "relation": "shared_topic",
+    "score": 0.474,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "european_chips_act",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.403,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "relation": "shared_topic",
+    "score": 0.804,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "eu_security_research",
+    "relation": "shared_topic",
+    "score": 0.438,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "horizon_europe",
+    "relation": "shared_topic",
+    "score": 0.384,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.563,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.583,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.482,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.579,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.502,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.447,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_2025_2027",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.377,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_health_sector",
+    "target": "european_health_policy",
+    "relation": "shared_topic",
+    "score": 0.603,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu_health_sector",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.633,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu_health_sector",
+    "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society",
+    "relation": "shared_topic",
+    "score": 0.567,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.611,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "relation": "shared_topic",
+    "score": 0.592,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "actions_for_crisis_management",
+    "relation": "shared_topic",
+    "score": 0.457,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.592,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "achieving_open_strategic_autonomy_in_global_space_based_infrastructures_services_applications_and_data",
+    "relation": "shared_topic",
+    "score": 0.491,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_cybersecurity_strategy",
+    "relation": "shared_topic",
+    "score": 0.554,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "relation": "shared_topic",
+    "score": 0.472,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "actions_for_crisis_management",
+    "relation": "shared_topic",
+    "score": 0.362,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.58,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "achieving_open_strategic_autonomy_in_global_space_based_infrastructures_services_applications_and_data",
+    "relation": "shared_topic",
+    "score": 0.468,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "investment",
+    "target": "eu_strategy_for_european_research_and_innovation_for_security_ceris",
+    "relation": "shared_topic",
+    "score": 0.37,
+    "topic_id": 5,
+    "keywords": [
+      "security",
+      "research",
+      "civil",
+      "civil security",
+      "destination"
+    ]
+  },
+  {
+    "source": "strengthening_social_and_economic_resilience_and_sustainability",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.363,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "strengthening_social_and_economic_resilience_and_sustainability",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.368,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "target": "actions_for_crisis_management",
+    "relation": "shared_topic",
+    "score": 0.463,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.597,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "target": "achieving_open_strategic_autonomy_in_global_space_based_infrastructures_services_applications_and_data",
+    "relation": "shared_topic",
+    "score": 0.458,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "target": "eu_cybersecurity_strategy",
+    "relation": "shared_topic",
+    "score": 0.376,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "eu_security_research",
+    "relation": "shared_topic",
+    "score": 0.466,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "horizon_europe",
+    "relation": "shared_topic",
+    "score": 0.371,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.57,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.605,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.547,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.646,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.578,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.477,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.36,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "horizon_europe",
+    "relation": "shared_topic",
+    "score": 0.437,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.67,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "european_economic_security_strategy",
+    "relation": "shared_topic",
+    "score": 0.43,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.544,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.478,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.525,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.578,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.521,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_security_research",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.464,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.456,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.429,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.354,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.473,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.372,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.368,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "european_research_area_policy_agenda",
+    "relation": "shared_topic",
+    "score": 0.572,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.58,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.601,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "achieving_global_leadership_in_climate_neutral_circular_and_digitised_industrial_and_digital_value_chains",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.446,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "reinvigorating_democratic_governance",
+    "relation": "shared_topic",
+    "score": 0.508,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "european_partnerships_for_transport",
+    "relation": "shared_topic",
+    "score": 0.477,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "eu_strategy_for_rural_development",
+    "relation": "shared_topic",
+    "score": 0.468,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "european_commission_horizon_europe_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.5,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "reinvigorating_democratic_governance",
+    "target": "european_partnerships_for_transport",
+    "relation": "shared_topic",
+    "score": 0.448,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "reinvigorating_democratic_governance",
+    "target": "eu_strategy_for_rural_development",
+    "relation": "shared_topic",
+    "score": 0.401,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "reinvigorating_democratic_governance",
+    "target": "european_commission_horizon_europe_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.565,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_programmes_clusters_or_impact_areas",
+    "relation": "shared_topic",
+    "score": 0.578,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.546,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.542,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.659,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.549,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.539,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.524,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.554,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.458,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.474,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.381,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_economic_security_strategy",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.545,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_biodiversity_strategy_for_2030",
+    "target": "eu_strategy_for_rural_development",
+    "relation": "shared_topic",
+    "score": 0.393,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "european_health_policy",
+    "target": "eu_global_health_strategy",
+    "relation": "shared_topic",
+    "score": 0.517,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "european_health_policy",
+    "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society",
+    "relation": "shared_topic",
+    "score": 0.596,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "european_partnerships_for_transport",
+    "target": "eu_strategy_for_rural_development",
+    "relation": "shared_topic",
+    "score": 0.555,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "european_partnerships_for_transport",
+    "target": "european_commission_horizon_europe_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.488,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_rural_development",
+    "target": "european_commission_horizon_europe_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.383,
+    "topic_id": 1,
+    "keywords": [
+      "better",
+      "farming",
+      "2023",
+      "democratic",
+      "ecosystems"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "shared_topic",
+    "score": 0.504,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.425,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.524,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "climate_change",
+    "relation": "shared_topic",
+    "score": 0.485,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.547,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.382,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "actions_for_crisis_management",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.429,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "european_union",
+    "relation": "shared_topic",
+    "score": 0.642,
+    "topic_id": 7,
+    "keywords": [
+      "iii",
+      "improvements",
+      "ii",
+      "climate",
+      "european"
+    ]
+  },
+  {
+    "source": "eu_strategy",
+    "target": "achieving_open_strategic_autonomy_in_global_space_based_infrastructures_services_applications_and_data",
+    "relation": "shared_topic",
+    "score": 0.562,
+    "topic_id": 2,
+    "keywords": [
+      "eu",
+      "secure",
+      "digital",
+      "cybersecurity",
+      "european way"
+    ]
+  },
+  {
+    "source": "climate_change",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.595,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "climate_change",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.569,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "climate_change",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.496,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "shared_topic",
+    "score": 0.569,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "research",
+      "synergies",
+      "eu",
+      "europe"
+    ]
+  },
+  {
+    "source": "eu_strategy_plan_2025_2027",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.369,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "eu_research_area",
+    "relation": "shared_topic",
+    "score": 0.515,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.512,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society",
+    "relation": "shared_topic",
+    "score": 0.379,
+    "topic_id": 4,
+    "keywords": [
+      "health",
+      "eu",
+      "healthcare",
+      "healthcare systems",
+      "pandemic"
+    ]
+  },
+  {
+    "source": "eu_research_area",
+    "target": "eu_policy_areas",
+    "relation": "shared_topic",
+    "score": 0.53,
+    "topic_id": 0,
+    "keywords": [
+      "cluster",
+      "eu",
+      "climate",
+      "europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "cross_topic_similarity",
+    "score": 0.633
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "european_union",
+    "relation": "cross_topic_similarity",
+    "score": 0.623
+  },
+  {
+    "source": "process_industries",
+    "target": "european_union",
+    "relation": "cross_topic_similarity",
+    "score": 0.651
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "cross_topic_similarity",
+    "score": 0.643
+  },
+  {
+    "source": "eu_india_trade_and_technology_council",
+    "target": "eu_policy_areas",
+    "relation": "cross_topic_similarity",
+    "score": 0.64
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "eu_research_area",
+    "relation": "cross_topic_similarity",
+    "score": 0.614
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "eu_policy_areas",
+    "relation": "cross_topic_similarity",
+    "score": 0.623
+  }
+]

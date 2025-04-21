@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Body, Query
 from pydantic import BaseModel
 from database import db
+from typing import Optional
 
 router = APIRouter(prefix="/relationships", tags=["Relationships"])
 
@@ -25,15 +26,27 @@ def create_relationship(request: RelationshipCreateRequest = Body(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create relationship: {str(e)}")
 
+from fastapi import APIRouter, HTTPException, Query
+from typing import Optional
+from database import db
+
+router = APIRouter(prefix="/relationships", tags=["Relationships"])
+
 @router.get("/")
-def get_relationships(from_name: str = Query(...)):
+def get_relationships(from_name: Optional[str] = Query(None)):
     try:
-        cypher = """
-        MATCH (a {name: $from})-[r]->(b)
-        RETURN a, r, b
-        """
-        result = db.query(cypher, {"from": from_name})
+        if from_name:
+            cypher = """
+            MATCH (a {name: $from})-[r]->(b)
+            RETURN a, r, b
+            """
+            result = db.query(cypher, {"from": from_name})
+        else:
+            cypher = "MATCH (a)-[r]->(b) RETURN a, r, b"
+            result = db.query(cypher)
+
         return {"relationships": result}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch relationships: {str(e)}")
 

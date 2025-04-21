@@ -1,0 +1,440 @@
+[
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "process_industries",
+    "relation": "guides",
+    "score": 0.563
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_action_plan_2025_2027",
+    "relation": "guides",
+    "score": 0.527
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "eu_missions",
+    "relation": "frames",
+    "score": 0.572
+  },
+  {
+    "source": "horizon_europe_strategic_plan_2025_2027",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "guides",
+    "score": 0.541
+  },
+  {
+    "source": "eu_policy",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "aligns_with",
+    "score": 0.515
+  },
+  {
+    "source": "european_research_infrastructures",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "synergizes_with",
+    "score": 0.535
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "european_research_infrastructures",
+    "relation": "aligns_with",
+    "score": 0.503
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "european_research_infrastructures",
+    "relation": "aligns_with",
+    "score": 0.519
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "process_industries",
+    "relation": "guides",
+    "score": 0.514
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "process_industries",
+    "relation": "aligns_with",
+    "score": 0.6
+  },
+  {
+    "source": "process_industries",
+    "target": "european_digital_innovation_hubs",
+    "relation": "funds",
+    "score": 0.621
+  },
+  {
+    "source": "eu_strategy",
+    "target": "process_industries",
+    "relation": "guides",
+    "score": 0.574
+  },
+  {
+    "source": "european_health_policy",
+    "target": "eu4health",
+    "relation": "aligns_with",
+    "score": 0.522
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "eu4health",
+    "relation": "guides",
+    "score": 0.578
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "synergies_with_eu_programmes",
+    "relation": "synergizes_with",
+    "score": 0.522
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "guides",
+    "score": 0.538
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "aligns_with",
+    "score": 0.65
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "aligns_with",
+    "score": 0.51
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "eu_action_plan_2025_2027",
+    "relation": "aligns_with",
+    "score": 0.804
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_action_plan_2025_2027",
+    "relation": "guides",
+    "score": 0.563
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "eu_action_plan_2025_2027",
+    "relation": "guides",
+    "score": 0.583
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "eu_health_sector",
+    "relation": "supports",
+    "score": 0.513
+  },
+  {
+    "source": "european_health_policy",
+    "target": "eu_health_sector",
+    "relation": "supports",
+    "score": 0.603
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "eu_health_sector",
+    "relation": "frames",
+    "score": 0.633
+  },
+  {
+    "source": "eu_health_sector",
+    "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society",
+    "relation": "related_to",
+    "score": 0.567
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_security",
+    "relation": "frames",
+    "score": 0.611
+  },
+  {
+    "source": "eu_security",
+    "target": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "relation": "related_to",
+    "score": 0.592
+  },
+  {
+    "source": "eu_strategy_for_european_research_and_innovation_for_security_ceris",
+    "target": "eu_security",
+    "relation": "frames",
+    "score": 0.534
+  },
+  {
+    "source": "eu_security",
+    "target": "eu_missions",
+    "relation": "related_to",
+    "score": 0.508
+  },
+  {
+    "source": "eu_strategy",
+    "target": "eu_security",
+    "relation": "frames",
+    "score": 0.592
+  },
+  {
+    "source": "eu_security",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "related_to",
+    "score": 0.529
+  },
+  {
+    "source": "eu_cybersecurity_strategy",
+    "target": "eu_security",
+    "relation": "frames",
+    "score": 0.554
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "strengthening_social_and_economic_resilience_and_sustainability",
+    "relation": "frames",
+    "score": 0.546
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "guides",
+    "score": 0.563
+  },
+  {
+    "source": "eu_strategy",
+    "target": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "relation": "frames",
+    "score": 0.597
+  },
+  {
+    "source": "actions_to_strengthen_the_resilience_of_critical_infrastructure",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "related_to",
+    "score": 0.539
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "guides",
+    "score": 0.547
+  },
+  {
+    "source": "eu_action_plan_on_protecting_and_restoring_marine_ecosystems_for_sustainable_and_resilient_fisheries",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "supports",
+    "score": 0.578
+  },
+  {
+    "source": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "target": "horizon_europe",
+    "relation": "contributes_to",
+    "score": 0.554
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "synergies_with_eu_programmes",
+    "relation": "guides",
+    "score": 0.582
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "synergies_with_eu_programmes",
+    "relation": "aligns_with",
+    "score": 0.572
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "funds",
+    "score": 0.58
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "synergizes_with",
+    "score": 0.601
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "synergies_with_eu_programmes",
+    "relation": "guides",
+    "score": 0.502
+  },
+  {
+    "source": "synergies_with_eu_programmes",
+    "target": "eu_research_area",
+    "relation": "funds",
+    "score": 0.508
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "reinvigorating_democratic_governance",
+    "relation": "supports",
+    "score": 0.508
+  },
+  {
+    "source": "eu_action_on_ri_foreign_interference",
+    "target": "european_commission_horizon_europe_2025_2027",
+    "relation": "aligns_with",
+    "score": 0.5
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "guides",
+    "score": 0.743
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "frames",
+    "score": 0.659
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "guides",
+    "score": 0.524
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "aligns_with",
+    "score": 0.554
+  },
+  {
+    "source": "european_research_area_policy_agenda",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "supports",
+    "score": 0.536
+  },
+  {
+    "source": "european_health_policy",
+    "target": "developing_and_using_new_tools_technologies_and_digital_solutions_for_a_healthy_society",
+    "relation": "supports",
+    "score": 0.596
+  },
+  {
+    "source": "eu_strategy_for_rural_development",
+    "target": "european_partnerships_for_transport",
+    "relation": "frames",
+    "score": 0.555
+  },
+  {
+    "source": "eu_strategy_programmes_clusters_or_impact_areas",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "frames",
+    "score": 0.524
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "cluster_2_will_programme_investment_to_achieve_the_following_four_expected_impacts",
+    "relation": "drives",
+    "score": 0.547
+  },
+  {
+    "source": "european_commission_horizon_europe_2025_2027",
+    "target": "eu_research_area",
+    "relation": "funds",
+    "score": 0.514
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "european_commission_horizon_europe_2025_2027",
+    "relation": "aligns_with",
+    "score": 0.535
+  },
+  {
+    "source": "eu_strategy",
+    "target": "eu_missions",
+    "relation": "frames",
+    "score": 0.508
+  },
+  {
+    "source": "eu_strategy",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "frames",
+    "score": 0.545
+  },
+  {
+    "source": "1_health_2_health_health_active_mobility_3_health_safety_in_transport_and_buildings",
+    "target": "climate_change",
+    "relation": "contributes_to",
+    "score": 0.5
+  },
+  {
+    "source": "eu_research_area",
+    "target": "climate_change",
+    "relation": "contributes_to",
+    "score": 0.569
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "funds",
+    "score": 0.569
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "drives",
+    "score": 0.511
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "eu_india_trade_and_technology_council",
+    "relation": "guides",
+    "score": 0.64
+  },
+  {
+    "source": "achieving_open_strategic_autonomy_in_global_space_based_infrastructures_services_applications_and_data",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "frames",
+    "score": 0.507
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "guides",
+    "score": 0.573
+  },
+  {
+    "source": "synergies_with_other_eu_funding_programmes",
+    "target": "eu_research_area",
+    "relation": "funds",
+    "score": 0.614
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "synergies_with_other_eu_funding_programmes",
+    "relation": "aligns_with",
+    "score": 0.623
+  },
+  {
+    "source": "eu_global_health_strategy",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "frames",
+    "score": 0.59
+  },
+  {
+    "source": "european_commission_global_approach_to_research_and_innovation",
+    "target": "eu_research_area",
+    "relation": "drives",
+    "score": 0.515
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "european_commission_global_approach_to_research_and_innovation",
+    "relation": "supports",
+    "score": 0.512
+  },
+  {
+    "source": "eu_policy_areas",
+    "target": "eu_research_area",
+    "relation": "guides",
+    "score": 0.53
+  }
+]
