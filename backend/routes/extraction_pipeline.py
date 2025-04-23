@@ -19,9 +19,9 @@ entity_pipeline = pipeline("text2text-generation", model=entity_model, tokenizer
 summary_pipeline = pipeline("summarization", model=summary_model_name)
 classifier_pipeline = pipeline("zero-shot-classification", model=classifier_model_name)
 
-ENTITY_LABELS = ["impact_area", "cluster", "mission", "objective", "research_theme", "strategy", "policy", "programme"]
+ENTITY_LABELS = ["impact_area", "cluster", "pillar" "mission", "objective", "research_theme", "strategy", "policy", "programme"]
 
-def extract_entities(text: str) -> List[str]:
+def extract_entities(text: str) -> List[str]: 
     prompt = (
         "Extract all relevant EU policy concepts, programmes, clusters, or impact areas from this text. "
         "List them one per line:\n\n" + text
@@ -113,7 +113,7 @@ def run_full_pipeline_from_pdf(pdf_path: str, output_path: str = "output.json"):
 
         all_entities.extend(typed_entities)
         all_relationships.extend(relationships)
-
+ 
     deduped_entities = deduplicate_entities(all_entities)
 
     result = {

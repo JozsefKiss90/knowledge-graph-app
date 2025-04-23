@@ -34,7 +34,7 @@ async def integrate_graph(
         MERGE (t:Topic {id: $id})
         """
         db.query(cypher, {"id": topic_id})
-
+ 
     # Step 3: Create relationships
     for rel in relationships:
         props = {"keywords": rel.get("keywords", [])}
@@ -51,6 +51,13 @@ async def integrate_graph(
             SET r.score = $score, r.topic_id = $topic_id, r.keywords = $keywords
             """
             props.update({"score": rel["score"], "topic_id": rel["topic_id"]})
+        elif rel["relation"] == "cross_topic_similarity":
+            cypher = """
+            MATCH (a:Document {id: $source}), (b:Document {id: $target})
+            MERGE (a)-[r:CROSS_TOPIC_SIMILARITY]->(b)
+            SET r.score = $score
+            """
+            props.update({"score": rel["score"]})
         else:
             continue  # Skip unknown relations
 
