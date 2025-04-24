@@ -1,0 +1,170 @@
+📄 Chunk 1 — Characters: 6690, Tokens: 512
+↳ Preview:
+Research and  Innovation  STRATEGIC PLAN 2025 - 2027  Horizon Europe strategic plan (2025 – 2027) European Commission Directorate-General for Research and Innovation Directorate G — Policy & Programming Centre Unit Unit G.3 - Common strategic planning & Programming Service Contact  Maria Montserrat ...
+
+Token indices sequence length is longer than the specified maximum sequence length for this model (863 > 512). Running this sequence through the model will result in indexing errors
+🔍 Filtered entities with types and confidence:
+ - Horizon Europe strategic plan for 2025 - 2027 3 INTRODUCTION The Horizon Europe strategic plan for 2025 - 2027 sets out (strategy, confidence: 0.704) Top 3: ['strategy', 'policy', 'mission']
+ - European Commission B - 1049 Brussels Manuscript completed in March 2024. 1st edition. The European Commission is not li (mission, confidence: 0.243) Top 3: ['mission', 'institution', 'policy']
+--------------------------------------------------------------------------------
+
+📄 Chunk 2 — Characters: 3135, Tokens: 512
+↳ Preview:
+At the same time, it provides a certain degree of flexibility to respond to  unforeseen challenges.  Through the strategic plan, investment in R&I is directed towards tackling key global  challenges such as: climate change; pollution; the loss of biodiversity; the digital transition;  an ageing popu...
+
+🔍 Filtered entities with types and confidence:
+ - European Commission - Directorate - General for Research and Innovation - Synopsis report - Looking into the R&I future (institution, confidence: 0.88) Top 3: ['institution', 'mission', 'research_theme']  
+ - European Commission - Directorate - General for Research and Innovation - Horizon Europe strategic plan 2025 - 2027 anal (strategy, confidence: 0.333) Top 3: ['strategy', 'institution', 'policy']
+--------------------------------------------------------------------------------
+
+📄 Chunk 3 — Characters: 3117, Tokens: 512
+↳ Preview:
+EXECUTIVE SUMMARY Since its start in 2021, Horizon Europe has been generating excellence through breakthrough  knowledge and investment in solutions to long-term global challenges, such as climate  change, biodiversity loss, pollution, the digital transformation, health threats and an ageing  popula...
+
+🔍 Filtered entities with types and confidence:
+ - Horizon Europe has been generating excellence through breakthrough knowledge and investment in solutions to long - term (impact_area, confidence: 0.305) Top 3: ['impact_area', 'research_theme', 'objective']
+ - Horizon Europe strategy plan - 2025 - 2027 (strategy, confidence: 0.595) Top 3: ['strategy', 'policy', 'programme']
+--------------------------------------------------------------------------------
+
+📄 Chunk 4 — Characters: 3376, Tokens: 512
+↳ Preview:
+A dedicated section on synergies  provides guidance on how to foster synergies with other EU and national funding  programmes. HORIZON EUROPE Strategic Plan  2021 - 2024 Work Programme  2021 - 2022 Strategic Plan  2025 - 2027 Work Programme  2023 - 2024 Strategic  Plan  Analysis PROJECT PROJECT PROJ...
+
+🔍 Filtered entities with types and confidence:
+ - Horizon Europe’s strategy for 2025 - 2027 includes the following key strategic orientations: (strategy, confidence: 0.842) Top 3: ['strategy', 'policy', 'impact_area']
+ - policies - impact areas - institutions (policy, confidence: 0.697) Top 3: ['policy', 'institution', 'impact_area']
+--------------------------------------------------------------------------------
+
+📄 Chunk 5 — Characters: 2079, Tokens: 416
+↳ Preview:
+Open strategic autonomy’ refers to the term ‘strategic autonomy, while preserving an open economy’, as reflected in the Conclusions of  the European Council of 1/2 October 2020. It is further set out in the Communication from the Commission Trade Policy Review – An Open,  Sustainable and Assertive T...
+
+🔍 Filtered entities with types and confidence:
+--------------------------------------------------------------------------------
+
+📄 Chunk 6 — Characters: 3510, Tokens: 512
+↳ Preview:
+M a i n t a i n i n g   a n  innovative, sustainable,  and competitive EU  health industry  Food, Bioeconomy, Natural  Resources, Agriculture  & Environment Climate, Energy  & Mobility Digital, Industry  & Space Civil Security  for Society Culture, Creativity  & Inclusive Society Health Green Transi...
+
+🔍 Filtered entities with types and confidence:
+ - Horizon Europe strategic plan - 2025 - 2027 (strategy, confidence: 0.616) Top 3: ['strategy', 'policy', 'programme']
+ - EU health industry - food - bioeconomy - natural resources - agriculture & environment - climate - energy & mobility - d (cluster, confidence: 0.83) Top 3: ['cluster', 'policy', 'impact_area']
+--------------------------------------------------------------------------------
+
+📄 Chunk 7 — Characters: 3481, Tokens: 512
+↳ Preview:
+It strives to ensure the best value and  impact for Member States and Associated Countries’ investment in R&I. It supports the below  aspects:    Continuity and reliability for the R&I communities – it sets R&I priorities beyond the  custom 2-year period of Horizon Europe work programmes.     Commun...
+
+🔍 Filtered entities with types and confidence:
+ - Horizon Europe strategy plan 2025 - 2027 analysis - Publications Office of the European Union - 2023 - https://data.euro (strategy, confidence: 0.711) Top 3: ['strategy', 'institution', 'programme']       
+ - Horizon Europe is a European research and innovation programme that aims to promote research and innovation in Europe. (programme, confidence: 0.644) Top 3: ['programme', 'mission', 'policy']
+--------------------------------------------------------------------------------
+
+📄 Chunk 8 — Characters: 2018, Tokens: 401
+↳ Preview:
+It was set up in line with the monitoring and evaluation provisions of the  Horizon Europe Regulation14. Article 6 of the Council Decision establishing the Specific Programme implementing Horizon  Europe15 sets out in detail the elements to be covered in the strategic plan and also sets out  the pro...
+
+🔍 Filtered entities with types and confidence:
+--------------------------------------------------------------------------------
+
+📄 Chunk 9 — Characters: 3032, Tokens: 512
+↳ Preview:
+Council Decision (EU) 2021/764 of 10 May 2021 establishing the Specific Programme implementing Horizon Europe – the Framework  Programme for Research and Innovation, and repealing Decision 2013/743/EU.  11 HORIZON EUROPE strategic plan | 2025 – 2027    strengthened the strategic plan’s coverage of P...
+
+🔍 Filtered entities with types and confidence:
+ - policies - impact areas - policies - policies - impact areas (policy, confidence: 0.962) Top 3: ['policy', 'impact_area', 'objective']
+ - EU strategy for research and innovation (policy, confidence: 0.61) Top 3: ['policy', 'strategy', 'research_theme']
+--------------------------------------------------------------------------------
+
+📄 Chunk 10 — Characters: 3586, Tokens: 512
+↳ Preview:
+These are cross- cutting priorities, which are incorporated into all key strategic orientations. Russia’s war of aggression against Ukraine and the situation in the Middle East highlight  the need for open strategic autonomy, impacting scientific collaboration, energy, migration,  environment, food ...
+
+🔍 Filtered entities with types and confidence:
+ - European Green Deal17 outlines an ambitious plan to address climate - energy and environmental challenges while boosting (policy, confidence: 0.898) Top 3: ['policy', 'programme', 'strategy']
+ - Horizon Europe aims to promote societal changes - promote circular and less polluting practices - as well as systemic an (mission, confidence: 0.302) Top 3: ['mission', 'strategy', 'impact_area']
+--------------------------------------------------------------------------------
+
+📄 Chunk 11 — Characters: 3425, Tokens: 512
+↳ Preview:
+People  should see green transition projects in their daily lives and living spaces, for example through  initiatives like the New European Bauhaus18. EU Missions are a key tool to support the green  transition. 17. European Commission, Directorate-General for Communication, European green deal – De...
+
+🔍 Filtered entities with types and confidence:
+ - EU Missions are a key tool to support the green transition. (policy, confidence: 0.625) Top 3: ['policy', 'institution', 'strategy']
+ - EU’s AI strategy is guided by the dual principle of excellence in AI and trustworthy AI - which - along with a thorough (strategy, confidence: 0.486) Top 3: ['strategy', 'policy', 'institution']
+--------------------------------------------------------------------------------
+
+📄 Chunk 12 — Characters: 3658, Tokens: 512
+↳ Preview:
+Therefore, it is important to identify and  tackle high-risk dependencies in areas like semiconductors, photonics, digital infrastructure  (high-performance computing, cloud-edge computing, communication networks), quantum  technologies, cybersecurity, artificial intelligence (AI) and data, immersiv...
+
+🔍 Filtered entities with types and confidence:
+ - EU strategy for 2025 - 2027 Horizon Europe (strategy, confidence: 0.591) Top 3: ['strategy', 'policy', 'impact_area']
+ - EU strategy 3: A more resilient - competitive - inclusive and democratic Europe (strategy, confidence: 0.771) Top 3: ['strategy', 'policy', 'research_theme']
+--------------------------------------------------------------------------------
+
+📄 Chunk 13 — Characters: 3439, Tokens: 512
+↳ Preview:
+Additionally, cross-border challenges like pandemics, armed  conflict, climate change, biodiversity loss, energy-security and   16 HORIZON EUROPE strategic plan | 2025 – 2027 food-security must be addressed. It is critical for the EU’s open strategic autonomy to  ensure the resilience of critical in...
+
+🔍 Filtered entities with types and confidence:
+ - HORIZON EUROPE strategic plan - 2025 - 2027 food - security must be addressed (policy, confidence: 0.424) Top 3: ['policy', 'strategy', 'programme']
+--------------------------------------------------------------------------------
+
+📄 Chunk 14 — Characters: 3293, Tokens: 512
+↳ Preview:
+In addition, the strong  bridges between pillars and, where relevant, within pillars, call for a broader perspective in the  strategic plan, to identify and leverage the reciprocal links between or within the four parts.  While the three pillars build on each other, the ‘Widening Participation and S...
+
+🔍 Filtered entities with types and confidence:
+ - EU strategy for 2025 - 2027 (strategy, confidence: 0.594) Top 3: ['strategy', 'policy', 'institution']
+--------------------------------------------------------------------------------
+
+📄 Chunk 15 — Characters: 3467, Tokens: 512
+↳ Preview:
+Cluster 1 will support  work to promote health equity and ensure fair and equal access to innovative, sustainable,  affordable and high-quality healthcare for everyone, including vulnerable and marginalised  communities. Cluster 1 will also strengthen Europe’s ability to prevent, detect and rapidly ...
+
+🔍 Filtered entities with types and confidence:
+ - Cluster 2 will continue to support the human - centred approach to the digital transition (cluster, confidence: 0.841) Top 3: ['cluster', 'research_theme', 'mission']
+--------------------------------------------------------------------------------
+
+📄 Chunk 16 — Characters: 3366, Tokens: 512
+↳ Preview:
+The effects of these developments on democracy, culture  and society will be examined to ensure a fair and inclusive development, understanding the  political, cultural and socioeconomic implications of the digital transition, anticipate possible  consequences, envision future scenarios and support ...
+
+🔍 Filtered entities with types and confidence:
+ - Cluster 3 - Civil Security for Society (cluster, confidence: 0.697) Top 3: ['cluster', 'research_theme', 'mission']
+--------------------------------------------------------------------------------
+
+📄 Chunk 17 — Characters: 3583, Tokens: 512
+↳ Preview:
+Achieving these two goals involves advancing improving manufacturing  technologies so that they can play a key role in: (i) renewable energy; (ii) renewable  economies; and (iii) achieving carbon neutrality, circularity, and the zero-pollution ambition.  Energy-intensive industrial sectors will be h...
+
+🔍 Filtered entities with types and confidence:
+ - Cluster 4 will promote innovative solutions for responsible exploration - extraction - processing - refining - recovery (cluster, confidence: 0.842) Top 3: ['cluster', 'research_theme', 'mission']
+ - Cluster 4 will continue fostering leadership in digital and key enabling technologies - including digital and AI - while (cluster, confidence: 0.876) Top 3: ['cluster', 'strategy', 'impact_area']
+--------------------------------------------------------------------------------
+
+📄 Chunk 18 — Characters: 3469, Tokens: 512
+↳ Preview:
+Attention will be given to linking data and information applications with other key  enabling technologies and social sciences.  22 HORIZON EUROPE strategic plan | 2025 – 2027 Cluster 5 – Climate, Energy and Mobility Cluster 5 is key to making Europe resilient to climate change and to enabling the n...
+
+🔍 Filtered entities with types and confidence:
+ - Cluster 6 - Food - Bioeconomy - Natural Resources - Agriculture - and Environment (cluster, confidence: 0.94) Top 3: ['cluster', 'research_theme', 'pillar']
+ - Cluster 5 - Climate - Energy and Mobility Cluster 5 is key to making Europe resilient to climate change and to enabling (cluster, confidence: 0.851) Top 3: ['cluster', 'research_theme', 'strategy']        
+--------------------------------------------------------------------------------
+
+📄 Chunk 19 — Characters: 3523, Tokens: 512
+↳ Preview:
+It also requires integrating biodiversity aspects into social  and economic policies and adopting biodiversity-friendly practices. The transition to sustainable, low-footprint and inclusive agriculture and food systems  is a major focus. The goal is to provide safe, nutritious, healthy and affordabl...
+
+🔍 Filtered entities with types and confidence:
+--------------------------------------------------------------------------------
+
+📄 Chunk 20 — Characters: 2868, Tokens: 512
+↳ Preview:
+Involving relevant actors and deploying social innovations will also help to better address  the drivers of change – by ensuring continuous reskilling and upskilling of the workforce in  agriculture and environmental goods and services sectors – – that will foster a resilient,  sustainable and inclu...
+
+🔍 Filtered entities with types and confidence:
+ - EU strategy for 2025 - 2027 (strategy, confidence: 0.594) Top 3: ['strategy', 'policy', 'institution']
+ - European Union's strategy for the green transition (policy, confidence: 0.538) Top 3: ['policy', 'strategy', 'institution']
+--------------------------------------------------------------------------------

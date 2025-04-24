@@ -1,0 +1,356 @@
+[
+  {
+    "id": "european_commission",
+    "name": "European Commission",
+    "type": "institution",
+    "summary": ""
+  },
+  {
+    "id": "horizon_europe",
+    "name": "Horizon Europe", 
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "eu_health_industry",
+    "name": "EU health industry",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_research_and_innovation",
+    "name": "EU strategy for research and innovation",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "european_green_deal",
+    "name": "European Green Deal",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_missions",
+    "name": "EU Missions",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eus_ai_strategy",
+    "name": "EUs AI strategy",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_3",
+    "name": "EU strategy 3",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "horizon_europe_strategic_plan",
+    "name": "HORIZON EUROPE strategic plan",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_2025_2027",
+    "name": "EU strategy for 2025 - 2027",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "cluster_2",
+    "name": "Cluster 2",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "civil_security_for_society",
+    "name": "Civil Security for Society",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "cluster_4",
+    "name": "Cluster 4",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "cluster_6",
+    "name": "Cluster 6",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "cluster_5",
+    "name": "Cluster 5",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "european_unions_strategy_for_the_green_transition",
+    "name": "European Unions strategy for the green transition",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "european_innovation_council",
+    "name": "European Innovation Council",
+    "type": "institution",
+    "summary": ""
+  },
+  {
+    "id": "european_institute_of_innovation_and_technology",
+    "name": "European Institute of Innovation and Technology",
+    "type": "institution",
+    "summary": ""
+  },
+  {
+    "id": "european_research_area_era_policy_agenda_actions",
+    "name": "European Research Area ERA Policy Agenda Actions",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "india_trade_and_technology_council",
+    "name": "India Trade and Technology Council",
+    "type": "institution",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_on_research_security",
+    "name": "EU strategy on research security",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "cluster_1",
+    "name": "Cluster 1",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_promoting_health_and_well_being",
+    "name": "EU strategy for promoting health and well - being",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_on_health_and_safety_at_work",
+    "name": "EU strategy on health and safety at work",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "policy_areas_ensuring_equal_access_to_innovative",
+    "name": "Policy areas ensuring equal access to innovative",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_on_adaptation_to_climate_change",
+    "name": "EU strategy on adaptation to climate change",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_on_risk_assessment_of_chemicals",
+    "name": "EU strategy on risk assessment of chemicals",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_on_antimicrobial_resistance",
+    "name": "EU strategy on antimicrobial resistance",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_policy_area_policy_framework",
+    "name": "EU policy area policy framework",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "strengthening_social_and_economic_resilience_and_sustainability",
+    "name": "Strengthening social and economic resilience and sustainability",
+    "type": "research_theme",
+    "summary": ""
+  },
+  {
+    "id": "eu_policy_area_climate_change_and_cultural_heritage",
+    "name": "EU policy area climate change and cultural heritage",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_civil_security",
+    "name": "EU strategy for civil security",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "cluster_3",
+    "name": "Cluster 3",
+    "type": "cluster",
+    "summary": ""
+  },
+  {
+    "id": "actions",
+    "name": "Actions",
+    "type": "research_theme",
+    "summary": ""
+  },
+  {
+    "id": "eus_policy_framework_for_r_i_action",
+    "name": "EUs policy framework for R&I action",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_combating_organised_crime",
+    "name": "EU strategy for combating organised crime",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "european_econ",
+    "name": "European econ",
+    "type": "research_theme",
+    "summary": ""
+  },
+  {
+    "id": "strengthened_security_research_and_innovation",
+    "name": "Strengthened Security Research and Innovation",
+    "type": "research_theme",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy",
+    "name": "EU strategy",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eus_strategy_for_international_cooperation",
+    "name": "EUs strategy for international cooperation",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu4health",
+    "name": "EU4Health",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_policy_area_climate_change",
+    "name": "EU policy area climate change",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eus_digital_decade",
+    "name": "EUs Digital Decade",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "european_raw_materials_capacity_building",
+    "name": "European Raw Materials Capacity Building",
+    "type": "research_theme",
+    "summary": ""
+  },
+  {
+    "id": "eu_policy_area_cluster_4",
+    "name": "EU policy area Cluster 4",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_the_future_of_the_internet",
+    "name": "EU strategy for the future of the internet",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "european_space_agency",
+    "name": "European Space Agency",
+    "type": "institution",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_transport",
+    "name": "EU strategy for transport",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "eus_role_in_globalmultilateral_initiatives",
+    "name": "EUs role in globalmultilateral initiatives",
+    "type": "institution",
+    "summary": ""
+  },
+  {
+    "id": "eu_policy_area_health",
+    "name": "EU policy area health",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_missions_restore_our_ocean_and_waters",
+    "name": "EU Missions Restore our Ocean and Waters",
+    "type": "institution",
+    "summary": ""
+  },
+  {
+    "id": "eu_biodiversity_strategy_for_2030",
+    "name": "EU Biodiversity Strategy for 2030",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eus_circular_economy_and_sustainable_bioeconomy",
+    "name": "EUs circular economy and sustainable bioeconomy",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_a_sustainable_future",
+    "name": "EU strategy for a sustainable future",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_rural_areas",
+    "name": "EU strategy for rural areas",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_strategy_for_africa",
+    "name": "EU strategy for Africa",
+    "type": "strategy",
+    "summary": ""
+  },
+  {
+    "id": "eu_cap_network",
+    "name": "EU CAP Network",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "eu_policy_on_carbon_farming",
+    "name": "EU policy on carbon farming",
+    "type": "policy",
+    "summary": ""
+  },
+  {
+    "id": "policy",
+    "name": "Policy",
+    "type": "policy",
+    "summary": ""
+  }
+]

@@ -1,0 +1,2146 @@
+[
+  {
+    "chunk": 1,
+    "entities": [
+      {
+        "name": "European Commission B - 1049 Brussels Manuscript completed in March 2024. 1st edition. The European Commission is not li",
+        "type": "mission",
+        "confidence": 0.243,
+        "top_3": [
+          "mission",
+          "institution",
+          "policy"
+        ]
+      },
+      {
+        "name": "Horizon Europe strategic plan for 2025 - 2027 3 INTRODUCTION The Horizon Europe strategic plan for 2025 - 2027 sets out",
+        "type": "strategy",
+        "confidence": 0.704,
+        "top_3": [
+          "strategy",
+          "policy",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 2,
+    "entities": [
+      {
+        "name": "European Commission - Directorate - General for Research and Innovation - Synopsis report - Looking into the R&I future",
+        "type": "institution",
+        "confidence": 0.88,
+        "top_3": [
+          "institution",
+          "mission",
+          "research_theme"
+        ]
+      },
+      {
+        "name": "European Commission - Directorate - General for Research and Innovation - Horizon Europe strategic plan 2025 - 2027 anal",
+        "type": "strategy",
+        "confidence": 0.333,
+        "top_3": [
+          "strategy",
+          "institution",
+          "policy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 3,
+    "entities": [
+      {
+        "name": "Horizon Europe strategy plan - 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.595,
+        "top_3": [
+          "strategy",
+          "policy",
+          "programme"
+        ]
+      },
+      {
+        "name": "Horizon Europe has been generating excellence through breakthrough knowledge and investment in solutions to long - term",
+        "type": "impact_area",
+        "confidence": 0.305,
+        "top_3": [
+          "impact_area",
+          "research_theme",
+          "objective"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 4,
+    "entities": [
+      {
+        "name": "Horizon Europe’s strategy for 2025 - 2027 includes the following key strategic orientations:",
+        "type": "strategy",
+        "confidence": 0.842,
+        "top_3": [
+          "strategy",
+          "policy",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.697,
+        "top_3": [
+          "policy",
+          "institution",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 5,
+    "entities": []
+  },
+  {
+    "chunk": 6,
+    "entities": [
+      {
+        "name": "Horizon Europe strategic plan - 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.616,
+        "top_3": [
+          "strategy",
+          "policy",
+          "programme"
+        ]
+      },
+      {
+        "name": "EU health industry - food - bioeconomy - natural resources - agriculture & environment - climate - energy & mobility - d",
+        "type": "cluster",
+        "confidence": 0.83,
+        "top_3": [
+          "cluster",
+          "policy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 7,
+    "entities": [
+      {
+        "name": "Horizon Europe strategy plan 2025 - 2027 analysis - Publications Office of the European Union - 2023 - https://data.euro",
+        "type": "strategy",
+        "confidence": 0.711,
+        "top_3": [
+          "strategy",
+          "institution",
+          "programme"
+        ]
+      },
+      {
+        "name": "Horizon Europe is a European research and innovation programme that aims to promote research and innovation in Europe.",
+        "type": "programme",
+        "confidence": 0.644,
+        "top_3": [
+          "programme",
+          "mission",
+          "policy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 8,
+    "entities": []
+  },
+  {
+    "chunk": 9,
+    "entities": [
+      {
+        "name": "policies - impact areas - policies - policies - impact areas",
+        "type": "policy",
+        "confidence": 0.962,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "objective"
+        ]
+      },
+      {
+        "name": "EU strategy for research and innovation",
+        "type": "policy",
+        "confidence": 0.61,
+        "top_3": [
+          "policy",
+          "strategy",
+          "research_theme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 10,
+    "entities": [
+      {
+        "name": "European Green Deal outlines an ambitious plan to address climate - energy and environmental challenges while boosting",
+        "type": "policy",
+        "confidence": 0.898,
+        "top_3": [
+          "policy",
+          "programme",
+          "strategy"
+        ]
+      },
+      {
+        "name": "Horizon Europe aims to promote societal changes - promote circular and less polluting practices - as well as systemic an",
+        "type": "mission",
+        "confidence": 0.302,
+        "top_3": [
+          "mission",
+          "strategy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 11,
+    "entities": [
+      {
+        "name": "EU Missions are a key tool to support the green transition.",
+        "type": "policy",
+        "confidence": 0.625,
+        "top_3": [
+          "policy",
+          "institution",
+          "strategy"
+        ]
+      },
+      {
+        "name": "EU’s AI strategy is guided by the dual principle of excellence in AI and trustworthy AI - which - along with a thorough",
+        "type": "strategy",
+        "confidence": 0.486,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 12,
+    "entities": [
+      {
+        "name": "EU strategy 3: A more resilient - competitive - inclusive and democratic Europe",
+        "type": "strategy",
+        "confidence": 0.771,
+        "top_3": [
+          "strategy",
+          "policy",
+          "research_theme"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027 Horizon Europe",
+        "type": "strategy",
+        "confidence": 0.591,
+        "top_3": [
+          "strategy",
+          "policy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 13,
+    "entities": [
+      {
+        "name": "HORIZON EUROPE strategic plan - 2025 - 2027 food - security must be addressed",
+        "type": "policy",
+        "confidence": 0.424,
+        "top_3": [
+          "policy",
+          "strategy",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 14,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 15,
+    "entities": [
+      {
+        "name": "Cluster 2 will continue to support the human - centred approach to the digital transition",
+        "type": "cluster",
+        "confidence": 0.841,
+        "top_3": [
+          "cluster",
+          "research_theme",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 16,
+    "entities": [
+      {
+        "name": "Cluster 3 - Civil Security for Society",
+        "type": "cluster",
+        "confidence": 0.697,
+        "top_3": [
+          "cluster",
+          "research_theme",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 17,
+    "entities": [
+      {
+        "name": "Cluster 4 will continue fostering leadership in digital and key enabling technologies - including digital and AI - while",
+        "type": "cluster",
+        "confidence": 0.876,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "Cluster 4 will promote innovative solutions for responsible exploration - extraction - processing - refining - recovery",
+        "type": "cluster",
+        "confidence": 0.842,
+        "top_3": [
+          "cluster",
+          "research_theme",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 18,
+    "entities": [
+      {
+        "name": "Cluster 6 - Food - Bioeconomy - Natural Resources - Agriculture - and Environment",
+        "type": "cluster",
+        "confidence": 0.94,
+        "top_3": [
+          "cluster",
+          "research_theme",
+          "pillar"
+        ]
+      },
+      {
+        "name": "Cluster 5 - Climate - Energy and Mobility Cluster 5 is key to making Europe resilient to climate change and to enabling",
+        "type": "cluster",
+        "confidence": 0.851,
+        "top_3": [
+          "cluster",
+          "research_theme",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 19,
+    "entities": []
+  },
+  {
+    "chunk": 20,
+    "entities": [
+      {
+        "name": "European Union's strategy for the green transition",
+        "type": "policy",
+        "confidence": 0.538,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 21,
+    "entities": [
+      {
+        "name": "European Research Council grants are bottom - up. They are selected on the sole criterion of scientific excellence.",
+        "type": "institution",
+        "confidence": 0.38,
+        "top_3": [
+          "institution",
+          "objective",
+          "mission"
+        ]
+      },
+      {
+        "name": "EU policy priorities",
+        "type": "policy",
+        "confidence": 0.987,
+        "top_3": [
+          "policy",
+          "institution",
+          "cluster"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 22,
+    "entities": [
+      {
+        "name": "European Innovation Council (EIC)23 supports both bottom - up innovative actions and measures that address the strategic",
+        "type": "institution",
+        "confidence": 0.879,
+        "top_3": [
+          "institution",
+          "strategy",
+          "mission"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 23,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027: EIT will continue to support its Knowledge and Innovation Communities (EIT KICs) to strengt",
+        "type": "strategy",
+        "confidence": 0.578,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      },
+      {
+        "name": "European Institute of Innovation and Technology (EIT) is one of the programmes underpinning the Strategic Technologies f",
+        "type": "programme",
+        "confidence": 0.523,
+        "top_3": [
+          "programme",
+          "institution",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 24,
+    "entities": [
+      {
+        "name": "EIE will create more connected and efficient innovation ecosystems to support the scaling - up of companies - encourage",
+        "type": "mission",
+        "confidence": 0.308,
+        "top_3": [
+          "mission",
+          "programme",
+          "strategy"
+        ]
+      },
+      {
+        "name": "European Institute of Innovation and Technology (EIT) 2021 - 2027: Boosting the Innovation Talent and Capacity of Europe",
+        "type": "institution",
+        "confidence": 0.48,
+        "top_3": [
+          "institution",
+          "programme",
+          "research_theme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 25,
+    "entities": [
+      {
+        "name": "European Research Area Policy Agenda - overview of actions for 2022 - 2024.",
+        "type": "policy",
+        "confidence": 0.66,
+        "top_3": [
+          "policy",
+          "programme",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "European Research Area (ERA) Policy Agenda Actions",
+        "type": "policy",
+        "confidence": 0.956,
+        "top_3": [
+          "policy",
+          "programme",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 26,
+    "entities": [
+      {
+        "name": "Horizon Europe has brought about a major reform and rationalisation of the European Partnership landscape - reducing the",
+        "type": "policy",
+        "confidence": 0.615,
+        "top_3": [
+          "policy",
+          "research_theme",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 27,
+    "entities": [
+      {
+        "name": "EU missions are flagships of Horizon Europe.",
+        "type": "institution",
+        "confidence": 0.583,
+        "top_3": [
+          "institution",
+          "mission",
+          "programme"
+        ]
+      },
+      {
+        "name": "European Union policy area: Policy area: Policy area: Policy area: Policy area: Policy area: Policy area: Policy area: P",
+        "type": "policy",
+        "confidence": 0.726,
+        "top_3": [
+          "policy",
+          "institution",
+          "cluster"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 28,
+    "entities": [
+      {
+        "name": "EU Missions",
+        "type": "mission",
+        "confidence": 0.817,
+        "top_3": [
+          "mission",
+          "institution",
+          "policy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 29,
+    "entities": [
+      {
+        "name": "EU's strategy for 2025 - 2027",
+        "type": "policy",
+        "confidence": 0.534,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "policies - impact areas - research themes - strategies - policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.841,
+        "top_3": [
+          "policy",
+          "institution",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 30,
+    "entities": [
+      {
+        "name": "EU - India Trade and Technology Council)",
+        "type": "institution",
+        "confidence": 0.819,
+        "top_3": [
+          "institution",
+          "impact_area",
+          "policy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 31,
+    "entities": []
+  },
+  {
+    "chunk": 32,
+    "entities": [
+      {
+        "name": "Horizon Europe work programmes will be designed to provide a balanced support to activities with a range of maturity and",
+        "type": "programme",
+        "confidence": 0.315,
+        "top_3": [
+          "programme",
+          "impact_area",
+          "objective"
+        ]
+      },
+      {
+        "name": "EU strategy on research security",
+        "type": "strategy",
+        "confidence": 0.483,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 33,
+    "entities": [
+      {
+        "name": "Horizon Europe will be integrated into such projects - from their drafting to their selection and evaluation by evaluato",
+        "type": "programme",
+        "confidence": 0.234,
+        "top_3": [
+          "programme",
+          "mission",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 34,
+    "entities": [
+      {
+        "name": "Horizon Europe will continue to promote the European Code of Conduct for Research Integrity - to require 46.",
+        "type": "policy",
+        "confidence": 0.877,
+        "top_3": [
+          "policy",
+          "programme",
+          "mission"
+        ]
+      },
+      {
+        "name": "Horizon Europe strategy plan 2025 - 2027 KETs are also having the potential to foster future jobs for Europeans. In addi",
+        "type": "strategy",
+        "confidence": 0.859,
+        "top_3": [
+          "strategy",
+          "policy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 35,
+    "entities": [
+      {
+        "name": "Council Recommendation (EU) 2022/2415 of 2 December 2022 on the guiding principles for knowledge valorisation",
+        "type": "policy",
+        "confidence": 0.824,
+        "top_3": [
+          "policy",
+          "institution",
+          "objective"
+        ]
+      },
+      {
+        "name": "Horizon Europe will support and further develop innovative actions for training - education and capacity building - as w",
+        "type": "programme",
+        "confidence": 0.229,
+        "top_3": [
+          "programme",
+          "impact_area",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 36,
+    "entities": [
+      {
+        "name": "Science Advice for Policy by European Academies",
+        "type": "institution",
+        "confidence": 0.937,
+        "top_3": [
+          "institution",
+          "policy",
+          "objective"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 37,
+    "entities": [
+      {
+        "name": "Horizon Europe will continue to support and mainstream open science as the gold standard for R&I activities. This method",
+        "type": "policy",
+        "confidence": 0.144,
+        "top_3": [
+          "policy",
+          "programme",
+          "strategy"
+        ]
+      },
+      {
+        "name": "Horizon Europe promotes social innovation as inseparable from technological and other forms of innovation.",
+        "type": "programme",
+        "confidence": 0.501,
+        "top_3": [
+          "programme",
+          "impact_area",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 38,
+    "entities": [
+      {
+        "name": "EU funding - ‘synergies’ - impact areas - programmes - institutions",
+        "type": "institution",
+        "confidence": 0.301,
+        "top_3": [
+          "institution",
+          "programme",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "EU budget must do no harm to the EU’s environmental policy objectives",
+        "type": "policy",
+        "confidence": 0.786,
+        "top_3": [
+          "policy",
+          "institution",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 39,
+    "entities": [
+      {
+        "name": "European Court of Auditors’ Special Report No 23/2022 ‘Synergies between Horizon 2020 and European Structural and Invest",
+        "type": "institution",
+        "confidence": 0.832,
+        "top_3": [
+          "institution",
+          "research_theme",
+          "programme"
+        ]
+      },
+      {
+        "name": "Horizon Europe",
+        "type": "research_theme",
+        "confidence": 0.367,
+        "top_3": [
+          "research_theme",
+          "impact_area",
+          "objective"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 40,
+    "entities": []
+  },
+  {
+    "chunk": 41,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 42,
+    "entities": [
+      {
+        "name": "Cluster 1 will invest in pandemic preparedness and response - including in the development of appropriate medical counte",
+        "type": "cluster",
+        "confidence": 0.44,
+        "top_3": [
+          "cluster",
+          "mission",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 43,
+    "entities": [
+      {
+        "name": "EU strategy for promoting health and well - being",
+        "type": "policy",
+        "confidence": 0.625,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "Cluster 1 will complement the work of the European Partnership on Transforming Health and Care Systems in strengthening",
+        "type": "cluster",
+        "confidence": 0.752,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 44,
+    "entities": [
+      {
+        "name": "EU strategy on health and safety at work",
+        "type": "policy",
+        "confidence": 0.56,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "Research and innovation will produce new evidence - methodologies - and technologically and/or socially innovative tools",
+        "type": "research_theme",
+        "confidence": 0.312,
+        "top_3": [
+          "research_theme",
+          "impact_area",
+          "objective"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 45,
+    "entities": [
+      {
+        "name": "policy areas: ensuring equal access to innovative - sustainable and high - quality healthcare",
+        "type": "policy",
+        "confidence": 0.95,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "programme"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 46,
+    "entities": [
+      {
+        "name": "EU strategy on adaptation to climate change",
+        "type": "strategy",
+        "confidence": 0.522,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 47,
+    "entities": [
+      {
+        "name": "EU strategy on risk assessment of chemicals 3. Tackling diseases and reducing disease burden 1.2.3. Non - communicable a",
+        "type": "policy",
+        "confidence": 0.55,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU health sector: impact areas",
+        "type": "policy",
+        "confidence": 0.788,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 48,
+    "entities": []
+  },
+  {
+    "chunk": 49,
+    "entities": [
+      {
+        "name": "EU strategy on antimicrobial resistance",
+        "type": "policy",
+        "confidence": 0.505,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "HORIZON EUROPE strategic plan - 2025 - 2027 Synergies with other EU funding programmes",
+        "type": "strategy",
+        "confidence": 0.56,
+        "top_3": [
+          "strategy",
+          "policy",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 50,
+    "entities": [
+      {
+        "name": "EU policy area: policy framework - policy instruments - policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.871,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 51,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      },
+      {
+        "name": "Cluster 2 CULTURE - CREATIVITY & INCLUSIVE SOCIETY C L U S T E R I M PA C T S U M M A R Y 63 HORIZON EUROPE strategic pl",
+        "type": "cluster",
+        "confidence": 0.594,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 52,
+    "entities": [
+      {
+        "name": "Cluster 2 will programme investment to achieve the following four expected impacts.",
+        "type": "cluster",
+        "confidence": 0.632,
+        "top_3": [
+          "cluster",
+          "programme",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 53,
+    "entities": []
+  },
+  {
+    "chunk": 54,
+    "entities": [
+      {
+        "name": "HORIZON EUROPE strategy plan - 2025 - 2027 priorities: green - digital and innovative",
+        "type": "strategy",
+        "confidence": 0.595,
+        "top_3": [
+          "strategy",
+          "policy",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 55,
+    "entities": [
+      {
+        "name": "Strengthening social and economic resilience and sustainability",
+        "type": "research_theme",
+        "confidence": 0.301,
+        "top_3": [
+          "research_theme",
+          "strategy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 56,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 57,
+    "entities": []
+  },
+  {
+    "chunk": 58,
+    "entities": [
+      {
+        "name": "EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU polic",
+        "type": "policy",
+        "confidence": 0.976,
+        "top_3": [
+          "policy",
+          "cluster",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 59,
+    "entities": [
+      {
+        "name": "EU policy area: climate change and cultural heritage",
+        "type": "policy",
+        "confidence": 0.974,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027 CIVIL SECURITY FOR SOCIETY C L U S T E R I M PA C T S U M M A R Y 74 HORIZON EUROPE strategi",
+        "type": "strategy",
+        "confidence": 0.652,
+        "top_3": [
+          "strategy",
+          "policy",
+          "cluster"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 60,
+    "entities": [
+      {
+        "name": "EU strategy - policies - impact areas - institutions",
+        "type": "strategy",
+        "confidence": 0.728,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      },
+      {
+        "name": "Cluster 3 can make vital contributions to rising to those challenges. In doing so - it will support the EU’s open strate",
+        "type": "cluster",
+        "confidence": 0.588,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 61,
+    "entities": [
+      {
+        "name": "policies - impact areas - research themes - strategies - policies - impact areas",
+        "type": "policy",
+        "confidence": 0.92,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "research_theme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 62,
+    "entities": []
+  },
+  {
+    "chunk": 63,
+    "entities": [
+      {
+        "name": "Cluster 3 will support the implementation of the EU Disaster Resilience Goals and UN Disaster Risk Reduction policies -",
+        "type": "cluster",
+        "confidence": 0.489,
+        "top_3": [
+          "cluster",
+          "policy",
+          "programme"
+        ]
+      },
+      {
+        "name": "Actions will continue to explore initiatives and experiments involving the development of technological or methodologica",
+        "type": "research_theme",
+        "confidence": 0.251,
+        "top_3": [
+          "research_theme",
+          "programme",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 64,
+    "entities": [
+      {
+        "name": "EU's policy framework for R&I action",
+        "type": "policy",
+        "confidence": 0.867,
+        "top_3": [
+          "policy",
+          "institution",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 65,
+    "entities": [
+      {
+        "name": "EU strategy for tackling crime and terrorism",
+        "type": "policy",
+        "confidence": 0.549,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 66,
+    "entities": [
+      {
+        "name": "EU strategy for combating organised crime - pillars - policies - impact areas - institutions",
+        "type": "strategy",
+        "confidence": 0.724,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 67,
+    "entities": [
+      {
+        "name": "Increasing cybersecurity and making the online environment more secure The increased digitalisation of the European econ",
+        "type": "research_theme",
+        "confidence": 0.232,
+        "top_3": [
+          "research_theme",
+          "strategy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 68,
+    "entities": [
+      {
+        "name": "Strengthened Security Research and Innovation",
+        "type": "research_theme",
+        "confidence": 0.209,
+        "top_3": [
+          "research_theme",
+          "impact_area",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 69,
+    "entities": [
+      {
+        "name": "EU strategy for civil security",
+        "type": "policy",
+        "confidence": 0.482,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "Policy - impact areas - policies - impact areas",
+        "type": "policy",
+        "confidence": 0.959,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "objective"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 70,
+    "entities": [
+      {
+        "name": "EU strategy for security",
+        "type": "policy",
+        "confidence": 0.488,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU policy on international cooperation",
+        "type": "policy",
+        "confidence": 0.834,
+        "top_3": [
+          "policy",
+          "institution",
+          "research_theme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 71,
+    "entities": [
+      {
+        "name": "EU's strategy for international cooperation in a changing world",
+        "type": "policy",
+        "confidence": 0.462,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU4Health will continue to promote synergies with the Digital Europe Programme - the European Maritime Fisheries and Aqu",
+        "type": "policy",
+        "confidence": 0.841,
+        "top_3": [
+          "policy",
+          "programme",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 72,
+    "entities": [
+      {
+        "name": "EU policy area: climate change",
+        "type": "policy",
+        "confidence": 0.988,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 73,
+    "entities": [
+      {
+        "name": "EU's Digital Decade policy programme sets out an encompassing vision - objectives and quantitative targets for the digit",
+        "type": "policy",
+        "confidence": 0.537,
+        "top_3": [
+          "policy",
+          "programme",
+          "strategy"
+        ]
+      },
+      {
+        "name": "policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.697,
+        "top_3": [
+          "policy",
+          "institution",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 74,
+    "entities": [
+      {
+        "name": "Cluster 4 aims at decisive progress and an internationally leading position for Europe in the key digital and space tech",
+        "type": "cluster",
+        "confidence": 0.435,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 75,
+    "entities": [
+      {
+        "name": "COM(2023) 161 - 16.3.2023. 93 HORIZON EUROPE strategic plan - 2025 - 2027 life cycle85 - and analyse market - cooperatio",
+        "type": "strategy",
+        "confidence": 0.805,
+        "top_3": [
+          "strategy",
+          "programme",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 76,
+    "entities": [
+      {
+        "name": "Policy - impact areas - policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.905,
+        "top_3": [
+          "policy",
+          "institution",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "EU strategy for Europe to become the first climate - neutral continent by 2050",
+        "type": "policy",
+        "confidence": 0.482,
+        "top_3": [
+          "policy",
+          "strategy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 77,
+    "entities": [
+      {
+        "name": "EU strategy for research and innovation",
+        "type": "policy",
+        "confidence": 0.61,
+        "top_3": [
+          "policy",
+          "strategy",
+          "research_theme"
+        ]
+      },
+      {
+        "name": "R&I activities should contribute to strengthen EU’s critical raw materials capacities along all stages of the value chai",
+        "type": "research_theme",
+        "confidence": 0.379,
+        "top_3": [
+          "research_theme",
+          "impact_area",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 78,
+    "entities": [
+      {
+        "name": "EU policy area: Cluster 4",
+        "type": "policy",
+        "confidence": 0.915,
+        "top_3": [
+          "policy",
+          "cluster",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.697,
+        "top_3": [
+          "policy",
+          "institution",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 79,
+    "entities": [
+      {
+        "name": "Cluster 4 ensures Europe’s strategic autonomy while preserving an open economy in those technologies that will be key fo",
+        "type": "cluster",
+        "confidence": 0.488,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "mission"
+        ]
+      },
+      {
+        "name": "policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.697,
+        "top_3": [
+          "policy",
+          "institution",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 80,
+    "entities": [
+      {
+        "name": "Cluster 4 will strengthen and consolidate R&I in this area",
+        "type": "cluster",
+        "confidence": 0.778,
+        "top_3": [
+          "cluster",
+          "impact_area",
+          "programme"
+        ]
+      },
+      {
+        "name": "Cluster 4 will transform the user experience. It will push the frontiers of virtual and extended realities (VR/XR) and o",
+        "type": "cluster",
+        "confidence": 0.905,
+        "top_3": [
+          "cluster",
+          "research_theme",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 81,
+    "entities": [
+      {
+        "name": "Achieving open strategic autonomy in global space - based infrastructures - services - applications and data People in E",
+        "type": "strategy",
+        "confidence": 0.931,
+        "top_3": [
+          "strategy",
+          "research_theme",
+          "mission"
+        ]
+      },
+      {
+        "name": "Policy areas: Cluster 4",
+        "type": "policy",
+        "confidence": 0.858,
+        "top_3": [
+          "policy",
+          "cluster",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 82,
+    "entities": [
+      {
+        "name": "EU strategy for the future of the internet",
+        "type": "strategy",
+        "confidence": 0.553,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU policy on AI",
+        "type": "policy",
+        "confidence": 0.834,
+        "top_3": [
+          "policy",
+          "institution",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 83,
+    "entities": [
+      {
+        "name": "EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU polic",
+        "type": "policy",
+        "confidence": 0.976,
+        "top_3": [
+          "policy",
+          "cluster",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 84,
+    "entities": [
+      {
+        "name": "policies - impact areas - policies - impact areas",
+        "type": "policy",
+        "confidence": 0.958,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "objective"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 85,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 86,
+    "entities": [
+      {
+        "name": "European Space Agency - InvestEU - Cluster 4",
+        "type": "institution",
+        "confidence": 0.507,
+        "top_3": [
+          "institution",
+          "cluster",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 87,
+    "entities": [
+      {
+        "name": "Cluster 5 CLIMATE - ENERGY & MOBILITY C L U S T E R I M PA C T S U M PA C T S U M M A R Y 107 HORIZON EUROPE strategic p",
+        "type": "cluster",
+        "confidence": 0.517,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "mission"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 88,
+    "entities": []
+  },
+  {
+    "chunk": 89,
+    "entities": [
+      {
+        "name": "EU Mission 'adaptation to climate change'",
+        "type": "mission",
+        "confidence": 0.513,
+        "top_3": [
+          "mission",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 90,
+    "entities": [
+      {
+        "name": "policies - impact areas - institutions",
+        "type": "policy",
+        "confidence": 0.697,
+        "top_3": [
+          "policy",
+          "institution",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "EU missions - ‘climate - neutral and smart cities’ - ‘adaptation to climate change’ - ‘climate - neutral and smart citie",
+        "type": "mission",
+        "confidence": 0.421,
+        "top_3": [
+          "mission",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 91,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      },
+      {
+        "name": "Using energy in buildings and industry in an efficient - affordable and sustainable way",
+        "type": "research_theme",
+        "confidence": 0.233,
+        "top_3": [
+          "research_theme",
+          "strategy",
+          "objective"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 92,
+    "entities": [
+      {
+        "name": "Policy areas: transport - climate change - transport - R&I",
+        "type": "policy",
+        "confidence": 0.964,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "cluster"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 93,
+    "entities": [
+      {
+        "name": "EU policy area: transport - climate change - energy - transport - energy - transport",
+        "type": "policy",
+        "confidence": 0.971,
+        "top_3": [
+          "policy",
+          "cluster",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "EU strategy for transport - pillars - policies - impact areas - institutions",
+        "type": "strategy",
+        "confidence": 0.781,
+        "top_3": [
+          "strategy",
+          "policy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 94,
+    "entities": [
+      {
+        "name": "EU plans to develop its bilateral/multilateral and regional/multiregional R&I cooperation with strategic partners who ca",
+        "type": "policy",
+        "confidence": 0.684,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU's role in global/multilateral initiatives and/or organisations",
+        "type": "institution",
+        "confidence": 0.769,
+        "top_3": [
+          "institution",
+          "mission",
+          "policy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 95,
+    "entities": []
+  },
+  {
+    "chunk": 96,
+    "entities": [
+      {
+        "name": "EU policy area: health",
+        "type": "policy",
+        "confidence": 0.989,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 97,
+    "entities": [
+      {
+        "name": "EU policy area: climate change",
+        "type": "policy",
+        "confidence": 0.988,
+        "top_3": [
+          "policy",
+          "impact_area",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 98,
+    "entities": [
+      {
+        "name": "Cluster 6 supports the ambition of Europe to become the first climate - neutral and climate - resilient continent by 205",
+        "type": "cluster",
+        "confidence": 0.827,
+        "top_3": [
+          "cluster",
+          "strategy",
+          "impact_area"
+        ]
+      },
+      {
+        "name": "EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries",
+        "type": "policy",
+        "confidence": 0.82,
+        "top_3": [
+          "policy",
+          "programme",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 99,
+    "entities": [
+      {
+        "name": "Cluster 6 will support the EU circular economy action plan - the Eco - design for Sustainable Products Regulation - the",
+        "type": "cluster",
+        "confidence": 0.586,
+        "top_3": [
+          "cluster",
+          "policy",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 100,
+    "entities": [
+      {
+        "name": "Cluster 6 contributes significantly to the objectives enshrined in the European Climate Law and the ‘Fit for 55’ package",
+        "type": "policy",
+        "confidence": 0.476,
+        "top_3": [
+          "policy",
+          "cluster",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 101,
+    "entities": [
+      {
+        "name": "EU Missions ‘A Soil Deal for Europe’ and ‘Restore our Ocean and Waters’",
+        "type": "institution",
+        "confidence": 0.394,
+        "top_3": [
+          "institution",
+          "mission",
+          "policy"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 102,
+    "entities": [
+      {
+        "name": "EU Biodiversity Strategy for 2030 aims to promote the protection and restoration of ecosystems - habitats and species",
+        "type": "policy",
+        "confidence": 0.631,
+        "top_3": [
+          "policy",
+          "strategy",
+          "programme"
+        ]
+      },
+      {
+        "name": "EU strategy",
+        "type": "strategy",
+        "confidence": 0.669,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 103,
+    "entities": [
+      {
+        "name": "EU's circular economy and sustainable bioeconomy",
+        "type": "policy",
+        "confidence": 0.749,
+        "top_3": [
+          "policy",
+          "institution",
+          "research_theme"
+        ]
+      },
+      {
+        "name": "EU action plan for 2025 - 2027",
+        "type": "policy",
+        "confidence": 0.849,
+        "top_3": [
+          "policy",
+          "programme",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 104,
+    "entities": [
+      {
+        "name": "EU strategy for a sustainable future",
+        "type": "strategy",
+        "confidence": 0.49,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 105,
+    "entities": [
+      {
+        "name": "EU strategy for rural areas",
+        "type": "policy",
+        "confidence": 0.566,
+        "top_3": [
+          "policy",
+          "strategy",
+          "institution"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 106,
+    "entities": [
+      {
+        "name": "HORIZON EUROPE strategy plan - 2025 - 2027 Agricultural knowledge and innovation systems will be strengthened at EU/nati",
+        "type": "strategy",
+        "confidence": 0.553,
+        "top_3": [
+          "strategy",
+          "policy",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 107,
+    "entities": [
+      {
+        "name": "EU strategy for 2025 - 2027",
+        "type": "strategy",
+        "confidence": 0.594,
+        "top_3": [
+          "strategy",
+          "policy",
+          "institution"
+        ]
+      },
+      {
+        "name": "EU's role in achieving the Kunming - Montreal Global Biodiversity Framework",
+        "type": "policy",
+        "confidence": 0.876,
+        "top_3": [
+          "policy",
+          "institution",
+          "research_theme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 108,
+    "entities": [
+      {
+        "name": "EU Missions ‘Restore our Ocean and Waters’ and ‘A Soil Deal for Europe’",
+        "type": "mission",
+        "confidence": 0.441,
+        "top_3": [
+          "mission",
+          "institution",
+          "policy"
+        ]
+      },
+      {
+        "name": "EU strategy for Africa",
+        "type": "strategy",
+        "confidence": 0.5,
+        "top_3": [
+          "strategy",
+          "policy",
+          "impact_area"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 109,
+    "entities": [
+      {
+        "name": "EU CAP Network",
+        "type": "policy",
+        "confidence": 0.897,
+        "top_3": [
+          "policy",
+          "institution",
+          "programme"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 110,
+    "entities": [
+      {
+        "name": "EU policy on carbon farming",
+        "type": "policy",
+        "confidence": 0.815,
+        "top_3": [
+          "policy",
+          "institution",
+          "strategy"
+        ]
+      }
+    ]
+  },
+  {
+    "chunk": 111,
+    "entities": [
+      {
+        "name": "Policy",
+        "type": "policy",
+        "confidence": 0.971,
+        "top_3": [
+          "policy",
+          "objective",
+          "pillar"
+        ]
+      }
+    ]
+  }
+]

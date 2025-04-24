@@ -1,10 +1,28 @@
+import json
+from sentence_transformers import SentenceTransformer, util
 
-from transformers import pipeline
+# Load data
+with open("neo4j_nodes_llm_refined.json", "r", encoding="utf-8") as f:
+    nodes = json.load(f)
+with open("chunks.json", "r", encoding="utf-8") as f:
+    chunks = json.load(f)
 
-summary_pipeline = pipeline("summarization", model="facebook/bart-large-cnn")
+# Load model
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
-def summarize_entity(entity: str, contexts: list):
-    joined = " ".join(contexts[:3])[:1500]
-    prompt = f"What is '{entity}' in the Horizon Europe Strategic Plan?\n\n{joined}"
-    summary = summary_pipeline(prompt, max_length=180, min_length=60, do_sample=False)
-    return summary[0]['summary_text']
+# Embed chunks and node names
+chunk_embeddings = model.encode(chunks, convert_to_tensor=True)
+node_names = [n["name"] for n in nodes]
+node_embeddings = model.encode(node_names, convert_to_tensor=True)
+
+# Match top 2 chunks per node
+context_map = {}
+for i, node in enumerate(nodes):
+    sims = util.cos_sim(node_embeddings[i], chunk_embeddings)[0]
+    top_k = sims.topk(2)
+    matched = [chunks[idx] for idx in top_k.indices.tolist()]
+    context_map[node["name"]] = matched
+
+# Save
+with open("matched_chunks_for_nodes.json", "w", encoding="utf-8") as f:
+    json.dump(context_map, f, indent=2, ensure_ascii=False)

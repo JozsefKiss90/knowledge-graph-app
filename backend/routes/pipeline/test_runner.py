@@ -2,21 +2,26 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))  
-
 from pipeline.chunking import chunk_pdf
 from pipeline.cleaning import clean_text
 from pipeline.extraction import extract_entities, classify_entities
 from pipeline.summarization import summarize_entity
 from pipeline.merging import merge_entities
 from pipeline.output import save_nodes_to_json
-from collections import defaultdict
+from pipeline.filter_entities import filter_entities
 import json
+from pipeline.postprocess import refine_entities
 
 # STEP 1: Chunk the PDF
 #chunks = chunk_pdf("/pdf_files/HE_2025.pdf")
 #print(f"🔹 Chunks found: {len(chunks)}")
 from transformers import AutoTokenizer
 
+refine_entities()
+
+
+
+"""
 # Setup tokenizer for measuring token length
 tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
 
@@ -36,24 +41,15 @@ for i, chunk in enumerate(chunks[:20]):
         print("🔍 No entities extracted.")
         continue
 
-    typed_entities = []
-    for entity in raw_entities:
-        result = classify_entities([entity])[0]
-        typed_entities.append({
-            "name": result["name"],
-            "type": result["type"],
-            "confidence": result.get("confidence"),
-            "top_3": result.get("top_3", [])
-        })
+    classified = classify_entities(raw_entities)
+    filtered_entities = filter_entities(classified)
 
-    print(f"🔍 Extracted entities with types and confidence:")
-    for ent in typed_entities:
-        print(f" - {ent['name']} ({ent['type']}, confidence: {ent['confidence']}) Top 3: {ent['top_3']}")  
 
+    print(f"🔍 Filtered entities with types and confidence:")
+    for ent in filtered_entities:
+        print(f" - {ent['name']} ({ent['type']}, confidence: {ent['confidence']}) Top 3: {ent['top_3']}")
     print("-" * 80)
 
-
-"""
 # STEP 2: Clean and extract entities
 entities, mentions = [], defaultdict(list)
 for i, chunk in enumerate(chunks[:20]):  # Test on a few chunks

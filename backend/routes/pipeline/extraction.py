@@ -49,7 +49,7 @@ def extract_entities(text: str, debug: bool = False) -> List[str]:
     )
     segments = smart_chunk_by_regex_sentences(text, prompt)
     entities = set()
-    for input_text in segments:
+    for input_text in segments: 
         if debug:
             print("🔍 Prompt (truncated):", input_text[:300])
         output = entity_pipeline(input_text, max_new_tokens=150)[0]["generated_text"]

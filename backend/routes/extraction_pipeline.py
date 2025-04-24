@@ -54,11 +54,11 @@ def extract_relationships_pairwise(text: str, entities: List[Dict[str, str]]) ->
                 relationships.append(rel)
         except:
             continue
-    return relationships
+    return relationships 
 
 def summarize_entity(text: str, entity: str) -> str:
     input_text = f"What is the role of {entity} in this policy context?\n\n{text}"
-    words = input_text.split()
+    words = input_text.split() 
     if len(words) > 512:
         input_text = " ".join(words[:512])
     summary = summary_pipeline(input_text, max_length=60, min_length=20, do_sample=False)
