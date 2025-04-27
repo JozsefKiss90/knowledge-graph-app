@@ -3,33 +3,33 @@
     "id": "topic_0",
     "label": "Topic 0",
     "keywords": [
-      "cluster",
+      "health",
       "eu",
-      "climate",
-      "europe",
-      "strategic"
+      "european health",
+      "european",
+      "data"
     ]
   },
   {
     "id": "topic_1",
     "label": "Topic 1",
     "keywords": [
-      "better",
-      "farming",
-      "2023",
-      "democratic",
-      "ecosystems"
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
     ]
   },
   {
     "id": "topic_2",
     "label": "Topic 2",
     "keywords": [
-      "eu",
-      "secure",
-      "digital",
-      "cybersecurity",
-      "european way"
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
     ]
   },
   {
@@ -37,54 +37,87 @@
     "label": "Topic 3",
     "keywords": [
       "innovation",
-      "research",
-      "synergies",
-      "eu",
-      "europe"
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
     ]
   },
   {
     "id": "topic_4",
     "label": "Topic 4",
     "keywords": [
-      "health",
       "eu",
-      "healthcare",
-      "healthcare systems",
-      "pandemic"
+      "global",
+      "digital",
+      "space",
+      "ensure"
     ]
   },
   {
     "id": "topic_5",
     "label": "Topic 5",
     "keywords": [
-      "security",
-      "research",
-      "civil",
-      "civil security",
-      "destination"
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
     ]
   },
   {
     "id": "topic_6",
     "label": "Topic 6",
     "keywords": [
-      "existing",
-      "place based",
-      "place",
-      "hubs4circularity",
-      "reducing"
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
     ]
   },
   {
     "id": "topic_7",
     "label": "Topic 7",
     "keywords": [
-      "iii",
-      "improvements",
-      "ii",
-      "climate",
-      "european"
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "id": "topic_8",
+    "label": "Topic 8",
+    "keywords": [
+      "green",
+      "green deal",
+      "deal",
+      "european green",
+      "policies"
+    ]
+  },
+  {
+    "id": "topic_9",
+    "label": "Topic 9",
+    "keywords": [
+      "resilience",
+      "sustainability",
+      "project",
+      "eu",
+      "policy"
+    ]
+  },
+  {
+    "id": "topic_10",
+    "label": "Topic 10",
+    "keywords": [
+      "european",
+      "20",
+      "digital",
+      "network",
+      "union"
     ]
   }
 ]

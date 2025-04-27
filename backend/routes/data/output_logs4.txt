@@ -1,261 +1,195 @@
-🔍 Filtering 'European Commission B - 1049 Brussels Manuscript completed in March 2024. 1st edition. The European Commission is not li' -> valid entity (0.43)
-🔍 Filtering 'Horizon Europe strategic plan for 2025 - 2027 3 INTRODUCTION The Horizon Europe strategic plan for 2025 - 2027 sets out' -> valid entity (0.53)
-🔍 Filtering 'European Commission - Directorate - General for Research and Innovation - Synopsis report - Looking into the R&I future' -> valid entity (0.66)
-🔍 Filtering 'European Commission - Directorate - General for Research and Innovation - Horizon Europe strategic plan 2025 - 2027 anal' -> valid entity (0.62)
-🔍 Filtering 'Horizon Europe strategy plan - 2025 - 2027' -> valid entity (0.64)
-🔍 Filtering 'Horizon Europe has been generating excellence through breakthrough knowledge and investment in solutions to long - term' -> valid entity (0.91)
-🔍 Filtering 'Horizon Europe’s strategy for 2025 - 2027 includes the following key strategic orientations:' -> valid entity (0.62)
-🔍 Filtering 'policies - impact areas - institutions' -> valid entity (0.79)
-🔍 Filtering 'Horizon Europe strategic plan - 2025 - 2027' -> valid entity (0.67)
-🔍 Filtering 'EU health industry - food - bioeconomy - natural resources - agriculture & environment - climate - energy & mobility - d' -> valid entity (0.57)
-🔍 Filtering 'Horizon Europe strategy plan 2025 - 2027 analysis - Publications Office of the European Union - 2023 - https://data.euro' -> valid entity (0.57)
-🔍 Filtering 'Horizon Europe is a European research and innovation programme that aims to promote research and innovation in Europe.' -> valid entity (0.52)
-🔍 Filtering 'policies - impact areas - policies - policies - impact areas' -> fragment (0.59)
-🔍 Filtering 'EU strategy for research and innovation' -> valid entity (0.62)
-🔍 Filtering 'European Green Deal outlines an ambitious plan to address climate - energy and environmental challenges while boosting' -> valid entity (0.64)
-🔍 Filtering 'Horizon Europe aims to promote societal changes - promote circular and less polluting practices - as well as systemic an' -> valid entity (0.73)
-🔍 Filtering 'EU Missions are a key tool to support the green transition.' -> valid entity (0.75)
-🔍 Filtering 'EU’s AI strategy is guided by the dual principle of excellence in AI and trustworthy AI - which - along with a thorough' -> valid entity (0.72)
-🔍 Filtering 'EU strategy 3: A more resilient - competitive - inclusive and democratic Europe' -> valid entity (0.61)
-🔍 Filtering 'EU strategy for 2025 - 2027 Horizon Europe' -> valid entity (0.61)
-🔍 Filtering 'HORIZON EUROPE strategic plan - 2025 - 2027 food - security must be addressed' -> valid entity (0.73)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'Cluster 2 will continue to support the human - centred approach to the digital transition' -> valid entity (0.78)
-🔍 Filtering 'Cluster 3 - Civil Security for Society' -> valid entity (0.72)
-🔍 Filtering 'Cluster 4 will continue fostering leadership in digital and key enabling technologies - including digital and AI - while' -> valid entity (0.85)
-🔍 Filtering 'Cluster 4 will promote innovative solutions for responsible exploration - extraction - processing - refining - recovery' -> valid entity (0.73)
-🔍 Filtering 'Cluster 6 - Food - Bioeconomy - Natural Resources - Agriculture - and Environment' -> valid entity (0.64)
-🔍 Filtering 'Cluster 5 - Climate - Energy and Mobility Cluster 5 is key to making Europe resilient to climate change and to enabling' -> valid entity (0.78)
-🔍 Filtering 'European Union's strategy for the green transition' -> valid entity (0.64)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'European Research Council grants are bottom - up. They are selected on the sole criterion of scientific excellence.' -> valid entity (0.49)
-🔍 Filtering 'EU policy priorities' -> valid entity (0.54)
-🔍 Filtering 'European Innovation Council (EIC)23 supports both bottom - up innovative actions and measures that address the strategic' -> valid entity (0.69)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'EU strategy for 2025 - 2027: EIT will continue to support its Knowledge and Innovation Communities (EIT KICs) to strengt' -> valid entity (0.63)
-🔍 Filtering 'European Institute of Innovation and Technology (EIT) is one of the programmes underpinning the Strategic Technologies f' -> valid entity (0.53)
-🔍 Filtering 'EIE will create more connected and efficient innovation ecosystems to support the scaling - up of companies - encourage' -> valid entity (0.73)
-🔍 Filtering 'European Institute of Innovation and Technology (EIT) 2021 - 2027: Boosting the Innovation Talent and Capacity of Europe' -> valid entity (0.59)
-🔍 Filtering 'European Research Area Policy Agenda - overview of actions for 2022 - 2024.' -> valid entity (0.51)
-🔍 Filtering 'European Research Area (ERA) Policy Agenda Actions' -> valid entity (0.57)
-🔍 Filtering 'Horizon Europe has brought about a major reform and rationalisation of the European Partnership landscape - reducing the' -> valid entity (0.67)
-🔍 Filtering 'EU missions are flagships of Horizon Europe.' -> valid entity (0.88)
-🔍 Filtering 'European Union policy area: Policy area: Policy area: Policy area: Policy area: Policy area: Policy area: Policy area: P' -> valid entity (0.60)
-🔍 Filtering 'EU Missions' -> valid entity (0.58)
-🔍 Filtering 'EU's strategy for 2025 - 2027' -> valid entity (0.59)
-🔍 Filtering 'policies - impact areas - research themes - strategies - policies - impact areas - institutions' -> valid entity (0.56)
-🔍 Filtering 'EU - India Trade and Technology Council)' -> valid entity (0.61)
-🔍 Filtering 'Horizon Europe work programmes will be designed to provide a balanced support to activities with a range of maturity and' -> valid entity (0.60)
-🔍 Filtering 'EU strategy on research security' -> valid entity (0.60)
-🔍 Filtering 'Horizon Europe will be integrated into such projects - from their drafting to their selection and evaluation by evaluato' -> valid entity (0.86)
-🔍 Filtering 'Horizon Europe will continue to promote the European Code of Conduct for Research Integrity - to require 46.' -> valid entity (0.69)
-🔍 Filtering 'Horizon Europe strategy plan 2025 - 2027 KETs are also having the potential to foster future jobs for Europeans. In addi' -> valid entity (0.74)
-🔍 Filtering 'Council Recommendation (EU) 2022/2415 of 2 December 2022 on the guiding principles for knowledge valorisation' -> valid entity (0.46)
-🔍 Filtering 'Horizon Europe will support and further develop innovative actions for training - education and capacity building - as w' -> valid entity (0.71)
-🔍 Filtering 'Science Advice for Policy by European Academies' -> valid entity (0.52)
-🔍 Filtering 'Horizon Europe will continue to support and mainstream open science as the gold standard for R&I activities. This method' -> valid entity (0.77)
-🔍 Filtering 'Horizon Europe promotes social innovation as inseparable from technological and other forms of innovation.' -> valid entity (0.72)
-🔍 Filtering 'EU funding - ‘synergies’ - impact areas - programmes - institutions' -> valid entity (0.58)
-🔍 Filtering 'EU budget must do no harm to the EU’s environmental policy objectives' -> valid entity (0.57)
-🔍 Filtering 'European Court of Auditors’ Special Report No 23/2022 ‘Synergies between Horizon 2020 and European Structural and Invest' -> valid entity (0.53)
-🔍 Filtering 'Horizon Europe' -> valid entity (0.55)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'Cluster 1 will invest in pandemic preparedness and response - including in the development of appropriate medical counte' -> valid entity (0.71)
-🔍 Filtering 'EU strategy for promoting health and well - being' -> valid entity (0.67)
-🔍 Filtering 'Cluster 1 will complement the work of the European Partnership on Transforming Health and Care Systems in strengthening' -> valid entity (0.81)
-🔍 Filtering 'EU strategy on health and safety at work' -> valid entity (0.63)
-🔍 Filtering 'Research and innovation will produce new evidence - methodologies - and technologically and/or socially innovative tools' -> valid entity (0.69)
-🔍 Filtering 'policy areas: ensuring equal access to innovative - sustainable and high - quality healthcare' -> valid entity (0.67)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'EU strategy on adaptation to climate change' -> valid entity (0.61)
-🔍 Filtering 'EU strategy on risk assessment of chemicals 3. Tackling diseases and reducing disease burden 1.2.3. Non - communicable a' -> valid entity (0.64)
-🔍 Filtering 'EU health sector: impact areas' -> valid entity (0.48)
-🔍 Filtering 'EU strategy on antimicrobial resistance' -> valid entity (0.61)
-🔍 Filtering 'HORIZON EUROPE strategic plan - 2025 - 2027 Synergies with other EU funding programmes' -> valid entity (0.69)
-🔍 Filtering 'EU policy area: policy framework - policy instruments - policies - impact areas - institutions' -> valid entity (0.59)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'Cluster 2 CULTURE - CREATIVITY & INCLUSIVE SOCIETY C L U S T E R I M PA C T S U M M A R Y 63 HORIZON EUROPE strategic pl' -> valid entity (0.72)
-🔍 Filtering 'Cluster 2 will programme investment to achieve the following four expected impacts.' -> valid entity (0.69)
-🔍 Filtering 'HORIZON EUROPE strategy plan - 2025 - 2027 priorities: green - digital and innovative' -> valid entity (0.61)
-🔍 Filtering 'Strengthening social and economic resilience and sustainability' -> valid entity (0.79)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU polic' -> valid entity (0.60)
-🔍 Filtering 'EU policy area: climate change and cultural heritage' -> valid entity (0.67)
-🔍 Filtering 'EU strategy for 2025 - 2027 CIVIL SECURITY FOR SOCIETY C L U S T E R I M PA C T S U M M A R Y 74 HORIZON EUROPE strategi' -> valid entity (0.65)
-🔍 Filtering 'EU strategy - policies - impact areas - institutions' -> valid entity (0.69)
-🔍 Filtering 'Cluster 3 can make vital contributions to rising to those challenges. In doing so - it will support the EU’s open strate' -> valid entity (0.91)
-🔍 Filtering 'policies - impact areas - research themes - strategies - policies - impact areas' -> valid entity (0.61)
-🔍 Filtering 'Cluster 3 will support the implementation of the EU Disaster Resilience Goals and UN Disaster Risk Reduction policies -' -> valid entity (0.73)
-🔍 Filtering 'Actions will continue to explore initiatives and experiments involving the development of technological or methodologica' -> valid entity (0.65)
-🔍 Filtering 'EU's policy framework for R&I action' -> valid entity (0.57)
-🔍 Filtering 'EU strategy for tackling crime and terrorism' -> valid entity (0.61)
-🔍 Filtering 'EU strategy for combating organised crime - pillars - policies - impact areas - institutions' -> valid entity (0.83)
-🔍 Filtering 'Increasing cybersecurity and making the online environment more secure The increased digitalisation of the European econ' -> valid entity (0.70)
-🔍 Filtering 'Strengthened Security Research and Innovation' -> valid entity (0.64)
-🔍 Filtering 'EU strategy for civil security' -> valid entity (0.63)
-🔍 Filtering 'Policy - impact areas - policies - impact areas' -> valid entity (0.53)
-🔍 Filtering 'EU strategy for security' -> valid entity (0.65)
-🔍 Filtering 'EU policy on international cooperation' -> valid entity (0.63)
-🔍 Filtering 'EU's strategy for international cooperation in a changing world' -> valid entity (0.64)
-🔍 Filtering 'EU4Health will continue to promote synergies with the Digital Europe Programme - the European Maritime Fisheries and Aqu' -> valid entity (0.77)
-🔍 Filtering 'EU policy area: climate change' -> valid entity (0.62)
-🔍 Filtering 'EU's Digital Decade policy programme sets out an encompassing vision - objectives and quantitative targets for the digit' -> valid entity (0.79)
-🔍 Filtering 'policies - impact areas - institutions' -> valid entity (0.79)
-🔍 Filtering 'Cluster 4 aims at decisive progress and an internationally leading position for Europe in the key digital and space tech' -> valid entity (0.84)
-🔍 Filtering 'COM(2023) 161 - 16.3.2023. 93 HORIZON EUROPE strategic plan - 2025 - 2027 life cycle85 - and analyse market - cooperatio' -> fragment (0.44)
-🔍 Filtering 'Policy - impact areas - policies - impact areas - institutions' -> valid entity (0.47)
-🔍 Filtering 'EU strategy for Europe to become the first climate - neutral continent by 2050' -> valid entity (0.67)
-🔍 Filtering 'EU strategy for research and innovation' -> valid entity (0.62)
-🔍 Filtering 'R&I activities should contribute to strengthen EU’s critical raw materials capacities along all stages of the value chai' -> valid entity (0.81)
-🔍 Filtering 'EU policy area: Cluster 4' -> valid entity (0.65)
-🔍 Filtering 'policies - impact areas - institutions' -> valid entity (0.79)
-🔍 Filtering 'Cluster 4 ensures Europe’s strategic autonomy while preserving an open economy in those technologies that will be key fo' -> valid entity (0.87)
-🔍 Filtering 'policies - impact areas - institutions' -> valid entity (0.79)
-🔍 Filtering 'Cluster 4 will strengthen and consolidate R&I in this area' -> valid entity (0.78)
-🔍 Filtering 'Cluster 4 will transform the user experience. It will push the frontiers of virtual and extended realities (VR/XR) and o' -> valid entity (0.77)
-🔍 Filtering 'Achieving open strategic autonomy in global space - based infrastructures - services - applications and data People in E' -> valid entity (0.74)
-🔍 Filtering 'Policy areas: Cluster 4' -> valid entity (0.63)
-🔍 Filtering 'EU strategy for the future of the internet' -> valid entity (0.60)
-🔍 Filtering 'EU policy on AI' -> valid entity (0.44)
-🔍 Filtering 'EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU polic' -> valid entity (0.60)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'policies - impact areas - policies - impact areas' -> valid entity (0.51)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'European Space Agency - InvestEU - Cluster 4' -> valid entity (0.68)
-🔍 Filtering 'Cluster 5 CLIMATE - ENERGY & MOBILITY C L U S T E R I M PA C T S U M PA C T S U M M A R Y 107 HORIZON EUROPE strategic p' -> valid entity (0.69)
-🔍 Filtering 'EU Mission 'adaptation to climate change'' -> valid entity (0.59)
-🔍 Filtering 'policies - impact areas - institutions' -> valid entity (0.79)
-🔍 Filtering 'EU missions - ‘climate - neutral and smart cities’ - ‘adaptation to climate change’ - ‘climate - neutral and smart citie' -> valid entity (0.54)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'Using energy in buildings and industry in an efficient - affordable and sustainable way' -> valid entity (0.81)
-🔍 Filtering 'Policy areas: transport - climate change - transport - R&I' -> valid entity (0.51)
-🔍 Filtering 'EU policy area: transport - climate change - energy - transport - energy - transport' -> valid entity (0.47)
-🔍 Filtering 'EU strategy for transport - pillars - policies - impact areas - institutions' -> valid entity (0.79)
-🔍 Filtering 'EU plans to develop its bilateral/multilateral and regional/multiregional R&I cooperation with strategic partners who ca' -> valid entity (0.67)
-🔍 Filtering 'EU's role in global/multilateral initiatives and/or organisations' -> valid entity (0.76)
-🔍 Filtering 'EU policy area: health' -> valid entity (0.59)
-🔍 Filtering 'EU policy area: climate change' -> valid entity (0.62)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'Cluster 6 supports the ambition of Europe to become the first climate - neutral and climate - resilient continent by 205' -> valid entity (0.75)
-🔍 Filtering 'EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries' -> valid entity (0.67)
-🔍 Filtering 'Cluster 6 will support the EU circular economy action plan - the Eco - design for Sustainable Products Regulation - the' -> valid entity (0.79)
-🔍 Filtering 'Cluster 6 contributes significantly to the objectives enshrined in the European Climate Law and the ‘Fit for 55’ package' -> valid entity (0.89)
-🔍 Filtering 'EU Missions ‘A Soil Deal for Europe’ and ‘Restore our Ocean and Waters’' -> valid entity (0.58)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'EU Biodiversity Strategy for 2030 aims to promote the protection and restoration of ecosystems - habitats and species' -> valid entity (0.58)
-🔍 Filtering 'EU strategy' -> valid entity (0.66)
-🔍 Filtering 'EU's circular economy and sustainable bioeconomy' -> valid entity (0.76)
-🔍 Filtering 'EU action plan for 2025 - 2027' -> valid entity (0.58)
-🔍 Filtering 'EU strategy for a sustainable future' -> valid entity (0.70)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'EU strategy for rural areas' -> valid entity (0.56)
-🔍 Filtering 'HORIZON EUROPE strategy plan - 2025 - 2027 Agricultural knowledge and innovation systems will be strengthened at EU/nati' -> valid entity (0.65)
-🔍 Filtering 'EU strategy for 2025 - 2027' -> valid entity (0.57)
-🔍 Filtering 'EU's role in achieving the Kunming - Montreal Global Biodiversity Framework' -> valid entity (0.72)
-🔍 Filtering 'EU Missions ‘Restore our Ocean and Waters’ and ‘A Soil Deal for Europe’' -> valid entity (0.60)
-🔍 Filtering 'EU strategy for Africa' -> valid entity (0.68)
-🔍 Filtering 'EU CAP Network' -> valid entity (0.60)
-🔍 Filtering 'EU policy on carbon farming' -> valid entity (0.56)
-🔍 Filtering 'Policy' -> valid entity (0.62)
-🧠 139 entities passed the filter.
-📌 Canonicalizing group: ['European Commission - Directorate - General for Research and Innovation - Synopsis report - Looking into the R&I future'] -> Looking into the R&I future
-📌 Canonicalizing group: ['European Commission - Directorate - General for Research and Innovation - Horizon Europe strategic plan 2025 - 2027 anal', 'Horizon Europe strategic plan - 2025 - 2027'] -> Horizon Europe strategic plan 2025 - 2027
-📌 Canonicalizing group: ['Horizon Europe strategy plan - 2025 - 2027', 'Horizon Europe’s strategy for 2025 - 2027 includes the following key strategic orientations:', 'Horizon Europe strategy plan 2025 - 2027 analysis - Publications Office of the European Union - 2023 - https://data.euro', 'EU strategy for 2025 - 2027 Horizon Europe', 'HORIZON EUROPE strategic plan - 2025 - 2027 Synergies with other EU funding programmes'] -> Horizon Europe strategy plan
-📌 Canonicalizing group: ['Horizon Europe has been generating excellence through breakthrough knowledge and investment in solutions to long - term'] -> Horizon Europe
-📌 Canonicalizing group: ['policies - impact areas - institutions', 'policies - impact areas - research themes - strategies - policies - impact areas - institutions', 'policies - impact areas - research themes - strategies - policies - impact areas', 'policies - impact areas - institutions', 'policies - impact areas - institutions', 'policies - impact areas - institutions', 'policies - impact areas - institutions'] -> European Green Deal
-📌 Canonicalizing group: ['EU health industry - food - bioeconomy - natural resources - agriculture & environment - climate - energy & mobility - d'] -> EU health industry
-📌 Canonicalizing group: ['EU strategy for research and innovation', 'EU strategy for research and innovation'] -> EU strategy for research and innovation
-📌 Canonicalizing group: ['European Green Deal outlines an ambitious plan to address climate - energy and environmental challenges while boosting'] -> European Green Deal
-📌 Canonicalizing group: ['Horizon Europe aims to promote societal changes - promote circular and less polluting practices - as well as systemic an'] -> Horizon Europe
-📌 Canonicalizing group: ['EU Missions are a key tool to support the green transition.'] -> EU Missions
-📌 Canonicalizing group: ['EU’s AI strategy is guided by the dual principle of excellence in AI and trustworthy AI - which - along with a thorough'] -> EU’s AI strategy is guided by the dual principle of excellence in AI and trustworthy AI
-📌 Canonicalizing group: ['EU strategy 3: A more resilient - competitive - inclusive and democratic Europe'] -> EU strategy 3: A more resilient, competitive, inclusive and democratic Europe
-📌 Canonicalizing group: ['HORIZON EUROPE strategic plan - 2025 - 2027 food - security must be addressed'] -> Food security must be addressed
-📌 Canonicalizing group: ['EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', "EU's strategy for 2025 - 2027", 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU action plan for 2025 - 2027', 'EU strategy for 2025 - 2027', 'EU strategy for 2025 - 2027'] -> EU strategy for 2025
-📌 Canonicalizing group: ['Cluster 2 will continue to support the human - centred approach to the digital transition'] -> Cluster 2 will continue to support the human - centred approach to the digital transition
-📌 Canonicalizing group: ['Cluster 3 - Civil Security for Society'] -> Cluster 3
-📌 Canonicalizing group: ['Cluster 4 will continue fostering leadership in digital and key enabling technologies - including digital and AI - while'] -> Cluster 4
-📌 Canonicalizing group: ['Cluster 4 will promote innovative solutions for responsible exploration - extraction - processing - refining - recovery'] -> Cluster 4 will promote innovative solutions for responsible exploration
-📌 Canonicalizing group: ['Cluster 6 - Food - Bioeconomy - Natural Resources - Agriculture - and Environment'] -> Cluster 6
-📌 Canonicalizing group: ['Cluster 5 - Climate - Energy and Mobility Cluster 5 is key to making Europe resilient to climate change and to enabling', 'Cluster 5 CLIMATE - ENERGY & MOBILITY C L U S T E R I M PA C T S U M PA C T S U M M A R Y 107 HORIZON EUROPE strategic p'] -> Cluster 5
-📌 Canonicalizing group: ["European Union's strategy for the green transition"] -> European Union's strategy for the green transition
-📌 Canonicalizing group: ['European Innovation Council (EIC)23 supports both bottom - up innovative actions and measures that address the strategic'] -> European Innovation Council (EIC)
-📌 Canonicalizing group: ['EU strategy for 2025 - 2027: EIT will continue to support its Knowledge and Innovation Communities (EIT KICs) to strengt'] -> EU strategy for 2025 - 2027: EIT will continue to support its Knowledge and Innovation Communities (EIT
-📌 Canonicalizing group: ['EIE will create more connected and efficient innovation ecosystems to support the scaling - up of companies - encourage'] -> EIE
-📌 Canonicalizing group: ['European Institute of Innovation and Technology (EIT) 2021 - 2027: Boosting the Innovation Talent and Capacity of Europe'] -> European Institute of Innovation and Technology (EIT) 2021 - 2027: Boosting the Innovation Talent and
-📌 Canonicalizing group: ['European Research Area (ERA) Policy Agenda Actions'] -> European Research Area (ERA) Policy Agenda Actions
-📌 Canonicalizing group: ['Horizon Europe has brought about a major reform and rationalisation of the European Partnership landscape - reducing the'] -> Horizon Europe
-📌 Canonicalizing group: ['EU missions are flagships of Horizon Europe.'] -> Horizon Europe
-📌 Canonicalizing group: ['European Union policy area: Policy area: Policy area: Policy area: Policy area: Policy area: Policy area: Policy area: P', 'EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU polic', 'EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU policy area: EU polic'] -> European Union policy area: Policy area: Policy area: Policy area: Policy area: Policy area: P
-📌 Canonicalizing group: ['EU Missions'] -> EU Missions
-📌 Canonicalizing group: ['EU - India Trade and Technology Council)'] -> India Trade and Technology Council
-📌 Canonicalizing group: ['Horizon Europe work programmes will be designed to provide a balanced support to activities with a range of maturity and'] -> Horizon Europe
-📌 Canonicalizing group: ['EU strategy on research security'] -> EU strategy on research security
-📌 Canonicalizing group: ['Horizon Europe will be integrated into such projects - from their drafting to their selection and evaluation by evaluato'] -> Horizon Europe
-📌 Canonicalizing group: ['Horizon Europe will continue to promote the European Code of Conduct for Research Integrity - to require 46.'] -> Horizon Europe
-📌 Canonicalizing group: ['Horizon Europe strategy plan 2025 - 2027 KETs are also having the potential to foster future jobs for Europeans. In addi'] -> Horizon Europe
-📌 Canonicalizing group: ['Horizon Europe will support and further develop innovative actions for training - education and capacity building - as w'] -> Horizon Europe
-📌 Canonicalizing group: ['Horizon Europe will continue to support and mainstream open science as the gold standard for R&I activities. This method'] -> Horizon Europe
-📌 Canonicalizing group: ['Horizon Europe promotes social innovation as inseparable from technological and other forms of innovation.'] -> Horizon Europe
-📌 Canonicalizing group: ['EU funding - ‘synergies’ - impact areas - programmes - institutions'] -> EU funding
-📌 Canonicalizing group: ['EU budget must do no harm to the EU’s environmental policy objectives'] -> EU budget must do no harm to EU’s environmental policy objectives
-📌 Canonicalizing group: ['Cluster 1 will invest in pandemic preparedness and response - including in the development of appropriate medical counte'] -> Cluster 1
-📌 Canonicalizing group: ['EU strategy for promoting health and well - being'] -> EU strategy for promoting health and well-being
-📌 Canonicalizing group: ['Cluster 1 will complement the work of the European Partnership on Transforming Health and Care Systems in strengthening'] -> Cluster 1
-📌 Canonicalizing group: ['EU strategy on health and safety at work'] -> EU strategy on health and safety at work
-📌 Canonicalizing group: ['Research and innovation will produce new evidence - methodologies - and technologically and/or socially innovative tools'] -> Research and innovation will produce new evidence - methodologies - and technologically and/or socially innovative tools
-📌 Canonicalizing group: ['policy areas: ensuring equal access to innovative - sustainable and high - quality healthcare'] -> Policy areas: ensuring equal access to innovative sustainable and high quality healthcare
-📌 Canonicalizing group: ['EU strategy on adaptation to climate change', "EU Mission 'adaptation to climate change'"] -> EU strategy on adaptation to climate change
-📌 Canonicalizing group: ['EU strategy on risk assessment of chemicals 3. Tackling diseases and reducing disease burden 1.2.3. Non - communicable a'] -> EU strategy on risk assessment of chemicals
-📌 Canonicalizing group: ['EU strategy on antimicrobial resistance'] -> EU strategy on antimicrobial resistance
-📌 Canonicalizing group: ['EU policy area: policy framework - policy instruments - policies - impact areas - institutions', 'EU strategy - policies - impact areas - institutions'] -> EU policy area: policy framework
-📌 Canonicalizing group: ['Cluster 2 CULTURE - CREATIVITY & INCLUSIVE SOCIETY C L U S T E R I M PA C T S U M M A R Y 63 HORIZON EUROPE strategic pl'] -> Cluster 2
-📌 Canonicalizing group: ['Cluster 2 will programme investment to achieve the following four expected impacts.'] -> Cluster 2
-📌 Canonicalizing group: ['HORIZON EUROPE strategy plan - 2025 - 2027 priorities: green - digital and innovative'] -> Horizon Europe strategy plan - 2025 - 2027 priorities: green - digital and innovative
-📌 Canonicalizing group: ['Strengthening social and economic resilience and sustainability'] -> Strengthening social and economic resilience and sustainability
-📌 Canonicalizing group: ['EU policy area: climate change and cultural heritage'] -> EU policy area: climate change and cultural heritage
-📌 Canonicalizing group: ['EU strategy for 2025 - 2027 CIVIL SECURITY FOR SOCIETY C L U S T E R I M PA C T S U M M A R Y 74 HORIZON EUROPE strategi', 'EU strategy for civil security'] -> EU strategy for 2025 - 2027
-📌 Canonicalizing group: ['Cluster 3 can make vital contributions to rising to those challenges. In doing so - it will support the EU’s open strate'] -> Cluster 3
-📌 Canonicalizing group: ['Cluster 3 will support the implementation of the EU Disaster Resilience Goals and UN Disaster Risk Reduction policies -'] -> Cluster 3
-📌 Canonicalizing group: ['Actions will continue to explore initiatives and experiments involving the development of technological or methodologica'] -> Actions will continue to explore initiatives and experiments involving the development of technological or methodologica
-📌 Canonicalizing group: ["EU's policy framework for R&I action"] -> EU's policy framework for R&I action
-📌 Canonicalizing group: ['EU strategy for tackling crime and terrorism', 'EU strategy for combating organised crime - pillars - policies - impact areas - institutions'] -> EU strategy for tackling crime and terrorism
-📌 Canonicalizing group: ['Increasing cybersecurity and making the online environment more secure The increased digitalisation of the European econ'] -> Cybersecurity and making the online environment more secure
-📌 Canonicalizing group: ['Strengthened Security Research and Innovation'] -> Strengthened Security Research and Innovation
-📌 Canonicalizing group: ['EU strategy for security', 'EU strategy'] -> EU strategy for security
-📌 Canonicalizing group: ['EU policy on international cooperation', "EU's strategy for international cooperation in a changing world"] -> EU policy on international cooperation
-📌 Canonicalizing group: ['EU4Health will continue to promote synergies with the Digital Europe Programme - the European Maritime Fisheries and Aqu'] -> EU4Health
-📌 Canonicalizing group: ['EU policy area: climate change', 'EU policy area: climate change'] -> EU policy area: climate change
-📌 Canonicalizing group: ["EU's Digital Decade policy programme sets out an encompassing vision - objectives and quantitative targets for the digit"] -> EU's Digital Decade
-📌 Canonicalizing group: ['Cluster 4 aims at decisive progress and an internationally leading position for Europe in the key digital and space tech'] -> Cluster 4
-📌 Canonicalizing group: ['EU strategy for Europe to become the first climate - neutral continent by 2050'] -> EU strategy for Europe to become the first climate - neutral continent by 2050
-📌 Canonicalizing group: ['R&I activities should contribute to strengthen EU’s critical raw materials capacities along all stages of the value chai'] -> R&I activities should contribute to strengthen EU’s critical raw materials capacities along all stages of the value chain
-📌 Canonicalizing group: ['EU policy area: Cluster 4', 'Policy areas: Cluster 4'] -> EU policy area: Cluster 4
-📌 Canonicalizing group: ['Cluster 4 ensures Europe’s strategic autonomy while preserving an open economy in those technologies that will be key fo'] -> Cluster 4
-📌 Canonicalizing group: ['Cluster 4 will strengthen and consolidate R&I in this area'] -> Cluster 4
-📌 Canonicalizing group: ['Cluster 4 will transform the user experience. It will push the frontiers of virtual and extended realities (VR/XR) and o'] -> Cluster 4
-📌 Canonicalizing group: ['Achieving open strategic autonomy in global space - based infrastructures - services - applications and data People in E'] -> European Green Deal
-📌 Canonicalizing group: ['EU strategy for the future of the internet'] -> EU strategy for the future of the internet
-📌 Canonicalizing group: ['European Space Agency - InvestEU - Cluster 4'] -> InvestEU
-📌 Canonicalizing group: ['Using energy in buildings and industry in an efficient - affordable and sustainable way'] -> Energy Efficiency in Buildings and Industry
-📌 Canonicalizing group: ['EU strategy for transport - pillars - policies - impact areas - institutions'] -> EU strategy for transport
-📌 Canonicalizing group: ['EU plans to develop its bilateral/multilateral and regional/multiregional R&I cooperation with strategic partners who ca'] -> EU plans to develop its bilateral/multilateral and regional/multiregional R&I cooperation with strategic partners who ca
-📌 Canonicalizing group: ["EU's role in global/multilateral initiatives and/or organisations"] -> EU's role in global/multilateral initiatives and/or organisations
-📌 Canonicalizing group: ['EU policy area: health'] -> EU policy area: health
-📌 Canonicalizing group: ['Cluster 6 supports the ambition of Europe to become the first climate - neutral and climate - resilient continent by 205'] -> Cluster 6
-📌 Canonicalizing group: ['EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries'] -> EU action plan on protecting and restoring marine ecosystems for sustainable and resilient fisheries
-📌 Canonicalizing group: ['Cluster 6 will support the EU circular economy action plan - the Eco - design for Sustainable Products Regulation - the'] -> Cluster 6 will support the EU circular economy action plan
-📌 Canonicalizing group: ['Cluster 6 contributes significantly to the objectives enshrined in the European Climate Law and the ‘Fit for 55’ package'] -> Cluster 6
-📌 Canonicalizing group: ['EU Missions ‘A Soil Deal for Europe’ and ‘Restore our Ocean and Waters’', 'EU Missions ‘Restore our Ocean and Waters’ and ‘A Soil Deal for Europe’'] -> EU Missions ‘A Soil Deal for Europe’ and ‘Restore our Ocean and Waters’
-📌 Canonicalizing group: ['EU Biodiversity Strategy for 2030 aims to promote the protection and restoration of ecosystems - habitats and species'] -> EU Biodiversity Strategy for 2030
-📌 Canonicalizing group: ["EU's circular economy and sustainable bioeconomy"] -> EU's circular economy and sustainable bioeconomy
-📌 Canonicalizing group: ['EU strategy for a sustainable future'] -> EU strategy for a sustainable future
-📌 Canonicalizing group: ['EU strategy for rural areas'] -> EU strategy for rural areas
-📌 Canonicalizing group: ['HORIZON EUROPE strategy plan - 2025 - 2027 Agricultural knowledge and innovation systems will be strengthened at EU/nati'] -> Horizon Europe
-📌 Canonicalizing group: ["EU's role in achieving the Kunming - Montreal Global Biodiversity Framework"] -> EU's role in achieving the Kunming - Montreal Global Biodiversity Framework
-📌 Canonicalizing group: ['EU strategy for Africa'] -> EU strategy for Africa
-📌 Canonicalizing group: ['EU CAP Network'] -> EU CAP Network
-📌 Canonicalizing group: ['EU policy on carbon farming'] -> EU policy on carbon farming
-📌 Canonicalizing group: ['Policy'] -> Policy
-✅ Refined and saved 85 entities to neo4j_nodes_llm_refined.json
+sion"
+Device set to use cpu
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 33. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+🧠 Node: European Commission
+📄 Summary (3 mini-summaries combined):
+The views expressed in this publication are the sole responsibility of the author and do not necessarily re˚ect the views of the European Commission. European Commission: Delivering on our targets. European Commission, Directorate-General for Communication, European green deal. The reuse policy of European Commission documents is implemented based on Commission Decision /833/EU of 12 December on the reuse of Commission documents.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 13. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=6)
+🧠 Node: Horizon Europe
+📄 Summary (1 mini-summaries combined):
+Horizon Europe will facilitate cooperation between European RI and international counterparts. Horizon Europe will be based in Brussels, with offices in Paris and Berlin.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+Your max_length is set to 60, but your input_length is only 19. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=9)
+🧠 Node: EU health industry
+📄 Summary (3 mini-summaries combined):
+The expected impact is that the EU health industry is innovative, sustainable, and globally competitive thanks to improved uptake of breakthrough technologies. This will make the EU more resilient and less reliant on imports of critical health technologies. 2. Maintaining an innovative, sustainable and competitive health industry in Europe 1.5. The European Commission has released a report on addressing medicine shortages in the EU. The report was commissioned by the European Parliament and the Council of Ministers.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 27. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+🧠 Node: EU strategy for research and innovation
+📄 Summary (3 mini-summaries combined):
+The European Commission has released a new strategic plan for the continent. The plan is based on the EN HORIZON EUROPE STRATEGIC PLAN. The EU is committed to preserve openness in international research and innovation cooperation. It promotes a level playing eeld and reciprocity underpinned by fundamental values. The EU also needs to be able to rapidly (re-)deploy research to deal with new threats and to accelerate innovation.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+Your max_length is set to 60, but your input_length is only 33. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+🧠 Node: European Green Deal
+📄 Summary (3 mini-summaries combined):
+It plays a key role in the implementation of the European Green Deal objectives. It is also a key part of the development of the UK's renewable energy resources. By supporting the European Green Deal, it makes Europe more resilient, competitive, inclusive and democratic. The European Green Deal 17 outlines an ambitious plan to address climate, energy and environmental challenges while boosting Europe™s competitiveness.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 53. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+Your max_length is set to 60, but your input_length is only 44. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=22)
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+🧠 Node: EU Missions
+📄 Summary (3 mini-summaries combined):
+The interdisciplinary nature of the governance mechanisms oˇers ample opportunities for building synergies between the EU Missions and other parts of Horizon Europe. Since their inception, EU Missions have demonstrated their potential to accelerate change. They break silos, support the implementation of policies and the shaping of policy actions, and allow for ˚exibility and experimentation. European Missions and Partnerships would beneet from international cooperation. Support from non-EU countries and international organisations may also be mobilised.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 35. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: EUs AI strategy
+📄 Summary (3 mini-summaries combined):
+The European AI-strategy is guided by the dual principle of excellence in AI and trustworthy AI. A thorough but innovation-friendly regulatory framework, such as the Artiecial Intelligence Act 19 , can harness AI™s vast potential while protecting the rights of the European people. The responsible use of AI in science, research and engineering is going to be key for keeping up the global competitiveness of the EU. Leadership in AI-powered science is essential for Europe™s competitive edge, prosperity, and technological sovereignty.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 52. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+Your max_length is set to 60, but your input_length is only 52. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+🧠 Node: EU strategy 3
+📄 Summary (3 mini-summaries combined):
+The EU is taking measures to safeguard the EU™s strategic 6.5 billion euro budget. At the same time, measures are being taken to protect the EU’s economic and financial stability. Stakeholders in Member States and Associated Countries can use this strategic plan as guidance to: (i) align their research strategies with the EU priorities; and (ii) exploit synergies. It is also essential and urgent to safeguard Europe™s open strategic autonomy and to secure Europe’s leading role in developing and deploying critical and emerging technologies.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 26. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+Your max_length is set to 60, but your input_length is only 41. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=20)
+🧠 Node: HORIZON EUROPE strategic plan
+📄 Summary (3 mini-summaries combined):
+The Horizon Europe strategic plan serves as an interface between the EU™s main policy priorities and the Horizon Europe research activities. The strategic plan aims to facilitate the implementation of Horizon Europe. It serves as an interface between the overarching EU policy priorities and the Horizon Europe R&I activities. Horizon Europe strategic plan ( ) European Commission Directorate-General for Research and Innovation Directorate G Š Policy & Programming Centre Unit Unit G.3 - Common strategic planning & Programming Service.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+🧠 Node: EU strategy for 2025 - 2027
+📄 Summary (3 mini-summaries combined):
+European Commission, Directorate-General for Research and Innovation, Horizon Europe strategic plan - analysis, Publications O˛ce of the European Union, , . 11. The European Commission has released a new strategic plan for the continent. The plan is based on the EN HORIZON EUROPE STRATEGIC PLAN. European Commission, Directorate-General for Research and Innovation, Horizon Europe strategic plan - analysis, Publications O˛ce of the European Union, , . 2.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+Your max_length is set to 60, but your input_length is only 31. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+🧠 Node: Cluster 2
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 2 will continue to support the human-centred approach to the digital transition. Cluster 2 aims to increase awareness and understanding of the political, cultural and socioeconomic challenges caused by environmental crises.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 31. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 37. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=18)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: Civil Security for Society
+📄 Summary (3 mini-summaries combined):
+Space in the eeld of security (communication, navigation, Earth observation, cybersecurity) Health security and emergencies, including preparedness and response to epidemic outbreaks/pandemics, and bioterrorism. Food (and feed) security and safety, and water security. 4. CIVIL SECURITY FOR SOCIETY.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 59. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=29)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: Cluster 4
+📄 Summary (3 mini-summaries combined):
+Cluster 4 will address high value-added hardware needs for core, cloud and edge. It will help secure the supply of critical components for key markets, such as automotive, health, automation and mobility systems. CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 4 aims at decisive progress and an internationally leading position for Europe in the key digital and space technologies. These include AI, advanced computing, photonics, quantum technologies, microelectronics and industrial internet-of-things.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 53. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+🧠 Node: Cluster 6
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 6 supports rural communities and rural areas to foster sustainable development and regeneration. Cluster 6 is based in rural communities in rural areas of the country. R&I is one of the key enablers to developing, demonstrating and upscaling the solutions needed to navigate the necessary transitions to a sustainable future underpinned by the European Green Deal.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+🧠 Node: Cluster 5
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 5 empowers people and organisations through better information and by involving them in co-creating and shaping solutions. Cluster 5 will continue its support for the partnership with Breakthrough Energy Catalyst 95. The partnership is implemented by the European Investment Bank under the InvestEU programme.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 33. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+🧠 Node: European Unions strategy for the green transition
+📄 Summary (3 mini-summaries combined):
+The European Green Deal 17 outlines an ambitious plan to address climate, energy and environmental challenges while boosting Europe™s competitiveness. It plays a key role in the implementation of the European Green Deal objectives. It is also a key part of the development of the UK's renewable energy resources. The EU has now put in place a substantial regulatory framework for the green transition. The EU has also mobilised substantial funding.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 22. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=11)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: European Innovation Council
+📄 Summary (3 mini-summaries combined):
+The European Innovation Council is a body that promotes innovation in Europe. The council's mission is to promote innovation in the European Union. EU Council Recommendation (EU) / of 26 November on a Pact for Research and Innovation in Europe. The European Commission has released a new strategic plan for the continent. The plan is based on the EN HORIZON EUROPE STRATEGIC PLAN.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 23. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=11)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+🧠 Node: European Institute of Innovation and Technology
+📄 Summary (3 mini-summaries combined):
+The European Institute of Innovations & Technology is based in Brussels, Belgium. For more information, see the dedicated web page for the EIT. The European Institute of Innovation and Technology (EIT) ™s overall objective is to help develop Europe's innovation capacity. The European Innovation Council is a body that promotes innovation in Europe. The council's mission is to promote innovation in the European Union.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 26. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+Your max_length is set to 60, but your input_length is only 43. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=21)
+🧠 Node: European Research Area ERA Policy Agenda Actions
+📄 Summary (3 mini-summaries combined):
+European Commission, European Research Area Policy Agenda, overview of actions for -. European Research area Policy Agenda. The Horizon Europe strategic plan serves as an interface between the EU™s main policy priorities and the Horizon Europe research activities. Its activities will be aligned with the priorities set out in the Pact for Research and Innovation in Europe 29. It will be implemented through the ERA Policy Agenda.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 45. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=22)
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+🧠 Node: India Trade and Technology Council
+📄 Summary (3 mini-summaries combined):
+It is further set out in the Communication from the Commission Trade Policy Review An Open, Sustainable and Assertive Trade Policy, COM() 66. Stronger R&I eˇorts to develop and deploy net-zero technologies will be pursued. Technology readiness levels can be described in terms of technology readiness levels (TRLs) They are important for open strategic autonomy and sovereignty in industrial value chains.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 32. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+Your max_length is set to 60, but your input_length is only 37. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=18)
+🧠 Node: EU strategy on research security
+📄 Summary (3 mini-summaries combined):
+The EU needs to protect its open strategic autonomy by ensuring a systematic enforcement of the existing tools and identifying and addressing any remaining gaps. Improving research security is key to protecting the EU™s open Strategic autonomy. European security will be developed by contributing to an EU industrial policy. This will be done by developing European solutions for the capability needs of European security practitioners. The European Economic Security Strategy adopted in June 42 aims to strike a balance between preserving its economic openness and dynamism.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 26. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+Your max_length is set to 60, but your input_length is only 41. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=20)
+🧠 Node: Cluster 1
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 1 will continue work to develop and stimulate the uptake of new technologies and digital solutions to improve healthcare. Cluster 1 will support work to promote health equity and ensure fair and equal access to innovative, sustainable, aˇordable and high-quality healthcare.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 35. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+🧠 Node: EU strategy for promoting health and well - being
+📄 Summary (3 mini-summaries combined):
+People of all ages in the EU stay healthy, resilient, and independent. Staying healthy in a rapidly changing society. It is essential to focus on the health and well-being of people, says the European Pillar of Social Rights. Seeking synergies with the EU™s external cooperation and humanitarian policies and programmes will not only deepen the links between health research and its implementation.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+🧠 Node: EU strategy on health and safety at work
+📄 Summary (3 mini-summaries combined):
+Results will support the EU™s overarching policy frameworks. These include the European Health Union and its EU Global Health Strategy, the EU non-communicable diseases initiative. 2. Maintaining an innovative, sustainable and competitive health industry in Europe 1.5. The expected impact is that the EU health industry is innovative, sustainable, and globally competitive thanks to improved uptake of breakthrough technologies. This will make the EU more resilient and less reliant on imports of critical health technologies.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 19. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=9)
+Your max_length is set to 60, but your input_length is only 57. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=28)
+Your max_length is set to 60, but your input_length is only 19. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=9)
+🧠 Node: Policy areas ensuring equal access to innovative
+📄 Summary (3 mini-summaries combined):
+. Here synergies with speciec sectors and place-based innovation ecosystems are needed. The expected impact is that healthcare systems provide equal access to innovative, sustainable and high-quality healthcare thanks to the development and uptake of safe, cost- eˇective and people-centred solutions. Successful deployment of innovation can help authorities meet the challenges of limited availability of workers.    
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+🧠 Node: EU strategy on adaptation to climate change
+📄 Summary (3 mini-summaries combined):
+The EU needs to improve its resilience to climate-related extreme events like heatwaves, ˚oods, droughts and wilderes. The EU also needs to confront the emergence of new, climate- related, cross-border health and biological threats. The EU plans to develop further the AU-EU Research and Innovation Partnership on Climate Change and Sustainable Energy. Europe is facing the more direct consequences of climate change at social, economic and environmental levels.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 31. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 15. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=7)
+🧠 Node: EU strategy on risk assessment of chemicals
+📄 Summary (3 mini-summaries combined):
+Commission Recommendation of 8 December on establishing a European assessment framework for ‚safe and sustainable by design™ chemicals and materials. This will be critical to tackle the combined eˇects from multiple hazardous substances. This will be in line with the EU zero-pollution action plan. Life Course Partnership on risk assessment of chemicals 3. Health throughout the Life Course partnership on risk Assessment of Chemicals.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 49. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=24)
+Your max_length is set to 60, but your input_length is only 55. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=27)
+🧠 Node: EU strategy on antimicrobial resistance
+📄 Summary (3 mini-summaries combined):
+Global Health EDCTP3 aims to address antimicrobial resistance in sub-Saharan Africa. It takes into consideration environmental and epidemiological factors. The Global Health EDCTP3 Joint Undertaking is the third programme of the European and Developing Countries Clinical Trials Partnership. A dedicated Horizon Europe partnership on One Health antimicrobial resistance will address antimicrobial resistant with a One Health approach. It will coordinate and align activities and funding between the Commission and countries in the EU and beyond.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 36. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=18)
+Your max_length is set to 60, but your input_length is only 54. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=27)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+🧠 Node: EU policy area policy framework
+📄 Summary (3 mini-summaries combined):
+New challenges the EU is facing, the changing policy context and the increasing need for e˛ciency and interoperability at EU level will be considered. The results of EU-funded projects feed into EU policy- making through a Commission-wide scheme to collect and utilise results. Annex IV of the Horizon Europe Regulation foresees synergies between Horizon Europe and the listed EU programmes.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 24. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+Your max_length is set to 60, but your input_length is only 24. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)

@@ -4,7 +4,7 @@ from transformers import pipeline
 # Load input files
 with open("neo4j_nodes_llm_refined.json", "r", encoding="utf-8") as f:
     nodes = json.load(f)
-with open("matched_chunks_for_nodes.json", "r", encoding="utf-8") as f:
+with open("matched_pages_for_nodes.json", "r", encoding="utf-8") as f:
     context_map = json.load(f)
 
 # Initialize BART summarization pipeline

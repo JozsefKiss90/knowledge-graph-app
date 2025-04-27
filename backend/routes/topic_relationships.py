@@ -29,22 +29,22 @@ def assign_outlier_topics(nodes, embeddings, topic_model, original_topics):
 def add_cross_topic_links(nodes, embeddings, similarity_threshold=0.6):
     links = []
     for (i, a), (j, b) in combinations(enumerate(nodes), 2):
-        if a["id"] == b["id"] or a["topic"] == b["topic"]:
+        if a["id"] == b["id"] or a["topic"] == b["topic"]: 
             continue
 
         sim = float(embeddings[i] @ embeddings[j])
         if sim >= similarity_threshold:
             links.append({
-                "source": a["id"],
+                "source": a["id"], 
                 "target": b["id"],
                 "relation": "cross_topic_similarity",
                 "score": round(sim, 3)
             })
     return links
-
+ 
 
 def generate_canonical_topic_links(
-    input_json_path: str,
+    input_json_path: str, #uses neo4j_nodes_cleaned.json
     relationships_output_path: str = "canonical_topic_relationships.json",
     topic_nodes_output_path: str = "canonical_topic_nodes.json",
     similarity_threshold: float = 0.35,
@@ -84,7 +84,10 @@ def generate_canonical_topic_links(
     valid_topic_ids = [t for t in set(topics) if t != -1]
 
     for topic_id in valid_topic_ids:
-        keywords = [term for term, _ in topic_model.get_topic(topic_id)[:top_n_keywords]]
+        topic_info = topic_model.get_topic(topic_id)
+        if not topic_info:
+            continue  # skip missing topics
+        keywords = [term for term, _ in topic_info[:top_n_keywords]]
         topic_node = {
             "id": f"topic_{topic_id}",
             "label": f"Topic {topic_id}",

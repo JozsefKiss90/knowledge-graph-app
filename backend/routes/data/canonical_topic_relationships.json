@@ -2349,7 +2349,7 @@
       "strategic"
     ]
   },
-  {
+  { 
     "source": "european_commission_global_approach_to_research_and_innovation",
     "target": "eu_research_area",
     "relation": "shared_topic",

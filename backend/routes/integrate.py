@@ -5,7 +5,7 @@ from database import db
 router = APIRouter(prefix="/integrate", tags=["Graph Integration"])
 
 @router.post("/")
-async def integrate_graph(
+async def integrate_graph( 
     nodes_file: UploadFile = File(...),
     relationships_file: UploadFile = File(...)
 ):
@@ -23,7 +23,7 @@ async def integrate_graph(
         }
         cypher = """
         MERGE (n:Document {id: $id})
-        SET n += $props
+        SET n += $props 
         """
         db.query(cypher, {"id": node["id"], "props": props})
 
@@ -55,7 +55,7 @@ async def integrate_graph(
             cypher = """
             MATCH (a:Document {id: $source}), (b:Document {id: $target})
             MERGE (a)-[r:CROSS_TOPIC_SIMILARITY]->(b)
-            SET r.score = $score
+            SET r.score = $score 
             """
             props.update({"score": rel["score"]})
         else:
