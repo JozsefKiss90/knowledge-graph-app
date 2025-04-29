@@ -14,7 +14,7 @@ async def integrate_graph(
     relationships = json.loads((await relationships_file.read()).decode("utf-8"))
 
     # Step 1: Create all document nodes
-    for node in nodes:
+    for node in nodes: 
         props = {
             "id": node["id"],
             "name": node["name"],

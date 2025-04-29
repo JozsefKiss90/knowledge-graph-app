@@ -14,10 +14,10 @@ class RelationshipCreateRequest(BaseModel):
 def create_relationship(request: RelationshipCreateRequest = Body(...)):
     try:
         cypher = f"""
-        MATCH (a {{name: $from}}), (b {{name: $to}})
-        CREATE (a)-[r:{request.relation_type}]->(b)
-        RETURN a, r, b
-        """
+            MATCH (a)-[r]->(b)
+            WHERE exists(a.id) AND exists(b.id)
+            RETURN a, r, b
+            """
         result = db.query(cypher, {
             "from": request.from_name,
             "to": request.to_name
@@ -26,16 +26,16 @@ def create_relationship(request: RelationshipCreateRequest = Body(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create relationship: {str(e)}")
 
-from fastapi import APIRouter, HTTPException, Query
-from typing import Optional
-from database import db
-
-router = APIRouter(prefix="/relationships", tags=["Relationships"])
-
 @router.get("/")
-def get_relationships(from_name: Optional[str] = Query(None)):
+def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[str] = Query(None)):
     try:
-        if from_name:
+        if from_id:
+            cypher = """
+            MATCH (a {id: $from})-[r]->(b)
+            RETURN a, r, b
+            """
+            result = db.query(cypher, {"from": from_id})
+        elif from_name:
             cypher = """
             MATCH (a {name: $from})-[r]->(b)
             RETURN a, r, b
@@ -45,10 +45,30 @@ def get_relationships(from_name: Optional[str] = Query(None)):
             cypher = "MATCH (a)-[r]->(b) RETURN a, r, b"
             result = db.query(cypher)
 
-        return {"relationships": result}
+        # 🛠 NEW: Reformat relationships cleanly
+        cleaned_relationships = []
+        for record in result:
+            a = record["a"]
+            b = record["b"]
+            r = record["r"]
 
+            if isinstance(r, list) and len(r) > 1:
+                relation_type = r[1]
+            else:
+                relation_type = r  # fallback if r is a string
+
+            cleaned_relationships.append({
+                "id": f"{a['id']}->{b['id']}",
+                "source": a["id"],
+                "target": b["id"],
+                "type": relation_type,
+                "label": relation_type,
+            })
+
+        return {"relationships": cleaned_relationships}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch relationships: {str(e)}")
+
 
 @router.delete("/")
 def delete_relationship(from_name: str = Query(...), to_name: str = Query(...), relation_type: str = Query(...)):
@@ -62,3 +82,49 @@ def delete_relationship(from_name: str = Query(...), to_name: str = Query(...), 
         return {"deleted_relationship": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete relationship: {str(e)}")
+
+@router.get("/raw_relationships/")
+async def get_raw_relationships():
+    try:
+        cypher = """
+        MATCH (a)-[r]->(b)
+        RETURN a, r, b
+        """
+        result = db.query(cypher)
+
+        relationships = []
+
+        for record in result:
+            a = record["a"]
+            r = record["r"]
+            b = record["b"]
+
+            # 🧠 Step 1: Try to extract the true relation type
+            if isinstance(r, dict):
+                # Normal case: r is a relationship object with 'type' property
+                relation_type = r.get("type", "UNKNOWN")
+            elif isinstance(r, list):
+                # Often it's a [sourceNode, 'RELATION_TYPE', targetNode]
+                relation_type = next((x for x in r if isinstance(x, str)), "UNKNOWN")
+            elif isinstance(r, str) and "BELONGS_TO_TOPIC" in r:
+                # Fallback for serialized weird data
+                relation_type = "BELONGS_TO_TOPIC"
+            else:
+                relation_type = "UNKNOWN"
+
+            relationships.append({
+                "id": f"{a.get('id', 'unknown')}->{b.get('id', 'unknown')}",
+                "source": a.get("id", "unknown"),
+                "target": b.get("id", "unknown"),
+                "type": relation_type,
+                "label": relation_type,
+            })
+
+        return {"relationships": relationships}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch raw relationships: {str(e)}")
+
+
+
+
+
