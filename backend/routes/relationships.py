@@ -42,28 +42,28 @@ def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[
             """
             result = db.query(cypher, {"from": from_name})
         else:
-            cypher = "MATCH (a)-[r]->(b) RETURN a, r, b"
+            cypher = """
+            MATCH (a)-[r]->(b)
+            RETURN a, b, type(r) AS type, properties(r) AS props
+            """
             result = db.query(cypher)
 
         # 🛠 NEW: Reformat relationships cleanly
-        cleaned_relationships = []
-        for record in result:
-            a = record["a"]
-            b = record["b"]
-            r = record["r"]
+            cleaned_relationships = []
+            for record in result:
+                a = record["a"]
+                b = record["b"]
+                rel_type = record["type"]
+                props = record["props"]
 
-            if isinstance(r, list) and len(r) > 1:
-                relation_type = r[1]
-            else:
-                relation_type = r  # fallback if r is a string
-
-            cleaned_relationships.append({
-                "id": f"{a['id']}->{b['id']}",
-                "source": a["id"],
-                "target": b["id"],
-                "type": relation_type,
-                "label": relation_type,
-            })
+                cleaned_relationships.append({
+                    "id": f"{a['id']}->{b['id']}",
+                    "source": a["id"],
+                    "target": b["id"],
+                    "type": rel_type,
+                    "label": rel_type,
+                    **props
+                })
 
         return {"relationships": cleaned_relationships}
     except Exception as e:
@@ -124,7 +124,32 @@ async def get_raw_relationships():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch raw relationships: {str(e)}")
 
+@router.get("/debug_unprocessed/")
+def debug_unprocessed_relationships():
+    try:
+        cypher = """
+        MATCH (a)-[r]->(b)
+        RETURN a, b, type(r) AS type, properties(r) AS props
+        """ 
+        result = db.query(cypher)
 
+        relationships = []
 
+        for record in result:
+            a = record["a"]
+            b = record["b"]
+            rel_type = record["type"]
+            props = record["props"]
+            
+            relationships.append({
+                "source": a.get("id"),
+                "target": b.get("id"),
+                "type": rel_type,
+                **props
+            })
 
+        
+        return {"raw_result": relationships}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch raw relationships: {str(e)}")
 
