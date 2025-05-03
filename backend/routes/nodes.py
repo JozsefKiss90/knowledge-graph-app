@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException, Path, Query
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
+from pathlib import Path
+import json
 from database import db
 
 router = APIRouter(prefix="/nodes", tags=["Nodes"])
@@ -29,16 +31,28 @@ def list_nodes(label: Optional[str] = None):
         if label:
             cypher = f"MATCH (n:{label}) RETURN n"
         else:
-            # Only return nodes that have both 'id' and 'name' properties
             cypher = """
             MATCH (n)
             WHERE n.id IS NOT NULL AND n.name IS NOT NULL
             RETURN n
             """
         result = db.query(cypher)
-
-        # Optional: Filter at Python level too (extra safety)
         filtered_result = [r for r in result if r.get("n", {}).get("name")]
+
+        # ✅ Patch in canonical topics
+        topic_path = Path("canonical_topic_nodes.json")
+        if topic_path.exists():
+            with open(topic_path) as f:
+                topic_data = json.load(f)
+                for topic in topic_data:
+                    filtered_result.append({
+                        "n": {
+                            "id": topic["id"],
+                            "name": topic["label"],
+                            "type": "topic",
+                            "summary": ""
+                        }
+                    })
 
         return {"nodes": filtered_result}
 
