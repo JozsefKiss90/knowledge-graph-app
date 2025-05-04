@@ -1,0 +1,18 @@
+// App.scss
+$primary: #007bff;
+
+.App {
+  background-color: #f8f9fa;
+
+  h2 {
+    color: $primary;
+    margin-bottom: 1rem;
+  }
+
+  .cytoscape-container {
+    border: 1px solid $primary;
+    height: 600px;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+}
