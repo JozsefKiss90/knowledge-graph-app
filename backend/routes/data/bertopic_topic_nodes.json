@@ -1,0 +1,24 @@
+[
+  {
+    "id": "topic_0",
+    "label": "Topic 0",
+    "keywords": [
+      "eu",
+      "cluster",
+      "europe",
+      "synergies",
+      "innovation"
+    ]
+  },
+  {
+    "id": "topic_1",
+    "label": "Topic 1",
+    "keywords": [
+      "digital",
+      "european",
+      "economy",
+      "challenges",
+      "climate"
+    ]
+  }
+]

@@ -1,0 +1,195 @@
+sion"
+Device set to use cpu
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 33. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+🧠 Node: European Commission
+📄 Summary (3 mini-summaries combined):
+The views expressed in this publication are the sole responsibility of the author and do not necessarily re˚ect the views of the European Commission. European Commission: Delivering on our targets. European Commission, Directorate-General for Communication, European green deal. The reuse policy of European Commission documents is implemented based on Commission Decision /833/EU of 12 December on the reuse of Commission documents.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 13. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=6)
+🧠 Node: Horizon Europe
+📄 Summary (1 mini-summaries combined):
+Horizon Europe will facilitate cooperation between European RI and international counterparts. Horizon Europe will be based in Brussels, with offices in Paris and Berlin.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+Your max_length is set to 60, but your input_length is only 19. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=9)
+🧠 Node: EU health industry
+📄 Summary (3 mini-summaries combined):
+The expected impact is that the EU health industry is innovative, sustainable, and globally competitive thanks to improved uptake of breakthrough technologies. This will make the EU more resilient and less reliant on imports of critical health technologies. 2. Maintaining an innovative, sustainable and competitive health industry in Europe 1.5. The European Commission has released a report on addressing medicine shortages in the EU. The report was commissioned by the European Parliament and the Council of Ministers.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 27. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+🧠 Node: EU strategy for research and innovation
+📄 Summary (3 mini-summaries combined):
+The European Commission has released a new strategic plan for the continent. The plan is based on the EN HORIZON EUROPE STRATEGIC PLAN. The EU is committed to preserve openness in international research and innovation cooperation. It promotes a level playing eeld and reciprocity underpinned by fundamental values. The EU also needs to be able to rapidly (re-)deploy research to deal with new threats and to accelerate innovation.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+Your max_length is set to 60, but your input_length is only 33. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+🧠 Node: European Green Deal
+📄 Summary (3 mini-summaries combined):
+It plays a key role in the implementation of the European Green Deal objectives. It is also a key part of the development of the UK's renewable energy resources. By supporting the European Green Deal, it makes Europe more resilient, competitive, inclusive and democratic. The European Green Deal 17 outlines an ambitious plan to address climate, energy and environmental challenges while boosting Europe™s competitiveness.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 53. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+Your max_length is set to 60, but your input_length is only 44. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=22)
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+🧠 Node: EU Missions
+📄 Summary (3 mini-summaries combined):
+The interdisciplinary nature of the governance mechanisms oˇers ample opportunities for building synergies between the EU Missions and other parts of Horizon Europe. Since their inception, EU Missions have demonstrated their potential to accelerate change. They break silos, support the implementation of policies and the shaping of policy actions, and allow for ˚exibility and experimentation. European Missions and Partnerships would beneet from international cooperation. Support from non-EU countries and international organisations may also be mobilised.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 35. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: EUs AI strategy
+📄 Summary (3 mini-summaries combined):
+The European AI-strategy is guided by the dual principle of excellence in AI and trustworthy AI. A thorough but innovation-friendly regulatory framework, such as the Artiecial Intelligence Act 19 , can harness AI™s vast potential while protecting the rights of the European people. The responsible use of AI in science, research and engineering is going to be key for keeping up the global competitiveness of the EU. Leadership in AI-powered science is essential for Europe™s competitive edge, prosperity, and technological sovereignty.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 52. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+Your max_length is set to 60, but your input_length is only 52. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+🧠 Node: EU strategy 3
+📄 Summary (3 mini-summaries combined):
+The EU is taking measures to safeguard the EU™s strategic 6.5 billion euro budget. At the same time, measures are being taken to protect the EU’s economic and financial stability. Stakeholders in Member States and Associated Countries can use this strategic plan as guidance to: (i) align their research strategies with the EU priorities; and (ii) exploit synergies. It is also essential and urgent to safeguard Europe™s open strategic autonomy and to secure Europe’s leading role in developing and deploying critical and emerging technologies.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 26. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+Your max_length is set to 60, but your input_length is only 41. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=20)
+🧠 Node: HORIZON EUROPE strategic plan
+📄 Summary (3 mini-summaries combined):
+The Horizon Europe strategic plan serves as an interface between the EU™s main policy priorities and the Horizon Europe research activities. The strategic plan aims to facilitate the implementation of Horizon Europe. It serves as an interface between the overarching EU policy priorities and the Horizon Europe R&I activities. Horizon Europe strategic plan ( ) European Commission Directorate-General for Research and Innovation Directorate G Š Policy & Programming Centre Unit Unit G.3 - Common strategic planning & Programming Service.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+🧠 Node: EU strategy for 2025 - 2027
+📄 Summary (3 mini-summaries combined):
+European Commission, Directorate-General for Research and Innovation, Horizon Europe strategic plan - analysis, Publications O˛ce of the European Union, , . 11. The European Commission has released a new strategic plan for the continent. The plan is based on the EN HORIZON EUROPE STRATEGIC PLAN. European Commission, Directorate-General for Research and Innovation, Horizon Europe strategic plan - analysis, Publications O˛ce of the European Union, , . 2.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+Your max_length is set to 60, but your input_length is only 31. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+🧠 Node: Cluster 2
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 2 will continue to support the human-centred approach to the digital transition. Cluster 2 aims to increase awareness and understanding of the political, cultural and socioeconomic challenges caused by environmental crises.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 31. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 37. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=18)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: Civil Security for Society
+📄 Summary (3 mini-summaries combined):
+Space in the eeld of security (communication, navigation, Earth observation, cybersecurity) Health security and emergencies, including preparedness and response to epidemic outbreaks/pandemics, and bioterrorism. Food (and feed) security and safety, and water security. 4. CIVIL SECURITY FOR SOCIETY.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 59. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=29)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: Cluster 4
+📄 Summary (3 mini-summaries combined):
+Cluster 4 will address high value-added hardware needs for core, cloud and edge. It will help secure the supply of critical components for key markets, such as automotive, health, automation and mobility systems. CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 4 aims at decisive progress and an internationally leading position for Europe in the key digital and space technologies. These include AI, advanced computing, photonics, quantum technologies, microelectronics and industrial internet-of-things.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 53. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=26)
+🧠 Node: Cluster 6
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 6 supports rural communities and rural areas to foster sustainable development and regeneration. Cluster 6 is based in rural communities in rural areas of the country. R&I is one of the key enablers to developing, demonstrating and upscaling the solutions needed to navigate the necessary transitions to a sustainable future underpinned by the European Green Deal.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+🧠 Node: Cluster 5
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 5 empowers people and organisations through better information and by involving them in co-creating and shaping solutions. Cluster 5 will continue its support for the partnership with Breakthrough Energy Catalyst 95. The partnership is implemented by the European Investment Bank under the InvestEU programme.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 33. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+🧠 Node: European Unions strategy for the green transition
+📄 Summary (3 mini-summaries combined):
+The European Green Deal 17 outlines an ambitious plan to address climate, energy and environmental challenges while boosting Europe™s competitiveness. It plays a key role in the implementation of the European Green Deal objectives. It is also a key part of the development of the UK's renewable energy resources. The EU has now put in place a substantial regulatory framework for the green transition. The EU has also mobilised substantial funding.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 22. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=11)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+🧠 Node: European Innovation Council
+📄 Summary (3 mini-summaries combined):
+The European Innovation Council is a body that promotes innovation in Europe. The council's mission is to promote innovation in the European Union. EU Council Recommendation (EU) / of 26 November on a Pact for Research and Innovation in Europe. The European Commission has released a new strategic plan for the continent. The plan is based on the EN HORIZON EUROPE STRATEGIC PLAN.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 23. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=11)
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+🧠 Node: European Institute of Innovation and Technology
+📄 Summary (3 mini-summaries combined):
+The European Institute of Innovations & Technology is based in Brussels, Belgium. For more information, see the dedicated web page for the EIT. The European Institute of Innovation and Technology (EIT) ™s overall objective is to help develop Europe's innovation capacity. The European Innovation Council is a body that promotes innovation in Europe. The council's mission is to promote innovation in the European Union.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 17. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=8)
+Your max_length is set to 60, but your input_length is only 26. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+Your max_length is set to 60, but your input_length is only 43. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=21)
+🧠 Node: European Research Area ERA Policy Agenda Actions
+📄 Summary (3 mini-summaries combined):
+European Commission, European Research Area Policy Agenda, overview of actions for -. European Research area Policy Agenda. The Horizon Europe strategic plan serves as an interface between the EU™s main policy priorities and the Horizon Europe research activities. Its activities will be aligned with the priorities set out in the Pact for Research and Innovation in Europe 29. It will be implemented through the ERA Policy Agenda.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 45. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=22)
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+🧠 Node: India Trade and Technology Council
+📄 Summary (3 mini-summaries combined):
+It is further set out in the Communication from the Commission Trade Policy Review An Open, Sustainable and Assertive Trade Policy, COM() 66. Stronger R&I eˇorts to develop and deploy net-zero technologies will be pursued. Technology readiness levels can be described in terms of technology readiness levels (TRLs) They are important for open strategic autonomy and sovereignty in industrial value chains.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 32. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=16)
+Your max_length is set to 60, but your input_length is only 37. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=18)
+🧠 Node: EU strategy on research security
+📄 Summary (3 mini-summaries combined):
+The EU needs to protect its open strategic autonomy by ensuring a systematic enforcement of the existing tools and identifying and addressing any remaining gaps. Improving research security is key to protecting the EU™s open Strategic autonomy. European security will be developed by contributing to an EU industrial policy. This will be done by developing European solutions for the capability needs of European security practitioners. The European Economic Security Strategy adopted in June 42 aims to strike a balance between preserving its economic openness and dynamism.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 28. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=14)
+Your max_length is set to 60, but your input_length is only 26. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=13)
+Your max_length is set to 60, but your input_length is only 41. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=20)
+🧠 Node: Cluster 1
+📄 Summary (3 mini-summaries combined):
+CNN.com is a community-based news service. We share stories, videos and other content in a weekly Newsquiz. Visit CNN.com/Newsquiz to test your knowledge of stories. Cluster 1 will continue work to develop and stimulate the uptake of new technologies and digital solutions to improve healthcare. Cluster 1 will support work to promote health equity and ensure fair and equal access to innovative, sustainable, aˇordable and high-quality healthcare.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 35. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 30. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+🧠 Node: EU strategy for promoting health and well - being
+📄 Summary (3 mini-summaries combined):
+People of all ages in the EU stay healthy, resilient, and independent. Staying healthy in a rapidly changing society. It is essential to focus on the health and well-being of people, says the European Pillar of Social Rights. Seeking synergies with the EU™s external cooperation and humanitarian policies and programmes will not only deepen the links between health research and its implementation.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+🧠 Node: EU strategy on health and safety at work
+📄 Summary (3 mini-summaries combined):
+Results will support the EU™s overarching policy frameworks. These include the European Health Union and its EU Global Health Strategy, the EU non-communicable diseases initiative. 2. Maintaining an innovative, sustainable and competitive health industry in Europe 1.5. The expected impact is that the EU health industry is innovative, sustainable, and globally competitive thanks to improved uptake of breakthrough technologies. This will make the EU more resilient and less reliant on imports of critical health technologies.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 19. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=9)
+Your max_length is set to 60, but your input_length is only 57. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=28)
+Your max_length is set to 60, but your input_length is only 19. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=9)
+🧠 Node: Policy areas ensuring equal access to innovative
+📄 Summary (3 mini-summaries combined):
+. Here synergies with speciec sectors and place-based innovation ecosystems are needed. The expected impact is that healthcare systems provide equal access to innovative, sustainable and high-quality healthcare thanks to the development and uptake of safe, cost- eˇective and people-centred solutions. Successful deployment of innovation can help authorities meet the challenges of limited availability of workers.    
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 21. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=10)
+🧠 Node: EU strategy on adaptation to climate change
+📄 Summary (3 mini-summaries combined):
+The EU needs to improve its resilience to climate-related extreme events like heatwaves, ˚oods, droughts and wilderes. The EU also needs to confront the emergence of new, climate- related, cross-border health and biological threats. The EU plans to develop further the AU-EU Research and Innovation Partnership on Climate Change and Sustainable Energy. Europe is facing the more direct consequences of climate change at social, economic and environmental levels.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 34. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=17)
+Your max_length is set to 60, but your input_length is only 31. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=15)
+Your max_length is set to 60, but your input_length is only 15. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=7)
+🧠 Node: EU strategy on risk assessment of chemicals
+📄 Summary (3 mini-summaries combined):
+Commission Recommendation of 8 December on establishing a European assessment framework for ‚safe and sustainable by design™ chemicals and materials. This will be critical to tackle the combined eˇects from multiple hazardous substances. This will be in line with the EU zero-pollution action plan. Life Course Partnership on risk assessment of chemicals 3. Health throughout the Life Course partnership on risk Assessment of Chemicals.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 49. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=24)
+Your max_length is set to 60, but your input_length is only 55. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=27)
+🧠 Node: EU strategy on antimicrobial resistance
+📄 Summary (3 mini-summaries combined):
+Global Health EDCTP3 aims to address antimicrobial resistance in sub-Saharan Africa. It takes into consideration environmental and epidemiological factors. The Global Health EDCTP3 Joint Undertaking is the third programme of the European and Developing Countries Clinical Trials Partnership. A dedicated Horizon Europe partnership on One Health antimicrobial resistance will address antimicrobial resistant with a One Health approach. It will coordinate and align activities and funding between the Commission and countries in the EU and beyond.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 36. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=18)
+Your max_length is set to 60, but your input_length is only 54. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=27)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+🧠 Node: EU policy area policy framework
+📄 Summary (3 mini-summaries combined):
+New challenges the EU is facing, the changing policy context and the increasing need for e˛ciency and interoperability at EU level will be considered. The results of EU-funded projects feed into EU policy- making through a Commission-wide scheme to collect and utilise results. Annex IV of the Horizon Europe Regulation foresees synergies between Horizon Europe and the listed EU programmes.
+--------------------------------------------------------------------------------
+Your max_length is set to 60, but your input_length is only 24. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+Your max_length is set to 60, but your input_length is only 24. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)
+Your max_length is set to 60, but your input_length is only 25. Since this is a summarization task, where outputs shorter than the input are typically wanted, you might consider decreasing max_length manually, e.g. summarizer('...', max_length=12)

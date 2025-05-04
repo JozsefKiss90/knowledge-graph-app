@@ -1,16 +1,27 @@
-# Python cache
+# Python
 __pycache__/
-**/__pycache__/
-
-# NLTK data
-nltk_data/
-
-# Bytecode files
 *.pyc
+*.pyo
+*.pyd
+env/
+venv/
 
-# VSCode settings (optional)
+# Node
+node_modules/
+build/
+npm-debug.log
+
+# Docker
+*.log
+*.pid
+
+# VSCode
 .vscode/
 
-# System files
+# dotenv
+.env
+.env.*
+
+# OS
 .DS_Store
 Thumbs.db

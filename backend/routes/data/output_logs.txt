@@ -1,0 +1,177 @@
+
+📄 Chunk 1 — Characters: 6690, Tokens: 512
+↳ Preview:
+Research and  Innovation  STRATEGIC PLAN 2025 - 2027  Horizon Europe strategic plan (2025 – 2027) European Commission Directorate-General for Research and Innovation Directorate G — Policy & Programming Centre Unit Unit G.3 - Common strategic planning & Programming Service Contact  Maria Montserrat ...
+
+Token indices sequence length is longer than the specified maximum sequence length for this model (1090 > 512). Running this sequence through the model will result in indexing errors
+🔍 Extracted entities with types and confidence:
+ - European Commission B - 1049 Brussels Manuscript completed in March 2024. 1st edition. The European Commission is not li (mission, confidence: 0.243) Top 3: ['mission', 'institution', 'policy']
+ - The Horizon Europe strategy plan for 2025 - 2027 sets out the strategic orientations for the final years of the EU’s lar (strategy, confidence: 0.531) Top 3: ['strategy', 'policy', 'programme']
+--------------------------------------------------------------------------------
+
+📄 Chunk 2 — Characters: 3135, Tokens: 512
+↳ Preview:
+At the same time, it provides a certain degree of flexibility to respond to  unforeseen challenges.  Through the strategic plan, investment in R&I is directed towards tackling key global  challenges such as: climate change; pollution; the loss of biodiversity; the digital transition;  an ageing popu...
+
+🔍 Extracted entities with types and confidence:
+ - ate - General for Research and Innovation - Horizon Europe strategic plan 2025 - 2027 analysis - Publications Office of (strategy, confidence: 0.463) Top 3: ['strategy', 'mission', 'programme']
+ - Horizon Europe strategy plan 2025 - 2027 analysis - European Commission - Directorate - General for Research and Innovat (strategy, confidence: 0.621) Top 3: ['strategy', 'policy', 'institution']
+--------------------------------------------------------------------------------
+
+📄 Chunk 3 — Characters: 3117, Tokens: 512
+↳ Preview:
+EXECUTIVE SUMMARY Since its start in 2021, Horizon Europe has been generating excellence through breakthrough  knowledge and investment in solutions to long-term global challenges, such as climate  change, biodiversity loss, pollution, the digital transformation, health threats and an ageing  popula...
+
+🔍 Extracted entities with types and confidence:
+ - (Text with EEA relevance) (impact_area, confidence: 0.249) Top 3: ['impact_area', 'objective', 'policy']
+ - Horizon Europe strategy plan (strategy, confidence: 0.636) Top 3: ['strategy', 'policy', 'impact_area']
+--------------------------------------------------------------------------------
+
+📄 Chunk 4 — Characters: 3376, Tokens: 512
+↳ Preview:
+A dedicated section on synergies  provides guidance on how to foster synergies with other EU and national funding  programmes. HORIZON EUROPE Strategic Plan  2021 - 2024 Work Programme  2021 - 2022 Strategic Plan  2025 - 2027 Work Programme  2023 - 2024 Strategic  Plan  Analysis PROJECT PROJECT PROJ...
+
+🔍 Extracted entities with types and confidence:
+ - pillars - missions - objectives - research themes - strategies - policies - impact areas - institutions (pillar, confidence: 0.276) Top 3: ['pillar', 'institution', 'mission']
+ - EU strategy (strategy, confidence: 0.669) Top 3: ['strategy', 'policy', 'institution']
+--------------------------------------------------------------------------------
+
+📄 Chunk 5 — Characters: 2079, Tokens: 416
+↳ Preview:
+Open strategic autonomy’ refers to the term ‘strategic autonomy, while preserving an open economy’, as reflected in the Conclusions of  the European Council of 1/2 October 2020. It is further set out in the Communication from the Commission Trade Policy Review – An Open,  Sustainable and Assertive T...
+
+🔍 Extracted entities with types and confidence:
+ - 1. a better future 2. living and working in a health - promoting environment 3. tackling diseases and reducing disease b (cluster, confidence: 0.589) Top 3: ['cluster', 'mission', 'research_theme']        
+--------------------------------------------------------------------------------
+
+📄 Chunk 6 — Characters: 3510, Tokens: 512
+↳ Preview:
+M a i n t a i n i n g   a n  innovative, sustainable,  and competitive EU  health industry  Food, Bioeconomy, Natural  Resources, Agriculture  & Environment Climate, Energy  & Mobility Digital, Industry  & Space Civil Security  for Society Culture, Creativity  & Inclusive Society Health Green Transi...
+
+🔍 Extracted entities with types and confidence:
+ - The Horizon Europe strategic plan serves as an interface between the EU’s main policy priorities and the Horizon Europe (strategy, confidence: 0.408) Top 3: ['strategy', 'policy', 'programme']
+ - EU health industry programmes - clusters - pillars - missions - objectives - research themes - strategies - policies - i (programme, confidence: 0.682) Top 3: ['programme', 'policy', 'cluster']
+--------------------------------------------------------------------------------
+
+📄 Chunk 7 — Characters: 3481, Tokens: 512
+↳ Preview:
+It strives to ensure the best value and  impact for Member States and Associated Countries’ investment in R&I. It supports the below  aspects:    Continuity and reliability for the R&I communities – it sets R&I priorities beyond the  custom 2-year period of Horizon Europe work programmes.     Commun...
+
+🔍 Extracted entities with types and confidence:
+ - The Horizon Europe strategy plan 2025 - 2027 analysis - Publications Office of the European Union - 2023 - https://data. (strategy, confidence: 0.631) Top 3: ['strategy', 'programme', 'institution']       
+ - European Commission - Directorate - General for Research and Innovation - Horizon Europe - 2025 - 2027 analysis - Public (institution, confidence: 0.902) Top 3: ['institution', 'research_theme', 'mission']
+--------------------------------------------------------------------------------
+
+📄 Chunk 8 — Characters: 2018, Tokens: 401
+↳ Preview:
+It was set up in line with the monitoring and evaluation provisions of the  Horizon Europe Regulation14. Article 6 of the Council Decision establishing the Specific Programme implementing Horizon  Europe15 sets out in detail the elements to be covered in the strategic plan and also sets out  the pro...
+
+🔍 Extracted entities with types and confidence:
+ - Policy - policy - impact areas - research themes - strategies - policies - impact areas - institutions (policy, confidence: 0.929) Top 3: ['policy', 'research_theme', 'impact_area']
+--------------------------------------------------------------------------------
+
+📄 Chunk 9 — Characters: 3032, Tokens: 512
+↳ Preview:
+Council Decision (EU) 2021/764 of 10 May 2021 establishing the Specific Programme implementing Horizon Europe – the Framework  Programme for Research and Innovation, and repealing Decision 2013/743/EU.  11 HORIZON EUROPE strategic plan | 2025 – 2027    strengthened the strategic plan’s coverage of P...
+
+🔍 Extracted entities with types and confidence:
+ - EU must gear R&I investment towards the challenge of addressing climate change and reversing the climate change (policy, confidence: 0.653) Top 3: ['policy', 'institution', 'strategy']
+--------------------------------------------------------------------------------
+
+📄 Chunk 10 — Characters: 3586, Tokens: 512
+↳ Preview:
+These are cross- cutting priorities, which are incorporated into all key strategic orientations. Russia’s war of aggression against Ukraine and the situation in the Middle East highlight  the need for open strategic autonomy, impacting scientific collaboration, energy, migration,  environment, food ...
+
+🔍 Extracted entities with types and confidence:
+ - Horizon Europe will help to bring about the green transition - promoting societal changes and prioritising circular and (strategy, confidence: 0.288) Top 3: ['strategy', 'research_theme', 'programme']     
+ - Policy - policy - impact areas - programmes - clusters (policy, confidence: 0.864) Top 3: ['policy', 'impact_area', 'programme']
+--------------------------------------------------------------------------------
+
+📄 Chunk 11 — Characters: 3425, Tokens: 512
+↳ Preview:
+People  should see green transition projects in their daily lives and living spaces, for example through  initiatives like the New European Bauhaus18. EU Missions are a key tool to support the green  transition. 17. European Commission, Directorate-General for Communication, European green deal – De...
+
+🔍 Extracted entities with types and confidence:
+ - EU Missions are a key tool to support the green transition. (policy, confidence: 0.625) Top 3: ['policy', 'institution', 'strategy']
+ - Europe’s AI strategy is a key instrument in the scientific progress needed for tackling the green and digital transition (strategy, confidence: 0.695) Top 3: ['strategy', 'policy', 'research_theme']       
+--------------------------------------------------------------------------------
+
+📄 Chunk 12 — Characters: 3658, Tokens: 512
+↳ Preview:
+Therefore, it is important to identify and  tackle high-risk dependencies in areas like semiconductors, photonics, digital infrastructure  (high-performance computing, cloud-edge computing, communication networks), quantum  technologies, cybersecurity, artificial intelligence (AI) and data, immersiv...
+
+🔍 Extracted entities with types and confidence:
+ - EU policies - impact areas - policies - impact areas (policy, confidence: 0.957) Top 3: ['policy', 'impact_area', 'institution']
+ - The EU’s strategy for the green and digital transitions is to build a more resilient - competitive - inclusive and democ (policy, confidence: 0.418) Top 3: ['policy', 'strategy', 'institution']
+--------------------------------------------------------------------------------
+
+📄 Chunk 13 — Characters: 3439, Tokens: 512
+↳ Preview:
+Additionally, cross-border challenges like pandemics, armed  conflict, climate change, biodiversity loss, energy-security and   16 HORIZON EUROPE strategic plan | 2025 – 2027 food-security must be addressed. It is critical for the EU’s open strategic autonomy to  ensure the resilience of critical in...
+
+🔍 Extracted entities with types and confidence:
+ - HOW WILL THE PILLARS OF HORIZON EUROPE HELP DELIVER ON THE KEY STRATEGIC ORIENTATIONS? (strategy, confidence: 0.635) Top 3: ['strategy', 'pillar', 'research_theme']
+ - EU policy frameworks - policies - impact areas - institutions (policy, confidence: 0.838) Top 3: ['policy', 'institution', 'impact_area']
+--------------------------------------------------------------------------------
+
+📄 Chunk 14 — Characters: 3293, Tokens: 512
+↳ Preview:
+In addition, the strong  bridges between pillars and, where relevant, within pillars, call for a broader perspective in the  strategic plan, to identify and leverage the reciprocal links between or within the four parts.  While the three pillars build on each other, the ‘Widening Participation and S...
+
+🔍 Extracted entities with types and confidence:
+ - programmes - clusters - pillars - missions - objectives - research themes - strategies - policies - impact areas - insti (programme, confidence: 0.447) Top 3: ['programme', 'institution', 'impact_area']   
+ - The EU will continue to work with the EU to develop and promote innovative technologies and digital solutions to improve (policy, confidence: 0.845) Top 3: ['policy', 'institution', 'strategy']
+--------------------------------------------------------------------------------
+
+📄 Chunk 15 — Characters: 3467, Tokens: 512
+↳ Preview:
+Cluster 1 will support  work to promote health equity and ensure fair and equal access to innovative, sustainable,  affordable and high-quality healthcare for everyone, including vulnerable and marginalised  communities. Cluster 1 will also strengthen Europe’s ability to prevent, detect and rapidly ...
+
+🔍 Extracted entities with types and confidence:
+ - programmes - clusters - pillars - missions - objectives - research themes - strategies - policies - impact areas (programme, confidence: 0.631) Top 3: ['programme', 'impact_area', 'cluster']
+ - Cluster 2 will continue to support the human - centred approach to the digital transition (cluster, confidence: 0.841) Top 3: ['cluster', 'research_theme', 'mission']
+--------------------------------------------------------------------------------
+
+📄 Chunk 16 — Characters: 3366, Tokens: 512
+↳ Preview:
+The effects of these developments on democracy, culture  and society will be examined to ensure a fair and inclusive development, understanding the  political, cultural and socioeconomic implications of the digital transition, anticipate possible  consequences, envision future scenarios and support ...
+
+🔍 Extracted entities with types and confidence:
+ - programmes - clusters - pillars - missions - objectives - research themes - strategies - policies - impact areas - insti (programme, confidence: 0.447) Top 3: ['programme', 'institution', 'impact_area']   
+ - European Commission (institution, confidence: 0.86) Top 3: ['institution', 'policy', 'mission']
+--------------------------------------------------------------------------------
+
+📄 Chunk 17 — Characters: 3583, Tokens: 512
+↳ Preview:
+Achieving these two goals involves advancing improving manufacturing  technologies so that they can play a key role in: (i) renewable energy; (ii) renewable  economies; and (iii) achieving carbon neutrality, circularity, and the zero-pollution ambition.  Energy-intensive industrial sectors will be h...
+
+🔍 Extracted entities with types and confidence:
+ - rethink its policy of reducing the use of raw materials (policy, confidence: 0.89) Top 3: ['policy', 'strategy', 'research_theme']
+ - Cluster 4 will promote the development of sustainable technologies and technologies for the European Space Agency (ESA) (cluster, confidence: 0.344) Top 3: ['cluster', 'research_theme', 'mission']
+--------------------------------------------------------------------------------
+
+📄 Chunk 18 — Characters: 3469, Tokens: 512
+↳ Preview:
+Attention will be given to linking data and information applications with other key  enabling technologies and social sciences.  22 HORIZON EUROPE strategic plan | 2025 – 2027 Cluster 5 – Climate, Energy and Mobility Cluster 5 is key to making Europe resilient to climate change and to enabling the n...
+
+🔍 Extracted entities with types and confidence:
+ - Cluster 6 - Food - Bioeconomy - Natural Resources - Agriculture - and Environment (cluster, confidence: 0.94) Top 3: ['cluster', 'research_theme', 'pillar']
+ - policies - impact areas - programmes - clusters - pillars - missions - objectives - research themes - strategies - polic (policy, confidence: 0.883) Top 3: ['policy', 'impact_area', 'mission']
+--------------------------------------------------------------------------------
+
+📄 Chunk 19 — Characters: 3523, Tokens: 512
+↳ Preview:
+It also requires integrating biodiversity aspects into social  and economic policies and adopting biodiversity-friendly practices. The transition to sustainable, low-footprint and inclusive agriculture and food systems  is a major focus. The goal is to provide safe, nutritious, healthy and affordabl...
+
+🔍 Extracted entities with types and confidence:
+ - The European Commission is coordinating the European Commission’s strategy for 2025 - 2027 - which aims to promote the u (strategy, confidence: 0.395) Top 3: ['strategy', 'policy', 'institution']
+ - One Health is an integrated - unifying approach that aims to sustainably balance and optimise the health of people - ani (mission, confidence: 0.286) Top 3: ['mission', 'research_theme', 'strategy']       
+--------------------------------------------------------------------------------
+
+📄 Chunk 20 — Characters: 2868, Tokens: 512
+↳ Preview:
+Involving relevant actors and deploying social innovations will also help to better address  the drivers of change – by ensuring continuous reskilling and upskilling of the workforce in  agriculture and environmental goods and services sectors – – that will foster a resilient,  sustainable and inclu...
+
+🔍 Extracted entities with types and confidence:
+ - European Union strategy (strategy, confidence: 0.622) Top 3: ['strategy', 'policy', 'research_theme']
+ - a series of innovative materials and products (e.g. re - use - preparing for re - use - recycling - by - products - alte (research_theme, confidence: 0.26) Top 3: ['research_theme', 'impact_area', 'cluster']

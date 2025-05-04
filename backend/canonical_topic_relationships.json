@@ -1,0 +1,3926 @@
+[
+  {
+    "source": "european_commission",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health", 
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_green_deal",
+    "target": "topic_6",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "topic_6",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "civil_security_for_society",
+    "target": "topic_7",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "cluster_4",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_6",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_5",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "topic_8",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "green",
+      "green deal",
+      "deal",
+      "european green",
+      "policies"
+    ]
+  },
+  {
+    "source": "european_innovation_council",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_research_area_era_policy_agenda_actions",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "india_trade_and_technology_council",
+    "target": "topic_3",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_research_security",
+    "target": "topic_7",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "cluster_1",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "policy_areas_ensuring_equal_access_to_innovative",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_antimicrobial_resistance",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "topic_9",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "resilience",
+      "sustainability",
+      "project",
+      "eu",
+      "policy"
+    ]
+  },
+  {
+    "source": "strengthening_social_and_economic_resilience_and_sustainability",
+    "target": "topic_9",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "resilience",
+      "sustainability",
+      "project",
+      "eu",
+      "policy"
+    ]
+  },
+  {
+    "source": "eu_policy_area_climate_change_and_cultural_heritage",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_civil_security",
+    "target": "topic_7",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "cluster_3",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "actions",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_policy_framework_for_r_i_action",
+    "target": "topic_8",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "green",
+      "green deal",
+      "deal",
+      "european green",
+      "policies"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_combating_organised_crime",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "european_econ",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "strengthened_security_research_and_innovation",
+    "target": "topic_7",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "eu_strategy",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_policy_area_climate_change",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eus_digital_decade",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "european_raw_materials_capacity_building",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_policy_area_cluster_4",
+    "target": "topic_1",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_the_future_of_the_internet",
+    "target": "topic_10",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "european",
+      "20",
+      "digital",
+      "network",
+      "union"
+    ]
+  },
+  {
+    "source": "european_space_agency",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_transport",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eus_role_in_globalmultilateral_initiatives",
+    "target": "topic_4",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eu_policy_area_health",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_missions_restore_our_ocean_and_waters",
+    "target": "topic_6",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eu_biodiversity_strategy_for_2030",
+    "target": "topic_6",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eus_circular_economy_and_sustainable_bioeconomy",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_a_sustainable_future",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_rural_areas",
+    "target": "topic_0",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_africa",
+    "target": "topic_2",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_cap_network",
+    "target": "topic_10",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "european",
+      "20",
+      "digital",
+      "network",
+      "union"
+    ]
+  },
+  {
+    "source": "eu_policy_on_carbon_farming",
+    "target": "topic_5",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "policy",
+    "target": "topic_8",
+    "relation": "belongs_to_topic",
+    "keywords": [
+      "green",
+      "green deal",
+      "deal",
+      "european green",
+      "policies"
+    ]
+  },
+  {
+    "source": "european_commission",
+    "target": "eu_strategy_for_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.657,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_commission",
+    "target": "european_innovation_council",
+    "relation": "shared_topic",
+    "score": 0.555,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_commission",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "shared_topic",
+    "score": 0.397,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy_3",
+    "relation": "shared_topic",
+    "score": 0.684,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "horizon_europe_strategic_plan",
+    "relation": "shared_topic",
+    "score": 0.692,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.589,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "shared_topic",
+    "score": 0.769,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.684,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_strategy_for_africa",
+    "relation": "shared_topic",
+    "score": 0.674,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eus_ai_strategy",
+    "relation": "shared_topic",
+    "score": 0.533,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu_strategy_for_promoting_health_and_well_being",
+    "relation": "shared_topic",
+    "score": 0.645,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu_strategy_on_health_and_safety_at_work",
+    "relation": "shared_topic",
+    "score": 0.654,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "policy_areas_ensuring_equal_access_to_innovative",
+    "relation": "shared_topic",
+    "score": 0.6,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu_strategy_on_risk_assessment_of_chemicals",
+    "relation": "shared_topic",
+    "score": 0.587,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu_strategy_on_antimicrobial_resistance",
+    "relation": "shared_topic",
+    "score": 0.467,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "actions",
+    "relation": "shared_topic",
+    "score": 0.511,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "european_econ",
+    "relation": "shared_topic",
+    "score": 0.6,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.717,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "european_raw_materials_capacity_building",
+    "relation": "shared_topic",
+    "score": 0.351,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.904,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.708,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_health_industry",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.462,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_innovation_council",
+    "relation": "shared_topic",
+    "score": 0.793,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "shared_topic",
+    "score": 0.632,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.487,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_missions",
+    "relation": "shared_topic",
+    "score": 0.643,
+    "topic_id": 6,
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_missions_restore_our_ocean_and_waters",
+    "relation": "shared_topic",
+    "score": 0.568,
+    "topic_id": 6,
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "shared_topic",
+    "score": 0.629,
+    "topic_id": 6,
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_missions_restore_our_ocean_and_waters",
+    "relation": "shared_topic",
+    "score": 0.705,
+    "topic_id": 6,
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "shared_topic",
+    "score": 0.629,
+    "topic_id": 6,
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "eu_strategy_for_promoting_health_and_well_being",
+    "relation": "shared_topic",
+    "score": 0.37,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "eu_strategy_on_health_and_safety_at_work",
+    "relation": "shared_topic",
+    "score": 0.381,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "policy_areas_ensuring_equal_access_to_innovative",
+    "relation": "shared_topic",
+    "score": 0.362,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "actions",
+    "relation": "shared_topic",
+    "score": 0.437,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "european_econ",
+    "relation": "shared_topic",
+    "score": 0.591,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.384,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "european_raw_materials_capacity_building",
+    "relation": "shared_topic",
+    "score": 0.384,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.463,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.49,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_ai_strategy",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.42,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "horizon_europe_strategic_plan",
+    "relation": "shared_topic",
+    "score": 0.867,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.827,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "shared_topic",
+    "score": 0.871,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 1.0,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eu_strategy_for_africa",
+    "relation": "shared_topic",
+    "score": 0.885,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "shared_topic",
+    "score": 0.779,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "shared_topic",
+    "score": 0.862,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.867,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "eu_strategy_for_africa",
+    "relation": "shared_topic",
+    "score": 0.825,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "shared_topic",
+    "score": 0.789,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.827,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_strategy_for_africa",
+    "relation": "shared_topic",
+    "score": 0.789,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "cluster_4",
+    "relation": "shared_topic",
+    "score": 0.453,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "cluster_6",
+    "relation": "shared_topic",
+    "score": 0.581,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "cluster_5",
+    "relation": "shared_topic",
+    "score": 0.446,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "cluster_1",
+    "relation": "shared_topic",
+    "score": 0.822,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "cluster_3",
+    "relation": "shared_topic",
+    "score": 0.598,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "eu_strategy_for_combating_organised_crime",
+    "relation": "shared_topic",
+    "score": 0.48,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_2",
+    "target": "eu_policy_area_cluster_4",
+    "relation": "shared_topic",
+    "score": 0.627,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "civil_security_for_society",
+    "target": "eu_strategy_on_research_security",
+    "relation": "shared_topic",
+    "score": 0.457,
+    "topic_id": 7,
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "civil_security_for_society",
+    "target": "eu_strategy_for_civil_security",
+    "relation": "shared_topic",
+    "score": 0.535,
+    "topic_id": 7,
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "civil_security_for_society",
+    "target": "strengthened_security_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.396,
+    "topic_id": 7,
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "cluster_4",
+    "target": "cluster_6",
+    "relation": "shared_topic",
+    "score": 0.433,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_4",
+    "target": "cluster_5",
+    "relation": "shared_topic",
+    "score": 0.815,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_4",
+    "target": "cluster_1",
+    "relation": "shared_topic",
+    "score": 0.511,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_4",
+    "target": "cluster_3",
+    "relation": "shared_topic",
+    "score": 0.561,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_4",
+    "target": "eu_strategy_for_combating_organised_crime",
+    "relation": "shared_topic",
+    "score": 0.544,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_4",
+    "target": "eu_policy_area_cluster_4",
+    "relation": "shared_topic",
+    "score": 0.717,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_6",
+    "target": "cluster_5",
+    "relation": "shared_topic",
+    "score": 0.542,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_6",
+    "target": "cluster_1",
+    "relation": "shared_topic",
+    "score": 0.667,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_6",
+    "target": "cluster_3",
+    "relation": "shared_topic",
+    "score": 0.517,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_6",
+    "target": "eu_strategy_for_combating_organised_crime",
+    "relation": "shared_topic",
+    "score": 0.365,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_6",
+    "target": "eu_policy_area_cluster_4",
+    "relation": "shared_topic",
+    "score": 0.549,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_5",
+    "target": "cluster_1",
+    "relation": "shared_topic",
+    "score": 0.55,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_5",
+    "target": "cluster_3",
+    "relation": "shared_topic",
+    "score": 0.555,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_5",
+    "target": "eu_strategy_for_combating_organised_crime",
+    "relation": "shared_topic",
+    "score": 0.484,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_5",
+    "target": "eu_policy_area_cluster_4",
+    "relation": "shared_topic",
+    "score": 0.637,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eus_policy_framework_for_r_i_action",
+    "relation": "shared_topic",
+    "score": 0.673,
+    "topic_id": 8,
+    "keywords": [
+      "green",
+      "green deal",
+      "deal",
+      "european green",
+      "policies"
+    ]
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "policy",
+    "relation": "shared_topic",
+    "score": 0.409,
+    "topic_id": 8,
+    "keywords": [
+      "green",
+      "green deal",
+      "deal",
+      "european green",
+      "policies"
+    ]
+  },
+  {
+    "source": "european_innovation_council",
+    "target": "european_institute_of_innovation_and_technology",
+    "relation": "shared_topic",
+    "score": 0.724,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_innovation_council",
+    "target": "india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.452,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "india_trade_and_technology_council",
+    "relation": "shared_topic",
+    "score": 0.533,
+    "topic_id": 3,
+    "keywords": [
+      "innovation",
+      "european",
+      "commission",
+      "2021",
+      "innovation agenda"
+    ]
+  },
+  {
+    "source": "european_research_area_era_policy_agenda_actions",
+    "target": "eu_strategy",
+    "relation": "shared_topic",
+    "score": 0.871,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "european_research_area_era_policy_agenda_actions",
+    "target": "eu_strategy_for_africa",
+    "relation": "shared_topic",
+    "score": 0.856,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_research_security",
+    "target": "eu_strategy_for_civil_security",
+    "relation": "shared_topic",
+    "score": 0.813,
+    "topic_id": 7,
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_research_security",
+    "target": "strengthened_security_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.67,
+    "topic_id": 7,
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "cluster_1",
+    "target": "cluster_3",
+    "relation": "shared_topic",
+    "score": 0.576,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_1",
+    "target": "eu_strategy_for_combating_organised_crime",
+    "relation": "shared_topic",
+    "score": 0.428,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_1",
+    "target": "eu_policy_area_cluster_4",
+    "relation": "shared_topic",
+    "score": 0.579,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "eu_strategy_on_health_and_safety_at_work",
+    "relation": "shared_topic",
+    "score": 0.557,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "policy_areas_ensuring_equal_access_to_innovative",
+    "relation": "shared_topic",
+    "score": 0.48,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "eu_strategy_on_risk_assessment_of_chemicals",
+    "relation": "shared_topic",
+    "score": 0.525,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "actions",
+    "relation": "shared_topic",
+    "score": 0.402,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "european_econ",
+    "relation": "shared_topic",
+    "score": 0.471,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.471,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.585,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.679,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_promoting_health_and_well_being",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.475,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "policy_areas_ensuring_equal_access_to_innovative",
+    "relation": "shared_topic",
+    "score": 0.452,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_strategy_on_risk_assessment_of_chemicals",
+    "relation": "shared_topic",
+    "score": 0.813,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_strategy_on_antimicrobial_resistance",
+    "relation": "shared_topic",
+    "score": 0.523,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "actions",
+    "relation": "shared_topic",
+    "score": 0.494,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "european_econ",
+    "relation": "shared_topic",
+    "score": 0.565,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.691,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "european_raw_materials_capacity_building",
+    "relation": "shared_topic",
+    "score": 0.386,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.611,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.749,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.434,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "policy_areas_ensuring_equal_access_to_innovative",
+    "target": "eu_strategy_on_risk_assessment_of_chemicals",
+    "relation": "shared_topic",
+    "score": 0.378,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "policy_areas_ensuring_equal_access_to_innovative",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.487,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "policy_areas_ensuring_equal_access_to_innovative",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.502,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "policy_areas_ensuring_equal_access_to_innovative",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.441,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "eu_policy_area_climate_change_and_cultural_heritage",
+    "relation": "shared_topic",
+    "score": 0.736,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "eu_policy_area_climate_change",
+    "relation": "shared_topic",
+    "score": 0.929,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "eus_circular_economy_and_sustainable_bioeconomy",
+    "relation": "shared_topic",
+    "score": 0.544,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "shared_topic",
+    "score": 0.786,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "eu_strategy_on_antimicrobial_resistance",
+    "relation": "shared_topic",
+    "score": 0.447,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "actions",
+    "relation": "shared_topic",
+    "score": 0.498,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "european_econ",
+    "relation": "shared_topic",
+    "score": 0.559,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.542,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "european_raw_materials_capacity_building",
+    "relation": "shared_topic",
+    "score": 0.542,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.509,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.708,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.433,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_antimicrobial_resistance",
+    "target": "actions",
+    "relation": "shared_topic",
+    "score": 0.433,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_antimicrobial_resistance",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.611,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_antimicrobial_resistance",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.447,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_on_antimicrobial_resistance",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.495,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "strengthening_social_and_economic_resilience_and_sustainability",
+    "relation": "shared_topic",
+    "score": 0.568,
+    "topic_id": 9,
+    "keywords": [
+      "resilience",
+      "sustainability",
+      "project",
+      "eu",
+      "policy"
+    ]
+  },
+  {
+    "source": "eu_policy_area_climate_change_and_cultural_heritage",
+    "target": "eu_policy_area_climate_change",
+    "relation": "shared_topic",
+    "score": 0.758,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_policy_area_climate_change_and_cultural_heritage",
+    "target": "eus_circular_economy_and_sustainable_bioeconomy",
+    "relation": "shared_topic",
+    "score": 0.499,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_policy_area_climate_change_and_cultural_heritage",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "shared_topic",
+    "score": 0.654,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_civil_security",
+    "target": "strengthened_security_research_and_innovation",
+    "relation": "shared_topic",
+    "score": 0.727,
+    "topic_id": 7,
+    "keywords": [
+      "security",
+      "civil",
+      "civil security",
+      "society",
+      "security society"
+    ]
+  },
+  {
+    "source": "cluster_3",
+    "target": "eu_strategy_for_combating_organised_crime",
+    "relation": "shared_topic",
+    "score": 0.792,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "cluster_3",
+    "target": "eu_policy_area_cluster_4",
+    "relation": "shared_topic",
+    "score": 0.76,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "actions",
+    "target": "european_econ",
+    "relation": "shared_topic",
+    "score": 0.46,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "actions",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.441,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "actions",
+    "target": "european_raw_materials_capacity_building",
+    "relation": "shared_topic",
+    "score": 0.469,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "actions",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.452,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "actions",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.575,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "actions",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.401,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eus_policy_framework_for_r_i_action",
+    "target": "policy",
+    "relation": "shared_topic",
+    "score": 0.56,
+    "topic_id": 8,
+    "keywords": [
+      "green",
+      "green deal",
+      "deal",
+      "european green",
+      "policies"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_combating_organised_crime",
+    "target": "eu_policy_area_cluster_4",
+    "relation": "shared_topic",
+    "score": 0.714,
+    "topic_id": 1,
+    "keywords": [
+      "cluster",
+      "technologies",
+      "continue",
+      "data",
+      "address"
+    ]
+  },
+  {
+    "source": "european_econ",
+    "target": "eu4health",
+    "relation": "shared_topic",
+    "score": 0.405,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "european_econ",
+    "target": "european_raw_materials_capacity_building",
+    "relation": "shared_topic",
+    "score": 0.37,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.53,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.661,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.561,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy",
+    "target": "eu_strategy_for_africa",
+    "relation": "shared_topic",
+    "score": 0.885,
+    "topic_id": 2,
+    "keywords": [
+      "horizon",
+      "plan",
+      "europe",
+      "horizon europe",
+      "strategic"
+    ]
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "eus_digital_decade",
+    "relation": "shared_topic",
+    "score": 0.66,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "european_space_agency",
+    "relation": "shared_topic",
+    "score": 0.588,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "eu_strategy_for_transport",
+    "relation": "shared_topic",
+    "score": 0.713,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "shared_topic",
+    "score": 0.746,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "eu_policy_area_health",
+    "relation": "shared_topic",
+    "score": 0.764,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.61,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu4health",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.353,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_policy_area_climate_change",
+    "target": "eus_circular_economy_and_sustainable_bioeconomy",
+    "relation": "shared_topic",
+    "score": 0.553,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_policy_area_climate_change",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "shared_topic",
+    "score": 0.769,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eus_digital_decade",
+    "target": "european_space_agency",
+    "relation": "shared_topic",
+    "score": 0.512,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eus_digital_decade",
+    "target": "eu_strategy_for_transport",
+    "relation": "shared_topic",
+    "score": 0.481,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eus_digital_decade",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "shared_topic",
+    "score": 0.527,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "european_raw_materials_capacity_building",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.415,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_the_future_of_the_internet",
+    "target": "eu_cap_network",
+    "relation": "shared_topic",
+    "score": 0.601,
+    "topic_id": 10,
+    "keywords": [
+      "european",
+      "20",
+      "digital",
+      "network",
+      "union"
+    ]
+  },
+  {
+    "source": "european_space_agency",
+    "target": "eu_strategy_for_transport",
+    "relation": "shared_topic",
+    "score": 0.583,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "european_space_agency",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "shared_topic",
+    "score": 0.585,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_transport",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "shared_topic",
+    "score": 0.702,
+    "topic_id": 4,
+    "keywords": [
+      "eu",
+      "global",
+      "digital",
+      "space",
+      "ensure"
+    ]
+  },
+  {
+    "source": "eu_policy_area_health",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "shared_topic",
+    "score": 0.667,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_policy_area_health",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.448,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "eu_missions_restore_our_ocean_and_waters",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "shared_topic",
+    "score": 0.749,
+    "topic_id": 6,
+    "keywords": [
+      "europe",
+      "missions",
+      "horizon europe",
+      "horizon",
+      "deal"
+    ]
+  },
+  {
+    "source": "eus_circular_economy_and_sustainable_bioeconomy",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "shared_topic",
+    "score": 0.658,
+    "topic_id": 5,
+    "keywords": [
+      "climate",
+      "eu",
+      "climate change",
+      "change",
+      "energy"
+    ]
+  },
+  {
+    "source": "eu_strategy_for_a_sustainable_future",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "shared_topic",
+    "score": 0.538,
+    "topic_id": 0,
+    "keywords": [
+      "health",
+      "eu",
+      "european health",
+      "european",
+      "data"
+    ]
+  },
+  {
+    "source": "horizon_europe",
+    "target": "european_green_deal",
+    "relation": "cross_topic_similarity",
+    "score": 0.743
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.606
+  },
+  {
+    "source": "horizon_europe",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.629
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eus_ai_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.604
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_3",
+    "relation": "cross_topic_similarity",
+    "score": 0.662
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "horizon_europe_strategic_plan",
+    "relation": "cross_topic_similarity",
+    "score": 0.649
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "cross_topic_similarity",
+    "score": 0.638
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "cross_topic_similarity",
+    "score": 0.667
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_on_research_security",
+    "relation": "cross_topic_similarity",
+    "score": 0.648
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.619
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "actions",
+    "relation": "cross_topic_similarity",
+    "score": 0.615
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "european_econ",
+    "relation": "cross_topic_similarity",
+    "score": 0.648
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.662
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.651
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_for_the_future_of_the_internet",
+    "relation": "cross_topic_similarity",
+    "score": 0.633
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.621
+  },
+  {
+    "source": "eu_strategy_for_research_and_innovation",
+    "target": "eu_strategy_for_africa",
+    "relation": "cross_topic_similarity",
+    "score": 0.655
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_strategy_3",
+    "relation": "cross_topic_similarity",
+    "score": 0.712
+  },
+  {
+    "source": "european_green_deal",
+    "target": "horizon_europe_strategic_plan",
+    "relation": "cross_topic_similarity",
+    "score": 0.668
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "cross_topic_similarity",
+    "score": 0.626
+  },
+  {
+    "source": "european_green_deal",
+    "target": "european_unions_strategy_for_the_green_transition",
+    "relation": "cross_topic_similarity",
+    "score": 0.813
+  },
+  {
+    "source": "european_green_deal",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "cross_topic_similarity",
+    "score": 0.723
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.761
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eus_policy_framework_for_r_i_action",
+    "relation": "cross_topic_similarity",
+    "score": 0.609
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.712
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.636
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.608
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "cross_topic_similarity",
+    "score": 0.659
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.635
+  },
+  {
+    "source": "european_green_deal",
+    "target": "eu_strategy_for_africa",
+    "relation": "cross_topic_similarity",
+    "score": 0.664
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_strategy_3",
+    "relation": "cross_topic_similarity",
+    "score": 0.65
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_strategy_for_2025_2027",
+    "relation": "cross_topic_similarity",
+    "score": 0.634
+  },
+  {
+    "source": "eu_missions",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "cross_topic_similarity",
+    "score": 0.649
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.69
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.65
+  },
+  {
+    "source": "eu_missions",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.62
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.65
+  },
+  {
+    "source": "eu_missions",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "cross_topic_similarity",
+    "score": 0.667
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.639
+  },
+  {
+    "source": "eu_missions",
+    "target": "eu_strategy_for_africa",
+    "relation": "cross_topic_similarity",
+    "score": 0.624
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "european_innovation_council",
+    "relation": "cross_topic_similarity",
+    "score": 0.625
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eu_strategy_on_research_security",
+    "relation": "cross_topic_similarity",
+    "score": 0.625
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.646
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "european_econ",
+    "relation": "cross_topic_similarity",
+    "score": 0.606
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.643
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "cross_topic_similarity",
+    "score": 0.67
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.647
+  },
+  {
+    "source": "eu_strategy_3",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.628
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "european_innovation_council",
+    "relation": "cross_topic_similarity",
+    "score": 0.627
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "eu_strategy_on_research_security",
+    "relation": "cross_topic_similarity",
+    "score": 0.612
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.616
+  },
+  {
+    "source": "horizon_europe_strategic_plan",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.626
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "european_innovation_council",
+    "relation": "cross_topic_similarity",
+    "score": 0.629
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.634
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.648
+  },
+  {
+    "source": "eu_strategy_for_2025_2027",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.622
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_strategy_on_health_and_safety_at_work",
+    "relation": "cross_topic_similarity",
+    "score": 0.672
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_strategy_on_adaptation_to_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.621
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_strategy_on_risk_assessment_of_chemicals",
+    "relation": "cross_topic_similarity",
+    "score": 0.674
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.759
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_policy_area_climate_change_and_cultural_heritage",
+    "relation": "cross_topic_similarity",
+    "score": 0.633
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.676
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.663
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.66
+  },
+  {
+    "source": "european_unions_strategy_for_the_green_transition",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "cross_topic_similarity",
+    "score": 0.604
+  },
+  {
+    "source": "european_innovation_council",
+    "target": "european_research_area_era_policy_agenda_actions",
+    "relation": "cross_topic_similarity",
+    "score": 0.646
+  },
+  {
+    "source": "european_innovation_council",
+    "target": "actions",
+    "relation": "cross_topic_similarity",
+    "score": 0.68
+  },
+  {
+    "source": "european_innovation_council",
+    "target": "eu_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.625
+  },
+  {
+    "source": "european_innovation_council",
+    "target": "eu_strategy_for_africa",
+    "relation": "cross_topic_similarity",
+    "score": 0.624
+  },
+  {
+    "source": "european_institute_of_innovation_and_technology",
+    "target": "actions",
+    "relation": "cross_topic_similarity",
+    "score": 0.613
+  },
+  {
+    "source": "european_research_area_era_policy_agenda_actions",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.637
+  },
+  {
+    "source": "european_research_area_era_policy_agenda_actions",
+    "target": "european_econ",
+    "relation": "cross_topic_similarity",
+    "score": 0.611
+  },
+  {
+    "source": "european_research_area_era_policy_agenda_actions",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "cross_topic_similarity",
+    "score": 0.607
+  },
+  {
+    "source": "european_research_area_era_policy_agenda_actions",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.637
+  },
+  {
+    "source": "eu_strategy_on_research_security",
+    "target": "eu_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.625
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_strategy_on_adaptation_to_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.644
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.774
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eus_policy_framework_for_r_i_action",
+    "relation": "cross_topic_similarity",
+    "score": 0.622
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.628
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.688
+  },
+  {
+    "source": "eu_strategy_on_health_and_safety_at_work",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.622
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.647
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "european_econ",
+    "relation": "cross_topic_similarity",
+    "score": 0.624
+  },
+  {
+    "source": "eu_strategy_on_adaptation_to_climate_change",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.779
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "eu_policy_area_policy_framework",
+    "relation": "cross_topic_similarity",
+    "score": 0.73
+  },
+  {
+    "source": "eu_strategy_on_risk_assessment_of_chemicals",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.602
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_policy_area_climate_change_and_cultural_heritage",
+    "relation": "cross_topic_similarity",
+    "score": 0.652
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eus_policy_framework_for_r_i_action",
+    "relation": "cross_topic_similarity",
+    "score": 0.698
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "european_econ",
+    "relation": "cross_topic_similarity",
+    "score": 0.668
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.646
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.71
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.721
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "cross_topic_similarity",
+    "score": 0.617
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_missions_restore_our_ocean_and_waters",
+    "relation": "cross_topic_similarity",
+    "score": 0.655
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.742
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.709
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_strategy_for_africa",
+    "relation": "cross_topic_similarity",
+    "score": 0.61
+  },
+  {
+    "source": "eu_policy_area_policy_framework",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "cross_topic_similarity",
+    "score": 0.676
+  },
+  {
+    "source": "eu_policy_area_climate_change_and_cultural_heritage",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.65
+  },
+  {
+    "source": "eu_strategy_for_civil_security",
+    "target": "eu_strategy_for_combating_organised_crime",
+    "relation": "cross_topic_similarity",
+    "score": 0.614
+  },
+  {
+    "source": "actions",
+    "target": "eus_policy_framework_for_r_i_action",
+    "relation": "cross_topic_similarity",
+    "score": 0.618
+  },
+  {
+    "source": "eus_policy_framework_for_r_i_action",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.646
+  },
+  {
+    "source": "eus_policy_framework_for_r_i_action",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.601
+  },
+  {
+    "source": "eus_policy_framework_for_r_i_action",
+    "target": "eu_strategy_for_the_future_of_the_internet",
+    "relation": "cross_topic_similarity",
+    "score": 0.605
+  },
+  {
+    "source": "eus_policy_framework_for_r_i_action",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.696
+  },
+  {
+    "source": "eu_strategy_for_combating_organised_crime",
+    "target": "eu_strategy_for_the_future_of_the_internet",
+    "relation": "cross_topic_similarity",
+    "score": 0.621
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_strategy",
+    "relation": "cross_topic_similarity",
+    "score": 0.606
+  },
+  {
+    "source": "european_econ",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.66
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.641
+  },
+  {
+    "source": "european_econ",
+    "target": "eus_digital_decade",
+    "relation": "cross_topic_similarity",
+    "score": 0.621
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_strategy_for_the_future_of_the_internet",
+    "relation": "cross_topic_similarity",
+    "score": 0.632
+  },
+  {
+    "source": "european_econ",
+    "target": "eus_circular_economy_and_sustainable_bioeconomy",
+    "relation": "cross_topic_similarity",
+    "score": 0.615
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_cap_network",
+    "relation": "cross_topic_similarity",
+    "score": 0.637
+  },
+  {
+    "source": "european_econ",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "cross_topic_similarity",
+    "score": 0.645
+  },
+  {
+    "source": "eu_strategy",
+    "target": "eus_strategy_for_international_cooperation",
+    "relation": "cross_topic_similarity",
+    "score": 0.643
+  },
+  {
+    "source": "eu_strategy",
+    "target": "eus_role_in_globalmultilateral_initiatives",
+    "relation": "cross_topic_similarity",
+    "score": 0.67
+  },
+  {
+    "source": "eu_strategy",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.647
+  },
+  {
+    "source": "eu_strategy",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.628
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "eu_policy_area_climate_change",
+    "relation": "cross_topic_similarity",
+    "score": 0.608
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "eu_strategy_for_the_future_of_the_internet",
+    "relation": "cross_topic_similarity",
+    "score": 0.681
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.782
+  },
+  {
+    "source": "eus_strategy_for_international_cooperation",
+    "target": "eu_cap_network",
+    "relation": "cross_topic_similarity",
+    "score": 0.611
+  },
+  {
+    "source": "eu_policy_area_climate_change",
+    "target": "eu_missions_restore_our_ocean_and_waters",
+    "relation": "cross_topic_similarity",
+    "score": 0.611
+  },
+  {
+    "source": "eu_policy_area_climate_change",
+    "target": "eu_biodiversity_strategy_for_2030",
+    "relation": "cross_topic_similarity",
+    "score": 0.622
+  },
+  {
+    "source": "eu_policy_area_climate_change",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.774
+  },
+  {
+    "source": "eus_digital_decade",
+    "target": "eu_strategy_for_the_future_of_the_internet",
+    "relation": "cross_topic_similarity",
+    "score": 0.886
+  },
+  {
+    "source": "eu_policy_area_cluster_4",
+    "target": "eu_strategy_for_rural_areas",
+    "relation": "cross_topic_similarity",
+    "score": 0.61
+  },
+  {
+    "source": "eu_strategy_for_the_future_of_the_internet",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.601
+  },
+  {
+    "source": "eu_strategy_for_transport",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.6
+  },
+  {
+    "source": "eu_strategy_for_transport",
+    "target": "eu_cap_network",
+    "relation": "cross_topic_similarity",
+    "score": 0.612
+  },
+  {
+    "source": "eus_role_in_globalmultilateral_initiatives",
+    "target": "eu_strategy_for_a_sustainable_future",
+    "relation": "cross_topic_similarity",
+    "score": 0.633
+  },
+  {
+    "source": "eus_role_in_globalmultilateral_initiatives",
+    "target": "eu_strategy_for_africa",
+    "relation": "cross_topic_similarity",
+    "score": 0.646
+  },
+  {
+    "source": "eus_role_in_globalmultilateral_initiatives",
+    "target": "eu_cap_network",
+    "relation": "cross_topic_similarity",
+    "score": 0.648
+  },
+  {
+    "source": "eu_biodiversity_strategy_for_2030",
+    "target": "eu_strategy_for_africa",
+    "relation": "cross_topic_similarity",
+    "score": 0.626
+  },
+  {
+    "source": "eu_strategy_for_a_sustainable_future",
+    "target": "eu_policy_on_carbon_farming",
+    "relation": "cross_topic_similarity",
+    "score": 0.691
+  },
+  {
+    "source": "eu_strategy_for_a_sustainable_future",
+    "target": "policy",
+    "relation": "cross_topic_similarity",
+    "score": 0.603
+  },
+  {
+    "source": "eu_strategy_for_rural_areas",
+    "target": "eu_cap_network",
+    "relation": "cross_topic_similarity",
+    "score": 0.779
+  }
+]
