@@ -13,13 +13,16 @@ function GraphPage() {
   const hoveredNodeRef = useRef(null);
   const hoveredNodeIdRef = useRef(null);
 
+  const API_BASE = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     const fetchGraph = async () => {
       try {
+
         const [nodesRes, relsRes, rawNodesRes] = await Promise.all([
-          fetch("http://localhost:8000/nodes/"),
-          fetch("http://localhost:8000/relationships/"),
-          fetch("http://localhost:8000/nodes/raw_nodes/")
+          fetch(`${API_BASE}/nodes/`),
+          fetch(`${API_BASE}/relationships/`),
+          fetch(`${API_BASE}/nodes/raw_nodes/`)
         ]);
         
         const nodes = await nodesRes.json();
