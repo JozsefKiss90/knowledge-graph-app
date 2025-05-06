@@ -11,7 +11,7 @@ WORKDIR /app
 
 # Copy backend code
 COPY backend/ ./backend
-COPY requirements.txt .
+COPY backend/requirements.txt requirements.txt
 
 # Install backend dependencies
 RUN pip install --upgrade pip
@@ -36,7 +36,6 @@ COPY --from=backend /usr/local/lib/python3.10 /usr/local/lib/python3.10
 COPY --from=backend /usr/local/bin /usr/local/bin
 
 # Install Python and Uvicorn inside nginx image
-RUN apk add --no-cache python3 py3-pip
 RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 
 # Expose ports

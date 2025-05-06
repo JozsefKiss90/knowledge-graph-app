@@ -14,8 +14,8 @@ const NODE_TYPES = [
 
 const NodeTypeToggle = ({ cy, visibleTypes, onToggle }) => (
   <Box>
-    <Typography variant="subtitle1" fontWeight="medium">Node Types</Typography>
-    <Box display="flex" gap={1} flexWrap="wrap" mt={1}>
+    <Typography  sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white'}} variant="subtitle1" fontWeight="bold">Node Types</Typography>
+    <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
       {NODE_TYPES.map(({ type, color }) => (
         <Button
           key={type}

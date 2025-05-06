@@ -6,7 +6,6 @@ import coseBilkent from "cytoscape-cose-bilkent";
 import { useNavigate } from "react-router-dom";
 import cyStyle from "../styles/graphStyles";
 import "../styles/graphStyles.scss";
-
 import { buildElements } from "./utils/buildElements";
 import { layoutConfig } from "./utils/layoutConfig";
 import { setupEvents } from "./utils/setupEvents";
@@ -69,10 +68,10 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
    // cy.fit(100, 100);
-    //cy.pan({ x: -100, y: 0});
+    cy.pan({ x: 50, y: 0});
     //cy.zoom(1.3);
     //cy.center()
-    cy.resize()
+    //cy.resize()
 
     return () => {
       cy.destroy();
@@ -82,7 +81,7 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
   return (
     <div
       ref={containerRef}
-      style={{ width: "100%", height: "100%", backgroundColor: "rgba(64, 64, 64, 1)" }}
+      style={{ width: "100%", height: "100%", backgroundColor: "rgba(64, 64, 64, 1)"}}
     />
   );
 };

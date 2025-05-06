@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 import json
 from pipeline.cleaning import clean_text
 from pipeline.extraction import extract_entities, classify_entities
-from backend.routes.pipeline.filter_entities import filter_entities
+from pipeline.filter_entities import filter_entities
 
 def main():
     with open("chunks.json", "r", encoding="utf-8") as f:

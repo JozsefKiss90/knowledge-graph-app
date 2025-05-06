@@ -19,8 +19,6 @@ from transformers import AutoTokenizer
 
 refine_entities()
 
-
-
 """
 # Setup tokenizer for measuring token length
 tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")

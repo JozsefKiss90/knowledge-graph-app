@@ -4,15 +4,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 const EDGE_TYPES = [
-  { type: 'BELONGS_TO_TOPIC', color: '#4caf50' },
+  { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 219, 117)' },
   { type: 'SHARED_TOPIC', color: '#2196f3' },
   { type: 'CROSS_TOPIC_SIMILARITY', color: '#ff9800' }
 ];
 
 const EdgeTypeToggle = ({ cy, visibleTypes, onToggle }) => (
   <Box>
-    <Typography variant="subtitle1" fontWeight="medium">Edge Types</Typography>
-    <Box display="flex" gap={1} flexWrap="wrap" mt={1}>
+    <Typography  sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white'}} variant="subtitle1" fontWeight="bold">Edge Types</Typography>
+    <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
       {EDGE_TYPES.map(({ type, color }) => (
         <Button
           key={type}

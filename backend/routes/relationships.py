@@ -32,8 +32,9 @@ def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[
         cleaned_relationships = []  # ✅ always define it first
 
         if from_id:
-            cypher = """
-            MATCH (a {id: $from_id})-[r]->(b)
+            cypher = """ 
+            MATCH (a)-[r]-(b)
+            WHERE a.id = $from_id
             RETURN a, b, type(r) AS type, properties(r) AS props
             """
             result = db.query(cypher, {"from_id": from_id})

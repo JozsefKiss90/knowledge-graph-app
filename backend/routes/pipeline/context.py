@@ -13,7 +13,7 @@ document_pages = [page.extract_text() for page in reader.pages]
 document_context = {f"page_{i+1}": text for i, text in enumerate(document_pages) if text}
 
 # Save the context as a JSON file to be reused in summarization
-output_path = "/mnt/data/HE_2025_context_by_page.json"
+output_path = "HE_2025_context_by_page.json"
 with open(output_path, "w", encoding="utf-8") as f:
     json.dump(document_context, f, ensure_ascii=False, indent=2)
 

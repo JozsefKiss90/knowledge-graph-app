@@ -43,22 +43,22 @@ function GraphPage() {
 
   return (
     <CyContext.Provider value={cyInstance}>
-      <Container fluid className="vh-100 d-flex flex-column p-0">
+      <Container fluid className="vh-100 d-flex flex-column p-0 overflow-hidden"
+        style={{ backgroundColor: "rgba(64, 64, 64, 1)"}}>
         {/* Header */}
         <GraphHeader />
 
         {/* Main content */}
         <Row
-          className="flex-grow-1 h-100"
+          className="flex-grow-1 w-100"
           style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}
         >
         {ready && cyInstance ? <Legend hoveredNodeRef={hoveredNodeRef} /> : <div>Loading legend...</div>}
 
           {/* Graph area */}
           <Col
-            md={9}
-            className="d-flex flex-column overflow-hidden p-0"
-            
+            md={6}
+            className="d-flex flex-column overflow-hidden p-0 w-100"
           >
             {ready ? (
               <GraphView

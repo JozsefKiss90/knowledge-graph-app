@@ -54,18 +54,31 @@ const Legend = ({ hoveredNodeRef }) => {
     <Box
       component="aside"
       sx={{
+        bgcolor:"rgba(25, 25, 25, 1)",
         width: 400,
-        height: '100%',
+        height: '100vh',
         p: 3,
         overflowY: 'auto',
-        borderRight: '1px solid #ddd',
-        bgcolor: 'background.paper',
         display: 'flex',
         flexDirection: 'column',
         gap: 3,
+        '&::-webkit-scrollbar': {
+          width: '8px',
+          paddingTop: '100px'
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: '#2e2e2e',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#888',
+          borderRadius: '4px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: '#555',
+        },
       }}
     >
-      <Typography variant="h6" fontWeight="bold">Graph Filters</Typography>
+      <Typography sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white', fontFamily: 'Segoe UI Emoji'}} variant="h6" fontWeight="bold">Graph Filters</Typography>
 
       <EdgeTypeToggle
         cy={cy}
@@ -73,34 +86,27 @@ const Legend = ({ hoveredNodeRef }) => {
         onToggle={(type) => toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, t => cy.edges(`[type = "${t}"]`))}
       />
 
-      <Divider />
-
       <NodeTypeToggle
         cy={cy}
         visibleTypes={visibleNodeTypes}
         onToggle={(type) => toggleType(type, visibleNodeTypes, setVisibleNodeTypes, t => cy.nodes(`[type = "${t}"]`))}
       />
 
-      <Divider />
-
       <SearchBox cy={cy} />
 
       <ScoreFilter cy={cy} />
 
-      <Divider />
-
       <Box>
-        <button className="btn btn-sm btn-outline-secondary" onClick={resetView}>Reset View</button>
+        <button style={{backgroundColor:"rgba(25, 25, 25, 1)", color:'white'}}  className="btn btn-sm btn-outline-secondary" onClick={resetView}>Reset View</button>
       </Box>
 
       {hoveredNode && (
-        <Box className="mt-4 p-2 border rounded bg-white shadow-sm">
-          <Typography variant="subtitle1" fontWeight="bold">Hovered Node</Typography>
-          <Typography variant="body2"><strong>ID:</strong> {hoveredNode.id}</Typography>
-          <Typography variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
-          <Typography variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
+        <Box className="mt-3 mb-5 p-2 border rounded shadow-sm" sx={{backgroundColor: "rgba(64, 64, 64, 1)"}}>
+          <Typography sx={{color:"white"}} variant="subtitle1" fontWeight="bold">Hovered Node</Typography>
+          <Typography  sx={{color:"white"}} variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
+          <Typography  sx={{color:"white"}} variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
           {hoveredNode.summary && (
-            <Typography variant="body2" sx={{ mt: 1 }}>
+            <Typography  variant="body2" sx={{color:"white", mt: 1 }}>
               <strong>Summary:</strong><br />{hoveredNode.summary}
             </Typography>
           )}

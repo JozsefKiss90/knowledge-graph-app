@@ -7,9 +7,9 @@ const cyStyle = [
     style: {
       'background-color': '#2196f3',
       'label': 'data(displayLabel)', 
-      'width': '30px',
-      'height': '30px',
-      'font-size': '10px',
+      'width': '33px',
+      'height': '33px',
+      'font-size': '12px',
       'text-wrap': 'wrap',
       'text-max-width': '40px', 
       'text-outline-width': 0.5,
@@ -68,17 +68,15 @@ const cyStyle = [
       'background-color': '#9c27b0'
     },
   },
-  /*{
+  {
     selector: "node[type = 'topic']",
     style: {
-      'background-color': 'blue',
-      'width': '20px',
-      'height': '20px',
-      'font-size': '10px',
-      'text-outline-color': '#ffc107'
+      'background-color': 'rgba(51, 80, 245, 0.8)',
+      'width': '40px',
+      'height': '40px',
+      'font-size': '12px'
     },
-  },*/
-    
+  },
   {
     selector: 'edge',
     style: {
@@ -93,10 +91,10 @@ const cyStyle = [
   {
     selector: 'edge[type = "BELONGS_TO_TOPIC"]',
     style: {
-      'line-color': '#4caf50',
-      'target-arrow-color': '#4caf50',
+      'line-color': 'rgb(0, 219, 117)',
+      'target-arrow-color': 'rgb(0, 219, 117)',
       'line-style': 'solid',
-      'width': 0.5,
+      'width': 1.7,
     },
   },
   {
@@ -105,7 +103,7 @@ const cyStyle = [
       'line-color': '#2196f3',
       'target-arrow-color': '#2196f3',
       'line-style': 'dashed',
-      'width': 0.8,
+      'width': 1,
     },
   },
   {
@@ -115,10 +113,10 @@ const cyStyle = [
       'target-arrow-color': '#fb8c00',
       'line-style': 'dotted',
       'width': '0.8', 
-      'label': 'data(score)',                  
+      'label': 'data(score)',   
       'font-size': 5,
       'color': '#fb8c00',
-      'text-background-color': '#fff',
+      'text-background-color': 'rgba(64, 64, 64, 1)',
       'text-background-opacity': 1,
       'text-background-padding': 1,
       'text-margin-y': -5,

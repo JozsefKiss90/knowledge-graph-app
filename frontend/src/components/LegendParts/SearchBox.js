@@ -26,7 +26,7 @@ const SearchBox = ({ cy }) => {
 
   return (
     <Box>
-      <Typography variant="subtitle1" fontWeight="medium">Search Node</Typography>
+      <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">Search Node</Typography>
       <TextField
         size="small"
         fullWidth
@@ -34,11 +34,22 @@ const SearchBox = ({ cy }) => {
         placeholder="Node ID or label"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        InputProps={{
+          sx: {
+            color: 'white',
+            backgroundColor: '#2e2e2e',
+            '& input::placeholder': {
+              color: 'white',
+              opacity: 1, // Important: ensure it's visible
+            },
+          },
+        }}
       />
+
       <Button
+        sx={{bgcolor:"rgb(28, 81, 255)", color:'white', mt: 1 }}
         variant="outlined"
         size="small"
-        sx={{ mt: 1 }}
         onClick={handleSearch}
       >
         Search & Highlight
