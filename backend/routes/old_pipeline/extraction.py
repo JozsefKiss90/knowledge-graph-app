@@ -23,7 +23,7 @@ def regex_sentence_split(text: str) -> List[str]:
 def smart_chunk_by_regex_sentences(text: str, prompt: str, max_tokens: int = 512) -> List[str]:
     sentences = regex_sentence_split(text)
     sub_chunks = []
-    current = ""
+    current = "" 
     for sent in sentences:
         candidate = current + " " + sent
         if len(entity_tokenizer.encode(prompt + candidate)) < max_tokens:

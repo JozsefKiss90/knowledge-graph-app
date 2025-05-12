@@ -20,7 +20,6 @@ torch
 transformers
 accelerate
 pymupdf
-nltk
 sentence_transformers
 bertopic
 scikit-learn

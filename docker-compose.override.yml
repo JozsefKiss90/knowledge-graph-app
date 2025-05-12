@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./backend:/app
+      - ./pdf_files:/pdf_files
     ports:
       - "8000:8000"
     environment:
