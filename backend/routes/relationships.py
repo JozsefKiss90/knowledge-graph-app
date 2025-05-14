@@ -29,18 +29,19 @@ def create_relationship(request: RelationshipCreateRequest = Body(...)):
 @router.get("/")
 def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[str] = Query(None)):
     try:
-        cleaned_relationships = []  # ✅ always define it first
+        cleaned_relationships = []
 
         if from_id:
             cypher = """ 
             MATCH (a)-[r]-(b)
-            WHERE a.id = $from_id
+            WHERE a.id = $from_id AND (a.source IS NULL OR a.source <> 'cluster_4') AND (b.source IS NULL OR b.source <> 'cluster_4')
             RETURN a, b, type(r) AS type, properties(r) AS props
             """
             result = db.query(cypher, {"from_id": from_id})
         else:
             cypher = """
             MATCH (a)-[r]->(b)
+            WHERE (a.source IS NULL OR a.source <> 'cluster_4') AND (b.source IS NULL OR b.source <> 'cluster_4')
             RETURN a, b, type(r) AS type, properties(r) AS props
             """
             result = db.query(cypher)
@@ -77,7 +78,6 @@ def delete_relationship(from_name: str = Query(...), to_name: str = Query(...), 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete relationship: {str(e)}")
 
-
 @router.get("/debug_unprocessed/")
 def debug_unprocessed_relationships():
     try:
@@ -94,7 +94,7 @@ def debug_unprocessed_relationships():
             b = record["b"]
             rel_type = record["type"]
             props = record["props"]
-            
+
             relationships.append({
                 "source": a.get("id"),
                 "target": b.get("id"),
@@ -102,8 +102,6 @@ def debug_unprocessed_relationships():
                 **props
             })
 
-        
         return {"raw_result": relationships}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch raw relationships: {str(e)}")
-

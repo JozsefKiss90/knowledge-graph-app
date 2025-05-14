@@ -10,13 +10,50 @@ import EdgeTypeToggle from './LegendParts/EdgeTypeToggle';
 import SearchBox from './LegendParts/SearchBox';
 import ScoreFilter from './LegendParts/ScoreFilter';
 
-const Legend = ({ hoveredNodeRef }) => {
+const Legend = ({ hoveredNodeRef, graphName }) =>  {
   const cy = useCy();
   const [hoveredNode, setHoveredNode] = useState(null);
-  const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']));
-  const [visibleNodeTypes, setVisibleNodeTypes] = useState(new Set([
-    'policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic'
-  ]));
+  const defaultEdgeTypes = {
+    HE_2025: new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']),
+    Cluster_4: new Set(['HAS_DESTINATION', 'HAS_THEME', 'HAS_CALL'])
+  };
+
+  const defaultNodeTypes = {
+    HE_2025: new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic']),
+    Cluster_4: new Set(['Cluster', 'Destination', 'Theme', 'Call'])
+  };
+
+  const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(defaultEdgeTypes[graphName]);
+  const [visibleNodeTypes, setVisibleNodeTypes] = useState(defaultNodeTypes[graphName]);
+
+  const edgeTypeList = graphName === 'HE_2025'
+  ? [
+      { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 219, 117)' },
+      { type: 'SHARED_TOPIC', color: '#2196f3' },
+      { type: 'CROSS_TOPIC_SIMILARITY', color: '#ff9800' }
+    ]
+  : [
+      { type: 'HAS_DESTINATION', color: '#42a5f5' },
+      { type: 'HAS_THEME', color: '#7986cb' },
+      { type: 'HAS_CALL', color: '#ffb74d' }
+    ];
+
+  const nodeTypeList = graphName === 'HE_2025'
+    ? [
+        { type: 'policy', color: '#00bcd4' },
+        { type: 'strategy', color: '#4caf50' },
+        { type: 'cluster', color: '#ff7043' },
+        { type: 'research_theme', color: '#ffb300' },
+        { type: 'institution', color: '#9c27b0' },
+        { type: 'topic', color: '#ffc107' }
+      ]
+    : [
+        { type: 'Work Programme', color: '#ff7043' },
+        { type: 'Destination', color: '#64b5f6' },
+        { type: 'Theme', color: '#7986cb' },
+        { type: 'Call', color: '#ffb74d' }
+      ];
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,6 +61,11 @@ const Legend = ({ hoveredNodeRef }) => {
     }, 100);
     return () => clearInterval(interval);
   }, [hoveredNodeRef]);
+
+  useEffect(() => {
+    setVisibleEdgeTypes(defaultEdgeTypes[graphName]);
+    setVisibleNodeTypes(defaultNodeTypes[graphName]);
+  }, [graphName]);
 
   const toggleType = (type, typeSet, setter, selectorFn) => {
     if (!cy) return;
@@ -80,21 +122,28 @@ const Legend = ({ hoveredNodeRef }) => {
     >
       <Typography sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white', fontFamily: 'Segoe UI Emoji'}} variant="h6" fontWeight="bold">Graph Filters</Typography>
 
-      <EdgeTypeToggle
-        cy={cy}
-        visibleTypes={visibleEdgeTypes}
-        onToggle={(type) => toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, t => cy.edges(`[type = "${t}"]`))}
-      />
-
-      <NodeTypeToggle
-        cy={cy}
-        visibleTypes={visibleNodeTypes}
-        onToggle={(type) => toggleType(type, visibleNodeTypes, setVisibleNodeTypes, t => cy.nodes(`[type = "${t}"]`))}
-      />
-
+      {graphName === "HE_2025" || graphName === "Cluster_4" ? (
+        <EdgeTypeToggle
+          cy={cy}
+          types={edgeTypeList}
+          visibleTypes={visibleEdgeTypes}
+          onToggle={(type) => toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, t => cy.edges(`[type = "${t}"]`))}
+        />
+      ) : null}
+      {graphName === "HE_2025" || graphName === "Cluster_4" ? (
+        <NodeTypeToggle
+          cy={cy}
+          types={nodeTypeList}
+          visibleTypes={visibleNodeTypes}
+          onToggle={(type) => toggleType(type, visibleNodeTypes, setVisibleNodeTypes, t => cy.nodes(`[type = "${t}"]`))}
+        />
+      ) : null}
+    
       <SearchBox cy={cy} />
 
-      <ScoreFilter cy={cy} />
+      {graphName === "HE_2025" && (
+        <ScoreFilter cy={cy} />
+      )}
 
       <Box>
         <button style={{backgroundColor:"rgba(25, 25, 25, 1)", color:'white'}}  className="btn btn-sm btn-outline-secondary" onClick={resetView}>Reset View</button>

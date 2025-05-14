@@ -33,7 +33,8 @@ def list_nodes(label: Optional[str] = None):
         else:
             cypher = """
             MATCH (n)
-            WHERE n.id IS NOT NULL AND n.name IS NOT NULL
+            WHERE (n.id IS NOT NULL AND n.name IS NOT NULL)
+            AND (n.source IS NULL OR n.source <> 'cluster_4')
             RETURN n
             """
         result = db.query(cypher)
@@ -106,9 +107,10 @@ def delete_node(label: str = Query(...), name: str = Query(...)):
 @router.get("/raw_nodes/")
 async def get_raw_nodes():
     query = """
-    MATCH (n)
-    RETURN n
-    """
+        MATCH (n)
+        WHERE n.source IS NULL OR n.source <> 'cluster_4'
+        RETURN n
+        """
     try:
         result = db.query(query)
         nodes = []

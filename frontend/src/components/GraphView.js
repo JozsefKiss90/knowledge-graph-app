@@ -68,9 +68,9 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
    // cy.fit(100, 100);
-    cy.pan({ x: 50, y: 0});
+    //cy.pan({ x: 50, y: 0});
     //cy.zoom(1.3);
-    //cy.center()
+    cy.center()
     //cy.resize()
 
     return () => {

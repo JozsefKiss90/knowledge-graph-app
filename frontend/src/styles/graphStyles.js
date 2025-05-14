@@ -133,6 +133,73 @@ const cyStyle = [
       'width': 2,
     },
   },
+  {
+    selector: "node[type = 'Work Programme']",
+    style: {
+      'background-color': 'pink',
+      'width': '70px',
+      'height': '70px',
+      'padding': "15px",
+      "font-size": "20px"
+    },
+  },
+  {
+  selector: "node[type = 'Destination']",
+  style: {
+    'background-color': '#64b5f6',
+    'width': '60px',
+    'height': '60px',
+    'padding': "10px",
+    "font-size": "16px"
+  },
+},
+{
+  selector: "node[type = 'Theme']",
+  style: {
+    'background-color': '#7986cb',
+    'width': '54px',
+    'height': '54px',
+    'padding': "30px",
+    'padding': "7px",
+    "font-size": "14px"
+  },
+},
+{
+  selector: "node[type = 'Call']",
+  style: {
+    'background-color': '#ffb74d',
+    'width': '32px',
+    'height': '32px',
+  },
+},
+{
+  selector: 'edge[type = "HAS_DESTINATION"]',
+  style: {
+    'line-color': '#42a5f5',
+    'target-arrow-color': '#42a5f5',
+    'line-style': 'solid',
+    'width': 2,
+  },
+},
+{
+  selector: 'edge[type = "HAS_THEME"]',
+  style: {
+    'line-color': '#7986cb',
+    'target-arrow-color': '#7986cb',
+    'line-style': 'dashed',
+    'width': 1.5,
+  },
+},
+{
+  selector: 'edge[type = "HAS_CALL"]',
+  style: {
+    'line-color': '#ffb74d',
+    'target-arrow-color': '#ffb74d',
+    'line-style': 'solid',
+    'width': 1.3,
+  },
+},
+
 ];
 
 export default cyStyle;

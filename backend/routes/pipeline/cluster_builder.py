@@ -18,7 +18,8 @@ class ClusterGraphBuilder:
             """
             MERGE (c:Cluster {id: $id})
             SET c.name = "Cluster 4 - Digital, Industry and Space",
-                c.source = 'cluster_4'
+                c.source = 'cluster_4',
+                c.type = 'Work Programme'
             """,
             {"id": root_id}
         )
@@ -29,7 +30,8 @@ class ClusterGraphBuilder:
                 """
                 MERGE (d:Destination {id: $id})
                 SET d.name = $name,
-                    d.source = 'cluster_4'
+                    d.source = 'cluster_4',
+                    d.type = 'Destination'
                 """,
                 {"id": dest_id, "name": d["destination"]}
             )
@@ -47,7 +49,8 @@ class ClusterGraphBuilder:
                     """
                     MERGE (t:Theme {id: $id})
                     SET t.name = $name,
-                        t.source = 'cluster_4'
+                        t.source = 'cluster_4',
+                        t.type = 'Theme'
                     """,
                     {"id": theme_id, "name": theme_obj["theme"]}
                 )
@@ -65,8 +68,9 @@ class ClusterGraphBuilder:
                     self.run_query(
                         """
                         MERGE (c:Call {id: $id})
-                        SET c.title = $title,
-                            c.type = $type,
+                        SET c.name = $title,
+                            c.type = 'Call',
+                            c.action_type = $type,
                             c.section = $section,
                             c.trl = $trl,
                             c.budget = $budget,

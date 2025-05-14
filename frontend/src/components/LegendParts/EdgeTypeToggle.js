@@ -6,14 +6,14 @@ import Typography from '@mui/material/Typography';
 const EDGE_TYPES = [
   { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 219, 117)' },
   { type: 'SHARED_TOPIC', color: '#2196f3' },
-  { type: 'CROSS_TOPIC_SIMILARITY', color: '#ff9800' }
+  { type: 'CROSS_TOPIC_SIMILARITY', color: '#ff9800' } 
 ];
 
-const EdgeTypeToggle = ({ cy, visibleTypes, onToggle }) => (
+const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
   <Box>
     <Typography  sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white'}} variant="subtitle1" fontWeight="bold">Edge Types</Typography>
     <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
-      {EDGE_TYPES.map(({ type, color }) => (
+      {types.map(({ type, color }) => (
         <Button
           key={type}
           variant={visibleTypes.has(type) ? "contained" : "outlined"}
