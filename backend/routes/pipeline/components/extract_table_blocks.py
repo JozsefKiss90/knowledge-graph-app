@@ -2,50 +2,50 @@ import fitz  # PyMuPDF
 import re
 import json
 
-def extract_table_blocks():
-
-    # Load the PDF
-    pdf_path = "/pdf_files/HE_CL4_2025.pdf"
-    output_path = "enhanced_raw_call_blocks.json"
-
-    # Open document
+def extract_call_blocks(pdf_path, output_path, start_page=26, end_page=292):
     doc = fitz.open(pdf_path)
-
-    # Extract text from pages 27–292 (0-based index: 26–292 inclusive)
-    start_page = 26
-    end_page = 292
     text = "\n".join(doc[i].get_text("text") for i in range(start_page, end_page + 1))
+    text = re.sub(r"(?<=\w)-\n(?=\w)", "", text)
+    text = re.sub(r"\n+", "\n", text)
+    text = re.sub(r"[ \t]+", " ", text)
 
-    # Normalize formatting
-    text = re.sub(r"(?<=\w)-\n(?=\w)", "", text)  # fix hyphenated line breaks
-    text = re.sub(r"\n+", "\n", text)            # collapse extra newlines
-    text = re.sub(r"[ \t]+", " ", text)          # normalize whitespace
-
-    # Regex to extract call blocks:
-    # Starts with a line beginning with HORIZON-CL4-... and ends before the next such line or "Expected Outcome:"
-    pattern = re.compile(
-        r"^ *(HORIZON-CL4-[^\n]+?:.*?)\n(.*?)(?=^ *HORIZON-CL4-[^\n]+?:|^ *Expected Outcome:|\Z)",
+    call_pattern = re.compile(
+        r"^ *(HORIZON-CL4-[^\n]+?:.*?)\n(.*?)(?=^ *HORIZON-CL4-[^\n]+?:|\Z)",
         re.DOTALL | re.MULTILINE
     )
 
-    matches = pattern.finditer(text)
+    def extract_section(text, label):
+        pattern = rf"{label}:\s*(.*?)(?=\n[A-Z][a-z]+:|\n\Z|\nHORIZON-CL4-|\Z)"
+        match = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+        if match:
+            return re.sub(r"\s+", " ", match.group(1).strip())
+        return None
 
-    # Extract and format results
-    call_blocks = []
-    for match in matches:
+    blocks = []
+    for match in call_pattern.finditer(text):
         call_id_line = match.group(1).strip()
         call_body = match.group(2).strip()
         full_block = f"{call_id_line}\n{call_body}"
-        call_blocks.append({
+
+        expected_outcome = extract_section(call_body, "Expected Outcome")
+        scope = extract_section(call_body, "Scope")
+
+        blocks.append({
             "call_id_line": call_id_line,
-            "raw_text": full_block
+            "raw_text": full_block,
+            "expected_outcome": expected_outcome,
+            "scope": scope
         })
 
-    # Save to JSON
     with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(call_blocks, f, indent=2, ensure_ascii=False)
+        json.dump(blocks, f, indent=2, ensure_ascii=False)
 
-    print(f"✅ Extracted {len(call_blocks)} call tables to '{output_path}'")
+    print(f"✅ Extracted {len(blocks)} call blocks with Expected Outcome and Scope.")
 
 if __name__ == "__main__":
-    extract_table_blocks()
+    extract_call_blocks(
+        pdf_path="/pdf_files/HE_CL4_2025.pdf",
+        output_path="routes/pipeline/output_files/enhanced_raw_call_blocks.json",
+        start_page=26,
+        end_page=292
+    )

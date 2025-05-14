@@ -1,52 +1,48 @@
 from base_pipeline import DocumentPipeline
-from components.chunker import PDFChunker
 import os
 import json
-from components.entity_extractor import EntityExtractor
+from components.extract_table_blocks import extract_call_blocks
+from components.parse_calls import parse_enhanced_call_blocks
+from components.merge_outcomes_and_scopes import *  # will execute on import
+from components.parse_destinations import *  # will execute on import
 
 class ClusterFourPipeline(DocumentPipeline):
     def __init__(self, document_path: str):
         super().__init__(document_path)
 
-    def chunk(self):
-        chunks_path = "routes/pipeline/output_files/chunks.json"
-        if os.path.exists(chunks_path):
-            print("Chunks already exist, loading from file...")
-            with open(chunks_path, "r", encoding="utf-8") as f:
-                self.chunks = json.load(f)
-        else:
-            chunker = PDFChunker(
-                document_path=self.document_path,
-                output_dir="routes/pipeline/output_files"
-            )
-            self.chunks = chunker.run()
-            print(f"Chunked {len(self.chunks)} chunks successfully.")
+        self.call_blocks_path = "routes/pipeline/output_files/enhanced_raw_call_blocks.json"
+        self.parsed_calls_path = "routes/pipeline/output_files/parsed_call_tables.json"
+        self.nested_output_path = "routes/pipeline/output_files/nested_parsed_call_tables.json"
 
-
-    def extract_entities(self):
-        extractor = EntityExtractor(
-            chunks_path="routes/pipeline/output_files/chunks.json",
-            output_path="routes/pipeline/output_files/full_extracted_entities.json"
+    def extract_call_blocks(self, start_page: int = 26, end_page: int = 292):
+        print("\n🧩 Step 1: Extracting call blocks from PDF...")
+        extract_call_blocks(
+            pdf_path=self.document_path,
+            output_path=self.call_blocks_path,
+            start_page=start_page,
+            end_page=end_page
         )
-        self.extracted_entities = extractor.run()
 
+    def parse_calls(self):
+        print("\n🧩 Step 2: Parsing structured data from call blocks...")
+        parse_enhanced_call_blocks(
+            input_json=self.call_blocks_path,
+            output_json=self.parsed_calls_path
+        )
 
-    def postprocess_entities(self):
-        # To be implemented: EntityPostprocessor
-        pass
+    def enrich_with_expected_outcomes_and_scopes(self):
+        print("\n🧩 Step 3: Merging expected outcomes and scopes into parsed calls...")
+        # merges in-place on parsed_call_tables.json via side-effect
+        pass  # already executed on import
 
-    def match_contexts(self):
-        # To be implemented: ContextMatcher
-        pass
+    def parse_destinations_and_themes(self):
+        print("\n🧩 Step 4: Mapping calls to destinations and themes...")
+        # creates nested_parsed_call_tables.json via side-effect
+        pass  # already executed on import
 
-    def summarize_nodes(self):
-        # To be implemented: NodeSummarizer
-        pass
-
-    def clean_summaries(self):
-        # To be implemented: SummaryCleaner
-        pass
-
-    def build_topics_and_relationships(self):
-        # To be implemented: TopicModeler
-        pass
+    def run_all(self):
+        self.extract_call_blocks()
+        self.parse_calls()
+        self.enrich_with_expected_outcomes_and_scopes()
+        self.parse_destinations_and_themes()
+        print("\n✅ Cluster Four pipeline completed.")

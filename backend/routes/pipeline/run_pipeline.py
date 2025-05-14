@@ -1,18 +1,15 @@
-#test_runner.py
+# run_pipeline.py
+
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))  
-# run_pipeline.py
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+
 from cluster_four_pipeline import ClusterFourPipeline
 
 if __name__ == "__main__":
-    pipeline = ClusterFourPipeline("/pdf_files/HE_CL4_2025.pdf")
-    #pipeline.chunk()
-    pipeline.extract_entities()
+    pdf_path = "pdf_files/HE_CL4_2025.pdf"
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF not found at {pdf_path}")
     
-    '''pipeline.extract_entities()
-    pipeline.postprocess_entities()
-    pipeline.match_contexts()
-    pipeline.summarize_nodes()
-    pipeline.clean_summaries()
-    pipeline.build_topics_and_relationships()'''
+    pipeline = ClusterFourPipeline(pdf_path)
+    pipeline.run_all()

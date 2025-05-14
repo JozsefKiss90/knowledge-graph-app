@@ -1,26 +1,29 @@
 from abc import ABC, abstractmethod
+import os
 
 class DocumentPipeline(ABC):
     def __init__(self, document_path: str):
         self.document_path = document_path
 
     @abstractmethod
-    def chunk(self): pass
+    def extract_call_blocks(self):
+        pass
 
     @abstractmethod
-    def extract_entities(self): pass
+    def parse_calls(self):
+        pass
 
     @abstractmethod
-    def postprocess_entities(self): pass
+    def enrich_with_expected_outcomes_and_scopes(self):
+        pass
 
     @abstractmethod
-    def match_contexts(self): pass
+    def parse_destinations_and_themes(self):
+        pass
 
-    @abstractmethod
-    def summarize_nodes(self): pass
-
-    @abstractmethod
-    def clean_summaries(self): pass
-
-    @abstractmethod
-    def build_topics_and_relationships(self): pass
+    def run_all(self):
+        self.extract_call_blocks()
+        self.parse_calls()
+        self.enrich_with_expected_outcomes_and_scopes()
+        self.parse_destinations_and_themes()
+        print("\n✅ Pipeline execution completed.")

@@ -75,24 +75,25 @@ def parse_enhanced_call_blocks(input_json, output_json):
         text = normalize_labels(raw)
         call_id = call_title = call_type = call_section = None
 
-        # Try standard inline match first
-        match = re.search(r"(HORIZON-CL4-[\w\d-]+):\s*(.*?)\s*\((RIA|IA|CSA)\)", text, re.DOTALL)
-        if match:
-            call_id = match.group(1).strip()
-            call_title = re.sub(r"\s+", " ", match.group(2)).strip()
-            call_type = match.group(3).strip()
-        else:
-            # Fallback: match line-started ID and title (SPACE-HADEA style)
-            match_space = re.search(r"(HORIZON-CL4-[\w\d-]+):\s*(.*?)\n", raw)
-            if match_space:
-                call_id = match_space.group(1).strip()
-                call_title = match_space.group(2).strip()
+        # SPACE fallback: extract from ID line
+        match_space = re.search(r"^(HORIZON-CL4-[\w\d-]+):\s*(.*?)\n", raw)
+        if match_space:
+            call_id = match_space.group(1).strip()
+            call_title = match_space.group(2).strip()
 
-        # Fallback for type if not captured
-        if not call_type and "Type of Action" in raw:
+        # Fallback for call type from section if not found inline
+        if "Type of Action" in raw and not call_type:
             match_type = re.search(r"Type of Action\s*\n(.*?)\n", raw)
             if match_type:
                 call_type = match_type.group(1).strip()
+
+        # Standard inline match
+        if not call_id:
+            match = re.search(r"(HORIZON-CL4-[\w\d-]+):\s*(.*?)\s*\((RIA|IA|CSA)\)", text, re.DOTALL)
+            if match:
+                call_id = match.group(1).strip()
+                call_title = re.sub(r"\s+", " ", match.group(2)).strip()
+                call_type = match.group(3).strip()
 
         section_match = re.search(r"Call:\s*([A-Z\s\-]+(?:two-stage)?)", text)
         if section_match:
@@ -110,17 +111,12 @@ def parse_enhanced_call_blocks(input_json, output_json):
         if not extracted["eligibility_conditions"] and "General Annex B" in text:
             extracted["eligibility_conditions"] = "The conditions are described in General Annex B."
 
-        expected_outcome = block.get("expected_outcome")
-        scope = block.get("scope")
-
         parsed_calls.append({
             "call_id": call_id,
             "call_title": call_title,
             "call_type": call_type,
             "call_section": call_section,
-            **extracted,
-            "expected_outcome": expected_outcome,
-            "scope": scope
+            **extracted
         })
 
     with open(output_json, "w", encoding="utf-8") as f:
@@ -128,5 +124,6 @@ def parse_enhanced_call_blocks(input_json, output_json):
 
     print(f"✅ Parsed {len(parsed_calls)} calls saved to: {output_json}")
 
+
 if __name__ == "__main__":
-    parse_enhanced_call_blocks("routes/pipeline/output_files/enhanced_raw_call_blocks.json", "routes/pipeline/output_files/parsed_call_tables.json")
+    parse_enhanced_call_blocks("routes/pipeline/output_files/enhanced_raw_call_blocks.json", "parsed_call_tables_v3.json")
