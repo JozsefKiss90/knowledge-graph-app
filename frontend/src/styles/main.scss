@@ -3,7 +3,6 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: $background-color;
   margin: 0;
   padding: 0;
 }
@@ -13,10 +12,27 @@ body {
   border-radius: 10px;
   height: 600px;
   margin: 20px;
-  @include center-flex;
 }
 
 h2 {
   color: $primary-color;
   margin-top: 20px;
+}
+
+.components {
+  background-color: $primary-color;
+}
+
+.header {
+  border-bottom: 1px solid rgb(47, 70, 83);
+  background-color: rgb(43, 56, 65);
+}
+
+.graph-filter {
+  background-color:rgb(43, 56, 65);
+  padding: 4px 1px;
+  width:345px;
+  color: whitesmoke;
+  border-radius: 5px;
+  border-color: whitesmoke;
 }

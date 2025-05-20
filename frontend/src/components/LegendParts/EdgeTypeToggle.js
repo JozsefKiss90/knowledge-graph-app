@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
   <Box>
-    <Typography  sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white'}} variant="subtitle1" fontWeight="bold">Edge Types</Typography>
+    <Typography  sx={{color:'white'}} variant="subtitle1" fontWeight="bold">Edge Types</Typography>
     <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
       {types.map(({ type, color }) => (
         <Button

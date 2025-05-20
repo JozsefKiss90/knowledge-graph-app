@@ -81,7 +81,7 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
   return (
     <div
       ref={containerRef}
-      style={{ width: "100%", height: "100%", backgroundColor: "rgba(64, 64, 64, 1)"}}
+      style={{ width: "100%", height: "100%", backgroundColor: "rgb(36, 55, 66)"}}
     />
   );
 };

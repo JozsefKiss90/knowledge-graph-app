@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Slider, { SliderThumb, SliderValueLabelProps } from '@mui/material/Slider';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Slider from '@mui/material/Slider';
+import Tooltip from '@mui/material/Tooltip';
+
 
 const ScoreFilter = ({ cy }) => {
   const [minScore, setMinScore] = useState(0);
@@ -29,26 +32,60 @@ const ScoreFilter = ({ cy }) => {
   
     // 4. Hide all nodes not connected to visible edges
     cy.nodes().forEach(node => {
-      node.toggleClass('faded', !connectedNodes.has(node.id()));
+      node.toggleClass('faded', !connectedNodes.has(node.id())); 
     });
   };
   
+  const PrettoSlider = styled(Slider)({
+    color: '#52af77',
+    height: 8,
+    '& .MuiSlider-track': {
+      border: 'none',
+    },
+    '& .MuiSlider-thumb': {
+      height: 24,
+      width: 24,
+      backgroundColor: '#fff',
+      border: '2px solid currentColor',
+      '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+        boxShadow: 'inherit',
+      },
+      '&::before': {
+        display: 'none',
+      },
+    },
+    '& .MuiSlider-valueLabel': {
+      lineHeight: 1.2,
+      fontSize: 12,
+      background: 'unset',
+      padding: 0,
+      width: 32,
+      height: 32,
+      borderRadius: '50% 50% 50% 0',
+      backgroundColor: '#52af77',
+      transformOrigin: 'bottom left',
+      transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
+      '&::before': { display: 'none' },
+      '&.MuiSlider-valueLabelOpen': {
+        transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
+      },
+      '& > *': {
+        transform: 'rotate(45deg)',
+      },
+    },
+  });
   return (
     <Box sx={{mt:1}}>
-      <Typography sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white'}} variant="subtitle1" fontWeight="medium">Min Similarity Score</Typography>
-      <Slider
-        value={minScore}
-        step={0.01}
-        min={0}
-        max={1}
-        onChange={(e, value) => setMinScore(value)}
+      <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">Min Similarity Score</Typography>
+      <PrettoSlider
         valueLabelDisplay="auto"
-    
+        aria-label="pretto slider"
+        value={minScore}
       />
       <Button
-        sx={{bgcolor:"rgb(255, 115, 22)", color:'white'}}
+        sx={{bgcolor:"rgb(196, 106, 47)", color:'white'}}
         variant="outlined"
-        size="small"
+        size="medium"
         onClick={filterByScore}
       >
         Apply Score Filter

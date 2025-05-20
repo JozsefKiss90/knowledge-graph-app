@@ -9,6 +9,7 @@ import NodeTypeToggle from './LegendParts/NodeTypeToggle';
 import EdgeTypeToggle from './LegendParts/EdgeTypeToggle';
 import SearchBox from './LegendParts/SearchBox';
 import ScoreFilter from './LegendParts/ScoreFilter';
+import '../styles/main.scss'
 
 const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
   const cy = useCy();
@@ -30,45 +31,44 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
 
   const edgeTypeList = graphName === 'HE_2025'
   ? [
-      { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 219, 117)' },
-      { type: 'SHARED_TOPIC', color: '#2196f3' },
-      { type: 'CROSS_TOPIC_SIMILARITY', color: '#ff9800' }
+      { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 175, 140)' },     // green → cooler teal green
+      { type: 'SHARED_TOPIC', color: 'rgb(70, 149, 252)' },        // blue → icy blue
+      { type: 'CROSS_TOPIC_SIMILARITY', color: 'rgb(218, 156, 82)' } // orange → muted bronze (less warmth)
     ] 
-    : graphName === 'Cluster_2'
+  : graphName === 'Cluster_2'
   ? [
-      { type: 'HAS_DESTINATION', color: '#42a5f5' },
-      { type: 'HAS_THEME', color: '#7986cb' },
-      { type: 'HAS_CALL', color: '#ffb74d' }
+      { type: 'HAS_DESTINATION', color: 'rgb(92, 160, 250)' },    // sky blue
+      { type: 'HAS_THEME', color: 'rgb(92, 123, 224)' },          // blue-violet
+      { type: 'HAS_CALL', color: 'rgb(221, 181, 102)' }            // cool sand
     ]
   : [
-      { type: 'HAS_DESTINATION', color: '#42a5f5' },
-      { type: 'HAS_THEME', color: '#7986cb' },
-      { type: 'HAS_CALL', color: '#ffb74d' }
+      { type: 'HAS_DESTINATION', color: 'rgb(96, 163, 250)' },
+      { type: 'HAS_THEME', color: 'rgb(87, 115, 209)' },
+      { type: 'HAS_CALL', color: 'rgb(224, 183, 99)' }
     ];
 
-  const nodeTypeList = graphName === 'HE_2025'
-    ? [
-        { type: 'policy', color: '#00bcd4' },
-        { type: 'strategy', color: '#4caf50' },
-        { type: 'cluster', color: '#ff7043' },
-        { type: 'research_theme', color: '#ffb300' },
-        { type: 'institution', color: '#9c27b0' },
-        { type: 'topic', color: '#ffc107' }
-      ]
-      : graphName === 'Cluster_2'
+const nodeTypeList = graphName === 'HE_2025'
   ? [
-      { type: 'Work Programme', color: '#ff7043' },
-      { type: 'Destination', color: '#64b5f6' },
-      { type: 'Theme', color: '#7986cb' },
-      { type: 'Call', color: '#ffb74d' }
+      { type: 'policy', color: 'rgb(0, 171, 194)' },         // teal → cooler, ocean teal
+      { type: 'strategy', color: 'rgb(64, 180, 116)' },      // green → pine
+      { type: 'cluster', color: 'rgb(197, 91, 67)' },      // orange → desaturated clay
+      { type: 'research_theme', color: 'rgb(189, 157, 78)' }, // yellow-orange → muted beige
+      { type: 'institution', color: 'rgb(146, 76, 187)' },   // purple → colder violet
+      { type: 'topic', color: 'rgb(202, 202, 91)' }         // yellow → desaturated olive
     ]
-    : [
-        { type: 'Work Programme', color: '#ff7043' },
-        { type: 'Destination', color: '#64b5f6' },
-        { type: 'Theme', color: '#7986cb' },
-        { type: 'Call', color: '#ffb74d' }
-      ];
-
+  : graphName === 'Cluster_2'
+  ? [
+      { type: 'Work Programme', color: 'rgb(197, 92, 69)' },
+      { type: 'Destination', color: 'rgb(120, 175, 235)' },
+      { type: 'Theme', color: 'rgb(88, 117, 212)' },
+      { type: 'Call', color: 'rgb(210, 180, 120)' }
+    ]
+  : [
+      { type: 'Work Programme', color: 'rgb(196, 96, 74)' },
+      { type: 'Destination', color: 'rgb(98, 170, 247)' },
+      { type: 'Theme', color: 'rgb(86, 119, 226)' },
+      { type: 'Call', color: 'rgb(223, 180, 94)' }
+    ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -109,9 +109,9 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
 
   return (
     <Box
+      className="components"
       component="aside"
       sx={{
-        bgcolor:"rgba(25, 25, 25, 1)",
         width: 400,
         height: '100vh',
         p: 3,
@@ -124,10 +124,10 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
           paddingTop: '100px'
         },
         '&::-webkit-scrollbar-track': {
-          backgroundColor: '#2e2e2e',
+          backgroundColor: 'rgb(20, 43, 59)',
         },
         '&::-webkit-scrollbar-thumb': {
-          backgroundColor: '#888',
+          backgroundColor: 'rgb(26, 80, 102)',
           borderRadius: '4px',
         },
         '&::-webkit-scrollbar-thumb:hover': {
@@ -135,18 +135,21 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
         },
       }}
     >
-      <Typography sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white', fontFamily: 'Segoe UI Emoji'}} variant="h6" fontWeight="bold">Graph Filters</Typography>
       <Box>
-        <select
-            value={graphName}
-            onChange={(e) => {
-              setGraphName(e.target.value);
-            }}
-          >
-            <option value="HE_2025">HE 2025</option>
-            <option value="Cluster_4">Cluster 4</option>
-            <option value="Cluster_2">Cluster 2</option>
-          </select>
+        <Typography  sx={{color:'white'}} variant="subtitle1" fontWeight="bold">Graph Filter</Typography>
+          <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
+            <select
+                className="graph-filter"
+                value={graphName}
+                onChange={(e) => {
+                  setGraphName(e.target.value);
+                }}
+              >
+              <option value="HE_2025">Horizon Europe strategic plan (2025 – 2027)</option>
+              <option value="Cluster_2">Horizon Europe - Work Programme 2025 Culture, Creativity and Inclusive Society</option>
+              <option value="Cluster_4">Horizon Europe - Work Programme 2025 Digital, Industry and Space</option>
+            </select>
+          </Box>
       </Box>
       {["HE_2025", "Cluster_4", "Cluster_2"].includes(graphName) && (
         <EdgeTypeToggle
@@ -172,7 +175,7 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
       )}
 
       <Box>
-        <button style={{backgroundColor:"rgba(25, 25, 25, 1)", color:'white'}}  className="btn btn-sm btn-outline-secondary" onClick={resetView}>Reset View</button>
+        <button style={{color:'white'}}  className="btn btn-sm btn-outline-secondary components" onClick={resetView}>Reset View</button>
       </Box>
 
       {hoveredNode && (

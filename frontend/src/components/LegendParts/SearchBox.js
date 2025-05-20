@@ -31,15 +31,16 @@ const SearchBox = ({ cy }) => {
         size="small"
         fullWidth
         margin="dense"
-        placeholder="Node ID or label"
+        placeholder="Call ID or label"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         InputProps={{
           sx: {
             color: 'white',
-            backgroundColor: '#2e2e2e',
+            backgroundColor: 'rgb(43, 56, 65)', 
+            border:'1px solid white',
             '& input::placeholder': {
-              color: 'white',
+              color: 'rgb(172, 206, 231)',
               opacity: 1, // Important: ensure it's visible
             },
           },
@@ -47,9 +48,9 @@ const SearchBox = ({ cy }) => {
       />
 
       <Button
-        sx={{bgcolor:"rgb(28, 81, 255)", color:'white', mt: 1 }}
+        sx={{color:'white', mt: 1, border:'1px solid white' }}
         variant="outlined"
-        size="small"
+        size="medium"
         onClick={handleSearch}
       >
         Search & Highlight
