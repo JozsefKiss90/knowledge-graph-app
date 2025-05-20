@@ -11,7 +11,6 @@ function GraphPage() {
   const graphDataRef = useRef(null);
   const rawGraphDataRef = useRef(null);
   const [cyInstance, setCyInstance] = useState(null); 
-  const [ready, setReady] = useState(false);
   const hoveredNodeRef = useRef(null);
   const hoveredNodeIdRef = useRef(null);
 
@@ -19,12 +18,17 @@ function GraphPage() {
 
   const fetchGraph = async () => {
     try {
-      const nodesUrl = graphName === "HE_2025"
-        ? `${API_BASE}/nodes/`
-        : `${API_BASE}/cluster4/nodes`;
-      const relsUrl = graphName === "HE_2025"
-        ? `${API_BASE}/relationships/`
-        : `${API_BASE}/cluster4/relationships`;
+      let nodesUrl, relsUrl;
+      if (graphName === "HE_2025") {
+        nodesUrl = `${API_BASE}/nodes/`;
+        relsUrl = `${API_BASE}/relationships/`;
+      } else if (graphName === "Cluster_4") {
+        nodesUrl = `${API_BASE}/cluster4/nodes`;
+        relsUrl = `${API_BASE}/cluster4/relationships`;
+      } else if (graphName === "Cluster_2") {
+        nodesUrl = `${API_BASE}/cluster2/nodes`;
+        relsUrl = `${API_BASE}/cluster2/relationships`;
+      }
       const rawNodesUrl = `${API_BASE}/nodes/raw_nodes/`;
 
       const [nodesRes, relsRes, rawNodesRes] = await Promise.all([
@@ -64,22 +68,10 @@ function GraphPage() {
           className="flex-grow-1 w-100"
           style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}
         >
-        {ready && cyInstance ? 
+        {cyInstance ? 
         <>
-        <Col md="auto" className="p-3">
-          <select
-            value={graphName}
-            onChange={(e) => {
-              setReady(false);
-              setGraphName(e.target.value);
-            }}
-            style={{ padding: "6px", fontSize: "14px", borderRadius: "4px" }}
-          >
-            <option value="HE_2025">HE 2025</option>
-            <option value="Cluster_4">Cluster 4</option>
-          </select>
-        </Col>
-        <Legend hoveredNodeRef={hoveredNodeRef} graphName={graphName} /> 
+        
+        <Legend hoveredNodeRef={hoveredNodeRef} graphName={graphName} setGraphName={setGraphName}  /> 
         </>
         : <div>Loading legend...</div>}
 

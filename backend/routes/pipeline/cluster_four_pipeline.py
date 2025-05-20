@@ -4,7 +4,7 @@ import json
 from components.extract_table_blocks import extract_call_blocks
 from components.parse_calls import parse_enhanced_call_blocks
 from components.merge_outcomes_and_scopes import *  # will execute on import
-from components.parse_destinations import *  # will execute on import
+from backend.routes.pipeline.components.parse_cl4_destinations import *  # will execute on import
 
 class ClusterFourPipeline(DocumentPipeline):
     def __init__(self, document_path: str):
@@ -30,19 +30,13 @@ class ClusterFourPipeline(DocumentPipeline):
             output_json=self.parsed_calls_path
         )
 
-    def enrich_with_expected_outcomes_and_scopes(self):
-        print("\n🧩 Step 3: Merging expected outcomes and scopes into parsed calls...")
-        # merges in-place on parsed_call_tables.json via side-effect
-        pass  # already executed on import
-
     def parse_destinations_and_themes(self):
-        print("\n🧩 Step 4: Mapping calls to destinations and themes...")
+        print("\n🧩 Step 3: Mapping calls to destinations and themes...")
         # creates nested_parsed_call_tables.json via side-effect
         pass  # already executed on import
 
     def run_all(self):
         self.extract_call_blocks()
         self.parse_calls()
-        self.enrich_with_expected_outcomes_and_scopes()
         self.parse_destinations_and_themes()
         print("\n✅ Cluster Four pipeline completed.")

@@ -10,17 +10,19 @@ import EdgeTypeToggle from './LegendParts/EdgeTypeToggle';
 import SearchBox from './LegendParts/SearchBox';
 import ScoreFilter from './LegendParts/ScoreFilter';
 
-const Legend = ({ hoveredNodeRef, graphName }) =>  {
+const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
   const cy = useCy();
   const [hoveredNode, setHoveredNode] = useState(null);
   const defaultEdgeTypes = {
     HE_2025: new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']),
-    Cluster_4: new Set(['HAS_DESTINATION', 'HAS_THEME', 'HAS_CALL'])
+    Cluster_4: new Set(['HAS_DESTINATION', 'HAS_THEME', 'HAS_CALL']),
+    Cluster_2: new Set(['HAS_DESTINATION', 'HAS_THEME', 'HAS_CALL'])
   };
 
   const defaultNodeTypes = {
     HE_2025: new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic']),
-    Cluster_4: new Set(['Cluster', 'Destination', 'Theme', 'Call'])
+    Cluster_4: new Set(['Cluster', 'Destination', 'Theme', 'Call']),
+    Cluster_2: new Set(['Work Programme', 'Destination', 'Theme', 'Call'])
   };
 
   const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(defaultEdgeTypes[graphName]);
@@ -31,6 +33,12 @@ const Legend = ({ hoveredNodeRef, graphName }) =>  {
       { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 219, 117)' },
       { type: 'SHARED_TOPIC', color: '#2196f3' },
       { type: 'CROSS_TOPIC_SIMILARITY', color: '#ff9800' }
+    ] 
+    : graphName === 'Cluster_2'
+  ? [
+      { type: 'HAS_DESTINATION', color: '#42a5f5' },
+      { type: 'HAS_THEME', color: '#7986cb' },
+      { type: 'HAS_CALL', color: '#ffb74d' }
     ]
   : [
       { type: 'HAS_DESTINATION', color: '#42a5f5' },
@@ -47,6 +55,13 @@ const Legend = ({ hoveredNodeRef, graphName }) =>  {
         { type: 'institution', color: '#9c27b0' },
         { type: 'topic', color: '#ffc107' }
       ]
+      : graphName === 'Cluster_2'
+  ? [
+      { type: 'Work Programme', color: '#ff7043' },
+      { type: 'Destination', color: '#64b5f6' },
+      { type: 'Theme', color: '#7986cb' },
+      { type: 'Call', color: '#ffb74d' }
+    ]
     : [
         { type: 'Work Programme', color: '#ff7043' },
         { type: 'Destination', color: '#64b5f6' },
@@ -121,23 +136,34 @@ const Legend = ({ hoveredNodeRef, graphName }) =>  {
       }}
     >
       <Typography sx={{bgcolor:"rgba(25, 25, 25, 1)", color:'white', fontFamily: 'Segoe UI Emoji'}} variant="h6" fontWeight="bold">Graph Filters</Typography>
-
-      {graphName === "HE_2025" || graphName === "Cluster_4" ? (
+      <Box>
+        <select
+            value={graphName}
+            onChange={(e) => {
+              setGraphName(e.target.value);
+            }}
+          >
+            <option value="HE_2025">HE 2025</option>
+            <option value="Cluster_4">Cluster 4</option>
+            <option value="Cluster_2">Cluster 2</option>
+          </select>
+      </Box>
+      {["HE_2025", "Cluster_4", "Cluster_2"].includes(graphName) && (
         <EdgeTypeToggle
           cy={cy}
           types={edgeTypeList}
           visibleTypes={visibleEdgeTypes}
           onToggle={(type) => toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, t => cy.edges(`[type = "${t}"]`))}
         />
-      ) : null}
-      {graphName === "HE_2025" || graphName === "Cluster_4" ? (
+      )}
+      {["HE_2025", "Cluster_4", "Cluster_2"].includes(graphName) && (
         <NodeTypeToggle
           cy={cy}
           types={nodeTypeList}
           visibleTypes={visibleNodeTypes}
           onToggle={(type) => toggleType(type, visibleNodeTypes, setVisibleNodeTypes, t => cy.nodes(`[type = "${t}"]`))}
         />
-      ) : null}
+      )}
     
       <SearchBox cy={cy} />
 

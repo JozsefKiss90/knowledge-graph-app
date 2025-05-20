@@ -3,11 +3,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const EDGE_TYPES = [
-  { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 219, 117)' },
-  { type: 'SHARED_TOPIC', color: '#2196f3' },
-  { type: 'CROSS_TOPIC_SIMILARITY', color: '#ff9800' } 
-];
 
 const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
   <Box>

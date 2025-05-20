@@ -1,10 +1,10 @@
 
 import json
 
-with open("routes/pipeline/output_files/parsed_call_tables.json", "r", encoding="utf-8") as f:
+with open("routes/pipeline/output_files/parsed_call_tables_v2.json", "r", encoding="utf-8") as f:
     parsed_calls = json.load(f)
 
-with open("routes/pipeline/output_files/enhanced_raw_call_blocks.json", "r", encoding="utf-8") as f:
+with open("routes/pipeline/output_files/enhanced_raw_call_blocks_cleaned.json", "r", encoding="utf-8") as f:
     enhanced_blocks = json.load(f)
 
 # Index enhanced blocks by call_id_line
@@ -26,7 +26,7 @@ for call in parsed_calls:
         call["expected_outcome"] = enhanced_map[call_id].get("expected_outcome")
         call["scope"] = enhanced_map[call_id].get("scope")
 
-with open("routes/pipeline/output_files/parsed_call_tables.json", "w", encoding="utf-8") as f:
+with open("routes/pipeline/output_files/parsed_call_tables_v2.json", "w", encoding="utf-8") as f:
     json.dump(parsed_calls, f, indent=2, ensure_ascii=False)
 
 print("✅ updated parsed_call_tables.json written with expected_outcome and scope")

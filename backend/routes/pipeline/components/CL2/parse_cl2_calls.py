@@ -47,24 +47,27 @@ def clean_field_output(value):
     value = re.sub(r"\s+", " ", value)
     return value.strip()
 
+
 def extract_between(text, start_label, next_labels):
     if start_label not in text:
         return None
     start_index = text.index(start_label)
     end_index = len(text)
-    for nl in next_labels:
+    stop_labels = next_labels + ["Expected Outcome:", "Scope:", "Expected Outcome", "Scope"]
+    for nl in stop_labels:
         if nl in text[start_index + len(start_label):]:
             candidate_end = text.index(nl, start_index + len(start_label))
             if candidate_end < end_index:
                 end_index = candidate_end
     return clean_field_output(text[start_index + len(start_label):end_index])
 
+
 def parse_enhanced_call_blocks(input_json, output_json):
     with open(input_json, "r", encoding="utf-8") as f:
         call_blocks = json.load(f)
 
     parsed_calls = []
-
+    call_type = None
     for block in call_blocks:
         raw = block["raw_text"]
         raw = re.sub(r"(Admissibility)\s*\n\s*(conditions)", r"\1 \2", raw, flags=re.IGNORECASE)
@@ -73,31 +76,47 @@ def parse_enhanced_call_blocks(input_json, output_json):
         raw = re.sub(r"(Exceptional page limits to)\s*/\s*(applications)", r"\1 proposals/applications", raw)
 
         text = normalize_labels(raw)
-        call_id = call_title = call_type = call_section = None
+        # Get call ID and title
+        # Improved extraction of full call_title from raw text
+        call_title = None
+        lines = raw.splitlines()
+        call_id_line = block["call_id_line"].strip()
 
-        # SPACE fallback: extract from ID line
-        match_space = re.search(r"^(HORIZON-CL4-[\w\d-]+):\s*(.*?)\n", raw)
-        if match_space:
-            call_id = match_space.group(1).strip()
-            call_title = match_space.group(2).strip()
+        for i, line in enumerate(lines):
+            if call_id_line == line.strip():
+                # Collect title lines until "Call:" or blank line
+                title_lines = []
+                for j in range(i + 1, len(lines)):
+                    next_line = lines[j].strip()
+                    if not next_line or next_line.lower().startswith("call:"):
+                        break
+                    title_lines.append(next_line)
+                call_title = " ".join(title_lines).strip()
+                break
 
-        # Fallback for call type from section if not found inline
-        if "Type of Action" in raw and not call_type:
+        match = re.search(r"(HORIZON-CL[24]-[\w\d-]+)", block["call_id_line"])
+        if match:
+            call_id = match.group(1).strip()
+        
+        section_match = re.search(r"Call:\s*(.+?)(?:\n|$)", raw)
+        if section_match:
+            call_section = section_match.group(1).strip()
+
+        # Extract only the call ID from call_id_line (CL2 or CL4)
+        match = re.search(r"(HORIZON-CL[24]-[\w\d-]+)", block["call_id_line"])
+        if match:
+            call_id = match.group(1).strip()
+
+        # Fallback for type if not captured
+        if not call_type and "Type of Action" in raw:
             match_type = re.search(r"Type of Action\s*\n(.*?)\n", raw)
             if match_type:
                 call_type = match_type.group(1).strip()
 
-        # Standard inline match
-        if not call_id:
-            match = re.search(r"(HORIZON-CL4-[\w\d-]+):\s*(.*?)\s*\((RIA|IA|CSA)\)", text, re.DOTALL)
-            if match:
-                call_id = match.group(1).strip()
-                call_title = re.sub(r"\s+", " ", match.group(2)).strip()
-                call_type = match.group(3).strip()
-
         section_match = re.search(r"Call:\s*([A-Z\s\-]+(?:two-stage)?)", text)
+        section_match = re.search(r"Call:\s*(.+?)(?:\n|$)", raw)
         if section_match:
-            call_section = re.sub(r"\s+", " ", section_match.group(1)).strip()
+            call_section = section_match.group(1).strip()
 
         field_keys = list(label_variants.keys())
         extracted = {}
@@ -131,4 +150,7 @@ def parse_enhanced_call_blocks(input_json, output_json):
 
 
 if __name__ == "__main__":
-    parse_enhanced_call_blocks("routes/pipeline/output_files/enhanced_raw_call_blocks_cleaned.json", "parsed_call_tables_v2.json")
+    parse_enhanced_call_blocks(
+        "routes/pipeline/output_files/enhanced_raw_cl2_call_blocks.json",
+        "routes/pipeline/output_files/parsed_cl2_call_tables.json"
+    )
