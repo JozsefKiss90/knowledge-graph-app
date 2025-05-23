@@ -36,3 +36,307 @@ h2 {
   border-radius: 5px;
   border-color: whitesmoke;
 }
+
+.edge-toggle-button {
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.edge-toggle-button:hover:not(.active) {
+  background-color:white;
+}
+
+/* Edge type-specific styles */
+.edge-toggle-button.type-BELONGS_TO_TOPIC {
+  background-color: rgb(0, 175, 140);
+  color: white;
+}
+.edge-toggle-button.type-BELONGS_TO_TOPIC-active {
+  border-color: rgb(0, 175, 140);
+  color: rgb(0, 175, 140);
+}
+
+.edge-toggle-button.type-SHARED_TOPIC {
+  background-color: rgb(70, 149, 252);
+  color: white;
+}
+.edge-toggle-button.type-SHARED_TOPIC-active {
+  border-color: rgb(70, 149, 252);
+  color: rgb(70, 149, 252);
+}
+
+.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY {
+  background-color: rgb(223, 182, 70);
+  color: white;
+}
+.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY-active {
+  border-color: rgb(223, 182, 70);
+  color: rgb(223, 182, 70);
+}
+
+.edge-toggle-button.type-SHARED_TOPIC:hover  {
+  color: rgb(70, 149, 252);
+}
+.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY:hover  {
+  color: rgb(223, 182, 70);
+}
+
+
+.edge-toggle-button.type-BELONGS_TO_TOPIC:hover  {
+  color: rgb(0, 175, 140);
+}
+
+.edge-toggle-button.type-BELONGS_TO_TOPIC-active:hover {
+  background-color: transparent !important;
+  color: rgb(0, 175, 140) !important;
+}
+
+.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY-active:hover {
+  background-color: transparent !important;
+  color: rgb(223, 182, 70) !important;
+}
+
+.edge-toggle-button.type-SHARED_TOPIC-active:hover {
+  background-color: transparent !important;
+  color: rgb(70, 149, 252) !important;
+}
+
+.node-toggle-button {
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.node-toggle-button :hover:not(.active) {
+  background-color:white;
+}
+
+/* === POLICY === */
+.node-toggle-button.type-policy {
+  background-color: rgb(1, 173, 196);
+  color: white;
+}
+.node-toggle-button.type-policy-active {
+  border-color: rgb(1, 173, 196);
+  color: rgb(1, 173, 196);
+}
+.node-toggle-button.type-policy:hover {
+  background-color: white;
+  color: rgb(1, 173, 196);
+}
+.node-toggle-button.type-policy-active:hover {
+  background-color: transparent !important;
+  color: rgb(1, 173, 196) !important;
+}
+
+/* === STRATEGY === */
+.node-toggle-button.type-strategy {
+  background-color: rgb(64, 180, 116);
+  color: white;
+}
+.node-toggle-button.type-strategy-active {
+  border-color: rgb(64, 180, 116);
+  color: rgb(64, 180, 116);
+}
+.node-toggle-button.type-strategy:hover {
+  background-color: white;
+  color: rgb(64, 180, 116);
+}
+.node-toggle-button.type-strategy-active:hover {
+  background-color: transparent !important;
+  color: rgb(64, 180, 116) !important;
+}
+
+/* === CLUSTER === */
+.node-toggle-button.type-cluster {
+  background-color: rgb(108, 99, 255);
+  color: white;
+}
+.node-toggle-button.type-cluster-active {
+  border-color: rgb(108, 99, 255);
+  color: rgb(108, 99, 255);
+}
+.node-toggle-button.type-cluster:hover {
+  background-color: white;
+  color: rgb(108, 99, 255);
+}
+.node-toggle-button.type-cluster-active:hover {
+  background-color: transparent !important;
+  color: rgb(108, 99, 255) !important;
+}
+
+/* === RESEARCH_THEME === */
+.node-toggle-button.type-research_theme {
+  background-color: rgb(255, 138, 101);
+  color: white;
+}
+.node-toggle-button.type-research_theme-active {
+  border-color: rgb(255, 138, 101);
+  color: rgb(255, 138, 101);
+}
+.node-toggle-button.type-research_theme:hover {
+  background-color: white;
+  color: rgb(255, 138, 101);
+}
+.node-toggle-button.type-research_theme-active:hover {
+  background-color: transparent !important;
+  color: rgb(255, 138, 101) !important;
+}
+
+/* === INSTITUTION === */
+.node-toggle-button.type-institution {
+  background-color: rgb(145, 85, 253);
+  color: white;
+}
+.node-toggle-button.type-institution-active {
+  border-color: rgb(145, 85, 253);
+  color: rgb(145, 85, 253);
+}
+.node-toggle-button.type-institution:hover {
+  background-color: white;
+  color: rgb(145, 85, 253);
+}
+.node-toggle-button.type-institution-active:hover {
+  background-color: transparent !important;
+  color: rgb(145, 85, 253) !important;
+}
+
+/* === TOPIC === */
+.node-toggle-button.type-topic {
+  background-color: rgb(223, 182, 70);
+  color: white;
+}
+.node-toggle-button.type-topic-active {
+  border-color: rgb(223, 182, 70);
+  color: rgb(223, 182, 70);
+}
+.node-toggle-button.type-topic:hover {
+  background-color: white;
+  color: rgb(223, 182, 70);
+}
+.node-toggle-button.type-topic-active:hover {
+  background-color: transparent !important;
+  color: rgb(223, 182, 70) !important;
+}
+
+/* === EDGE TYPES === */
+
+.edge-toggle-button.type-HAS_DESTINATION {
+  background-color: rgb(96, 163, 250);
+  color: white;
+}
+.edge-toggle-button.type-HAS_DESTINATION-active {
+  border-color: rgb(96, 163, 250);
+  color: rgb(96, 163, 250);
+}
+.edge-toggle-button.type-HAS_DESTINATION:hover {
+  background-color: white;
+  color: rgb(96, 163, 250);
+}
+.edge-toggle-button.type-HAS_DESTINATION-active:hover {
+  background-color: transparent !important;
+  color: rgb(96, 163, 250) !important;
+}
+
+.edge-toggle-button.type-HAS_THEME {
+  background-color: rgb(87, 115, 209);
+  color: white;
+}
+.edge-toggle-button.type-HAS_THEME-active {
+  border-color: rgb(87, 115, 209);
+  color: rgb(87, 115, 209);
+}
+.edge-toggle-button.type-HAS_THEME:hover {
+  background-color: white;
+  color: rgb(87, 115, 209);
+}
+.edge-toggle-button.type-HAS_THEME-active:hover {
+  background-color: transparent !important;
+  color: rgb(87, 115, 209) !important;
+}
+
+.edge-toggle-button.type-HAS_CALL {
+  background-color: rgb(223, 180, 93);
+  color: white;
+}
+.edge-toggle-button.type-HAS_CALL-active {
+  border-color: rgb(223, 180, 93);
+  color: rgb(223, 180, 93);
+}
+.edge-toggle-button.type-HAS_CALL:hover {
+  background-color: white;
+  color: rgb(223, 180, 93);
+}
+.edge-toggle-button.type-HAS_CALL-active:hover {
+  background-color: transparent !important;
+  color: rgb(223, 180, 93) !important;
+}
+
+/* === NODE TYPES === */
+
+.node-toggle-button.type-WorkProgramme {
+  background-color: rgb(196, 96, 74);
+  color: white;
+}
+.node-toggle-button.type-WorkProgramme-active {
+  border-color: rgb(196, 96, 74);
+  color: rgb(196, 96, 74);
+}
+.node-toggle-button.type-WorkProgramme:hover {
+  background-color: white;
+  color: rgb(196, 96, 74);
+}
+.node-toggle-button.type-WorkProgramme-active:hover {
+  background-color: transparent !important;
+  color: rgb(196, 96, 74) !important;
+}
+
+.node-toggle-button.type-Destination {
+  background-color: rgb(98, 170, 247);
+  color: white;
+}
+.node-toggle-button.type-Destination-active {
+  border-color: rgb(98, 170, 247);
+  color: rgb(98, 170, 247);
+}
+.node-toggle-button.type-Destination:hover {
+  background-color: white;
+  color: rgb(98, 170, 247);
+}
+.node-toggle-button.type-Destination-active:hover {
+  background-color: transparent !important;
+  color: rgb(98, 170, 247) !important;
+}
+
+.node-toggle-button.type-Theme {
+  background-color: rgb(86, 119, 226);
+  color: white;
+}
+.node-toggle-button.type-Theme-active {
+  border-color: rgb(86, 119, 226);
+  color: rgb(86, 119, 226);
+}
+.node-toggle-button.type-Theme:hover {
+  background-color: white;
+  color: rgb(86, 119, 226);
+}
+.node-toggle-button.type-Theme-active:hover {
+  background-color: transparent !important;
+  color: rgb(86, 119, 226) !important;
+}
+
+.node-toggle-button.type-Call {
+  background-color: rgb(223, 180, 94);
+  color: white;
+}
+.node-toggle-button.type-Call-active {
+  border-color: rgb(223, 180, 94);
+  color: rgb(223, 180, 94);
+}
+.node-toggle-button.type-Call:hover {
+  background-color: white;
+  color: rgb(223, 180, 94);
+}
+.node-toggle-button.type-Call-active:hover {
+  background-color: transparent !important;
+  color: rgb(223, 180, 94) !important;
+}

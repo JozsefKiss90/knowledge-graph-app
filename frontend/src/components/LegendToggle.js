@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useCy } from "./context/CyContext";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import NodeTypeToggle from './LegendParts/NodeTypeToggle';
 import EdgeTypeToggle from './LegendParts/EdgeTypeToggle';
 import SearchBox from './LegendParts/SearchBox';
@@ -22,18 +23,31 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
 
   const defaultNodeTypes = {
     HE_2025: new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic']),
-    Cluster_4: new Set(['Cluster', 'Destination', 'Theme', 'Call']),
+    Cluster_4: new Set(['Work Programme', 'Destination', 'Theme', 'Call']),
     Cluster_2: new Set(['Work Programme', 'Destination', 'Theme', 'Call'])
   };
 
-  const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(defaultEdgeTypes[graphName]);
-  const [visibleNodeTypes, setVisibleNodeTypes] = useState(defaultNodeTypes[graphName]);
+  const normalizeGraphName = (name) => name.replace('_cose', '');
+  const cleanGraphName = normalizeGraphName(graphName);
+
+  const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(
+    defaultEdgeTypes[cleanGraphName] || new Set()
+  );
+  const [visibleNodeTypes, setVisibleNodeTypes] = useState(
+    defaultNodeTypes[cleanGraphName] || new Set()
+  );
+
+ useEffect(() => {
+  const normalized = graphName.replace('_cose', '');
+  setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
+  setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
+}, [graphName]);
 
   const edgeTypeList = graphName === 'HE_2025'
   ? [
       { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 175, 140)' },     // green → cooler teal green
       { type: 'SHARED_TOPIC', color: 'rgb(70, 149, 252)' },        // blue → icy blue
-      { type: 'CROSS_TOPIC_SIMILARITY', color: 'rgb(218, 156, 82)' } // orange → muted bronze (less warmth)
+      { type: 'CROSS_TOPIC_SIMILARITY', color: 'rgb(223, 182, 70)' } // orange → muted bronze (less warmth)
     ] 
   : graphName === 'Cluster_2'
   ? [
@@ -44,24 +58,24 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
   : [
       { type: 'HAS_DESTINATION', color: 'rgb(96, 163, 250)' },
       { type: 'HAS_THEME', color: 'rgb(87, 115, 209)' },
-      { type: 'HAS_CALL', color: 'rgb(224, 183, 99)' }
+      { type: 'HAS_CALL', color: 'rgb(223, 180, 93)' }
     ];
 
 const nodeTypeList = graphName === 'HE_2025'
   ? [
-      { type: 'policy', color: 'rgb(0, 171, 194)' },         // teal → cooler, ocean teal
+      { type: 'policy', color: 'rgb(1, 173, 196)' },         // teal → cooler, ocean teal
       { type: 'strategy', color: 'rgb(64, 180, 116)' },      // green → pine
       { type: 'cluster', color: 'rgb(197, 91, 67)' },      // orange → desaturated clay
-      { type: 'research_theme', color: 'rgb(189, 157, 78)' }, // yellow-orange → muted beige
-      { type: 'institution', color: 'rgb(146, 76, 187)' },   // purple → colder violet
-      { type: 'topic', color: 'rgb(202, 202, 91)' }         // yellow → desaturated olive
+      { type: 'research_theme', color: 'rgb(180, 143, 47)' }, // yellow-orange → muted beige
+      { type: 'institution', color: 'rgb(118, 46, 160)' },   // purple → colder violet
+      { type: 'topic', color: 'rgb(182, 182, 47)' }         // yellow → desaturated olive
     ]
   : graphName === 'Cluster_2'
   ? [
       { type: 'Work Programme', color: 'rgb(197, 92, 69)' },
       { type: 'Destination', color: 'rgb(120, 175, 235)' },
       { type: 'Theme', color: 'rgb(88, 117, 212)' },
-      { type: 'Call', color: 'rgb(210, 180, 120)' }
+      { type: 'Call', color: 'rgb(214, 176, 99)' }
     ]
   : [
       { type: 'Work Programme', color: 'rgb(196, 96, 74)' },
@@ -77,10 +91,12 @@ const nodeTypeList = graphName === 'HE_2025'
     return () => clearInterval(interval);
   }, [hoveredNodeRef]);
 
-  useEffect(() => {
-    setVisibleEdgeTypes(defaultEdgeTypes[graphName]);
-    setVisibleNodeTypes(defaultNodeTypes[graphName]);
-  }, [graphName]);
+useEffect(() => {
+  const normalized = graphName.replace('_cose', '');
+  setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
+  setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
+}, [graphName]);
+
 
   const toggleType = (type, typeSet, setter, selectorFn) => {
     if (!cy) return;
@@ -142,8 +158,12 @@ const nodeTypeList = graphName === 'HE_2025'
                 className="graph-filter"
                 value={graphName}
                 onChange={(e) => {
-                  setGraphName(e.target.value);
-                }}
+                const selected = e.target.value;
+                if (selected !== graphName) {
+                  // Only update if truly changed
+                  setGraphName(selected);
+                }
+              }}
               >
               <option value="HE_2025">Horizon Europe strategic plan (2025 – 2027)</option>
               <option value="Cluster_2">Horizon Europe - Work Programme 2025 Culture, Creativity and Inclusive Society</option>
@@ -151,7 +171,47 @@ const nodeTypeList = graphName === 'HE_2025'
             </select>
           </Box>
       </Box>
-      {["HE_2025", "Cluster_4", "Cluster_2"].includes(graphName) && (
+{["Cluster_2", "Cluster_4"].includes(cleanGraphName) && (
+  <Box sx={{ mt: 2 }}>
+    <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">
+      Layout Mode
+    </Typography>
+    <Box sx={{ mt: 1, ml: 1 }}>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={!graphName.endsWith('_cose')}
+            onChange={() => {
+              setGraphName(prev =>
+                prev.endsWith('_cose') ? prev.replace('_cose', '') : prev
+              );
+            }}
+            sx={{ color: 'white' }}
+          />
+        }
+        label="Default (Klay)"
+        sx={{ color: 'white' }}
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={graphName.endsWith('_cose')}
+            onChange={() => {
+              setGraphName(prev =>
+                prev.endsWith('_cose') ? prev : prev + '_cose'
+              );
+            }}
+            sx={{ color: 'white' }}
+          />
+        }
+        label="Cose-Bilkent"
+        sx={{ color: 'white' }}
+      />
+    </Box>
+  </Box>
+)}
+
+      {["HE_2025", "Cluster_4", "Cluster_2"].includes(cleanGraphName) && (
         <EdgeTypeToggle
           cy={cy}
           types={edgeTypeList}
@@ -159,7 +219,7 @@ const nodeTypeList = graphName === 'HE_2025'
           onToggle={(type) => toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, t => cy.edges(`[type = "${t}"]`))}
         />
       )}
-      {["HE_2025", "Cluster_4", "Cluster_2"].includes(graphName) && (
+      {["HE_2025", "Cluster_4", "Cluster_2"].includes(cleanGraphName) && (
         <NodeTypeToggle
           cy={cy}
           types={nodeTypeList}
@@ -179,7 +239,7 @@ const nodeTypeList = graphName === 'HE_2025'
       </Box>
 
       {hoveredNode && (
-        <Box className="mt-3 mb-5 p-2 border rounded shadow-sm" sx={{backgroundColor: "rgba(64, 64, 64, 1)"}}>
+        <Box className="mt-3 mb-5 p-2 border rounded shadow-sm " sx={{backgroundColor: "rgb(43, 56, 65)"}}>
           <Typography sx={{color:"white"}} variant="subtitle1" fontWeight="bold">Hovered Node</Typography>
           <Typography  sx={{color:"white"}} variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
           <Typography  sx={{color:"white"}} variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>

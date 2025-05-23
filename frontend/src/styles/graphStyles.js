@@ -7,9 +7,9 @@ const cyStyle = [
     style: {
       'background-color': '#2196f3',
       'label': 'data(displayLabel)', 
-      'width': '33px',
-      'height': '33px',
-      'font-size': '12px',
+      'width': '35px',
+      'height': '35px',
+      'font-size': '13px',
       'text-wrap': 'wrap',
       'text-max-width': '40px', 
       'text-outline-width': 0.5,
@@ -17,7 +17,7 @@ const cyStyle = [
       'text-halign': 'center',
       'color': 'white',
       'text-outline-color': 'white',
-      'padding': '10px'
+      'padding': '11px'
     },
   },
 
@@ -41,40 +41,40 @@ const cyStyle = [
   {
     selector: "node[type = 'policy']",
     style: {
-      'background-color': '#00bcd4'
+      'background-color': 'rgb(1, 173, 196)'
     },
   },
   {
     selector: "node[type = 'strategy']",
     style: {
-      'background-color': '#4caf50'
+      'background-color': 'rgb(64, 180, 116)'
     },
   },
   {
     selector: "node[type = 'cluster']",
     style: {
-      'background-color': '#ff7043'
+      'background-color': 'rgb(197, 91, 67)'
     },
   },
   {
     selector: "node[type = 'research_theme']",
     style: {
-      'background-color': '#ffb300'
+      'background-color': 'rgb(180, 143, 47)'
     },
   },
   {
     selector: "node[type = 'institution']",
     style: {
-      'background-color': '#9c27b0'
+      'background-color': 'rgb(118, 46, 160)'
     },
   },
   {
     selector: "node[type = 'topic']",
     style: {
-      'background-color': 'rgba(51, 80, 245, 0.8)',
-      'width': '40px',
-      'height': '40px',
-      'font-size': '12px'
+      'background-color': 'rgb(182, 182, 47)',
+      'width': '42px',
+      'height': '42px',
+      'font-size': '14px'
     },
   },
   {

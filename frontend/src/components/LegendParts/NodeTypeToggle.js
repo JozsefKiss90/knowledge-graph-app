@@ -2,38 +2,59 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
-const NODE_TYPES = [
-  { type: 'policy', color: '#00bcd4' },
-  { type: 'strategy', color: '#4caf50' },
-  { type: 'cluster', color: '#ff7043' },
-  { type: 'research_theme', color: '#ffb300' },  
-  { type: 'institution', color: '#9c27b0' },
-  { type: 'topic', color: '#ffc107' }
-];
+import '../../styles/main.scss';
 
 const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
+
   <Box>
-    <Typography  sx={{color:'white'}} variant="subtitle1" fontWeight="bold">Node Types</Typography>
-    <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
-      {types.map(({ type, color }) => (
-        <Button
-          key={type}
-          variant={visibleTypes.has(type) ? "contained" : "outlined"}
-          size="small"
-          onClick={() => onToggle(type)}
-          sx={{
-            borderColor: color,
-            color: visibleTypes.has(type) ? 'white' : color,
-            backgroundColor: visibleTypes.has(type) ? color : 'transparent',
-            '&:hover': {
-              backgroundColor: visibleTypes.has(type) ? color : '#f5f5f5'
-            }
-          }}
-        >
-          {type.replace('_', ' ')}
-        </Button>
-      ))}
+    <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">
+      Node Types
+    </Typography>
+    <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
+      {types.map(({ type }) => {
+        if (!visibleTypes || !types) return null;
+        const classType = type.replace(/\s+/g, '');
+        const isActive = visibleTypes.has(type);
+        return (
+          <Button
+            key={type}
+            variant={isActive ? 'contained' : 'outlined'}
+            size="small"
+            disableElevation
+            className={`node-toggle-button type-${classType}${!isActive ? '-active' : ''}`}
+            onClick={() => onToggle(type)}
+            onMouseEnter={() => {
+              if (cy) {
+                const nodes = cy.nodes();
+                const edges = cy.edges();
+                const highlightedNodeIds = new Set();
+
+                nodes.forEach(node => {
+                  const match = (node.data('type') || '').toLowerCase() === type.toLowerCase();
+                  node.toggleClass('highlighted', match);
+                  node.toggleClass('faded', !match);
+                  if (match) highlightedNodeIds.add(node.id());
+                });
+
+                edges.forEach(edge => {
+                  const src = edge.source().id();
+                  const tgt = edge.target().id();
+                  const connected = highlightedNodeIds.has(src) || highlightedNodeIds.has(tgt);
+                  edge.toggleClass('faded', !connected);
+                });
+              }
+            }}
+            onMouseLeave={() => {
+              if (cy) {
+                cy.nodes().removeClass('highlighted faded');
+                cy.edges().removeClass('faded');
+              }
+            }}
+          >
+            {type.replace('_', ' ')}
+          </Button>
+        );
+      })}
     </Box>
   </Box>
 );

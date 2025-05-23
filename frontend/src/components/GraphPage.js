@@ -22,45 +22,50 @@ function GraphPage() {
 
   const API_BASE = process.env.REACT_APP_API_URL;
 
-  const fetchGraph = async () => {
-    try {
-      let nodesUrl, relsUrl;
-      if (graphName === "HE_2025") {
-        nodesUrl = `${API_BASE}/nodes/`;
-        relsUrl = `${API_BASE}/relationships/`;
-      } else if (graphName === "Cluster_4") {
-        nodesUrl = `${API_BASE}/cluster4/nodes`;
-        relsUrl = `${API_BASE}/cluster4/relationships`;
-      } else if (graphName === "Cluster_2") {
-        nodesUrl = `${API_BASE}/cluster2/nodes`;
-        relsUrl = `${API_BASE}/cluster2/relationships`;
-      }
-      const rawNodesUrl = `${API_BASE}/nodes/raw_nodes/`;
+const fetchGraph = async () => {
+  try {
+    const baseName = graphName.replace('_cose', ''); // 👈 normalize here
 
-      const [nodesRes, relsRes, rawNodesRes] = await Promise.all([
-        fetch(nodesUrl),
-        fetch(relsUrl),
-        fetch(rawNodesUrl)
-      ]);
+    let nodesUrl, relsUrl;
+    let rawNodes = [];
 
-      const nodes = await nodesRes.json();
-      const rels = await relsRes.json();
-      const rawNodes = await rawNodesRes.json();
-      console.log(nodes)
-      console.log(rels)
-      graphDataRef.current = { nodes, rels };
-      rawGraphDataRef.current = { nodes: rawNodes };
-
-      setReady(true);
-    } catch (e) {
-      console.error("Failed to preload graph data", e);
+    if (baseName === "HE_2025") {
+      nodesUrl = `${API_BASE}/nodes/`;
+      relsUrl = `${API_BASE}/relationships/`;
+      const rawRes = await fetch(`${API_BASE}/nodes/raw_nodes/`);
+      const rawJson = await rawRes.json();
+      rawNodes = rawJson?.nodes || [];
+    } else if (baseName === "Cluster_4") {
+      nodesUrl = `${API_BASE}/cluster4/nodes`;
+      relsUrl = `${API_BASE}/cluster4/relationships`;
+    } else if (baseName === "Cluster_2") {
+      nodesUrl = `${API_BASE}/cluster2/nodes`;
+      relsUrl = `${API_BASE}/cluster2/relationships`;
     }
+
+    const [nodesRes, relsRes] = await Promise.all([
+      fetch(nodesUrl),
+      fetch(relsUrl)
+    ]);
+
+    const nodes = await nodesRes.json();
+    const rels = await relsRes.json();
+
+    graphDataRef.current = { nodes, rels };
+    rawGraphDataRef.current = { nodes: { nodes: rawNodes } };
+
+    setReady(true);
+  } catch (e) {
+    console.error("Failed to preload graph data", e);
   }
+};
 
   useEffect(() => {
+    graphDataRef.current = null;
+    rawGraphDataRef.current = null;
+    setReady(false);  // ✅ ensure reset before fetch
     fetchGraph();
   }, [graphName]);
-
 
   return (
     <CyContext.Provider value={cyInstance}>
@@ -101,6 +106,7 @@ function GraphPage() {
                 }}
                 hoveredNodeIdRef={hoveredNodeIdRef}
                 onHoverNodeIdChange={(id) => { hoveredNodeIdRef.current = id; }}
+                graphName={graphName}
               />
             ) : (
               <div className="text-center p-5">Loading graph...</div>

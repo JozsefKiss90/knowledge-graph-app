@@ -1,66 +1,76 @@
-export const layoutConfig = {
+const defaultCoseLayout = {
   name: 'cose-bilkent',
   quality: 'default',
-  // Whether to include labels in node dimensions. Useful for avoiding label overlap
   nodeDimensionsIncludeLabels: false,
-  // number of ticks per frame; higher is faster but more jerky
   refresh: 30,
-  // Whether to fit the network view after when done
   fit: true,
-  // Padding on fit
-  padding: 20,
-  // Whether to enable incremental mode
+  padding: 30,
   randomize: true,
-  // Node repulsion (non overlapping) multiplier
-  nodeRepulsion: 8500,
-  // Ideal (intra-graph) edge length
-  idealEdgeLength: 100,
-  // Divisor to compute edge forces
+  nodeRepulsion: 10000,
+  idealEdgeLength: 120,
   edgeElasticity: 0.1,
-  // Nesting factor (multiplier) to compute ideal edge length for inter-graph edges
   nestingFactor: 20,
-  // Gravity force (constant)
   gravity: 0.1,
-  // Maximum number of iterations to perform
   numIter: 12500,
-  // Whether to tile disconnected nodes
   tile: true,
-  // Type of layout animation. The option set is {'during', 'end', false}
   animate: 'end',
-  // Duration for animate:end
   animationDuration: 500,
-  // Amount of vertical space to put between degree zero nodes during tiling (can also be a function)
   tilingPaddingVertical: 10,
-  // Amount of horizontal space to put between degree zero nodes during tiling (can also be a function)
-  tilingPaddingHorizontal: 10,
-  // Gravity range (constant) for compounds
+  tilingPaddingHorizontal: 200,
   gravityRangeCompound: 1.5,
-  // Gravity force (constant) for compounds
   gravityCompound: 1.0,
-  // Gravity range (constant)
-  gravityRange: 3.8,
-  // Initial cooling factor for incremental layout
-  initialEnergyOnIncremental: 0.5
+  gravityRange: 10,
+  initialEnergyOnIncremental: 0.5,
 };
 
-/*
 export const layoutConfig = {
-  name: 'cose-bilkent',
-  animate: false,
-  refresh: false,
-  randomize: true,
-  padding: 10,
-  idealEdgeLength: 180,
-  nodeRepulsion: 8000,
-  edgeElasticity: 0.3,
-  nestingFactor: 2,
-  gravity: 10,
-  gravityRangeCompound: 1.2,
-  gravityCompound: 0.4,
-  gravityRange: 10,
-  tilingPaddingVertical: 10,
-  tilingPaddingHorizontal: 1500,
-  nodeDimensionsIncludeLabels: true,
-  fit: true,
+  HE_2025: defaultCoseLayout,
+  Cluster_2: {
+    name: 'klay',
+    fit: true,
+    padding: 5,
+    animate: false,
+    klay: {
+      direction: 'DOWN',
+      aspectRatio: 0.5,
+      borderSpacing: 1,
+      spacing: 50,
+      edgeSpacingFactor: 0.2,
+      inLayerSpacingFactor: 0.1,
+      nodeLayering: 'NETWORK_SIMPLEX',
+      nodePlacement: 'LINEAR_SEGMENTS',
+      crossingMinimization: 'LAYER_SWEEP',
+      cycleBreaking: 'GREEDY',
+      edgeRouting: 'ORTHOGONAL',
+      layoutHierarchy: true,
+      separateConnectedComponents: true,
+      thoroughness: 20,
+      randomizationSeed: 1
+    }
+  },
+  Cluster_4: {
+    name: 'klay',
+    fit: true,
+    padding: 5,
+    animate: false,
+    klay: {
+      direction: 'DOWN',
+      aspectRatio: 0.5,
+      borderSpacing: 1,
+      spacing: 50,
+      edgeSpacingFactor: 0.2,
+      inLayerSpacingFactor: 0.1,
+      nodeLayering: 'NETWORK_SIMPLEX',
+      nodePlacement: 'LINEAR_SEGMENTS',
+      crossingMinimization: 'LAYER_SWEEP',
+      cycleBreaking: 'GREEDY',
+      edgeRouting: 'ORTHOGONAL',
+      layoutHierarchy: true,
+      separateConnectedComponents: true,
+      thoroughness: 20,
+      randomizationSeed: 1
+    }
+  },
+  Cluster_2_cose: defaultCoseLayout,
+  Cluster_4_cose: defaultCoseLayout
 };
-*/

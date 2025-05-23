@@ -2,6 +2,7 @@
 
 import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import Cytoscape from "cytoscape";
+import dagre from "cytoscape-dagre";
 import coseBilkent from "cytoscape-cose-bilkent";
 import { useNavigate } from "react-router-dom";
 import cyStyle from "../styles/graphStyles";
@@ -9,13 +10,16 @@ import "../styles/graphStyles.scss";
 import { buildElements } from "./utils/buildElements";
 import { layoutConfig } from "./utils/layoutConfig";
 import { setupEvents } from "./utils/setupEvents";
+import klay from 'cytoscape-klay';
 
-const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNodeIdChange, hoveredNodeIdRef }) => {
+const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNodeIdChange, hoveredNodeIdRef, graphName }) => {
   const containerRef = useRef(null);
   const [cyInstance, setCyInstance] = useState(null);
   const navigate = useNavigate();
 
   Cytoscape.use(coseBilkent);
+  Cytoscape.use(dagre);
+  Cytoscape.use( klay );
 
   // Update displayLabel on hover
   useEffect(() => {
@@ -34,12 +38,18 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
   }, [cyInstance, hoveredNodeIdRef]);
 
   useLayoutEffect(() => {
-    if (!containerRef.current || !graphData?.nodes?.nodes || !graphData?.rels?.relationships || !rawGraphData?.nodes) {
-      console.warn("🔴 Missing data:", { 
+    const hasRequiredData =
+    containerRef.current &&
+    Array.isArray(graphData?.nodes?.nodes) &&
+    Array.isArray(graphData?.rels?.relationships) &&
+    rawGraphData?.nodes?.nodes !== undefined;
+
+    if (!hasRequiredData) {
+      console.warn("🔴 Missing data:", {
         containerRefReady: !!containerRef.current,
-        graphNodesReady: !!graphData?.nodes?.nodes,
-        graphRelsReady: !!graphData?.rels?.relationships,
-        rawNodesReady: !!rawGraphData?.nodes?.nodes,
+        graphNodesReady: Array.isArray(graphData?.nodes?.nodes),
+        graphRelsReady: Array.isArray(graphData?.rels?.relationships),
+        rawNodesReady: rawGraphData?.nodes?.nodes !== undefined,
       });
       return;
     }
@@ -54,28 +64,30 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
       maxZoom: 2,
       minZoom: 0.3,
     });    
-
+  
     setCyInstance(cy);
     if (onCyReady) onCyReady(cy);
 
-    const layout = cy.layout(layoutConfig);
+    const layout = cy.layout(layoutConfig[graphName] || layoutConfig["HE_2025"]);
     layout.run();
-
+   
     layout.on("layoutstop", () => {
       cy.nodes().forEach(n => n.lock());
-      cy.layout({ name: "preset" }).run();
+      cy.fit(cy.nodes(), 50);
+      if (cy.zoom() > 1.5) {
+        cy.zoom(1.5);
+        cy.center();
+      }
     });
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
-   // cy.fit(100, 100);
-    //cy.pan({ x: 50, y: 0});
-    //cy.zoom(1.3);
-    cy.center()
-    //cy.resize()
+      //cy.fit();
+      //cy.center()
+      //cy.resize()
 
-    return () => {
-      cy.destroy();
-    };
+      return () => {
+        cy.destroy();
+      };
   }, [graphData, rawGraphData, navigate]);
 
   return (

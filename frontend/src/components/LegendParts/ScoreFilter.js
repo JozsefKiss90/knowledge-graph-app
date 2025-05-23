@@ -74,14 +74,21 @@ const ScoreFilter = ({ cy }) => {
       },
     },
   });
+
   return (
     <Box sx={{mt:1}}>
       <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">Min Similarity Score</Typography>
+      {cy && (
       <PrettoSlider
         valueLabelDisplay="auto"
         aria-label="pretto slider"
         value={minScore}
-      />
+        step={0.01}
+        min={0}
+        max={1}
+        onChange={(e, value) => setMinScore(value)}
+        />
+      )}
       <Button
         sx={{bgcolor:"rgb(196, 106, 47)", color:'white'}}
         variant="outlined"
