@@ -7,20 +7,16 @@ body {
   padding: 0;
 }
 
-.graph-wrapper {
-  border: 2px solid $primary-color;
-  border-radius: 10px;
-  height: 600px;
-  margin: 20px;
-}
-
 h2 {
-  color: $primary-color;
+  color: rgb(43, 56, 65);
   margin-top: 20px;
 }
 
-.components {
-  background-color: $primary-color;
+.dark-theme .components {
+    background-color: rgb(43, 56, 65);
+}
+.light-theme .components {
+  background-color: rgb(245, 245, 245);
 }
 
 .header {
@@ -28,7 +24,115 @@ h2 {
   background-color: rgb(43, 56, 65);
 }
 
-.graph-filter {
+.dark-theme .graph-container {
+  background-color: rgb(36, 55, 66);
+}
+.light-theme .graph-container {
+  background-color: rgb(245, 245, 245);
+}
+
+/* Common layout for the scrollable MUI Box */
+.legend-sidebar {
+  width: 400px;
+  height: 100vh;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  /* Scrollbar styles (Webkit-based browsers only) */
+  &::-webkit-scrollbar {
+    width: 8px;
+    padding-top: 100px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+  }
+ 
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+}
+
+.dark-theme .legend-sidebar {
+  &::-webkit-scrollbar-track {
+    background-color: rgb(20, 43, 59);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(26, 80, 102);
+  }
+}
+
+.light-theme .legend-sidebar {
+  &::-webkit-scrollbar-track {
+    background-color: rgb(233, 233, 233);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(161, 161, 161);
+  }
+}
+
+
+.dark-theme .icon-button {
+  color: white;
+  margin-top: 10px;
+}
+.light-theme .icon-button {
+  color: black;
+  margin-top: 10px;
+}
+
+.dark-theme .legend-titles {
+  color: white;
+}
+.light-theme .legend-titles {
+  color: black;
+}
+
+.dark-theme .legend-sidebar {
+  background-color: rgb(20, 43, 59);
+  color: white;
+}
+
+.light-theme .legend-sidebar {
+  background-color: rgb(231, 231, 231);
+  color: black;
+}
+
+.dark-theme .hover-box {
+  background-color: rgb(43, 56, 65);
+  color: white;
+}
+.light-theme .hover-box {
+  background-color: rgb(240, 240, 240);
+  color: black;
+}
+
+.dark-theme .search-input {
+  color: white;
+  background-color: rgb(43, 56, 65);
+  border: 1px solid white;
+}
+.light-theme .search-input {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.dark-theme .score-button {
+  background-color: rgb(196, 106, 47);
+  color: white;
+}
+.light-theme .score-button {
+  background-color: rgb(240, 190, 130);
+  color: black;
+}
+
+.dark-theme .graph-filter {
   background-color:rgb(43, 56, 65);
   padding: 4px 1px;
   width:345px;
@@ -37,306 +141,516 @@ h2 {
   border-color: whitesmoke;
 }
 
-.edge-toggle-button {
-  transition: all 0.2s ease;
+.light-theme .graph-filter {
+  background-color:rgb(240, 240, 240);
+  padding: 4px 1px;
+  width:345px;
+  color: black;
+  border-radius: 5px;
+  border-color: black;
+}
+
+.dark-theme .search-input {
   color: white;
+  background-color: rgb(43, 56, 65);
+  border: 1px solid white;
 }
 
-.edge-toggle-button:hover:not(.active) {
-  background-color:white;
+.light-theme .search-input {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
 }
 
-/* Edge type-specific styles */
-.edge-toggle-button.type-BELONGS_TO_TOPIC {
-  background-color: rgb(0, 175, 140);
+.MuiInputBase-input.dark-placeholder::placeholder {
+  color: rgb(172, 206, 231);
+  opacity: 1;
+}
+
+.MuiInputBase-input.light-placeholder::placeholder {
+  color: rgb(136, 136, 136);
+  opacity: 1;
+}
+
+.dark-theme .hovered-node {
   color: white;
-}
-.edge-toggle-button.type-BELONGS_TO_TOPIC-active {
-  border-color: rgb(0, 175, 140);
-  color: rgb(0, 175, 140);
+  background-color: rgb(43, 56, 65);
+  border: 1px solid white;
 }
 
-.edge-toggle-button.type-SHARED_TOPIC {
-  background-color: rgb(70, 149, 252);
-  color: white;
-}
-.edge-toggle-button.type-SHARED_TOPIC-active {
-  border-color: rgb(70, 149, 252);
-  color: rgb(70, 149, 252);
+.light-theme .hovered-node {
+  color: black;
+  background-color: white;
 }
 
-.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY {
-  background-color: rgb(223, 182, 70);
-  color: white;
-}
-.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY-active {
-  border-color: rgb(223, 182, 70);
-  color: rgb(223, 182, 70);
-}
-
-.edge-toggle-button.type-SHARED_TOPIC:hover  {
-  color: rgb(70, 149, 252);
-}
-.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY:hover  {
-  color: rgb(223, 182, 70);
-}
-
-
-.edge-toggle-button.type-BELONGS_TO_TOPIC:hover  {
-  color: rgb(0, 175, 140);
-}
-
-.edge-toggle-button.type-BELONGS_TO_TOPIC-active:hover {
-  background-color: transparent !important;
-  color: rgb(0, 175, 140) !important;
-}
-
-.edge-toggle-button.type-CROSS_TOPIC_SIMILARITY-active:hover {
-  background-color: transparent !important;
-  color: rgb(223, 182, 70) !important;
-}
-
-.edge-toggle-button.type-SHARED_TOPIC-active:hover {
-  background-color: transparent !important;
-  color: rgb(70, 149, 252) !important;
-}
-
+.edge-toggle-button,
 .node-toggle-button {
+  font-weight: 500;
+  border-radius: 4px;
   transition: all 0.2s ease;
-  color: white;
+  text-transform: capitalize;
 }
 
-.node-toggle-button :hover:not(.active) {
-  background-color:white;
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-policy,
+.edge-toggle-button.type-policy {
+  background-color: var(--btn-policy-bg);
+  color: var(--btn-policy-text);
+  border: 1px solid var(--btn-policy-border);
 }
 
-/* === POLICY === */
-.node-toggle-button.type-policy {
-  background-color: rgb(1, 173, 196);
-  color: white;
-}
-.node-toggle-button.type-policy-active {
-  border-color: rgb(1, 173, 196);
-  color: rgb(1, 173, 196);
-}
-.node-toggle-button.type-policy:hover {
-  background-color: white;
-  color: rgb(1, 173, 196);
-}
-.node-toggle-button.type-policy-active:hover {
-  background-color: transparent !important;
-  color: rgb(1, 173, 196) !important;
+.node-toggle-button.type-policy-active,
+.edge-toggle-button.type-policy-active {
+  background-color: transparent;
+  color: var(--btn-policy-text);
+  border: 1px solid var(--btn-policy-border);
 }
 
-/* === STRATEGY === */
-.node-toggle-button.type-strategy {
-  background-color: rgb(64, 180, 116);
-  color: white;
-}
-.node-toggle-button.type-strategy-active {
-  border-color: rgb(64, 180, 116);
-  color: rgb(64, 180, 116);
-}
-.node-toggle-button.type-strategy:hover {
-  background-color: white;
-  color: rgb(64, 180, 116);
-}
-.node-toggle-button.type-strategy-active:hover {
-  background-color: transparent !important;
-  color: rgb(64, 180, 116) !important;
+.node-toggle-button.type-policy:hover,
+.edge-toggle-button.type-policy:hover {
+  background-color: var(--btn-policy-text);
+  color: var(--btn-policy-bg);
 }
 
-/* === CLUSTER === */
-.node-toggle-button.type-cluster {
-  background-color: rgb(108, 99, 255);
-  color: white;
-}
-.node-toggle-button.type-cluster-active {
-  border-color: rgb(108, 99, 255);
-  color: rgb(108, 99, 255);
-}
-.node-toggle-button.type-cluster:hover {
-  background-color: white;
-  color: rgb(108, 99, 255);
-}
-.node-toggle-button.type-cluster-active:hover {
-  background-color: transparent !important;
-  color: rgb(108, 99, 255) !important;
+.node-toggle-button.type-policy-active:hover,
+.edge-toggle-button.type-policy-active:hover {
+  background-color: transparent;
+  color: var(--btn-policy-text);
 }
 
-/* === RESEARCH_THEME === */
-.node-toggle-button.type-research_theme {
-  background-color: rgb(255, 138, 101);
-  color: white;
-}
-.node-toggle-button.type-research_theme-active {
-  border-color: rgb(255, 138, 101);
-  color: rgb(255, 138, 101);
-}
-.node-toggle-button.type-research_theme:hover {
-  background-color: white;
-  color: rgb(255, 138, 101);
-}
-.node-toggle-button.type-research_theme-active:hover {
-  background-color: transparent !important;
-  color: rgb(255, 138, 101) !important;
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-strategy,
+.edge-toggle-button.type-strategy {
+  background-color: var(--btn-strategy-bg);
+  color: var(--btn-strategy-text);
+  border: 1px solid var(--btn-strategy-border);
 }
 
-/* === INSTITUTION === */
-.node-toggle-button.type-institution {
-  background-color: rgb(145, 85, 253);
-  color: white;
-}
-.node-toggle-button.type-institution-active {
-  border-color: rgb(145, 85, 253);
-  color: rgb(145, 85, 253);
-}
-.node-toggle-button.type-institution:hover {
-  background-color: white;
-  color: rgb(145, 85, 253);
-}
-.node-toggle-button.type-institution-active:hover {
-  background-color: transparent !important;
-  color: rgb(145, 85, 253) !important;
+.node-toggle-button.type-strategy-active,
+.edge-toggle-button.type-strategy-active {
+  background-color: transparent;
+  color: var(--btn-strategy-text);
+  border: 1px solid var(--btn-strategy-border);
 }
 
-/* === TOPIC === */
-.node-toggle-button.type-topic {
-  background-color: rgb(223, 182, 70);
-  color: white;
-}
-.node-toggle-button.type-topic-active {
-  border-color: rgb(223, 182, 70);
-  color: rgb(223, 182, 70);
-}
-.node-toggle-button.type-topic:hover {
-  background-color: white;
-  color: rgb(223, 182, 70);
-}
-.node-toggle-button.type-topic-active:hover {
-  background-color: transparent !important;
-  color: rgb(223, 182, 70) !important;
+.node-toggle-button.type-strategy:hover,
+.edge-toggle-button.type-strategy:hover {
+  background-color: var(--btn-strategy-text);
+  color: var(--btn-strategy-bg);
 }
 
-/* === EDGE TYPES === */
-
-.edge-toggle-button.type-HAS_DESTINATION {
-  background-color: rgb(96, 163, 250);
-  color: white;
-}
-.edge-toggle-button.type-HAS_DESTINATION-active {
-  border-color: rgb(96, 163, 250);
-  color: rgb(96, 163, 250);
-}
-.edge-toggle-button.type-HAS_DESTINATION:hover {
-  background-color: white;
-  color: rgb(96, 163, 250);
-}
-.edge-toggle-button.type-HAS_DESTINATION-active:hover {
-  background-color: transparent !important;
-  color: rgb(96, 163, 250) !important;
+.node-toggle-button.type-strategy-active:hover,
+.edge-toggle-button.type-strategy-active:hover {
+  background-color: transparent;
+  color: var(--btn-strategy-text);
 }
 
-.edge-toggle-button.type-HAS_THEME {
-  background-color: rgb(87, 115, 209);
-  color: white;
-}
-.edge-toggle-button.type-HAS_THEME-active {
-  border-color: rgb(87, 115, 209);
-  color: rgb(87, 115, 209);
-}
-.edge-toggle-button.type-HAS_THEME:hover {
-  background-color: white;
-  color: rgb(87, 115, 209);
-}
-.edge-toggle-button.type-HAS_THEME-active:hover {
-  background-color: transparent !important;
-  color: rgb(87, 115, 209) !important;
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-cluster,
+.edge-toggle-button.type-cluster {
+  background-color: var(--btn-cluster-bg);
+  color: var(--btn-cluster-text);
+  border: 1px solid var(--btn-cluster-border);
 }
 
-.edge-toggle-button.type-HAS_CALL {
-  background-color: rgb(223, 180, 93);
-  color: white;
-}
-.edge-toggle-button.type-HAS_CALL-active {
-  border-color: rgb(223, 180, 93);
-  color: rgb(223, 180, 93);
-}
-.edge-toggle-button.type-HAS_CALL:hover {
-  background-color: white;
-  color: rgb(223, 180, 93);
-}
-.edge-toggle-button.type-HAS_CALL-active:hover {
-  background-color: transparent !important;
-  color: rgb(223, 180, 93) !important;
+.node-toggle-button.type-cluster-active,
+.edge-toggle-button.type-cluster-active {
+  background-color: transparent;
+  color: var(--btn-cluster-text);
+  border: 1px solid var(--btn-cluster-border);
 }
 
-/* === NODE TYPES === */
-
-.node-toggle-button.type-WorkProgramme {
-  background-color: rgb(196, 96, 74);
-  color: white;
-}
-.node-toggle-button.type-WorkProgramme-active {
-  border-color: rgb(196, 96, 74);
-  color: rgb(196, 96, 74);
-}
-.node-toggle-button.type-WorkProgramme:hover {
-  background-color: white;
-  color: rgb(196, 96, 74);
-}
-.node-toggle-button.type-WorkProgramme-active:hover {
-  background-color: transparent !important;
-  color: rgb(196, 96, 74) !important;
+.node-toggle-button.type-cluster:hover,
+.edge-toggle-button.type-cluster:hover {
+  background-color: var(--btn-cluster-text);
+  color: var(--btn-cluster-bg);
 }
 
-.node-toggle-button.type-Destination {
-  background-color: rgb(98, 170, 247);
-  color: white;
-}
-.node-toggle-button.type-Destination-active {
-  border-color: rgb(98, 170, 247);
-  color: rgb(98, 170, 247);
-}
-.node-toggle-button.type-Destination:hover {
-  background-color: white;
-  color: rgb(98, 170, 247);
-}
-.node-toggle-button.type-Destination-active:hover {
-  background-color: transparent !important;
-  color: rgb(98, 170, 247) !important;
+.node-toggle-button.type-cluster-active:hover,
+.edge-toggle-button.type-cluster-active:hover {
+  background-color: transparent;
+  color: var(--btn-cluster-text);
 }
 
-.node-toggle-button.type-Theme {
-  background-color: rgb(86, 119, 226);
-  color: white;
-}
-.node-toggle-button.type-Theme-active {
-  border-color: rgb(86, 119, 226);
-  color: rgb(86, 119, 226);
-}
-.node-toggle-button.type-Theme:hover {
-  background-color: white;
-  color: rgb(86, 119, 226);
-}
-.node-toggle-button.type-Theme-active:hover {
-  background-color: transparent !important;
-  color: rgb(86, 119, 226) !important;
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-research_theme,
+.edge-toggle-button.type-research_theme {
+  background-color: var(--btn-research_theme-bg);
+  color: var(--btn-research_theme-text);
+  border: 1px solid var(--btn-research_theme-border);
 }
 
-.node-toggle-button.type-Call {
-  background-color: rgb(223, 180, 94);
-  color: white;
+.node-toggle-button.type-research_theme-active,
+.edge-toggle-button.type-research_theme-active {
+  background-color: transparent;
+  color: var(--btn-research_theme-text);
+  border: 1px solid var(--btn-research_theme-border);
 }
-.node-toggle-button.type-Call-active {
-  border-color: rgb(223, 180, 94);
-  color: rgb(223, 180, 94);
+
+.node-toggle-button.type-research_theme:hover,
+.edge-toggle-button.type-research_theme:hover {
+  background-color: var(--btn-research_theme-text);
+  color: var(--btn-research_theme-bg);
 }
-.node-toggle-button.type-Call:hover {
-  background-color: white;
-  color: rgb(223, 180, 94);
+
+.node-toggle-button.type-research_theme-active:hover,
+.edge-toggle-button.type-research_theme-active:hover {
+  background-color: transparent;
+  color: var(--btn-research_theme-text);
 }
-.node-toggle-button.type-Call-active:hover {
-  background-color: transparent !important;
-  color: rgb(223, 180, 94) !important;
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-institution,
+.edge-toggle-button.type-institution {
+  background-color: var(--btn-institution-bg);
+  color: var(--btn-institution-text);
+  border: 1px solid var(--btn-institution-border);
+}
+
+.node-toggle-button.type-institution-active,
+.edge-toggle-button.type-institution-active {
+  background-color: transparent;
+  color: var(--btn-institution-text);
+  border: 1px solid var(--btn-institution-border);
+}
+
+.node-toggle-button.type-institution:hover,
+.edge-toggle-button.type-institution:hover {
+  background-color: var(--btn-institution-text);
+  color: var(--btn-institution-bg);
+}
+
+.node-toggle-button.type-institution-active:hover,
+.edge-toggle-button.type-institution-active:hover {
+  background-color: transparent;
+  color: var(--btn-institution-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-topic,
+.edge-toggle-button.type-topic {
+  background-color: var(--btn-topic-bg);
+  color: var(--btn-topic-text);
+  border: 1px solid var(--btn-topic-border);
+}
+
+.node-toggle-button.type-topic-active,
+.edge-toggle-button.type-topic-active {
+  background-color: transparent;
+  color: var(--btn-topic-text);
+  border: 1px solid var(--btn-topic-border);
+}
+
+.node-toggle-button.type-topic:hover,
+.edge-toggle-button.type-topic:hover {
+  background-color: var(--btn-topic-text);
+  color: var(--btn-topic-bg);
+}
+
+.node-toggle-button.type-topic-active:hover,
+.edge-toggle-button.type-topic-active:hover {
+  background-color: transparent;
+  color: var(--btn-topic-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-call,
+.edge-toggle-button.type-call {
+  background-color: var(--btn-call-bg);
+  color: var(--btn-call-text);
+  border: 1px solid var(--btn-call-border);
+}
+
+.node-toggle-button.type-call-active,
+.edge-toggle-button.type-call-active {
+  background-color: transparent;
+  color: var(--btn-call-text);
+  border: 1px solid var(--btn-call-border);
+}
+
+.node-toggle-button.type-call:hover,
+.edge-toggle-button.type-call:hover {
+  background-color: var(--btn-call-text);
+  color: var(--btn-call-bg);
+}
+
+.node-toggle-button.type-call-active:hover,
+.edge-toggle-button.type-call-active:hover {
+  background-color: transparent;
+  color: var(--btn-call-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-theme,
+.edge-toggle-button.type-theme {
+  background-color: var(--btn-theme-bg);
+  color: var(--btn-theme-text);
+  border: 1px solid var(--btn-theme-border);
+}
+
+.node-toggle-button.type-theme-active,
+.edge-toggle-button.type-theme-active {
+  background-color: transparent;
+  color: var(--btn-theme-text);
+  border: 1px solid var(--btn-theme-border);
+}
+
+.node-toggle-button.type-theme:hover,
+.edge-toggle-button.type-theme:hover {
+  background-color: var(--btn-theme-text);
+  color: var(--btn-theme-bg);
+}
+
+.node-toggle-button.type-theme-active:hover,
+.edge-toggle-button.type-theme-active:hover {
+  background-color: transparent;
+  color: var(--btn-theme-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-destination,
+.edge-toggle-button.type-destination {
+  background-color: var(--btn-destination-bg);
+  color: var(--btn-destination-text);
+  border: 1px solid var(--btn-destination-border);
+}
+
+.node-toggle-button.type-destination-active,
+.edge-toggle-button.type-destination-active {
+  background-color: transparent;
+  color: var(--btn-destination-text);
+  border: 1px solid var(--btn-destination-border);
+}
+
+.node-toggle-button.type-destination:hover,
+.edge-toggle-button.type-destination:hover {
+  background-color: var(--btn-destination-text);
+  color: var(--btn-destination-bg);
+}
+
+.node-toggle-button.type-destination-active:hover,
+.edge-toggle-button.type-destination-active:hover {
+  background-color: transparent;
+  color: var(--btn-destination-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-workprogramme,
+.edge-toggle-button.type-workprogramme {
+  background-color: var(--btn-workprogramme-bg);
+  color: var(--btn-workprogramme-text);
+  border: 1px solid var(--btn-workprogramme-border);
+}
+
+.node-toggle-button.type-workprogramme-active,
+.edge-toggle-button.type-workprogramme-active {
+  background-color: transparent;
+  color: var(--btn-workprogramme-text);
+  border: 1px solid var(--btn-workprogramme-border);
+}
+
+.node-toggle-button.type-workprogramme:hover,
+.edge-toggle-button.type-workprogramme:hover {
+  background-color: var(--btn-workprogramme-text);
+  color: var(--btn-workprogramme-bg);
+}
+
+.node-toggle-button.type-workprogramme-active:hover,
+.edge-toggle-button.type-workprogramme-active:hover {
+  background-color: transparent;
+  color: var(--btn-workprogramme-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-belongs_to_topic,
+.edge-toggle-button.type-belongs_to_topic {
+  background-color: var(--btn-belongsto_topic-bg);
+  color: var(--btn-belongsto_topic-text);
+  border: 1px solid var(--btn-belongsto_topic-border);
+}
+
+.node-toggle-button.type-belongs_to_topic-active,
+.edge-toggle-button.type-belongs_to_topic-active {
+  background-color: transparent;
+  color: var(--btn-belongsto_topic-text);
+  border: 1px solid var(--btn-belongsto_topic-border);
+}
+
+.node-toggle-button.type-belongs_to_topic:hover,
+.edge-toggle-button.type-belongs_to_topic:hover {
+  background-color: var(--btn-belongsto_topic-text);
+  color: var(--btn-belongsto_topic-bg);
+}
+
+.node-toggle-button.type-belongs_to_topic-active:hover,
+.edge-toggle-button.type-belongs_to_topic-active:hover {
+  background-color: transparent;
+  color: var(--btn-belongsto_topic-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-shared_topic,
+.edge-toggle-button.type-shared_topic {
+  background-color: var(--btn-shared_topic-bg);
+  color: var(--btn-shared_topic-text);
+  border: 1px solid var(--btn-shared_topic-border);
+}
+
+.node-toggle-button.type-shared_topic-active,
+.edge-toggle-button.type-shared_topic-active {
+  background-color: transparent;
+  color: var(--btn-shared_topic-text);
+  border: 1px solid var(--btn-shared_topic-border);
+}
+
+.node-toggle-button.type-shared_topic:hover,
+.edge-toggle-button.type-shared_topic:hover {
+  background-color: var(--btn-shared_topic-text);
+  color: var(--btn-shared_topic-bg);
+}
+
+.node-toggle-button.type-shared_topic-active:hover,
+.edge-toggle-button.type-shared_topic-active:hover {
+  background-color: transparent;
+  color: var(--btn-shared_topic-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-cross_topic_similarity,
+.edge-toggle-button.type-cross_topic_similarity {
+  background-color: var(--btn-cross_topic_similarity-bg);
+  color: var(--btn-cross_topic_similarity-text);
+  border: 1px solid var(--btn-cross_topic_similarity-border);
+}
+
+.node-toggle-button.type-cross_topic_similarity-active,
+.edge-toggle-button.type-cross_topic_similarity-active {
+  background-color: transparent;
+  color: var(--btn-cross_topic_similarity-text);
+  border: 1px solid var(--btn-cross_topic_similarity-border);
+}
+
+.node-toggle-button.type-cross_topic_similarity:hover,
+.edge-toggle-button.type-cross_topic_similarity:hover {
+  background-color: var(--btn-cross_topic_similarity-text);
+  color: var(--btn-cross_topic_similarity-bg);
+}
+
+.node-toggle-button.type-cross_topic_similarity-active:hover,
+.edge-toggle-button.type-cross_topic_similarity-active:hover {
+  background-color: transparent;
+  color: var(--btn-cross_topic_similarity-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-has_destination,
+.edge-toggle-button.type-has_destination {
+  background-color: var(--btn-has_destination-bg);
+  color: var(--btn-has_destination-text);
+  border: 1px solid var(--btn-has_destination-border);
+}
+
+.node-toggle-button.type-has_destination-active,
+.edge-toggle-button.type-has_destination-active {
+  background-color: transparent;
+  color: var(--btn-has_destination-text);
+  border: 1px solid var(--btn-has_destination-border);
+}
+
+.node-toggle-button.type-has_destination:hover,
+.edge-toggle-button.type-has_destination:hover {
+  background-color: var(--btn-has_destination-text);
+  color: var(--btn-has_destination-bg);
+}
+
+.node-toggle-button.type-has_destination-active:hover,
+.edge-toggle-button.type-has_destination-active:hover {
+  background-color: transparent;
+  color: var(--btn-has_destination-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-has_theme,
+.edge-toggle-button.type-has_theme {
+  background-color: var(--btn-has_theme-bg);
+  color: var(--btn-has_theme-text);
+  border: 1px solid var(--btn-has_theme-border);
+}
+
+.node-toggle-button.type-has_theme-active,
+.edge-toggle-button.type-has_theme-active {
+  background-color: transparent;
+  color: var(--btn-has_theme-text);
+  border: 1px solid var(--btn-has_theme-border);
+}
+
+.node-toggle-button.type-has_theme:hover,
+.edge-toggle-button.type-has_theme:hover {
+  background-color: var(--btn-has_theme-text);
+  color: var(--btn-has_theme-bg);
+}
+
+.node-toggle-button.type-has_theme-active:hover,
+.edge-toggle-button.type-has_theme-active:hover {
+  background-color: transparent;
+  color: var(--btn-has_theme-text);
+}
+
+
+/* SHARED PATTERN for NODE & EDGE */
+
+.node-toggle-button.type-has_call,
+.edge-toggle-button.type-has_call {
+  background-color: var(--btn-has_call-bg);
+  color: var(--btn-has_call-text);
+  border: 1px solid var(--btn-has_call-border);
+}
+
+.node-toggle-button.type-has_call-active,
+.edge-toggle-button.type-has_call-active {
+  background-color: transparent;
+  color: var(--btn-has_call-text);
+  border: 1px solid var(--btn-has_call-border);
+}
+
+.node-toggle-button.type-has_call:hover,
+.edge-toggle-button.type-has_call:hover {
+  background-color: var(--btn-has_call-text);
+  color: var(--btn-has_call-bg);
+}
+
+.node-toggle-button.type-has_call-active:hover,
+.edge-toggle-button.type-has_call-active:hover {
+  background-color: transparent;
+  color: var(--btn-has_call-text);
 }

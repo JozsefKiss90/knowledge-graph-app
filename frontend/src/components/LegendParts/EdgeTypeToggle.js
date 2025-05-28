@@ -9,21 +9,20 @@ const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => {
 
   return (
     <Box>
-      <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">
+      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
         Edge Types
       </Typography>
       <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
         {types.map(({ type }) => {
-          const isActive = visibleTypes.has(type);
-          const classType = type.replace(/\s+/g, '');
-
+          const classType = type.replace(/\s+/g, '').toLowerCase();
+         const isActive = visibleTypes.has(type)
           return (
             <Button
               key={type}
               variant={isActive ? 'contained' : 'outlined'}
               size="small"
               disableElevation
-className={`node-toggle-button type-${classType}${isActive ? '-active' : ''}`}
+              className={`edge-toggle-button type-${classType}${!isActive ? '-active' : ''}`}
               onClick={() => onToggle(type)}
               onMouseEnter={() => {
                 if (cy) {

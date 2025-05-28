@@ -5,7 +5,7 @@ import Slider, { SliderThumb, SliderValueLabelProps } from '@mui/material/Slider
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-
+import '../../styles/main.scss';
 
 const ScoreFilter = ({ cy }) => {
   const [minScore, setMinScore] = useState(0);
@@ -37,7 +37,7 @@ const ScoreFilter = ({ cy }) => {
   };
   
   const PrettoSlider = styled(Slider)({
-    color: '#52af77',
+    color: 'rgb(0, 151, 189)',
     height: 8,
     '& .MuiSlider-track': {
       border: 'none',
@@ -62,7 +62,7 @@ const ScoreFilter = ({ cy }) => {
       width: 32,
       height: 32,
       borderRadius: '50% 50% 50% 0',
-      backgroundColor: '#52af77',
+      backgroundColor: 'rgb(0, 159, 199)',
       transformOrigin: 'bottom left',
       transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
       '&::before': { display: 'none' },
@@ -77,7 +77,7 @@ const ScoreFilter = ({ cy }) => {
 
   return (
     <Box sx={{mt:1}}>
-      <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">Min Similarity Score</Typography>
+      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Min Similarity Score</Typography>
       {cy && (
       <PrettoSlider
         valueLabelDisplay="auto"
@@ -90,7 +90,7 @@ const ScoreFilter = ({ cy }) => {
         />
       )}
       <Button
-        sx={{bgcolor:"rgb(196, 106, 47)", color:'white'}}
+        sx={{bgcolor:"rgb(0, 151, 189)", color:'white'}}
         variant="outlined"
         size="medium"
         onClick={filterByScore}

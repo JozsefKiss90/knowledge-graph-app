@@ -11,12 +11,15 @@ import { buildElements } from "./utils/buildElements";
 import { layoutConfig } from "./utils/layoutConfig";
 import { setupEvents } from "./utils/setupEvents";
 import klay from 'cytoscape-klay';
+import '../styles/main.scss'
+import { useDarkMode } from "./context/DarkModeContext";
 
 const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNodeIdChange, hoveredNodeIdRef, graphName }) => {
   const containerRef = useRef(null);
   const [cyInstance, setCyInstance] = useState(null);
   const navigate = useNavigate();
-
+  const { darkMode } = useDarkMode();
+  
   Cytoscape.use(coseBilkent);
   Cytoscape.use(dagre);
   Cytoscape.use( klay );
@@ -59,25 +62,27 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
     const cy = Cytoscape({
       container: containerRef.current,
       elements: [...nodeElements, ...edgeElements],
-      style: cyStyle,
+      style: cyStyle(darkMode),
       pixelRatio: 2,
-      maxZoom: 2,
-      minZoom: 0.3,
+      maxZoom: 3,
+      minZoom: graphName === 'HE_2025' ? 0.95 : 0.1,
     });    
   
     setCyInstance(cy);
     if (onCyReady) onCyReady(cy);
+    console.log("Layout config:", layoutConfig[graphName]);
 
-    const layout = cy.layout(layoutConfig[graphName] || layoutConfig["HE_2025"]);
+
+    const layout = cy.layout(layoutConfig[graphName]);
     layout.run();
    
     layout.on("layoutstop", () => {
       cy.nodes().forEach(n => n.lock());
       cy.fit(cy.nodes(), 50);
-      if (cy.zoom() > 1.5) {
-        cy.zoom(1.5);
-        cy.center();
-      }
+      /*if (cy.zoom() > 1.5) {
+        //cy.zoom(1.5);
+        //cy.center();
+      }*/
     });
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
@@ -88,14 +93,16 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
       return () => {
         cy.destroy();
       };
-  }, [graphData, rawGraphData, navigate]);
+  }, [graphData, rawGraphData, navigate, darkMode]);
 
   return (
     <div
       ref={containerRef}
-      style={{ width: "100%", height: "100%", backgroundColor: "rgb(36, 55, 66)"}}
+      className="graph-container"
+      style={{ width: "100%", height: "100%"}}
     />
   );
 };
 
 export default GraphView;
+

@@ -4,17 +4,20 @@ import React, { useState, useEffect } from 'react';
 import { useCy } from "./context/CyContext";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Checkbox from '@mui/material/Checkbox';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import NodeTypeToggle from './LegendParts/NodeTypeToggle';
 import EdgeTypeToggle from './LegendParts/EdgeTypeToggle';
 import SearchBox from './LegendParts/SearchBox';
 import ScoreFilter from './LegendParts/ScoreFilter';
 import '../styles/main.scss'
+import { useDarkMode } from "./context/DarkModeContext";
 
 const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
   const cy = useCy();
   const [hoveredNode, setHoveredNode] = useState(null);
+  const { darkMode } = useDarkMode();
   const defaultEdgeTypes = {
     HE_2025: new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']),
     Cluster_4: new Set(['HAS_DESTINATION', 'HAS_THEME', 'HAS_CALL']),
@@ -37,11 +40,11 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
     defaultNodeTypes[cleanGraphName] || new Set()
   );
 
- useEffect(() => {
-  const normalized = graphName.replace('_cose', '');
-  setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
-  setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
-}, [graphName]);
+  useEffect(() => {
+    const normalized = graphName.replace('_cose', '');
+    setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
+    setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
+  }, [graphName]);
 
   const edgeTypeList = graphName === 'HE_2025'
   ? [
@@ -91,12 +94,11 @@ const nodeTypeList = graphName === 'HE_2025'
     return () => clearInterval(interval);
   }, [hoveredNodeRef]);
 
-useEffect(() => {
-  const normalized = graphName.replace('_cose', '');
-  setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
-  setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
-}, [graphName]);
-
+  useEffect(() => {
+    const normalized = graphName.replace('_cose', '');
+    setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
+    setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
+  }, [graphName]);
 
   const toggleType = (type, typeSet, setter, selectorFn) => {
     if (!cy) return;
@@ -125,7 +127,7 @@ useEffect(() => {
 
   return (
     <Box
-      className="components"
+      className="legend-sidebar"
       component="aside"
       sx={{
         width: 400,
@@ -134,36 +136,21 @@ useEffect(() => {
         overflowY: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        gap: 3,
-        '&::-webkit-scrollbar': {
-          width: '8px',
-          paddingTop: '100px'
-        },
-        '&::-webkit-scrollbar-track': {
-          backgroundColor: 'rgb(20, 43, 59)',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: 'rgb(26, 80, 102)',
-          borderRadius: '4px',
-        },
-        '&::-webkit-scrollbar-thumb:hover': {
-          backgroundColor: '#555',
-        },
+        gap: 3
       }}
     >
       <Box>
-        <Typography  sx={{color:'white'}} variant="subtitle1" fontWeight="bold">Graph Filter</Typography>
+        <Typography  className="legend-titles" variant="subtitle1" fontWeight="bold">Graph Filter</Typography>
           <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
-            <select
+              <select
                 className="graph-filter"
-                value={graphName}
+                value={graphName.replace('_cose', '')}
                 onChange={(e) => {
-                const selected = e.target.value;
-                if (selected !== graphName) {
-                  // Only update if truly changed
-                  setGraphName(selected);
-                }
-              }}
+                  const selected = e.target.value;
+                  const useCoseLayout = ['Cluster_2', 'Cluster_4'].includes(selected);
+                  const updatedGraphName = useCoseLayout ? `${selected}_cose` : selected;
+                  setGraphName(updatedGraphName);
+                }}
               >
               <option value="HE_2025">Horizon Europe strategic plan (2025 – 2027)</option>
               <option value="Cluster_2">Horizon Europe - Work Programme 2025 Culture, Creativity and Inclusive Society</option>
@@ -171,45 +158,39 @@ useEffect(() => {
             </select>
           </Box>
       </Box>
-{["Cluster_2", "Cluster_4"].includes(cleanGraphName) && (
-  <Box sx={{ mt: 2 }}>
-    <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">
-      Layout Mode
-    </Typography>
-    <Box sx={{ mt: 1, ml: 1 }}>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={!graphName.endsWith('_cose')}
-            onChange={() => {
-              setGraphName(prev =>
-                prev.endsWith('_cose') ? prev.replace('_cose', '') : prev
-              );
-            }}
-            sx={{ color: 'white' }}
-          />
-        }
-        label="Default (Klay)"
-        sx={{ color: 'white' }}
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={graphName.endsWith('_cose')}
-            onChange={() => {
-              setGraphName(prev =>
-                prev.endsWith('_cose') ? prev : prev + '_cose'
-              );
-            }}
-            sx={{ color: 'white' }}
-          />
-        }
-        label="Cose-Bilkent"
-        sx={{ color: 'white' }}
-      />
-    </Box>
-  </Box>
-)}
+      {["Cluster_2", "Cluster_4"].includes(cleanGraphName) && (
+        <Box>
+          <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
+            Layout Mode
+          </Typography>
+              <Box sx={{ mt: 1, ml: 1 }}>
+                <RadioGroup
+                  value={graphName.endsWith('_cose') ? 'cose' : 'klay'}
+                  onChange={(e) => {
+                    const selectedLayout = e.target.value;
+                    setGraphName(prev =>
+                      selectedLayout === 'klay'
+                        ? prev.replace('_cose', '')
+                        : prev.endsWith('_cose') ? prev : prev + '_cose'
+                    );
+                  }}
+                >
+            <FormControlLabel
+              value="cose"
+              control={<Radio sx={{ color: 'white' }} />}
+              label="Default"
+              sx={{ color: 'white' }}
+            />
+            <FormControlLabel
+              value="klay"
+              control={<Radio sx={{ color: 'white' }} />}
+              label="Tree"
+              sx={{ color: 'white' }}
+            />
+            </RadioGroup>
+          </Box>
+        </Box>
+      )}
 
       {["HE_2025", "Cluster_4", "Cluster_2"].includes(cleanGraphName) && (
         <EdgeTypeToggle
@@ -235,16 +216,16 @@ useEffect(() => {
       )}
 
       <Box>
-        <button style={{color:'white'}}  className="btn btn-sm btn-outline-secondary components" onClick={resetView}>Reset View</button>
+        <button  className="btn btn-sm btn-outline-secondary components legend-titles" onClick={resetView}>Reset View</button>
       </Box>
 
       {hoveredNode && (
-        <Box className="mt-3 mb-5 p-2 border rounded shadow-sm " sx={{backgroundColor: "rgb(43, 56, 65)"}}>
-          <Typography sx={{color:"white"}} variant="subtitle1" fontWeight="bold">Hovered Node</Typography>
-          <Typography  sx={{color:"white"}} variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
-          <Typography  sx={{color:"white"}} variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
+        <Box className="mt-3 mb-5 p-2 border rounded shadow-sm hovered-node ">
+          <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Hovered Node</Typography>
+          <Typography  className="legend-titles" variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
+          <Typography  className="legend-titles" variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
           {hoveredNode.summary && (
-            <Typography  variant="body2" sx={{color:"white", mt: 1 }}>
+            <Typography className="legend-titles"  variant="body2" sx={{color:"white", mt: 1 }}>
               <strong>Summary:</strong><br />{hoveredNode.summary}
             </Typography>
           )}

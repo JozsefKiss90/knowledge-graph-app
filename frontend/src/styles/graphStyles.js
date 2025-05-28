@@ -1,6 +1,7 @@
 // --- Final polished graphStyles.js ---
 
-const cyStyle = [
+const cyStyle = (darkMode) => {
+  return [
   // Base node style
   {
     selector: 'node',
@@ -16,7 +17,7 @@ const cyStyle = [
       'text-valign': 'center',
       'text-halign': 'center',
       'color': 'white',
-      'text-outline-color': 'white',
+      'text-outline-color': darkMode ? 'white' : 'black',
       'padding': '11px'
     },
   },
@@ -53,7 +54,7 @@ const cyStyle = [
   {
     selector: "node[type = 'cluster']",
     style: {
-      'background-color': 'rgb(197, 91, 67)'
+      'background-color': 'rgb(204, 75, 46)'
     },
   },
   {
@@ -199,8 +200,7 @@ const cyStyle = [
     'width': 1.3,
   },
 },
-
-];
+]}
 
 export default cyStyle;
 

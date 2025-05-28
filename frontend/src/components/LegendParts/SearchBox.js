@@ -3,10 +3,14 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import '../../styles/main.scss';
+import { useDarkMode } from '../context/DarkModeContext';
+
 
 const SearchBox = ({ cy }) => {
   const [searchTerm, setSearchTerm] = useState('');
-
+  const { darkMode, setDarkMode } = useDarkMode();
+  console.log(darkMode)
   const handleSearch = () => {
     if (!cy || !searchTerm.trim()) return;
     const term = searchTerm.toLowerCase();
@@ -26,7 +30,7 @@ const SearchBox = ({ cy }) => {
 
   return (
     <Box>
-      <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">Search Node</Typography>
+      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Search Node</Typography>
       <TextField
         size="small"
         fullWidth
@@ -34,21 +38,28 @@ const SearchBox = ({ cy }) => {
         placeholder="Call ID or label"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
         InputProps={{
-          sx: {
-            color: 'white',
-            backgroundColor: 'rgb(43, 56, 65)', 
-            border:'1px solid white',
-            '& input::placeholder': {
-              color: 'rgb(172, 206, 231)',
-              opacity: 1, // Important: ensure it's visible
-            },
+          classes: {
+            input: darkMode ? 'dark-placeholder' : 'light-placeholder',
           },
         }}
+        /*
+        InputProps={{
+        sx: {
+          color: 'white',
+          backgroundColor: 'rgb(43, 56, 65)', 
+          border:'1px solid white',
+          '& input::placeholder': {
+            color: 'rgb(172, 206, 231)',
+            opacity: 1, // Important: ensure it's visible
+          },
+        },
+      }}*/
       />
-
       <Button
-        sx={{color:'white', mt: 1, border:'1px solid white' }}
+        className="search-input"
+        sx={{mt: 1, border:`1px solid ${darkMode} ? white : black`}}
         variant="outlined"
         size="medium"
         onClick={handleSearch}

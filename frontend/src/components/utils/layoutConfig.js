@@ -4,6 +4,31 @@ const defaultCoseLayout = {
   nodeDimensionsIncludeLabels: false,
   refresh: 30,
   fit: true,
+  padding: 60,
+  randomize: false,
+  nodeRepulsion: 10000,
+  idealEdgeLength: 140,
+  edgeElasticity: 0.1,
+  nestingFactor: 1,
+  gravity: 0.1,
+  numIter: 12500,
+  tile: true,
+  animate: 'end',
+  animationDuration: 1000,
+  tilingPaddingVertical: 10,
+  tilingPaddingHorizontal: 200,
+  gravityRangeCompound: 1.5,
+  gravityCompound: 1.0,
+  gravityRange: 10,
+  initialEnergyOnIncremental: 0.5,
+};
+
+const defaultCoseLayout_2 = {
+  name: 'cose-bilkent',
+  quality: 'default',
+  nodeDimensionsIncludeLabels: false,
+  refresh: 30,
+  fit: true,
   padding: 30,
   randomize: true,
   nodeRepulsion: 10000,
@@ -71,6 +96,6 @@ export const layoutConfig = {
       randomizationSeed: 1
     }
   },
-  Cluster_2_cose: defaultCoseLayout,
-  Cluster_4_cose: defaultCoseLayout
+  Cluster_2_cose: defaultCoseLayout_2,
+  Cluster_4_cose: defaultCoseLayout_2
 };

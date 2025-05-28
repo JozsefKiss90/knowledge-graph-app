@@ -7,13 +7,13 @@ import '../../styles/main.scss';
 const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
 
   <Box>
-    <Typography sx={{ color: 'white' }} variant="subtitle1" fontWeight="bold">
+    <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
       Node Types
     </Typography>
     <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
       {types.map(({ type }) => {
         if (!visibleTypes || !types) return null;
-        const classType = type.replace(/\s+/g, '');
+        const classType = type.replace(/\s+/g, '').toLowerCase();
         const isActive = visibleTypes.has(type);
         return (
           <Button
