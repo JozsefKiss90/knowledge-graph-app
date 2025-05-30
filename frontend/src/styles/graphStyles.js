@@ -18,10 +18,16 @@ const cyStyle = (darkMode) => {
       'text-halign': 'center',
       'color': 'white',
       'text-outline-color': darkMode ? 'white' : 'black',
-      'padding': '11px'
+      'padding': '11px',
+          'cursor': 'pointer'
     },
   },
-
+  {
+    selector: 'node:hover',
+    style: {
+      'cursor': 'ns-resize'
+    }
+  },
   {
     selector: '.faded',
     style: {

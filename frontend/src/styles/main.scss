@@ -13,10 +13,10 @@ h2 {
 }
 
 .dark-theme .components {
-    background-color: rgb(43, 56, 65);
+    background-color: rgb(43, 56, 65) !important;;
 }
 .light-theme .components {
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(245, 245, 245) !important;;
 }
 
 .header {
@@ -75,7 +75,6 @@ h2 {
     background-color: rgb(161, 161, 161);
   }
 }
-
 
 .dark-theme .icon-button {
   color: white;

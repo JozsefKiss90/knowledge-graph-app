@@ -37,31 +37,22 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover) {
       console.warn('⚠️ Node without valid ID clicked:', node.data());
     }
   });
+
+   cy.nodes().on('mouseover', (event) => {
+    const node = event.target;
+      cy.userZoomingEnabled(false);
+
+    if (onNodeHover) onNodeHover(node);
+    if (onHoverNodeIdChange) onHoverNodeIdChange(node.id());
+
+    cy.container().style.cursor = 'url("/cursor.ico"), auto';
+  });
+
+  cy.nodes().on('mouseout', () => {
+    cy.container().style.cursor = 'default';
+    if (onHoverNodeIdChange) onHoverNodeIdChange(null);
+    if (onNodeHover) onNodeHover(null);
+      cy.userZoomingEnabled(true);
+
+  });
 }
-
-
-/*export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover) {
-    cy.on('mouseover', 'node', (event) => {
-      const nodeData = event.target.data();
-      if (onHoverNodeIdChange) onHoverNodeIdChange(nodeData.id);
-      if (onNodeHover) onNodeHover(nodeData);
-    });
-  
-    cy.on('mouseout', 'node', () => {
-      if (onHoverNodeIdChange) onHoverNodeIdChange(null);
-    });
-  
-    cy.on('tap', 'node', (event) => {
-      const node = event.target;
-      const id = node.data('id');
-      if (id) {
-        setTimeout(() => {
-          navigate(`/node/${encodeURIComponent(id)}`);
-        }, 100);
-      } else {
-        console.warn('⚠️ Node without valid ID clicked:', node.data());
-      }
-    });
-  }
-
-export default setupEvents*/

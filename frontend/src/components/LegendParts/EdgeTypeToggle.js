@@ -17,7 +17,7 @@ const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => {
           const classType = type.replace(/\s+/g, '').toLowerCase();
          const isActive = visibleTypes.has(type)
           return (
-            <Button
+            <Button 
               key={type}
               variant={isActive ? 'contained' : 'outlined'}
               size="small"

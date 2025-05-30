@@ -90,7 +90,14 @@ const ScoreFilter = ({ cy }) => {
         />
       )}
       <Button
-        sx={{bgcolor:"rgb(0, 151, 189)", color:'white'}}
+         sx={{
+          bgcolor: 'rgb(0, 151, 189)',
+          color: 'white',
+          '&:hover': {
+            bgcolor: 'white',
+            color: 'rgb(0, 151, 189)',
+          },
+        }}
         variant="outlined"
         size="medium"
         onClick={filterByScore}

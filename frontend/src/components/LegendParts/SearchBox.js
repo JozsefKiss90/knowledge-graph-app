@@ -10,7 +10,6 @@ import { useDarkMode } from '../context/DarkModeContext';
 const SearchBox = ({ cy }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { darkMode, setDarkMode } = useDarkMode();
-  console.log(darkMode)
   const handleSearch = () => {
     if (!cy || !searchTerm.trim()) return;
     const term = searchTerm.toLowerCase();

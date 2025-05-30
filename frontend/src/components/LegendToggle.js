@@ -1,6 +1,6 @@
 // --- LegendToggle.js (refactored with MUI and modular components) ---
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCy } from "./context/CyContext";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -17,7 +17,10 @@ import { useDarkMode } from "./context/DarkModeContext";
 const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
   const cy = useCy();
   const [hoveredNode, setHoveredNode] = useState(null);
+  const scrollRef = useRef(null);
+  const summaryRef = useRef();
   const { darkMode } = useDarkMode();
+
   const defaultEdgeTypes = {
     HE_2025: new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']),
     Cluster_4: new Set(['HAS_DESTINATION', 'HAS_THEME', 'HAS_CALL']),
@@ -88,17 +91,46 @@ const nodeTypeList = graphName === 'HE_2025'
     ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setHoveredNode(hoveredNodeRef.current);
-    }, 100);
-    return () => clearInterval(interval);
-  }, [hoveredNodeRef]);
+  let lastHoveredId = null;
+
+  const interval = setInterval(() => {
+    const currentNode = hoveredNodeRef.current;
+
+  if (currentNode?.id && currentNode?.id !== lastHoveredId) {
+    setHoveredNode(currentNode);
+    lastHoveredId = currentNode.id;
+  }
+
+    // ✅ Do nothing if current is null (mouse left), but last was not
+    // ⛔ Avoid setting `hoveredNode(null)` when nothing is hovered
+  }, 100);
+
+  return () => clearInterval(interval);
+}, [hoveredNodeRef]);
+
 
   useEffect(() => {
     const normalized = graphName.replace('_cose', '');
     setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
     setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
   }, [graphName]);
+
+  useEffect(() => {
+  const handleWheel = (e) => {
+    if (hoveredNodeRef.current && scrollRef.current) {
+      scrollRef.current.scrollTop += e.deltaY;
+      // prevent page scroll
+      e.preventDefault();
+        }
+      };
+
+      window.addEventListener('wheel', handleWheel, { passive: false });
+
+      return () => {
+        window.removeEventListener('wheel', handleWheel);
+      };
+    }, []);
+
 
   const toggleType = (type, typeSet, setter, selectorFn) => {
     if (!cy) return;
@@ -123,10 +155,12 @@ const nodeTypeList = graphName === 'HE_2025'
     cy.fit();
     setVisibleEdgeTypes(new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']));
     setVisibleNodeTypes(new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic']));
+    setHoveredNode(null)
   };
 
   return (
     <Box
+      ref={scrollRef}
       className="legend-sidebar"
       component="aside"
       sx={{
@@ -138,6 +172,7 @@ const nodeTypeList = graphName === 'HE_2025'
         flexDirection: 'column',
         gap: 3
       }}
+      
     >
       <Box>
         <Typography  className="legend-titles" variant="subtitle1" fontWeight="bold">Graph Filter</Typography>
@@ -225,7 +260,7 @@ const nodeTypeList = graphName === 'HE_2025'
           <Typography  className="legend-titles" variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
           <Typography  className="legend-titles" variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
           {hoveredNode.summary && (
-            <Typography className="legend-titles"  variant="body2" sx={{color:"white", mt: 1 }}>
+            <Typography  className="legend-titles"  variant="body2" sx={{color:"white", mt: 1}} ref={summaryRef}>
               <strong>Summary:</strong><br />{hoveredNode.summary}
             </Typography>
           )}

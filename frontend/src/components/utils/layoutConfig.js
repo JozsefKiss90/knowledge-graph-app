@@ -4,7 +4,7 @@ const defaultCoseLayout = {
   nodeDimensionsIncludeLabels: false,
   refresh: 30,
   fit: true,
-  padding: 60,
+  padding: 0,
   randomize: false,
   nodeRepulsion: 10000,
   idealEdgeLength: 140,
@@ -15,11 +15,11 @@ const defaultCoseLayout = {
   tile: true,
   animate: 'end',
   animationDuration: 1000,
-  tilingPaddingVertical: 10,
-  tilingPaddingHorizontal: 200,
+  tilingPaddingVertical: 0,
+  tilingPaddingHorizontal: 0,
   gravityRangeCompound: 1.5,
   gravityCompound: 1.0,
-  gravityRange: 10,
+  gravityRange: 20,
   initialEnergyOnIncremental: 0.5,
 };
 

@@ -28,6 +28,8 @@ function GraphPage() {
   const hoveredNodeIdRef = useRef(null);
   const { darkMode, setDarkMode } = useDarkMode();
   const API_BASE = process.env.REACT_APP_API_URL;
+  const [isSummaryOverflowing, setIsSummaryOverflowing] = useState(false);
+  const isSummaryOverflowingRef = useRef(false);
 
   const fetchGraph = async () => {
     try {
@@ -139,10 +141,13 @@ function GraphPage() {
         fluid
         className={`vh-100 d-flex flex-column p-0 overflow-hidden graph-container`}
       >
+        {/* Main content */}
         <Row
           className="flex-grow-1 w-100 g-0 legend-titles"
           style={{ flexWrap: "nowrap" }}
         >
+
+          {/* Left Sidebar: Legend (fixed 400px) */}
           <Col
             xs="auto"
             className="p-0"
@@ -153,12 +158,14 @@ function GraphPage() {
               hoveredNodeRef={hoveredNodeRef}
               graphName={graphName}
               setGraphName={setGraphName}
+              setIsSummaryOverflowing={(val) => (isSummaryOverflowingRef.current = val)}
             />
             ) : (
               <div>Loading legend...</div>
             )}
           </Col>
 
+          {/* Center: GraphView */}
           <Col className="d-flex flex-column p-0 overflow-hidden">
             {ready ? (
               <GraphView
@@ -173,11 +180,14 @@ function GraphPage() {
                 hoveredNodeIdRef={hoveredNodeIdRef}
                 onHoverNodeIdChange={(id) => { hoveredNodeIdRef.current = id; }}
                 graphName={graphName}
+                isSummaryOverflowing={isSummaryOverflowingRef}
               />
             ) : (
               <div className="text-center p-5">Loading graph...</div>
             )}
           </Col>
+
+          {/* Right Sidebar: Icon Panel (fixed 60px) */}
           <Col
             xs="auto"
             className="p-0 legend-sidebar"

@@ -1,6 +1,6 @@
 // --- Refactored GraphView.js using helper utils ---
 
-import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import { useLayoutEffect, useRef, useState,forwardRef, useImperativeHandle, useEffect } from "react";
 import Cytoscape from "cytoscape";
 import dagre from "cytoscape-dagre";
 import coseBilkent from "cytoscape-cose-bilkent";
@@ -14,11 +14,23 @@ import klay from 'cytoscape-klay';
 import '../styles/main.scss'
 import { useDarkMode } from "./context/DarkModeContext";
 
-const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNodeIdChange, hoveredNodeIdRef, graphName }) => {
+const GraphView = forwardRef((props, ref) => {
+  const {
+    graphData,
+    rawGraphData, 
+    onCyReady,
+    onNodeHover,
+    onHoverNodeIdChange,
+    hoveredNodeIdRef,
+    graphName,
+    layoutOptions,
+  } = props;
+
   const containerRef = useRef(null);
-  const [cyInstance, setCyInstance] = useState(null);
+  const [cyInstance, setCyInstance] = useState(null); 
   const navigate = useNavigate();
-  const { darkMode } = useDarkMode();
+  const { darkMode } = useDarkMode(); 
+  const cyRef = useRef(null);
   
   Cytoscape.use(coseBilkent);
   Cytoscape.use(dagre);
@@ -39,6 +51,16 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
 
     return () => clearInterval(interval);
   }, [cyInstance, hoveredNodeIdRef]);
+
+  useImperativeHandle(ref, () => ({
+    rerunLayout: () => {
+      if (cyRef.current) {
+        cyRef.current.nodes().unlock(); // unlock before layout
+        const layout = cyRef.current.layout(layoutOptions); // 🔄 use updated layoutOptions
+        layout.run();
+      }
+    },
+  }));
 
   useLayoutEffect(() => {
     const hasRequiredData =
@@ -67,11 +89,9 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
       maxZoom: 3,
       minZoom: graphName === 'HE_2025' ? 0.95 : 0.1,
     });    
-  
+    cyRef.current = cy;
     setCyInstance(cy);
     if (onCyReady) onCyReady(cy);
-    console.log("Layout config:", layoutConfig[graphName]);
-
 
     const layout = cy.layout(layoutConfig[graphName]);
     layout.run();
@@ -102,7 +122,7 @@ const GraphView = ({ graphData, rawGraphData, onCyReady, onNodeHover, onHoverNod
       style={{ width: "100%", height: "100%"}}
     />
   );
-};
+});
 
 export default GraphView;
 
