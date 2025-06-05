@@ -10,13 +10,48 @@ def get_cluster2_nodes():
     try:
         query = """
         MATCH (n)
-        WHERE n.source = 'cluster_2' AND n.id IS NOT NULL AND n.name IS NOT NULL
+        WHERE n.source = 'cluster_2' AND n.id IS NOT NULL AND n.name IS NOT NULL 
         RETURN n
         """
         result = db.query(query)
         return {"nodes": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 2 nodes: {str(e)}")
+    
+@router.get("/node/{node_id}")
+def get_cl2_node_by_id(node_id: str):
+    try:
+        cypher = "MATCH (n {id: $id}) WHERE n.source = 'cluster_2' RETURN n"
+        result = db.query(cypher, {"id": node_id})
+        if not result:
+            raise HTTPException(status_code=404, detail="Node not found")
+        n = result[0]["n"]
+
+        return {
+            "id": n.get("id", ""),
+            "name": n.get("name", ""),
+            "call_id": n.get("call_id", ""),
+            "call_type": n.get("call_type", ""),
+            "call_section": n.get("call_section", ""),
+            "expected_eu_contribution": n.get("expected_eu_contribution", ""),
+            "indicative_budget": n.get("indicative_budget", ""),
+            "type_of_action": n.get("type_of_action", ""),
+            "admissibility_conditions": n.get("admissibility_conditions", ""),
+            "eligibility_conditions": n.get("eligibility_conditions", ""),
+            "technology_readiness_level": n.get("technology_readiness_level", ""),
+            "procedure": n.get("procedure", ""),
+            "legal_and_financial_setup": n.get("legal_and_financial_setup", ""),
+            "exceptional_page_limits": n.get("exceptional_page_limits", ""),
+            "expected_outcome": n.get("expected_outcome", ""),
+            "scope": n.get("scope", ""),
+            "destination": n.get("destination", ""),
+            "source": n.get("source", "")
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch CL2 node: {str(e)}")
+
+
 
 @router.get("/relationships")
 def get_cluster2_relationships():
@@ -27,7 +62,7 @@ def get_cluster2_relationships():
         RETURN a, b, type(r) AS type, properties(r) AS props
         """
         result = db.query(query)
-
+ 
         cleaned = []
         for record in result:
             a, b, rel_type, props = record["a"], record["b"], record["type"], record["props"]

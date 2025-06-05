@@ -4,18 +4,34 @@ import GraphPage from "./components/GraphPage";
 import NodeDetail from "./components/NodeDetail";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from "./themes/theme";
-import { DarkModeProvider } from "./components/context/DarkModeContext";
+import { DarkModeProvider, useDarkMode } from "./components/context/DarkModeContext";
+import './styles/main.scss';
+import { useEffect } from 'react';
 
+function AppContent() {
+  const { darkMode } = useDarkMode();
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-theme', darkMode);
+    document.body.classList.toggle('light-theme', !darkMode);
+  }, [darkMode]);
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<GraphPage />} />
+        <Route path="/node/:id" element={<NodeDetail />} />
+      </Routes>
+    </Router>
+  );
+}
+
+// Wrap with providers
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <DarkModeProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<GraphPage />} />
-            <Route path="/node/:id" element={<NodeDetail />} />
-          </Routes>
-        </Router>
+        <AppContent />
       </DarkModeProvider>
     </ThemeProvider>
   );

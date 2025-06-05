@@ -107,7 +107,7 @@ const GraphView = forwardRef((props, ref) => {
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
       //cy.fit();
-      //cy.center()
+      //cy.center() 
       //cy.resize()
 
       return () => {

@@ -7,6 +7,9 @@ from database import db
 
 router = APIRouter(prefix="/nodes", tags=["Nodes"])
 
+def format_label(key: str) -> str:
+    return key.replace("_", " ").title()
+
 class NodeCreateRequest(BaseModel):
     label: str
     properties: Dict[str, Any]
@@ -40,20 +43,19 @@ def list_nodes(label: Optional[str] = None):
         result = db.query(cypher)
         filtered_result = [r for r in result if r.get("n", {}).get("name")]
 
-        # ✅ Patch in canonical topics
-        topic_path = Path("canonical_topic_nodes.json")
-        if topic_path.exists():
-            with open(topic_path) as f:
-                topic_data = json.load(f)
-                for topic in topic_data:
-                    filtered_result.append({
-                        "n": {
-                            "id": topic["id"],
-                            "name": topic["label"],
-                            "type": "topic",
-                            "summary": ""
-                        }
-                    })
+            # Also include all topic nodes from Neo4j (no hardcoding)
+        topic_cypher = "MATCH (t:Topic) RETURN t"
+        topic_nodes = db.query(topic_cypher)
+        for r in topic_nodes:
+            t = r["t"]
+            filtered_result.append({
+                "n": {
+                    "id": t.get("id"),
+                    "name": format_label(t.get("name", t.get("id"))),
+                    "type": "topic",
+                    "summary": t.get("summary", "")
+                }
+            })
 
         return {"nodes": filtered_result}
 

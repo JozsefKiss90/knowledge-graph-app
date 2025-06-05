@@ -254,20 +254,40 @@ const nodeTypeList = graphName === 'HE_2025'
         <button  className="btn btn-sm btn-outline-secondary components legend-titles" onClick={resetView}>Reset View</button>
       </Box>
 
-      {hoveredNode && (
-        <Box className="mt-3 mb-5 p-2 border rounded shadow-sm hovered-node ">
-          <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Hovered Node</Typography>
-          <Typography  className="legend-titles" variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
-          <Typography  className="legend-titles" variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
-          {hoveredNode.summary && (
-            <Typography  className="legend-titles"  variant="body2" sx={{color:"white", mt: 1}} ref={summaryRef}>
-              <strong>Summary:</strong><br />{hoveredNode.summary}
-            </Typography>
-          )}
-        </Box>
+   {hoveredNode && (
+    <Box className="mt-3 mb-5 p-2 border rounded shadow-sm hovered-node ">
+      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Hovered Node</Typography>
+      <Typography className="legend-titles" variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
+      <Typography className="legend-titles" variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
+
+      {graphName === "HE_2025" && hoveredNode.summary && (
+        <Typography className="legend-titles" variant="body2" sx={{ color: "white", mt: 1 }}>
+          <strong>Summary:</strong><br />{hoveredNode.summary}
+        </Typography>
       )}
+
+      {["Cluster_2", "Cluster_4"].includes(cleanGraphName) && (
+        <>
+          {["call_id", "call_type", "call_section", "expected_eu_contribution", "indicative_budget"].map(key => (
+            hoveredNode[key] && (
+              <Typography key={key} className="legend-titles" variant="body2">
+                <strong>{formatLabel(key)}:</strong> {hoveredNode[key]}
+              </Typography>
+            )
+          ))}
+        </>
+      )}
+    </Box>
+  )}
+
     </Box>
   );
 };
+
+function formatLabel(key) {
+  return key
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
 
 export default Legend;

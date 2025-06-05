@@ -27,7 +27,6 @@ function GraphPage() {
   const hoveredNodeRef = useRef(null);
   const hoveredNodeIdRef = useRef(null);
   const { darkMode, setDarkMode } = useDarkMode();
-  const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchGraph = async () => {
     try {
@@ -211,6 +210,7 @@ function GraphPage() {
                   anchor="right"
                   open={drawerOpen}
                   onClose={() => setDrawerOpen(false)}
+                  className="components"
                 >
                 <div className="components">
                   <h3 className="legend-titles">Layout Settings</h3>

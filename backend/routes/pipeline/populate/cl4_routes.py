@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from routes.pipeline.cl4_cluster_builder import ClusterGraphBuilder
 import traceback
 from database import db
+from typing import Optional
 
 router = APIRouter(prefix="/cluster4", tags=["Cluster 4 Graph Population"])
 
@@ -17,20 +18,53 @@ def get_cluster4_nodes():
         return {"nodes": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 4 nodes: {str(e)}")
-    
-@router.get("/relationships")
-def get_cluster4_relationships():
+
+@router.get("/node/{node_id}")
+def get_cl4_node_by_id(node_id: str):
     try:
-        query = """
-        MATCH (a)-[r]->(b)
-        WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'
-        RETURN a, b, type(r) AS type, properties(r) AS props
-        """
-        result = db.query(query)
+        cypher = "MATCH (n {id: $id}) WHERE n.source = 'cluster_4' RETURN n"
+        result = db.query(cypher, {"id": node_id})
+        if not result:
+            raise HTTPException(status_code=404, detail="Node not found")
+        n = result[0]["n"]
+
+        # Return all possible keys with fallback to empty string
+        return n
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch CL4 node: {str(e)}")
+
+@router.get("/relationships")
+def get_cluster4_relationships(from_id: Optional[str] = None):
+    try:
+        if from_id:
+            query = """
+            MATCH path = (a {id: $from_id})-[r*1..2]->(b)
+            WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'
+            UNWIND r AS rel
+            WITH DISTINCT a, b, rel, type(rel) AS rel_type
+            RETURN a, b, rel_type AS type, properties(rel) AS props
+            """
+            params = {"from_id": from_id}
+        else:
+            query = """
+            MATCH (a)-[r]->(b)
+            WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'
+            RETURN DISTINCT a, b, type(r) AS type, properties(r) AS props
+            """
+            params = {}
+
+        result = db.query(query, params)
 
         cleaned = []
+        seen_edges = set()
+
         for record in result:
             a, b, rel_type, props = record["a"], record["b"], record["type"], record["props"]
+            key = (a["id"], b["id"], rel_type)
+            if key in seen_edges:
+                continue
+            seen_edges.add(key)
             cleaned.append({
                 "id": f"{a['id']}->{b['id']}",
                 "source": a["id"],
@@ -43,7 +77,6 @@ def get_cluster4_relationships():
         return {"relationships": cleaned}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 4 relationships: {str(e)}")
-
 
 @router.post("/")
 def populate_cluster4():

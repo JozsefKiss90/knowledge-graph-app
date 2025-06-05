@@ -1,0 +1,356 @@
+[
+  {
+    "id": "european_commission",
+    "name": "European Commission",
+    "type": "institution",
+    "summary": "The European Commission is the EU’s executive body responsible for designing and implementing policies, including Horizon Europe. Within the 2025–2027 Strategic Plan, the Commission ensures that research and innovation contribute to major EU priorities such as the green and digital transitions, health resilience, and global competitiveness."
+  },
+  {
+    "id": "horizon_europe",
+    "name": "Horizon Europe",
+    "type": "strategy",
+    "summary": "Horizon Europe is the EU’s main funding programme for research and innovation. The 2025–2027 Strategic Plan outlines three strategic orientations: supporting the green and digital transitions, and building a resilient, inclusive, and democratic Europe. It includes missions, clusters, and partnerships that address societal challenges and drive EU competitiveness."
+  },
+  {
+    "id": "eu_health_industry",
+    "name": "EU health industry",
+    "type": "cluster",
+    "summary": "The EU health industry is a focus area in Horizon Europe’s Cluster 1. It aims to develop a sustainable, competitive, and resilient ecosystem through research on innovative health technologies, digital health solutions, and the European Health Data Space. Efforts include reducing dependency on external suppliers and fostering equitable access to healthcare."
+  },
+  {
+    "id": "eu_strategy_for_research_and_innovation",
+    "name": "EU strategy for research and innovation",
+    "type": "policy",
+    "summary": "The EU strategy for research and innovation promotes open strategic autonomy, global collaboration, and interdisciplinary R&I to address complex challenges. It integrates the European Research Area (ERA), strengthens evidence-based policy, and emphasizes inclusivity, resilience, and technology leadership."
+  },
+  {
+    "id": "european_green_deal",
+    "name": "European Green Deal",
+    "type": "policy",
+    "summary": "The European Green Deal is a foundational policy aiming to make the EU climate-neutral by 2050. Horizon Europe supports this through targeted research in clean energy, circular economy, biodiversity, and zero-pollution initiatives. The Green Deal is central to the strategic orientation of Horizon Europe’s funding priorities."
+  },
+  {
+    "id": "eu_missions",
+    "name": "EU Missions",
+    "type": "policy",
+    "summary": "EU Missions are targeted initiatives addressing major societal challenges, including cancer, climate adaptation, healthy oceans, smart cities, and soil health. They mobilize research and innovation across sectors, fostering citizen engagement and cross-disciplinary collaboration. Horizon Europe integrates missions as key instruments to accelerate impact."
+  },
+  {
+    "id": "eus_ai_strategy",
+    "name": "EU’s AI strategy",
+    "type": "strategy",
+    "summary": "The EU’s AI strategy, embedded within the digital transition priorities, promotes human-centric, trustworthy, and ethical AI. Horizon Europe supports AI research across domains such as robotics, data governance, and cognitive systems, contributing to global standards and EU technological sovereignty."
+  },
+  {
+    "id": "eu_strategy_3",
+    "name": "EU strategy 3",
+    "type": "strategy",
+    "summary": "This appears to be a placeholder or misnamed entry. No distinct “EU strategy 3” is referenced in the strategic plan. Consider renaming or clarifying its intended scope."
+  },
+  {
+    "id": "horizon_europe_strategic_plan",
+    "name": "HORIZON EUROPE strategic plan",
+    "type": "policy",
+    "summary": "The strategic plan 2025–2027 defines Horizon Europe’s priorities through three strategic orientations: green transition, digital transformation, and resilience. It guides investments, missions, partnerships, and clusters to align with EU policies and societal challenges."
+  },
+  {
+    "id": "eu_strategy_for_2025_2027",
+    "name": "EU strategy for 2025–2027",
+    "type": "strategy",
+    "summary": "This strategy outlines R&I goals that support the EU’s long-term policy agenda, including climate neutrality, digital sovereignty, and democratic values. It emphasizes strategic autonomy, international cooperation, and alignment with the European Green Deal and Digital Decade."
+  },
+  {
+    "id": "cluster_2",
+    "name": "Cluster 2",
+    "type": "cluster",
+    "summary": "Cluster 2: Culture, Creativity and Inclusive Society supports research on democracy, social resilience, cultural heritage, and creative industries. It contributes to inclusive policy-making and reinforces values like trust, diversity, and media pluralism."
+  },
+  {
+    "id": "civil_security_for_society",
+    "name": "Civil Security for Society",
+    "type": "cluster",
+    "summary": "Cluster 3 addresses societal resilience through R&I on cybersecurity, terrorism prevention, border control, and disaster preparedness. It enhances EU capacities to manage crises and protect public spaces while upholding democratic rights and civil liberties."
+  },
+  {
+    "id": "cluster_4",
+    "name": "Cluster 4",
+    "type": "cluster",
+    "summary": "Cluster 4: Digital, Industry and Space focuses on green and digital transitions, technological sovereignty, and industrial competitiveness. It supports AI, quantum tech, semiconductors, and EU space capabilities, reinforcing secure and sustainable value chains."
+  },
+  {
+    "id": "cluster_6",
+    "name": "Cluster 6",
+    "type": "cluster",
+    "summary": "Cluster 6 covers food systems, bioeconomy, natural resources, and the environment. It supports biodiversity, circular economy, climate adaptation, and resilient rural communities, contributing to the European Green Deal."
+  },
+  {
+    "id": "cluster_5",
+    "name": "Cluster 5",
+    "type": "cluster",
+    "summary": "Cluster 5: Climate, Energy and Mobility funds R&I on sustainable energy systems, climate mitigation, and clean transport. It supports REPowerEU and Fit for 55 goals, promoting fair transitions and smart infrastructure."
+  },
+  {
+    "id": "european_unions_strategy_for_the_green_transition",
+    "name": "EU strategy for the green transition",
+    "type": "policy",
+    "summary": "The strategy supports systemic change to achieve climate neutrality by 2050. It links Horizon Europe with the Green Deal, funding R&I on renewables, biodiversity, energy efficiency, and decarbonization of industries."
+  },
+  {
+    "id": "european_innovation_council",
+    "name": "European Innovation Council",
+    "type": "institution",
+    "summary": "The EIC supports breakthrough innovations with high risk and impact. It provides equity and grant funding for startups and SMEs, bridging lab results to market. It plays a key role in boosting EU innovation leadership."
+  },
+  {
+    "id": "european_institute_of_innovation_and_technology",
+    "name": "European Institute of Innovation and Technology",
+    "type": "institution",
+    "summary": "The EIT builds innovation ecosystems via Knowledge and Innovation Communities (KICs). It connects education, research, and business to support skills, entrepreneurship, and regional development aligned with Horizon Europe goals."
+  },
+  {
+    "id": "european_research_area_era_policy_agenda_actions",
+    "name": "ERA Policy Agenda",
+    "type": "policy",
+    "summary": "The ERA agenda promotes a single market for R&I through 20 action areas. It strengthens talent circulation, open science, coordinated investments, and alignment of national policies with EU objectives."
+  },
+  {
+    "id": "india_trade_and_technology_council",
+    "name": "India Trade and Technology Council",
+    "type": "institution",
+    "summary": "The EU-India TTC facilitates dialogue and collaboration on digital, trade, and sustainability topics. While not central to Horizon Europe, it aligns with the EU’s open strategic autonomy and external R&I partnerships."
+  },
+  {
+    "id": "eu_strategy_on_research_security",
+    "name": "Research security strategy",
+    "type": "strategy",
+    "summary": "This strategy ensures secure participation in Horizon Europe, guarding sensitive knowledge and critical technologies. It introduces conditions like Articles 22(5) and 22(6) to limit risks related to foreign interference and dual-use technologies."
+  },
+  {
+    "id": "cluster_1",
+    "name": "Cluster 1",
+    "type": "cluster",
+    "summary": "Cluster 1: Health supports R&I on health promotion, pandemic preparedness, mental health, and digital medicine. It backs the European Health Union and aims to reduce health inequalities and strengthen system resilience."
+  },
+  {
+    "id": "eu_strategy_for_promoting_health_and_well_being",
+    "name": "Health and well-being strategy",
+    "type": "policy",
+    "summary": "This strategy promotes physical and mental well-being across all ages. It supports research on prevention, healthy lifestyles, social determinants of health, and integration of services through digital and people-centred approaches."
+  },
+  {
+    "id": "eu_strategy_on_health_and_safety_at_work",
+    "name": "Workplace health and safety strategy",
+    "type": "policy",
+    "summary": "Aligned with the Green Deal and Pillar of Social Rights, this strategy backs research into occupational safety, climate-related workplace risks, and long-term prevention policies for sustainable working lives."
+  },
+  {
+    "id": "policy_areas_ensuring_equal_access_to_innovative",
+    "name": "Equal access to innovation in healthcare",
+    "type": "policy",
+    "summary": "This area funds inclusive and sustainable healthcare through R&I on financing, governance, and digital health. It contributes to equity, patient empowerment, and system resilience under the European Care Strategy."
+  },
+    {
+    "id": "eu_strategy_on_adaptation_to_climate_change",
+    "name": "Adaptation to climate change",
+    "type": "policy",
+    "summary": "This strategy focuses on climate risk awareness, resilience-building, and adaptation measures across sectors. Horizon Europe supports R&I on nature-based solutions, early warning systems, and regional adaptation plans aligned with the EU Adaptation Strategy and Mission on Climate Adaptation."
+  },
+  {
+    "id": "eu_strategy_on_risk_assessment_of_chemicals",
+    "name": "Risk assessment of chemicals",
+    "type": "policy",
+    "summary": "Horizon Europe contributes to the EU Chemicals Strategy by supporting the development of safer chemicals, alternative testing methods, and integrated risk assessment tools. This strategy promotes a toxic-free environment while reducing reliance on animal testing."
+  },
+  {
+    "id": "eu_strategy_on_antimicrobial_resistance",
+    "name": "Antimicrobial resistance (AMR)",
+    "type": "policy",
+    "summary": "The EU One Health Action Plan against AMR is supported through Horizon Europe via R&I on new antimicrobials, diagnostics, surveillance, and stewardship practices. It aims to reduce the health and economic burden of drug-resistant infections."
+  },
+  {
+    "id": "eu_policy_area_policy_framework",
+    "name": "EU policy framework",
+    "type": "policy",
+    "summary": "Horizon Europe is closely aligned with overarching EU policy frameworks like the Green Deal, the Digital Decade, and the European Pillar of Social Rights. These frameworks guide research priorities on sustainability, inclusion, digitalisation, and health equity."
+  },
+  {
+    "id": "strengthening_social_and_economic_resilience_and_sustainability",
+    "name": "Resilience and sustainability",
+    "type": "policy",
+    "summary": "This policy area promotes a just transition and social innovation through research on welfare systems, labour market transformation, and regional resilience. It enhances policy responses to crises and fosters inclusive growth."
+  },
+   {
+    "id": "eu_policy_area_climate_change_and_cultural_heritage",
+    "name": "EU policy area climate change and cultural heritage",
+    "type": "policy",
+    "summary": "This policy area addresses the dual challenge of protecting cultural heritage from climate change impacts and leveraging it for climate adaptation. Horizon Europe funds research on assessing risks to heritage sites, promoting green restoration methods, and enhancing heritage’s role in public engagement on climate action."
+  },
+  {
+    "id": "eu_strategy_for_civil_security",
+    "name": "EU strategy for civil security",
+    "type": "strategy",
+    "summary": "The EU’s civil security strategy supports research into preventing and responding to terrorism, organized crime, natural disasters, and hybrid threats. It emphasizes protecting public spaces, critical infrastructure, and citizens’ rights, with cross-border cooperation and innovation as central pillars."
+  },
+  {
+    "id": "cluster_3",
+    "name": "Cluster 3",
+    "type": "cluster",
+    "summary": "Cluster 3: Civil Security for Society promotes R&I on disaster resilience, cybersecurity, terrorism prevention, and border security. It enhances Europe's preparedness for threats and crises, supports first responders, and contributes to safeguarding democratic institutions and societal trust."
+  },
+  {
+    "id": "actions",
+    "name": "Actions",
+    "type": "research_theme",
+    "summary": "This refers to concrete R&I actions under Horizon Europe that support missions, partnerships, and strategic policy goals. Actions involve co-creation, policy feedback, stakeholder dialogue, and testing solutions to deliver tangible societal impact and uptake of innovations."
+  },
+  {
+    "id": "eus_policy_framework_for_r_i_action",
+    "name": "EU’s policy framework for R&I action",
+    "type": "policy",
+    "summary": "The EU's policy framework guides R&I activities across climate, health, digital, and mobility sectors. It integrates principles of openness, excellence, inclusiveness, and impact, aligning Horizon Europe investments with wider EU strategic priorities."
+  },
+  {
+    "id": "eu_strategy_for_combating_organised_crime",
+    "name": "EU strategy for combating organised crime",
+    "type": "policy",
+    "summary": "This strategy aims to disrupt criminal networks through enhanced intelligence sharing, digital tools, and capacity building. Horizon Europe supports related research in forensic technologies, crime detection systems, and cooperation frameworks among Member States."
+  },
+  {
+    "id": "european_econ",
+    "name": "European economy",
+    "type": "research_theme",
+    "summary": "Horizon Europe contributes to a resilient and green European economy by investing in innovation, sustainability, and digital transformation. Research themes focus on strategic value chains, inclusive growth, and transitioning to a climate-neutral industrial base."
+  },
+  {
+    "id": "strengthened_security_research_and_innovation",
+    "name": "Strengthened Security Research and Innovation",
+    "type": "research_theme",
+    "summary": "This area fosters cross-cutting security research across domains such as cybersecurity, public safety, and emergency preparedness. It supports the development of innovative, interoperable, and user-oriented solutions, often in coordination with EU agencies and practitioners."
+  },
+  {
+    "id": "eu_strategy",
+    "name": "EU strategy",
+    "type": "policy",
+    "summary": "This refers to the overarching EU R&I strategy guiding Horizon Europe implementation. It supports the green and digital transitions, resilience, and strategic autonomy, ensuring alignment with broader EU policy goals like the Green Deal and Digital Decade."
+  },
+  {
+    "id": "eus_strategy_for_international_cooperation",
+    "name": "EU’s strategy for international cooperation",
+    "type": "policy",
+    "summary": "The EU promotes open and reciprocal R&I collaboration with international partners to address global challenges. Horizon Europe facilitates partnerships on health, climate, and digital technologies, strengthening multilateralism and global knowledge exchange."
+  },
+  {
+    "id": "eu4health",
+    "name": "EU4Health",
+    "type": "policy",
+    "summary": "EU4Health complements Horizon Europe by supporting public health capacity building, digital health, and medical countermeasures. Synergies between the programmes enable faster deployment of research outcomes in health systems and crisis preparedness."
+  },
+  {
+    "id": "eu_policy_area_climate_change",
+    "name": "EU policy area climate change",
+    "type": "policy",
+    "summary": "This policy area supports science-based responses to climate change through adaptation and mitigation. Horizon Europe funds climate modelling, carbon sinks, sustainable infrastructure, and cross-border risk reduction, aligned with the Paris Agreement."
+  },
+  {
+    "id": "eus_digital_decade",
+    "name": "EU’s Digital Decade",
+    "type": "policy",
+    "summary": "The Digital Decade sets out EU targets for digital skills, infrastructure, business digitalization, and public services by 2030. Horizon Europe supports these goals via research on next-gen internet, AI, cybersecurity, and interoperability standards."
+  },
+  {
+    "id": "european_raw_materials_capacity_building",
+    "name": "European Raw Materials Capacity Building",
+    "type": "research_theme",
+    "summary": "Horizon Europe funds R&I to boost EU autonomy in critical raw materials. Research focuses on sustainable sourcing, recycling, substitution, and new materials for clean energy, mobility, and digital technologies, aligned with the Critical Raw Materials Act."
+  },
+  {
+    "id": "eu_policy_area_cluster_4",
+    "name": "EU policy area Cluster 4",
+    "type": "policy",
+    "summary": "Cluster 4 policy focuses on enabling technologies, digital sovereignty, and green industrial transitions. Horizon Europe promotes responsible AI, advanced computing, clean manufacturing, and secure communications to support Europe's tech leadership."
+  },
+  {
+    "id": "eu_strategy_for_the_future_of_the_internet",
+    "name": "EU strategy for the future of the internet",
+    "type": "strategy",
+    "summary": "This strategy aims to shape a secure, open, and human-centric internet. Horizon Europe backs R&I in decentralised architectures, trust-enhancing protocols, and data spaces, ensuring alignment with EU digital values and strategic autonomy."
+  },
+  {
+    "id": "european_space_agency",
+    "name": "European Space Agency",
+    "type": "institution",
+    "summary": "The ESA collaborates with the EU to develop secure, autonomous space capabilities. It supports Horizon Europe projects on Earth observation, navigation, and space science, contributing to climate monitoring and digital infrastructure."
+  },
+  {
+    "id": "eu_strategy_for_transport",
+    "name": "EU strategy for transport",
+    "type": "strategy",
+    "summary": "This strategy promotes smart, safe, and sustainable transport systems. Horizon Europe contributes through R&I in electrified mobility, multimodal logistics, automation, and decarbonisation, aligned with the EU Sustainable and Smart Mobility Strategy."
+  },
+  {
+    "id": "eus_role_in_globalmultilateral_initiatives",
+    "name": "EU’s role in global multilateral initiatives",
+    "type": "institution",
+    "summary": "The EU supports multilateral cooperation in science, technology, and innovation. Horizon Europe facilitates joint initiatives with global partners, fostering shared responses to climate change, pandemics, and digital transformation."
+  },
+  {
+    "id": "eu_policy_area_health",
+    "name": "EU policy area health",
+    "type": "policy",
+    "summary": "This policy area supports equitable access to high-quality healthcare and health innovation. Horizon Europe backs research on digital health, pandemic resilience, non-communicable diseases, and strengthening health systems across Member States."
+  },
+     {
+        "id": "eu_missions_restore_our_ocean_and_waters",
+        "name": "EU Missions Restore our Ocean and Waters",
+        "type": "policy",
+        "summary": "This mission supports the restoration of marine and freshwater ecosystems by 2030. Horizon Europe funds actions to reduce pollution, restore biodiversity, and support sustainable blue economies through local and regional innovation hubs."
+    },
+    {
+        "id": "eu_biodiversity_strategy_for_2030",
+        "name": "EU Biodiversity Strategy for 2030",
+        "type": "policy",
+        "summary": "The strategy aims to halt biodiversity loss and restore ecosystems across Europe. Horizon Europe contributes by funding nature-based solutions, conservation science, and restoration efforts, supporting implementation of EU and global biodiversity goals."
+    },
+    {
+        "id": "eus_circular_economy_and_sustainable_bioeconomy",
+        "name": "EUs circular economy and sustainable bioeconomy",
+        "type": "policy",
+        "summary": "This policy area supports the transition to a resource-efficient and regenerative economy. Horizon Europe invests in bio-based materials, recycling technologies, and systemic innovations for sustainable production and consumption."
+    },
+    {
+        "id": "eu_strategy_for_a_sustainable_future",
+        "name": "EU strategy for a sustainable future",
+        "type": "strategy",
+        "summary": "This overarching strategy links EU policy ambitions with research for sustainability. Horizon Europe funds R&I to advance climate neutrality, digital innovation, and socio-economic resilience, ensuring long-term prosperity for people and planet."
+    },
+    {
+        "id": "eu_strategy_for_rural_areas",
+        "name": "EU strategy for rural areas",
+        "type": "policy",
+        "summary": "The strategy supports smart, strong, and resilient rural areas through digitalisation, green transition, and community empowerment. Horizon Europe supports innovation for sustainable agriculture, smart villages, and rural diversification."
+    },
+    {
+        "id": "eu_strategy_for_africa",
+        "name": "EU strategy for Africa",
+        "type": "policy",
+        "summary": "This strategy enhances EU-Africa R&I cooperation in health, climate, food security, and digital transformation. Horizon Europe supports joint initiatives that foster knowledge exchange and capacity building in African partner countries."
+    },
+    {
+        "id": "eu_cap_network",
+        "name": "EU CAP Network",
+        "type": "institution",
+        "summary": "The EU CAP Network supports knowledge sharing, innovation, and collaboration for sustainable agriculture and rural development. It connects stakeholders to implement the Common Agricultural Policy and related Horizon Europe actions."
+    },
+    {
+        "id": "eu_policy_on_carbon_farming",
+        "name": "EU policy on carbon farming",
+        "type": "policy",
+        "summary": "This policy promotes land-based carbon removal through farming practices like agroforestry and peatland restoration. Horizon Europe supports research to quantify and verify carbon removals, contributing to EU climate targets."
+    },
+    {
+        "id": "policy",
+        "name": "Policy",
+        "type": "policy",
+        "summary": "This is a generic placeholder and requires renaming or refinement. Please replace it with a descriptive name reflecting a specific policy theme or action area to ensure clarity and utility in your dataset."
+    }
+]

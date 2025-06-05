@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, HTTPException
 import json
 from database import db
 
@@ -7,19 +7,30 @@ router = APIRouter(prefix="/integrate", tags=["Graph Integration"])
 @router.post("/")
 async def integrate_graph( 
     nodes_file: UploadFile = File(...),
-    relationships_file: UploadFile = File(...)
+    relationships_file: UploadFile = File(...),
+    topic_summaries_file: UploadFile = File(None)
 ):
+    import json
+    from collections import defaultdict
+
     # Load files into Python data
     nodes = json.loads((await nodes_file.read()).decode("utf-8"))
     relationships = json.loads((await relationships_file.read()).decode("utf-8"))
+    topic_summaries = {}
+    if topic_summaries_file is not None:
+        topic_summaries = {
+            entry["id"]: entry["summary"]
+            for entry in json.loads((await topic_summaries_file.read()).decode("utf-8"))
+        }
 
     # Step 1: Create all document nodes
     for node in nodes: 
-        props = {
+        props = { 
             "id": node["id"],
             "name": node["name"],
             "summary": node["summary"],
-            "type": node["type"]
+            "type": node["type"],
+            "source": "he_2025"
         }
         cypher = """
         MERGE (n:Document {id: $id})
@@ -30,11 +41,13 @@ async def integrate_graph(
     # Step 2: Create Topic nodes
     topic_ids = {rel["target"] for rel in relationships if rel["target"].startswith("topic_")}
     for topic_id in topic_ids:
+        summary = topic_summaries.get(topic_id, "No summary available.")
         cypher = """
         MERGE (t:Topic {id: $id})
+        SET t.summary = $summary
         """
-        db.query(cypher, {"id": topic_id})
- 
+        db.query(cypher, {"id": topic_id, "summary": summary})
+
     # Step 3: Create relationships
     for rel in relationships:
         props = {"keywords": rel.get("keywords", [])}
@@ -66,5 +79,6 @@ async def integrate_graph(
     return {
         "nodes_inserted": len(nodes),
         "topics_inserted": len(topic_ids),
-        "relationships_inserted": len(relationships)
+        "relationships_inserted": len(relationships),
+        "topics_updated_with_summary": len(topic_summaries)
     }
