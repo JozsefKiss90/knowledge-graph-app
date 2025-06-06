@@ -61,12 +61,13 @@ function NodeDetail() {
     const relJson = await relRes.json();
 
     setNodeData(nodeJson);
-    console.log(nodeEndpoint)
-    console.log(id)
+    console.log(relEndpoint)
+        console.log(id)
     setRelations(relJson.relationships || []);
   };
-
-    fetchNodeAndRelations();
+  
+  fetchNodeAndRelations();
+  console.log(relations)
   }, [id]);
  
   if (!nodeData) return <p>Loading...</p>;
@@ -109,7 +110,22 @@ function NodeDetail() {
           <Card.Header><h5>Connections</h5></Card.Header>
           <Card.Body>
            <ul>
-            {relations.map((rel, idx) => {
+            {relations
+            .filter((rel) => {
+              const source = rel.source;
+              const target = rel.target;
+              const type = rel.relation || rel.type;
+
+              // Only keep edges where the current node is the source
+              if (source !== id) return false;
+
+              // Only allow specific outbound relationships for call or destination nodes
+              if (id.startsWith("cluster2_call_") && type !== "BELONGS_TO_DESTINATION") return false;
+              if (id.startsWith("cluster2_destination_") && type !== "HAS_CALL") return false;
+
+              return true;
+            })
+            .map((rel, idx) => {
               const relationType = rel.relation || rel.type || "RELATED";
               const target = rel.target || "Unknown";
 

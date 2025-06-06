@@ -2,10 +2,10 @@ import json
 from collections import defaultdict
 
 # Load parsed CL2 calls
-with open("routes/pipeline/output_files/parsed_cl2_call_tables.json", "r", encoding="utf-8") as f:
+with open("../../output_files/parsed_cl2_call_tables.json", "r", encoding="utf-8") as f:
     parsed_calls = json.load(f)
 
-# Load CL2 destination-to-call mapping
+# Destination → Theme → Call IDs mapping
 DESTINATION_TOPICS = {
     "Destination Innovative Research on Democracy and Governance": {
         "Democracy and Governance": [
@@ -52,34 +52,29 @@ DESTINATION_TOPICS = {
     }
 }
 
-# Reverse map: call_id → (destination, theme)
-call_to_dest_topic = {}
+# Reverse map: call_id → destination
+call_to_dest = {}
 for dest, themes in DESTINATION_TOPICS.items():
-    for theme, call_ids in themes.items():
+    for call_ids in themes.values():
         for cid in call_ids:
-            call_to_dest_topic[cid] = (dest, theme)
+            call_to_dest[cid] = dest
 
-# Build nested structure: destination → theme → list of calls
-nested = defaultdict(lambda: defaultdict(list))
+# Group calls directly under their destination
+destination_calls = defaultdict(list)
 for call in parsed_calls:
     call_id = call.get("call_id", "")
-    if call_id in call_to_dest_topic:
-        dest, theme = call_to_dest_topic[call_id]
-        nested[dest][theme].append(call)
+    dest = call_to_dest.get(call_id)
+    if dest:
+        destination_calls[dest].append(call)
 
-# Format final structure
-final_output = []
-for dest, themes in nested.items():
-    final_output.append({
-        "destination": dest,
-        "themes": [
-            {"theme": theme, "calls": calls}
-            for theme, calls in themes.items()
-        ]
-    })
+# Format output: [{"destination": ..., "calls": [...]}, ...]
+flattened_output = [
+    {"destination": dest, "calls": calls}
+    for dest, calls in destination_calls.items()
+]
 
-# Save the nested structure
-with open("routes/pipeline/output_files/nested_parsed_cl2_call_tables.json", "w", encoding="utf-8") as f:
-    json.dump(final_output, f, indent=2, ensure_ascii=False)
+# Save
+with open("../../output_files/nested_parsed_cl2_call_tables.json", "w", encoding="utf-8") as f:
+    json.dump(flattened_output, f, indent=2, ensure_ascii=False)
 
-print("✅ nested_parsed_cl2_call_tables.json created")
+print("✅ Flattened nested_parsed_cl2_call_tables.json created.")

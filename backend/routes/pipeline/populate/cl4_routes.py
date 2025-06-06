@@ -37,22 +37,46 @@ def get_cl4_node_by_id(node_id: str):
 @router.get("/relationships")
 def get_cluster4_relationships(from_id: Optional[str] = None):
     try:
-        if from_id:
-            query = """
-            MATCH path = (a {id: $from_id})-[r*1..2]->(b)
-            WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'
-            UNWIND r AS rel
-            WITH DISTINCT a, b, rel, type(rel) AS rel_type
-            RETURN a, b, rel_type AS type, properties(rel) AS props
-            """
-            params = {"from_id": from_id}
-        else:
+        if not from_id:
             query = """
             MATCH (a)-[r]->(b)
             WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'
             RETURN DISTINCT a, b, type(r) AS type, properties(r) AS props
             """
             params = {}
+        else:
+            # Determine node type to filter relationships
+            node_type_res = db.query("MATCH (n {id: $id}) RETURN n.type AS type", {"id": from_id})
+            if not node_type_res:
+                raise HTTPException(status_code=404, detail="Node not found")
+            node_type = node_type_res[0]["type"]
+
+            if node_type == "Call":
+                query = """
+                MATCH (a:Call {id: $from_id})-[r]->(b)
+                WHERE a.source = 'cluster_4' AND b.source = 'cluster_4' AND type(r) <> 'HAS_THEME'
+                RETURN a, b, type(r) AS type, properties(r) AS props
+                """
+            elif node_type == "Destination":
+                query = """
+                MATCH (a:Destination {id: $from_id})-[r]->(b)
+                WHERE a.source = 'cluster_4' AND b.source = 'cluster_4' AND type(r) = 'HAS_THEME'
+                RETURN a, b, type(r) AS type, properties(r) AS props
+                """
+            elif node_type == "Theme":
+                query = """
+                MATCH (a:Theme {id: $from_id})-[r]->(b)
+                WHERE a.source = 'cluster_4' AND b.source = 'cluster_4' AND type(r) = 'HAS_CALL'
+                RETURN a, b, type(r) AS type, properties(r) AS props
+                """
+            else:
+                # Default case for other types
+                query = """
+                MATCH (a {id: $from_id})-[r]->(b)
+                WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'
+                RETURN a, b, type(r) AS type, properties(r) AS props
+                """
+            params = {"from_id": from_id}
 
         result = db.query(query, params)
 
@@ -77,6 +101,8 @@ def get_cluster4_relationships(from_id: Optional[str] = None):
         return {"relationships": cleaned}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 4 relationships: {str(e)}")
+
+
 
 @router.post("/")
 def populate_cluster4():

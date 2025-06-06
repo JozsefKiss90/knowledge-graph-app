@@ -23,14 +23,16 @@ class ClusterGraphBuilder:
 
         # Root node
         root_id = "cluster_4"
+        root_summary = summaries.get(root_id, "")
         self.run_query(
             """
             MERGE (c:Cluster {id: $id})
             SET c.name = "Cluster 4 - Digital, Industry and Space",
                 c.source = 'cluster_4',
-                c.type = 'Work Programme'
+                c.type = 'Work Programme',
+                c.summary = $summary
             """,
-            {"id": root_id}
+            {"id": root_id, "summary": root_summary}
         )
 
         for d in data:

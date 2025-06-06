@@ -13,28 +13,44 @@ class ClusterGraphBuilderCL2:
         with open(nested_json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
+        # Load external destination summaries
+        summaries = {}
+        try:
+            with open("routes/pipeline/output_files/destination_summaries_cl2.json", "r", encoding="utf-8") as f:
+                summaries_data = json.load(f)
+                for key, value in summaries_data.items():
+                    summaries[key] = value["summary"]
+        except FileNotFoundError:
+            pass
+
         root_id = "cluster_2"
+        root_summary = summaries.get("Cluster 2 - Culture, Creativity and Inclusive Society", "")
         self.run_query(
             """
             MERGE (c:Cluster {id: $id})
             SET c.name = "Cluster 2 - Culture, Creativity and Inclusive Society",
                 c.source = 'cluster_2',
-                c.type = 'Work Programme'
+                c.type = 'Work Programme',
+                c.summary = $summary
             """,
-            {"id": root_id}
+            {"id": root_id, "summary": root_summary}
         )
+
 
         for d in data:
             dest_id = f"cluster2_destination_{d['destination']}"
+            dest_summary = summaries.get(d["destination"], "")
             self.run_query(
                 """
                 MERGE (d:Destination {id: $id})
                 SET d.name = $name,
                     d.source = 'cluster_2',
-                    d.type = 'Destination'
+                    d.type = 'Destination',
+                    d.summary = $summary
                 """,
-                {"id": dest_id, "name": d["destination"]}
+                {"id": dest_id, "name": d["destination"], "summary": dest_summary}
             )
+
             self.run_query(
                 """
                 MATCH (c:Cluster {id: $cluster_id}), (d:Destination {id: $dest_id})
@@ -43,29 +59,10 @@ class ClusterGraphBuilderCL2:
                 {"cluster_id": root_id, "dest_id": dest_id}
             )
 
-            for theme_obj in d.get("themes", []):
-                theme_id = f"cluster2_theme_{theme_obj['theme']}"
+            for call in d.get("calls", []):
+                raw_call_id = call.get("call_id")
+                call_id = f"cluster2_call_{raw_call_id}"
                 self.run_query(
-                    """
-                    MERGE (t:Theme {id: $id})
-                    SET t.name = $name,
-                        t.source = 'cluster_2',
-                        t.type = 'Theme'
-                    """,
-                    {"id": theme_id, "name": theme_obj["theme"]}
-                )
-                self.run_query(
-                    """
-                    MATCH (d:Destination {id: $dest_id}), (t:Theme {id: $theme_id})
-                    MERGE (d)-[:HAS_THEME]->(t)
-                    """,
-                    {"dest_id": dest_id, "theme_id": theme_id}
-                )
-
-                for call in theme_obj.get("calls", []):
-                    raw_call_id = call.get("call_id")
-                    call_id = f"cluster2_call_{raw_call_id}"
-                    self.run_query(
                     """
                     MERGE (c:Call {id: $id})
                     SET c.name = $call_title,
@@ -107,13 +104,22 @@ class ClusterGraphBuilderCL2:
                         "destination": d.get("destination", "")
                     }
                 )
-                    self.run_query(
-                        """
-                        MATCH (t:Theme {id: $theme_id}), (c:Call {id: $call_id})
-                        MERGE (t)-[:HAS_CALL]->(c)
-                        """,
-                        {"theme_id": theme_id, "call_id": call_id}
-                    )
+
+                self.run_query(
+                    """
+                    MATCH (c:Call {id: $call_id}), (d:Destination {id: $dest_id})
+                    MERGE (c)-[:BELONGS_TO_DESTINATION]->(d)
+                    """,
+                    {"call_id": call_id, "dest_id": dest_id}
+                )
+
+                self.run_query(
+                    """
+                    MATCH (d:Destination {id: $dest_id}), (c:Call {id: $call_id})
+                    MERGE (d)-[:HAS_CALL]->(c)
+                    """,
+                    {"call_id": call_id, "dest_id": dest_id}
+                )
 
 if __name__ == "__main__":
     builder = ClusterGraphBuilderCL2()
