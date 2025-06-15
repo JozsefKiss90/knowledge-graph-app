@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 
 # Load parsed call data
-with open("routes/pipeline/output_files/parsed_call_tables.json", "r", encoding="utf-8") as f:
+with open("routes/pipeline/output_files/parsed_call_tables_v2.json", "r", encoding="utf-8") as f:
     parsed_calls = json.load(f)
 
 # Hardcoded theme mapping under each destination

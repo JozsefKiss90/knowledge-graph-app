@@ -30,3 +30,4 @@ tqdm
 rich 
 fuzzywuzzy 
 spacy
+pydantic[email]

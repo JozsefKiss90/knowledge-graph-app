@@ -41,7 +41,7 @@ def clean_expected_and_scope_fields(json_path_in, json_path_out):
     for entry in data:
         eo = entry.get("expected_outcome")
         sc = entry.get("scope")
-
+ 
         new_eo = clean_field_text(eo)
         new_sc = clean_field_text(sc)
 

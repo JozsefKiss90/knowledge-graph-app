@@ -17,6 +17,7 @@ import { useDarkMode } from "./context/DarkModeContext";
 const GraphView = forwardRef((props, ref) => {
   const {
     graphData,
+    graphref,
     rawGraphData, 
     onCyReady,
     onNodeHover,
@@ -36,7 +37,13 @@ const GraphView = forwardRef((props, ref) => {
   Cytoscape.use(dagre);
   Cytoscape.use( klay );
 
-  // Update displayLabel on hover
+  useEffect(() => {
+    if (graphref.current && graphData.nodes.length > 0) {
+      graphref.current.rerunLayout();
+      console.log("rerun layout with " + graphref.current) // this is not logged
+    }
+  }, [graphName, graphData]);
+
   useEffect(() => {
     if (!cyInstance || !hoveredNodeIdRef) return;
 

@@ -1,277 +1,317 @@
-// components/NodeDetail.js
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Card, Badge, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import GraphHeader from "./GraphHeader";
-import { useDarkMode } from "./context/DarkModeContext";
+import  { useEffect, useRef, useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import GraphView from "./GraphView";
+import Legend from "./LegendToggle";
+import { CyContext } from "./context/CyContext";
+import { IconButton } from '@mui/material';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useDarkMode } from './context/DarkModeContext';
+import { useLocation } from "react-router-dom";
+import Slider from "@mui/material/Slider";
+import Button from "@mui/material/Button";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import '../styles/main.scss';
+import CustomDrawer from "./LegendParts/CustomDrawer";
+import { styled } from '@mui/material/styles';
+import EmailIcon from '@mui/icons-material/Email';
+import MessageDrawer from "./LegendParts/MessageDrawer"; // ← You'll create this component
 
-function CollapsibleList({ label, items }) {
-  const [open, setOpen] = useState(false);
+function GraphPage() {
+  
+  const [graphName, setGraphName] = useState(() => localStorage.getItem("graphName") || "HE_2025");
+  const [messageDrawerOpen, setMessageDrawerOpen] = useState(false);  
+  const graphDataRef = useRef(null);
+  const rawGraphDataRef = useRef(null);
+  const [cyInstance, setCyInstance] = useState(null); 
+  const [ready, setReady] = useState(false);
+  const hoveredNodeRef = useRef(null);
+  const hoveredNodeIdRef = useRef(null);
+  const { darkMode, setDarkMode } = useDarkMode();
+  const API_BASE = process.env.REACT_APP_API_URL;
+  const location = useLocation();
+  const graphViewRef = useRef();
+  const [isMessageDrawerOpen, setIsMessageDrawerOpen] = useState(false);
 
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <strong>{label}:</strong>
-        <Button
-          variant="outline-secondary"
-          size="sm"
-          onClick={() => setOpen(prev => !prev)}
-        >
-          {open ? "Hide" : "Show"}
-        </Button>
-      </div>
-      {open && (
-        <ul style={{ marginTop: "0.5rem" }}>
-          {items.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
-function NodeDetail() {
-  const { id } = useParams();
-  const [nodeData, setNodeData] = useState(null);
-  const [relations, setRelations] = useState([]);
-   const { darkMode } = useDarkMode();
-  useEffect(() => {
-    const fetchNodeAndRelations = async () => { 
-    let relEndpoint;
-    let nodeEndpoint;
-    if (id.startsWith("cluster2_call_")) {
-      nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/node/${encodeURIComponent(id)}`;
-      relEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/relationships?from_id=${encodeURIComponent(id)}`;
-    } else if (id.startsWith("cluster4_call_") || id.startsWith("cluster4_theme_") || id.startsWith("cluster4_destination_")) {
-      nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(id)}`;
-      relEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/relationships?from_id=${encodeURIComponent(id)}`;
-    } else {
-      nodeEndpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(id)}`;
-      relEndpoint = `${process.env.REACT_APP_API_URL}/relationships/?from_id=${encodeURIComponent(id)}`;
-    }
-
-    const [nodeRes, relRes] = await Promise.all([
-      fetch(nodeEndpoint),
-      fetch(relEndpoint)
-    ]);
-
-    const nodeJson = await nodeRes.json();
-    const relJson = await relRes.json();
-
-    setNodeData(nodeJson);
-    console.log(relJson)
-    console.log(id)
-    setRelations(relJson.relationships || []);
+  const handleGraphNameChange = (name) => {
+    localStorage.setItem("graphName", name);
+    setGraphName(name);
   };
 
-    fetchNodeAndRelations();
-  }, [id]);
- 
-  if (!nodeData) return <p>Loading...</p>;
-
-  const displayableKeys = Object.keys(nodeData).filter(
-    key => key !== "id" && key !== "name" && key !== "type" && nodeData[key]
-  );
-
-  return (
-    <>
-      <GraphHeader />
-        <div className={darkMode ? "dark-theme" : "light-theme"}>
-        <Card className="mb-3">
-          <Card.Header><h4>{nodeData.name}</h4></Card.Header>
-          <Card.Body>
-          {displayableKeys.map(key => {
-          const value = nodeData[key];
-          const isBulletList = typeof value === "string" && value.includes("•");
-          const items = isBulletList
-            ? value
-                .split("•")
-                .map(str => str.trim())
-                .filter(Boolean)
-            : null;
-
-          return (
-            <div key={key} style={{ marginBottom: "1rem" }}>
-              {items ? (
-                <CollapsibleList label={formatLabel(key)} items={items} />
-              ) : (
-                <p><strong>{formatLabel(key)}:</strong> {value}</p>
-              )}
-            </div>
-          );
-        })}
-
-          </Card.Body>
-        </Card>
-        <Card>
-          <Card.Header><h5>Connections</h5></Card.Header>
-          <Card.Body>
-           <ul>
-            {relations.map((rel, idx) => {
-              const relationType = rel.relation || rel.type || "RELATED";
-              const target = rel.target || "Unknown";
-
-              return (
-                <li key={idx}>
-                  <Badge bg="info" className="me-2">{relationType}</Badge>
-                  <Link to={`/node/${encodeURIComponent(target)}`}>
-                    {target}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          </Card.Body>
-        </Card>
-      </div>
-    </>
-  );
-}
-
-function formatLabel(key) {
-  return key
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, c => c.toUpperCase());
-}
-
-export default NodeDetail;
-
-
-
-
-// components/NodeDetail.js
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Card, Badge, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import GraphHeader from "./GraphHeader";
-import { useDarkMode } from "./context/DarkModeContext";
-
-function CollapsibleList({ label, items }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <strong>{label}:</strong>
-        <Button
-          variant="outline-secondary"
-          size="sm"
-          onClick={() => setOpen(prev => !prev)}
-        >
-          {open ? "Hide" : "Show"}
-        </Button>
-      </div>
-      {open && (
-        <ul style={{ marginTop: "0.5rem" }}>
-          {items.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
-function NodeDetail() {
-  const { id } = useParams();
-  const [nodeData, setNodeData] = useState(null);
-  const [relations, setRelations] = useState([]);
-   const { darkMode } = useDarkMode();
   useEffect(() => {
-    const fetchNodeAndRelations = async () => {
-      let endpoint;
-      if (id.startsWith("cluster2_call_")) {
-        endpoint = `${process.env.REACT_APP_API_URL}/cluster2/node/${encodeURIComponent(id)}`;
-      } else if (id.startsWith("cluster4_call_")) {
-        endpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(id)}`;
-      } else {
-        endpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(id)}`;
+    const savedGraphName = localStorage.getItem("graphName");
+    if (savedGraphName && savedGraphName !== graphName) {
+      setGraphName(savedGraphName);
+    }
+  }, []);
+
+  const fetchGraph = async () => {
+    try {
+      const baseName = graphName.replace('_cose', ''); 
+
+      let nodesUrl, relsUrl;
+      let rawNodes = [];
+
+      if (baseName === "HE_2025") {
+        nodesUrl = `${API_BASE}/nodes/`;
+        relsUrl = `${API_BASE}/relationships/`;
+        const rawRes = await fetch(`${API_BASE}/nodes/raw_nodes/`);
+        const rawJson = await rawRes.json();
+        rawNodes = rawJson?.nodes || [];
+              console.log(nodesUrl)
+      console.log(relsUrl)
+      } else if (baseName === "Cluster_4") {
+        nodesUrl = `${API_BASE}/cluster4/nodes`;
+        relsUrl = `${API_BASE}/cluster4/relationships`;
+      } else if (baseName === "Cluster_2") {
+        nodesUrl = `${API_BASE}/cluster2/nodes`;
+        relsUrl = `${API_BASE}/cluster2/relationships`;
       }
-
-      const [nodeRes, relRes] = await Promise.all([
-        fetch(endpoint),
-        fetch(`${process.env.REACT_APP_API_URL}/relationships/?from_id=${encodeURIComponent(id)}`)
+      
+      const [nodesRes, relsRes] = await Promise.all([
+        fetch(nodesUrl),
+        fetch(relsUrl)
       ]);
+      
+      console.log(`${API_BASE}/nodes/raw_nodes/`)
+     // console.log(nodesUrl)
+      //console.log(relsUrl)
+      const nodes = await nodesRes.json();
+      const rels = await relsRes.json();
 
-      const nodeJson = await nodeRes.json();
-      const relJson = await relRes.json();
+      graphDataRef.current = { nodes, rels };
+      rawGraphDataRef.current = { nodes: { nodes: rawNodes } };
+      console.log(graphDataRef.current)
+      setReady(true);
+    } catch (e) {
+      console.error("Failed to preload graph data", e);
+    }
+  };
 
-      setNodeData(nodeJson);
-      console.log(relJson)
-      setRelations(relJson.relationships || []);
-    };
+  useEffect(() => {
+    graphDataRef.current = null;
+    rawGraphDataRef.current = null;
+    setReady(false);  // ✅ ensure reset before fetch
+    fetchGraph();
+  }, [graphName]);
 
-    fetchNodeAndRelations();
-  }, [id]);
- 
-  if (!nodeData) return <p>Loading...</p>;
+  const graphRef = useRef();
 
-  const displayableKeys = Object.keys(nodeData).filter(
-    key => key !== "id" && key !== "name" && key !== "type" && nodeData[key]
-  );
+  const [layoutOptions, setLayoutOptions] = useState({
+    name: "cose-bilkent",
+    nodeRepulsion: 10000,
+    idealEdgeLength: 140,
+    edgeElasticity: 0.1,
+    fit: false,
+    animate: false,
+    numIter: 12500
+  });
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleApplyLayout = () => {
+    if (graphRef.current) {
+      graphRef.current.rerunLayout();
+    }
+  };
+
+    const PrettoSlider = styled(Slider)({
+      color: 'rgb(0, 151, 189)',
+      height: 8,
+      '& .MuiSlider-track': {
+        border: 'none',
+      },
+      '& .MuiSlider-thumb': {
+        height: 24,
+        width: 24,
+        backgroundColor: '#fff',
+        border: '2px solid currentColor',
+        '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+          boxShadow: 'inherit',
+        },
+        '&::before': {
+          display: 'none',
+        },
+      },
+      '& .MuiSlider-valueLabel': {
+        lineHeight: 1.2,
+        fontSize: 12,
+        background: 'unset',
+        padding: 0,
+        width: 32,
+        height: 32,
+        borderRadius: '50% 50% 50% 0',
+        backgroundColor: 'rgb(0, 159, 199)',
+        transformOrigin: 'bottom left',
+        transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
+        '&::before': { display: 'none' },
+        '&.MuiSlider-valueLabelOpen': {
+          transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
+        },
+        '& > *': {
+          transform: 'rotate(45deg)',
+        },
+      },
+    });
 
   return (
-    <>
-      <GraphHeader />
-        <div className={darkMode ? "dark-theme" : "light-theme"}>
-        <Card className="mb-3">
-          <Card.Header><h4>{nodeData.name}</h4></Card.Header>
-          <Card.Body>
-          {displayableKeys.map(key => {
-          const value = nodeData[key];
-          const isBulletList = typeof value === "string" && value.includes("•");
-          const items = isBulletList
-            ? value
-                .split("•")
-                .map(str => str.trim())
-                .filter(Boolean)
-            : null;
+    <CyContext.Provider value={cyInstance}>
+      <Container
+        fluid
+        className={`vh-100 d-flex flex-column p-0 overflow-hidden graph-container`}
+      >
+        <Row
+          className="flex-grow-1 w-100 g-0 legend-titles"
+          style={{ flexWrap: "nowrap" }}
+        >
+          <Col
+            xs="auto"
+            className="p-0"
+            style={{ width: 400, maxWidth: 400, flex: "0 0 400px" }}
+          >
+            {cyInstance ? (
+            <Legend
+              hoveredNodeRef={hoveredNodeRef}
+              graphName={graphName}
+              setGraphName={handleGraphNameChange}
+            />
+            ) : (
+              <div>Loading legend...</div>
+            )}
+          </Col>
 
-          return (
-            <div key={key} style={{ marginBottom: "1rem" }}>
-              {items ? (
-                <CollapsibleList label={formatLabel(key)} items={items} />
-              ) : (
-                <p><strong>{formatLabel(key)}:</strong> {value}</p>
-              )}
+          <Col className="d-flex flex-column p-0 overflow-hidden">
+            {ready ? (
+              <GraphView
+                layoutOptions={layoutOptions}
+                graphref={graphRef}
+                graphData={graphDataRef.current}
+                rawGraphData={rawGraphDataRef.current}
+                onCyReady={(cy) => setCyInstance(cy)}
+                onNodeHover={(node) => {
+                  hoveredNodeRef.current = node;
+                }}
+                hoveredNodeIdRef={hoveredNodeIdRef}
+                onHoverNodeIdChange={(id) => { hoveredNodeIdRef.current = id; }}
+                graphName={graphName}
+              />
+            ) : (
+              <div className="text-center p-5">Loading graph...</div>
+            )}
+          </Col>
+          <Col
+            xs="auto"
+            className="p-0 legend-sidebar"
+            style={{
+              width: 60,
+              maxWidth: 60,
+              flex: "0 0 60px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              position: "relative",
+              zIndex: 10
+            }}
+          >
+            <div className="flex justify-items-center">
+              <IconButton className="icon-button" size="large"><InfoOutlinedIcon fontSize="large" /></IconButton>
+              <IconButton
+                className="icon-button"
+                size="large"
+                onClick={() => setDarkMode(prev => !prev)}
+              >
+                <Brightness4Icon  fontSize="large"/>
+              </IconButton>
+
+              <IconButton className="icon-button" size="large"><BarChartIcon fontSize="large" /></IconButton>
+              <IconButton className="icon-button" size="large" onClick={() => setDrawerOpen(true)}>
+                <SettingsIcon fontSize="large" />
+              </IconButton>
+              <IconButton className="icon-button" size="large" onClick={() => setMessageDrawerOpen(true)}>
+                <EmailIcon fontSize="large" />
+              </IconButton>
+              <MessageDrawer
+                anchor="right"
+                open={isMessageDrawerOpen}
+                onClose={() => setIsMessageDrawerOpen(false)}
+                darkMode={darkMode}
+              />
+                <CustomDrawer
+                  darkMode={darkMode}
+                  anchor="right"
+                  open={drawerOpen}
+                  onClose={() => setDrawerOpen(false)}
+                >
+                <div className="components">
+                  <h3 className="legend-titles">Layout Settings</h3>
+                  <div>
+                    <p className="legend-titles">Node Repulsion</p>
+                    <PrettoSlider
+                      valueLabelDisplay="auto"
+                      aria-label="pretto slider"
+                      value={layoutOptions.nodeRepulsion}
+                      min={0}
+                      max={20000}
+                      step={100}
+                      onChange={(e, val) =>
+                        setLayoutOptions((prev) => ({ ...prev, nodeRepulsion: val }))
+                      }
+                    />
+                    <p className="legend-titles">Ideal Edge Length</p>
+                     <PrettoSlider
+                      valueLabelDisplay="auto"
+                      aria-label="pretto slider"
+                      value={layoutOptions.idealEdgeLength}
+                      min={0}
+                      max={500}
+                      step={10}
+                      onChange={(e, val) =>
+                        setLayoutOptions((prev) => ({ ...prev, idealEdgeLength: val }))
+                      }
+                    />
+                    <p className="legend-titles">Elasticity</p>
+                    <PrettoSlider
+                      valueLabelDisplay="auto"
+                      aria-label="pretto slider"
+                      value={layoutOptions.edgeElasticity}
+                      min={0}
+                      max={2}
+                      step={0.1}
+                      onChange={(e, val) =>
+                        setLayoutOptions((prev) => ({ ...prev, edgeElasticity: val }))
+                      }
+                    />
+                   <Button
+                  sx={{
+                    bgcolor: 'rgb(0, 151, 189)',
+                    color: 'white',
+                    '&:hover': {
+                      bgcolor: 'white',
+                      color: 'rgb(0, 151, 189)',
+                    },
+                  }}
+                  variant="contained"
+                  onClick={handleApplyLayout}
+                  size="medium"
+                >
+                  Apply Layout
+                </Button>
+                  </div>
+                  <ArrowCircleRightIcon
+                    className="mt-3 legend-titles"  
+                    onClick={() => setDrawerOpen(false)}
+                    sx={{ fontSize: 40 }}
+                  />
+                </div>
+              </CustomDrawer>
             </div>
-          );
-        })}
-
-          </Card.Body>
-        </Card>
-        <Card>
-          <Card.Header><h5>Connections</h5></Card.Header>
-          <Card.Body>
-           <ul>
-            {relations.map((rel, idx) => {
-              const relationType = rel.relation || rel.type || "RELATED";
-              const target = rel.target || "Unknown";
-
-              return (
-                <li key={idx}>
-                  <Badge bg="info" className="me-2">{relationType}</Badge>
-                  <Link to={`/node/${encodeURIComponent(target)}`}>
-                    {target}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          </Card.Body>
-        </Card>
-      </div>
-    </>
+          </Col>
+        </Row>
+      </Container>
+    </CyContext.Provider>          
   );
 }
 
-function formatLabel(key) {
-  return key
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, c => c.toUpperCase());
-}
-
-export default NodeDetail;
+export default GraphPage;

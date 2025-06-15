@@ -11,7 +11,7 @@ async def integrate_graph(
     topic_summaries_file: UploadFile = File(None)
 ):
     import json
-    from collections import defaultdict
+    from collections import defaultdict 
 
     # Load files into Python data
     nodes = json.loads((await nodes_file.read()).decode("utf-8"))

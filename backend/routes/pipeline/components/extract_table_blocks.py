@@ -84,7 +84,7 @@ def parse_all_expected_and_scope_fields(pdf_path, start_page=26, end_page=292):
 
 
 def merge_expected_scope_fields(cleaned_blocks, full_field_map):
-    """Update only the missing expected_outcome and scope fields."""
+    """Update only the missing expected_outcome and scope fields.""" 
     updated = 0
 
     for block in cleaned_blocks:
@@ -98,17 +98,17 @@ def merge_expected_scope_fields(cleaned_blocks, full_field_map):
                 block["expected_outcome"] = full_fields["expected_outcome"]
                 updated += 1
 
-        if not block["scope"] or len(block["scope"] or "") < 50:
+        if not block["scope"] or len(block["scope"] or "") < 50: 
             if full_fields["scope"]:
                 block["scope"] = full_fields["scope"]
                 updated += 1
 
-    return cleaned_blocks, updated
+    return cleaned_blocks, updated 
 
 
 if __name__ == "__main__":
     pdf_path = "/pdf_files/HE_CL4_2025.pdf"
-    output_path = "routes/pipeline/output_files/enhanced_raw_call_blocks.json"
+    output_path = "routes/pipeline/output_files/enhanced_raw_call_blocks.json"  
 
     # Step 1: Get cleaned blocks (initial parse)
     cleaned = parse_cleaned_blocks(pdf_path)

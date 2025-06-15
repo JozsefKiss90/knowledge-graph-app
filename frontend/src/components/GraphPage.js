@@ -9,17 +9,19 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useDarkMode } from './context/DarkModeContext';
-import Drawer from "@mui/material/Drawer";
+import { useLocation } from "react-router-dom";
 import Slider from "@mui/material/Slider";
 import Button from "@mui/material/Button";
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import '../styles/main.scss';
 import CustomDrawer from "./LegendParts/CustomDrawer";
 import { styled } from '@mui/material/styles';
+import EmailIcon from '@mui/icons-material/Email';
+import MessageDrawer from "./LegendParts/MessageDrawer";
 
 function GraphPage() {
-
-  const [graphName, setGraphName] = useState("HE_2025");
+  
+  const [graphName, setGraphName] = useState(() => localStorage.getItem("graphName") || "HE_2025");
   const graphDataRef = useRef(null);
   const rawGraphDataRef = useRef(null);
   const [cyInstance, setCyInstance] = useState(null); 
@@ -28,6 +30,23 @@ function GraphPage() {
   const hoveredNodeIdRef = useRef(null);
   const { darkMode, setDarkMode } = useDarkMode();
   const API_BASE = process.env.REACT_APP_API_URL;
+  const location = useLocation();
+  const graphViewRef = useRef();
+  const [isMessageDrawerOpen, setIsMessageDrawerOpen] = useState(false);
+
+  const handleGraphNameChange = (name) => {
+    localStorage.setItem("graphName", name);
+    setGraphName(name);
+  };
+  
+  console.log(`${API_BASE}`)
+
+  useEffect(() => {
+    const savedGraphName = localStorage.getItem("graphName");
+    if (savedGraphName && savedGraphName !== graphName) {
+      setGraphName(savedGraphName);
+    }
+  }, []);
 
   const fetchGraph = async () => {
     try {
@@ -35,13 +54,15 @@ function GraphPage() {
 
       let nodesUrl, relsUrl;
       let rawNodes = [];
-
+ 
       if (baseName === "HE_2025") {
         nodesUrl = `${API_BASE}/nodes/`;
         relsUrl = `${API_BASE}/relationships/`;
         const rawRes = await fetch(`${API_BASE}/nodes/raw_nodes/`);
         const rawJson = await rawRes.json();
         rawNodes = rawJson?.nodes || [];
+              console.log(nodesUrl)
+      console.log(relsUrl)
       } else if (baseName === "Cluster_4") {
         nodesUrl = `${API_BASE}/cluster4/nodes`;
         relsUrl = `${API_BASE}/cluster4/relationships`;
@@ -49,12 +70,14 @@ function GraphPage() {
         nodesUrl = `${API_BASE}/cluster2/nodes`;
         relsUrl = `${API_BASE}/cluster2/relationships`;
       }
-
+      
       const [nodesRes, relsRes] = await Promise.all([
         fetch(nodesUrl),
         fetch(relsUrl)
       ]);
-
+      
+      //console.log(nodesUrl)
+      //console.log(relsUrl)
       const nodes = await nodesRes.json();
       const rels = await relsRes.json();
 
@@ -149,10 +172,10 @@ function GraphPage() {
             style={{ width: 400, maxWidth: 400, flex: "0 0 400px" }}
           >
             {cyInstance ? (
-             <Legend
+            <Legend
               hoveredNodeRef={hoveredNodeRef}
               graphName={graphName}
-              setGraphName={setGraphName}
+              setGraphName={handleGraphNameChange}
             />
             ) : (
               <div>Loading legend...</div>
@@ -163,7 +186,7 @@ function GraphPage() {
             {ready ? (
               <GraphView
                 layoutOptions={layoutOptions}
-                ref={graphRef}
+                graphref={graphRef}
                 graphData={graphDataRef.current}
                 rawGraphData={rawGraphDataRef.current}
                 onCyReady={(cy) => setCyInstance(cy)}
@@ -206,6 +229,15 @@ function GraphPage() {
               <IconButton className="icon-button" size="large" onClick={() => setDrawerOpen(true)}>
                 <SettingsIcon fontSize="large" />
               </IconButton>
+              <IconButton className="icon-button" size="large" onClick={() => setIsMessageDrawerOpen(true)}>
+                <EmailIcon fontSize="large" />
+              </IconButton>
+              <MessageDrawer
+                anchor="right"
+                open={isMessageDrawerOpen}
+                onClose={() => setIsMessageDrawerOpen(false)}
+                darkMode={darkMode}
+              />
                 <CustomDrawer
                   darkMode={darkMode}
                   anchor="right"

@@ -32,42 +32,48 @@ function CollapsibleList({ label, items }) {
   );
 }
 
+function getGraphNameFromId(id) {
+  if (id.startsWith("cluster2_")) return "Cluster_2";
+  if (id.startsWith("cluster4_")) return "Cluster_4";
+  return "HE_2025";
+}
+
+
 function NodeDetail() {
   const { id } = useParams();
   const [nodeData, setNodeData] = useState(null);
   const [relations, setRelations] = useState([]);
-   const { darkMode } = useDarkMode();
+  const { darkMode } = useDarkMode();
+  console.log(id)
   useEffect(() => {
-    const fetchNodeAndRelations = async () => { 
-    let relEndpoint;
-    let nodeEndpoint;
-    if (id.startsWith("cluster2_call_")) {
-      nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/node/${encodeURIComponent(id)}`;
-      relEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/relationships?from_id=${encodeURIComponent(id)}`;
-    } else if (id.startsWith("cluster4_call_") || id.startsWith("cluster4_theme_") || id.startsWith("cluster4_destination_")) {
-      nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(id)}`;
-      relEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/relationships?from_id=${encodeURIComponent(id)}`;
-    } else {
-      nodeEndpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(id)}`;
-      relEndpoint = `${process.env.REACT_APP_API_URL}/relationships/?from_id=${encodeURIComponent(id)}`;
-    }
+    const fetchNodeAndRelations = async () => {
+      const graphName = getGraphNameFromId(id);
+      localStorage.setItem("graphName", graphName);
 
-    const [nodeRes, relRes] = await Promise.all([
-      fetch(nodeEndpoint),
-      fetch(relEndpoint)
-    ]);
+      let nodeEndpoint, relEndpoint;
+      if (id.startsWith("cluster2_call_")) {
+        nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/node/${encodeURIComponent(id)}`;
+        relEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/relationships?from_id=${encodeURIComponent(id)}`;
+      } else if (id.startsWith("cluster4_call_") || id.startsWith("cluster4_theme_") || id.startsWith("cluster4_destination_")) {
+        nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(id)}`;
+        relEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/relationships?from_id=${encodeURIComponent(id)}`;
+      } else {
+        nodeEndpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(id)}`;
+        relEndpoint = `${process.env.REACT_APP_API_URL}/relationships/?from_id=${encodeURIComponent(id)}`;
+      }
 
-    const nodeJson = await nodeRes.json();
-    const relJson = await relRes.json();
+      const [nodeRes, relRes] = await Promise.all([
+        fetch(nodeEndpoint),
+        fetch(relEndpoint)
+      ]);
+      const nodeJson = await nodeRes.json();
+      const relJson = await relRes.json();
 
-    setNodeData(nodeJson);
-    console.log(relEndpoint)
-        console.log(id)
-    setRelations(relJson.relationships || []);
-  };
-  
-  fetchNodeAndRelations();
-  console.log(relations)
+      setNodeData(nodeJson);
+      setRelations(relJson.relationships || []);
+    };
+
+    fetchNodeAndRelations();
   }, [id]);
  
   if (!nodeData) return <p>Loading...</p>;
@@ -132,7 +138,10 @@ function NodeDetail() {
               return (
                 <li key={idx}>
                   <Badge bg="info" className="me-2">{relationType}</Badge>
-                  <Link to={`/node/${encodeURIComponent(target)}`}>
+                  <Link
+                    to={`/node/${encodeURIComponent(target)}`}
+                    onClick={() => localStorage.setItem("graphName", getGraphNameFromId(target))}
+                  >
                     {target}
                   </Link>
                 </li>

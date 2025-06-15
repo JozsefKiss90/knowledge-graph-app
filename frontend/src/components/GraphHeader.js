@@ -17,7 +17,8 @@ const GraphHeader = () => {
         boxShadow: 1,
       }}
     > 
-        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Link to={{ pathname: "/", state: { fromNodeDetail: true } }} style={{ textDecoration: 'none', color: 'inherit' }}
+        >
           <div className='d-flex flex-row align-items-center'>
            {/* <img
               src="/64px-Flag_of_Europe.svg.png"

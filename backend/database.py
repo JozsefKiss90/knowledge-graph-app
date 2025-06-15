@@ -1,9 +1,16 @@
 from neo4j import GraphDatabase
 import os
 
+if os.getenv("ENVIRONMENT") != "production":
+    from dotenv import load_dotenv
+    load_dotenv() 
+
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://neo4j:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "password")
+
+print("ENVIRONMENT:", os.getenv("ENVIRONMENT"))
+print("NEO4J_URI:", NEO4J_URI)
 
 class Neo4jConnection:
     def __init__(self):
