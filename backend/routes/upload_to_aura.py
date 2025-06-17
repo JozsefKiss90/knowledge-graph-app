@@ -6,7 +6,7 @@ BASE_URL = "http://localhost:8000"
 # Step 1: Delete existing graphs
 print("Deleting old Cluster 2 and 4 graphs...")
 requests.delete(f"{BASE_URL}/cluster2/")
-requests.delete(f"{BASE_URL}/cluster4/")
+requests.delete(f"{BASE_URL}/cluster4/") 
 
 # Step 2: Regenerate new graphs
 print("Repopulating Cluster 2 graph...")

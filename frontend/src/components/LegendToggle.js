@@ -260,7 +260,7 @@ const nodeTypeList = graphName === 'HE_2025'
       <Typography className="legend-titles" variant="body2"><strong>Label:</strong> {hoveredNode.label}</Typography>
       <Typography className="legend-titles" variant="body2"><strong>Type:</strong> {hoveredNode.type}</Typography>
 
-      {graphName === "HE_2025" && hoveredNode.summary && (
+      {hoveredNode.summary && (
         <Typography className="legend-titles" variant="body2" sx={{ color: "white", mt: 1 }}>
           <strong>Summary:</strong><br />{hoveredNode.summary}
         </Typography>

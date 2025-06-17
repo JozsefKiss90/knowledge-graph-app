@@ -5,8 +5,8 @@ const defaultCoseLayout = {
   refresh: 30,
   fit: true,
   padding: 0,
-  randomize: true,
-  nodeRepulsion: 10000,
+  randomize: false,
+  nodeRepulsion: 15000,
   idealEdgeLength: 170,
   edgeElasticity: 0.1,
   nestingFactor: 1,
@@ -19,7 +19,7 @@ const defaultCoseLayout = {
   tilingPaddingHorizontal: 0,
   gravityRangeCompound: 1.5,
   gravityCompound: 1.0,
-  gravityRange: 20,
+  gravityRange: 100,
   initialEnergyOnIncremental: 0.5,
 };
 

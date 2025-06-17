@@ -121,7 +121,7 @@ def parse_enhanced_call_blocks(input_json, output_json):
             "call_section": call_section,
             **extracted,
             "expected_outcome": expected_outcome,
-            "scope": scope
+            "scope": scope 
         })
 
     with open(output_json, "w", encoding="utf-8") as f:
@@ -129,6 +129,6 @@ def parse_enhanced_call_blocks(input_json, output_json):
 
     print(f"✅ Parsed {len(parsed_calls)} calls saved to: {output_json}")
 
-
+ 
 if __name__ == "__main__":
     parse_enhanced_call_blocks("routes/pipeline/output_files/enhanced_raw_call_blocks_cleaned.json", "parsed_call_tables_v2.json")

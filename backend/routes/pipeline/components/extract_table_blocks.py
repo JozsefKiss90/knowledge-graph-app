@@ -103,7 +103,7 @@ def merge_expected_scope_fields(cleaned_blocks, full_field_map):
                 block["scope"] = full_fields["scope"]
                 updated += 1
 
-    return cleaned_blocks, updated 
+    return cleaned_blocks, updated  
 
 
 if __name__ == "__main__":

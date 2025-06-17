@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes import integrate
 from routes.pipeline.populate import cl4_routes
 from routes.pipeline.populate import cl2_routes
-from routes import email
+from routes import email_routes
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
@@ -22,10 +22,10 @@ app.include_router(relationships.router)
 app.include_router(integrate.router)
 app.include_router(cl4_routes.router)
 app.include_router(cl2_routes.router)
-app.include_router(email.router)
+app.include_router(email_routes.router)
 
 if ENVIRONMENT == "production":
-    allowed_origins = ["https://knowledge-graph-frontend-production.up.railway.app"]
+    allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app"]
 else:
     allowed_origins = ["http://localhost:3000", "http://localhost:3001"]
 

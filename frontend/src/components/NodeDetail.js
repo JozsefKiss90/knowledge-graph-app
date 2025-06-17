@@ -47,8 +47,12 @@ function NodeDetail() {
   console.log(id)
   useEffect(() => {
     const fetchNodeAndRelations = async () => {
+      
+      const prevLayout = localStorage.getItem("graphName")?.endsWith("_cose");
       const graphName = getGraphNameFromId(id);
-      localStorage.setItem("graphName", graphName);
+      const restoredGraphName = prevLayout ? `${graphName}_cose` : graphName;
+      localStorage.setItem("graphName", restoredGraphName);
+
 
       let nodeEndpoint, relEndpoint;
       if (id.startsWith("cluster2_call_")) {
@@ -63,7 +67,7 @@ function NodeDetail() {
       }
 
       const [nodeRes, relRes] = await Promise.all([
-        fetch(nodeEndpoint),
+        fetch(nodeEndpoint), 
         fetch(relEndpoint)
       ]);
       const nodeJson = await nodeRes.json();

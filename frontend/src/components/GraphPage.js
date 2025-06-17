@@ -18,6 +18,7 @@ import CustomDrawer from "./LegendParts/CustomDrawer";
 import { styled } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import MessageDrawer from "./LegendParts/MessageDrawer";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function GraphPage() {
   
@@ -178,9 +179,11 @@ function GraphPage() {
               setGraphName={handleGraphNameChange}
             />
             ) : (
-              <div>Loading legend...</div>
+             <div className="d-flex align-items-center justify-content-center h-100">
+              <CircularProgress color="primary" />
+            </div>
             )}
-          </Col>
+          </Col> 
 
           <Col className="d-flex flex-column p-0 overflow-hidden">
             {ready ? (
@@ -198,7 +201,9 @@ function GraphPage() {
                 graphName={graphName}
               />
             ) : (
-              <div className="text-center p-5">Loading graph...</div>
+              <div className="d-flex align-items-center justify-content-center h-100">
+                <CircularProgress color="primary" />
+              </div>
             )}
           </Col>
           <Col
@@ -231,10 +236,10 @@ function GraphPage() {
               </IconButton>
               <IconButton className="icon-button" size="large" onClick={() => setIsMessageDrawerOpen(true)}>
                 <EmailIcon fontSize="large" />
-              </IconButton>
-              <MessageDrawer
+              </IconButton> 
+              <MessageDrawer 
                 anchor="right"
-                open={isMessageDrawerOpen}
+                open={isMessageDrawerOpen}lo
                 onClose={() => setIsMessageDrawerOpen(false)}
                 darkMode={darkMode}
               />

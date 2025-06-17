@@ -94,7 +94,7 @@ const GraphView = forwardRef((props, ref) => {
       style: cyStyle(darkMode),
       pixelRatio: 2,
       maxZoom: 3,
-      minZoom: graphName === 'HE_2025' ? 0.95 : 0.1,
+      minZoom: graphName === 'HE_2025' ? 0.1 : 0.05,
     });    
     cyRef.current = cy;
     setCyInstance(cy);
@@ -106,6 +106,8 @@ const GraphView = forwardRef((props, ref) => {
     layout.on("layoutstop", () => {
       cy.nodes().forEach(n => n.lock());
       cy.fit(cy.nodes(), 50);
+      cy.zoom(0.9);
+      cy.panBy({ x: 0, y: -50 })
       /*if (cy.zoom() > 1.5) {
         //cy.zoom(1.5);
         //cy.center();
@@ -122,7 +124,7 @@ const GraphView = forwardRef((props, ref) => {
       };
   }, [graphData, rawGraphData, navigate, darkMode]);
 
-  return (
+  return ( 
     <div
       ref={containerRef}
       className="graph-container"

@@ -16,7 +16,6 @@ const StyledDrawer = styled(Drawer, {
 }));
 
 const MessageDrawer = ({ anchor, open, onClose, darkMode }) => {
-  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSend = async () => {
@@ -26,7 +25,7 @@ const MessageDrawer = ({ anchor, open, onClose, darkMode }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ to: email, message }),
+      body: JSON.stringify({ to: "jozsefkiss90@gmail.com", message }),
     });
 
     if (!response.ok) {
@@ -48,20 +47,35 @@ const MessageDrawer = ({ anchor, open, onClose, darkMode }) => {
           Send Message
         </Typography>
         <TextField
-          label="Recipient Email"
-          fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          sx={{ mb: 2 }}
-        />
-        <TextField
           label="Message"
           fullWidth
           multiline
           rows={6}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          sx={{ mb: 2 }}
+          sx={{
+            mb: 2,
+            input: { color: "white" },
+            textarea: { color: "white" },
+            label: { color: "white" },
+            "& .MuiInputBase-root": {
+              color: "white",
+            },
+            "& .MuiInputLabel-root": {
+              color: "white",
+            },
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "white",
+              },
+              "&:hover fieldset": {
+                borderColor: "white",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "white",
+              },
+            },
+          }}
         />
         <Button variant="contained" fullWidth onClick={handleSend}>
           Send
