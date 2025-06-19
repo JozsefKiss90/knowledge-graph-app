@@ -1,5 +1,4 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-import json
 from database import db
 
 router = APIRouter(prefix="/integrate", tags=["Graph Integration"])
@@ -11,7 +10,7 @@ async def integrate_graph(
     topic_summaries_file: UploadFile = File(None)
 ):
     import json
-    from collections import defaultdict 
+    from collections import defaultdict  
 
     # Load files into Python data
     nodes = json.loads((await nodes_file.read()).decode("utf-8"))
@@ -22,6 +21,11 @@ async def integrate_graph(
             entry["id"]: entry["summary"]
             for entry in json.loads((await topic_summaries_file.read()).decode("utf-8"))
         }
+    db.query("""
+        MATCH (n)
+        WHERE n:Document OR n:Topic
+        DETACH DELETE n
+    """)    
 
     # Step 1: Create all document nodes
     for node in nodes: 
@@ -32,6 +36,7 @@ async def integrate_graph(
             "type": node["type"],
             "source": "he_2025"
         }
+        
         cypher = """
         MERGE (n:Document {id: $id})
         SET n += $props 
@@ -47,6 +52,7 @@ async def integrate_graph(
         SET t.summary = $summary
         """
         db.query(cypher, {"id": topic_id, "summary": summary})
+
 
     # Step 3: Create relationships
     for rel in relationships:
@@ -82,3 +88,15 @@ async def integrate_graph(
         "relationships_inserted": len(relationships),
         "topics_updated_with_summary": len(topic_summaries)
     }
+
+@router.delete("/")
+async def delete_integrated_graph():
+    try:
+        db.query("""
+            MATCH (n)
+            WHERE n:Document OR n:Topic
+            DETACH DELETE n
+        """)
+        return {"status": "success", "message": "Graph deleted from AuraDB."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete graph: {str(e)}")

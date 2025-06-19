@@ -299,58 +299,58 @@
     "type": "policy",
     "summary": "This policy area supports equitable access to high-quality healthcare and health innovation. Horizon Europe backs research on digital health, pandemic resilience, non-communicable diseases, and strengthening health systems across Member States."
   },
-     {
-        "id": "eu_missions_restore_our_ocean_and_waters",
-        "name": "EU Missions Restore our Ocean and Waters",
-        "type": "policy",
-        "summary": "This mission supports the restoration of marine and freshwater ecosystems by 2030. Horizon Europe funds actions to reduce pollution, restore biodiversity, and support sustainable blue economies through local and regional innovation hubs."
-    },
     {
-        "id": "eu_biodiversity_strategy_for_2030",
-        "name": "EU Biodiversity Strategy for 2030",
-        "type": "policy",
-        "summary": "The strategy aims to halt biodiversity loss and restore ecosystems across Europe. Horizon Europe contributes by funding nature-based solutions, conservation science, and restoration efforts, supporting implementation of EU and global biodiversity goals."
-    },
-    {
-        "id": "eus_circular_economy_and_sustainable_bioeconomy",
-        "name": "EUs circular economy and sustainable bioeconomy",
-        "type": "policy",
-        "summary": "This policy area supports the transition to a resource-efficient and regenerative economy. Horizon Europe invests in bio-based materials, recycling technologies, and systemic innovations for sustainable production and consumption."
-    },
-    {
-        "id": "eu_strategy_for_a_sustainable_future",
-        "name": "EU strategy for a sustainable future",
-        "type": "strategy",
-        "summary": "This overarching strategy links EU policy ambitions with research for sustainability. Horizon Europe funds R&I to advance climate neutrality, digital innovation, and socio-economic resilience, ensuring long-term prosperity for people and planet."
-    },
-    {
-        "id": "eu_strategy_for_rural_areas",
-        "name": "EU strategy for rural areas",
-        "type": "policy",
-        "summary": "The strategy supports smart, strong, and resilient rural areas through digitalisation, green transition, and community empowerment. Horizon Europe supports innovation for sustainable agriculture, smart villages, and rural diversification."
-    },
-    {
-        "id": "eu_strategy_for_africa",
-        "name": "EU strategy for Africa",
-        "type": "policy",
-        "summary": "This strategy enhances EU-Africa R&I cooperation in health, climate, food security, and digital transformation. Horizon Europe supports joint initiatives that foster knowledge exchange and capacity building in African partner countries."
-    },
-    {
-        "id": "eu_cap_network",
-        "name": "EU CAP Network",
-        "type": "institution",
-        "summary": "The EU CAP Network supports knowledge sharing, innovation, and collaboration for sustainable agriculture and rural development. It connects stakeholders to implement the Common Agricultural Policy and related Horizon Europe actions."
-    },
-    {
-        "id": "eu_policy_on_carbon_farming",
-        "name": "EU policy on carbon farming",
-        "type": "policy",
-        "summary": "This policy promotes land-based carbon removal through farming practices like agroforestry and peatland restoration. Horizon Europe supports research to quantify and verify carbon removals, contributing to EU climate targets."
-    },
-    {
-        "id": "policy",
-        "name": "Policy",
-        "type": "policy",
-        "summary": "This is a generic placeholder and requires renaming or refinement. Please replace it with a descriptive name reflecting a specific policy theme or action area to ensure clarity and utility in your dataset."
-    }
-]
+      "id": "eu_missions_restore_our_ocean_and_waters",
+      "name": "EU Missions Restore our Ocean and Waters",
+      "type": "policy",
+      "summary": "This mission supports the restoration of marine and freshwater ecosystems by 2030. Horizon Europe funds actions to reduce pollution, restore biodiversity, and support sustainable blue economies through local and regional innovation hubs."
+  },
+  {
+      "id": "eu_biodiversity_strategy_for_2030",
+      "name": "EU Biodiversity Strategy for 2030",
+      "type": "policy",
+      "summary": "The strategy aims to halt biodiversity loss and restore ecosystems across Europe. Horizon Europe contributes by funding nature-based solutions, conservation science, and restoration efforts, supporting implementation of EU and global biodiversity goals."
+  },
+  {
+      "id": "eus_circular_economy_and_sustainable_bioeconomy",
+      "name": "EUs circular economy and sustainable bioeconomy",
+      "type": "policy",
+      "summary": "This policy area supports the transition to a resource-efficient and regenerative economy. Horizon Europe invests in bio-based materials, recycling technologies, and systemic innovations for sustainable production and consumption."
+  },
+  {
+      "id": "eu_strategy_for_a_sustainable_future",
+      "name": "EU strategy for a sustainable future",
+      "type": "strategy",
+      "summary": "This overarching strategy links EU policy ambitions with research for sustainability. Horizon Europe funds R&I to advance climate neutrality, digital innovation, and socio-economic resilience, ensuring long-term prosperity for people and planet."
+  },
+  {
+      "id": "eu_strategy_for_rural_areas",
+      "name": "EU strategy for rural areas",
+      "type": "policy",
+      "summary": "The strategy supports smart, strong, and resilient rural areas through digitalisation, green transition, and community empowerment. Horizon Europe supports innovation for sustainable agriculture, smart villages, and rural diversification."
+  },
+  {
+      "id": "eu_strategy_for_africa",
+      "name": "EU strategy for Africa",
+      "type": "policy",
+      "summary": "This strategy enhances EU-Africa R&I cooperation in health, climate, food security, and digital transformation. Horizon Europe supports joint initiatives that foster knowledge exchange and capacity building in African partner countries."
+  },
+  {
+      "id": "eu_cap_network",
+      "name": "EU CAP Network",
+      "type": "institution",
+      "summary": "The EU CAP Network supports knowledge sharing, innovation, and collaboration for sustainable agriculture and rural development. It connects stakeholders to implement the Common Agricultural Policy and related Horizon Europe actions."
+  },
+  {
+      "id": "eu_policy_on_carbon_farming",
+      "name": "EU policy on carbon farming",
+      "type": "policy",
+      "summary": "This policy promotes land-based carbon removal through farming practices like agroforestry and peatland restoration. Horizon Europe supports research to quantify and verify carbon removals, contributing to EU climate targets."
+  },
+  {
+      "id": "policy",
+      "name": "Policy",
+      "type": "policy",
+      "summary": "This is a generic placeholder and requires renaming or refinement. Please replace it with a descriptive name reflecting a specific policy theme or action area to ensure clarity and utility in your dataset."
+  }
+] 

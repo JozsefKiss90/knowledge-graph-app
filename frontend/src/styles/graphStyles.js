@@ -21,7 +21,7 @@ const cyStyle = (darkMode) => {
       'padding': '11px',
           'cursor': 'pointer'
     },
-  },
+  }, 
   {
     selector: 'node:hover',
     style: {
@@ -174,7 +174,7 @@ const cyStyle = (darkMode) => {
 {
   selector: "node[type = 'Call']",
   style: {
-    'background-color': '#ffb74d',
+    'background-color': 'rgb(207, 149, 23)',
     'width': '32px',
     'height': '32px',
   },

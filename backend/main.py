@@ -9,7 +9,7 @@ from routes import email_routes
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
-    from dotenv import load_dotenv
+    from dotenv import load_dotenv 
     load_dotenv(dotenv_path=".env.development")
 
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")

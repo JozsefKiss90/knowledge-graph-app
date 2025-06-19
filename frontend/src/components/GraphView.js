@@ -87,6 +87,7 @@ const GraphView = forwardRef((props, ref) => {
     }
 
     const { nodeElements, edgeElements } = buildElements(graphData, rawGraphData);
+        console.log(graphName)
 
     const cy = Cytoscape({
       container: containerRef.current,
@@ -106,12 +107,14 @@ const GraphView = forwardRef((props, ref) => {
     layout.on("layoutstop", () => {
       cy.nodes().forEach(n => n.lock());
       cy.fit(cy.nodes(), 50);
-      cy.zoom(0.9);
-      cy.panBy({ x: 0, y: -50 })
-      /*if (cy.zoom() > 1.5) {
-        //cy.zoom(1.5);
-        //cy.center();
-      }*/
+
+      if (graphName.startsWith("Cluster_4")) {
+        cy.zoom(0.8); // ⬅️ More zoomed out
+        cy.center();
+      } else {
+        cy.zoom(0.9);
+        cy.panBy({ x: 0, y: -50 });
+      }
     });
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
