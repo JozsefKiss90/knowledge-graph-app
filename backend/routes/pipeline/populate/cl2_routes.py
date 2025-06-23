@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from routes.pipeline.cl2_cluster_builder import ClusterGraphBuilderCL2
+from routes.pipeline.cl2_cluster_builder_updated import ClusterGraphBuilderCL2
 import traceback
 from database import db
 
@@ -92,7 +92,7 @@ def get_cluster2_relationships(from_id: Optional[str] = None):
 def populate_cluster2():
     try:
         builder = ClusterGraphBuilderCL2()
-        path = "routes/pipeline/output_files/nested_parsed_cl2_call_tables.json"
+        path = "routes/pipeline/output_files/updated_nested_parsed_cl2_calls_with_max_funded_projects.json"
         builder.create_graph_from_file(path)
 
         return {

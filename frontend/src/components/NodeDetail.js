@@ -14,6 +14,7 @@ function CollapsibleList({ label, items }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <strong>{label}:</strong>
         <Button
+          style={{color: "white"}}
           variant="outline-secondary"
           size="sm"
           onClick={() => setOpen(prev => !prev)}
@@ -25,7 +26,7 @@ function CollapsibleList({ label, items }) {
         <ul style={{ marginTop: "0.5rem" }}>
           {items.map((item, idx) => (
             <li key={idx}>{item}</li>
-          ))}
+          ))} 
         </ul>
       )}
     </div>
@@ -44,7 +45,7 @@ function NodeDetail() {
   const [nodeData, setNodeData] = useState(null);
   const [relations, setRelations] = useState([]);
   const { darkMode } = useDarkMode();
-  console.log(id)
+  
   useEffect(() => {
     const fetchNodeAndRelations = async () => {
       
@@ -72,7 +73,7 @@ function NodeDetail() {
       ]);
       const nodeJson = await nodeRes.json();
       const relJson = await relRes.json();
-
+      console.log(nodeJson)
       setNodeData(nodeJson);
       setRelations(relJson.relationships || []);
     };
@@ -104,14 +105,22 @@ function NodeDetail() {
             : null;
 
           return (
-            <div key={key} style={{ marginBottom: "1rem" }}>
-              {items ? (
-                <CollapsibleList label={formatLabel(key)} items={items} />
-              ) : (
-                <p><strong>{formatLabel(key)}:</strong> {value}</p>
-              )}
-            </div>
-          );
+          <div key={key} style={{ marginBottom: "1rem" }}>
+            {items ? (
+              <CollapsibleList label={formatLabel(key)} items={items} />
+            ) : key === "funding_link" ? (
+              <p>
+                <strong>{formatLabel(key)}:</strong>{" "}
+                <a href={value} target="_blank" rel="noopener noreferrer">
+                  Call Link
+                </a>
+              </p>
+            ) : (
+              <p><strong>{formatLabel(key)}:</strong> {value}</p>
+            )}
+          </div>
+        );
+
         })}
 
           </Card.Body>
