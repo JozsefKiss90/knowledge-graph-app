@@ -13,8 +13,10 @@ import SearchBox from './LegendParts/SearchBox';
 import ScoreFilter from './LegendParts/ScoreFilter';
 import '../styles/main.scss'
 import { useDarkMode } from "./context/DarkModeContext";
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import { IconButton } from '@mui/material';
 
-const Legend = ({ hoveredNodeRef, graphName, setGraphName }) =>  {
+const Legend = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
   const cy = useCy();
   const [hoveredNode, setHoveredNode] = useState(null);
   const scrollRef = useRef(null);
@@ -101,8 +103,6 @@ const nodeTypeList = graphName === 'HE_2025'
     lastHoveredId = currentNode.id;
   }
 
-    // ✅ Do nothing if current is null (mouse left), but last was not
-    // ⛔ Avoid setting `hoveredNode(null)` when nothing is hovered
   }, 100);
 
   return () => clearInterval(interval);
@@ -172,10 +172,26 @@ const nodeTypeList = graphName === 'HE_2025'
         flexDirection: 'column',
         gap: 3
       }}
-      
     >
       <Box>
-        <Typography  className="legend-titles" variant="subtitle1" fontWeight="bold">Graph Filter</Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+          <Typography
+            className="legend-titles"
+            variant="subtitle1"
+            fontWeight="bold"
+            sx={{ mb: 0 }}
+          >
+            Graph Filter
+          </Typography>
+          <IconButton
+            onClick={onCollapse}
+            size="small"
+            title="Collapse Legend"
+            sx={{ p: 0, ml: 1 }}
+          >
+            <ArrowCircleLeftIcon sx={{ color: 'white', fontSize: 28 }} />
+          </IconButton>
+        </Box>
           <Box display="flex" gap={1} flexWrap="wrap" sx={{mt: 1}}>
               <select
                 className="graph-filter"
@@ -249,11 +265,16 @@ const nodeTypeList = graphName === 'HE_2025'
       {graphName === "HE_2025" && (
         <ScoreFilter cy={cy} />
       )}
-
-      <Box>
-        <button  className="btn btn-sm btn-outline-secondary components legend-titles" onClick={resetView}>Reset View</button>
-      </Box>
-
+      {onCollapse && (
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <button
+            className="btn btn-sm btn-outline-secondary components legend-titles"
+            onClick={resetView}
+          >
+            Reset View
+          </button>
+        </Box>
+      )}
    {hoveredNode && (
     <Box className="mt-3 mb-5 p-2 border rounded shadow-sm hovered-node ">
       <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Hovered Node</Typography>

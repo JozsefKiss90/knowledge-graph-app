@@ -15,6 +15,8 @@ const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
         if (!visibleTypes || !types) return null;
         const classType = type.replace(/\s+/g, '').toLowerCase();
         const isActive = visibleTypes.has(type);
+                  console.log(type)
+
         return (
           <Button
             key={type}
@@ -22,6 +24,10 @@ const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
             size="small"
             disableElevation
             className={`node-toggle-button type-${classType}${!isActive ? '-active' : ''}`}
+            title={`${type==="policy" ? "Switch off policy nodes" : type==="strategy" ? "Switch off strategy nodes"
+              : type==="cluster" ? "Switch off cluster nodes" : type==="research_theme" ? "Switch off research themes nodes"
+              : type==="institution" ? "Switch off institution nodes" : type==="institution" ? "Switch off institution nodes" 
+              : "Switch off topic nodes"}`}
             onClick={() => onToggle(type)}
             onMouseEnter={() => {
               if (cy) {

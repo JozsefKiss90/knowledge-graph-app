@@ -1,0 +1,74 @@
+.node-detail {
+  padding: 2rem;
+
+  &.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  &.light-theme {
+    background-color: #fff;
+    color: #333;
+  }
+
+  .info-column, .connections-column {
+    margin-bottom: 2rem;
+  }
+
+  .node-card, .connections-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+
+  .node-meta-item {
+    margin-bottom: 1rem;
+    p {
+      margin: 0;
+    }
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  .collapsible-list {
+    .collapsible-header {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      margin-bottom: 0.5rem;
+    }
+
+    .toggle-btn {
+      margin-left: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .collapsible-items {
+      list-style: disc;
+      padding-left: 1.5rem;
+    }
+  }
+
+  .connections-list {
+    padding-left: 0;
+    list-style: none;
+
+    .connection-item {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+
+      .relation-badge {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+  }
+}

@@ -15,13 +15,14 @@ const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => {
       <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
         {types.map(({ type }) => {
           const classType = type.replace(/\s+/g, '').toLowerCase();
-         const isActive = visibleTypes.has(type)
+          const isActive = visibleTypes.has(type)
           return (
             <Button 
               key={type}
               variant={isActive ? 'contained' : 'outlined'}
               size="small"
               disableElevation
+              title={`${type==="BELONGS_TO_TOPIC" ? "Toggle topic links" : type==="SHARED_TOPIC" ? "Toggle shadred topics" : "Toggle similar topics"}`}
               className={`edge-toggle-button type-${classType}${!isActive ? '-active' : ''}`}
               onClick={() => onToggle(type)}
               onMouseEnter={() => {

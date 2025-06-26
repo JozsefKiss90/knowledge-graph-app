@@ -71,6 +71,11 @@ h2 {
   overflow: hidden; // or auto
 }
 
+.sidebar-transition {
+  transition: width 0.3s ease !important;
+  overflow: hidden;
+}
+
 .dark-theme .graph-container {
   background-color: rgb(36, 55, 66);
 }
@@ -87,7 +92,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-
+  transition: 400px 0.3s ease;
   /* Scrollbar styles (Webkit-based browsers only) */
   &::-webkit-scrollbar {
     width: 8px;
@@ -162,6 +167,7 @@ h2 {
   color: white;
   background-color: rgb(43, 56, 65);
   border: 1px solid white;
+  
 }
 .light-theme .search-input {
   color: black;

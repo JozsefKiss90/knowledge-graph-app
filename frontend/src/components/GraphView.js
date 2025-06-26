@@ -98,24 +98,18 @@ const GraphView = forwardRef((props, ref) => {
       minZoom: graphName === 'HE_2025' ? 0.1 : 0.05,
     });    
     cyRef.current = cy;
+
     setCyInstance(cy);
     if (onCyReady) onCyReady(cy);
 
     const layout = cy.layout(layoutConfig[graphName]);
-    layout.run();
-   
+
     layout.on("layoutstop", () => {
       cy.nodes().forEach(n => n.lock());
-      cy.fit(cy.nodes(), 50);
-
-      if (graphName.startsWith("Cluster_4")) {
-        cy.zoom(0.8); // ⬅️ More zoomed out
-        cy.center();
-      } else {
-        cy.zoom(0.9);
-        cy.panBy({ x: 0, y: -50 });
-      }
+      cy.center();
     });
+
+    layout.run(); // ← after on("layoutstop")
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
       //cy.fit();

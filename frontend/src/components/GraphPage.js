@@ -34,6 +34,7 @@ function GraphPage() {
   const location = useLocation();
   const graphViewRef = useRef();
   const [isMessageDrawerOpen, setIsMessageDrawerOpen] = useState(false);
+  const [isLegendCollapsed, setIsLegendCollapsed] = useState(false);
 
   const handleGraphNameChange = (name) => {
     localStorage.setItem("graphName", name);
@@ -49,13 +50,29 @@ function GraphPage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!cyInstance || cyInstance.destroyed()) return;
+
+    const targetZoom = isLegendCollapsed ? 0.9 : 0.7;
+    const currentZoom = cyInstance.zoom();
+
+    cyInstance.animate({
+      zoom: targetZoom,
+      center: { eles: cyInstance.nodes() },
+      duration: 300,
+    });
+  }, [isLegendCollapsed, cyInstance]);
+
   const fetchGraph = async () => {
     try {
       const baseName = graphName.replace('_cose', ''); 
 
+      console.log(baseName)
+      console.log(graphName)
+
       let nodesUrl, relsUrl;
       let rawNodes = [];
- 
+      
       if (baseName === "HE_2025") {
         nodesUrl = `${API_BASE}/nodes/`;
         relsUrl = `${API_BASE}/relationships/`;
@@ -77,8 +94,8 @@ function GraphPage() {
         fetch(relsUrl)
       ]);
       
-      //console.log(nodesUrl)
-      //console.log(relsUrl)
+      console.log(nodesUrl)
+      console.log(relsUrl)
       const nodes = await nodesRes.json();
       const rels = await relsRes.json();
 
@@ -167,24 +184,34 @@ function GraphPage() {
           className="flex-grow-1 w-100 g-0 legend-titles"
           style={{ flexWrap: "nowrap" }}
         >
-          <Col
-            xs="auto"
-            className="p-0"
-            style={{ width: 400, maxWidth: 400, flex: "0 0 400px" }}
-          >
-            {cyInstance ? (
-            <Legend
-              hoveredNodeRef={hoveredNodeRef}
-              graphName={graphName}
-              setGraphName={handleGraphNameChange}
-            />
-            ) : (
-             <div className="d-flex align-items-center justify-content-center h-100">
-              <CircularProgress color="primary" />
-            </div>
+         <Col
+          xs="auto"
+          className={`p-0 sidebar-transition`}
+          style={{
+            width: isLegendCollapsed ? 60 : 400,
+            backgroundColor: darkMode ? '#1e1e1e' : '#f5f5f5',
+            position: 'relative',
+          }}
+        >
+            {isLegendCollapsed ? (
+              <div className="d-flex flex-column align-items-center justify-content-start pt-2">
+                <IconButton
+                  onClick={() => setIsLegendCollapsed(false)}
+                  size="large"
+                  title="Expand Legend"
+                >
+                  <ArrowCircleRightIcon style={{color:'white'}} fontSize="large" />
+                </IconButton>
+              </div>
+            ) : ( 
+              <Legend
+                hoveredNodeRef={hoveredNodeRef}
+                graphName={graphName}
+                setGraphName={handleGraphNameChange}
+                onCollapse={() => setIsLegendCollapsed(true)} // pass callback
+              />
             )}
-          </Col> 
-
+          </Col>
           <Col className="d-flex flex-column p-0 overflow-hidden">
             {ready ? (
               <GraphView

@@ -38,23 +38,17 @@ const SearchBox = ({ cy }) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-input"
-        InputProps={{
-          classes: {
-            input: darkMode ? 'dark-placeholder' : 'light-placeholder',
-          },
+        sx={{
+          input: {
+            color: darkMode ? 'white' : 'black',
+            backgroundColor: darkMode ? 'rgb(43, 56, 65)' : 'white',
+            border: `1px solid ${darkMode ? 'white' : 'black'}`,
+            '::placeholder': {
+              color: darkMode ? 'rgb(172, 206, 231)' : 'rgb(136, 136, 136)',
+              opacity: 1,
+            }
+          }
         }}
-        /*
-        InputProps={{
-        sx: {
-          color: 'white',
-          backgroundColor: 'rgb(43, 56, 65)', 
-          border:'1px solid white',
-          '& input::placeholder': {
-            color: 'rgb(172, 206, 231)',
-            opacity: 1, // Important: ensure it's visible
-          },
-        },
-      }}*/
       />
       <Button
         className="search-input"
