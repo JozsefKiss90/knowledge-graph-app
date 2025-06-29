@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from routes.pipeline.cl2_cluster_builder_updated import ClusterGraphBuilderCL2
 import traceback
 from database import db
+from routes.auth import require_admin
 
 router = APIRouter(prefix="/cluster2", tags=["Cluster 2 Graph Population"])
 
@@ -88,7 +89,7 @@ def get_cluster2_relationships(from_id: Optional[str] = None):
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 2 relationships: {str(e)}")
 
 
-@router.post("/") 
+@router.post("/", dependencies=[Depends(require_admin)]) 
 def populate_cluster2():
     try:
         builder = ClusterGraphBuilderCL2()
@@ -106,7 +107,7 @@ def populate_cluster2():
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
-@router.delete("/")
+@router.delete("/", dependencies=[Depends(require_admin)])
 def delete_cluster2():
     try:
         query = """

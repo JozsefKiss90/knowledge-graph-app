@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from routes.pipeline.cl4_cluster_builder_updated import ClusterGraphBuilder
 import traceback
 from database import db
 from typing import Optional
+from routes.auth import require_admin
 
 router = APIRouter(prefix="/cluster4", tags=["Cluster 4 Graph Population"])
 
@@ -104,7 +105,7 @@ def get_cluster4_relationships(from_id: Optional[str] = None):
 
 
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(require_admin)])
 def populate_cluster4():
     try:
         builder = ClusterGraphBuilder()
@@ -122,7 +123,7 @@ def populate_cluster4():
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}") 
 
-@router.delete("/")
+@router.delete("/", dependencies=[Depends(require_admin)])
 def delete_cluster4():
     try:
         query = """

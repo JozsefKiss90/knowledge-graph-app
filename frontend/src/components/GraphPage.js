@@ -101,7 +101,7 @@ function GraphPage() {
 
       graphDataRef.current = { nodes, rels };
       rawGraphDataRef.current = { nodes: { nodes: rawNodes } };
-      console.log(graphDataRef.current)
+      console.log("✅ graphDataRef", graphDataRef.current);
       setReady(true);
     } catch (e) {
       console.error("Failed to preload graph data", e);

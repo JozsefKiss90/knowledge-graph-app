@@ -1,9 +1,10 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from database import db
+from routes.auth import require_admin
 
 router = APIRouter(prefix="/integrate", tags=["Graph Integration"])
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(require_admin)])
 async def integrate_graph( 
     nodes_file: UploadFile = File(...),
     relationships_file: UploadFile = File(...),
@@ -89,7 +90,7 @@ async def integrate_graph(
         "topics_updated_with_summary": len(topic_summaries)
     }
 
-@router.delete("/")
+@router.delete("/", dependencies=[Depends(require_admin)])
 async def delete_integrated_graph():
     try:
         db.query("""

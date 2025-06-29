@@ -31,3 +31,10 @@ rich
 fuzzywuzzy 
 spacy
 pydantic[email]
+hashpass
+python-jose[cryptography]
+passlib
+passlib[bcrypt]
+python-dotenv
+bcrypt==3.2.2
+

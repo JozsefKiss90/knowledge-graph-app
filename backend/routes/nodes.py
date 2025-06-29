@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, Path, Query
+from fastapi import APIRouter, HTTPException, Path, Query, Depends
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 from pathlib import Path
 import json
 from database import db
+from routes.auth import require_admin
 
 router = APIRouter(prefix="/nodes", tags=["Nodes"])
 
@@ -19,7 +20,7 @@ class NodeUpdateRequest(BaseModel):
     name: str  # Unique identifier
     updates: Dict[str, Any]
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(require_admin)])
 def create_node(request: NodeCreateRequest):
     try:
         cypher = f"CREATE (n:{request.label}) SET n += $props RETURN n"
@@ -80,7 +81,7 @@ def get_node_by_id(node_id: str):
         raise HTTPException(status_code=500, detail=f"Failed to fetch node: {str(e)}")
 
 
-@router.put("/")
+@router.put("/", dependencies=[Depends(require_admin)])
 def update_node(request: NodeUpdateRequest):
     try:
         cypher = f"""
@@ -93,7 +94,7 @@ def update_node(request: NodeUpdateRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to update node: {str(e)}")
 
-@router.delete("/")
+@router.delete("/", dependencies=[Depends(require_admin)])
 def delete_node(label: str = Query(...), name: str = Query(...)):
     try:
         cypher = f"""

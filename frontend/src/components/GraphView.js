@@ -38,13 +38,6 @@ const GraphView = forwardRef((props, ref) => {
   Cytoscape.use( klay );
 
   useEffect(() => {
-    if (graphref.current && graphData.nodes.length > 0) {
-      graphref.current.rerunLayout();
-      console.log("rerun layout with " + graphref.current) // this is not logged
-    }
-  }, [graphName, graphData]);
-
-  useEffect(() => {
     if (!cyInstance || !hoveredNodeIdRef) return;
 
     const interval = setInterval(() => {
@@ -72,14 +65,14 @@ const GraphView = forwardRef((props, ref) => {
   useLayoutEffect(() => {
     const hasRequiredData =
     containerRef.current &&
-    Array.isArray(graphData?.nodes?.nodes) &&
+    Array.isArray(graphData?.nodes?.nodes || graphData?.nodes) &&
     Array.isArray(graphData?.rels?.relationships) &&
     rawGraphData?.nodes?.nodes !== undefined;
 
     if (!hasRequiredData) {
       console.warn("🔴 Missing data:", {
         containerRefReady: !!containerRef.current,
-        graphNodesReady: Array.isArray(graphData?.nodes?.nodes),
+        graphNodesReady: Array.isArray(graphData?.nodes?.nodes || graphData?.nodes),
         graphRelsReady: Array.isArray(graphData?.rels?.relationships),
         rawNodesReady: rawGraphData?.nodes?.nodes !== undefined,
       });
@@ -87,7 +80,7 @@ const GraphView = forwardRef((props, ref) => {
     }
 
     const { nodeElements, edgeElements } = buildElements(graphData, rawGraphData);
-        console.log(graphName)
+    console.log(graphName)
 
     const cy = Cytoscape({
       container: containerRef.current,
@@ -98,7 +91,7 @@ const GraphView = forwardRef((props, ref) => {
       minZoom: graphName === 'HE_2025' ? 0.1 : 0.05,
     });    
     cyRef.current = cy;
-
+ 
     setCyInstance(cy);
     if (onCyReady) onCyReady(cy);
 

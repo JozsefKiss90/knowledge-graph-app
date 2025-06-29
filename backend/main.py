@@ -6,6 +6,7 @@ from routes import integrate
 from routes.pipeline.populate import cl4_routes
 from routes.pipeline.populate import cl2_routes
 from routes import email_routes
+from routes import auth
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
@@ -23,6 +24,7 @@ app.include_router(integrate.router)
 app.include_router(cl4_routes.router)
 app.include_router(cl2_routes.router)
 app.include_router(email_routes.router)
+app.include_router(auth.router)
 
 if ENVIRONMENT == "production":
     allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app"]
