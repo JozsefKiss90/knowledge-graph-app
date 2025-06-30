@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -21,11 +21,19 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH")  # bcrypt hash
  
-# === SECURITY HELPERS ===
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")  # <- full path
 
-# === UTILITY FUNCTIONS ===
+async def enforce_header_token(request: Request) -> str:
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(
+            status_code=401,
+            detail="Authorization header with Bearer token required"
+        )
+    return auth_header.removeprefix("Bearer ").strip()
+
+oauth2_scheme = enforce_header_token
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     print(f"[DEBUG] Verifying {plain_password=} against {hashed_password=}")
     return pwd_context.verify(plain_password, hashed_password)

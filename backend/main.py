@@ -7,6 +7,10 @@ from routes.pipeline.populate import cl4_routes
 from routes.pipeline.populate import cl2_routes
 from routes import email_routes
 from routes import auth
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi.responses import JSONResponse
+from routes.rate_limiter import limiter
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
@@ -17,6 +21,8 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 print("ENVIRONMENT:", ENVIRONMENT)
 
 app = FastAPI()
+
+app.state.limiter = limiter
 
 app.include_router(nodes.router)
 app.include_router(relationships.router)
@@ -30,6 +36,13 @@ if ENVIRONMENT == "production":
     allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app"]
 else:
     allowed_origins = ["http://localhost:3000", "http://localhost:3001"]
+
+@app.exception_handler(RateLimitExceeded)
+def rate_limit_handler(request, exc):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Rate limit exceeded"}
+    )
 
 app.add_middleware(
     CORSMiddleware,

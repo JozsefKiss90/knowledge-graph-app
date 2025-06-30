@@ -4,10 +4,12 @@ import traceback
 from database import db
 from typing import Optional
 from routes.auth import require_admin
+from routes.rate_limiter import limiter
+from routes.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/cluster4", tags=["Cluster 4 Graph Population"])
 
-@router.get("/nodes") 
+@router.get("/nodes", dependencies=[Depends(limiter.limit("30/minute"))]) 
 def get_cluster4_nodes(): 
     try:
         query = """
@@ -20,7 +22,7 @@ def get_cluster4_nodes():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 4 nodes: {str(e)}")
 
-@router.get("/node/{node_id}")
+@router.get("/node/{node_id}", dependencies=[Depends(limiter.limit("30/minute"))])
 def get_cl4_node_by_id(node_id: str):
     try:
         cypher = "MATCH (n {id: $id}) WHERE n.source = 'cluster_4' RETURN n"
@@ -35,10 +37,11 @@ def get_cl4_node_by_id(node_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch CL4 node: {str(e)}")
 
-@router.get("/relationships")
+@router.get("/relationships", dependencies=[Depends(limiter.limit("30/minute"))])
 def get_cluster4_relationships(from_id: Optional[str] = None):
     try:
         if not from_id:
+            validate_cypher_identifier(from_id)
             query = """
             MATCH (a)-[r]->(b)
             WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'

@@ -3,10 +3,12 @@ from routes.pipeline.cl2_cluster_builder_updated import ClusterGraphBuilderCL2
 import traceback
 from database import db
 from routes.auth import require_admin
+from routes.rate_limiter import limiter
+from routes.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/cluster2", tags=["Cluster 2 Graph Population"])
 
-@router.get("/nodes")
+@router.get("/nodes", dependencies=[Depends(limiter.limit("30/minute"))])
 def get_cluster2_nodes():
     try:
         query = """
@@ -19,7 +21,7 @@ def get_cluster2_nodes():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 2 nodes: {str(e)}")
     
-@router.get("/node/{id}")
+@router.get("/node/{id}", dependencies=[Depends(limiter.limit("30/minute"))])
 def get_cluster2_node_by_id(id: str):
     try:
         result = db.query("MATCH (n {id: $id}) RETURN n", {"id": id})
@@ -31,10 +33,11 @@ def get_cluster2_node_by_id(id: str):
 
 from typing import Optional
 
-@router.get("/relationships")
+@router.get("/relationships", dependencies=[Depends(limiter.limit("30/minute"))])
 def get_cluster2_relationships(from_id: Optional[str] = None):
     try:
         if from_id:
+            validate_cypher_identifier(from_id)
             query = """
             MATCH (a {id: $from_id})-[r]->(b)
             WHERE a.source = 'cluster_2' AND b.source = 'cluster_2'

@@ -37,4 +37,4 @@ passlib
 passlib[bcrypt]
 python-dotenv
 bcrypt==3.2.2
-
+slowapi

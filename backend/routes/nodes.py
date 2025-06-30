@@ -5,6 +5,8 @@ from pathlib import Path
 import json
 from database import db
 from routes.auth import require_admin
+from routes.rate_limiter import limiter
+from routes.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/nodes", tags=["Nodes"])
 
@@ -23,16 +25,18 @@ class NodeUpdateRequest(BaseModel):
 @router.post("/", dependencies=[Depends(require_admin)])
 def create_node(request: NodeCreateRequest):
     try:
+        validate_cypher_identifier(request.label)
         cypher = f"CREATE (n:{request.label}) SET n += $props RETURN n"
         result = db.query(cypher, {"props": request.properties})
         return {"node": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create node: {str(e)}")
     
-@router.get("/")
+@router.get("/", dependencies=[Depends(limiter.limit("30/minute"))])
 def list_nodes(label: Optional[str] = None):
     try:
         if label:
+            validate_cypher_identifier(label)
             cypher = f"MATCH (n:{label}) RETURN n"
         else:
             cypher = """
@@ -63,7 +67,7 @@ def list_nodes(label: Optional[str] = None):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to list nodes: {str(e)}")
 
-@router.get("/{node_id}")
+@router.get("/{node_id}", dependencies=[Depends(limiter.limit("30/minute"))])
 def get_node_by_id(node_id: str):
     try:
         cypher = "MATCH (n {id: $id}) RETURN n"
@@ -84,6 +88,7 @@ def get_node_by_id(node_id: str):
 @router.put("/", dependencies=[Depends(require_admin)])
 def update_node(request: NodeUpdateRequest):
     try:
+        validate_cypher_identifier(request.label)
         cypher = f"""
         MATCH (n:{request.label} {{name: $name}})
         SET n += $updates
@@ -97,6 +102,7 @@ def update_node(request: NodeUpdateRequest):
 @router.delete("/", dependencies=[Depends(require_admin)])
 def delete_node(label: str = Query(...), name: str = Query(...)):
     try:
+        validate_cypher_identifier(label)
         cypher = f"""
         MATCH (n:{label} {{name: $name}})
         DETACH DELETE n
@@ -107,7 +113,7 @@ def delete_node(label: str = Query(...), name: str = Query(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete node: {str(e)}")
 
-@router.get("/raw_nodes/")
+'''@router.get("/raw_nodes/")
 async def get_raw_nodes():
     query = """
         MATCH (n)
@@ -127,5 +133,5 @@ async def get_raw_nodes():
             })
         return {"nodes": nodes}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch raw nodes: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch raw nodes: {str(e)}")'''
 
