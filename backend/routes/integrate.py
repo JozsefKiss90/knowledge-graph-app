@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from database import db
-from routes.auth import require_admin
+from backend.auth.auth import require_admin
 
 router = APIRouter(prefix="/integrate", tags=["Graph Integration"])
 

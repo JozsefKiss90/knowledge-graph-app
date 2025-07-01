@@ -3,9 +3,9 @@ from routes.pipeline.cl4_cluster_builder_updated import ClusterGraphBuilder
 import traceback
 from database import db
 from typing import Optional
-from routes.auth import require_admin
-from routes.rate_limiter import limiter
-from routes.validation import validate_cypher_identifier 
+from backend.auth.auth import require_admin
+from backend.utils.rate_limiter import limiter
+from backend.utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/cluster4", tags=["Cluster 4 Graph Population"])
 

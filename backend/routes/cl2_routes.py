@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException, Depends
 from routes.pipeline.cl2_cluster_builder_updated import ClusterGraphBuilderCL2
 import traceback
 from database import db
-from routes.auth import require_admin
-from routes.rate_limiter import limiter
-from routes.validation import validate_cypher_identifier 
+from backend.auth.auth import require_admin
+from backend.utils.rate_limiter import limiter
+from backend.utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/cluster2", tags=["Cluster 2 Graph Population"])
 

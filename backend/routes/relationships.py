@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException, Body, Query, Depends
 from pydantic import BaseModel
 from database import db
 from typing import Optional
-from routes.auth import require_admin
-from routes.rate_limiter import limiter
-from routes.validation import validate_cypher_identifier 
+from backend.auth.auth import require_admin
+from backend.utils.rate_limiter import limiter
+from backend.utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/relationships", tags=["Relationships"])
 

@@ -4,9 +4,9 @@ from typing import Dict, Any, Optional
 from pathlib import Path
 import json
 from database import db
-from routes.auth import require_admin
-from routes.rate_limiter import limiter
-from routes.validation import validate_cypher_identifier 
+from backend.auth.auth import require_admin
+from backend.utils.rate_limiter import limiter
+from backend.utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/nodes", tags=["Nodes"])
 

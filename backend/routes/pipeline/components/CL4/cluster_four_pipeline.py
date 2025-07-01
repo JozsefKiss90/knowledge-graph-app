@@ -4,7 +4,7 @@ import json
 from components.extract_table_blocks import extract_call_blocks
 from components.parse_calls import parse_enhanced_call_blocks
 from components.merge_outcomes_and_scopes import *  # will execute on import
-from backend.routes.pipeline.components.parse_cl4_destinations import *  # will execute on import
+from backend.routes.pipeline.components.CL4.parse_cl4_destinations import *  # will execute on import
 
 class ClusterFourPipeline(DocumentPipeline):
     def __init__(self, document_path: str):

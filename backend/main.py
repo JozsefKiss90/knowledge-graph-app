@@ -6,11 +6,11 @@ from routes import integrate
 from routes.pipeline.populate import cl4_routes
 from routes.pipeline.populate import cl2_routes
 from routes import email_routes
-from routes import auth
+from backend.auth import auth
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from fastapi.responses import JSONResponse
-from routes.rate_limiter import limiter
+from backend.utils.rate_limiter import limiter
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
