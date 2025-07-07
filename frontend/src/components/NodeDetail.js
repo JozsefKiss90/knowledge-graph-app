@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, Badge, Button, Row, Col, Spinner } from "react-bootstrap";
 import GraphHeader from "./GraphHeader";
 import { useDarkMode } from "./context/DarkModeContext";
 import '../styles/nodedetails.scss';
+import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
+import NodeConnections from "./NodeDetalParts/NodeConnections";
 
 const labelMap = {
   funding_link: "Funding Link",
@@ -43,12 +45,6 @@ function CollapsibleList({ label, items }) {
   );
 }
 
-function getGraphNameFromId(id) {
-  if (id.startsWith("cluster2_")) return "Cluster_2";
-  if (id.startsWith("cluster4_")) return "Cluster_4";
-  return "HE_2025";
-}
-
 function formatLabel(key) {
   return labelMap[key] || key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
@@ -61,48 +57,15 @@ function formatValue(key, value) {
 }
 
 function NodeDetail() {
-  const { id } = useParams();
-  const [nodeData, setNodeData] = useState(null);
-  const [relations, setRelations] = useState([]);
   const { darkMode } = useDarkMode();
-  console.log(relations)
-  useEffect(() => {
-    const fetchNodeAndRelations = async () => {
-      const prevLayout = localStorage.getItem("graphName")?.endsWith("_cose");
-      const graphName = getGraphNameFromId(id);
-      const restoredGraphName = prevLayout ? `${graphName}_cose` : graphName;
-      localStorage.setItem("graphName", restoredGraphName);
-
-      let nodeEndpoint, relEndpoint;
-      if (id.startsWith("cluster2_call_")) {
-        nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/node/${encodeURIComponent(id)}`;
-        relEndpoint = `${process.env.REACT_APP_API_URL}/cluster2/relationships?from_id=${encodeURIComponent(id)}`;
-      } else if (
-        id.startsWith("cluster4_call_") ||
-        id.startsWith("cluster4_theme_") ||
-        id.startsWith("cluster4_destination_")
-      ) {
-        nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(id)}`;
-        relEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/relationships?from_id=${encodeURIComponent(id)}`;
-      } else {
-        nodeEndpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(id)}`;
-        relEndpoint = `${process.env.REACT_APP_API_URL}/relationships/?from_id=${encodeURIComponent(id)}`;
-      }
-
-      const [nodeRes, relRes] = await Promise.all([fetch(nodeEndpoint), fetch(relEndpoint)]);
-      const nodeJson = await nodeRes.json();
-      const relJson = await relRes.json();
-      setNodeData(nodeJson);
-      setRelations(relJson.relationships || []);
-    };
-
-    fetchNodeAndRelations();
-  }, [id]);
-
-  if (!nodeData) return <div className="loading-spinner"><Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner></div>;
+  const { id, nodeData, relations, loading } = useNodeDetail();
+ 
+  if (loading || !nodeData) return <div className="loading-spinner"><Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner></div>;
 
   const displayableKeys = Object.keys(nodeData).filter(
-    (key) => key !== "id" && key !== "name" && key !== "type" && key !== "call_type" && nodeData[key]
+    (key) =>
+    !["id", "name", "type", "call_type", "opening_date", "deadline"].includes(key) &&
+    nodeData[key]
   );
 
   return (
@@ -112,8 +75,42 @@ function NodeDetail() {
         <Row>
           <Col md={8} className="info-column">
             <Card className="node-card">
-              <Card.Header><h4>{nodeData.name}</h4></Card.Header>
+              <Card.Header>
+                <h4
+                  style={{
+                    color:
+                      nodeData.opening_date && new Date(nodeData.opening_date) <= new Date()
+                        ? "#00ff62"
+                        : "red",
+                  }}
+                >
+                  {nodeData.name}
+                </h4>
+              </Card.Header>
+
               <Card.Body>
+                {nodeData.opening_date && (
+                  <div className="node-meta-item">
+                    <p>
+                      <strong>Opening Date:</strong>{" "}
+                      <span
+                        style={{
+                          color:
+                            new Date(nodeData.opening_date) <= new Date() ? "#00ff62" : "red",
+                        }}
+                      >
+                        {nodeData.opening_date}
+                      </span>
+                    </p>
+                  </div>
+                )}
+                {nodeData.deadline && (
+                  <div className="node-meta-item">
+                    <p>
+                      <strong>Deadline:</strong> {nodeData.deadline}
+                    </p>
+                  </div>
+                )}
                 {[
                   "call_id", "funding_link"
                 ].map((key) => (
@@ -155,38 +152,33 @@ function NodeDetail() {
                     <p><strong>{formatLabel(key)}:</strong> {formatValue(key, nodeData[key])}</p>
                   </div>
                 ))}
+                   {(id.startsWith("cluster2_call_") || id.startsWith("cluster4_call_")) && (
+                  <div className="node-meta-item">
+                    <Button
+                      variant="primary"
+                      style={{ fontWeight: "bold" }}
+                      onClick={() => {
+                        const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
+                        const exists = stored.find(item => item.id === nodeData.id);
+                        if (!exists) {
+                          stored.push({ id: nodeData.id, name: nodeData.name });
+                          localStorage.setItem("bookmarkedCalls", JSON.stringify(stored));
+                          alert("Call bookmarked!");
+                        } else {
+                          alert("Already bookmarked.");
+                        }
+                      }}
+                    >
+                      📌 Bookmark this Call
+                    </Button>
+                  </div>
+                )}
               </Card.Body>
             </Card>
           </Col>
 
           <Col md={4} className="connections-column">
-            <Card className="connections-card">
-              <Card.Header><h5>Connections</h5></Card.Header>
-              <Card.Body>
-                {relations.length === 0 ? <p>No connections available.</p> : (
-                  <ul className="connections-list">
-                    {relations.filter((rel) => {
-                      const { source, target, relation, type } = rel;
-                      const relType = relation || type;
-                      if (source !== id) return false;
-                      if (id.startsWith("cluster2_call_") && relType !== "BELONGS_TO_DESTINATION") return false;
-                      if (id.startsWith("cluster2_destination_") && relType !== "HAS_CALL") return false;
-                      return true;
-                    }).map((rel, idx) => (
-                      <li key={idx} className="connection-item">
-                        <Badge bg="info" className="relation-badge">{rel.relation || rel.type || "RELATED"}</Badge>
-                        <Link
-                          to={`/node/${encodeURIComponent(rel.target)}`}
-                          onClick={() => localStorage.setItem("graphName", getGraphNameFromId(rel.target))}
-                        >
-                          {rel.target}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </Card.Body>
-            </Card>
+            <NodeConnections id={id} relations={relations} />
           </Col>
         </Row>
       </div>

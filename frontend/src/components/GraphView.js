@@ -80,7 +80,6 @@ const GraphView = forwardRef((props, ref) => {
     }
 
     const { nodeElements, edgeElements } = buildElements(graphData, rawGraphData);
-    console.log(graphName)
 
     const cy = Cytoscape({
       container: containerRef.current,
@@ -93,8 +92,7 @@ const GraphView = forwardRef((props, ref) => {
     cyRef.current = cy;
  
     setCyInstance(cy);
-    if (onCyReady) onCyReady(cy);
-
+    if (onCyReady) onCyReady(cy); 
     const layout = cy.layout(layoutConfig[graphName]);
 
     layout.on("layoutstop", () => {

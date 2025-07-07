@@ -83,6 +83,23 @@ h2 {
   background-color: rgb(245, 245, 245);
 }
 
+.bookmark-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #ff4081;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+
 /* Common layout for the scrollable MUI Box */
 .legend-sidebar {
   width: 400px;

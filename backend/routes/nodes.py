@@ -4,9 +4,9 @@ from typing import Dict, Any, Optional
 from pathlib import Path
 import json
 from database import db
-from backend.auth.auth import require_admin
-from backend.utils.rate_limiter import limiter
-from backend.utils.validation import validate_cypher_identifier 
+from auth.auth import require_admin
+from utils.rate_limiter import limiter
+from utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/nodes", tags=["Nodes"])
 
@@ -32,7 +32,7 @@ def create_node(request: NodeCreateRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create node: {str(e)}")
     
-@router.get("/", dependencies=[Depends(limiter.limit("30/minute"))])
+@router.get("/")
 def list_nodes(label: Optional[str] = None):
     try:
         if label:
@@ -67,7 +67,7 @@ def list_nodes(label: Optional[str] = None):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to list nodes: {str(e)}")
 
-@router.get("/{node_id}", dependencies=[Depends(limiter.limit("30/minute"))])
+@router.get("/{node_id}")
 def get_node_by_id(node_id: str):
     try:
         cypher = "MATCH (n {id: $id}) RETURN n"

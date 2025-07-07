@@ -1,15 +1,15 @@
 from fastapi import APIRouter, HTTPException, Depends
-from routes.pipeline.cl4_cluster_builder_updated import ClusterGraphBuilder
+from .pipeline.components.CL4.cl4_cluster_builder_updated import ClusterGraphBuilder
 import traceback
 from database import db
 from typing import Optional
-from backend.auth.auth import require_admin
-from backend.utils.rate_limiter import limiter
-from backend.utils.validation import validate_cypher_identifier 
+from auth.auth import require_admin
+from utils.rate_limiter import limiter
+from utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/cluster4", tags=["Cluster 4 Graph Population"])
 
-@router.get("/nodes", dependencies=[Depends(limiter.limit("30/minute"))]) 
+@router.get("/nodes") 
 def get_cluster4_nodes(): 
     try:
         query = """
@@ -22,7 +22,7 @@ def get_cluster4_nodes():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch Cluster 4 nodes: {str(e)}")
 
-@router.get("/node/{node_id}", dependencies=[Depends(limiter.limit("30/minute"))])
+@router.get("/node/{node_id}")
 def get_cl4_node_by_id(node_id: str):
     try:
         cypher = "MATCH (n {id: $id}) WHERE n.source = 'cluster_4' RETURN n"
@@ -37,11 +37,10 @@ def get_cl4_node_by_id(node_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch CL4 node: {str(e)}")
 
-@router.get("/relationships", dependencies=[Depends(limiter.limit("30/minute"))])
+@router.get("/relationships")
 def get_cluster4_relationships(from_id: Optional[str] = None):
     try:
         if not from_id:
-            validate_cypher_identifier(from_id)
             query = """
             MATCH (a)-[r]->(b)
             WHERE a.source = 'cluster_4' AND b.source = 'cluster_4'
@@ -114,7 +113,7 @@ def populate_cluster4():
         builder = ClusterGraphBuilder()
         path = "routes/pipeline/output_files/nested_parsed_call_tables_with_deadlines_inserted.json"
         builder.create_graph_from_file(path)
- 
+  
         return {
             "status": "success",
             "message": "Cluster 4 graph successfully populated in Neo4j.",

@@ -15,7 +15,6 @@ const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
         if (!visibleTypes || !types) return null;
         const classType = type.replace(/\s+/g, '').toLowerCase();
         const isActive = visibleTypes.has(type);
-                  console.log(type)
 
         return (
           <Button

@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import GraphPage from "./components/GraphPage";
+import GraphPage from "./components/GraphPage/GraphPage";
 import NodeDetail from "./components/NodeDetail";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from "./themes/theme";
 import { DarkModeProvider, useDarkMode } from "./components/context/DarkModeContext";
 import './styles/main.scss';
 import { useEffect } from 'react';
+import BookmarkedCalls from "./components/BookmarkedCalls";
 
 function AppContent() {
   const { darkMode } = useDarkMode();
@@ -21,6 +22,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<GraphPage />} />
         <Route path="/node/:id" element={<NodeDetail />} />
+        <Route path="/bookmarks" element={<BookmarkedCalls />} />
       </Routes>
     </Router>
   );

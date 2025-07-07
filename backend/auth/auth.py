@@ -23,16 +23,7 @@ ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH")  # bcrypt hash
  
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-async def enforce_header_token(request: Request) -> str:
-    auth_header = request.headers.get("Authorization")
-    if not auth_header or not auth_header.startswith("Bearer "):
-        raise HTTPException(
-            status_code=401,
-            detail="Authorization header with Bearer token required"
-        )
-    return auth_header.removeprefix("Bearer ").strip()
-
-oauth2_scheme = enforce_header_token
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")  # <- full path
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     print(f"[DEBUG] Verifying {plain_password=} against {hashed_password=}")

@@ -50,6 +50,7 @@ const defaultCoseLayout_2 = {
 
 export const layoutConfig = {
   HE_2025: defaultCoseLayout,
+  HE_2025_cose: defaultCoseLayout_2,
   Cluster_2: {
     name: 'klay',
     fit: true,

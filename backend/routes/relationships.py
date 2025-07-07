@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException, Body, Query, Depends
 from pydantic import BaseModel
 from database import db
 from typing import Optional
-from backend.auth.auth import require_admin
-from backend.utils.rate_limiter import limiter
-from backend.utils.validation import validate_cypher_identifier 
+from auth.auth import require_admin
+from utils.rate_limiter import limiter
+from utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/relationships", tags=["Relationships"])
 
@@ -29,7 +29,7 @@ def create_relationship(request: RelationshipCreateRequest = Body(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create relationship: {str(e)}")
 
-@router.get("/", dependencies=[Depends(limiter.limit("30/minute"))])
+@router.get("/")
 def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[str] = Query(None)):
     try:
         cleaned_relationships = []
