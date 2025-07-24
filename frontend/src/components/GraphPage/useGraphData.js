@@ -2,12 +2,12 @@
 import { useEffect, useRef, useState } from "react";
 
 const API_BASE = process.env.REACT_APP_API_URL;
+console.log("API base:", API_BASE);
 
 export function useGraphData() {
   const [graphName, setGraphName] = useState(() => localStorage.getItem("graphName") || "HE_2025");
   const [ready, setReady] = useState(false);
   const graphDataRef = useRef(null);
-  const rawGraphDataRef = useRef(null);
 
   const handleGraphNameChange = (name) => {
     localStorage.setItem("graphName", name);
@@ -23,16 +23,13 @@ export function useGraphData() {
 
   useEffect(() => {
     const fetchGraph = async () => {
-      try {
+      try { 
         const baseName = graphName.replace("_cose", "");
-        let nodesUrl, relsUrl, rawNodes = [];
+        let nodesUrl, relsUrl = [];
 
         if (baseName === "HE_2025") {
           nodesUrl = `${API_BASE}/nodes/`;
           relsUrl = `${API_BASE}/relationships/`;
-          const rawRes = await fetch(`${API_BASE}/nodes/raw_nodes/`);
-          const rawJson = await rawRes.json();
-          rawNodes = rawJson?.nodes || [];
         } else if (baseName === "Cluster_4") {
           nodesUrl = `${API_BASE}/cluster4/nodes`;
           relsUrl = `${API_BASE}/cluster4/relationships`;
@@ -50,7 +47,6 @@ export function useGraphData() {
         const rels = await relsRes.json();
 
         graphDataRef.current = { nodes, rels };
-        rawGraphDataRef.current = { nodes: { nodes: rawNodes } };
         setReady(true);
       } catch (error) {
         console.error("Failed to fetch graph data:", error);
@@ -58,7 +54,6 @@ export function useGraphData() {
     };
 
     graphDataRef.current = null;
-    rawGraphDataRef.current = null;
     setReady(false);
     fetchGraph();
   }, [graphName]);
@@ -67,7 +62,6 @@ export function useGraphData() {
     graphName,
     setGraphName: handleGraphNameChange,
     graphDataRef,
-    rawGraphDataRef,
     ready
   };
 }

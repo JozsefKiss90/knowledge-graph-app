@@ -18,7 +18,6 @@ const GraphView = forwardRef((props, ref) => {
   const {
     graphData,
     graphref,
-    rawGraphData, 
     onCyReady,
     onNodeHover,
     onHoverNodeIdChange,
@@ -66,20 +65,17 @@ const GraphView = forwardRef((props, ref) => {
     const hasRequiredData =
     containerRef.current &&
     Array.isArray(graphData?.nodes?.nodes || graphData?.nodes) &&
-    Array.isArray(graphData?.rels?.relationships) &&
-    rawGraphData?.nodes?.nodes !== undefined;
-
+    Array.isArray(graphData?.rels?.relationships) 
     if (!hasRequiredData) {
       console.warn("🔴 Missing data:", {
         containerRefReady: !!containerRef.current,
         graphNodesReady: Array.isArray(graphData?.nodes?.nodes || graphData?.nodes),
         graphRelsReady: Array.isArray(graphData?.rels?.relationships),
-        rawNodesReady: rawGraphData?.nodes?.nodes !== undefined,
       });
       return;
     }
 
-    const { nodeElements, edgeElements } = buildElements(graphData, rawGraphData);
+    const { nodeElements, edgeElements } = buildElements(graphData);
 
     const cy = Cytoscape({
       container: containerRef.current,
@@ -110,7 +106,7 @@ const GraphView = forwardRef((props, ref) => {
       return () => {
         cy.destroy();
       };
-  }, [graphData, rawGraphData, navigate, darkMode]);
+  }, [graphData, navigate, darkMode]);
 
   return ( 
     <div

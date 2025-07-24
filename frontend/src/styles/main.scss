@@ -135,6 +135,18 @@ h2 {
   }
 }
 
+.dark-theme .icon-button.svg-glow,
+.light-theme .icon-button.svg-glow {
+  color: #39ff14 !important;
+  font-size: xx-large;
+}
+
+.dark-theme .icon-button.info-glow:hover,
+.light-theme .icon-button.info-glow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px #39ff14, 0 0 15px #39ff14;
+}
+
 .light-theme .legend-sidebar {
   &::-webkit-scrollbar-track {
     background-color: rgb(233, 233, 233);
@@ -147,11 +159,9 @@ h2 {
 
 .dark-theme .icon-button {
   color: white;
-  margin-top: 10px;
 }
 .light-theme .icon-button {
   color: black;
-  margin-top: 10px;
 }
 
 .dark-theme .legend-titles {

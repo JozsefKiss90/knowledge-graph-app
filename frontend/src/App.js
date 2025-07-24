@@ -8,6 +8,7 @@ import { DarkModeProvider, useDarkMode } from "./components/context/DarkModeCont
 import './styles/main.scss';
 import { useEffect } from 'react';
 import BookmarkedCalls from "./components/BookmarkedCalls";
+import About from "./components/About";
 
 function AppContent() {
   const { darkMode } = useDarkMode();
@@ -16,13 +17,14 @@ function AppContent() {
     document.body.classList.toggle('dark-theme', darkMode);
     document.body.classList.toggle('light-theme', !darkMode);
   }, [darkMode]);
-
+  
   return (
     <Router>
       <Routes>
         <Route path="/" element={<GraphPage />} />
         <Route path="/node/:id" element={<NodeDetail />} />
         <Route path="/bookmarks" element={<BookmarkedCalls />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

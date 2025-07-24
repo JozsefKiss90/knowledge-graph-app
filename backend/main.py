@@ -11,6 +11,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from fastapi.responses import JSONResponse
 from utils.rate_limiter import limiter
+from chatbot import chatbot_api
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
@@ -31,6 +32,7 @@ app.include_router(cl4_routes.router)
 app.include_router(cl2_routes.router)
 app.include_router(email_routes.router)
 app.include_router(auth.router)
+app.include_router(chatbot_api.router)
 
 if ENVIRONMENT == "production":
     allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app"]

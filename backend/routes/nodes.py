@@ -112,26 +112,3 @@ def delete_node(label: str = Query(...), name: str = Query(...)):
         return {"deleted": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete node: {str(e)}")
-
-'''@router.get("/raw_nodes/")
-async def get_raw_nodes():
-    query = """
-        MATCH (n)
-        WHERE n.source IS NULL OR (n.source <> 'cluster_4' AND n.source <> 'cluster_2')
-        RETURN n
-        """
-    try:
-        result = db.query(query)
-        nodes = []
-        for record in result:
-            n = record.get("n", {})
-            nodes.append({
-                "id": n.get("id"),
-                "name": n.get("name", "Unnamed"),
-                "summary": n.get("summary", ""),
-                "type": n.get("type", "")
-            })
-        return {"nodes": nodes}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch raw nodes: {str(e)}")'''
-

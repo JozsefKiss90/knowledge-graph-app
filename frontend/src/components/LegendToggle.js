@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import SearchBox from './LegendParts/SearchBox';
 import ScoreFilter from './LegendParts/ScoreFilter';
 import '../styles/main.scss'
-import { useDarkMode } from "./context/DarkModeContext";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { IconButton } from '@mui/material';
 import GraphSelector from "./LegendParts/GraphSelector";
@@ -21,7 +20,7 @@ import {
   getNodeTypeList
 } from "./LegendParts/graphTypeConfig";
 
-const Legend = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
+const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
   const cy = useCy();
   const [hoveredNode, setHoveredNode] = useState(null);
   const scrollRef = useRef(null);
@@ -102,12 +101,14 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
     cy.edges().removeClass('faded');
     cy.nodes().unselect();
     cy.fit();
-    setVisibleEdgeTypes(new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']));
-    setVisibleNodeTypes(new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic']));
+    const normalized = graphName.replace('_cose', '');
+    setVisibleEdgeTypes(new Set([...defaultEdgeTypes[normalized] || []]));
+    setVisibleNodeTypes(new Set([...defaultNodeTypes[normalized] || []]));
     setHoveredNode(null)
   };
 
   return (
+  
     <Box
       ref={scrollRef}
       className="legend-sidebar"
@@ -184,4 +185,4 @@ const Legend = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
   );
 };
 
-export default Legend;
+export default LegendToggle;

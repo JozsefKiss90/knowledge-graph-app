@@ -28,29 +28,31 @@ const SidebarControls = ({
 
   return (
     <div className="p-0 legend-sidebar d-flex flex-column align-items-center" style={{ width: 60 }}>
-      <IconButton className="icon-button" size="large">
-        <InfoOutlinedIcon fontSize="large" />
+      <IconButton
+        className="icon-button info-glow"
+        size="large"
+        onClick={() => navigate("/about")}
+        title="About this app"
+      >
+        <InfoOutlinedIcon sx={{ width: 50, height: 50 }} className="icon-button svg-glow"/>
       </IconButton>
-      <IconButton className="icon-button" size="large" onClick={() => setDarkMode((prev) => !prev)}>
-        <Brightness4Icon fontSize="large" />
+      <IconButton className="icon-button" size="large" onClick={() => setDarkMode((prev) => !prev)} title="Switch light and dark mode">
+        <Brightness4Icon className="info-icon-button" fontSize="large" />
       </IconButton>
-      <IconButton className="icon-button" size="large">
       <div style={{ position: "relative" }}>
-  <IconButton className="icon-button" size="large" onClick={() => navigate("/bookmarks")}>
-    <BookmarkIcon fontSize="large" />
-    {bookmarksCount > 0 && (
-      <span className="bookmark-badge">
-        {bookmarksCount}
-      </span>
-    )}
-  </IconButton>
-</div>
-
-      </IconButton>
-      <IconButton className="icon-button" size="large" onClick={() => setDrawerOpen(true)}>
+        <IconButton className="icon-button" size="large" onClick={() => navigate("/bookmarks")}>
+          <BookmarkIcon fontSize="large" />
+          {bookmarksCount > 0 && (
+            <span className="bookmark-badge"> 
+              {bookmarksCount}
+            </span>
+          )}
+        </IconButton>
+      </div>
+      <IconButton className="icon-button" size="large" onClick={() => setDrawerOpen(true)} title="Customize garph layout">
         <SettingsIcon fontSize="large" />
       </IconButton>
-      <IconButton className="icon-button" size="large" onClick={() => setIsMessageDrawerOpen(true)}>
+      <IconButton className="icon-button" size="large" onClick={() => setIsMessageDrawerOpen(true)} title="Send a message">
         <EmailIcon fontSize="large" />
       </IconButton>
 
