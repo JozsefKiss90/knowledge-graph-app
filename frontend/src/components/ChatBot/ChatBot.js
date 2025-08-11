@@ -17,12 +17,13 @@ const ChatBot = ({}) => {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
   const { darkMode } = useDarkMode();
-
+  const API_BASE = process.env.REACT_APP_API_URL?.replace(/\/+$/, ''); // remove trailing slashes
+  console.log(`${API_BASE}/chatbot/query`)
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(() => {
+  useEffect(() => { 
     scrollToBottom();
   }, [messages, loading]);
 
@@ -36,7 +37,7 @@ const ChatBot = ({}) => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:8000/chatbot/query', {
+      const res = await fetch(`${API_BASE}/chatbot/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -143,7 +144,7 @@ return (
             fullWidth
             size="small"
             variant="outlined"
-            placeholder="Ask a question... (the bot might make mistakes)"
+            placeholder="Ask a question..."
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyPress}

@@ -4,7 +4,7 @@ import os
 import requests
 
 router = APIRouter()
-
+ 
 class ChatRequest(BaseModel):
     question: str
 
