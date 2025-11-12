@@ -5,6 +5,7 @@ const API_BASE = process.env.REACT_APP_API_URL;
 console.log("API base:", API_BASE);
 
 export function useGraphData() {
+  localStorage.removeItem("graphName");
   const [graphName, setGraphName] = useState(() => localStorage.getItem("graphName") || "HE_2025");
   const [ready, setReady] = useState(false);
   const graphDataRef = useRef(null);
@@ -25,18 +26,26 @@ export function useGraphData() {
     const fetchGraph = async () => {
       try { 
         const baseName = graphName.replace("_cose", "");
+        console.log(baseName)
         let nodesUrl, relsUrl = [];
-
         if (baseName === "HE_2025") {
           nodesUrl = `${API_BASE}/nodes/`;
           relsUrl = `${API_BASE}/relationships/`;
         } else if (baseName === "Cluster_4") {
           nodesUrl = `${API_BASE}/cluster4/nodes`;
           relsUrl = `${API_BASE}/cluster4/relationships`;
+        } else if (baseName === "Cluster_3") {
+          nodesUrl = `${API_BASE}/cluster3-v2/nodes`;
+          relsUrl = `${API_BASE}/cluster3-v2/relationships`;
         } else if (baseName === "Cluster_2") {
           nodesUrl = `${API_BASE}/cluster2/nodes`;
           relsUrl = `${API_BASE}/cluster2/relationships`;
+        } else if (baseName === "Cluster_5") {
+          nodesUrl = `${API_BASE}/cluster5-v2/nodes`;
+          relsUrl  = `${API_BASE}/cluster5-v2/relationships`;
         }
+
+        console.log("Graph fetch:", { graphName, baseName, nodesUrl, relsUrl });
 
         const [nodesRes, relsRes] = await Promise.all([
           fetch(nodesUrl),

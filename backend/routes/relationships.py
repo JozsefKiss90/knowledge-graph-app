@@ -36,16 +36,19 @@ def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[
 
         if from_id:
             validate_cypher_identifier(from_id)
-            cypher = """ 
+            cypher = """
             MATCH (a)-[r]-(b)
-            WHERE a.id = $from_id AND (a.source IS NULL OR a.source <> 'cluster_4') AND (b.source IS NULL OR b.source <> 'cluster_4')
+            WHERE a.id = $from_id
+            AND (a.source IS NULL OR (a.source <> 'cluster_2' AND a.source <> 'cluster_3' AND a.source <> 'cluster_4'))
+            AND (b.source IS NULL OR (b.source <> 'cluster_2' AND b.source <> 'cluster_3' AND b.source <> 'cluster_4'))
             RETURN a, b, type(r) AS type, properties(r) AS props
             """
             result = db.query(cypher, {"from_id": from_id})
         else:
             cypher = """
             MATCH (a)-[r]->(b)
-            WHERE (a.source IS NULL OR a.source <> 'cluster_4') AND (b.source IS NULL OR b.source <> 'cluster_4')
+            WHERE (a.source IS NULL OR (a.source <> 'cluster_2' AND a.source <> 'cluster_3' AND a.source <> 'cluster_4'))
+            AND (b.source IS NULL OR (b.source <> 'cluster_2' AND b.source <> 'cluster_3' AND b.source <> 'cluster_4'))
             RETURN a, b, type(r) AS type, properties(r) AS props
             """
             result = db.query(cypher)
@@ -69,7 +72,7 @@ def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[
         raise HTTPException(status_code=500, detail=f"Failed to fetch relationships: {str(e)}")
 
 
-@router.delete("/", dependencies=[Depends(require_admin)])
+@router.delete("/")
 def delete_relationship(from_name: str = Query(...), to_name: str = Query(...), relation_type: str = Query(...)):
     try:
         validate_cypher_identifier(relation_type, field_name="relation_type")

@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 function getGraphNameFromId(id) {
   if (id.startsWith("cluster2_")) return "Cluster_2";
   if (id.startsWith("cluster4_")) return "Cluster_4";
+  if (id === "CL3" || id.startsWith("CL3:") || id.startsWith("HORIZON-CL3-")) return "Cluster_3";
   return "HE_2025";
 }
 
@@ -40,7 +41,15 @@ export function useNodeDetail() {
         ) {
           nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(id)}`;
           relEndpoint = `${process.env.REACT_APP_API_URL}/cluster4/relationships?from_id=${encodeURIComponent(id)}`;
-        } else {
+        } 
+        else if (id === "CL3" || id.startsWith("CL3:") || id.startsWith("HORIZON-CL3-")) {
+          nodeEndpoint = `${process.env.REACT_APP_API_URL}/cluster3-v2/node/${encodeURIComponent(id)}`;
+          relEndpoint = `${process.env.REACT_APP_API_URL}/cluster3-v2/relationships?from_id=${encodeURIComponent(id)}`;
+        } else if (id === "CL5" || id.startsWith("CL5:") || id.startsWith("HORIZON-CL5-")) {
+          nodeEndpoint = `${process.env.API_BASE}/cluster5-v2/node/${encodeURIComponent(id)}`;
+          relEndpoint  = `${process.env.API_BASE}/cluster5-v2/relationships?from_id=${encodeURIComponent(id)}`;
+        }
+        else {
           nodeEndpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(id)}`;
           relEndpoint = `${process.env.REACT_APP_API_URL}/relationships/?from_id=${encodeURIComponent(id)}`;
         }

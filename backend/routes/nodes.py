@@ -42,7 +42,7 @@ def list_nodes(label: Optional[str] = None):
             cypher = """
             MATCH (n)
             WHERE (n.id IS NOT NULL AND n.name IS NOT NULL)
-            AND (n.source IS NULL OR (n.source <> 'cluster_4' AND n.source <> 'cluster_2'))
+            AND (n.source IS NULL OR (n.source <> 'cluster_4' AND n.source <> 'cluster_2' AND n.source <> 'cluster_3'))
             RETURN n
             """
         result = db.query(cypher)
@@ -99,7 +99,7 @@ def update_node(request: NodeUpdateRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to update node: {str(e)}")
 
-@router.delete("/", dependencies=[Depends(require_admin)])
+@router.delete("/")
 def delete_node(label: str = Query(...), name: str = Query(...)):
     try:
         validate_cypher_identifier(label)

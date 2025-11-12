@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 function getGraphNameFromId(id) {
   if (id.startsWith("cluster2_")) return "Cluster_2";
   if (id.startsWith("cluster4_")) return "Cluster_4";
+  if (id === "CL3" || id.startsWith("CL3:") || id.startsWith("HORIZON-CL3-")) return "Cluster_3";
   return "HE_2025";
 }
 
@@ -21,7 +22,13 @@ const NodeConnections = ({ id, relations }) => {
           endpoint = `${process.env.REACT_APP_API_URL}/cluster2/node/${encodeURIComponent(rel.target)}`;
         } else if (rel.target.startsWith("cluster4_")) {
           endpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(rel.target)}`;
-        } else {
+        } else if (rel.target === "CL3" || rel.target.startsWith("CL3:") || rel.target.startsWith("HORIZON-CL3-")) {
+          endpoint = `${process.env.REACT_APP_API_URL}/cluster3-v2/node/${encodeURIComponent(rel.target)}`;
+         } 
+        else if (rel.target === "CL5" || rel.target.startsWith("CL5:") || rel.target.startsWith("HORIZON-CL5-")) {
+          endpoint = `${process.env.REACT_APP_API_URL}/cluster5-v2/node/${encodeURIComponent(rel.target)}`;
+        }
+        else {
           endpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(rel.target)}`;
         }
 

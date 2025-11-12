@@ -63,14 +63,24 @@ const GraphView = forwardRef((props, ref) => {
 
   useLayoutEffect(() => {
     const hasRequiredData =
-    containerRef.current &&
-    Array.isArray(graphData?.nodes?.nodes || graphData?.nodes) &&
-    Array.isArray(graphData?.rels?.relationships) 
+      containerRef.current &&
+      Array.isArray(
+        graphData?.nodes?.nodes ||         // old shape
+        graphData?.nodes?.data  ||         // new shape (CL2/CL3 v2)
+        graphData?.nodes                    // safety if it's already an array
+      ) &&
+      Array.isArray(
+        graphData?.rels?.relationships ||   // normal shape
+        graphData?.rels                     // safety if it's already an array
+      );
+
     if (!hasRequiredData) {
       console.warn("🔴 Missing data:", {
         containerRefReady: !!containerRef.current,
-        graphNodesReady: Array.isArray(graphData?.nodes?.nodes || graphData?.nodes),
-        graphRelsReady: Array.isArray(graphData?.rels?.relationships),
+        graphNodesReady: Array.isArray(
+          graphData?.nodes?.nodes || graphData?.nodes?.data || graphData?.nodes
+        ),
+        graphRelsReady: Array.isArray(graphData?.rels?.relationships || graphData?.rels),
       });
       return;
     }

@@ -18,7 +18,6 @@ const ChatBot = ({}) => {
   const chatEndRef = useRef(null);
   const { darkMode } = useDarkMode();
   const API_BASE = process.env.REACT_APP_API_URL?.replace(/\/+$/, ''); // remove trailing slashes
-  console.log(`${API_BASE}/chatbot/query`)
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };

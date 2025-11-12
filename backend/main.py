@@ -11,7 +11,9 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from fastapi.responses import JSONResponse
 from utils.rate_limiter import limiter
-from chatbot import chatbot_api
+from chatbot import chatbot_api 
+from routes.new_pipleline.cl3_routes_v2 import router as cl3_v2
+from routes.new_pipleline.cl5_routes_v2 import router as cl5_v2
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
@@ -29,6 +31,8 @@ app.include_router(nodes.router)
 app.include_router(relationships.router)
 app.include_router(integrate.router)
 app.include_router(cl4_routes.router)
+app.include_router(cl3_v2)
+app.include_router(cl5_v2)
 app.include_router(cl2_routes.router)
 app.include_router(email_routes.router)
 app.include_router(auth.router)

@@ -146,10 +146,9 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
               <GraphSelector graphName={graphName} setGraphName={setGraphName} />
           </Box>
       </Box>
-      {["Cluster_2", "Cluster_4"].includes(cleanGraphName) && (
+      {["HE_2025","Cluster_2", "Cluster_3", "Cluster_4","Cluster_5"].includes(cleanGraphName) && (
         <LayoutSwitcher graphName={graphName} setGraphName={setGraphName} />
       )}
-
       <TypeToggles
         cy={cy}
         graphName={graphName}
