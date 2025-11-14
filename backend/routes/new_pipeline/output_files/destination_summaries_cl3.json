@@ -1,23 +1,19 @@
 {
-  "Cluster 3 - Civil Security for Society": {
-    "summary": ""
-  },
-  "Strengthened Security Research and Innovation": {
-    "summary": ""
-  },
-  "Effective management of EU external borders": {
-    "summary": ""
-  },
-  "Disaster-Resilient Society for Europe": {
-    "summary": ""
-  },
-  "Better protect the EU and its citizens against Crime and Terrorism": {
-    "summary": ""
-  },
-  "Resilient Infrastructure": {
-    "summary": ""
-  },
-  "Increased Cybersecurity": {
-    "summary": ""
+  "Civil Security for Society (Cluster 3)": {
+    "Better protect the EU and its citizens against Crime and Terrorism": {
+      "summary": ""
+    },
+    "Effective management of EU external borders": {
+      "summary": ""
+    },
+    "Resilient Infrastructure": {
+      "summary": ""
+    },
+    "Disaster-Resilient Society for Europe": {
+      "summary": ""
+    },
+    "Strengthened Security Research and Innovation": {
+      "summary": ""
+    }
   }
-} 
+}

@@ -1,12 +1,12 @@
 // src/components/GraphPage/GraphPage.js
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import GraphView from "../GraphView";
 import { CyContext } from "../context/CyContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useLayoutOptions } from "./useLayoutOptions";
 import { useDarkMode } from "../context/DarkModeContext";
-import "../../styles/main.scss";
+import "../../styles/main.scss"; 
 import { useGraphData } from "./useGraphData";
 import SidebarControls from "./SidebarControls";
 import LegendToggle from "../LegendToggle";
@@ -39,6 +39,14 @@ function GraphPage() {
       graphRef.current.rerunLayout();
     }
   };
+
+  const handleNodeHover = useCallback((node) => {
+    hoveredNodeRef.current = node;
+  }, []);
+
+  const handleHoverNodeIdChange = useCallback((id) => {
+    hoveredNodeIdRef.current = id;
+  }, []);
 
   useEffect(() => {
     if (!cyInstance || cyInstance.destroyed()) return;
@@ -151,9 +159,9 @@ function GraphPage() {
                 graphref={graphRef}
                 graphData={graphDataRef.current}
                 onCyReady={setCyInstance}
-                onNodeHover={(node) => (hoveredNodeRef.current = node)}
+                onNodeHover={handleNodeHover}
                 hoveredNodeIdRef={hoveredNodeIdRef}
-                onHoverNodeIdChange={(id) => (hoveredNodeIdRef.current = id)}
+                onHoverNodeIdChange={handleHoverNodeIdChange}
                 graphName={graphName}
               />
             ) : (

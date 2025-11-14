@@ -121,7 +121,7 @@ export const layoutConfig = {
       randomizationSeed: 1
     }
   },
-   Cluster_5: {
+  Cluster_5: {
     name: 'klay',
     fit: true,
     padding: 5,
@@ -146,5 +146,53 @@ export const layoutConfig = {
   },
   Cluster_5_cose: defaultCoseLayout_2,
   Cluster_2_cose: defaultCoseLayout_2,
-  Cluster_4_cose: defaultCoseLayout_2
+  Cluster_4_cose: defaultCoseLayout_2,
+  Cluster_1_2026: {
+    name: 'klay',
+    fit: true,
+    padding: 5,
+    animate: false,
+    klay: {
+      direction: 'DOWN',
+      aspectRatio: 0.45,
+      borderSpacing: 1,
+      spacing: 40,
+      edgeSpacingFactor: 0.25,
+      inLayerSpacingFactor: 0.15,
+      nodeLayering: 'NETWORK_SIMPLEX',
+      nodePlacement: 'LINEAR_SEGMENTS',
+      crossingMinimization: 'LAYER_SWEEP',
+      cycleBreaking: 'GREEDY',
+      edgeRouting: 'ORTHOGONAL',
+      layoutHierarchy: true,
+      separateConnectedComponents: true,
+      thoroughness: 20,
+      randomizationSeed: 2
+    }
+  },
+  Cluster_1_2026_cose: defaultCoseLayout_2,
+  Cluster_6_2026: {
+    name: 'klay',
+    fit: true,
+    padding: 5,
+    animate: false,
+    klay: {
+      direction: 'DOWN',
+      aspectRatio: 0.5,
+      borderSpacing: 1,
+      spacing: 45,
+      edgeSpacingFactor: 0.2,
+      inLayerSpacingFactor: 0.15,
+      nodeLayering: 'NETWORK_SIMPLEX',
+      nodePlacement: 'LINEAR_SEGMENTS',
+      crossingMinimization: 'LAYER_SWEEP',
+      cycleBreaking: 'GREEDY',
+      edgeRouting: 'ORTHOGONAL',
+      layoutHierarchy: true,
+      separateConnectedComponents: true,
+      thoroughness: 20,
+      randomizationSeed: 3
+    }
+  },
+  Cluster_6_2026_cose: defaultCoseLayout_2
 };

@@ -42,7 +42,7 @@ def list_nodes(label: Optional[str] = None):
             cypher = """
             MATCH (n)
             WHERE (n.id IS NOT NULL AND n.name IS NOT NULL)
-            AND (n.source IS NULL OR (n.source <> 'cluster_4' AND n.source <> 'cluster_2' AND n.source <> 'cluster_3'))
+            AND (n.source IS NULL OR (n.source <> 'cluster_4' AND n.source <> 'cluster_2' AND n.source <> 'cluster_3' AND n.source <> 'cluster_5' AND n.source <> 'cluster_1' AND n.source <> 'cluster_6'))
             RETURN n
             """
         result = db.query(cypher)

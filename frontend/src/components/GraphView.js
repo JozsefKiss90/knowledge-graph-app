@@ -1,6 +1,6 @@
-// --- Refactored GraphView.js using helper utils ---
+﻿// --- Refactored GraphView.js using helper utils ---
 
-import { useLayoutEffect, useRef, useState,forwardRef, useImperativeHandle, useEffect } from "react";
+import { useLayoutEffect, useRef, useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import Cytoscape from "cytoscape";
 import dagre from "cytoscape-dagre";
 import coseBilkent from "cytoscape-cose-bilkent";
@@ -10,8 +10,8 @@ import "../styles/graphStyles.scss";
 import { buildElements } from "./utils/buildElements";
 import { layoutConfig } from "./utils/layoutConfig";
 import { setupEvents } from "./utils/setupEvents";
-import klay from 'cytoscape-klay';
-import '../styles/main.scss'
+import klay from "cytoscape-klay";
+import "../styles/main.scss";
 import { useDarkMode } from "./context/DarkModeContext";
 
 const GraphView = forwardRef((props, ref) => {
@@ -27,23 +27,23 @@ const GraphView = forwardRef((props, ref) => {
   } = props;
 
   const containerRef = useRef(null);
-  const [cyInstance, setCyInstance] = useState(null); 
+  const [cyInstance, setCyInstance] = useState(null);
   const navigate = useNavigate();
-  const { darkMode } = useDarkMode(); 
+  const { darkMode } = useDarkMode();
   const cyRef = useRef(null);
-  
+
   Cytoscape.use(coseBilkent);
   Cytoscape.use(dagre);
-  Cytoscape.use( klay );
+  Cytoscape.use(klay);
 
   useEffect(() => {
     if (!cyInstance || !hoveredNodeIdRef) return;
 
     const interval = setInterval(() => {
       const hoveredId = hoveredNodeIdRef.current;
-      cyInstance.nodes().forEach(node => {
+      cyInstance.nodes().forEach((node) => {
         const showFull = node.id() === hoveredId;
-        node.data('displayLabel', showFull ? node.data('label') : node.data('shortLabel'));
+        node.data("displayLabel", showFull ? node.data("label") : node.data("shortLabel"));
       });
       cyInstance.style().update();
     }, 150);
@@ -54,8 +54,8 @@ const GraphView = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     rerunLayout: () => {
       if (cyRef.current) {
-        cyRef.current.nodes().unlock(); // unlock before layout
-        const layout = cyRef.current.layout(layoutOptions); // 🔄 use updated layoutOptions
+        cyRef.current.nodes().unlock();
+        const layout = cyRef.current.layout(layoutOptions);
         layout.run();
       }
     },
@@ -65,17 +65,17 @@ const GraphView = forwardRef((props, ref) => {
     const hasRequiredData =
       containerRef.current &&
       Array.isArray(
-        graphData?.nodes?.nodes ||         // old shape
-        graphData?.nodes?.data  ||         // new shape (CL2/CL3 v2)
-        graphData?.nodes                    // safety if it's already an array
+        graphData?.nodes?.nodes ||
+          graphData?.nodes?.data ||
+          graphData?.nodes
       ) &&
       Array.isArray(
-        graphData?.rels?.relationships ||   // normal shape
-        graphData?.rels                     // safety if it's already an array
+        graphData?.rels?.relationships ||
+          graphData?.rels
       );
 
     if (!hasRequiredData) {
-      console.warn("🔴 Missing data:", {
+      console.warn("Missing graph data:", {
         containerRefReady: !!containerRef.current,
         graphNodesReady: Array.isArray(
           graphData?.nodes?.nodes || graphData?.nodes?.data || graphData?.nodes
@@ -86,6 +86,11 @@ const GraphView = forwardRef((props, ref) => {
     }
 
     const { nodeElements, edgeElements } = buildElements(graphData);
+    const normalizedGraphName = graphName.replace("_cose", "");
+    const layoutPreset =
+      layoutConfig[graphName] ||
+      layoutConfig[normalizedGraphName] ||
+      layoutOptions; // fallback to user overrides if no preset exists
 
     const cy = Cytoscape({
       container: containerRef.current,
@@ -93,39 +98,35 @@ const GraphView = forwardRef((props, ref) => {
       style: cyStyle(darkMode),
       pixelRatio: 2,
       maxZoom: 3,
-      minZoom: graphName === 'HE_2025' ? 0.1 : 0.05,
-    });    
+      minZoom: graphName === "HE_2025" ? 0.1 : 0.05,
+    });
     cyRef.current = cy;
- 
+
     setCyInstance(cy);
-    if (onCyReady) onCyReady(cy); 
-    const layout = cy.layout(layoutConfig[graphName]);
+    if (onCyReady) onCyReady(cy);
+    const layout = cy.layout(layoutPreset);
 
     layout.on("layoutstop", () => {
-      cy.nodes().forEach(n => n.lock());
+      cy.nodes().forEach((n) => n.lock());
       cy.center();
     });
 
-    layout.run(); // ← after on("layoutstop")
+    layout.run();
 
     setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
-      //cy.fit();
-      //cy.center() 
-      //cy.resize()
 
-      return () => {
-        cy.destroy();
-      };
-  }, [graphData, navigate, darkMode]);
+    return () => {
+      cy.destroy();
+    };
+  }, [graphData, navigate, darkMode, graphName, layoutOptions, onCyReady, onHoverNodeIdChange, onNodeHover]);
 
-  return ( 
+  return (
     <div
       ref={containerRef}
       className="graph-container"
-      style={{ width: "100%", height: "100%"}}
+      style={{ width: "100%", height: "100%" }}
     />
   );
 });
 
 export default GraphView;
-

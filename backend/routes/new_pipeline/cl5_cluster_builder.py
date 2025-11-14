@@ -1,6 +1,6 @@
 from .base_cluster_builder import BaseClusterBuilder
 
-class ClusterGraphBuilderCL5v2(BaseClusterBuilder):
+class ClusterGraphBuilderCL5(BaseClusterBuilder):
     @property
     def cluster_id(self) -> str: return "CL5"
     @property

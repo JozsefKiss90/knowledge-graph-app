@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function getGraphNameFromId(id) {
-  if (id.startsWith("cluster2_")) return "Cluster_2";
+  if (id.startsWith("cluster2_")) return "Cluster_1";
   if (id.startsWith("cluster4_")) return "Cluster_4";
   if (id === "CL3" || id.startsWith("CL3:") || id.startsWith("HORIZON-CL3-")) return "Cluster_3";
   return "HE_2025";

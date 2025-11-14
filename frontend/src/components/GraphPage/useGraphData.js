@@ -2,10 +2,18 @@
 import { useEffect, useRef, useState } from "react";
 
 const API_BASE = process.env.REACT_APP_API_URL;
-console.log("API base:", API_BASE);
+
+const GRAPH_ENDPOINTS = {
+  HE_2025: { nodes: "/nodes/", rels: "/relationships/" },
+  Cluster_2: { nodes: "/cluster2/nodes", rels: "/cluster2/relationships" },
+  Cluster_3: { nodes: "/cluster3/nodes", rels: "/cluster3/relationships" },
+  Cluster_4: { nodes: "/cluster4/nodes", rels: "/cluster4/relationships" },
+  Cluster_5: { nodes: "/cluster5/nodes", rels: "/cluster5/relationships" },
+  Cluster_1_2026: { nodes: "/cluster1/nodes", rels: "/cluster1/relationships" },
+  Cluster_6_2026: { nodes: "/cluster6/nodes", rels: "/cluster6/relationships" },
+};
 
 export function useGraphData() {
-  localStorage.removeItem("graphName");
   const [graphName, setGraphName] = useState(() => localStorage.getItem("graphName") || "HE_2025");
   const [ready, setReady] = useState(false);
   const graphDataRef = useRef(null);
@@ -20,40 +28,32 @@ export function useGraphData() {
     if (savedGraphName && savedGraphName !== graphName) {
       setGraphName(savedGraphName);
     }
-  }, []);
+  }, []); // run once on mount
 
   useEffect(() => {
     const fetchGraph = async () => {
-      try { 
-        const baseName = graphName.replace("_cose", "");
-        console.log(baseName)
-        let nodesUrl, relsUrl = [];
-        if (baseName === "HE_2025") {
-          nodesUrl = `${API_BASE}/nodes/`;
-          relsUrl = `${API_BASE}/relationships/`;
-        } else if (baseName === "Cluster_4") {
-          nodesUrl = `${API_BASE}/cluster4/nodes`;
-          relsUrl = `${API_BASE}/cluster4/relationships`;
-        } else if (baseName === "Cluster_3") {
-          nodesUrl = `${API_BASE}/cluster3-v2/nodes`;
-          relsUrl = `${API_BASE}/cluster3-v2/relationships`;
-        } else if (baseName === "Cluster_2") {
-          nodesUrl = `${API_BASE}/cluster2/nodes`;
-          relsUrl = `${API_BASE}/cluster2/relationships`;
-        } else if (baseName === "Cluster_5") {
-          nodesUrl = `${API_BASE}/cluster5-v2/nodes`;
-          relsUrl  = `${API_BASE}/cluster5-v2/relationships`;
-        }
+      const baseName = graphName.replace("_cose", "");
+      const endpoint = GRAPH_ENDPOINTS[baseName];
 
-        console.log("Graph fetch:", { graphName, baseName, nodesUrl, relsUrl });
+      if (!endpoint) {
+        console.warn(`No API endpoint configured for graph "${baseName}".`);
+        return;
+      }
+
+      try {
+        const nodesUrl = `${API_BASE}${endpoint.nodes}`;
+        const relsUrl = `${API_BASE}${endpoint.rels}`;
 
         const [nodesRes, relsRes] = await Promise.all([
           fetch(nodesUrl),
           fetch(relsUrl),
         ]);
 
-        const nodes = await nodesRes.json();
-        const rels = await relsRes.json();
+        if (!nodesRes.ok || !relsRes.ok) {
+          throw new Error(`Fetch failed for ${baseName}: ${nodesRes.status}/${relsRes.status}`);
+        }
+
+        const [nodes, rels] = await Promise.all([nodesRes.json(), relsRes.json()]);
 
         graphDataRef.current = { nodes, rels };
         setReady(true);
@@ -71,6 +71,6 @@ export function useGraphData() {
     graphName,
     setGraphName: handleGraphNameChange,
     graphDataRef,
-    ready
+    ready,
   };
 }

@@ -3,8 +3,6 @@ from fastapi import FastAPI
 from routes import nodes, relationships
 from fastapi.middleware.cors import CORSMiddleware
 from routes import integrate
-from routes import cl4_routes
-from routes import cl2_routes
 from routes import email_routes
 from auth import auth
 from slowapi.util import get_remote_address
@@ -12,9 +10,11 @@ from slowapi.errors import RateLimitExceeded
 from fastapi.responses import JSONResponse
 from utils.rate_limiter import limiter
 from chatbot import chatbot_api 
-from routes.new_pipleline.cl3_routes_v2 import router as cl3_v2
-from routes.new_pipleline.cl5_routes_v2 import router as cl5_v2
-
+from routes.new_pipeline.cl3_routes import router as cl3
+from routes.new_pipeline.cl4_routes import router as cl4
+from routes.new_pipeline.cl5_routes import router as cl5
+from routes.new_pipeline.cl1_routes import router as cl1
+from routes.new_pipeline.cl6_routes import router as cl6
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
     from dotenv import load_dotenv 
@@ -30,10 +30,11 @@ app.state.limiter = limiter
 app.include_router(nodes.router)
 app.include_router(relationships.router)
 app.include_router(integrate.router)
-app.include_router(cl4_routes.router)
-app.include_router(cl3_v2)
-app.include_router(cl5_v2)
-app.include_router(cl2_routes.router)
+app.include_router(cl3)
+app.include_router(cl4)
+app.include_router(cl5)
+app.include_router(cl1)
+app.include_router(cl6)
 app.include_router(email_routes.router)
 app.include_router(auth.router)
 app.include_router(chatbot_api.router)

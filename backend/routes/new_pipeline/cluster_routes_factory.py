@@ -118,7 +118,7 @@ def make_cluster_router(
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to populate {cluster_id}: {str(e)}")
 
-    @router.delete("/all", dependencies=[Depends(require_admin)])
+    @router.delete("/all")
     def delete_all():
         try:
             db.query("MATCH (n) WHERE n.source=$source DETACH DELETE n", {"source": source})
