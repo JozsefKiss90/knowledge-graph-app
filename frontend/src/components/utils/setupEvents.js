@@ -3,7 +3,7 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover) {
     const node = event.target;
     const nodeData = node.data();
   
-    // ✅ Restore the missing callback:
+    // �� Restore the missing callback:
     if (onNodeHover) onNodeHover(nodeData);
     if (onHoverNodeIdChange) onHoverNodeIdChange(nodeData.id);
   
@@ -29,12 +29,15 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover) {
   cy.on('tap', 'node', (event) => {
     const node = event.target;
     const id = node.data('id');
+    const serializedData = { ...node.data() };
     if (id) {
       setTimeout(() => {
-        navigate(`/node/${encodeURIComponent(id)}`);
+        navigate(`/node/${encodeURIComponent(id)}`, {
+          state: { nodeData: serializedData },
+        });
       }, 100);
     } else {
-      console.warn('⚠️ Node without valid ID clicked:', node.data());
+      console.warn('������ Node without valid ID clicked:', node.data());
     }
   });
 

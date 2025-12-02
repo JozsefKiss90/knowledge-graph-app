@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -9,61 +9,75 @@ function getGraphNameFromId(id) {
   return "HE_2025";
 }
 
-const NodeConnections = ({ id, relations }) => {
-  const [targetNames, setTargetNames] = useState({});
+// Helper: pretty-print a relation name if we need a fallback
+function formatRelationLabel(relType = "RELATED") {
+  return relType
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
-  useEffect(() => {
-    const fetchTargetNames = async () => {
-      const promises = relations.map(async (rel) => {
-        if (!rel.target || targetNames[rel.target]) return;
+// Helper: infer a human label (Cluster / Destination / Call / Related)
+// based on the neighbor node id pattern; fall back to relation type.
+function getConnectionLabel(currentId, neighborId, relType) {
+  if (!neighborId) return formatRelationLabel(relType);
 
-        let endpoint = "";
-        if (rel.target.startsWith("cluster2_")) {
-          endpoint = `${process.env.REACT_APP_API_URL}/cluster2/node/${encodeURIComponent(rel.target)}`;
-        } else if (rel.target.startsWith("cluster4_")) {
-          endpoint = `${process.env.REACT_APP_API_URL}/cluster4/node/${encodeURIComponent(rel.target)}`;
-        } else if (rel.target === "CL3" || rel.target.startsWith("CL3:") || rel.target.startsWith("HORIZON-CL3-")) {
-          endpoint = `${process.env.REACT_APP_API_URL}/cluster3-v2/node/${encodeURIComponent(rel.target)}`;
-         } 
-        else if (rel.target === "CL5" || rel.target.startsWith("CL5:") || rel.target.startsWith("HORIZON-CL5-")) {
-          endpoint = `${process.env.REACT_APP_API_URL}/cluster5-v2/node/${encodeURIComponent(rel.target)}`;
-        }
-        else {
-          endpoint = `${process.env.REACT_APP_API_URL}/nodes/${encodeURIComponent(rel.target)}`;
-        }
+  const id = neighborId;
 
-        try {
-          const res = await fetch(endpoint);
-          const data = await res.json();
-          return { id: rel.target, name: data.name || "" };
-        } catch (err) {
-          console.error("Failed to fetch target name:", err);
-          return { id: rel.target, name: "" };
-        }
-      });
+  // Cluster 2 legacy ids
+  if (id.startsWith("cluster2_cluster_") || id === "cluster2") return "Cluster";
+  if (id.startsWith("cluster2_destination_")) return "Destination";
+  if (id.startsWith("cluster2_call_")) return "Call";
 
-      const results = await Promise.all(promises);
-      const nameMap = {};
-      results.forEach((r) => {
-        if (r?.id) nameMap[r.id] = r.name;
-      });
-      setTargetNames((prev) => ({ ...prev, ...nameMap }));
-    };
+  // Generic Horizon / cluster patterns
+  // e.g. "CL3", "CL4", ...
+  if (/^CL\d$/.test(id)) return "Cluster";
 
-    fetchTargetNames();
-  }, [relations]);
+  // e.g. "CL3:effective-management-of-eu-external-borders"
+  if (/^CL\d:/.test(id)) return "Destination";
 
-  const filtered = relations.filter((rel) => {
+  // e.g. "HORIZON-CL3-2026-01-BM-03", "HORIZON-CL4-2027-04-DATA-03", "HORIZON-HLTH-..."
+  if (id.startsWith("HORIZON-CL") || id.startsWith("HORIZON-HLTH-")) return "Call";
+
+  // Fallback: show relation type nicely formatted
+  return formatRelationLabel(relType);
+}
+
+const NodeConnections = ({ id, relations, connectedNodes = {} }) => {
+  const normalizedRelations = useMemo(
+    () => (Array.isArray(relations) ? relations : []),
+    [relations]
+  );
+
+  const filtered = normalizedRelations.filter((rel) => {
     const relType = rel.relation || rel.type;
-    if (rel.source !== id) return false;
-    if (id.startsWith("cluster2_call_") && relType !== "BELONGS_TO_DESTINATION") return false;
-    if (id.startsWith("cluster2_destination_") && relType !== "HAS_CALL") return false;
+    const isSource = rel.source === id;
+    const isTarget = rel.target === id;
+    if (!isSource && !isTarget) return false;
+
+    // Cluster 2 has its own edge semantics; keep these filters as-is
+    if (
+      id.startsWith("cluster2_call_") &&
+      relType !== "BELONGS_TO_DESTINATION" &&
+      !(isTarget && relType === "HAS_CALL")
+    )
+      return false;
+
+    if (
+      id.startsWith("cluster2_destination_") &&
+      relType !== "HAS_CALL" &&
+      !(isTarget && relType === "BELONGS_TO_DESTINATION")
+    )
+      return false;
+
     return true;
   });
 
   return (
     <Card className="connections-card">
-      <Card.Header><h5>Connections</h5></Card.Header>
+      <Card.Header>
+        <h5>Connections</h5>
+      </Card.Header>
       <Card.Body>
         {filtered.length === 0 ? (
           <p>No connections available.</p>
@@ -72,27 +86,47 @@ const NodeConnections = ({ id, relations }) => {
             {filtered.map((rel, idx) => {
               const relType = rel.relation || rel.type || "RELATED";
 
-              const formattedLabel = relType.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+              // From the POV of the current node, the "neighbor" is the other end
+              const neighborId = rel.source === id ? rel.target : rel.source;
+              const detail = connectedNodes[neighborId] || {};
+              const itemKey = rel.id || `${rel.source}-${rel.target}-${idx}`;
 
-              const targetParts = rel.target.split("_");
-              const prefixLength = (rel.target.startsWith("cluster2_") || rel.target.startsWith("cluster4_")) ? 2 : 1;
-              const labelWithoutPrefix = targetParts.slice(prefixLength).join(" ");
-              const formattedTarget = labelWithoutPrefix.replace(/_/g, " ");
+              const fallbackLabel = (() => {
+                if (!neighborId) return "";
+                const base = neighborId.replace(/[:_]/g, " ");
+                if (neighborId.startsWith("cluster2_") || neighborId.startsWith("cluster4_")) {
+                  const parts = neighborId.split("_");
+                  return parts.slice(2).join(" ").replace(/_/g, " ");
+                }
+                return base;
+              })();
 
-              const tooltip = targetNames[rel.target] || formattedTarget;
+              const displayName = detail.name || fallbackLabel;
+              const tooltip = detail.summary || detail.name || fallbackLabel;
+
+              // NEW: label based on neighbor type instead of raw relation type
+              const connectionLabel = getConnectionLabel(id, neighborId, relType);
 
               return (
-                <li key={idx} className="connection-item">
+                <li key={itemKey} className="connection-item">
                   <Badge bg="info" className="relation-badge">
-                    {formattedLabel}
+                    {connectionLabel}
                   </Badge>
-                  <Link
-                    to={`/node/${encodeURIComponent(rel.target)}`}
-                    onClick={() => localStorage.setItem("graphName", getGraphNameFromId(rel.target))}
-                    title={tooltip}
-                  >
-                    {formattedTarget}
-                  </Link>
+                  <div className="connection-content">
+                    <Link
+                      to={`/node/${encodeURIComponent(neighborId)}`}
+                      onClick={() =>
+                        localStorage.setItem("graphName", getGraphNameFromId(neighborId))
+                      }
+                      state={detail.id ? { nodeData: detail } : undefined}
+                      title={tooltip}
+                    >
+                      {displayName || neighborId}
+                    </Link>
+                    {detail.summary && (
+                      <small className="text-muted d-block mt-1">{detail.summary}</small>
+                    )}
+                  </div>
                 </li>
               );
             })}

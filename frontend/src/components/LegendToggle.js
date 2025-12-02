@@ -19,6 +19,7 @@ import {
   getEdgeTypeList,
   getNodeTypeList
 } from "./LegendParts/graphTypeConfig";
+import { getClusterConfigForId } from './NodeDetalParts/useNodeDetail';
 
 const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
   const cy = useCy();
@@ -44,21 +45,82 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
     setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
   }, [graphName]);
 
-  useEffect(() => {
-    let lastHoveredId = null;
+useEffect(() => {
+  let lastHoveredId = null;
+  let cancelled = false;
 
-    const interval = setInterval(() => {
-      const currentNode = hoveredNodeRef.current;
-
-    if (currentNode?.id && currentNode?.id !== lastHoveredId) {
-      setHoveredNode(currentNode);
-      lastHoveredId = currentNode.id;
+  const hydrateHoveredNode = async (node) => {
+    // Only special-case Call nodes
+    if (node.type !== "Call") {
+      setHoveredNode(node);
+      return;
     }
 
-    }, 100);
+    // Do we already have funding details?
+    const trlMissing =
+      !node.technology_readiness_level ||
+      node.technology_readiness_level.trim() === "";
 
-    return () => clearInterval(interval);
-  }, [hoveredNodeRef]);
+    if (trlMissing) {
+      // Fetch full details
+      const config = getClusterConfigForId(node.id);
+      const endpoint = config.buildNodeEndpoint(node.id);
+      const res = await fetch(endpoint);
+      if (res.ok) {
+        const detail = await res.json();
+        setHoveredNode({ ...node, ...detail });
+        return;
+      }
+    }
+
+    // Otherwise fallback to graph node
+    setHoveredNode(node);
+
+    try {
+      const config = getClusterConfigForId(node.id);
+      const nodeEndpoint = config.buildNodeEndpoint(node.id);
+      const res = await fetch(nodeEndpoint);
+
+      if (!res.ok) {
+        console.error(
+          "Failed to hydrate hovered Call node:",
+          node.id,
+          res.status
+        );
+        setHoveredNode(node);
+        return;
+      }
+
+      const detail = await res.json();
+
+      if (!cancelled && node.id === lastHoveredId) {
+        // Merge graph node (layout fields) with full detail
+        setHoveredNode({ ...node, ...detail });
+      }
+    } catch (err) {
+      console.error("Error hydrating hovered Call node:", err);
+      if (!cancelled) {
+        setHoveredNode(node);
+      }
+    }
+  };
+
+  const interval = setInterval(() => {
+    const currentNode = hoveredNodeRef.current;
+    if (!currentNode?.id) return;
+
+    if (currentNode.id !== lastHoveredId) {
+      lastHoveredId = currentNode.id;
+      hydrateHoveredNode(currentNode);
+    }
+  }, 100);
+
+  return () => {
+    cancelled = true;
+    clearInterval(interval);
+  };
+}, [hoveredNodeRef]);
+
 
   useEffect(() => {
     const normalized = graphName.replace('_cose', '');
@@ -171,7 +233,7 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
       )}
       {onCollapse && (
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <button
+          <button 
             className="btn btn-sm btn-outline-secondary components legend-titles"
             onClick={resetView}
           >
