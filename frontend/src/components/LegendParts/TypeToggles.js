@@ -12,7 +12,7 @@ const TypeToggles = ({
   toggleEdgeType,
   toggleNodeType
 }) => {
-  const supported = ["HE_2025", "Cluster_2", "Cluster_4"].includes(graphName.replace("_cose", ""));
+  const supported = ["HE_2025", "Cluster_2", "Cluster_3", "Cluster_4", "Cluster_1", "Cluster_5", "Cluster_6" ].includes(graphName.replace("_cose", ""));
 
   if (!supported) return null;
 

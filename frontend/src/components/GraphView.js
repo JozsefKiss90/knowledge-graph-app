@@ -9,16 +9,16 @@ import React, {
 } from "react";
 import cytoscape from "cytoscape";
 import coseBilkent from "cytoscape-cose-bilkent";
-cytoscape.use(coseBilkent);
-
 import { stylesheet } from "../styles/graphStyles";
 import { setupEvents } from "./utils/setupEvents";
+import { useNavigate } from "react-router-dom";
+cytoscape.use(coseBilkent);
 
 /**
  * Props:
- *  - graphData: { nodeElements: [], edgeElements: [] }
+ *  - graphData: { nodeElements: [], edgeElements: [] } or { nodes: [], edges: [] }
  *  - graphName: string
- *  - layoutOptions: Cytoscape layout options (e.g., { name: 'cose-bilkent', ... })
+ *  - layoutOptions: { name: string, fit?: boolean, ... } (we track only .name and .fit)
  *  - onCyReady(cy), onNodeHover(nodeData), onHoverNodeIdChange(nodeId)
  *  - nestedHandlers: { onClusterOpen, onDestinationToggle, popLevel }
  */
@@ -37,106 +37,119 @@ const GraphView = forwardRef(function GraphView(
   const containerRef = useRef(null);
   const cyRef = useRef(null);
   const [ready, setReady] = useState(false);
+  const navigate = useNavigate();
 
-  // keep the latest callbacks in refs so we don't recreate Cytoscape when they change
+  // latest callbacks (no re-init on parent re-renders)
   const nhRef = useRef(nestedHandlers);
   const hoverRef = useRef(onNodeHover);
   const hoverIdRef = useRef(onHoverNodeIdChange);
-
+  const onCyReadyRef = useRef(onCyReady);
   useEffect(() => { nhRef.current = nestedHandlers; }, [nestedHandlers]);
   useEffect(() => { hoverRef.current = onNodeHover; }, [onNodeHover]);
   useEffect(() => { hoverIdRef.current = onHoverNodeIdChange; }, [onHoverNodeIdChange]);
+  useEffect(() => { onCyReadyRef.current = onCyReady; }, [onCyReady]);
 
+  // flatten elements once per graphData identity
   const elements = useMemo(() => {
     if (!graphData) return [];
     const nodes = Array.isArray(graphData.nodeElements)
       ? graphData.nodeElements
-      : graphData.nodes || [];
+      : graphData.nodes || graphData.Nodes || [];
     const edges = Array.isArray(graphData.edgeElements)
       ? graphData.edgeElements
-      : graphData.edges || [];
+      : graphData.edges || graphData.Edges || [];
     return [...nodes, ...edges];
   }, [graphData]);
+
+  // only track layout name + fit to avoid churn
+  const layoutName = layoutOptions?.name || "cose-bilkent";
+  const layoutFit = layoutOptions?.fit !== false; // default true, matches layoutConfig
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // destroy previous instance
+    // kill previous
     if (cyRef.current) {
       try { cyRef.current.destroy(); } catch {}
       cyRef.current = null;
     }
 
-    // create new instance
     const cy = cytoscape({
       container: containerRef.current,
       elements,
       style: stylesheet,
-      wheelSensitivity: 0.2,
       minZoom: 0.1,
       maxZoom: 4,
       selectionType: "single",
       pixelRatio: 1,
     });
     cyRef.current = cy;
-
-    // stash graph name so event handlers can branch without reinit
     cy.scratch("graphName", graphName);
 
-    // run layout
+    // Fallback styles for commonly toggled classes
+    cy.style()
+      .append([
+        { selector: ".faded", style: { opacity: 0.15 } },
+        { selector: ".highlighted", style: { "border-width": 2, "border-color": "#fff" } },
+        { selector: ".call-hidden", style: { display: "none" } },
+        { selector: ".call-visible", style: { display: "element" } },
+      ])
+      .update();
+
+    // Run layout (let layout do the fit if requested)
     let layout;
     try {
-      layout = cy.layout(layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" });
+      layout = cy.layout({ name: layoutName, fit: layoutFit });
     } catch {
-      layout = cy.layout({ name: "cose" });
+      layout = cy.layout({ name: "cose", fit: layoutFit });
     }
     layout.on("layoutstop", () => {
-      cy.nodes().forEach((n) => n.lock());
-      cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 300 });
+      // lock not strictly needed; leaving nodes free avoids styling issues
+      if (!layoutFit) {
+        // If the preset didn't fit, do a single, gentle fit here
+        cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 250 });
+      }
+      setReady(true);
     });
     layout.run();
 
-    // stable wrappers that always read the latest refs
-    const stableHandlers = {
-      onClusterOpen: (d) => nhRef.current?.onClusterOpen?.(d),
-      onDestinationToggle: (cyI, id) => nhRef.current?.onDestinationToggle?.(cyI, id),
-      popLevel: () => nhRef.current?.popLevel?.(),
-    };
+    // Events (stable wrappers read latest refs)
+    setupEvents(
+      cy,
+      navigate,
+      (id) => hoverIdRef.current && hoverIdRef.current(id),
+      (data) => hoverRef.current && hoverRef.current(data),
+      {
+        shouldOpenCluster: () => cy.scratch("graphName") === "ROOT",
+        onClusterOpen: (data) => nhRef.current?.onClusterOpen?.(data),
+        onDestinationToggle: (_, id) =>
+          nhRef.current?.onDestinationToggle?.(cy, id),
+      }
+    );
 
-    setupEvents(cy, {
-      onNodeHover: (d) => hoverRef.current?.(d),
-      onHoverNodeIdChange: (id) => hoverIdRef.current?.(id),
-      nestedHandlers: stableHandlers,
-    });
-
-    setReady(true);
-    onCyReady?.(cy);
+    onCyReadyRef.current && onCyReadyRef.current(cy);
 
     return () => {
       try { cy.destroy(); } catch {}
       cyRef.current = null;
       setReady(false);
     };
-    // NOTE: intentionally NOT depending on nestedHandlers / onNodeHover / onHoverNodeIdChange
-    // to avoid destroying + recreating Cytoscape when those change.
-  }, [elements, layoutOptions, graphName, onCyReady]);
+  }, [elements, layoutName, layoutFit, graphName, navigate]);
 
   useImperativeHandle(ref, () => ({
     rerunLayout: () => {
       const cy = cyRef.current;
       if (!cy) return;
-      cy.nodes().forEach((n) => n.unlock());
-
       let layout;
       try {
-        layout = cy.layout(layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" });
+        layout = cy.layout({ name: layoutName, fit: layoutFit });
       } catch {
-        layout = cy.layout({ name: "cose" });
+        layout = cy.layout({ name: "cose", fit: layoutFit });
       }
-
       layout.on("layoutstop", () => {
-        cy.nodes().forEach((n) => n.lock());
-        cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 300 });
+        if (!layoutFit) {
+          cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 250 });
+        }
       });
       layout.run();
     },
@@ -148,7 +161,12 @@ const GraphView = forwardRef(function GraphView(
       data-graph-name={graphName}
       ref={containerRef}
       className="cytoscape_container"
-      style={{ width: "100%", height: "100%", position: "relative", opacity: ready ? 1 : 0 }}
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        opacity: ready ? 1 : 0,
+      }}
     />
   );
 });

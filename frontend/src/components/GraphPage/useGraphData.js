@@ -11,8 +11,8 @@ export const GRAPH_ENDPOINTS = {
   Cluster_3: { nodes: "/cluster3/nodes", rels: "/cluster3/relationships" },
   Cluster_4: { nodes: "/cluster4/nodes", rels: "/cluster4/relationships" },
   Cluster_5: { nodes: "/cluster5/nodes", rels: "/cluster5/relationships" },
-  Cluster_1_2026: { nodes: "/cluster1/nodes", rels: "/cluster1/relationships" },
-  Cluster_6_2026: { nodes: "/cluster6/nodes", rels: "/cluster6/relationships" },
+  Cluster_1: { nodes: "/cluster1/nodes", rels: "/cluster1/relationships" },
+  Cluster_6: { nodes: "/cluster6/nodes", rels: "/cluster6/relationships" },
 };
 
 // ---- helper: derive a cluster subgraph client-side from HE_2025 raw
@@ -66,7 +66,7 @@ export function useGraphData() {
   const storeRef = useRef(new Map()); // key -> { nodes, rels }
   const heRef = useRef(null);         // keep HE_2025 raw around (source for derivations)
   const [graphName, setGraphName] = useState(() => localStorage.getItem("graphName") || "ROOT");
-
+  
   useEffect(() => {
     let cancelled = false;
 

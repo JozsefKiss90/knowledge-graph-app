@@ -1,75 +1,101 @@
 // setupEvents.js
+// Throttled hover + click behaviour for both ROOT/cluster and HE_2025 views.
 
-/**
- * Sets up Cytoscape interactions:
- *  - hover highlights via callbacks
- *  - click on cluster => nestedHandlers.onClusterOpen(data)
- *  - click on destination => nestedHandlers.onDestinationToggle(cy, id)
- *  - click on anything else => emits hover id change (so external router can handle)
- *
- * @param {cytoscape.Core} cy
- * @param {Object} options
- * @param {Function} [options.onNodeHover]
- * @param {Function} [options.onHoverNodeIdChange]
- * @param {Object}   [options.nestedHandlers]
- */
-export function setupEvents(cy, { onNodeHover, onHoverNodeIdChange, nestedHandlers } = {}) {
-  const onClusterOpen = nestedHandlers?.onClusterOpen;
-  const onDestinationToggle = nestedHandlers?.onDestinationToggle;
+export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts = {}) {
+  const { shouldOpenCluster, onClusterOpen, onDestinationToggle } = opts;
 
-  // Hover
+  if (!cy || cy.destroyed()) return;
+
+  // -------- Hover (throttled) ----------
+  let raf = null;
+  let pending = null;
+
+  const applyHover = (node) => {
+    cy.batch(() => {
+      cy.nodes().removeClass("highlighted faded");
+      cy.edges().removeClass("highlighted faded");
+
+      if (!node) return;
+
+      const neigh = node.closedNeighborhood(); // node + its incident edges + neighbours
+      const edges = node.connectedEdges();
+      const others = cy.elements().not(neigh);
+
+      neigh.nodes().addClass("highlighted");
+      edges.addClass("highlighted");
+      others.addClass("faded");
+    });
+  };
+
+  const scheduleHover = (nodeOrNull) => {
+    pending = nodeOrNull;
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      applyHover(pending);
+      raf = null;
+    });
+  };
+
   cy.on("mouseover", "node", (evt) => {
-    const n = evt.target;
-    onNodeHover?.(n.data());
-    onHoverNodeIdChange?.(n.id());
+    const d = evt.target.data();
+    onNodeHover?.(d);
+    onHoverNodeIdChange?.(d.id);
+    scheduleHover(evt.target);
   });
-
   cy.on("mouseout", "node", () => {
-    onNodeHover?.(null);
     onHoverNodeIdChange?.(null);
+    scheduleHover(null);
   });
 
-  // Click/tap
+  // -------- Click / tap ----------
   cy.on("tap", "node", (evt) => {
     const node = evt.target;
-    const data = node.data() || {};
-    const id = data.id || node.id();
-    if (!id) return;
+    const data = node.data();
 
-    const isCluster =
-      data.type === "cluster" ||
-      /^CL\d$/.test(id) ||
-      /^Cluster[_\s]?\d/.test(id);
+    const atRoot = shouldOpenCluster ? !!shouldOpenCluster() : false;
 
-    if (isCluster && typeof onClusterOpen === "function") {
-      onClusterOpen(data);
-      return;
-    }
-
-    const isDestination = data.type === "Destination" || /Destination/i.test(data.category || "");
-    if (isDestination && typeof onDestinationToggle === "function") {
-      onDestinationToggle(cy, id);
-      return;
-    }
-
-    // Default: just emit the id change; your router or detail panel can listen
-    onHoverNodeIdChange?.(id);
-  });
-
-  // Quality-of-life: Shift toggles ALL calls on the current level
-  const keyHandler = (e) => {
-    if (e.key === "Shift") {
-      const calls = cy.nodes('[type = "Call"], [category = "Call"]');
-      const anyHidden = calls.some((n) => n.hasClass("call-hidden"));
-      if (anyHidden) {
-        calls.removeClass("call-hidden").addClass("call-visible");
-        calls.connectedEdges().removeClass("call-hidden").addClass("call-visible");
-      } else {
-        calls.removeClass("call-visible").addClass("call-hidden");
-        calls.connectedEdges().removeClass("call-visible").addClass("call-hidden");
+    // From ROOT: open cluster or SP
+    if (atRoot) {
+      if (data?.type === "cluster" || data?.type === "root") {
+        onClusterOpen?.(data);
+        return;
       }
     }
-  };
-  window.addEventListener("keydown", keyHandler);
-  cy.on("destroy", () => window.removeEventListener("keydown", keyHandler));
+
+    // In cluster views: emphasise selection and optionally reveal calls
+    cy.batch(() => {
+      cy.nodes().removeClass("highlighted faded");
+      cy.edges().removeClass("highlighted faded");
+
+      const neigh = node.closedNeighborhood();
+      const others = cy.elements().not(neigh);
+      neigh.nodes().addClass("highlighted");
+      neigh.edges().addClass("highlighted");
+      others.addClass("faded");
+    });
+
+    // If the node is a Destination, reveal its calls and zoom to the whole graph
+    if ((data?.type === "Destination" || data?.category === "Destination") && onDestinationToggle) {
+      onDestinationToggle(cy, data.id);
+      // ensure calls are fully visible (remove any fading)
+      const callNodes = cy.$("node[category = 'Call'], node[type = 'Call']");
+      callNodes.removeClass("faded").addClass("call-visible");
+      callNodes.connectedEdges().removeClass("faded").addClass("call-visible");
+    }
+
+    // Zoom slightly out so the overall structure is easy to grasp
+    try {
+      cy.animate({ fit: { eles: cy.elements(), padding: 80 }, duration: 320 });
+    } catch {}
+
+    // Default: navigate to details if not in ROOT and not a Destination toggle
+    if (!(data?.type === "Destination" || data?.category === "Destination")) {
+      const id = data?.id;
+      if (id) navigate(`/node/${encodeURIComponent(id)}`, { state: { nodeData: { ...data } } });
+    }
+  });
+
+  // Cursor hints
+  cy.nodes().on("mouseover", () => { try { cy.container().style.cursor = "pointer"; } catch {} });
+  cy.nodes().on("mouseout",  () => { try { cy.container().style.cursor = "default"; } catch {} });
 }

@@ -1,15 +1,23 @@
-﻿// src/components/Legendparts/GraphSelector.js
+﻿// src/components/LegendParts/GraphSelector.js
 
+// Graphs that should use the "cose" variant when selected
 const coseGraphs = new Set([
   "Cluster_2",
   "Cluster_3",
   "Cluster_4",
   "Cluster_5",
-  "Cluster_1_2026",
-  "Cluster_6_2026",
+  "Cluster_1",
+  "Cluster_6",
 ]);
 
+// We now include a "Meta layout" group for ROOT
 const optionGroups = [
+  {
+    label: "Meta layout",
+    options: [
+      { value: "ROOT", label: "Horizon Europe (meta view)" },
+    ],
+  },
   {
     label: "Strategic Plans",
     options: [
@@ -22,41 +30,32 @@ const optionGroups = [
   {
     label: "Clusters - 2026",
     options: [
-      {
-        value: "Cluster_1_2026",
-        label: "Work Programme 2026 - Cluster 1 Health",
-      },
-      {
-        value: "Cluster_6_2026",
-        label: "Work Programme 2026 - Cluster 6 Food, Bioeconomy & Environment",
-      },
-      {
-        value: "Cluster_2",
-        label: "Work Programme 2026 - Culture, Creativity and Inclusive Society",
-      },
-      {
-        value: "Cluster_3",
-        label: "Work Programme 2026 - Civil Security for Society",
-      },
-      {
-        value: "Cluster_4",
-        label: "Work Programme 2026 - Digital, Industry and Space",
-      },
-      {
-        value: "Cluster_5",
-        label: "Work Programme 2026 - Climate, Energy and Mobility",
-      }
+      { value: "Cluster_1", label: "Work Programme 2026 - Cluster 1 Health" },
+      { value: "Cluster_6", label: "Work Programme 2026 - Food, Bioeconomy & Environment" },
+      { value: "Cluster_2", label: "Work Programme 2026 - Culture, Creativity & Inclusive Society" },
+      { value: "Cluster_3", label: "Work Programme 2026 - Civil Security for Society" },
+      { value: "Cluster_4", label: "Work Programme 2026 - Digital, Industry & Space" },
+      { value: "Cluster_5", label: "Work Programme 2026 - Climate, Energy & Mobility" },
     ],
   },
 ];
 
 const GraphSelector = ({ graphName, setGraphName }) => {
+  // the dropdown shows the "clean" graph key (without _cose suffix)
   const cleanGraphName = graphName.replace("_cose", "");
 
   const handleChange = (e) => {
     const selected = e.target.value;
-    const updatedGraphName = coseGraphs.has(selected) ? `${selected}_cose` : selected;
-    setGraphName(updatedGraphName);
+
+    // ROOT and HE_2025 should never get a "_cose" suffix
+    if (selected === "ROOT" || selected === "HE_2025") {
+      setGraphName(selected);
+      return;
+    }
+
+    // clusters may toggle default "cose" layout by suffixing _cose
+    const updated = coseGraphs.has(selected) ? `${selected}_cose` : selected;
+    setGraphName(updated);
   };
 
   return (
