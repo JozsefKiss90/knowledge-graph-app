@@ -1,61 +1,75 @@
-export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover) {
-  cy.on('mouseover', 'node', (event) => {
-    const node = event.target;
-    const nodeData = node.data();
-  
-    // �� Restore the missing callback:
-    if (onNodeHover) onNodeHover(nodeData);
-    if (onHoverNodeIdChange) onHoverNodeIdChange(nodeData.id);
-  
-    const connectedEdges = node.connectedEdges();
-    const connectedNodes = connectedEdges.connectedNodes();
-  
-    const allNodes = connectedNodes.union(node);
-  
-    cy.nodes().not(allNodes).addClass('faded');
-    cy.edges().not(connectedEdges).addClass('faded');
-  
-    allNodes.addClass('highlighted');
-    connectedEdges.addClass('highlighted');
-  });
-  
-  cy.on('mouseout', 'node', () => {
-    if (onHoverNodeIdChange) onHoverNodeIdChange(null);
+// setupEvents.js
 
-    cy.nodes().removeClass('faded highlighted');
-    cy.edges().removeClass('faded highlighted');
+/**
+ * Sets up Cytoscape interactions:
+ *  - hover highlights via callbacks
+ *  - click on cluster => nestedHandlers.onClusterOpen(data)
+ *  - click on destination => nestedHandlers.onDestinationToggle(cy, id)
+ *  - click on anything else => emits hover id change (so external router can handle)
+ *
+ * @param {cytoscape.Core} cy
+ * @param {Object} options
+ * @param {Function} [options.onNodeHover]
+ * @param {Function} [options.onHoverNodeIdChange]
+ * @param {Object}   [options.nestedHandlers]
+ */
+export function setupEvents(cy, { onNodeHover, onHoverNodeIdChange, nestedHandlers } = {}) {
+  const onClusterOpen = nestedHandlers?.onClusterOpen;
+  const onDestinationToggle = nestedHandlers?.onDestinationToggle;
+
+  // Hover
+  cy.on("mouseover", "node", (evt) => {
+    const n = evt.target;
+    onNodeHover?.(n.data());
+    onHoverNodeIdChange?.(n.id());
   });
 
-  cy.on('tap', 'node', (event) => {
-    const node = event.target;
-    const id = node.data('id');
-    const serializedData = { ...node.data() };
-    if (id) {
-      setTimeout(() => {
-        navigate(`/node/${encodeURIComponent(id)}`, {
-          state: { nodeData: serializedData },
-        });
-      }, 100);
-    } else {
-      console.warn('������ Node without valid ID clicked:', node.data());
+  cy.on("mouseout", "node", () => {
+    onNodeHover?.(null);
+    onHoverNodeIdChange?.(null);
+  });
+
+  // Click/tap
+  cy.on("tap", "node", (evt) => {
+    const node = evt.target;
+    const data = node.data() || {};
+    const id = data.id || node.id();
+    if (!id) return;
+
+    const isCluster =
+      data.type === "cluster" ||
+      /^CL\d$/.test(id) ||
+      /^Cluster[_\s]?\d/.test(id);
+
+    if (isCluster && typeof onClusterOpen === "function") {
+      onClusterOpen(data);
+      return;
     }
+
+    const isDestination = data.type === "Destination" || /Destination/i.test(data.category || "");
+    if (isDestination && typeof onDestinationToggle === "function") {
+      onDestinationToggle(cy, id);
+      return;
+    }
+
+    // Default: just emit the id change; your router or detail panel can listen
+    onHoverNodeIdChange?.(id);
   });
 
-   cy.nodes().on('mouseover', (event) => {
-    const node = event.target;
-      cy.userZoomingEnabled(false);
-
-    if (onNodeHover) onNodeHover(node);
-    if (onHoverNodeIdChange) onHoverNodeIdChange(node.id());
-
-    cy.container().style.cursor = 'url("/cursor.ico"), auto';
-  });
-
-  cy.nodes().on('mouseout', () => {
-    cy.container().style.cursor = 'default';
-    if (onHoverNodeIdChange) onHoverNodeIdChange(null);
-    if (onNodeHover) onNodeHover(null);
-      cy.userZoomingEnabled(true);
-
-  });
+  // Quality-of-life: Shift toggles ALL calls on the current level
+  const keyHandler = (e) => {
+    if (e.key === "Shift") {
+      const calls = cy.nodes('[type = "Call"], [category = "Call"]');
+      const anyHidden = calls.some((n) => n.hasClass("call-hidden"));
+      if (anyHidden) {
+        calls.removeClass("call-hidden").addClass("call-visible");
+        calls.connectedEdges().removeClass("call-hidden").addClass("call-visible");
+      } else {
+        calls.removeClass("call-visible").addClass("call-hidden");
+        calls.connectedEdges().removeClass("call-visible").addClass("call-hidden");
+      }
+    }
+  };
+  window.addEventListener("keydown", keyHandler);
+  cy.on("destroy", () => window.removeEventListener("keydown", keyHandler));
 }

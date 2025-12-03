@@ -1,130 +1,138 @@
-﻿// --- Refactored GraphView.js using helper utils ---
+﻿// GraphView.js
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import cytoscape from "cytoscape";
+import coseBilkent from "cytoscape-cose-bilkent"; // <-- register the layout
+cytoscape.use(coseBilkent);
 
-import { useLayoutEffect, useRef, useState, forwardRef, useImperativeHandle, useEffect } from "react";
-import Cytoscape from "cytoscape";
-import dagre from "cytoscape-dagre";
-import coseBilkent from "cytoscape-cose-bilkent";
-import { useNavigate } from "react-router-dom";
-import cyStyle from "../styles/graphStyles";
-import "../styles/graphStyles.scss";
-import { buildElements } from "./utils/buildElements";
-import { layoutConfig } from "./utils/layoutConfig";
+import { stylesheet } from "../styles/graphStyles";
 import { setupEvents } from "./utils/setupEvents";
-import klay from "cytoscape-klay";
-import "../styles/main.scss";
-import { useDarkMode } from "./context/DarkModeContext";
 
-const GraphView = forwardRef((props, ref) => {
-  const {
+/**
+ * Props:
+ *  - graphData: { nodeElements: [], edgeElements: [] }
+ *  - graphName: string
+ *  - layoutOptions: Cytoscape layout options (e.g., { name: 'cose-bilkent', ... })
+ *  - onCyReady(cy), onNodeHover(nodeData), onHoverNodeIdChange(nodeId)
+ *  - nestedHandlers: { onClusterOpen, onDestinationToggle, popLevel }
+ */
+const GraphView = forwardRef(function GraphView(
+  {
     graphData,
-    graphref,
+    graphName,
+    layoutOptions = {name: "cose-bilkent" },
     onCyReady,
     onNodeHover,
     onHoverNodeIdChange,
-    hoveredNodeIdRef,
-    graphName,
-    layoutOptions,
-  } = props;
-
+    nestedHandlers,
+  },
+  ref
+) {
   const containerRef = useRef(null);
-  const [cyInstance, setCyInstance] = useState(null);
-  const navigate = useNavigate();
-  const { darkMode } = useDarkMode();
   const cyRef = useRef(null);
+  const [ready, setReady] = useState(false);
 
-  Cytoscape.use(coseBilkent);
-  Cytoscape.use(dagre);
-  Cytoscape.use(klay);
+  const elements = useMemo(() => {
+    if (!graphData) return [];
+    const nodes = Array.isArray(graphData.nodeElements)
+      ? graphData.nodeElements
+      : graphData.nodes || [];
+    const edges = Array.isArray(graphData.edgeElements)
+      ? graphData.edgeElements
+      : graphData.edges || [];
+    return [...nodes, ...edges];
+  }, [graphData]);
 
   useEffect(() => {
-    if (!cyInstance || !hoveredNodeIdRef) return;
+    if (!containerRef.current) return;
 
-    const interval = setInterval(() => {
-      const hoveredId = hoveredNodeIdRef.current;
-      cyInstance.nodes().forEach((node) => {
-        const showFull = node.id() === hoveredId;
-        node.data("displayLabel", showFull ? node.data("label") : node.data("shortLabel"));
-      });
-      cyInstance.style().update();
-    }, 150);
-
-    return () => clearInterval(interval);
-  }, [cyInstance, hoveredNodeIdRef]);
-
-  useImperativeHandle(ref, () => ({
-    rerunLayout: () => {
-      if (cyRef.current) {
-        cyRef.current.nodes().unlock();
-        const layout = cyRef.current.layout(layoutOptions);
-        layout.run();
-      }
-    },
-  }));
-
-  useLayoutEffect(() => {
-    const hasRequiredData =
-      containerRef.current &&
-      Array.isArray(
-        graphData?.nodes?.nodes ||
-          graphData?.nodes?.data ||
-          graphData?.nodes
-      ) &&
-      Array.isArray(
-        graphData?.rels?.relationships ||
-          graphData?.rels
-      );
-
-    if (!hasRequiredData) {
-      console.warn("Missing graph data:", {
-        containerRefReady: !!containerRef.current,
-        graphNodesReady: Array.isArray(
-          graphData?.nodes?.nodes || graphData?.nodes?.data || graphData?.nodes
-        ),
-        graphRelsReady: Array.isArray(graphData?.rels?.relationships || graphData?.rels),
-      });
-      return;
+    if (cyRef.current) {
+      try {
+        cyRef.current.destroy();
+      } catch {}
+      cyRef.current = null;
     }
 
-    const { nodeElements, edgeElements } = buildElements(graphData);
-    const normalizedGraphName = graphName.replace("_cose", "");
-    const layoutPreset =
-      layoutConfig[graphName] ||
-      layoutConfig[normalizedGraphName] ||
-      layoutOptions; // fallback to user overrides if no preset exists
-
-    const cy = Cytoscape({
+    const cy = cytoscape({
       container: containerRef.current,
-      elements: [...nodeElements, ...edgeElements],
-      style: cyStyle(darkMode),
-      pixelRatio: 2,
-      maxZoom: 3,
-      minZoom: graphName === "HE_2025" ? 0.1 : 0.05,
+      elements,
+      style: stylesheet,
+      wheelSensitivity: 0.2,
+      minZoom: 0.1,
+      maxZoom: 4,
+      selectionType: "single",
+      pixelRatio: 1,
     });
     cyRef.current = cy;
 
-    setCyInstance(cy);
-    if (onCyReady) onCyReady(cy);
-    const layout = cy.layout(layoutPreset);
+    // Run layout (fallback to 'cose' if an unknown layout name sneaks in)
+    const chosen = layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" };
+    let layout;
+    try {
+      layout = cy.layout(chosen);
+    } catch {
+      layout = cy.layout({ name: "cose" });
+    }
 
     layout.on("layoutstop", () => {
       cy.nodes().forEach((n) => n.lock());
-      cy.center();
+      cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 300 });
     });
-
     layout.run();
 
-    setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover);
+    setupEvents(cy, {
+      onNodeHover,
+      onHoverNodeIdChange,
+      nestedHandlers,
+    });
+
+    setReady(true);
+    onCyReady?.(cy);
 
     return () => {
-      cy.destroy();
+      try {
+        cy.destroy();
+      } catch {}
+      cyRef.current = null;
+      setReady(false);
     };
-  }, [graphData, navigate, darkMode, graphName, layoutOptions, onCyReady, onHoverNodeIdChange, onNodeHover]);
+  }, [elements, layoutOptions, onCyReady, onNodeHover, onHoverNodeIdChange, nestedHandlers]);
+
+  useImperativeHandle(ref, () => ({
+    rerunLayout: () => {
+      const cy = cyRef.current;
+      if (!cy) return;
+      cy.nodes().forEach((n) => n.unlock());
+
+      const chosen = layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" };
+      let layout;
+      try {
+        layout = cy.layout(chosen);
+      } catch {
+        layout = cy.layout({ name: "cose" });
+      }
+
+      layout.on("layoutstop", () => {
+        cy.nodes().forEach((n) => n.lock());
+        cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 300 });
+      });
+      layout.run();
+    },
+    getCy: () => cyRef.current,
+  }));
 
   return (
     <div
+      data-graph-name={graphName}
       ref={containerRef}
-      className="graph-container"
-      style={{ width: "100%", height: "100%" }}
+      className="cytoscape_container"
+      style={{ width: "100%", height: "100%", position: "relative", opacity: ready ? 1 : 0 }}
     />
   );
 });
