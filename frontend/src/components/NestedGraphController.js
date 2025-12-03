@@ -1,4 +1,4 @@
-// src/components/NestedGraphController.js
+// NestedGraphController.js
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GraphView from "./GraphView";
 import { buildElements } from "./utils/buildElements";
@@ -42,12 +42,13 @@ export default function NestedGraphController({
     setLevels([{ key: "ROOT", title: "Horizon Europe", graphName: "ROOT", elements: rootEls }]);
   }, [loadFromStore]);
 
+  // IMPORTANT: only rerun layout when the layout *options* change, not when the level changes
   useEffect(() => {
     graphRef.current?.rerunLayout?.();
-  }, [current?.key, layoutOptions]);
+  }, [layoutOptions?.name]); // <- removed current.key; prevents the “second jolt”
 
   const openCluster = useCallback((clusterKey) => {
-    const raw = loadFromStore?.(clusterKey); // preloaded OR derived from HE_2025
+    const raw = loadFromStore?.(clusterKey); // preloaded OR derived
     const elements = raw ? buildElements(raw) : { nodeElements: [], edgeElements: [] };
     setLevels((prev) => [
       ...prev,
@@ -69,13 +70,22 @@ export default function NestedGraphController({
     setLevels((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
   }, []);
 
-  const nestedHandlers = useMemo(() => ({
-    onClusterOpen: (data) => {
-      if (current?.key === "ROOT" && data?.id && data?.id !== "HE_2025") openCluster(data.id);
-    },
-    onDestinationToggle,
-    popLevel,
-  }), [current?.key, openCluster, onDestinationToggle, popLevel]);
+  // Keep handlers stable; no dependency on current.key (avoid identity churn)
+  const nestedHandlers = useMemo(
+    () => ({
+      onClusterOpen: (data) => {
+        // open clusters only from ROOT
+        const id = data?.id;
+        if (!id) return;
+        if (current?.key !== "ROOT") return;
+        openCluster(id);
+      },
+      onDestinationToggle,
+      popLevel,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [openCluster, onDestinationToggle, popLevel] // (not on current.key)
+  );
 
   return (
     <>

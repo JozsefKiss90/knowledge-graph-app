@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import cytoscape from "cytoscape";
-import coseBilkent from "cytoscape-cose-bilkent"; // <-- register the layout
+import coseBilkent from "cytoscape-cose-bilkent";
 cytoscape.use(coseBilkent);
 
 import { stylesheet } from "../styles/graphStyles";
@@ -26,7 +26,7 @@ const GraphView = forwardRef(function GraphView(
   {
     graphData,
     graphName,
-    layoutOptions = {name: "cose-bilkent" },
+    layoutOptions = { name: "cose-bilkent" },
     onCyReady,
     onNodeHover,
     onHoverNodeIdChange,
@@ -37,6 +37,15 @@ const GraphView = forwardRef(function GraphView(
   const containerRef = useRef(null);
   const cyRef = useRef(null);
   const [ready, setReady] = useState(false);
+
+  // keep the latest callbacks in refs so we don't recreate Cytoscape when they change
+  const nhRef = useRef(nestedHandlers);
+  const hoverRef = useRef(onNodeHover);
+  const hoverIdRef = useRef(onHoverNodeIdChange);
+
+  useEffect(() => { nhRef.current = nestedHandlers; }, [nestedHandlers]);
+  useEffect(() => { hoverRef.current = onNodeHover; }, [onNodeHover]);
+  useEffect(() => { hoverIdRef.current = onHoverNodeIdChange; }, [onHoverNodeIdChange]);
 
   const elements = useMemo(() => {
     if (!graphData) return [];
@@ -52,13 +61,13 @@ const GraphView = forwardRef(function GraphView(
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // destroy previous instance
     if (cyRef.current) {
-      try {
-        cyRef.current.destroy();
-      } catch {}
+      try { cyRef.current.destroy(); } catch {}
       cyRef.current = null;
     }
 
+    // create new instance
     const cy = cytoscape({
       container: containerRef.current,
       elements,
@@ -71,38 +80,46 @@ const GraphView = forwardRef(function GraphView(
     });
     cyRef.current = cy;
 
-    // Run layout (fallback to 'cose' if an unknown layout name sneaks in)
-    const chosen = layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" };
+    // stash graph name so event handlers can branch without reinit
+    cy.scratch("graphName", graphName);
+
+    // run layout
     let layout;
     try {
-      layout = cy.layout(chosen);
+      layout = cy.layout(layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" });
     } catch {
       layout = cy.layout({ name: "cose" });
     }
-
     layout.on("layoutstop", () => {
       cy.nodes().forEach((n) => n.lock());
       cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 300 });
     });
     layout.run();
 
+    // stable wrappers that always read the latest refs
+    const stableHandlers = {
+      onClusterOpen: (d) => nhRef.current?.onClusterOpen?.(d),
+      onDestinationToggle: (cyI, id) => nhRef.current?.onDestinationToggle?.(cyI, id),
+      popLevel: () => nhRef.current?.popLevel?.(),
+    };
+
     setupEvents(cy, {
-      onNodeHover,
-      onHoverNodeIdChange,
-      nestedHandlers,
+      onNodeHover: (d) => hoverRef.current?.(d),
+      onHoverNodeIdChange: (id) => hoverIdRef.current?.(id),
+      nestedHandlers: stableHandlers,
     });
 
     setReady(true);
     onCyReady?.(cy);
 
     return () => {
-      try {
-        cy.destroy();
-      } catch {}
+      try { cy.destroy(); } catch {}
       cyRef.current = null;
       setReady(false);
     };
-  }, [elements, layoutOptions, onCyReady, onNodeHover, onHoverNodeIdChange, nestedHandlers]);
+    // NOTE: intentionally NOT depending on nestedHandlers / onNodeHover / onHoverNodeIdChange
+    // to avoid destroying + recreating Cytoscape when those change.
+  }, [elements, layoutOptions, graphName, onCyReady]);
 
   useImperativeHandle(ref, () => ({
     rerunLayout: () => {
@@ -110,10 +127,9 @@ const GraphView = forwardRef(function GraphView(
       if (!cy) return;
       cy.nodes().forEach((n) => n.unlock());
 
-      const chosen = layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" };
       let layout;
       try {
-        layout = cy.layout(chosen);
+        layout = cy.layout(layoutOptions?.name ? layoutOptions : { name: "cose-bilkent" });
       } catch {
         layout = cy.layout({ name: "cose" });
       }
