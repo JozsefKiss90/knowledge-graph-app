@@ -7,16 +7,17 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
   if (!cy || cy.destroyed()) return;
 
   // -------- Hover (throttled) ----------
+  // -------- Hover (throttled) ----------
   let raf = null;
   let pending = null;
 
   const applyHover = (node) => {
     cy.batch(() => {
-      cy.nodes().removeClass("highlighted faded");
-      cy.edges().removeClass("highlighted faded");
+      cy.nodes().removeClass("highlighted faded is-hovered");
 
       if (!node) return;
-
+      node.addClass("is-hovered");
+      
       const neigh = node.closedNeighborhood(); // node + its incident edges + neighbours
       const edges = node.connectedEdges();
       const others = cy.elements().not(neigh);
@@ -37,12 +38,26 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
   };
 
   cy.on("mouseover", "node", (evt) => {
-    const d = evt.target.data();
-    onNodeHover?.(d);
+    const node = evt.target;
+    const d = node.data();
+
+    // Compute rendered + screen positions for the floating card
+    const renderedPos = node.renderedPosition();
+    const rect = cy.container().getBoundingClientRect();
+    const screenPosition = {
+      x: rect.left + renderedPos.x,
+      y: rect.top + renderedPos.y,
+    };
+
+    // Pass enriched data object (old code that only uses d will still work)
+    const enriched = { ...d, __renderPosition: renderedPos, __screenPosition: screenPosition };
+
+    onNodeHover?.(enriched);
     onHoverNodeIdChange?.(d.id);
-    scheduleHover(evt.target);
+    scheduleHover(node);
   });
-  cy.on("mouseout", "node", () => {
+
+   cy.on("mouseout", "node", () => {
     onHoverNodeIdChange?.(null);
     scheduleHover(null);
   });

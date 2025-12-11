@@ -9,9 +9,7 @@ const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => {
 
   return (
     <Box>
-      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
-        Edge Types
-      </Typography>
+
       <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
         {types.map(({ type }) => {
           const classType = type.replace(/\s+/g, '').toLowerCase();

@@ -7,7 +7,10 @@ import { buildElements } from "./utils/buildElements";
 function buildRootElements({ clusterKeys }) {
   const centerId = "ROOT_HE";
   const nodes = [
-    { data: { id: centerId, label: "Horizon Europe", type: "root" }, group: "nodes" },
+    {
+      data: { id: centerId, label: "Horizon Europe", type: "root" },
+      group: "nodes",
+    },
     ...clusterKeys.map((k) => ({
       data: { id: k, label: k.replace(/_/g, " "), type: "cluster" },
       group: "nodes",
@@ -20,6 +23,11 @@ function buildRootElements({ clusterKeys }) {
   return { nodeElements: nodes, edgeElements: edges };
 }
 
+function clearHover(onNodeHover, onHoverNodeIdChange) {
+  onNodeHover?.(null);
+  onHoverNodeIdChange?.(null);
+}
+
 function cleanKey(k) {
   return (k || "").replace("_cose", "");
 }
@@ -30,27 +38,56 @@ export default function NestedGraphController({
   onCyReady,
   onNodeHover,
   onHoverNodeIdChange,
-  loadFromStore,   // (key) => raw or null; "__keys__" -> cluster list
-  onLevelChange,   // (key) => void
-  targetGraphName, // external selection from Graph Filter (may include "_cose")
+  loadFromStore,
+  onLevelChange,
+  targetGraphName,
+  renderLevelBar,
 }) {
   const graphRef = useRef(null);
-  const [levels, setLevels] = useState(() => [
-    { key: "ROOT", title: "Horizon Europe", graphName: "ROOT", elements: { nodeElements: [], edgeElements: [] } },
-  ]);
-  const current = levels[levels.length - 1];
 
-  // Build ROOT once on mount (data is ready before GraphPage renders)
+  const [levels, setLevels] = useState(() => [
+    {
+      key: initialGraphName,
+      title: "Horizon Europe",
+      graphName: initialGraphName,
+      elements: { nodeElements: [], edgeElements: [] },
+    },
+  ]);
+
+  const current = levels[levels.length - 1];
+  const lastAppliedTargetRef = useRef(initialGraphName);
+
+  const handleLevelClick = useCallback(
+  (index) => {
+    setLevels((prev) => {
+      const next = prev.slice(0, index + 1);
+      const key = next[next.length - 1].key;
+      onLevelChange?.(key);
+      lastAppliedTargetRef.current = key;
+      return next;
+    });
+    clearHover(onNodeHover, onHoverNodeIdChange);
+  },
+  [onLevelChange, onNodeHover, onHoverNodeIdChange]
+);
+
+  // Build ROOT once on mount
   useEffect(() => {
     const keys = (loadFromStore?.("__keys__") || []).filter((k) => k !== "HE_2025");
     const rootEls = buildRootElements({ clusterKeys: keys });
-    setLevels([{ key: "ROOT", title: "Horizon Europe", graphName: "ROOT", elements: rootEls }]);
+    setLevels([
+      {
+        key: "ROOT",
+        title: "Horizon Europe",
+        graphName: "ROOT",
+        elements: rootEls,
+      },
+    ]);
     onLevelChange?.("ROOT");
-    // intentionally run once to avoid resetting view on every parent render
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Only re-run layout when layout *options* change
+  // Re-run layout when layout *name* changes
   useEffect(() => {
     graphRef.current?.rerunLayout?.();
   }, [layoutOptions?.name]);
@@ -60,7 +97,8 @@ export default function NestedGraphController({
     const elements = raw ? buildElements(raw) : { nodeElements: [], edgeElements: [] };
     setLevels((prev) => [...prev, { key: "HE_2025", title: "Horizon Europe (SP)", graphName: "HE_2025", elements }]);
     onLevelChange?.("HE_2025");
-  }, [loadFromStore, onLevelChange]);
+    clearHover(onNodeHover, onHoverNodeIdChange);
+  }, [loadFromStore, onLevelChange, onNodeHover, onHoverNodeIdChange]);
 
   const openCluster = useCallback(
     (clusterKey) => {
@@ -71,19 +109,83 @@ export default function NestedGraphController({
         { key: clusterKey, title: clusterKey.replace(/_/g, " "), graphName: clusterKey, elements },
       ]);
       onLevelChange?.(clusterKey);
+      clearHover(onNodeHover, onHoverNodeIdChange);
     },
-    [loadFromStore, onLevelChange]
+    [loadFromStore, onLevelChange, onNodeHover, onHoverNodeIdChange]
   );
 
   const popLevel = useCallback(() => {
     setLevels((prev) => {
       const next = prev.length > 1 ? prev.slice(0, -1) : prev;
-      onLevelChange?.(next[next.length - 1].key);
+      const key = next[next.length - 1].key;
+      onLevelChange?.(key);
+      lastAppliedTargetRef.current = key;
       return next;
     });
-  }, [onLevelChange]);
+    clearHover(onNodeHover, onHoverNodeIdChange);
+  }, [onLevelChange, onNodeHover, onHoverNodeIdChange]);
 
-  // Clicks from ROOT (cluster or root center)
+  /**
+   * NEW: open a Destination layer (Destination + its Calls)
+   * using the current cluster Cytoscape instance.
+   */
+   const openDestinationLayer = useCallback(
+    (cy, destinationId) => {
+      if (!cy) return;
+
+      const atKey = current?.key || "";
+      if (!atKey.startsWith("Cluster_")) return;
+
+      const dest = cy.$id(destinationId);
+      if (!dest || dest.empty()) return;
+
+      // Collect calls via HAS_CALL edges
+      let callEdges = dest.outgoers('edge[type = "HAS_CALL"]').filter("edge");
+      let callNodes = callEdges.targets();
+
+      if (callNodes.length === 0) {
+        const outEdges = dest.outgoers("edge");
+        callNodes = outEdges.targets().filter(
+          "node[type = 'Call'], node[category = 'Call']"
+        );
+        callEdges = outEdges.filter(
+          "edge[type = 'HAS_CALL'], edge[category = 'HAS_CALL']"
+        );
+      }
+
+      if (callNodes.length === 0) return;
+
+      const destData = dest.data();
+      const nodeElements = [
+        { data: { ...destData }, group: "nodes" },
+        ...callNodes.map((n) => ({ data: { ...n.data() }, group: "nodes" })),
+      ];
+      const edgeElements = callEdges.map((e) => ({
+        data: { ...e.data() },
+        group: "edges",
+      }));
+
+      const title =
+        destData.label || destData.name || destData.id || destinationId;
+
+      setLevels((prev) => [
+        ...prev,
+        {
+          key: `DEST_${destData.id || destinationId}`,
+          title,
+          graphName: atKey, // keep cluster graphName
+          elements: { nodeElements, edgeElements },
+        },
+      ]);
+
+      // NEW: always clear hover when entering a destination layer
+      clearHover(onNodeHover, onHoverNodeIdChange);
+    },
+    [current?.key, onNodeHover, onHoverNodeIdChange]
+  );
+
+
+  // Handlers for ROOT / clusters / destination
   const nestedHandlers = useMemo(
     () => ({
       onClusterOpen: (data) => {
@@ -92,43 +194,44 @@ export default function NestedGraphController({
         if (data?.type === "root") openHE();
       },
       onDestinationToggle: (cy, destinationId) => {
-        const dest = cy.$id(destinationId);
-        const calls = dest.outgoers('edge[type = "HAS_CALL"]').targets();
-        const callNodes = calls.length
-          ? calls
-          : dest.outgoers("edge").targets().filter('node[type = "Call"], node[category = "Call"]');
-        callNodes.forEach((n) => n.toggleClass("call-visible").toggleClass("call-hidden"));
-        callNodes.connectedEdges().forEach((e) => e.toggleClass("call-visible").toggleClass("call-hidden"));
+        // Previously this toggled calls *inside* the cluster view.
+        // Now it opens a dedicated destination layer.
+        openDestinationLayer(cy, destinationId);
       },
       popLevel,
     }),
-    [current?.key, openCluster, openHE, popLevel]
+    [current?.key, openCluster, openHE, openDestinationLayer, popLevel]
   );
 
-  // Prevent repeated “apply same target” loops
-  const lastAppliedTargetRef = useRef("ROOT");
-
-  // React when Graph Filter selects a graph (value may include "_cose")
+  // React when Graph Filter selects a graph (ROOT / SP / Cluster)
   useEffect(() => {
     if (!targetGraphName) return;
 
     const target = cleanKey(targetGraphName);
     if (target === lastAppliedTargetRef.current) return;
 
-    // Apply only when the target differs from current stack top
     const at = current?.key;
     lastAppliedTargetRef.current = target;
 
     if (target === "ROOT" && at !== "ROOT") {
-      const keys = (loadFromStore?.("__keys__") || []).filter((k) => k !== "HE_2025");
+      const keys = (loadFromStore?.("__keys__") || []).filter(
+        (k) => k !== "HE_2025"
+      );
       const rootEls = buildRootElements({ clusterKeys: keys });
-      setLevels([{ key: "ROOT", title: "Horizon Europe", graphName: "ROOT", elements: rootEls }]);
+      setLevels([
+        {
+          key: "ROOT",
+          title: "Horizon Europe",
+          graphName: "ROOT",
+          elements: rootEls,
+        },
+      ]);
       onLevelChange?.("ROOT");
       return;
     }
 
     if (target === "HE_2025" && at !== "HE_2025") {
-      setLevels((prev) => [{ ...prev[0] }]); // keep same root 0, then push HE
+      setLevels((prev) => [{ ...prev[0] }]); // keep same root, then push SP
       openHE();
       return;
     }
@@ -140,68 +243,41 @@ export default function NestedGraphController({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetGraphName, current?.key, loadFromStore, openHE, openCluster, onLevelChange]);
 
-  return (
-    <>
-      <div className="graph-breadcrumb" style={breadcrumbStyle}>
-        {levels.map((lvl, i) => {
-          const isActive = i === levels.length - 1;
-          return (
-            <button
-              key={lvl.key}
-              onClick={() => {
-                setLevels((prev) => prev.slice(0, i + 1));
-                onLevelChange?.(levels[i].key);
-                lastAppliedTargetRef.current = levels[i].key;
-              }}
-              style={{ ...crumbStyle, ...(isActive ? crumbActiveStyle : null) }}
-              title={lvl.title}
-            >
-              {lvl.title}
-            </button>
-          );
-        })}
-        {levels.length > 1 && (
-          <button onClick={popLevel} style={upStyle} aria-label="Back one level">
-            ↑
-          </button>
-        )}
-      </div>
+  const levelBar =
+    typeof renderLevelBar === "function"
+      ? renderLevelBar({
+          levels,
+          currentKey: current.key,
+          onLevelClick: handleLevelClick,
+          canGoBack: levels.length > 1,
+          onBack: popLevel,
+        })
+      : null;
 
-      <GraphView
-        ref={graphRef}
-        graphData={current.elements}
-        graphName={current.graphName}
-        layoutOptions={layoutOptions}
-        onCyReady={(cy) => {
-          if (current.key !== "ROOT") cy.nodes('[type = "Call"], [category = "Call"]').addClass("call-hidden");
-          onCyReady?.(cy);
-        }}
-        onNodeHover={onNodeHover}
-        onHoverNodeIdChange={onHoverNodeIdChange}
-        nestedHandlers={nestedHandlers}
-      />
-    </>
+  return (
+    <div className="graph-main-inner">
+      {levelBar}
+      <div className="graph-canvas-wrapper">
+        <GraphView
+          ref={graphRef}
+          graphData={current.elements}
+          graphName={current.graphName}
+          layoutOptions={layoutOptions}
+          onCyReady={(cy) => {
+            // Hide Calls only on *cluster* layers (not ROOT, not destination layers)
+            const key = current.key || "";
+            if (key.startsWith("Cluster_")) {
+              cy.nodes("[type = 'Call'], [category = 'Call']").addClass(
+                "call-hidden"
+              );
+            }
+            onCyReady?.(cy);
+          }}
+          onNodeHover={onNodeHover}
+          onHoverNodeIdChange={onHoverNodeIdChange}
+          nestedHandlers={nestedHandlers}
+        />
+      </div>
+    </div>
   );
 }
-
-// styles
-const breadcrumbStyle = { position: "absolute", top: 12, left: 440, zIndex: 5, display: "flex", gap: 8 };
-const crumbStyle = {
-  border: 0,
-  padding: "6px 10px",
-  borderRadius: 999,
-  background: "rgba(0,0,0,0.35)",
-  color: "#fff",
-  fontWeight: 600,
-  cursor: "pointer",
-};
-const crumbActiveStyle = { background: "rgba(0,0,0,0.6)" };
-const upStyle = {
-  marginLeft: 8,
-  border: 0,
-  padding: "6px 10px",
-  borderRadius: 999,
-  background: "rgba(0,0,0,0.5)",
-  color: "#fff",
-  cursor: "pointer",
-};

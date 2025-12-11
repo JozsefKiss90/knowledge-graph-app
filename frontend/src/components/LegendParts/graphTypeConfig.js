@@ -10,13 +10,15 @@ export const defaultEdgeTypes = {
 
 export const defaultNodeTypes = {
   HE_2025: new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic']),
-  Cluster_4: new Set(['Destination', 'Call']),
-  Cluster_2: new Set(['Destination', 'Call']),
-  Cluster_3: new Set(['Destination', 'Call']),
-  Cluster_1: new Set(['Destination', 'Call']),
-  Cluster_5: new Set(['Destination', 'Call']),
-  Cluster_6: new Set(['Destination', 'Call']),
+  // Cluster views – start with Destination only
+  Cluster_4: new Set(['Destination']),
+  Cluster_2: new Set(['Destination']),
+  Cluster_3: new Set(['Destination']),
+  Cluster_1: new Set(['Destination']),
+  Cluster_5: new Set(['Destination']),
+  Cluster_6: new Set(['Destination']),
 };
+
 
 export const getEdgeTypeList = (graphName) => {
   const clean = graphName.replace("_cose", "");

@@ -7,7 +7,7 @@ import '../../styles/main.scss';
 import { useDarkMode } from '../context/DarkModeContext';
 
 
-const SearchBox = ({ cy }) => {
+const SearchBox = ({ cy, showTitle = true }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { darkMode, setDarkMode } = useDarkMode();
   const handleSearch = () => {
@@ -29,7 +29,11 @@ const SearchBox = ({ cy }) => {
 
   return (
     <Box>
-      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Search Node</Typography>
+      {showTitle && (
+        <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
+          Search Node
+        </Typography>
+      )}
       <TextField
         size="small"
         fullWidth
@@ -50,14 +54,29 @@ const SearchBox = ({ cy }) => {
           }
         }}
       />
-      <Button
+        <Button
         className="search-input"
-        sx={{mt: 1, border:`1px solid ${darkMode} ? white : black`}}
+        sx={{
+          mt: 1,
+          px: 2.5,
+          borderRadius: 2,
+          border: `1px solid ${darkMode ? "#ffffff" : "#000000"}`,
+          backgroundColor: darkMode ? "transparent" : "#000000",
+          color: darkMode ? "#ffffff" : "#ffffff",
+          textTransform: "none",
+          fontWeight: 500,
+          "&:hover": {
+            // invert: text and background swap
+            backgroundColor: darkMode ? "#ffffff" : "transparent",
+            color: darkMode ? "#000000" : "#000000",
+            borderColor: darkMode ? "#ffffff" : "#000000",
+          },
+        }}
         variant="outlined"
         size="medium"
         onClick={handleSearch}
       >
-        Search & Highlight
+        Search &amp; Highlight
       </Button>
     </Box>
   );

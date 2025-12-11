@@ -35,7 +35,7 @@ const GraphView = forwardRef(function GraphView(
   ref
 ) {
   const containerRef = useRef(null);
-  const cyRef = useRef(null);
+  const cyRef = useRef(null); 
   const [ready, setReady] = useState(false);
   const navigate = useNavigate();
 
@@ -61,16 +61,23 @@ const GraphView = forwardRef(function GraphView(
     return [...nodes, ...edges];
   }, [graphData]);
 
-  // only track layout name + fit to avoid churn
+    // only track layout name + fit to avoid churn
   const layoutName = layoutOptions?.name || "cose-bilkent";
-  const layoutFit = layoutOptions?.fit !== false; // default true, matches layoutConfig
+  const layoutFit = layoutOptions?.fit !== false; // default true
+
+  const layoutOptionsRef = useRef(layoutOptions);
+  useEffect(() => {
+    layoutOptionsRef.current = layoutOptions;
+  }, [layoutOptions]);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // kill previous
+    // destroy previous instance if any
     if (cyRef.current) {
-      try { cyRef.current.destroy(); } catch {}
+      try {
+        cyRef.current.destroy();
+      } catch {}
       cyRef.current = null;
     }
 
@@ -86,7 +93,7 @@ const GraphView = forwardRef(function GraphView(
     cyRef.current = cy;
     cy.scratch("graphName", graphName);
 
-    // Fallback styles for commonly toggled classes
+    // basic helper classes
     cy.style()
       .append([
         { selector: ".faded", style: { opacity: 0.15 } },
@@ -96,24 +103,54 @@ const GraphView = forwardRef(function GraphView(
       ])
       .update();
 
-    // Run layout (let layout do the fit if requested)
-    let layout;
-    try {
-      layout = cy.layout({ name: layoutName, fit: layoutFit });
-    } catch {
-      layout = cy.layout({ name: "cose", fit: layoutFit });
-    }
-    layout.on("layoutstop", () => {
-      // lock not strictly needed; leaving nodes free avoids styling issues
-      if (!layoutFit) {
-        // If the preset didn't fit, do a single, gentle fit here
-        cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 250 });
+    // helper to build correct layout config
+    const createLayout = () => {
+      const opts = layoutOptionsRef.current || {};
+      const name = opts.name || layoutName || "cose-bilkent";
+      const fit = opts.fit !== false;
+
+      if (name === "breadthfirst") {
+        let roots;
+        if (graphName.startsWith("Cluster_")) {
+          const rootNodes = cy.nodes(
+            "node[type = 'cluster'], node[category = 'cluster']"
+          );
+          if (rootNodes.length > 0) {
+            roots = rootNodes;
+          }
+        }
+
+        return cy.layout({
+          ...opts,
+          name: "breadthfirst",
+          fit,
+          animate: false,
+          directed: true,
+          padding: 80,
+          spacingFactor: 1.2,
+          circle: false,
+          orientation: "vertical",
+          nodeDimensionsIncludeLabels: true,
+          roots: roots && roots.length > 0 ? roots : undefined,
+        });
       }
+
+      // default: force-directed
+      return cy.layout({
+        ...opts,
+        name,
+        fit,
+        animate: false,
+      });
+    };
+
+    const layout = createLayout();
+    layout.on("layoutstop", () => {
       setReady(true);
     });
     layout.run();
 
-    // Events (stable wrappers read latest refs)
+    // events
     setupEvents(
       cy,
       navigate,
@@ -130,31 +167,65 @@ const GraphView = forwardRef(function GraphView(
     onCyReadyRef.current && onCyReadyRef.current(cy);
 
     return () => {
-      try { cy.destroy(); } catch {}
+      try {
+        cy.destroy();
+      } catch {}
       cyRef.current = null;
       setReady(false);
     };
-  }, [elements, layoutName, layoutFit, graphName, navigate]);
+  // IMPORTANT: do NOT depend on layoutName/layoutFit here
+  }, [elements, graphName, navigate]);
+
 
   useImperativeHandle(ref, () => ({
     rerunLayout: () => {
       const cy = cyRef.current;
       if (!cy) return;
+
+      const opts = layoutOptionsRef.current || {};
+      const name = opts.name || layoutName || "cose-bilkent";
+      const fit = opts.fit !== false;
+
       let layout;
-      try {
-        layout = cy.layout({ name: layoutName, fit: layoutFit });
-      } catch {
-        layout = cy.layout({ name: "cose", fit: layoutFit });
-      }
-      layout.on("layoutstop", () => {
-        if (!layoutFit) {
-          cy.animate({ fit: { eles: cy.elements(), padding: 60 }, duration: 250 });
+
+      if (name === "breadthfirst") {
+        let roots;
+        if (graphName.startsWith("Cluster_")) {
+          const rootNodes = cy.nodes(
+            "node[type = 'cluster'], node[category = 'cluster']"
+          );
+          if (rootNodes.length > 0) {
+            roots = rootNodes;
+          }
         }
-      });
+
+        layout = cy.layout({
+          ...opts,
+          name: "breadthfirst",
+          fit,
+          animate: false,                // no animation on switch
+          directed: true,
+          padding: 80,
+          spacingFactor: 1.2,
+          circle: false,
+          orientation: "vertical",
+          nodeDimensionsIncludeLabels: true,
+          roots: roots && roots.length > 0 ? roots : undefined,
+        });
+      } else {
+        layout = cy.layout({
+          ...opts,
+          name,
+          fit,
+          animate: false,                // no animation on switch
+        });
+      }
+
       layout.run();
     },
     getCy: () => cyRef.current,
   }));
+
 
   return (
     <div

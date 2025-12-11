@@ -1,6 +1,6 @@
 // src/components/GraphPage/SidebarControls.js
 import React from "react";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
@@ -21,41 +21,76 @@ const SidebarControls = ({
   layoutOptions,
   updateOption,
   handleApplyLayout,
-  bookmarksCount, // ← add this
+  bookmarksCount,
 }) => {
-
   const navigate = useNavigate();
 
-  return (
-    <div className="p-0 legend-sidebar d-flex flex-column align-items-center" style={{ width: 60 }}>
-      <IconButton
-        className="icon-button info-glow"
-        size="large"
-        onClick={() => navigate("/about")}
-        title="About this app"
-      >
-        <InfoOutlinedIcon sx={{ width: 50, height: 50 }} className="icon-button svg-glow"/>
-      </IconButton>
-      <IconButton className="icon-button" size="large" onClick={() => setDarkMode((prev) => !prev)} title="Switch light and dark mode">
-        <Brightness4Icon className="info-icon-button" fontSize="large" />
-      </IconButton>
-      <div style={{ position: "relative" }}>
-        <IconButton className="icon-button" size="large" onClick={() => navigate("/bookmarks")}>
-          <BookmarkIcon fontSize="large" />
-          {bookmarksCount > 0 && (
-            <span className="bookmark-badge"> 
-              {bookmarksCount}
-            </span>
-          )}
-        </IconButton>
-      </div>
-      <IconButton className="icon-button" size="large" onClick={() => setDrawerOpen(true)} title="Customize garph layout">
-        <SettingsIcon fontSize="large" />
-      </IconButton>
-      <IconButton className="icon-button" size="large" onClick={() => setIsMessageDrawerOpen(true)} title="Send a message">
-        <EmailIcon fontSize="large" />
-      </IconButton>
+  // Re-usable tooltip props so all tooltips look/animate the same
+  const tooltipProps = {
+    placement: "left",
+    arrow: true,
+    componentsProps: {
+      tooltip: { className: "sidebar-tooltip" },
+      arrow: { className: "sidebar-tooltip-arrow" },
+    },
+  };
 
+  return (
+    <div className="sidebar-controls">
+      <Tooltip {...tooltipProps} title="Help & Documentation">
+        <IconButton
+          className="sidebar-controls-button"
+          onClick={() => navigate("/about")}
+        >
+          <InfoOutlinedIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip {...tooltipProps} title="Switch light / dark mode">
+        <IconButton
+          className="sidebar-controls-button"
+          onClick={() => setDarkMode((prev) => !prev)}
+        >
+          <Brightness4Icon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip {...tooltipProps} title="View bookmarks">
+        <div style={{ position: "relative" }}>
+          <IconButton
+            className="sidebar-controls-button"
+            onClick={() => navigate("/bookmarks")}
+          >
+            <BookmarkIcon fontSize="small" />
+            {bookmarksCount > 0 && (
+              <span className="bookmark-badge">{bookmarksCount}</span>
+            )}
+          </IconButton>
+        </div>
+      </Tooltip>
+
+      <Tooltip {...tooltipProps} title="Send a message">
+        <IconButton
+          className="sidebar-controls-button"
+          onClick={() => setIsMessageDrawerOpen(true)}
+        >
+          <EmailIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      {/* Divider between main tools and settings, as in Figma */}
+      <div className="sidebar-controls-divider" />
+
+      <Tooltip {...tooltipProps} title="Graph layout & settings">
+        <IconButton
+          className="sidebar-controls-button"
+          onClick={() => setDrawerOpen(true)}
+        >
+          <SettingsIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      {/* Drawers stay the same */}
       <MessageDrawer
         anchor="right"
         open={isMessageDrawerOpen}

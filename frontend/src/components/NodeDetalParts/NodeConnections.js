@@ -18,7 +18,6 @@ function formatRelationLabel(relType = "RELATED") {
 }
 
 // Helper: infer a human label (Cluster / Destination / Call / Related)
-// based on the neighbor node id pattern; fall back to relation type.
 function getConnectionLabel(currentId, neighborId, relType) {
   if (!neighborId) return formatRelationLabel(relType);
 
@@ -30,20 +29,14 @@ function getConnectionLabel(currentId, neighborId, relType) {
   if (id.startsWith("cluster2_call_")) return "Call";
 
   // Generic Horizon / cluster patterns
-  // e.g. "CL3", "CL4", ...
   if (/^CL\d$/.test(id)) return "Cluster";
-
-  // e.g. "CL3:effective-management-of-eu-external-borders"
   if (/^CL\d:/.test(id)) return "Destination";
-
-  // e.g. "HORIZON-CL3-2026-01-BM-03", "HORIZON-CL4-2027-04-DATA-03", "HORIZON-HLTH-..."
   if (id.startsWith("HORIZON-CL") || id.startsWith("HORIZON-HLTH-")) return "Call";
 
-  // Fallback: show relation type nicely formatted
   return formatRelationLabel(relType);
 }
 
-const NodeConnections = ({ id, relations, connectedNodes = {} }) => {
+const NodeConnections = ({ id, relations, connectedNodes = {}, bare = false }) => {
   const normalizedRelations = useMemo(
     () => (Array.isArray(relations) ? relations : []),
     [relations]
@@ -73,66 +66,140 @@ const NodeConnections = ({ id, relations, connectedNodes = {} }) => {
     return true;
   });
 
+  // ---------- Figma-style rendering for NodeDetail (bare=true) ----------
+  if (bare) {
+    if (filtered.length === 0) {
+      return <p className="nd-connections-empty">No connections available.</p>;
+    }
+
+    return (
+      <div className="nd-connections-stack">
+        {filtered.map((rel, idx) => {
+          const relType = rel.relation || rel.type || "RELATED";
+          const neighborId = rel.source === id ? rel.target : rel.source;
+          const detail = connectedNodes[neighborId] || {};
+          const itemKey = rel.id || `${rel.source}-${rel.target}-${idx}`;
+
+          const fallbackLabel = (() => {
+            if (!neighborId) return "";
+            const base = neighborId.replace(/[:_]/g, " ");
+            if (
+              neighborId.startsWith("cluster2_") ||
+              neighborId.startsWith("cluster4_")
+            ) {
+              const parts = neighborId.split("_");
+              return parts.slice(2).join(" ").replace(/_/g, " ");
+            }
+            return base;
+          })();
+
+          const displayName = detail.name || fallbackLabel;
+          const tooltip = detail.summary || detail.name || fallbackLabel;
+          const connectionLabel = getConnectionLabel(id, neighborId, relType);
+
+          return (
+            <div key={itemKey} className="nd-connection-box">
+              <div className="nd-connection-box-header">
+                <span className="nd-connection-dot" />
+                <div className="nd-connection-box-text">
+                  <Link
+                    to={`/node/${encodeURIComponent(neighborId)}`}
+                    onClick={() =>
+                      localStorage.setItem(
+                        "graphName",
+                        getGraphNameFromId(neighborId)
+                      )
+                    }
+                    state={detail.id ? { nodeData: detail } : undefined}
+                    title={tooltip}
+                    className="nd-connection-title"
+                  >
+                    {displayName || neighborId}
+                  </Link>
+                  <div className="nd-connection-sub">{connectionLabel}</div>
+                </div>
+              </div>
+              {detail.summary && (
+                <div className="nd-connection-summary">
+                  {detail.summary}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // ---------- Legacy wrapper for other usages ----------
+  const content = (
+    <>
+      {filtered.length === 0 ? (
+        <p className="nd-connections-empty">No connections available.</p>
+      ) : (
+        <ul className="nd-connections-list">
+          {filtered.map((rel, idx) => {
+            const relType = rel.relation || rel.type || "RELATED";
+            const neighborId = rel.source === id ? rel.target : rel.source;
+            const detail = connectedNodes[neighborId] || {};
+            const itemKey = rel.id || `${rel.source}-${rel.target}-${idx}`;
+
+            const fallbackLabel = (() => {
+              if (!neighborId) return "";
+              const base = neighborId.replace(/[:_]/g, " ");
+              if (
+                neighborId.startsWith("cluster2_") ||
+                neighborId.startsWith("cluster4_")
+              ) {
+                const parts = neighborId.split("_");
+                return parts.slice(2).join(" ").replace(/_/g, " ");
+              }
+              return base;
+            })();
+
+            const displayName = detail.name || fallbackLabel;
+            const tooltip = detail.summary || detail.name || fallbackLabel;
+            const connectionLabel = getConnectionLabel(id, neighborId, relType);
+
+            return (
+              <li key={itemKey} className="nd-connection-item">
+                <Badge bg="info" className="nd-connection-badge">
+                  {connectionLabel}
+                </Badge>
+                <div className="nd-connection-content">
+                  <Link
+                    to={`/node/${encodeURIComponent(neighborId)}`}
+                    onClick={() =>
+                      localStorage.setItem(
+                        "graphName",
+                        getGraphNameFromId(neighborId)
+                      )
+                    }
+                    state={detail.id ? { nodeData: detail } : undefined}
+                    title={tooltip}
+                  >
+                    {displayName || neighborId}
+                  </Link>
+                  {detail.summary && (
+                    <small className="nd-connection-summary">
+                      {detail.summary}
+                    </small>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </>
+  );
+
   return (
     <Card className="connections-card">
       <Card.Header>
         <h5>Connections</h5>
       </Card.Header>
-      <Card.Body>
-        {filtered.length === 0 ? (
-          <p>No connections available.</p>
-        ) : (
-          <ul className="connections-list">
-            {filtered.map((rel, idx) => {
-              const relType = rel.relation || rel.type || "RELATED";
-
-              // From the POV of the current node, the "neighbor" is the other end
-              const neighborId = rel.source === id ? rel.target : rel.source;
-              const detail = connectedNodes[neighborId] || {};
-              const itemKey = rel.id || `${rel.source}-${rel.target}-${idx}`;
-
-              const fallbackLabel = (() => {
-                if (!neighborId) return "";
-                const base = neighborId.replace(/[:_]/g, " ");
-                if (neighborId.startsWith("cluster2_") || neighborId.startsWith("cluster4_")) {
-                  const parts = neighborId.split("_");
-                  return parts.slice(2).join(" ").replace(/_/g, " ");
-                }
-                return base;
-              })();
-
-              const displayName = detail.name || fallbackLabel;
-              const tooltip = detail.summary || detail.name || fallbackLabel;
-
-              // NEW: label based on neighbor type instead of raw relation type
-              const connectionLabel = getConnectionLabel(id, neighborId, relType);
-
-              return (
-                <li key={itemKey} className="connection-item">
-                  <Badge bg="info" className="relation-badge">
-                    {connectionLabel}
-                  </Badge>
-                  <div className="connection-content">
-                    <Link
-                      to={`/node/${encodeURIComponent(neighborId)}`}
-                      onClick={() =>
-                        localStorage.setItem("graphName", getGraphNameFromId(neighborId))
-                      }
-                      state={detail.id ? { nodeData: detail } : undefined}
-                      title={tooltip}
-                    >
-                      {displayName || neighborId}
-                    </Link>
-                    {detail.summary && (
-                      <small className="text-muted d-block mt-1">{detail.summary}</small>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </Card.Body>
+      <Card.Body>{content}</Card.Body>
     </Card>
   );
 };

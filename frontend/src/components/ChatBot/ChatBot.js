@@ -6,23 +6,25 @@ import {
   TextField,
   Button,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { useDarkMode } from "../context/DarkModeContext";
 
-const ChatBot = ({}) => {
-
-  const [collapsed, setCollapsed] = useState(false);
-  const [messages, setMessages] = useState([]); // [{ sender: 'user' | 'bot', text }]
+const ChatBot = () => {
+  const [collapsed, setCollapsed] = useState(true);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
   const { darkMode } = useDarkMode();
-  const API_BASE = process.env.REACT_APP_API_URL?.replace(/\/+$/, ''); // remove trailing slashes
+  const API_BASE = process.env.REACT_APP_API_URL?.replace(/\/+$/, '');
+
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
 
@@ -38,9 +40,7 @@ const ChatBot = ({}) => {
     try {
       const res = await fetch(`${API_BASE}/chatbot/query`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: trimmed }),
       });
 
@@ -61,40 +61,79 @@ const ChatBot = ({}) => {
     if (e.key === 'Enter') sendMessage();
   };
 
-return (
-  <Paper
-    elevation={6}
-    sx={{
-      p: 1,
-      bgcolor: darkMode ? '#1e2b35' : '#ffffff',
-      color: darkMode ? '#f0f0f0' : '#000',
-      borderRadius: 2,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    }}
-  >
-    {/* Header with collapse/expand button */}
-    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-      <Typography variant="subtitle1">💬 Chatbot</Typography>
-      <Button
-        size="small"
-        onClick={() => setCollapsed(prev => !prev)}
+  // 💬 Collapsed state: just a floating circular icon
+  if (collapsed) {
+    return (
+      <Box
         sx={{
-          minWidth: 'auto',
-          color: darkMode ? '#f0f0f0' : '#000',
-          '&:hover': {
-            backgroundColor: darkMode ? '#2a3b4d' : '#e0e0e0',
-          },
+          position: 'absolute',
+          bottom: 20,
+          right: 20,
+          zIndex: 1000,
         }}
       >
-        {collapsed ? '⇱' : '⇲'}
-      </Button>
-    </Box>
+        <IconButton
+          onClick={() => setCollapsed(false)}
+          sx={{
+            width: 56,
+            height: 56,
+            borderRadius: '50%',
+            bgcolor: darkMode ? '#4A9EFF' : '#0051A5',
+            boxShadow: 4,
+            '&:hover': {
+              bgcolor: darkMode ? '#3683dd' : '#003f82',
+            },
+          }}
+        >
+          <ChatBubbleOutlineOutlinedIcon sx={{ color: '#fff' }} />
+        </IconButton>
+      </Box>
+    );
+  }
 
-    {/* Conditionally render body */}
-    {!collapsed && (
-      <>
+  // ⬇ Expanded state: current panel as before
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        width: 360,
+        maxHeight: 480,
+        zIndex: 1000,
+      }}
+    >
+      <Paper
+        elevation={6}
+        sx={{
+          p: 1,
+          bgcolor: darkMode ? '#1e2b35' : '#ffffff',
+          color: darkMode ? '#f0f0f0' : '#000',
+          borderRadius: 2,
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* Header with collapse button */}
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+          <Typography variant="subtitle1">💬 Chatbot</Typography>
+          <Button
+            size="small"
+            onClick={() => setCollapsed(true)}
+            sx={{
+              minWidth: 'auto',
+              color: darkMode ? '#f0f0f0' : '#000',
+              '&:hover': {
+                backgroundColor: darkMode ? '#2a3b4d' : '#e0e0e0',
+              },
+            }}
+          >
+            ⇲
+          </Button>
+        </Box>
+
+        {/* Body */}
         <Paper
           elevation={0}
           sx={{
@@ -150,12 +189,11 @@ return (
             sx={{
               '& .MuiInputBase-input::placeholder': {
                 color: 'white',
-                opacity: 1, 
+                opacity: 1,
               },
-              input: { color: 'white' }, 
+              input: { color: 'white' },
             }}
           />
-
           <Button
             variant="contained"
             onClick={sendMessage}
@@ -165,10 +203,9 @@ return (
             Send
           </Button>
         </Box>
-      </>
-    )}
-  </Paper>
-);
-}
+      </Paper>
+    </Box>
+  );
+};
 
 export default ChatBot;

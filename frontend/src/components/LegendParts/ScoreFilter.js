@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import '../../styles/main.scss';
 
-const ScoreFilter = ({ cy }) => {
+const ScoreFilter = ({ cy, showTitle = true }) => {
   const [minScore, setMinScore] = useState(0);
 
   const filterByScore = () => {
@@ -77,7 +77,11 @@ const ScoreFilter = ({ cy }) => {
 
   return (
     <Box sx={{mt:1}}>
-      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">Min Similarity Score</Typography>
+    {showTitle && (
+        <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
+          Min Similarity Score
+        </Typography>
+      )}      
       {cy && (
       <PrettoSlider
         valueLabelDisplay="auto"

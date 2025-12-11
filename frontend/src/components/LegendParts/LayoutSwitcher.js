@@ -15,9 +15,7 @@ const LayoutSwitcher = ({ graphName, setGraphName }) => {
 
   return (
     <Box>
-      <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
-        Layout Mode
-      </Typography>
+   
       <Box sx={{ mt: 1, ml: 1 }}>
         <RadioGroup value={layoutMode} onChange={handleLayoutChange}>
           <FormControlLabel

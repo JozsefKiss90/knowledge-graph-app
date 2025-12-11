@@ -1,10 +1,27 @@
-import { useState } from "react";
-import { Card, Button, Row, Col, Spinner } from "react-bootstrap";
-import GraphHeader from "./GraphHeader";
+// src/components/NodeDetail.js
+import React, { useState, useMemo } from "react";
+import {
+  Box,
+  Button,
+  Chip,
+  Typography,
+  Divider,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import EuroIcon from "@mui/icons-material/Euro";
+import GroupIcon from "@mui/icons-material/Group";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useNavigate } from "react-router-dom";
 import { useDarkMode } from "./context/DarkModeContext";
 import "../styles/nodedetails.scss";
 import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
+
+// --- helpers reused from previous implementation ---------------------------
 
 const labelMap = {
   funding_link: "Funding Link",
@@ -22,54 +39,22 @@ const labelMap = {
   type_of_action: "Type Of Action",
 };
 
-const metaFieldKeys = [
-  "call_id",
-  // "call_type",      // removed
-  // "call_section",   // removed
-  "type_of_action",
-  "status",
-  "deadline_model",
-  "technology_readiness_level",
-];
-
-const fundingFieldKeys = [
-  "min_contribution",
-  "max_contribution",
-  "expected_eu_contribution",
-  "indicative_budget",
-  "indicative_number_of_projects",
-  "max_funded_projects",
-];
-
 const textFieldConfig = [
-  { key: "expected_outcome" },
-  { key: "scope" },
-  { key: "admissibility_conditions" },
-  { key: "eligibility_conditions" },
-  { key: "procedure" },
-  { key: "legal_and_financial_setup" },
-  { key: "exceptional_page_limits" },
+  { key: "expected_outcome", label: "Expected Outcome" },
+  { key: "scope", label: "Scope" },
+  { key: "eligibility_conditions", label: "Eligibility Conditions" },
+  { key: "legal_and_financial_setup", label: "Legal and Financial Setup" },
+  { key: "admissibility_conditions", label: "Admissibility Conditions" },
+  { key: "procedure", label: "Procedure" },
+  { key: "exceptional_page_limits", label: "Exceptional Page Limits" },
 ];
-
-const RESERVED_DETAIL_KEYS = new Set([
-  "id", // we do NOT show raw Id anywhere
-  "name",
-  "type",
-  "opening_date",
-  "deadline",
-  "funding_link",
-  "call_type",
-  "call_section",
-  ...metaFieldKeys,
-  ...fundingFieldKeys,
-  ...textFieldConfig.map((field) => field.key),
-]);
-
 
 function toListItems(value) {
   if (!value) return [];
   if (Array.isArray(value)) {
-    return value.map((item) => (typeof item === "string" ? item.trim() : `${item}`)).filter(Boolean);
+    return value
+      .map((item) => (typeof item === "string" ? item.trim() : `${item}`))
+      .filter(Boolean);
   }
 
   const normalized = String(value)
@@ -82,40 +67,10 @@ function toListItems(value) {
     .map((segment) => segment.replace(/^[\u2022\-\s]+/, "").trim())
     .filter(Boolean);
 
-  if (parts.length > 0) {
-    return parts;
-  }
+  if (parts.length > 0) return parts;
 
   const fallback = normalized.trim();
   return fallback ? [fallback] : [];
-}
-
-function CollapsibleList({ label, items }) {
-  const [open, setOpen] = useState(false);
-  if (!items || items.length === 0) return null;
-
-  return (
-    <div className="collapsible-list">
-      <div className="collapsible-header">
-        <strong>{label}:</strong>
-        <Button
-          variant="outline-secondary"
-          size="sm"
-          onClick={() => setOpen((prev) => !prev)}
-          className="toggle-btn"
-        >
-          {open ? "Hide" : "Show"}
-        </Button>
-      </div>
-      {open && (
-        <ul className="collapsible-items">
-          {items.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
 }
 
 function formatLabel(key) {
@@ -125,7 +80,7 @@ function formatLabel(key) {
 function formatValue(key, value) {
   if (value === null || value === undefined || value === "") return "—";
 
-  // For amounts in millions
+  // “million” amounts
   if (["min_contribution", "max_contribution", "indicative_budget"].includes(key)) {
     const num =
       typeof value === "number"
@@ -158,7 +113,7 @@ function parseMillionFromText(text) {
 }
 
 function computeIndicativeNumberOfProjects(nodeData) {
-  // Prefer backend-provided value if present and numeric
+  // Prefer backend numeric
   if (nodeData.indicative_number_of_projects != null) {
     const val = nodeData.indicative_number_of_projects;
     const num =
@@ -168,7 +123,6 @@ function computeIndicativeNumberOfProjects(nodeData) {
     if (Number.isFinite(num)) return num;
   }
 
-  // New formula: Total Budget (indicative_budget) / Expected EU Contribution
   const totalBudget =
     typeof nodeData.indicative_budget === "number"
       ? nodeData.indicative_budget
@@ -184,183 +138,513 @@ function computeIndicativeNumberOfProjects(nodeData) {
   return Number.isFinite(projects) ? projects : null;
 }
 
+function extractTags(nodeData) {
+  const candidates = nodeData.related_topics || nodeData.tags || nodeData.themes;
+  if (Array.isArray(candidates)) {
+    return candidates.map((t) => String(t)).filter(Boolean).slice(0, 6);
+  }
+  if (typeof candidates === "string") {
+    return candidates
+      .split(/[;,]/)
+      .map((t) => t.trim())
+      .filter(Boolean)
+      .slice(0, 6);
+  }
+  return [];
+}
+
+// crude mapping “Research and Innovation Actions” → “RIA”
+function computeTypeShort(typeOfAction) {
+  if (!typeOfAction) return null;
+  const normalized = typeOfAction.toLowerCase();
+  if (normalized.includes("research and innovation")) return "RIA";
+  if (normalized.includes("innovation action")) return "IA";
+  if (normalized.includes("coordination") && normalized.includes("support"))
+    return "CSA";
+
+  // Fallback: first group of 2–4 capital letters, else first word
+  const m = typeOfAction.match(/\b([A-Z]{2,4})\b/);
+  if (m) return m[1];
+  return typeOfAction.split(" ")[0];
+}
+
+// --- UI helpers -------------------------------------------------------------
+
+const CollapsibleSection = ({ title, defaultOpen = true, children }) => {
+  const [open, setOpen] = useState(defaultOpen);
+
+  if (!children) return null;
+
+  return (
+    <Box className="nd-card">
+      <Box className="nd-card-header nd-card-header--collapsible">
+        <Typography variant="body2" className="nd-card-title nd-muted-label">
+          {title}
+        </Typography>
+        <Button
+          size="small"
+          variant="text"
+          className="nd-card-toggle"
+          onClick={() => setOpen((o) => !o)}
+        >
+          {open ? "Hide" : "Show"}
+        </Button>
+      </Box>
+      {open && <Box className="nd-card-body nd-card-body--text">{children}</Box>}
+    </Box>
+  );
+};
+
+const TextSectionFromField = ({ nodeData, fieldKey, label }) => {
+  const raw = nodeData[fieldKey];
+  if (!raw) return null;
+  const items = toListItems(raw);
+  if (items.length === 0) return null;
+
+  return (
+    <CollapsibleSection title={label || formatLabel(fieldKey)} defaultOpen={fieldKey === "expected_outcome"}>
+      {items.map((item, idx) => (
+        <Typography key={idx} variant="body2" className="nd-paragraph">
+          {item}
+        </Typography>
+      ))}
+    </CollapsibleSection>
+  );
+};
+
+// --- main component ---------------------------------------------------------
+
 function NodeDetail() {
   const { darkMode } = useDarkMode();
   const { id, nodeData, relations, connectedNodes, loading } = useNodeDetail();
+  const navigate = useNavigate();
 
-  if (loading || !nodeData) {
+  const viewModel = useMemo(() => {
+    if (!nodeData) return null;
+
+    const title = nodeData.name || nodeData.label || "Untitled node";
+    const typeOfAction = nodeData.type_of_action || "";
+    const typeShort = computeTypeShort(typeOfAction);
+    const status = (nodeData.status || "").trim();
+    const tags = extractTags(nodeData);
+
+    const minContribution = formatValue("min_contribution", nodeData.min_contribution);
+    const maxContribution = formatValue("max_contribution", nodeData.max_contribution);
+    const totalBudget = formatValue("indicative_budget", nodeData.indicative_budget);
+    const indicativeProjects = computeIndicativeNumberOfProjects(nodeData);
+
+    const trlText =
+      nodeData.technology_readiness_level ||
+      nodeData.trl ||
+      nodeData.technology_readiness ||
+      "";
+
+    const expectedEUContribution = nodeData.expected_eu_contribution;
+    const deadline = nodeData.deadline;
+    const openingDate = nodeData.opening_date;
+    const source = formatValue("source", nodeData.source || "");
+    const callId = nodeData.call_id || nodeData.id;
+
+    const fundingLink = nodeData.funding_link;
+
+    return {
+      title,
+      typeOfAction,
+      typeShort,
+      status,
+      tags,
+      minContribution,
+      maxContribution,
+      totalBudget,
+      indicativeProjects,
+      trlText,
+      expectedEUContribution,
+      deadline,
+      openingDate,
+      source,
+      callId,
+      fundingLink,
+    };
+  }, [nodeData]);
+
+  if (loading || !nodeData || !viewModel) {
     return (
-      <div className="loading-spinner">
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
+      <div className="nd-loading-wrapper">
+        <CircularProgress color="primary" />
       </div>
     );
   }
 
-  const rawStatus = (nodeData.status || "").trim();
-  const isStatusOpen = rawStatus.toLowerCase() === "open";
-  const shouldShowStatus = isStatusOpen; // no line for empty or non-Open
-  const shouldShowDatesAndLink = !rawStatus || isStatusOpen;
+  const {
+    title,
+    typeOfAction,
+    typeShort,
+    status,
+    tags,
+    minContribution,
+    maxContribution,
+    totalBudget,
+    indicativeProjects,
+    trlText,
+    expectedEUContribution,
+    deadline,
+    openingDate,
+    source,
+    callId,
+    fundingLink,
+  } = viewModel;
 
-  const displayableKeys = Object.keys(nodeData).filter(
-    (key) => !RESERVED_DETAIL_KEYS.has(key)
-  );
+  const isStatusOpen = status.toLowerCase() === "open";
 
-  const metaFieldsToShow = metaFieldKeys.filter((key) => {
-    if (!Object.prototype.hasOwnProperty.call(nodeData, key)) return false;
-
-    if (key === "status") {
-      return shouldShowStatus;
+  const handleApplyNow = () => {
+    if (fundingLink) {
+      window.open(fundingLink, "_blank", "noopener,noreferrer");
     }
+  };
 
-    if (key === "deadline_model") {
-      const val = (nodeData.deadline_model || "").trim();
-      // hide deadline_model if empty
-      return val.length > 0;
+  const handleBookmark = () => {
+    if (!nodeData.id) return;
+    const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
+    const exists = stored.find((item) => item.id === nodeData.id);
+    if (!exists) {
+      stored.push({ id: nodeData.id, name: nodeData.name });
+      localStorage.setItem("bookmarkedCalls", JSON.stringify(stored));
+      // eslint-disable-next-line no-alert
+      alert("Call bookmarked!");
+    } else {
+      // eslint-disable-next-line no-alert
+      alert("Already bookmarked.");
     }
-
-    return true;
-  });
-
-  const fundingFieldsToShow = fundingFieldKeys.filter((key) =>
-    key === "indicative_number_of_projects" ||
-    Object.prototype.hasOwnProperty.call(nodeData, key)
-  );
+  };
 
   return (
-    <>
-      <GraphHeader />
-      <div className={`node-detail ${darkMode ? "dark-theme" : "light-theme"}`}>
-        <Row>
-          <Col md={8} className="info-column">
-            <Card className="node-card">
-              <Card.Header>
-                <h4
-                  style={{
-                    color:
-                      nodeData.opening_date && new Date(nodeData.opening_date) <= new Date()
-                        ? "#00ff62"
-                        : "red",
+    <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
+      {/* HEADER BAR */}
+      <header className="nd-header">
+        <Box className="nd-header-left">
+          <Button
+            size="small"
+            variant="text"
+            startIcon={<ArrowBackIcon fontSize="small" />}
+            onClick={() => navigate(-1)}
+            className="nd-back-button"
+          >
+            Back to Graph
+          </Button>
+          <span className="nd-header-divider" />
+          {typeShort && (
+            <Chip label={typeShort} size="small" className="nd-chip nd-chip--kind" />
+          )}
+          {status && (
+            <Chip
+              label={status}
+              size="small"
+              className={`nd-chip nd-chip--status${
+                isStatusOpen ? " nd-chip--status-open" : " nd-chip--status-closed"
+              }`}
+            />
+          )}
+        </Box>
+
+        <Box className="nd-header-right">
+          {fundingLink && (
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<OpenInNewIcon fontSize="small" />}
+              onClick={() => window.open(fundingLink, "_blank", "noopener,noreferrer")}
+            >
+              View in Portal
+            </Button>
+          )}
+          <Button
+            size="small"
+            variant="contained"
+            onClick={handleApplyNow}
+            disabled={!fundingLink}
+          >
+            Apply Now
+          </Button>
+        </Box>
+      </header>
+
+      {/* MAIN CONTENT */}
+      <main className="nd-main">
+        <div className="nd-main-inner">
+          {/* Title & tags */}
+          <Box className="nd-title-block">
+            <Box className="nd-title-dot" />
+              <Box className="nd-title-text">
+                <Typography
+                  variant="h1"
+                  className="nd-title"
+                  sx={{
+                    fontSize: "var(--text-2xl)",
+                    fontWeight: 600,
+                    lineHeight: 1.4,
+                    letterSpacing: "-0.01em",
+                    // optional: truncate if titles are very long
+                    wordBreak: "break-word",
                   }}
                 >
-                  {nodeData.name}
-                </h4>
-              </Card.Header>
-
-              <Card.Body>
-                {shouldShowDatesAndLink && nodeData.opening_date && (
-                  <div className="node-meta-item">
-                    <p>
-                      <strong>Opening Date:</strong>{" "}
-                      <span
-                        style={{
-                          color:
-                            new Date(nodeData.opening_date) <= new Date() ? "#00ff62" : "red",
-                        }}
-                      >
-                        {nodeData.opening_date}
-                      </span>
-                    </p>
-                  </div>
+                  {title}
+                </Typography>
+                {callId && (
+                  <Typography variant="body2" className="nd-call-id">
+                    Call ID: {callId}
+                  </Typography>
                 )}
+              </Box>
+          </Box>
 
-                {shouldShowDatesAndLink && nodeData.deadline && (
-                  <div className="node-meta-item">
-                    <p>
-                      <strong>Deadline:</strong> {nodeData.deadline}
-                    </p>
-                  </div>
-                )}
+          {tags.length > 0 && (
+            <Box className="nd-tags-row">
+              {tags.map((tag) => (
+                <Chip
+                  key={tag}
+                  label={tag}
+                  size="small"
+                  className="nd-tag-chip"
+                  variant="outlined"
+                />
+              ))}
+            </Box>
+          )}
 
-                {metaFieldsToShow.map((key) => {
-                  let value = nodeData[key];
-
-                  // If Call Id is missing, fall back to the node's id
-                  if (key === "call_id" && (value === null || value === undefined || value === "")) {
-                    value = nodeData.id;
-                  }
-
-                  return (
-                    <div key={key} className="node-meta-item">
-                      <p>
-                        <strong>{formatLabel(key)}:</strong> {formatValue(key, value)}
-                      </p>
+          {/* Grid: main (2 columns) + sidebar */}
+          <div className="nd-grid">
+            {/* LEFT: main column */}
+            <div className="nd-main-column">
+              {/* Key Information */}
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography
+                    variant="body2"
+                    className="nd-card-title nd-muted-label"
+                  >
+                    Key Information
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body">
+                  <div className="nd-metrics-grid">
+                    <div className="nd-metric">
+                      <div className="nd-metric-label">
+                        <EuroIcon fontSize="small" className="nd-metric-icon" />
+                        <span>Min Contribution</span>
+                      </div>
+                      <div className="nd-metric-value">{minContribution}</div>
                     </div>
-                  );
-                })}
 
-                {fundingFieldsToShow.length > 0 && (
-                  <div className="node-meta-item">
-                    {fundingFieldsToShow.map((key) => {
-                      let value = nodeData[key];
-
-                      if (key === "indicative_number_of_projects") {
-                        const computed = computeIndicativeNumberOfProjects(nodeData);
-                        value = computed != null ? computed : value;
-                      }
-
-                      return (
-                        <p key={key}>
-                          <strong>{formatLabel(key)}:</strong> {formatValue(key, value)}
-                        </p>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {textFieldConfig.map(({ key, label }) => {
-                  const value = nodeData[key];
-                  if (!value) return null;
-                  const items = toListItems(value);
-                  if (items.length === 0) return null;
-
-                  return (
-                    <div key={key} className="node-meta-item">
-                      <CollapsibleList label={label || formatLabel(key)} items={items} />
+                    <div className="nd-metric">
+                      <div className="nd-metric-label">
+                        <EuroIcon fontSize="small" className="nd-metric-icon" />
+                        <span>Max Contribution</span>
+                      </div>
+                      <div className="nd-metric-value">{maxContribution}</div>
                     </div>
-                  );
-                })}
 
-                {displayableKeys.map((key) => (
-                  <div key={key} className="node-meta-item">
-                    <p>
-                      <strong>{formatLabel(key)}:</strong> {formatValue(key, nodeData[key])}
-                    </p>
+                    <div className="nd-metric">
+                      <div className="nd-metric-label">
+                        <EuroIcon fontSize="small" className="nd-metric-icon" />
+                        <span>Total Budget</span>
+                      </div>
+                      <div className="nd-metric-value">{totalBudget}</div>
+                    </div>
+
+                    <div className="nd-metric">
+                      <div className="nd-metric-label">
+                        <GroupIcon fontSize="small" className="nd-metric-icon" />
+                        <span>Indicative Projects</span>
+                      </div>
+                      <div className="nd-metric-value">
+                        {indicativeProjects != null
+                          ? indicativeProjects.toLocaleString()
+                          : "—"}
+                      </div>
+                    </div>
+
+                    {typeOfAction && (
+                      <div className="nd-metric nd-metric--full">
+                        <div className="nd-metric-label">
+                          <InfoOutlinedIcon fontSize="small" className="nd-metric-icon" />
+                          <span>Type of Action</span>
+                        </div>
+                        <div className="nd-metric-value nd-metric-value--small">
+                          {typeOfAction}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {expectedEUContribution && (
+                      <div className="nd-metric nd-metric--full">
+                        <div className="nd-metric-label">
+                          <EuroIcon fontSize="small" className="nd-metric-icon" />
+                          <span>Expected EU Contribution</span>
+                        </div>
+                        <div className="nd-metric-value nd-metric-value--small">
+                          {expectedEUContribution}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                ))}
+                </Box>
+              </Box>
 
-                {(id.startsWith("cluster2_call_") || id.startsWith("cluster4_call_")) && (
-                  <div className="node-meta-item">
-                    <Button
-                      variant="primary"
-                      style={{ fontWeight: "bold" }}
-                      onClick={() => {
-                        const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
-                        const exists = stored.find((item) => item.id === nodeData.id);
-                        if (!exists) {
-                          stored.push({ id: nodeData.id, name: nodeData.name });
-                          localStorage.setItem("bookmarkedCalls", JSON.stringify(stored));
-                          alert("Call bookmarked!");
-                        } else {
-                          alert("Already bookmarked.");
-                        }
-                      }}
+              {/* TRL */}
+              {trlText && (
+                <Box className="nd-card">
+                  <Box className="nd-card-header">
+                    <Typography
+                      variant="body2"
+                      className="nd-card-title nd-muted-label"
                     >
-                      Bookmark this Call
-                    </Button>
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
+                      Technology Readiness Level
+                    </Typography>
+                  </Box>
+                  <Box className="nd-card-body nd-card-body--text">
+                    <Typography variant="body2" className="nd-paragraph">
+                      {trlText}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
 
-          <Col md={4} className="connections-column">
-            <NodeConnections id={id} relations={relations} connectedNodes={connectedNodes} />
-          </Col>
-        </Row>
-      </div>
-    </>
+
+              {/* Text sections (Expected Outcome, Scope, etc.) */}
+              {textFieldConfig.map(({ key, label }) => (
+                <TextSectionFromField
+                  key={key}
+                  nodeData={nodeData}
+                  fieldKey={key}
+                  label={label}
+                />
+              ))}
+            </div>
+
+            {/* RIGHT: sidebar */}
+            <aside className="nd-sidebar">
+              {/* Timeline */}
+              {(openingDate || deadline) && (
+                <Box className="nd-card">
+                  <Box className="nd-card-header">
+                    <Typography
+                      variant="body2"
+                      className="nd-card-title nd-muted-label"
+                    >
+                      Timeline
+                    </Typography>
+                  </Box>
+                  <Box className="nd-card-body">
+                    {openingDate && (
+                      <Box className="nd-timeline-row">
+                        <CalendarTodayIcon
+                          fontSize="small"
+                          className="nd-timeline-icon"
+                        />
+                        <Box>
+                          <Typography variant="body2">Opening Date</Typography>
+                          <Typography
+                            variant="caption"
+                            className="nd-muted-text"
+                          >
+                            {openingDate}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )}
+                    {deadline && (
+                      <Box className="nd-timeline-row">
+                        <CalendarTodayIcon
+                          fontSize="small"
+                          className="nd-timeline-icon"
+                        />
+                        <Box>
+                          <Typography variant="body2">
+                            Application Deadline
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            className="nd-muted-text"
+                          >
+                            {deadline}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              )}
+
+              {/* Connections – reuse existing component */}
+              <Box className="nd-card">
+                <Box className="nd-card-header nd-card-header--with-icon">
+                  <Typography
+                    variant="body2"
+                    className="nd-card-title nd-muted-label"
+                  >
+                    Connections
+                  </Typography>
+                  <InfoOutlinedIcon
+                    fontSize="small"
+                    className="nd-card-header-icon"
+                  />
+                </Box>
+                <Box className="nd-card-body nd-card-body--connections">
+                  <NodeConnections
+                    id={id}
+                    relations={relations}
+                    connectedNodes={connectedNodes}
+                    bare
+                  />
+                </Box>
+              </Box>
+
+              {/* Source */}
+              {source && source !== "—" && (
+                <Box className="nd-card">
+                  <Box className="nd-card-header">
+                    <Typography
+                      variant="body2"
+                      className="nd-card-title nd-muted-label"
+                    >
+                      Source
+                    </Typography>
+                  </Box>
+                  <Box className="nd-card-body nd-card-body--row">
+                    <InfoOutlinedIcon
+                      fontSize="small"
+                      className="nd-timeline-icon"
+                    />
+                    <Typography variant="body2">{source}</Typography>
+                  </Box>
+                </Box>
+              )}
+
+              {/* Actions / Bookmark */}
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography
+                    variant="body2"
+                    className="nd-card-title nd-muted-label"
+                  >
+                    Actions
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-actions">
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={handleBookmark}
+                  >
+                    Bookmark this Call
+                  </Button>
+                </Box>
+              </Box>
+            </aside>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
 

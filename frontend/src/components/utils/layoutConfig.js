@@ -39,7 +39,21 @@ const HE_2025_PRESET = {
   tilingPaddingHorizontal: 10,
 };
 
-export const layoutConfig = {
-  DEFAULT: UNIFORM_DEFAULT, // ROOT + all clusters
-  HE_2025: HE_2025_PRESET,  // Strategic Plan (isolated)
+const TREE_DEFAULT = {
+  name: "breadthfirst",
+  fit: true,
+  directed: true,
+  padding: 80,
+  spacingFactor: 1.1,
+  avoidOverlap: true,
+  animate: "end",
+  animationDuration: 400,
+  nodeDimensionsIncludeLabels: true,
 };
+
+export const layoutConfig = {
+  DEFAULT: UNIFORM_DEFAULT,      // force-directed for ROOT + clusters
+  DEFAULT_TREE: TREE_DEFAULT,    // hierarchical/tree for all non-HE_2025 graphs
+  HE_2025: HE_2025_PRESET,       // Strategic Plan (single layout)
+};
+

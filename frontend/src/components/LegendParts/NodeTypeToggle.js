@@ -7,9 +7,7 @@ import '../../styles/main.scss';
 const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
 
   <Box>
-    <Typography className="legend-titles" variant="subtitle1" fontWeight="bold">
-      Node Types
-    </Typography>
+   
     <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
       {types.map(({ type }) => {
         if (!visibleTypes || !types) return null;

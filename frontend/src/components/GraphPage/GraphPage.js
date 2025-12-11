@@ -10,10 +10,15 @@ import "../../styles/main.scss";
 import { useGraphData } from "./useGraphData";
 import SidebarControls from "./SidebarControls";
 import LegendToggle from "../LegendToggle";
-import { IconButton, Box } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ChatBot from "../ChatBot/ChatBot";
 import { layoutConfig } from "../utils/layoutConfig";
+import GraphStatusBar from "./GraphStatusBar";
+import GraphTopBar from "./GraphTopBar";
+import { IconButton } from "@mui/material";
+import HoveredNodeInfo from "./HoveredNodeInfo"
+import { getClusterConfigForId } from "../NodeDetalParts/useNodeDetail";
+import GraphHeader from "../GraphHeader";
 
 function GraphPage() {
   const { ready, graphName, setGraphName, loadFromStore } = useGraphData();
@@ -23,26 +28,142 @@ function GraphPage() {
   const [isLegendCollapsed, setIsLegendCollapsed] = useState(false);
   const [isMessageDrawerOpen, setIsMessageDrawerOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [graphStats, setGraphStats] = useState({ nodes: 0, edges: 0 });
   const { layoutOptions: userLayout, updateOption } = useLayoutOptions();
   const [bookmarksCount, setBookmarksCount] = useState(0);
-  const [showChatbot, setShowChatbot] = useState(true);
+  const [hoveredNode, setHoveredNode] = useState(null);
+
+    // Clear hover card when the active graph / layer changes
+  useEffect(() => {
+    hoveredNodeRef.current = null;
+    setHoveredNode(null);
+  }, [graphName]);
+
+
+    useEffect(() => {
+    let lastHoveredId = null;
+    let cancelled = false;
+
+    const hydrateHoveredNode = async (node) => {
+      if (!node) {
+        setHoveredNode(null);
+        return;
+      }
+
+      // Always show the basic node immediately
+      setHoveredNode(node);
+
+      // Only hydrate Calls (Destination / others never hit the WP API)
+      const isCall =
+        node.type === "Call" || node.category === "Call";
+
+      if (!isCall) return;
+
+      try {
+        const config = getClusterConfigForId(node.id);
+        if (!config) return;
+
+        const endpoint = config.buildNodeEndpoint(node.id);
+        const res = await fetch(endpoint);
+        if (!res.ok) {
+          console.error(
+            "Failed to hydrate hovered Call node:",
+            node.id,
+            res.status
+          );
+          return;
+        }
+
+        const detail = await res.json();
+
+        // Only update if we’re still looking at the same node
+        if (!cancelled && node.id === lastHoveredId) {
+          setHoveredNode({ ...node, ...detail });
+        }
+      } catch (err) {
+        console.error("Error hydrating hovered Call node:", err);
+      }
+    };
+
+    const interval = setInterval(() => {
+      const current = hoveredNodeRef.current;
+
+      if (!current || !current.id) {
+        if (lastHoveredId !== null) {
+          lastHoveredId = null;
+          setHoveredNode(null);
+        }
+        return;
+      }
+
+      if (current.id !== lastHoveredId) {
+        lastHoveredId = current.id;
+        hydrateHoveredNode(current);
+      }
+    }, 120); // small polling interval while hovering
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [hoveredNodeRef]);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
     setBookmarksCount(stored.length);
   }, []);
 
-  // merge presets (DEFAULT for ROOT/clusters; HE_2025 for SP) with user overrides
-  const base = graphName === "HE_2025" ? layoutConfig.HE_2025 : layoutConfig.DEFAULT;
-  const effectiveLayout = { ...base, ...userLayout, name: userLayout?.name || base?.name || "cose-bilkent" };
+  const isTreeLayout = userLayout?.name === "breadthfirst";
+
+  const base =
+    graphName === "HE_2025"
+      ? layoutConfig.HE_2025
+      : isTreeLayout
+      ? layoutConfig.DEFAULT_TREE
+      : layoutConfig.DEFAULT;
+
+  const effectiveLayout = {
+    ...base,
+    ...userLayout,
+    // keep whichever layout name is active
+    name: userLayout?.name || base?.name || "cose-bilkent",
+  };
 
   // smooth zoom when legend collapses/expands
   useEffect(() => {
     if (!cyInstance || cyInstance.destroyed()) return;
     const targetZoom = isLegendCollapsed ? 0.9 : 0.7;
-    cyInstance.animate({ zoom: targetZoom, center: { eles: cyInstance.nodes() }, duration: 300 });
+    cyInstance.animate({
+      zoom: targetZoom,
+      center: { eles: cyInstance.nodes() },
+      duration: 300,
+    });
   }, [isLegendCollapsed, cyInstance]);
 
+  // ✅ keep node / edge counts in sync with the current Cytoscape instance
+  useEffect(() => {
+    if (!cyInstance || cyInstance.destroyed()) return;
+
+    const updateStats = () => {
+      setGraphStats({
+        nodes: cyInstance.nodes().length,
+        edges: cyInstance.edges().length,
+      });
+    };
+
+    updateStats();
+    cyInstance.on("add remove", updateStats);
+
+    return () => {
+      try {
+        cyInstance.off("add remove", updateStats);
+      } catch {
+        /* ignore */
+      }
+    };
+  }, [cyInstance]);
+
+  // ⬇️ after all hooks, you can safely early-return
   if (!ready) {
     return (
       <div className="d-flex align-items-center justify-content-center h-100">
@@ -51,10 +172,51 @@ function GraphPage() {
     );
   }
 
+  const layoutLabel =
+  effectiveLayout.name === "breadthfirst"
+    ? "Hierarchical Layout"
+    : "Force-Directed Layout";
+
+    const handleResetView = () => {
+    if (!cyInstance || cyInstance.destroyed()) return;
+    cyInstance.elements().show();
+    cyInstance.nodes().removeClass("faded highlighted");
+    cyInstance.edges().removeClass("faded");
+    cyInstance.nodes().unselect();
+    cyInstance.fit({ padding: 60 });
+  };
+
+  const handleFitView = () => {
+    if (!cyInstance || cyInstance.destroyed()) return;
+    try {
+      cyInstance.animate({
+        fit: { eles: cyInstance.elements(), padding: 60 },
+        duration: 300,
+      });
+    } catch {
+      cyInstance.fit({ padding: 60 });
+    }
+  };
+
   return (
     <CyContext.Provider value={cyInstance}>
-      <Container fluid className="vh-100 d-flex flex-column p-0 overflow-hidden graph-container">
-        <Row className="flex-grow-1 w-100 g-0 legend-titles" style={{ flexWrap: "nowrap" }}>
+    <div className="graph-shell">
+    <div className="graph-app-header">
+        <div className="graph-app-logo">
+          <span className="graph-app-logo-mark">⨉</span>
+        </div>
+        <div className="graph-app-header-text">
+          <div className="graph-app-title">EU Research Knowledge Graph</div>
+          <div className="graph-app-subtitle">
+            Horizon Europe Strategic Planning Analytics
+          </div>
+        </div>
+      </div>
+    <Container
+      fluid
+      className="flex-grow-1 d-flex flex-column p-0 overflow-hidden graph-container"
+    >        
+      <Row className="flex-grow-1 w-100 g-0 legend-titles" style={{ flexWrap: "nowrap" }}>
           {/* LEFT SIDEBAR */}
           <Col
             xs="auto"
@@ -65,11 +227,17 @@ function GraphPage() {
               position: "relative",
             }}
           >
-            {isLegendCollapsed ? (
-              <div className="d-flex flex-column align-items-center justify-content-start pt-2">
-                <IconButton onClick={() => setIsLegendCollapsed(false)} size="large" title="Expand Legend">
-                  <ArrowCircleRightIcon style={{ color: "white" }} fontSize="large" />
-                </IconButton>
+           {isLegendCollapsed ? (
+              <div className="legend-collapsed-shell">
+                <button
+                  type="button"
+                  className="legend-collapsed-toggle"
+                  title="Expand filters & controls"
+                  onClick={() => setIsLegendCollapsed(false)}
+                >
+                  <span className="legend-collapsed-icon">▸</span>
+                  <span className="legend-collapsed-label">Filters</span>
+                </button>
               </div>
             ) : (
               <LegendToggle
@@ -80,32 +248,8 @@ function GraphPage() {
               />
             )}
           </Col>
-
           {/* MAIN GRAPH PANEL */}
           <Col className="d-flex flex-column p-0 overflow-hidden">
-            {/* Chatbot bottom-right with toggle button */}
-            {showChatbot ? (
-              <Box sx={{ position: "absolute", bottom: 20, right: 20, width: 360, maxHeight: 480, zIndex: 1000 }}>
-                <ChatBot onClose={() => setShowChatbot(false)} />
-              </Box>
-            ) : (
-              <IconButton
-                onClick={() => setShowChatbot(true)}
-                sx={{
-                  position: "absolute",
-                  bottom: 20,
-                  right: 20,
-                  zIndex: 1000,
-                  bgcolor: "white",
-                  boxShadow: 3,
-                  "&:hover": { bgcolor: "#f0f0f0" },
-                }}
-                title="Open chat"
-              >
-                💬
-              </IconButton>
-            )}
-
             <NestedGraphController
               initialGraphName="ROOT"
               layoutOptions={effectiveLayout}
@@ -115,11 +259,69 @@ function GraphPage() {
                 hoveredNodeRef.current = node || null;
               }}
               onHoverNodeIdChange={() => {}}
-              onLevelChange={(key) => setGraphName(key)}   // keep filter synced
-              targetGraphName={graphName}                  // react when filter changes
+              onLevelChange={(key) => {
+                setGraphName(key);
+                hoveredNodeRef.current = null;
+                setHoveredNode(null);
+              }}
+              targetGraphName={graphName}
+              renderLevelBar={({
+                levels,
+                currentKey,
+                onLevelClick,
+                canGoBack,
+                onBack,
+              }) => {
+                // Only enable layout switching on cluster / destination layers
+                const isClusterLayer = currentKey.startsWith("Cluster_");
+                const isDestinationLayer = currentKey.startsWith("DEST_");
+                const layoutSwitchVisible =
+                  (isClusterLayer || isDestinationLayer) && graphName !== "HE_2025";
+
+                const layoutMode =
+                  effectiveLayout.name === "breadthfirst" ? "tree" : "force";
+
+                return (
+                  <GraphTopBar
+                    levels={levels}
+                    currentKey={currentKey}
+                    onLevelClick={onLevelClick}
+                    canGoBack={canGoBack}
+                    onBack={onBack}
+                    onResetView={handleResetView}
+                    onFitView={handleFitView}
+                    layoutMode={layoutMode}
+                    layoutSwitchVisible={layoutSwitchVisible}
+                    onLayoutModeChange={(mode) => {
+                      if (!layoutSwitchVisible) return;
+                      const nextName =
+                        mode === "tree" ? "breadthfirst" : "cose-bilkent";
+                      updateOption("name", nextName);
+                    }}
+                  />
+                );
+              }}
+            />
+            <div className="graph-main">
+              {/* Chatbot bottom-right with toggle button */}
+              <ChatBot />
+              <HoveredNodeInfo
+                  node={hoveredNode}
+                  onClose={() => {
+                     hoveredNodeRef.current = null;
+                     setHoveredNode(null);
+                  }}
+              />
+
+            </div>
+
+            {/* STATUS BAR AT BOTTOM */}
+            <GraphStatusBar
+              nodes={graphStats.nodes}
+              edges={graphStats.edges}
+              layoutLabel={layoutLabel}
             />
           </Col>
-
           {/* RIGHT ICONS PANEL */}
           <Col xs="auto">
             <SidebarControls
@@ -135,8 +337,10 @@ function GraphPage() {
               bookmarksCount={bookmarksCount}
             />
           </Col>
+                
         </Row>
       </Container>
+      </div>
     </CyContext.Provider>
   );
 }
