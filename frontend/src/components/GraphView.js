@@ -38,17 +38,20 @@ const GraphView = forwardRef(function GraphView(
   const cyRef = useRef(null); 
   const [ready, setReady] = useState(false);
   const navigate = useNavigate();
-
-  // latest callbacks (no re-init on parent re-renders)
+    // only track layout name + fit to avoid churn
+  const layoutName = layoutOptions?.name || "cose-bilkent";
+  const layoutFit = layoutOptions?.fit !== false; // default true
+  
   const nhRef = useRef(nestedHandlers);
   const hoverRef = useRef(onNodeHover);
   const hoverIdRef = useRef(onHoverNodeIdChange);
   const onCyReadyRef = useRef(onCyReady);
+  const lastLayoutNameRef = useRef("cose-bilkent"); 
+
   useEffect(() => { nhRef.current = nestedHandlers; }, [nestedHandlers]);
   useEffect(() => { hoverRef.current = onNodeHover; }, [onNodeHover]);
   useEffect(() => { hoverIdRef.current = onHoverNodeIdChange; }, [onHoverNodeIdChange]);
   useEffect(() => { onCyReadyRef.current = onCyReady; }, [onCyReady]);
-
   // flatten elements once per graphData identity
   const elements = useMemo(() => {
     if (!graphData) return [];
@@ -60,10 +63,6 @@ const GraphView = forwardRef(function GraphView(
       : graphData.edges || graphData.Edges || [];
     return [...nodes, ...edges];
   }, [graphData]);
-
-    // only track layout name + fit to avoid churn
-  const layoutName = layoutOptions?.name || "cose-bilkent";
-  const layoutFit = layoutOptions?.fit !== false; // default true
 
   const layoutOptionsRef = useRef(layoutOptions);
   useEffect(() => {
@@ -135,12 +134,22 @@ const GraphView = forwardRef(function GraphView(
         });
       }
 
-      // default: force-directed
+            // default: force-directed
+      const isClusterLayer = graphName.startsWith("Cluster_");
+
       return cy.layout({
         ...opts,
         name,
         fit,
         animate: false,
+        // important: break out of any previous collinear geometry,
+        // especially when coming back from the tree layout
+        randomize:
+          typeof opts.randomize === "boolean"
+            ? opts.randomize
+            : isClusterLayer
+            ? true
+            : false,
       });
     };
 
@@ -149,6 +158,14 @@ const GraphView = forwardRef(function GraphView(
       setReady(true);
     });
     layout.run();
+
+    // NEW: ensure the view is refitted without animation
+    const opts = layoutOptionsRef.current || {};
+    const fit = opts.fit !== false;
+    if (fit) {
+      cy.fit(cy.elements(), 80); // padding can be tuned
+    }
+
 
     // events
     setupEvents(
@@ -182,50 +199,66 @@ const GraphView = forwardRef(function GraphView(
       const cy = cyRef.current;
       if (!cy) return;
 
+      const prevName = lastLayoutNameRef.current;   // <- capture previous layout first
+
       const opts = layoutOptionsRef.current || {};
-      const name = opts.name || layoutName || "cose-bilkent";
+      const name = opts.name || "cose-bilkent";
       const fit = opts.fit !== false;
 
-      let layout;
-
-      if (name === "breadthfirst") {
-        let roots;
-        if (graphName.startsWith("Cluster_")) {
-          const rootNodes = cy.nodes(
-            "node[type = 'cluster'], node[category = 'cluster']"
-          );
-          if (rootNodes.length > 0) {
-            roots = rootNodes;
-          }
+      const isClusterLayer = graphName.startsWith("Cluster_");
+      const comingFromTree = isClusterLayer && prevName === "breadthfirst" && name !== "breadthfirst";
+      
+      if (isClusterLayer && comingFromTree) {
+        const root = cy.nodes("node[type = 'cluster'], node[category = 'cluster']").first();
+        if (root && root.nonempty()) {
+          // place root higher to bias a 2D spread
+          root.position({ x: 0, y: -200 });
         }
+      }
 
-        layout = cy.layout({
-          ...opts,
-          name: "breadthfirst",
-          fit,
-          animate: false,                // no animation on switch
-          directed: true,
-          padding: 80,
-          spacingFactor: 1.2,
-          circle: false,
-          orientation: "vertical",
-          nodeDimensionsIncludeLabels: true,
-          roots: roots && roots.length > 0 ? roots : undefined,
-        });
-      } else {
-        layout = cy.layout({
-          ...opts,
-          name,
-          fit,
-          animate: false,                // no animation on switch
+      if (comingFromTree) {
+        cy.batch(() => {
+          const w = cy.width() || 1000;
+          const h = cy.height() || 800;
+          cy.nodes().forEach((n) => {
+            n.position({
+              x: (Math.random() - 0.5) * w * 0.6,
+              y: (Math.random() - 0.5) * h * 0.6,
+            });
+          });
         });
       }
 
-      layout.run();
-    },
-    getCy: () => cyRef.current,
-  }));
+    const layout =
+      name === "breadthfirst"
+        ? cy.layout({
+            ...opts,
+            name: "breadthfirst",
+            fit,
+            animate: false,
+            directed: true,
+            padding: 80,
+            spacingFactor: 1.2,
+            circle: false,
+            orientation: "vertical",
+            nodeDimensionsIncludeLabels: true,
+          })
+        : cy.layout({
+            ...opts,
+            name,
+            fit,
+            animate: false,
+            // override config’s randomize:false ONLY when coming from tree on clusters
+            randomize: comingFromTree ? true : false,
+          });
 
+    layout.run();
+
+    if (fit) cy.fit(cy.elements(), 80);
+      lastLayoutNameRef.current = name;  // <- update AFTER the switch
+    },
+      getCy: () => cyRef.current,
+    }));
 
   return (
     <div

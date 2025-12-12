@@ -1,5 +1,6 @@
 // HoveredNodeInfo.js
 import { Box, Chip, Typography, Divider, Button } from "@mui/material";
+import { useLayoutEffect, useRef, useState } from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
@@ -186,10 +187,20 @@ const formatCallFieldValue = (key, rawValue, node) => {
 const HoveredNodeInfo = ({ node, onClose }) => {
   const navigate = useNavigate();
 
+  const isCallNode = node?.type === "Call" || node?.category === "Call";
+
+  const cardRef = useRef(null);
+  const [cardSize, setCardSize] = useState({ w: 340, h: 260 });
+
+  useLayoutEffect(() => {
+    if (!cardRef.current) return;
+    const r = cardRef.current.getBoundingClientRect();
+    if (r.width && r.height) setCardSize({ w: r.width, h: r.height });
+  }, [node?.id, isCallNode]);
+
   if (!node) return null;
 
   // Enrich Call nodes with call_id fallback
-  const isCallNode = node.type === "Call" || node.category === "Call";
   const enrichedNode = {
     ...node,
     call_id: node.call_id || node.id || node.callId,
@@ -220,57 +231,82 @@ const HoveredNodeInfo = ({ node, onClose }) => {
   };
 
   const screenPos = enrichedNode.__screenPosition;
+  const renderedSize = enrichedNode.__renderedSize;
+  const containerRect = enrichedNode.__containerRect;
 
   let positionStyle;
-  if (screenPos && typeof window !== "undefined") {
-    const vw = window.innerWidth || 0;
-    const vh = window.innerHeight || 0;
 
-    const CARD_WIDTH_EST = 340; // estimated card width
-    const PADDING = 16;
-    const H_GAP = 40;           // horizontal gap from the node
-    const V_GAP = 24;           // vertical gap from the node
+  if (screenPos && containerRect && typeof window !== "undefined") {
+    const PADDING = 12; // padding from container edges
+    const GAP = 12; // standard visual gap from exclusion radius
 
-    // Decide side (left/right) and vertical orientation (above/below)
-    const placeRight = screenPos.x < vw * 0.5;  // node on left side → card on right
-    const placeAbove = screenPos.y > vh * 0.7;  // only above when very low
+    const CARD_W = cardSize.w;
+    const CARD_H = cardSize.h;
 
-    let left = placeRight
-      ? screenPos.x + H_GAP
-      : screenPos.x - H_GAP;
+    const nodeRadius =
+      renderedSize && renderedSize.w && renderedSize.h
+        ? Math.max(renderedSize.w, renderedSize.h) / 2
+        : 20;
 
-    let top = placeAbove
-      ? screenPos.y - V_GAP
-      : screenPos.y + V_GAP;
+    // Do not spawn within 20px radius around the node
+    const EXCLUSION = nodeRadius + 20;
+    const OFFSET = EXCLUSION + GAP;
 
-    // Clamp horizontally to viewport
-    if (placeRight) {
-      // card extends to the right of 'left'
-      const maxLeft = vw - PADDING;
-      left = Math.min(left, maxLeft);
-    } else {
-      // card extends to the left of 'left'
-      const minLeft = PADDING + CARD_WIDTH_EST;
-      left = Math.max(left, minLeft);
-    }
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-    // Clamp vertically to viewport
-    const minTop = PADDING;
-    const maxTop = vh - PADDING;
-    top = Math.max(minTop, Math.min(maxTop, top));
+    const bounds = {
+      minX: containerRect.left + PADDING,
+      maxX: containerRect.right - CARD_W - PADDING,
+      minY: containerRect.top + PADDING,
+      maxY: containerRect.bottom - CARD_H - PADDING,
+    };
+
+    const candidatesRaw = [
+      { left: screenPos.x + OFFSET, top: screenPos.y - CARD_H / 2 }, // right
+      { left: screenPos.x - OFFSET - CARD_W, top: screenPos.y - CARD_H / 2 }, // left
+      { left: screenPos.x - CARD_W / 2, top: screenPos.y + OFFSET }, // below
+      { left: screenPos.x - CARD_W / 2, top: screenPos.y - OFFSET - CARD_H }, // above
+    ];
+
+    const candidates = candidatesRaw.map((c) => ({
+      left: clamp(c.left, bounds.minX, bounds.maxX),
+      top: clamp(c.top, bounds.minY, bounds.maxY),
+    }));
+
+    const overlapsNode = (c) => {
+      const left = c.left;
+      const right = c.left + CARD_W;
+      const top = c.top;
+      const bottom = c.top + CARD_H;
+
+      const exLeft = screenPos.x - EXCLUSION;
+      const exRight = screenPos.x + EXCLUSION;
+      const exTop = screenPos.y - EXCLUSION;
+      const exBottom = screenPos.y + EXCLUSION;
+
+      return left < exRight && right > exLeft && top < exBottom && bottom > exTop;
+    };
+
+    const best =
+      candidates
+        .filter((c) => !overlapsNode(c))
+        .map((c) => {
+          const cx = c.left + CARD_W / 2;
+          const cy = c.top + CARD_H / 2;
+          const dx = cx - screenPos.x;
+          const dy = cy - screenPos.y;
+          return { ...c, score: dx * dx + dy * dy };
+        })
+        .sort((a, b) => a.score - b.score)[0] || candidates[0];
 
     positionStyle = {
       position: "fixed",
-      left,
-      top,
-      transform: `translate(${placeRight ? "0" : "-100%"}, ${
-        placeAbove ? "-100%" : "0"
-      })`,
+      left: best.left,
+      top: best.top,
       zIndex: 1300,
       pointerEvents: "auto",
     };
   } else {
-    // Fallback: centered near the top
     positionStyle = {
       position: "fixed",
       left: "50%",
@@ -318,8 +354,9 @@ const HoveredNodeInfo = ({ node, onClose }) => {
     ];
   }
 
-  return (
+return (
     <Box
+      ref={cardRef}
       className="hovered-node-card hovered-node-card--visible"
       sx={{
         ...positionStyle,

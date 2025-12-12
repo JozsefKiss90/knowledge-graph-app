@@ -1196,6 +1196,17 @@ h2 {
   border-bottom: 1px solid var(--border);
 }
 
+.graph-topbar-icon {
+  border-radius: 999px;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+
+  &--active {
+    background-color: rgba(88, 166, 255, 0.2); // subtle blue halo
+    transform: translateY(-1px);
+  }
+}
+
+
 .graph-topbar-left {
   display: flex;
   align-items: center;

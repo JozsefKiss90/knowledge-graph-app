@@ -41,21 +41,38 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
     const node = evt.target;
     const d = node.data();
 
-    // Compute rendered + screen positions for the floating card
     const renderedPos = node.renderedPosition();
+    const renderedSize = {
+      w: node.renderedWidth(),
+      h: node.renderedHeight(),
+    };
+
     const rect = cy.container().getBoundingClientRect();
     const screenPosition = {
       x: rect.left + renderedPos.x,
       y: rect.top + renderedPos.y,
     };
 
-    // Pass enriched data object (old code that only uses d will still work)
-    const enriched = { ...d, __renderPosition: renderedPos, __screenPosition: screenPosition };
+    const enriched = {
+      ...d,
+      __renderPosition: renderedPos,
+      __screenPosition: screenPosition,
+      __renderedSize: renderedSize,
+      __containerRect: {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+      },
+    };
 
     onNodeHover?.(enriched);
     onHoverNodeIdChange?.(d.id);
     scheduleHover(node);
   });
+
 
    cy.on("mouseout", "node", () => {
     onHoverNodeIdChange?.(null);

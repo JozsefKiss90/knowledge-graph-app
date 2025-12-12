@@ -5,7 +5,7 @@ const UNIFORM_DEFAULT = {
   name: "cose-bilkent",
   fit: true,
   padding: 60,
-  randomize: false,
+  randomize: true,
   animate: "end",
   animationDuration: 400,
   nodeDimensionsIncludeLabels: false,

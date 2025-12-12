@@ -130,14 +130,20 @@ function GraphPage() {
   };
 
   // smooth zoom when legend collapses/expands
+  const didMountRef = useRef(false);
   useEffect(() => {
     if (!cyInstance || cyInstance.destroyed()) return;
-    const targetZoom = isLegendCollapsed ? 0.9 : 0.7;
-    cyInstance.animate({
-      zoom: targetZoom,
-      center: { eles: cyInstance.nodes() },
-      duration: 300,
-    });
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return; // do not override initial zoom
+    }
+  
+     // When the sidebar width changes, just refit; do not impose a fixed zoom.
+    try {
+      cyInstance.fit({ eles: cyInstance.elements(), padding: 60 });
+    } catch {
+      /* ignore */
+    }
   }, [isLegendCollapsed, cyInstance]);
 
   // ✅ keep node / edge counts in sync with the current Cytoscape instance
@@ -177,15 +183,19 @@ function GraphPage() {
     ? "Hierarchical Layout"
     : "Force-Directed Layout";
 
-    const handleResetView = () => {
+  const handleResetView = (initial = false) => {
     if (!cyInstance || cyInstance.destroyed()) return;
     cyInstance.elements().show();
     cyInstance.nodes().removeClass("faded highlighted");
     cyInstance.edges().removeClass("faded");
     cyInstance.nodes().unselect();
+    // Make reset deterministic and identical everywhere
     cyInstance.fit({ padding: 60 });
+    if (initial) {
+      // optional: ensure no leftover pan/zoom state
+      cyInstance.pan({ x: 0, y: 0 });
+    }
   };
-
   const handleFitView = () => {
     if (!cyInstance || cyInstance.destroyed()) return;
     try {
@@ -254,8 +264,14 @@ function GraphPage() {
               initialGraphName="ROOT"
               layoutOptions={effectiveLayout}
               loadFromStore={loadFromStore}
-              onCyReady={(cy) => setCyInstance(cy)}
-              onNodeHover={(node) => {
+              onCyReady={(cy) => {
+                setCyInstance(cy);
+                // Ensure initial zoom/pan matches the Reset View button behaviour
+                requestAnimationFrame(() => {
+                  try { cy.fit({ padding: 60 }); } catch {}
+                });
+              }}
+                onNodeHover={(node) => {
                 hoveredNodeRef.current = node || null;
               }}
               onHoverNodeIdChange={() => {}}
@@ -272,11 +288,13 @@ function GraphPage() {
                 canGoBack,
                 onBack,
               }) => {
-                // Only enable layout switching on cluster / destination layers
+                const isRootLayer = currentKey === "ROOT";
                 const isClusterLayer = currentKey.startsWith("Cluster_");
                 const isDestinationLayer = currentKey.startsWith("DEST_");
+
                 const layoutSwitchVisible =
-                  (isClusterLayer || isDestinationLayer) && graphName !== "HE_2025";
+                  (isRootLayer || isClusterLayer || isDestinationLayer) &&
+                  graphName !== "HE_2025";
 
                 const layoutMode =
                   effectiveLayout.name === "breadthfirst" ? "tree" : "force";

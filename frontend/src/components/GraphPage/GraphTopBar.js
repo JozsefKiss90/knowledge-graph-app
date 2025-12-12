@@ -95,8 +95,10 @@ const GraphTopBar = ({
             <Tooltip title="Force-Directed Layout">
               <IconButton
                 size="small"
-                className="graph-topbar-icon"
-                color={!isTree ? "primary" : "default"}
+                className={`graph-topbar-icon${
+                  !isTree ? " graph-topbar-icon--active" : ""
+                }`}
+                color="default"
                 onClick={() => onLayoutModeChange?.("force")}
               >
                 <GridOnIcon fontSize="small" />
@@ -105,8 +107,10 @@ const GraphTopBar = ({
             <Tooltip title="Hierarchical Layout">
               <IconButton
                 size="small"
-                className="graph-topbar-icon"
-                color={isTree ? "primary" : "default"}
+                className={`graph-topbar-icon${
+                  isTree ? " graph-topbar-icon--active" : ""
+                }`}
+                color="default"
                 onClick={() => onLayoutModeChange?.("tree")}
               >
                 <AccountTreeIcon fontSize="small" />
