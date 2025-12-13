@@ -58,18 +58,23 @@ export default function NestedGraphController({
   const lastAppliedTargetRef = useRef(initialGraphName);
 
   const handleLevelClick = useCallback(
-  (index) => {
-    setLevels((prev) => {
-      const next = prev.slice(0, index + 1);
-      const key = next[next.length - 1].key;
-      onLevelChange?.(key);
-      lastAppliedTargetRef.current = key;
-      return next;
-    });
-    clearHover(onNodeHover, onHoverNodeIdChange);
-  },
-  [onLevelChange, onNodeHover, onHoverNodeIdChange]
-);
+    (index) => {
+      // Compute key first from current state (no state updates yet)
+      const next = levels.slice(0, index + 1);
+      const key = next[next.length - 1]?.key;
+
+      setLevels(next);
+
+      if (key) {
+        onLevelChange?.(key);
+        lastAppliedTargetRef.current = key;
+      }
+
+      clearHover(onNodeHover, onHoverNodeIdChange);
+    },
+    [levels, onLevelChange, onNodeHover, onHoverNodeIdChange]
+  );
+
 
   // Build ROOT once on mount
   useEffect(() => {
@@ -95,7 +100,10 @@ export default function NestedGraphController({
   const openHE = useCallback(() => {
     const raw = loadFromStore?.("HE_2025");
     const elements = raw ? buildElements(raw) : { nodeElements: [], edgeElements: [] };
-    setLevels((prev) => [...prev, { key: "HE_2025", title: "Horizon Europe (SP)", graphName: "HE_2025", elements }]);
+    setLevels((prev) => [
+      ...prev,
+      { key: "HE_2025", title: "Horizon Europe (SP)", graphName: "HE_2025", elements },
+    ]);
     onLevelChange?.("HE_2025");
     clearHover(onNodeHover, onHoverNodeIdChange);
   }, [loadFromStore, onLevelChange, onNodeHover, onHoverNodeIdChange]);
@@ -115,75 +123,73 @@ export default function NestedGraphController({
   );
 
   const popLevel = useCallback(() => {
+    // Compute next + key without using a functional updater (avoids “setState during render”)
     setLevels((prev) => {
       const next = prev.length > 1 ? prev.slice(0, -1) : prev;
-      const key = next[next.length - 1].key;
-      onLevelChange?.(key);
-      lastAppliedTargetRef.current = key;
+      const key = next[next.length - 1]?.key;
+
+      // Defer parent updates to microtask so it’s never during render
+      queueMicrotask(() => {
+        if (key) {
+          onLevelChange?.(key);
+          lastAppliedTargetRef.current = key;
+        }
+      });
+
       return next;
     });
+
     clearHover(onNodeHover, onHoverNodeIdChange);
   }, [onLevelChange, onNodeHover, onHoverNodeIdChange]);
 
-  /**
-   * NEW: open a Destination layer (Destination + its Calls)
-   * using the current cluster Cytoscape instance.
-   */
-   const openDestinationLayer = useCallback(
-    (cy, destinationId) => {
-      if (!cy) return;
-
+  const openDestinationLayer = useCallback(
+    (_cy, destinationId) => {
       const atKey = current?.key || "";
       if (!atKey.startsWith("Cluster_")) return;
 
-      const dest = cy.$id(destinationId);
-      if (!dest || dest.empty()) return;
+      const raw = loadFromStore?.(atKey);
+      if (!raw) return;
 
-      // Collect calls via HAS_CALL edges
-      let callEdges = dest.outgoers('edge[type = "HAS_CALL"]').filter("edge");
-      let callNodes = callEdges.targets();
+      const full = buildElements(raw);
+      const allNodes = full?.nodeElements || [];
+      const allEdges = full?.edgeElements || [];
 
-      if (callNodes.length === 0) {
-        const outEdges = dest.outgoers("edge");
-        callNodes = outEdges.targets().filter(
-          "node[type = 'Call'], node[category = 'Call']"
-        );
-        callEdges = outEdges.filter(
-          "edge[type = 'HAS_CALL'], edge[category = 'HAS_CALL']"
-        );
-      }
+      const destEl = allNodes.find((n) => n?.data?.id === destinationId);
+      if (!destEl) return;
+
+      const callEdges = allEdges.filter((e) => {
+        const d = e?.data || {};
+        const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
+        return isHasCall && d.source === destinationId;
+      });
+
+      const callIdSet = new Set(callEdges.map((e) => e?.data?.target).filter(Boolean));
+
+      const callNodes = allNodes.filter((n) => {
+        const d = n?.data || {};
+        const isCall = d.type === "Call" || d.category === "Call";
+        return isCall && callIdSet.has(d.id);
+      });
 
       if (callNodes.length === 0) return;
 
-      const destData = dest.data();
-      const nodeElements = [
-        { data: { ...destData }, group: "nodes" },
-        ...callNodes.map((n) => ({ data: { ...n.data() }, group: "nodes" })),
-      ];
-      const edgeElements = callEdges.map((e) => ({
-        data: { ...e.data() },
-        group: "edges",
-      }));
-
-      const title =
-        destData.label || destData.name || destData.id || destinationId;
+      const title = destEl.data.label || destEl.data.name || destEl.data.id || destinationId;
 
       setLevels((prev) => [
         ...prev,
         {
-          key: `DEST_${destData.id || destinationId}`,
+          key: `DEST_${destEl.data.id || destinationId}`,
           title,
-          graphName: atKey, // keep cluster graphName
-          elements: { nodeElements, edgeElements },
+          // keep dataset identity for the layer so GraphSelector still makes sense
+          graphName: atKey,
+          elements: { nodeElements: [destEl, ...callNodes], edgeElements: callEdges },
         },
       ]);
 
-      // NEW: always clear hover when entering a destination layer
       clearHover(onNodeHover, onHoverNodeIdChange);
     },
-    [current?.key, onNodeHover, onHoverNodeIdChange]
+    [current?.key, loadFromStore, onNodeHover, onHoverNodeIdChange]
   );
-
 
   // Handlers for ROOT / clusters / destination
   const nestedHandlers = useMemo(
@@ -193,11 +199,7 @@ export default function NestedGraphController({
         if (data?.type === "cluster") openCluster(data.id);
         if (data?.type === "root") openHE();
       },
-      onDestinationToggle: (cy, destinationId) => {
-        // Previously this toggled calls *inside* the cluster view.
-        // Now it opens a dedicated destination layer.
-        openDestinationLayer(cy, destinationId);
-      },
+      onDestinationToggle: (cy, destinationId) => openDestinationLayer(cy, destinationId),
       popLevel,
     }),
     [current?.key, openCluster, openHE, openDestinationLayer, popLevel]
@@ -214,18 +216,9 @@ export default function NestedGraphController({
     lastAppliedTargetRef.current = target;
 
     if (target === "ROOT" && at !== "ROOT") {
-      const keys = (loadFromStore?.("__keys__") || []).filter(
-        (k) => k !== "HE_2025"
-      );
+      const keys = (loadFromStore?.("__keys__") || []).filter((k) => k !== "HE_2025");
       const rootEls = buildRootElements({ clusterKeys: keys });
-      setLevels([
-        {
-          key: "ROOT",
-          title: "Horizon Europe",
-          graphName: "ROOT",
-          elements: rootEls,
-        },
-      ]);
+      setLevels([{ key: "ROOT", title: "Horizon Europe", graphName: "ROOT", elements: rootEls }]);
       onLevelChange?.("ROOT");
       return;
     }
@@ -262,14 +255,13 @@ export default function NestedGraphController({
           ref={graphRef}
           graphData={current.elements}
           graphName={current.graphName}
+          layerKey={current.key}
           layoutOptions={layoutOptions}
           onCyReady={(cy) => {
-            // Hide Calls only on *cluster* layers (not ROOT, not destination layers)
+            // Safety: if any Call nodes exist in cluster overview, hide them
             const key = current.key || "";
             if (key.startsWith("Cluster_")) {
-              cy.nodes("[type = 'Call'], [category = 'Call']").addClass(
-                "call-hidden"
-              );
+              cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden");
             }
             onCyReady?.(cy);
           }}

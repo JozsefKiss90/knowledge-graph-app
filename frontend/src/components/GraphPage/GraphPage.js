@@ -155,7 +155,7 @@ function GraphPage() {
         nodes: cyInstance.nodes().length,
         edges: cyInstance.edges().length,
       });
-    };
+    }; 
 
     updateStats();
     cyInstance.on("add remove", updateStats);
@@ -321,15 +321,16 @@ function GraphPage() {
               }}
             />
             <div className="graph-main">
-              {/* Chatbot bottom-right with toggle button */}
-              <ChatBot />
               <HoveredNodeInfo
                   node={hoveredNode}
+                  cyInstance={cyInstance}
                   onClose={() => {
                      hoveredNodeRef.current = null;
                      setHoveredNode(null);
                   }}
               />
+              {/* Chatbot bottom-right with toggle button */}
+              <ChatBot />
 
             </div>
 

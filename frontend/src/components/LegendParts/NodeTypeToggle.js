@@ -9,53 +9,32 @@ const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
   <Box>
    
     <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
-      {types.map(({ type }) => {
+      {types.map(({ type, i }) => {
         if (!visibleTypes || !types) return null;
         const classType = type.replace(/\s+/g, '').toLowerCase();
         const isActive = visibleTypes.has(type);
+        const label = (typeof types[i]?.label === "string" && types[i].label) ? types[i].label : type;
+        const swatch = types[i]?.color; // computed Cytoscape background-color
 
         return (
           <Button
             key={type}
-            variant={isActive ? 'contained' : 'outlined'}
+            variant={isActive ? "contained" : "outlined"}
             size="small"
             disableElevation
-            className={`node-toggle-button type-${classType}${!isActive ? '-active' : ''}`}
-            title={`${type==="policy" ? "Switch off policy nodes" : type==="strategy" ? "Switch off strategy nodes"
-              : type==="cluster" ? "Switch off cluster nodes" : type==="research_theme" ? "Switch off research themes nodes"
-              : type==="institution" ? "Switch off institution nodes" : type==="institution" ? "Switch off institution nodes" 
-              : "Switch off topic nodes"}`}
+            className={`node-toggle-button type-${classType}${!isActive ? "-active" : ""}`}
             onClick={() => onToggle(type)}
-            onMouseEnter={() => {
-              if (cy) {
-                const nodes = cy.nodes();
-                const edges = cy.edges();
-                const highlightedNodeIds = new Set();
-
-                nodes.forEach(node => {
-                  const match = (node.data('type') || '').toLowerCase() === type.toLowerCase();
-                  node.toggleClass('highlighted', match);
-                  node.toggleClass('faded', !match);
-                  if (match) highlightedNodeIds.add(node.id());
-                });
-
-                edges.forEach(edge => {
-                  const src = edge.source().id();
-                  const tgt = edge.target().id();
-                  const connected = highlightedNodeIds.has(src) || highlightedNodeIds.has(tgt);
-                  edge.toggleClass('faded', !connected);
-                });
-              }
-            }}
-            onMouseLeave={() => {
-              if (cy) {
-                cy.nodes().removeClass('highlighted faded');
-                cy.edges().removeClass('faded');
-              }
+            sx={{
+              ...(swatch
+                ? isActive
+                  ? { backgroundColor: swatch, borderColor: swatch, "&:hover": { backgroundColor: swatch } }
+                  : { color: swatch, borderColor: swatch, "&:hover": { borderColor: swatch } }
+                : {}),
             }}
           >
-            {type.replace('_', ' ')}
+            {label.replace("_", " ")}
           </Button>
+
         );
       })}
     </Box>

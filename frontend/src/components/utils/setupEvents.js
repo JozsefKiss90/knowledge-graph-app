@@ -1,12 +1,11 @@
 // setupEvents.js
-// Throttled hover + click behaviour for both ROOT/cluster and HE_2025 views.
+// Hover + click behaviour for ROOT / clusters / HE_2025.
 
 export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts = {}) {
   const { shouldOpenCluster, onClusterOpen, onDestinationToggle } = opts;
 
   if (!cy || cy.destroyed()) return;
 
-  // -------- Hover (throttled) ----------
   // -------- Hover (throttled) ----------
   let raf = null;
   let pending = null;
@@ -17,8 +16,8 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
 
       if (!node) return;
       node.addClass("is-hovered");
-      
-      const neigh = node.closedNeighborhood(); // node + its incident edges + neighbours
+
+      const neigh = node.closedNeighborhood(); // node + incident edges + neighbours
       const edges = node.connectedEdges();
       const others = cy.elements().not(neigh);
 
@@ -42,16 +41,10 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
     const d = node.data();
 
     const renderedPos = node.renderedPosition();
-    const renderedSize = {
-      w: node.renderedWidth(),
-      h: node.renderedHeight(),
-    };
+    const renderedSize = { w: node.renderedWidth(), h: node.renderedHeight() };
 
     const rect = cy.container().getBoundingClientRect();
-    const screenPosition = {
-      x: rect.left + renderedPos.x,
-      y: rect.top + renderedPos.y,
-    };
+    const screenPosition = { x: rect.left + renderedPos.x, y: rect.top + renderedPos.y };
 
     const enriched = {
       ...d,
@@ -73,8 +66,7 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
     scheduleHover(node);
   });
 
-
-   cy.on("mouseout", "node", () => {
+  cy.on("mouseout", "node", () => {
     onHoverNodeIdChange?.(null);
     scheduleHover(null);
   });
@@ -92,38 +84,19 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
         onClusterOpen?.(data);
         return;
       }
+      return;
     }
 
-    // In cluster views: emphasise selection and optionally reveal calls
-    cy.batch(() => {
-      cy.nodes().removeClass("highlighted faded");
-      cy.edges().removeClass("highlighted faded");
-
-      const neigh = node.closedNeighborhood();
-      const others = cy.elements().not(neigh);
-      neigh.nodes().addClass("highlighted");
-      neigh.edges().addClass("highlighted");
-      others.addClass("faded");
-    });
-
-    // If the node is a Destination, reveal its calls and zoom to the whole graph
+    // Destination in cluster overview: open destination layer (Destination + Calls)
     if ((data?.type === "Destination" || data?.category === "Destination") && onDestinationToggle) {
       onDestinationToggle(cy, data.id);
-      // ensure calls are fully visible (remove any fading)
-      const callNodes = cy.$("node[category = 'Call'], node[type = 'Call']");
-      callNodes.removeClass("faded").addClass("call-visible");
-      callNodes.connectedEdges().removeClass("faded").addClass("call-visible");
+      return;
     }
 
-    // Zoom slightly out so the overall structure is easy to grasp
-    try {
-      cy.animate({ fit: { eles: cy.elements(), padding: 80 }, duration: 320 });
-    } catch {}
-
-    // Default: navigate to details if not in ROOT and not a Destination toggle
-    if (!(data?.type === "Destination" || data?.category === "Destination")) {
-      const id = data?.id;
-      if (id) navigate(`/node/${encodeURIComponent(id)}`, { state: { nodeData: { ...data } } });
+    // Default: navigate to node details
+    const id = data?.id;
+    if (id) {
+      navigate(`/node/${encodeURIComponent(id)}`, { state: { nodeData: { ...data } } });
     }
   });
 

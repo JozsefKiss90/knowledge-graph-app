@@ -17,8 +17,9 @@ cytoscape.use(coseBilkent);
 /**
  * Props:
  *  - graphData: { nodeElements: [], edgeElements: [] } or { nodes: [], edges: [] }
- *  - graphName: string
- *  - layoutOptions: { name: string, fit?: boolean, ... } (we track only .name and .fit)
+ *  - graphName: string (dataset identifier used elsewhere)
+ *  - layerKey: string (navigation layer key: ROOT | Cluster_* | DEST_*)
+ *  - layoutOptions: { name: string, fit?: boolean, ... }
  *  - onCyReady(cy), onNodeHover(nodeData), onHoverNodeIdChange(nodeId)
  *  - nestedHandlers: { onClusterOpen, onDestinationToggle, popLevel }
  */
@@ -26,6 +27,7 @@ const GraphView = forwardRef(function GraphView(
   {
     graphData,
     graphName,
+    layerKey,
     layoutOptions = { name: "cose-bilkent" },
     onCyReady,
     onNodeHover,
@@ -35,34 +37,59 @@ const GraphView = forwardRef(function GraphView(
   ref
 ) {
   const containerRef = useRef(null);
-  const cyRef = useRef(null); 
+  const cyRef = useRef(null);
   const [ready, setReady] = useState(false);
   const navigate = useNavigate();
-    // only track layout name + fit to avoid churn
+
   const layoutName = layoutOptions?.name || "cose-bilkent";
-  const layoutFit = layoutOptions?.fit !== false; // default true
-  
+
   const nhRef = useRef(nestedHandlers);
   const hoverRef = useRef(onNodeHover);
   const hoverIdRef = useRef(onHoverNodeIdChange);
   const onCyReadyRef = useRef(onCyReady);
-  const lastLayoutNameRef = useRef("cose-bilkent"); 
+  const lastLayoutNameRef = useRef("cose-bilkent");
 
   useEffect(() => { nhRef.current = nestedHandlers; }, [nestedHandlers]);
   useEffect(() => { hoverRef.current = onNodeHover; }, [onNodeHover]);
   useEffect(() => { hoverIdRef.current = onHoverNodeIdChange; }, [onHoverNodeIdChange]);
   useEffect(() => { onCyReadyRef.current = onCyReady; }, [onCyReady]);
-  // flatten elements once per graphData identity
+
+  // flatten + (IMPORTANT) filter elements for cluster overview layer
   const elements = useMemo(() => {
     if (!graphData) return [];
-    const nodes = Array.isArray(graphData.nodeElements)
+
+    let nodes = Array.isArray(graphData.nodeElements)
       ? graphData.nodeElements
       : graphData.nodes || graphData.Nodes || [];
-    const edges = Array.isArray(graphData.edgeElements)
+
+    let edges = Array.isArray(graphData.edgeElements)
       ? graphData.edgeElements
       : graphData.edges || graphData.Edges || [];
+
+    // Cluster overview (Level 2): Calls must NOT be preloaded (layout/fit must ignore them)
+    const isClusterOverview = String(layerKey || "").startsWith("Cluster_");
+    if (isClusterOverview) {
+      const callIds = new Set(
+        nodes
+          .filter((n) => {
+            const d = n?.data || {};
+            return d.type === "Call" || d.category === "Call";
+          })
+          .map((n) => n.data.id)
+      );
+
+      nodes = nodes.filter((n) => !callIds.has(n?.data?.id));
+
+      edges = edges.filter((e) => {
+        const d = e?.data || {};
+        const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
+        const touchesCall = callIds.has(d.source) || callIds.has(d.target);
+        return !isHasCall && !touchesCall;
+      });
+    }
+
     return [...nodes, ...edges];
-  }, [graphData]);
+  }, [graphData, layerKey]);
 
   const layoutOptionsRef = useRef(layoutOptions);
   useEffect(() => {
@@ -74,9 +101,7 @@ const GraphView = forwardRef(function GraphView(
 
     // destroy previous instance if any
     if (cyRef.current) {
-      try {
-        cyRef.current.destroy();
-      } catch {}
+      try { cyRef.current.destroy(); } catch {}
       cyRef.current = null;
     }
 
@@ -90,9 +115,11 @@ const GraphView = forwardRef(function GraphView(
       pixelRatio: 1,
     });
     cyRef.current = cy;
-    cy.scratch("graphName", graphName);
 
-    // basic helper classes
+    cy.scratch("graphName", graphName);
+    cy.scratch("layerKey", layerKey);
+
+    // helper classes
     cy.style()
       .append([
         { selector: ".faded", style: { opacity: 0.15 } },
@@ -102,6 +129,9 @@ const GraphView = forwardRef(function GraphView(
       ])
       .update();
 
+    const isClusterOverview = String(layerKey || "").startsWith("Cluster_");
+    const isDestinationLayer = String(layerKey || "").startsWith("DEST_");
+
     // helper to build correct layout config
     const createLayout = () => {
       const opts = layoutOptionsRef.current || {};
@@ -110,13 +140,13 @@ const GraphView = forwardRef(function GraphView(
 
       if (name === "breadthfirst") {
         let roots;
-        if (graphName.startsWith("Cluster_")) {
-          const rootNodes = cy.nodes(
-            "node[type = 'cluster'], node[category = 'cluster']"
-          );
-          if (rootNodes.length > 0) {
-            roots = rootNodes;
-          }
+
+        if (isClusterOverview) {
+          const rootNodes = cy.nodes("node[type = 'cluster'], node[category = 'cluster']");
+          if (rootNodes.length > 0) roots = rootNodes;
+        } else if (isDestinationLayer) {
+          const rootNodes = cy.nodes("node[type = 'Destination'], node[category = 'Destination']");
+          if (rootNodes.length > 0) roots = rootNodes;
         }
 
         return cy.layout({
@@ -134,38 +164,24 @@ const GraphView = forwardRef(function GraphView(
         });
       }
 
-            // default: force-directed
-      const isClusterLayer = graphName.startsWith("Cluster_");
-
+      // default: force-directed
       return cy.layout({
         ...opts,
         name,
         fit,
         animate: false,
-        // important: break out of any previous collinear geometry,
-        // especially when coming back from the tree layout
         randomize:
           typeof opts.randomize === "boolean"
             ? opts.randomize
-            : isClusterLayer
+            : isClusterOverview
             ? true
             : false,
       });
     };
 
     const layout = createLayout();
-    layout.on("layoutstop", () => {
-      setReady(true);
-    });
+    layout.on("layoutstop", () => setReady(true));
     layout.run();
-
-    // NEW: ensure the view is refitted without animation
-    const opts = layoutOptionsRef.current || {};
-    const fit = opts.fit !== false;
-    if (fit) {
-      cy.fit(cy.elements(), 80); // padding can be tuned
-    }
-
 
     // events
     setupEvents(
@@ -174,46 +190,39 @@ const GraphView = forwardRef(function GraphView(
       (id) => hoverIdRef.current && hoverIdRef.current(id),
       (data) => hoverRef.current && hoverRef.current(data),
       {
-        shouldOpenCluster: () => cy.scratch("graphName") === "ROOT",
+        // ROOT click-to-open must work regardless of any dataset naming conventions
+        shouldOpenCluster: () => String(layerKey || "").replace("_cose", "") === "ROOT",
         onClusterOpen: (data) => nhRef.current?.onClusterOpen?.(data),
-        onDestinationToggle: (_, id) =>
-          nhRef.current?.onDestinationToggle?.(cy, id),
+        onDestinationToggle: (_, id) => nhRef.current?.onDestinationToggle?.(cy, id),
       }
     );
 
     onCyReadyRef.current && onCyReadyRef.current(cy);
 
     return () => {
-      try {
-        cy.destroy();
-      } catch {}
+      try { cy.destroy(); } catch {}
       cyRef.current = null;
       setReady(false);
     };
-  // IMPORTANT: do NOT depend on layoutName/layoutFit here
-  }, [elements, graphName, navigate]);
-
+  }, [elements, graphName, layerKey, navigate]);
 
   useImperativeHandle(ref, () => ({
     rerunLayout: () => {
       const cy = cyRef.current;
       if (!cy) return;
 
-      const prevName = lastLayoutNameRef.current;   // <- capture previous layout first
-
+      const prevName = lastLayoutNameRef.current;
       const opts = layoutOptionsRef.current || {};
       const name = opts.name || "cose-bilkent";
       const fit = opts.fit !== false;
 
-      const isClusterLayer = graphName.startsWith("Cluster_");
-      const comingFromTree = isClusterLayer && prevName === "breadthfirst" && name !== "breadthfirst";
-      
-      if (isClusterLayer && comingFromTree) {
+      const isClusterOverview = String(layerKey || "").startsWith("Cluster_");
+      const comingFromTree =
+        isClusterOverview && prevName === "breadthfirst" && name !== "breadthfirst";
+
+      if (isClusterOverview && comingFromTree) {
         const root = cy.nodes("node[type = 'cluster'], node[category = 'cluster']").first();
-        if (root && root.nonempty()) {
-          // place root higher to bias a 2D spread
-          root.position({ x: 0, y: -200 });
-        }
+        if (root && root.nonempty()) root.position({ x: 0, y: -200 });
       }
 
       if (comingFromTree) {
@@ -229,36 +238,34 @@ const GraphView = forwardRef(function GraphView(
         });
       }
 
-    const layout =
-      name === "breadthfirst"
-        ? cy.layout({
-            ...opts,
-            name: "breadthfirst",
-            fit,
-            animate: false,
-            directed: true,
-            padding: 80,
-            spacingFactor: 1.2,
-            circle: false,
-            orientation: "vertical",
-            nodeDimensionsIncludeLabels: true,
-          })
-        : cy.layout({
-            ...opts,
-            name,
-            fit,
-            animate: false,
-            // override config’s randomize:false ONLY when coming from tree on clusters
-            randomize: comingFromTree ? true : false,
-          });
+      const layout =
+        name === "breadthfirst"
+          ? cy.layout({
+              ...opts,
+              name: "breadthfirst",
+              fit,
+              animate: false,
+              directed: true,
+              padding: 80,
+              spacingFactor: 1.2,
+              circle: false,
+              orientation: "vertical",
+              nodeDimensionsIncludeLabels: true,
+            })
+          : cy.layout({
+              ...opts,
+              name,
+              fit,
+              animate: false,
+              randomize: comingFromTree ? true : false,
+            });
 
-    layout.run();
-
-    if (fit) cy.fit(cy.elements(), 80);
-      lastLayoutNameRef.current = name;  // <- update AFTER the switch
+      layout.run();
+      if (fit) cy.fit(cy.elements(), 80);
+      lastLayoutNameRef.current = name;
     },
-      getCy: () => cyRef.current,
-    }));
+    getCy: () => cyRef.current,
+  }));
 
   return (
     <div

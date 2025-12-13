@@ -26,10 +26,15 @@ HEADER_PATS = [
     re.compile(r'^Civil Security for Society', re.I),
     re.compile(r'^Part\s*\d+\s*-\s*Page\s*\d+\s*of\s*\d+', re.I),
 ]
-BODY_DEST_RE = re.compile(r'^\s*Destination\s*[:\-–]\s*(.+)$', re.I)
+BODY_DEST_RE = re.compile(r'^\s*Destination\s*(?:[:\-–]\s*)?(.+)$', re.I)
 END_MARK_RE = re.compile(r'^\s*Other actions not subject to calls for proposals\b', re.I)
-CALL_ID_HEADER_RE = re.compile(r'^(HORIZON-[A-Z0-9]+-\d{4}-[0-9A-Za-z\-]+)\s*:\s*(.*)$', re.I | re.M)
-TOPIC_ID_LINE = re.compile(r'^(HORIZON-[A-Z0-9]+-\d{4}-[0-9A-Za-z\-]+)\s*:\s*(.+)$', re.I)
+CALL_ID_HEADER_RE = re.compile(
+    r'^\s*(HORIZON-[A-Z0-9]+-\d{4}-[0-9A-Za-z\-]+)\s*:\s*(.*)$',
+    re.I | re.M
+)
+TOPIC_ID_LINE = re.compile(
+    r'^\s*(HORIZON-[A-Z0-9]+-\d{4}-[0-9A-Za-z\-]+)\s*:\s*(.+)$', re.I
+)
 TYPE_OF_ACTION_IN_TITLE = re.compile(r'\((RIA|IA|CSA|COFUND|MSCA|EIC|ERA)\)')
 
 SOFT_HYPHEN = '\u00ad'

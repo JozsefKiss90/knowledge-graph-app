@@ -1,29 +1,22 @@
 // src/components/LegendToggle.js
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCy } from "./context/CyContext";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import SearchBox from "./LegendParts/SearchBox";
-import ScoreFilter from "./LegendParts/ScoreFilter";
-import "../styles/main.scss";
 import { IconButton } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+import SearchBox from "./LegendParts/SearchBox";
+import ScoreFilter from "./LegendParts/ScoreFilter";
 import GraphSelector from "./LegendParts/GraphSelector";
 import LayoutSwitcher from "./LegendParts/LayoutSwitcher";
 import EdgeTypeToggle from "./LegendParts/EdgeTypeToggle";
 import NodeTypeToggle from "./LegendParts/NodeTypeToggle";
 
-import {
-  defaultEdgeTypes,
-  defaultNodeTypes,
-  getEdgeTypeList,
-  getNodeTypeList,
-} from "./LegendParts/graphTypeConfig";
-import { getClusterConfigForId } from "./NodeDetalParts/useNodeDetail";
+import { getEdgeTypeList, getNodeTypeList } from "./LegendParts/graphTypeConfig";
 
 // Re-usable outlined, collapsible section shell
 const LegendSection = ({ title, isOpen, onToggle, children }) => (
@@ -37,33 +30,115 @@ const LegendSection = ({ title, isOpen, onToggle, children }) => (
         className="legend-section-toggle"
         aria-label={isOpen ? `Collapse ${title}` : `Expand ${title}`}
       >
-        {isOpen ? <ExpandLessIcon fontSize="small"  /> : <ExpandMoreIcon fontSize="small" />}
+        {isOpen ? (
+          <ExpandLessIcon fontSize="small" />
+        ) : (
+          <ExpandMoreIcon fontSize="small" />
+        )}
       </IconButton>
     </Box>
     {isOpen && <Box className="legend-section-body">{children}</Box>}
   </Box>
 );
 
+const normalizeGraphName = (name) => String(name || "").replace("_cose", "");
+
+// Collect node types that actually exist in the CURRENT Cytoscape layer,
+// and attach the computed Cytoscape color so legend buttons always match nodes.
+function collectLayerNodeTypes(cy) {
+  if (!cy || cy.destroyed()) return [];
+  const seen = new Set();
+  const out = [];
+
+  cy.nodes().forEach((n) => {
+    const t = n.data("type") || n.data("category");
+    if (!t) return;
+
+    const key = String(t);
+
+    if (seen.has(key)) return;
+    seen.add(key);
+
+    // Read the *computed* Cytoscape color for this type
+    let color;
+    try {
+      color = n.style("background-color");
+    } catch {
+      color = undefined;
+    }
+
+    out.push({
+      type: key,
+      label: key.toLowerCase() === "root" ? "Horizon Europe" : key,
+      color,
+    });
+  });
+
+  return out;
+}
+
+
+// Collect edge types in the CURRENT Cytoscape layer (used only for HE_2025)
+function collectLayerEdgeTypes(cy) {
+  if (!cy || cy.destroyed()) return new Set();
+  const s = new Set();
+  cy.edges().forEach((e) => {
+    const t = e.data("type") || e.data("category");
+    if (t) s.add(t);
+  });
+  return s;
+}
+
 const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
   const cy = useCy();
   const scrollRef = useRef(null);
 
-  const normalizeGraphName = (name) => name.replace("_cose", "");
   const cleanGraphName = normalizeGraphName(graphName);
+  const isHE2025 = cleanGraphName === "HE_2025";
 
-  const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(
-    defaultEdgeTypes[cleanGraphName] || new Set()
-  );
-  const [visibleNodeTypes, setVisibleNodeTypes] = useState(
-    defaultNodeTypes[cleanGraphName] || new Set()
-  );
+  // Node/edge types present in the current layer
+  const layerNodeTypes = useMemo(() => collectLayerNodeTypes(cy), [cy, graphName]);
+  const layerEdgeTypesSet = useMemo(() => collectLayerEdgeTypes(cy), [cy, graphName]);
 
-  const edgeTypeList = getEdgeTypeList(graphName);
-  const nodeTypeList = getNodeTypeList(graphName);
+  // Keep HE_2025 ordering/colors from config, but only show types that are present
+const nodeTypeList = useMemo(() => {
+  const present = new Map(layerNodeTypes.map((x) => [x.type, x]));
+
+  if (isHE2025) {
+    const configured = getNodeTypeList("HE_2025");
+    return configured
+      .filter((x) => present.has(x.type))
+      .map((x) => ({
+        ...present.get(x.type),
+        ...x, // configured color wins for HE_2025
+      }));
+  }
+
+  return layerNodeTypes;
+}, [isHE2025, layerNodeTypes]);
+
+  const edgeTypeList = useMemo(() => {
+    if (!isHE2025) return [];
+    const configured = getEdgeTypeList("HE_2025");
+    return configured.filter((x) => layerEdgeTypesSet.has(x.type));
+  }, [isHE2025, layerEdgeTypesSet]);
+
+  // Visible sets – default to all types in the current layer (resets on layer change)
+  const [visibleNodeTypes, setVisibleNodeTypes] = useState(new Set());
+  const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(new Set());
+
+  useEffect(() => {
+    setVisibleNodeTypes(new Set(nodeTypeList.map((x) => x.type)));
+  }, [cy, graphName, nodeTypeList]);
+
+  useEffect(() => {
+    setVisibleEdgeTypes(new Set(edgeTypeList.map((x) => x.type)));
+  }, [cy, graphName, edgeTypeList]);
 
   // section open/closed state (all open by default)
   const [sectionsOpen, setSectionsOpen] = useState({
     dataset: true,
+    layout: true,
     edgeTypes: true,
     nodeTypes: true,
     search: true,
@@ -75,53 +150,6 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
       ...prev,
       [key]: !prev[key],
     }));
-
-  useEffect(() => {
-    const normalized = graphName.replace("_cose", "");
-    setVisibleEdgeTypes(defaultEdgeTypes[normalized] || new Set());
-    setVisibleNodeTypes(defaultNodeTypes[normalized] || new Set());
-  }, [graphName]);
-
-  // LegendToggle.js
-
-  useEffect(() => {
-    if (!cy) return;
-
-    const normalized = graphName.replace("_cose", "");
-
-    const syncFromCy = () => {
-      // Start from the default for this graph
-      const baseDefault = defaultNodeTypes[normalized];
-      const next = baseDefault ? new Set(baseDefault) : new Set();
-
-      // If ANY Call node is currently visible, mark "Call" as active
-      const visibleCallCount = cy
-        .nodes("node[type = 'Call'], node[category = 'Call']")
-        .filter(":visible").length;
-
-      if (visibleCallCount > 0) {
-        next.add("Call");
-      } else {
-        next.delete("Call");
-      }
-
-      setVisibleNodeTypes(next);
-    };
-
-  // Initial sync + whenever visibility changes
-  syncFromCy();
-
-  const handler = () => syncFromCy();
-  cy.on("add remove style", "node", handler);
-
-  return () => {
-    try {
-      cy.off("add remove style", "node", handler);
-    } catch {
-      /* ignore */
-    }
-  };
-}, [cy, graphName]);
 
   // keep wheel scrolling smooth when hover-pane consumes wheel events
   useEffect(() => {
@@ -136,9 +164,11 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
   }, [hoveredNodeRef]);
 
   const toggleType = (type, typeSet, setter, selectorFn) => {
-    if (!cy) return;
+    if (!cy || cy.destroyed()) return;
+
     const newSet = new Set(typeSet);
     const elements = selectorFn(type);
+
     if (newSet.has(type)) {
       newSet.delete(type);
       elements.hide();
@@ -146,32 +176,31 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
       newSet.add(type);
       elements.show();
     }
+
     setter(newSet);
   };
 
   const resetView = () => {
-    if (!cy) return;
-    cy.elements().show();
-    cy.nodes().removeClass("faded highlighted");
-    cy.edges().removeClass("faded");
-    cy.nodes().unselect();
-    cy.fit();
+    if (!cy || cy.destroyed()) return;
 
-    const normalized = graphName.replace("_cose", "");
-    setVisibleEdgeTypes(new Set([...defaultEdgeTypes[normalized] || []]));
-    setVisibleNodeTypes(new Set([...defaultNodeTypes[normalized] || []]));
+    cy.elements().show();
+    cy.nodes().removeClass("faded highlighted is-hovered");
+    cy.edges().removeClass("faded highlighted");
+    cy.nodes().unselect();
+    cy.fit({ padding: 60 });
+
+    // Reset to “all types in this layer”
+    setVisibleNodeTypes(new Set(nodeTypeList.map((x) => x.type)));
+    setVisibleEdgeTypes(new Set(edgeTypeList.map((x) => x.type)));
   };
 
+  // Keep LayoutSwitcher behaviour as-is (graphName suffix based)
+  const layoutSupported = ["HE_2025", "Cluster_1", "Cluster_2", "Cluster_3", "Cluster_4", "Cluster_5", "Cluster_6"].includes(
+    cleanGraphName
+  );
 
-  const typeTogglesSupported = [
-    "HE_2025",
-    "Cluster_2",
-    "Cluster_3",
-    "Cluster_4",
-    "Cluster_1",
-    "Cluster_5",
-    "Cluster_6",
-  ].includes(cleanGraphName);
+  // Show Node Types on ALL layers where there is at least one toggleable type
+  const nodeTogglesVisible = !!cy && nodeTypeList.length > 0;
 
   return (
     <Box
@@ -215,7 +244,18 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
           <GraphSelector graphName={graphName} setGraphName={setGraphName} />
         </LegendSection>
 
-        {typeTogglesSupported && (
+        {layoutSupported && (
+          <LegendSection
+            title="Layout Mode"
+            isOpen={sectionsOpen.layout}
+            onToggle={() => toggleSection("layout")}
+          >
+            <LayoutSwitcher graphName={graphName} setGraphName={setGraphName} />
+          </LegendSection>
+        )}
+
+        {/* Edge Types only relevant for HE_2025 */}
+        {isHE2025 && edgeTypeList.length > 0 && (
           <LegendSection
             title="Edge Types"
             isOpen={sectionsOpen.edgeTypes}
@@ -226,18 +266,15 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
               types={edgeTypeList}
               visibleTypes={visibleEdgeTypes}
               onToggle={(type) =>
-                toggleType(
-                  type,
-                  visibleEdgeTypes,
-                  setVisibleEdgeTypes,
-                  (t) => cy.edges(`[type = "${t}"]`)
+                toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, (t) =>
+                  cy.edges(`[type = "${t}"], [category = "${t}"]`)
                 )
               }
             />
           </LegendSection>
         )}
 
-        {typeTogglesSupported && (
+        {nodeTogglesVisible && (
           <LegendSection
             title="Node Types"
             isOpen={sectionsOpen.nodeTypes}
@@ -248,11 +285,8 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
               types={nodeTypeList}
               visibleTypes={visibleNodeTypes}
               onToggle={(type) =>
-                toggleType(
-                  type,
-                  visibleNodeTypes,
-                  setVisibleNodeTypes,
-                  (t) => cy.nodes(`[type = "${t}"]`)
+                toggleType(type, visibleNodeTypes, setVisibleNodeTypes, (t) =>
+                  cy.nodes(`[type = "${t}"], [category = "${t}"]`)
                 )
               }
             />
@@ -267,7 +301,8 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
           <SearchBox cy={cy} showTitle={false} />
         </LegendSection>
 
-        {graphName === "HE_2025" && (
+        {/* Similarity section only for HE_2025 */}
+        {isHE2025 && (
           <LegendSection
             title="Min Similarity"
             isOpen={sectionsOpen.similarity}
@@ -280,11 +315,7 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
 
       {/* Fixed footer / Reset button */}
       <Box className="legend-footer">
-        <button
-          type="button"
-          className="legend-reset-button"
-          onClick={resetView}
-        >
+        <button type="button" className="legend-reset-button" onClick={resetView}>
           <span className="legend-reset-icon">⟳</span>
           Reset All Filters
         </button>
