@@ -43,39 +43,51 @@ const LegendSection = ({ title, isOpen, onToggle, children }) => (
 
 const normalizeGraphName = (name) => String(name || "").replace("_cose", "");
 
-// Collect node types that actually exist in the CURRENT Cytoscape layer,
-// and attach the computed Cytoscape color so legend buttons always match nodes.
 function collectLayerNodeTypes(cy) {
   if (!cy || cy.destroyed()) return [];
-  const seen = new Set();
-  const out = [];
+
+  const typeToColorCounts = new Map(); // type -> Map(color -> count)
 
   cy.nodes().forEach((n) => {
     const t = n.data("type") || n.data("category");
     if (!t) return;
+    let key = String(t);
 
-    const key = String(t);
+// Remap 'root' nodes to the effective type for this layer so button colors stay congruent.
+// GraphView assigns role classes (as-root / as-cluster-root / as-destination-root).
+if (key.toLowerCase() === "root") {
+  try {
+    if (n.hasClass && n.hasClass("as-cluster-root")) key = "cluster";
+    else if (n.hasClass && n.hasClass("as-destination-root")) key = "Destination";
+  } catch {}
+}
 
-    if (seen.has(key)) return;
-    seen.add(key);
 
-    // Read the *computed* Cytoscape color for this type
     let color;
-    try {
-      color = n.style("background-color");
-    } catch {
-      color = undefined;
-    }
+    try { color = n.style("background-color"); } catch { color = undefined; }
+    if (!color) return;
 
-    out.push({
-      type: key,
-      label: key.toLowerCase() === "root" ? "Horizon Europe" : key,
-      color,
-    });
+    if (!typeToColorCounts.has(key)) typeToColorCounts.set(key, new Map());
+    const cmap = typeToColorCounts.get(key);
+    cmap.set(color, (cmap.get(color) || 0) + 1);
   });
 
+  const out = [];
+  for (const [type, cmap] of typeToColorCounts.entries()) {
+    let bestColor;
+    let bestCount = -1;
+    for (const [c, count] of cmap.entries()) {
+      if (count > bestCount) { bestCount = count; bestColor = c; }
+    }
+    out.push({
+      type,
+      label: String(type).toLowerCase() === "root" ? "Horizon Europe" : String(type),
+      color: bestColor,
+    });
+  }
   return out;
 }
+
 
 
 // Collect edge types in the CURRENT Cytoscape layer (used only for HE_2025)

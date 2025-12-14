@@ -142,4 +142,23 @@ export const stylesheet = [
       color: "#ffffff",
     },
   },
+{
+  selector: "node.as-root",
+  style: {
+    "background-color": "#5B7CFF", // Horizon Europe root color (Level 1)
+  },
+},
+{
+  selector: "node.as-cluster-root",
+  style: {
+    "background-color": "rgb(197, 91, 67)", // same as Cluster nodes
+  },
+},
+{
+  selector: "node.as-destination-root",
+  style: {
+    "background-color": "rgb(98, 170, 247)", // same as Destination nodes
+  },
+},
+
 ];

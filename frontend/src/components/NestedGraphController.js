@@ -246,7 +246,7 @@ export default function NestedGraphController({
           onBack: popLevel,
         })
       : null;
-
+    console.log( "layerkey",current?.key );    
   return (
     <div className="graph-main-inner">
       {levelBar}

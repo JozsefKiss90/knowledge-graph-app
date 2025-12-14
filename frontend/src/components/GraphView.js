@@ -129,10 +129,53 @@ const GraphView = forwardRef(function GraphView(
       ])
       .update();
 
-    const isClusterOverview = String(layerKey || "").startsWith("Cluster_");
-    const isDestinationLayer = String(layerKey || "").startsWith("DEST_");
+    const cleanLayerKey = String(layerKey || "").replace("_cose", "");
+    const isRootLayer = cleanLayerKey === "ROOT";
+    const isClusterOverview = cleanLayerKey.startsWith("Cluster_");
+    const isDestinationLayer = cleanLayerKey.startsWith("DEST_");
 
-    // helper to build correct layout config
+    cy.nodes().removeClass("as-root as-cluster-root as-destination-root");
+    if (!isRootLayer) cy.nodes(".as-root").removeClass("as-root");
+
+    let rootNode = null;
+
+    if (isRootLayer) {
+      // Synthetic ROOT uses id "ROOT_HE"
+      rootNode = cy.$id("ROOT_HE");
+      console.log("rootNode for ROOT layer:", rootNode);
+      if (!rootNode || rootNode.empty()) {
+        rootNode = cy.nodes("node[type='root'], node[category='root']").first();
+      }
+    } else if (isDestinationLayer) {
+      // DEST_* layer: the Destination node is the “center”
+      rootNode = cy.nodes("node[type='Destination'], node[category='Destination']").first();
+      console.log("rootNode for DEST layer:", rootNode);
+    
+   } else if (isClusterOverview) {
+      // 1) Most reliable: try the layer key as the node id (e.g. "Cluster_6")
+      rootNode = cy.$id(cleanLayerKey);
+
+      // 2) Fallback: accept case variants and category variants
+      if (!rootNode || rootNode.empty()) {
+        rootNode = cy.nodes(
+          "node[type='cluster'], node[category='cluster'], node[type='Cluster'], node[category='Cluster']"
+        ).first();
+      }
+
+      // 3) Final fallback: highest-degree node (center-ish in star layouts)
+      if (!rootNode || rootNode.empty()) {
+        rootNode = cy.nodes().maxDegree(false).ele;
+      }
+
+      console.log("rootNode for Cluster layer:", rootNode);
+    }
+
+    if (rootNode && !rootNode.empty()) {
+      if (isRootLayer) rootNode.addClass("as-root");
+      else if (isDestinationLayer) rootNode.addClass("as-destination-root");
+      else if (isClusterOverview) rootNode.addClass("as-cluster-root");
+    }
+
     const createLayout = () => {
       const opts = layoutOptionsRef.current || {};
       const name = opts.name || layoutName || "cose-bilkent";

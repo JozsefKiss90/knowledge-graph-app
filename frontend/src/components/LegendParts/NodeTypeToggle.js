@@ -9,12 +9,12 @@ const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
   <Box>
    
     <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
-      {types.map(({ type, i }) => {
-        if (!visibleTypes || !types) return null;
-        const classType = type.replace(/\s+/g, '').toLowerCase();
+      {types.map((item) => {
+        const type = item.type;
+        const classType = String(type).replace(/\s+/g, "").toLowerCase();
         const isActive = visibleTypes.has(type);
-        const label = (typeof types[i]?.label === "string" && types[i].label) ? types[i].label : type;
-        const swatch = types[i]?.color; // computed Cytoscape background-color
+        const label = typeof item.label === "string" ? item.label : type;
+        const swatch = item.color;
 
         return (
           <Button
@@ -34,9 +34,9 @@ const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
           >
             {label.replace("_", " ")}
           </Button>
-
         );
       })}
+
     </Box>
   </Box>
 );
