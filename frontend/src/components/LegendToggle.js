@@ -20,7 +20,7 @@ import { getEdgeTypeList, getNodeTypeList } from "./LegendParts/graphTypeConfig"
 
 // Re-usable outlined, collapsible section shell
 const LegendSection = ({ title, isOpen, onToggle, children }) => (
-  <Box className="legend-section">
+  <Box className="legend-section" sx={{ width: "100%", boxSizing: "border-box" }}>
     <Box className="legend-section-header" onClick={onToggle}>
       <Typography className="legend-section-title" variant="subtitle2">
         {title}
@@ -81,7 +81,10 @@ if (key.toLowerCase() === "root") {
     }
     out.push({
       type,
-      label: String(type).toLowerCase() === "root" ? "Horizon Europe" : String(type),
+      label:
+      String(type).toLowerCase() === "root"
+        ? "Horizon Europe"
+        : String(type).replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase()),
       color: bestColor,
     });
   }
@@ -220,13 +223,16 @@ const nodeTypeList = useMemo(() => {
       className="legend-sidebar legend-filters-panel"
       component="aside"
       sx={{
-        width: 400,
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
+        width: "100%",          // inherit the 300px from GraphPage
+        minWidth: "100%",
+        maxWidth: "100%",
+       height: "100%",
+       display: "flex",
+       flexDirection: "column",
+        boxSizing: "border-box",
       }}
     >
-      {/* Header: Filters & Controls + collapse */}
+      {/* Header: Filters & Controls  collapse */}
       <Box className="legend-header">
         <Box display="flex" alignItems="center" gap={1}>
           <FilterListIcon fontSize="small" />

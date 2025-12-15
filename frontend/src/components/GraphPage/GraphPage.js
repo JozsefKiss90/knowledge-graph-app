@@ -18,7 +18,6 @@ import GraphTopBar from "./GraphTopBar";
 import { IconButton } from "@mui/material";
 import HoveredNodeInfo from "./HoveredNodeInfo"
 import { getClusterConfigForId } from "../NodeDetalParts/useNodeDetail";
-import GraphHeader from "../GraphHeader";
 
 function GraphPage() {
   const { ready, graphName, setGraphName, loadFromStore } = useGraphData();
@@ -212,9 +211,9 @@ function GraphPage() {
     <CyContext.Provider value={cyInstance}>
     <div className="graph-shell">
     <div className="graph-app-header">
-        <div className="graph-app-logo">
-          <span className="graph-app-logo-mark">⨉</span>
-        </div>
+    <div className="graph-app-logo">
+      <span className="graph-app-logo-mark graph-app-logo-mask" aria-hidden="true" />
+    </div>
         <div className="graph-app-header-text">
           <div className="graph-app-title">EU Research Knowledge Graph</div>
           <div className="graph-app-subtitle">
@@ -232,7 +231,8 @@ function GraphPage() {
             xs="auto"
             className="p-0 sidebar-transition"
             style={{
-              width: isLegendCollapsed ? 60 : 400,
+              width: isLegendCollapsed ? 60 : 320,
+
               backgroundColor: darkMode ? "rgb(20, 43, 59)" : "rgb(233, 233, 233)",
               position: "relative",
             }}

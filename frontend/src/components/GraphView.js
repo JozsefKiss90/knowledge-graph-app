@@ -37,7 +37,10 @@ const GraphView = forwardRef(function GraphView(
   },
   ref
 ) {
-  const containerRef = useRef(null);
+  // OUTER wrapper (relative) + inner Cytoscape container (absolute)
+  const wrapperRef = useRef(null);
+  const cyContainerRef = useRef(null);
+
   const cyRef = useRef(null);
   const [ready, setReady] = useState(false);
   const navigate = useNavigate();
@@ -51,10 +54,23 @@ const GraphView = forwardRef(function GraphView(
   const lastLayoutNameRef = useRef("cose-bilkent");
   const { darkMode } = useDarkMode();
 
-  useEffect(() => { nhRef.current = nestedHandlers; }, [nestedHandlers]);
-  useEffect(() => { hoverRef.current = onNodeHover; }, [onNodeHover]);
-  useEffect(() => { hoverIdRef.current = onHoverNodeIdChange; }, [onHoverNodeIdChange]);
-  useEffect(() => { onCyReadyRef.current = onCyReady; }, [onCyReady]);
+  // ---- Glow overlay state (SVG circles) ----
+  const [glowCircles, setGlowCircles] = useState([]);
+  const rafGlowRef = useRef(0);
+  const lastGlowKeyRef = useRef("");
+
+  useEffect(() => {
+    nhRef.current = nestedHandlers;
+  }, [nestedHandlers]);
+  useEffect(() => {
+    hoverRef.current = onNodeHover;
+  }, [onNodeHover]);
+  useEffect(() => {
+    hoverIdRef.current = onHoverNodeIdChange;
+  }, [onHoverNodeIdChange]);
+  useEffect(() => {
+    onCyReadyRef.current = onCyReady;
+  }, [onCyReady]);
 
   // flatten + (IMPORTANT) filter elements for cluster overview layer
   const elements = useMemo(() => {
@@ -98,17 +114,115 @@ const GraphView = forwardRef(function GraphView(
     layoutOptionsRef.current = layoutOptions;
   }, [layoutOptions]);
 
+  // --- helper: schedule glow update (RAF-throttled) ---
+  const scheduleGlowUpdate = () => {
+    if (rafGlowRef.current) return;
+    rafGlowRef.current = window.requestAnimationFrame(() => {
+      rafGlowRef.current = 0;
+      const cy = cyRef.current;
+      const wrap = wrapperRef.current;
+      if (!cy || !wrap) return;
+
+      const zoom = cy.zoom();
+      const nodeCount = cy.nodes().length;
+
+      // Render policy:
+      // - For small graphs: glow all visible nodes.
+      // - For large graphs: glow only “important” nodes.
+      // - Also: if zoomed out far, restrict glow set to avoid clutter.
+      const LARGE_GRAPH = 220;
+      const ZOOM_LOW = 0.45;
+
+      let nodesToGlow;
+
+      if (nodeCount > LARGE_GRAPH || zoom < ZOOM_LOW) {
+        nodesToGlow = cy.nodes(
+          ".as-root, .as-cluster-root, .as-destination-root, .is-hovered, .highlighted, :selected"
+        );
+      } else {
+        nodesToGlow = cy.nodes(":visible");
+      }
+
+      // Hard cap to protect DOM (deterministic order)
+      const MAX_GLOWS = nodeCount > LARGE_GRAPH ? 140 : 260;
+
+      const circles = [];
+      const wrapRect = wrap.getBoundingClientRect();
+      const w = wrapRect.width;
+      const h = wrapRect.height;
+
+      const pickColor = (n) => {
+        if (n.hasClass("as-root")) return n.data("themeRootColor") || n.data("themeColor");
+        if (n.hasClass("as-cluster-root"))
+          return n.data("themeClusterRootColor") || n.data("themeColor");
+        if (n.hasClass("as-destination-root"))
+          return n.data("themeDestinationRootColor") || n.data("themeColor");
+        return n.data("themeColor");
+      };
+
+      // only render circles that are actually on screen
+      const onScreen = (x, y, r) => x + r >= 0 && y + r >= 0 && x - r <= w && y - r <= h;
+
+      // stable selection + cap
+      const arr = nodesToGlow.toArray();
+      for (let i = 0; i < arr.length && circles.length < MAX_GLOWS; i++) {
+        const n = arr[i];
+        if (!n || n.removed()) continue;
+        if (!n.visible()) continue;
+
+        const p = n.renderedPosition();
+        const rw = n.renderedWidth();
+        const rh = n.renderedHeight();
+        const r = Math.max(rw, rh) * 0.42 + 4; // slightly larger than node to show glow
+
+        const x = p.x;
+        const y = p.y;
+
+        if (!onScreen(x, y, r)) continue;
+
+        const color = pickColor(n) || "rgba(91,124,255,0.9)";
+        const strong = n.hasClass("as-root") ||
+          n.hasClass("as-cluster-root") ||
+          n.hasClass("as-destination-root") ||
+          n.hasClass("is-hovered") ||
+          n.hasClass("highlighted") ||
+          n.selected();
+
+        circles.push({
+          id: n.id(),
+          x,
+          y,
+          r,
+          color,
+          strong,
+        });
+      }
+
+      // Reduce React re-renders: update state only if key changed meaningfully
+      const key = circles
+        .map((c) => `${c.id}:${Math.round(c.x)}:${Math.round(c.y)}:${Math.round(c.r)}:${c.strong ? 1 : 0}`)
+        .join("|");
+
+      if (key !== lastGlowKeyRef.current) {
+        lastGlowKeyRef.current = key;
+        setGlowCircles(circles);
+      }
+    });
+  };
+
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!cyContainerRef.current) return;
 
     // destroy previous instance if any
     if (cyRef.current) {
-      try { cyRef.current.destroy(); } catch {}
+      try {
+        cyRef.current.destroy();
+      } catch {}
       cyRef.current = null;
     }
 
     const cy = cytoscape({
-      container: containerRef.current,
+      container: cyContainerRef.current,
       elements,
       style: stylesheet,
       minZoom: 0.1,
@@ -118,53 +232,65 @@ const GraphView = forwardRef(function GraphView(
     });
     cyRef.current = cy;
 
-// GraphView.js (inside the cy init useEffect, after `const cy = cytoscape({ ... })`)
+    const PALETTE = darkMode
+      ? {
+          root: "#5B7CFF",
+          label: "#F3F6FF",
+          border: "rgba(255,255,255,0.22)",
+          base: "#6B8AFD",
 
-const PALETTE = darkMode
-  ? {
-      // Dark: slightly restrained chroma, higher opacity, “neon” reads well on dark
-      label: "#F3F6FF",
-      border: "rgba(255,255,255,0.22)",
-      base: "#6B8AFD",
+          policy: "#22D3EE",
+          strategy: "#34D399",
+          cluster: "#A3E635",
+          research_theme: "#FBBF24",
+          institution: "#C084FC",
+          topic: "#FDE047",
+          Destination: "#60A5FA",
+          Call: "#F59E0B",
 
-      policy: "#22D3EE",
-      strategy: "#34D399",
-      cluster: "#A3E635",
-      research_theme: "#FBBF24",
-      institution: "#C084FC",
-      topic: "#FDE047",
-      Destination: "#60A5FA",
-      Call: "#F59E0B",
+          edgeDefault: "rgba(148,163,184,0.65)",
+          edgeBelongs: "rgba(16,185,129,0.80)",
+          edgeShared: "rgba(59,130,246,0.85)",
+          edgeCross: "rgba(245,158,11,0.85)",
+          edgeDest: "rgba(96,165,250,0.85)",
+          edgeCall: "rgba(245,158,11,0.85)",
+        }
+      : {
+          root: "rgba(91,124,255,0.92)",
+          label: "#0B1220",
+          border: "rgba(2,6,23,0.20)",
+          base: "rgba(91,124,255,0.92)",
 
-      edgeDefault: "rgba(148,163,184,0.65)",
-      edgeBelongs: "rgba(16,185,129,0.80)",
-      edgeShared: "rgba(59,130,246,0.85)",
-      edgeCross: "rgba(245,158,11,0.85)",
-      edgeDest: "rgba(96,165,250,0.85)",
-      edgeCall: "rgba(245,158,11,0.85)",
-    }
-  : {
-      // Light: higher chroma + slightly lower opacity, to keep “air” on white
-      label: "#0B1220",
-      border: "rgba(2,6,23,0.20)",
-      base: "rgba(91,124,255,0.92)",
+          policy: "rgba(0,173,196,0.92)",
+          strategy: "rgba(34,197,94,0.90)",
+          cluster: "rgba(132,204,22,0.88)",
+          research_theme: "rgba(234,179,8,0.90)",
+          institution: "rgba(147,51,234,0.86)",
+          topic: "rgba(202,138,4,0.86)",
+          Destination: "rgba(59,130,246,0.88)",
+          Call: "rgba(245,158,11,0.88)",
 
-      policy: "rgba(0,173,196,0.92)",
-      strategy: "rgba(34,197,94,0.90)",
-      cluster: "rgba(132,204,22,0.88)",
-      research_theme: "rgba(234,179,8,0.90)",
-      institution: "rgba(147,51,234,0.86)",
-      topic: "rgba(202,138,4,0.86)",
-      Destination: "rgba(59,130,246,0.88)",
-      Call: "rgba(245,158,11,0.88)",
+          edgeDefault: "rgba(100,116,139,0.55)",
+          edgeBelongs: "rgba(16,185,129,0.65)",
+          edgeShared: "rgba(59,130,246,0.70)",
+          edgeCross: "rgba(245,158,11,0.70)",
+          edgeDest: "rgba(59,130,246,0.70)",
+          edgeCall: "rgba(245,158,11,0.70)",
+        };
 
-      edgeDefault: "rgba(100,116,139,0.55)",
-      edgeBelongs: "rgba(16,185,129,0.65)",
-      edgeShared: "rgba(59,130,246,0.70)",
-      edgeCross: "rgba(245,158,11,0.70)",
-      edgeDest: "rgba(59,130,246,0.70)",
-      edgeCall: "rgba(245,158,11,0.70)",
-    };
+    // Sync CSS variables used by toggle buttons
+    const root = document.documentElement;
+    root.style.setProperty("--nt-root", PALETTE.root);
+    root.style.setProperty("--nt-policy", PALETTE.policy);
+    root.style.setProperty("--nt-strategy", PALETTE.strategy);
+    root.style.setProperty("--nt-cluster", PALETTE.cluster);
+    root.style.setProperty("--nt-research_theme", PALETTE.research_theme);
+    root.style.setProperty("--nt-institution", PALETTE.institution);
+    root.style.setProperty("--nt-topic", PALETTE.topic);
+    root.style.setProperty("--nt-destination", PALETTE.Destination);
+    root.style.setProperty("--nt-call", PALETTE.Call);
+    root.style.setProperty("--nt-label", PALETTE.label);
+    root.style.setProperty("--nt-border", PALETTE.border);
 
     const nodeColorFor = (n) => {
       const t = n.data("type") || n.data("category") || "";
@@ -181,7 +307,7 @@ const PALETTE = darkMode
       return PALETTE.edgeDefault;
     };
 
-    // assign theme fields consumed by graphStyles.js
+    // assign theme fields consumed by graphStyles.js + overlay
     cy.nodes().forEach((n) => {
       n.data("themeColor", nodeColorFor(n));
       n.data("themeLabelColor", PALETTE.label);
@@ -192,36 +318,8 @@ const PALETTE = darkMode
       e.data("themeEdgeColor", edgeColorFor(e));
     });
 
-    // Optional: subtle neon glow (Cytoscape supports "shadow-*")
-    cy.style()
-      .selector("node")
-      .style({
-        "shadow-blur": darkMode ? 10 : 8,
-        "shadow-opacity": darkMode ? 0.28 : 0.18,
-        "shadow-offset-x": 0,
-        "shadow-offset-y": 0,
-        "shadow-color": "data(themeColor)",
-      })
-      .selector(".is-hovered, .highlighted")
-      .style({
-        "shadow-blur": darkMode ? 16 : 12,
-        "shadow-opacity": darkMode ? 0.42 : 0.26,
-        "border-width": 2,
-        "border-color": "data(themeColor)",
-      })
-      .update();
-
     cy.scratch("graphName", graphName);
     cy.scratch("layerKey", layerKey);
-
-        // Theme-aware label colors (Cytoscape style override)
-    const labelColor = darkMode ? "#f9fafb" : "#1A2332";
-    cy.style()
-      .selector("node")
-      .style({ color: labelColor })
-      .selector(".is-hovered")
-      .style({ color: labelColor })
-      .update();
 
     cy.style()
       .append([
@@ -243,40 +341,37 @@ const PALETTE = darkMode
     let rootNode = null;
 
     if (isRootLayer) {
-      // Synthetic ROOT uses id "ROOT_HE"
       rootNode = cy.$id("ROOT_HE");
-      console.log("rootNode for ROOT layer:", rootNode);
       if (!rootNode || rootNode.empty()) {
         rootNode = cy.nodes("node[type='root'], node[category='root']").first();
       }
     } else if (isDestinationLayer) {
-      // DEST_* layer: the Destination node is the “center”
       rootNode = cy.nodes("node[type='Destination'], node[category='Destination']").first();
-      console.log("rootNode for DEST layer:", rootNode);
-    
-   } else if (isClusterOverview) {
-      // 1) Most reliable: try the layer key as the node id (e.g. "Cluster_6")
+    } else if (isClusterOverview) {
       rootNode = cy.$id(cleanLayerKey);
-
-      // 2) Fallback: accept case variants and category variants
       if (!rootNode || rootNode.empty()) {
-        rootNode = cy.nodes(
-          "node[type='cluster'], node[category='cluster'], node[type='Cluster'], node[category='Cluster']"
-        ).first();
+        rootNode = cy
+          .nodes(
+            "node[type='cluster'], node[category='cluster'], node[type='Cluster'], node[category='Cluster']"
+          )
+          .first();
       }
-
-      // 3) Final fallback: highest-degree node (center-ish in star layouts)
       if (!rootNode || rootNode.empty()) {
         rootNode = cy.nodes().maxDegree(false).ele;
       }
-
-      console.log("rootNode for Cluster layer:", rootNode);
     }
 
     if (rootNode && !rootNode.empty()) {
-      if (isRootLayer) rootNode.addClass("as-root");
-      else if (isDestinationLayer) rootNode.addClass("as-destination-root");
-      else if (isClusterOverview) rootNode.addClass("as-cluster-root");
+      if (isRootLayer) {
+        rootNode.addClass("as-root");
+        rootNode.data("themeRootColor", PALETTE.root);
+      } else if (isDestinationLayer) {
+        rootNode.addClass("as-destination-root");
+        rootNode.data("themeDestinationRootColor", PALETTE.Destination);
+      } else if (isClusterOverview) {
+        rootNode.addClass("as-cluster-root");
+        rootNode.data("themeClusterRootColor", PALETTE.cluster);
+      }
     }
 
     const createLayout = () => {
@@ -310,7 +405,6 @@ const PALETTE = darkMode
         });
       }
 
-      // default: force-directed
       return cy.layout({
         ...opts,
         name,
@@ -326,7 +420,10 @@ const PALETTE = darkMode
     };
 
     const layout = createLayout();
-    layout.on("layoutstop", () => setReady(true));
+    layout.on("layoutstop", () => {
+      setReady(true);
+      scheduleGlowUpdate();
+    });
     layout.run();
 
     // events
@@ -336,19 +433,52 @@ const PALETTE = darkMode
       (id) => hoverIdRef.current && hoverIdRef.current(id),
       (data) => hoverRef.current && hoverRef.current(data),
       {
-        // ROOT click-to-open must work regardless of any dataset naming conventions
         shouldOpenCluster: () => String(layerKey || "").replace("_cose", "") === "ROOT",
         onClusterOpen: (data) => nhRef.current?.onClusterOpen?.(data),
         onDestinationToggle: (_, id) => nhRef.current?.onDestinationToggle?.(cy, id),
       }
     );
 
+    // ---- Hook glow updates to high-signal events only (RAF-throttled) ----
+    const onAny = () => scheduleGlowUpdate();
+
+    cy.on("pan zoom resize", onAny);
+    cy.on("drag position", "node", onAny);
+    cy.on("select unselect", "node", onAny);
+    cy.on("add remove", onAny);
+    cy.on("layoutstop", onAny);
+    cy.on("render", () => {
+      // render can be very frequent; RAF + key-diff ensures it stays bounded
+      scheduleGlowUpdate();
+    });
+
+    // initial
+    scheduleGlowUpdate();
+
     onCyReadyRef.current && onCyReadyRef.current(cy);
 
     return () => {
-      try { cy.destroy(); } catch {}
+      try {
+        cy.off("pan zoom resize", onAny);
+        cy.off("drag position", "node", onAny);
+        cy.off("select unselect", "node", onAny);
+        cy.off("add remove", onAny);
+        cy.off("layoutstop", onAny);
+        cy.off("render");
+      } catch {}
+
+      if (rafGlowRef.current) {
+        window.cancelAnimationFrame(rafGlowRef.current);
+        rafGlowRef.current = 0;
+      }
+
+      try {
+        cy.destroy();
+      } catch {}
       cyRef.current = null;
       setReady(false);
+      setGlowCircles([]);
+      lastGlowKeyRef.current = "";
     };
   }, [elements, graphName, layerKey, navigate, darkMode]);
 
@@ -416,7 +546,7 @@ const PALETTE = darkMode
   return (
     <div
       data-graph-name={graphName}
-      ref={containerRef}
+      ref={wrapperRef}
       className="cytoscape_container"
       style={{
         width: "100%",
@@ -424,7 +554,49 @@ const PALETTE = darkMode
         position: "relative",
         opacity: ready ? 1 : 0,
       }}
-    />
+    >
+      {/* Cytoscape renders here */}
+      <div
+        ref={cyContainerRef}
+        style={{ position: "absolute", inset: 0 }}
+      />
+
+      {/* DOM-efficient glow overlay (single SVG) */}
+      <svg
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+          zIndex: 5,
+          overflow: "visible",
+        }}
+      >
+        {glowCircles.map((c) => (
+          <circle
+            key={c.id}
+            cx={c.x}
+            cy={c.y}
+            r={c.r}
+            fill="transparent"
+            stroke={c.color}
+            strokeWidth={c.strong ? 1.8 : 1.2}
+            opacity={c.strong ? 0.92 : 0.72}
+            // Multi-ring neon feel via multiple drop-shadows (per-circle, per-color)
+            style={{
+             filter: c.strong
+      ? `drop-shadow(0 0 16px ${c.color})
+         drop-shadow(0 0 28px ${c.color})
+         drop-shadow(0 0 50px ${c.color})`
+      : `drop-shadow(0 0 16px ${c.color})
+         drop-shadow(0 0 26px ${c.color})`,
+            }}
+          />
+        ))}
+      </svg>
+    </div>
   );
 });
 

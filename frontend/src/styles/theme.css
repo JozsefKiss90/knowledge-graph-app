@@ -1,6 +1,12 @@
 :root {
   --font-size: 16px;
   
+  --legend-compact: 0.78;
+
+  /* Legend spacing baselines (DO NOT shrink below these) */
+  --legend-pad-base: 16px;
+  --legend-gap-base: 12px;
+  --legend-header-base: 44px;
   /* EU-Inspired Color Palette */
   --background: #F8F9FB;
   --foreground: #1A2332;

@@ -17,23 +17,16 @@ const NodeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => (
         const swatch = item.color;
 
         return (
-          <Button
-            key={type}
-            variant={isActive ? "contained" : "outlined"}
-            size="small"
-            disableElevation
-            className={`node-toggle-button type-${classType}${!isActive ? "-active" : ""}`}
-            onClick={() => onToggle(type)}
-            sx={{
-              ...(swatch
-                ? isActive
-                  ? { backgroundColor: swatch, borderColor: swatch, "&:hover": { backgroundColor: swatch } }
-                  : { color: swatch, borderColor: swatch, "&:hover": { borderColor: swatch } }
-                : {}),
-            }}
-          >
-            {label.replace("_", " ")}
-          </Button>
+         <Button
+   key={type}
+   variant={isActive ? "contained" : "outlined"}
+   size="small"
+   disableElevation
+   className={`node-toggle-button type-${classType}${!isActive ? "-active" : ""}`}
+   onClick={() => onToggle(type)}
+ >
+   {label.replace("_", " ")}
+ </Button>
         );
       })}
 

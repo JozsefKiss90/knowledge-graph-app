@@ -75,6 +75,23 @@ h2 {
   min-height: 0;    
 }
 
+.graph-app-logo-mark{
+  width: 60px;
+  height: 60px;
+  display: block;
+  color: #fff;
+}
+
+.graph-app-logo-mask{
+  width: 60px;
+  height: 60px;
+  display: block;
+  background: #fff; /* this is the “color” */
+  -webkit-mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat center / contain;
+  mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat center / contain;
+}
+
+
 .graph-container > .row {
   flex: 1 1 auto;
   min-height: 0;           /* <-- crucial for nested flex layouts */
@@ -268,99 +285,71 @@ h2 {
   background-color: var(--primary-foreground);
 }
 
-.edge-toggle-button,
+/* Node type toggles — theme-synchronised palette + subtle neon glow */
 .node-toggle-button {
-  font-weight: 500;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  text-transform: capitalize;
+  --swatch: var(--nt-policy); /* default fallback */
+
+  border: 1px solid color-mix(in srgb, var(--swatch) 70%, transparent) !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  letter-spacing: 0.2px !important;
+
+  /* subtle glow baseline */
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--swatch) 22%, transparent),
+    0 0 12px color-mix(in srgb, var(--swatch) 18%, transparent) !important;
+
+  .MuiButton-startIcon,
+  .MuiSvgIcon-root {
+    color: inherit !important;
+  }
 }
 
+/* Active (contained) */
+.node-toggle-button:not([class*="-active"]) {
+  background: color-mix(in srgb, var(--swatch) 50%, transparent) !important;
+  color: var(--foreground) !important;
 
-/* SHARED PATTERN for NODE & EDGE */
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--swatch) 38%, transparent),
+    0 0 16px color-mix(in srgb, var(--swatch) 28%, transparent) !important;
 
-.node-toggle-button.type-policy,
-.edge-toggle-button.type-policy {
-  background-color: var(--btn-policy-bg);
-  color: var(--btn-policy-text);
-  border: 1px solid var(--btn-policy-border);
+  &:hover {
+    background: color-mix(in srgb, var(--swatch) 28%, transparent) !important;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--swatch) 48%, transparent),
+      0 0 18px color-mix(in srgb, var(--swatch) 34%, transparent) !important;
+  }
 }
 
-.node-toggle-button.type-policy-active,
-.edge-toggle-button.type-policy-active {
-  background-color: transparent;
-  color: var(--btn-policy-text);
-  border: 1px solid var(--btn-policy-border);
+/* Inactive (outlined) — your code appends "-active" when NOT active */
+.node-toggle-button[class*="-active"] {
+  background: transparent !important;
+  color: color-mix(in srgb, var(--swatch) 92%, var(--foreground)) !important;
+
+  &:hover {
+    background: color-mix(in srgb, var(--swatch) 12%, transparent) !important;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--swatch) 34%, transparent),
+      0 0 16px color-mix(in srgb, var(--swatch) 26%, transparent) !important;
+  }
 }
 
-.node-toggle-button.type-policy:hover,
-.edge-toggle-button.type-policy:hover {
-  background-color: var(--btn-policy-text);
-  color: var(--btn-policy-bg);
-}
+/* Map the existing classType naming (lowercased, spaces removed) to swatches */
+.node-toggle-button.type-root { --swatch: var(--nt-root); }
+.node-toggle-button.type-policy { --swatch: var(--nt-policy); }
+.node-toggle-button.type-strategy { --swatch: var(--nt-strategy); }
+.node-toggle-button.type-cluster { --swatch: var(--nt-cluster); }
+.node-toggle-button.type-research_theme { --swatch: var(--nt-research_theme); }
+.node-toggle-button.type-institution { --swatch: var(--nt-institution); }
+.node-toggle-button.type-topic { --swatch: var(--nt-topic); }
+.node-toggle-button.type-destination { --swatch: var(--nt-destination); }
+.node-toggle-button.type-call { --swatch: var(--nt-call); }
 
-.node-toggle-button.type-policy-active:hover,
-.edge-toggle-button.type-policy-active:hover {
-  background-color: transparent;
-  color: var(--btn-policy-text);
-}
-
-
-/* SHARED PATTERN for NODE & EDGE */
-
-.node-toggle-button.type-strategy,
-.edge-toggle-button.type-strategy {
-  background-color: var(--btn-strategy-bg);
-  color: var(--btn-strategy-text);
-  border: 1px solid var(--btn-strategy-border);
-}
-
-.node-toggle-button.type-strategy-active,
-.edge-toggle-button.type-strategy-active {
-  background-color: transparent;
-  color: var(--btn-strategy-text);
-  border: 1px solid var(--btn-strategy-border);
-}
-
-.node-toggle-button.type-strategy:hover,
-.edge-toggle-button.type-strategy:hover {
-  background-color: var(--btn-strategy-text);
-  color: var(--btn-strategy-bg);
-}
-
-.node-toggle-button.type-strategy-active:hover,
-.edge-toggle-button.type-strategy-active:hover {
-  background-color: transparent;
-  color: var(--btn-strategy-text);
-}
-
-
-/* SHARED PATTERN for NODE & EDGE */
-
-.node-toggle-button.type-cluster,
-.edge-toggle-button.type-cluster {
-  background-color: var(--btn-cluster-bg);
-  color: var(--btn-cluster-text);
-  border: 1px solid var(--btn-cluster-border);
-}
-
-.node-toggle-button.type-cluster-active,
-.edge-toggle-button.type-cluster-active {
-  background-color: transparent;
-  color: var(--btn-cluster-text);
-  border: 1px solid var(--btn-cluster-border);
-}
-
-.node-toggle-button.type-cluster:hover,
-.edge-toggle-button.type-cluster:hover {
-  background-color: var(--btn-cluster-text);
-  color: var(--btn-cluster-bg);
-}
-
-.node-toggle-button.type-cluster-active:hover,
-.edge-toggle-button.type-cluster-active:hover {
-  background-color: transparent;
-  color: var(--btn-cluster-text);
+/* Focus accessibility (still “neon”) */
+.node-toggle-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--swatch) 55%, transparent) !important;
+  outline-offset: 2px;
 }
 
 
@@ -453,27 +442,23 @@ h2 {
 
 /* SHARED PATTERN for NODE & EDGE */
 
-.node-toggle-button.type-call,
 .edge-toggle-button.type-call {
   background-color: var(--btn-call-bg);
   color: var(--btn-call-text);
   border: 1px solid var(--btn-call-border);
 }
 
-.node-toggle-button.type-call-active,
 .edge-toggle-button.type-call-active {
   background-color: transparent;
   color: var(--btn-call-text);
   border: 1px solid var(--btn-call-border);
 }
 
-.node-toggle-button.type-call:hover,
 .edge-toggle-button.type-call:hover {
   background-color: var(--btn-call-text);
   color: var(--btn-call-bg);
 }
 
-.node-toggle-button.type-call-active:hover,
 .edge-toggle-button.type-call-active:hover {
   background-color: transparent;
   color: var(--btn-call-text);
@@ -511,27 +496,23 @@ h2 {
 
 /* SHARED PATTERN for NODE & EDGE */
 
-.node-toggle-button.type-destination,
 .edge-toggle-button.type-destination {
   background-color: var(--btn-destination-bg);
   color: var(--btn-destination-text);
   border: 1px solid var(--btn-destination-border);
 }
 
-.node-toggle-button.type-destination-active,
 .edge-toggle-button.type-destination-active {
   background-color: transparent;
   color: var(--btn-destination-text);
   border: 1px solid var(--btn-destination-border);
 }
 
-.node-toggle-button.type-destination:hover,
 .edge-toggle-button.type-destination:hover {
   background-color: var(--btn-destination-text);
   color: var(--btn-destination-bg);
 }
 
-.node-toggle-button.type-destination-active:hover,
 .edge-toggle-button.type-destination-active:hover {
   background-color: transparent;
   color: var(--btn-destination-text);
@@ -829,7 +810,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.9rem;
+  padding: 0rem 0.9rem;
   cursor: pointer;
 }
 
@@ -846,7 +827,7 @@ h2 {
 
 /* Section body content */
 .legend-section-body {
-  padding: 0.6rem 0.9rem 0.75rem;
+  padding: 0rem 0.9rem 0.75rem;
 }
 
 .legend-footer {
@@ -1153,8 +1134,8 @@ h2 {
 }
 
 .graph-app-logo {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
   display: flex;
   align-items: center;
