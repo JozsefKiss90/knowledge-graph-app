@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useDarkMode } from "./context/DarkModeContext";
 import cytoscape from "cytoscape";
 import coseBilkent from "cytoscape-cose-bilkent";
 import { stylesheet } from "../styles/graphStyles";
@@ -48,6 +49,7 @@ const GraphView = forwardRef(function GraphView(
   const hoverIdRef = useRef(onHoverNodeIdChange);
   const onCyReadyRef = useRef(onCyReady);
   const lastLayoutNameRef = useRef("cose-bilkent");
+  const { darkMode } = useDarkMode();
 
   useEffect(() => { nhRef.current = nestedHandlers; }, [nestedHandlers]);
   useEffect(() => { hoverRef.current = onNodeHover; }, [onNodeHover]);
@@ -116,10 +118,111 @@ const GraphView = forwardRef(function GraphView(
     });
     cyRef.current = cy;
 
+// GraphView.js (inside the cy init useEffect, after `const cy = cytoscape({ ... })`)
+
+const PALETTE = darkMode
+  ? {
+      // Dark: slightly restrained chroma, higher opacity, “neon” reads well on dark
+      label: "#F3F6FF",
+      border: "rgba(255,255,255,0.22)",
+      base: "#6B8AFD",
+
+      policy: "#22D3EE",
+      strategy: "#34D399",
+      cluster: "#A3E635",
+      research_theme: "#FBBF24",
+      institution: "#C084FC",
+      topic: "#FDE047",
+      Destination: "#60A5FA",
+      Call: "#F59E0B",
+
+      edgeDefault: "rgba(148,163,184,0.65)",
+      edgeBelongs: "rgba(16,185,129,0.80)",
+      edgeShared: "rgba(59,130,246,0.85)",
+      edgeCross: "rgba(245,158,11,0.85)",
+      edgeDest: "rgba(96,165,250,0.85)",
+      edgeCall: "rgba(245,158,11,0.85)",
+    }
+  : {
+      // Light: higher chroma + slightly lower opacity, to keep “air” on white
+      label: "#0B1220",
+      border: "rgba(2,6,23,0.20)",
+      base: "rgba(91,124,255,0.92)",
+
+      policy: "rgba(0,173,196,0.92)",
+      strategy: "rgba(34,197,94,0.90)",
+      cluster: "rgba(132,204,22,0.88)",
+      research_theme: "rgba(234,179,8,0.90)",
+      institution: "rgba(147,51,234,0.86)",
+      topic: "rgba(202,138,4,0.86)",
+      Destination: "rgba(59,130,246,0.88)",
+      Call: "rgba(245,158,11,0.88)",
+
+      edgeDefault: "rgba(100,116,139,0.55)",
+      edgeBelongs: "rgba(16,185,129,0.65)",
+      edgeShared: "rgba(59,130,246,0.70)",
+      edgeCross: "rgba(245,158,11,0.70)",
+      edgeDest: "rgba(59,130,246,0.70)",
+      edgeCall: "rgba(245,158,11,0.70)",
+    };
+
+    const nodeColorFor = (n) => {
+      const t = n.data("type") || n.data("category") || "";
+      return PALETTE[t] || PALETTE.base;
+    };
+
+    const edgeColorFor = (e) => {
+      const t = e.data("type") || "";
+      if (t === "BELONGS_TO_TOPIC") return PALETTE.edgeBelongs;
+      if (t === "SHARED_TOPIC") return PALETTE.edgeShared;
+      if (t === "CROSS_TOPIC_SIMILARITY") return PALETTE.edgeCross;
+      if (t === "HAS_DESTINATION") return PALETTE.edgeDest;
+      if (t === "HAS_CALL") return PALETTE.edgeCall;
+      return PALETTE.edgeDefault;
+    };
+
+    // assign theme fields consumed by graphStyles.js
+    cy.nodes().forEach((n) => {
+      n.data("themeColor", nodeColorFor(n));
+      n.data("themeLabelColor", PALETTE.label);
+      n.data("themeBorderColor", PALETTE.border);
+    });
+
+    cy.edges().forEach((e) => {
+      e.data("themeEdgeColor", edgeColorFor(e));
+    });
+
+    // Optional: subtle neon glow (Cytoscape supports "shadow-*")
+    cy.style()
+      .selector("node")
+      .style({
+        "shadow-blur": darkMode ? 10 : 8,
+        "shadow-opacity": darkMode ? 0.28 : 0.18,
+        "shadow-offset-x": 0,
+        "shadow-offset-y": 0,
+        "shadow-color": "data(themeColor)",
+      })
+      .selector(".is-hovered, .highlighted")
+      .style({
+        "shadow-blur": darkMode ? 16 : 12,
+        "shadow-opacity": darkMode ? 0.42 : 0.26,
+        "border-width": 2,
+        "border-color": "data(themeColor)",
+      })
+      .update();
+
     cy.scratch("graphName", graphName);
     cy.scratch("layerKey", layerKey);
 
-    // helper classes
+        // Theme-aware label colors (Cytoscape style override)
+    const labelColor = darkMode ? "#f9fafb" : "#1A2332";
+    cy.style()
+      .selector("node")
+      .style({ color: labelColor })
+      .selector(".is-hovered")
+      .style({ color: labelColor })
+      .update();
+
     cy.style()
       .append([
         { selector: ".faded", style: { opacity: 0.15 } },
@@ -247,7 +350,7 @@ const GraphView = forwardRef(function GraphView(
       cyRef.current = null;
       setReady(false);
     };
-  }, [elements, graphName, layerKey, navigate]);
+  }, [elements, graphName, layerKey, navigate, darkMode]);
 
   useImperativeHandle(ref, () => ({
     rerunLayout: () => {

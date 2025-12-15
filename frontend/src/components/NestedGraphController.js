@@ -252,6 +252,7 @@ export default function NestedGraphController({
       {levelBar}
       <div className="graph-canvas-wrapper">
         <GraphView
+          key={current.key}
           ref={graphRef}
           graphData={current.elements}
           graphName={current.graphName}

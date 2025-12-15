@@ -14,6 +14,7 @@ from routes.new_pipeline.cl3_routes import router as cl3
 from routes.new_pipeline.cl4_routes import router as cl4
 from routes.new_pipeline.cl5_routes import router as cl5
 from routes.new_pipeline.cl1_routes import router as cl1
+from routes.new_pipeline.cl2_routes import router as cl2
 from routes.new_pipeline.cl6_routes import router as cl6
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
@@ -33,6 +34,7 @@ app.include_router(integrate.router)
 app.include_router(cl3)
 app.include_router(cl4)
 app.include_router(cl5)
+app.include_router(cl2)
 app.include_router(cl1)
 app.include_router(cl6)
 app.include_router(email_routes.router)

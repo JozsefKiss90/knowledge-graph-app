@@ -1,0 +1,25 @@
+{
+  "Food, Bioeconomy, Natural Resources, Agriculture and Environment (Cluster 6)": {
+    "Biodiversity and ecosystem services": {
+      "summary": "Advances knowledge, tools and solutions to halt biodiversity loss, restore ecosystems and strengthen the benefits nature provides (e.g., pollination, soil health, water regulation). It supports monitoring and assessment, nature‑based solutions, and scalable restoration approaches across terrestrial and marine environments. The destination typically links ecological outcomes with socio‑economic impacts and governance for long‑term resilience."
+    },
+    "Fair, healthy and environment-friendly food systems from primary": {
+      "summary": "Supports the transformation of food systems from primary production onwards to be healthier, more sustainable and more equitable. It addresses sustainable farming and aquaculture practices, food safety and nutrition, reduced environmental footprints, and improved resilience to shocks. Emphasis is usually placed on innovation adoption, value‑chain collaboration and measurable outcomes for consumers, producers and ecosystems."
+    },
+    "Circular economy and bioeconomy sectors": {
+      "summary": "Develops circular and bio-based value chains that reduce dependence on fossil resources and minimise waste through reuse, recycling and sustainable biomass utilisation. It supports biorefineries, bio-based materials and chemicals, and industrial symbiosis approaches that improve resource efficiency. The destination often focuses on sustainability, market uptake, standards and business models for scale."
+    },
+    "Clean environment and zero pollution": {
+      "summary": "Targets prevention and reduction of pollution in air, water and soil, including emerging contaminants and combined exposure risks. It develops monitoring, mitigation and remediation technologies, and policy-relevant evidence to protect human health and ecosystems. The destination typically supports integrated approaches across sectors to deliver cleaner environments and safer chemicals management."
+    },
+    "Land, ocean and water for climate action": {
+      "summary": "Supports climate mitigation and adaptation solutions linked to land use, oceans and freshwater systems. It advances understanding and management of carbon sinks, hydrological cycles and coastal/marine dynamics, and develops practices that increase resilience to droughts, floods and sea-level rise. The destination often combines nature‑based and technological solutions with improved data and decision support."
+    },
+    "Resilient, inclusive, healthy and green rural, coastal and urban": {
+      "summary": "Strengthens the sustainability and attractiveness of rural, coastal and urban territories through inclusive development and improved access to services. It supports community-led innovation, sustainable land and spatial planning, and solutions for climate resilience, health and wellbeing. The destination typically promotes place‑based approaches that bridge regional disparities and foster social cohesion."
+    },
+    "Innovative governance, environmental observations and digital solutions in": {
+      "summary": "Improves environmental governance and the data foundations needed for effective policy and management. It supports Earth observation, monitoring infrastructures, interoperable data spaces and digital decision-support tools for public authorities and stakeholders. The destination also advances participatory governance models and capabilities to translate observations into timely action."
+    }
+  }
+}

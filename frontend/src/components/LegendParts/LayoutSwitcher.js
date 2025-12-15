@@ -18,18 +18,18 @@ const LayoutSwitcher = ({ graphName, setGraphName }) => {
    
       <Box sx={{ mt: 1, ml: 1 }}>
         <RadioGroup value={layoutMode} onChange={handleLayoutChange}>
-          <FormControlLabel
-            value="cose"
-            control={<Radio sx={{ color: "white" }} />}
-            label="Default"
-            sx={{ color: "white" }}
-          />
-          <FormControlLabel
-            value="klay"
-            control={<Radio sx={{ color: "white" }} />}
-            label="Tree"
-            sx={{ color: "white" }}
-          />
+        <FormControlLabel
+          value="cose"
+          control={<Radio sx={{ color: "var(--foreground)" }} />}
+          label="Default"
+          sx={{ color: "var(--foreground)" }}
+        />
+        <FormControlLabel
+          value="klay"
+          control={<Radio sx={{ color: "var(--foreground)" }} />}
+          label="Tree"
+          sx={{ color: "var(--foreground)" }}
+        />
         </RadioGroup>
       </Box>
     </Box>

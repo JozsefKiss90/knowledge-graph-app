@@ -1206,7 +1206,6 @@ h2 {
   }
 }
 
-
 .graph-topbar-left {
   display: flex;
   align-items: center;
@@ -1303,6 +1302,61 @@ h2 {
 
 .graph-topbar-icon:hover {
   background-color: var(--primary-light);
+}
+
+/* GraphTopBar: make icons/text theme-aware */
+.dark-theme .graph-topbar,
+.light-theme .graph-topbar {
+  color: var(--foreground);
+}
+
+.dark-theme .graph-topbar .graph-topbar-icon,
+.light-theme .graph-topbar .graph-topbar-icon {
+  color: var(--foreground);
+}
+
+.dark-theme .graph-topbar .graph-topbar-separator,
+.light-theme .graph-topbar .graph-topbar-separator {
+  color: var(--muted-foreground);
+}
+
+.dark-theme .graph-topbar .graph-topbar-breadcrumb-label,
+.light-theme .graph-topbar .graph-topbar-breadcrumb-label {
+  color: var(--foreground);
+}
+
+/* active crumb can stay “primary” */
+.dark-theme .graph-topbar .graph-topbar-breadcrumb--active .graph-topbar-breadcrumb-label,
+.light-theme .graph-topbar .graph-topbar-breadcrumb--active .graph-topbar-breadcrumb-label {
+  color: var(--primary);
+}
+/* GraphTopBar — force icons to follow theme tokens (fixes light mode) */
+body.light-theme {
+  .graph-topbar {
+    /* Home button uses a plain <button> + SvgIcon */
+    .graph-topbar-home-icon {
+      color: var(--foreground) !important;
+    }
+
+    /* Action icons use MUI <IconButton> */
+    .MuiIconButton-root.graph-topbar-icon {
+      color: var(--foreground) !important;
+    }
+
+    /* Ensure the actual SVG inside MUI icons inherits the button color */
+    .MuiIconButton-root.graph-topbar-icon .MuiSvgIcon-root {
+      color: inherit !important;
+    }
+
+    /* Optional: active layout icon state (if you use graph-topbar-icon--active) */
+    .MuiIconButton-root.graph-topbar-icon--active {
+      color: var(--primary) !important;
+      background: var(--sidebar-accent);
+    }
+    .MuiIconButton-root.graph-topbar-icon--active .MuiSvgIcon-root {
+      color: inherit !important;
+    }
+  }
 }
 
 .legend-header {
