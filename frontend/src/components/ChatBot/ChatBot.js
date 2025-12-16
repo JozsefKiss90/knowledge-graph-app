@@ -78,14 +78,16 @@ const ChatBot = () => {
             width: 56,
             height: 56,
             borderRadius: '50%',
-            bgcolor: darkMode ? '#4A9EFF' : '#0051A5',
+            bgcolor: darkMode ? '#652effff' : '#ffffffff',
+            border: darkMode ? '#ffffffff' : '2px solid #4005adff',
             boxShadow: 4,
             '&:hover': {
-              bgcolor: darkMode ? '#3683dd' : '#003f82',
+              bgcolor: darkMode ? '#561bf7ff' : '#ffffffff',
+              border: '2px solid #4005adff',
             },
           }}
         >
-          <ChatBubbleOutlineOutlinedIcon sx={{ color: '#fff' }} />
+          <ChatBubbleOutlineOutlinedIcon sx={{ color: darkMode ? "white" : '#4005adff' }} />
         </IconButton>
       </Box>
     );
@@ -107,7 +109,7 @@ const ChatBot = () => {
         elevation={6}
         sx={{
           p: 1,
-          bgcolor: darkMode ? '#1e2b35' : '#ffffff',
+          bgcolor: darkMode ? '#652effff' : 'rgba(255, 255, 255, 1)', 
           color: darkMode ? '#f0f0f0' : '#000',
           borderRadius: 2,
           height: '100%',
@@ -139,9 +141,7 @@ const ChatBot = () => {
           sx={{
             flexGrow: 1,
             overflowY: 'auto',
-            p: 1,
-            mb: 1,
-            bgcolor: darkMode ? '#2d3b45' : '#f5f5f5',
+            bgcolor: darkMode ? '#4005adff' : '#4005adff',
             borderRadius: 1,
           }}
         >
@@ -157,7 +157,7 @@ const ChatBot = () => {
                 sx={{
                   p: 1,
                   maxWidth: '75%',
-                  bgcolor: msg.sender === 'user' ? '#1976d2' : '#e0e0e0',
+                  bgcolor: msg.sender === 'user' ? '#4005adff' : '#e0e0e0',
                   color: msg.sender === 'user' ? 'white' : 'black',
                   borderRadius: 1,
                 }}
@@ -176,32 +176,46 @@ const ChatBot = () => {
           )}
           <div ref={chatEndRef} />
         </Paper>
+        <Box sx={{ display: 'flex', flexWrap:'nowrap', flexGrow:1, justifyContent:'space-between', borderRadius: 1,}}>  
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexGrow:1, }}>
+            <TextField
+              fullWidth
+              size="small"
+              variant="outlined"
+              placeholder="Ask a question..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              sx={{
+                // Critical in flex rows: allow shrinking without overflow
+                minWidth: 0,
 
-        <Box display="flex" gap={1}>
-          <TextField
-            fullWidth
-            size="small"
-            variant="outlined"
-            placeholder="Ask a question..."
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            sx={{
-              '& .MuiInputBase-input::placeholder': {
-                color: 'white',
-                opacity: 1,
-              },
-              input: { color: 'white' },
-            }}
-          />
-          <Button
-            variant="contained"
-            onClick={sendMessage}
-            disabled={loading}
-            sx={{ minWidth: 80 }}
-          >
-            Send
-          </Button>
+                // Style the OUTER input container (this is what fills the field)
+                "& .MuiOutlinedInput-root": {
+                  backgroundColor: darkMode ? "#4e27a1ff" : "#ffffffff",
+                  borderRadius: 1,
+                },
+
+                // Style the actual <input>
+                "& .MuiOutlinedInput-input": {
+                  color:  darkMode ? "white" : "black",
+                },
+
+                "& .MuiOutlinedInput-input::placeholder": {
+                  color: darkMode ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.6)",
+                  opacity: 1,
+                },
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={sendMessage}
+              disabled={loading}
+              sx={{ width: 84, flex: "0 0 auto", alignSelf: "flex-end", color: darkMode ? '#ffffffff' : '#4500e0ff',  backgroundColor: darkMode ? '#4500e0ff' : '#ffffffff', '&:hover': { backgroundColor: darkMode ? '#3300aaff' : '#ffffffff', }, }}
+            >
+              Send
+            </Button>
+          </Box>
         </Box>
       </Paper>
     </Box>

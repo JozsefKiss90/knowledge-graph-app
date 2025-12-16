@@ -173,19 +173,22 @@ export default function NestedGraphController({
 
       if (callNodes.length === 0) return;
 
-      const title = destEl.data.label || destEl.data.name || destEl.data.id || destinationId;
+      const title = destEl.data.label ||  destEl.data.name || destEl.data.id || destinationId;
+      const destKey = `DEST_${destEl.data.id || destinationId}`;
 
       setLevels((prev) => [
         ...prev,
         {
-          key: `DEST_${destEl.data.id || destinationId}`,
+          key: destKey,
           title,
           // keep dataset identity for the layer so GraphSelector still makes sense
           graphName: atKey,
           elements: { nodeElements: [destEl, ...callNodes], edgeElements: callEdges },
         },
       ]);
-
+      onLevelChange?.(destKey);
+      lastAppliedTargetRef.current = destKey;
+      
       clearHover(onNodeHover, onHoverNodeIdChange);
     },
     [current?.key, loadFromStore, onNodeHover, onHoverNodeIdChange]

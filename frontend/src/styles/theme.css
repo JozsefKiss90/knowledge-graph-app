@@ -1,4 +1,9 @@
 :root {
+    /* Graph surface */
+  --graph-surface: var(--background);
+  --graph-grid-line: rgba(122, 122, 122, 0.06);
+  --graph-grid-line-strong: rgba(94, 94, 94, 0.09);
+  --graph-vignette: radial-gradient(ellipse at center, rgb(255, 255, 255) 20%, rgb(245, 245, 245) 680%, rgba(255, 255, 255, 0.164) 100%);
   --font-size: 16px;
   
   --legend-compact: 0.78;
@@ -8,7 +13,7 @@
   --legend-gap-base: 12px;
   --legend-header-base: 44px;
   /* EU-Inspired Color Palette */
-  --background: #F8F9FB;
+  --background: #ffffff;
   --foreground: #1A2332;
   --card: #FFFFFF;
   --card-foreground: #1A2332;
@@ -16,7 +21,7 @@
   --popover-foreground: #1A2332;
   
   /* Primary: EU Blue */
-  --primary: #0051A5;
+  --primary: #bed5ff;
   --primary-foreground: #FFFFFF;
   --primary-light: #E6F0F9;
   --primary-dark: #003D7A;
@@ -101,9 +106,14 @@
 }
 
 .dark,body.dark-theme  {
+    /* Graph surface */ 
+  --graph-surface: #121e30; /* or var(--background) if you prefer */
+  --graph-grid-line: rgba(134, 134, 134, 0.045);
+  --graph-grid-line-strong: rgba(134, 134, 134, 0.045);
+  --graph-vignette: radial-gradient(ellipse at center, rgba(39, 39, 39, 0) 0%, rgba(29, 29, 29, 0.28) 65%, rgba(0,0,0,0.42) 100%);
   --background: #0D1117;
   --foreground: #E6EDF3;
-  --card: #161B22;
+  --card: #171d27;
   --card-foreground: #E6EDF3;
   --popover: #161B22;
   --popover-foreground: #E6EDF3;
@@ -115,7 +125,7 @@
   --secondary-foreground: #E6EDF3;
   --muted: #21262D;
   --muted-foreground: #8B949E;
-  --accent: #30363D;
+  --accent: #28323f;
   --accent-foreground: #E6EDF3;
   --destructive: #F85149;
   --destructive-foreground: #FFFFFF;
@@ -150,11 +160,11 @@
   --chart-5: oklch(0.645 0.246 16.439);
   
   /* Sidebar - Dark Mode */
-  --sidebar: #161B22;
+  --sidebar: #131b29;
   --sidebar-foreground: #E6EDF3;
   --sidebar-primary: #4A9EFF;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #21262D;
+  --sidebar-accent: #202936;
   --sidebar-accent-foreground: #E6EDF3;
   --sidebar-border: #30363D;
   --sidebar-ring: #4A9EFF;

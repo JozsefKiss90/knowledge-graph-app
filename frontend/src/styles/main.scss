@@ -9,6 +9,64 @@ html, body, #root {
   padding: 0;
 }
 
+/* main.scss (or any global stylesheet loaded by the app) */
+
+.cytoscape_container {
+  background: var(--graph-surface);
+  overflow: hidden; /* ensures the pseudo background stays clipped nicely */
+}
+
+/* Subtle “striped/grid” background layer */
+.cytoscape_container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* Two-layer grid: fine + slightly stronger lines */
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--graph-grid-line) 0px,
+      var(--graph-grid-line) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--graph-grid-line) 0px,
+      var(--graph-grid-line) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--graph-grid-line-strong) 0px,
+      var(--graph-grid-line-strong) 1px,
+      transparent 1px,
+      transparent 240px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--graph-grid-line-strong) 0px,
+      var(--graph-grid-line-strong) 1px,
+      transparent 1px,
+      transparent 240px
+    ),
+    var(--graph-vignette);
+
+  opacity: 1;
+}
+
+/* Ensure Cytoscape and overlays are above the background */
+.cytoscape_container > div {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+
 .dark-theme {
   background-color: var(--background); // dark mode background
   color: var(--primary-foreground);            // default light text
@@ -82,15 +140,35 @@ h2 {
   color: #fff;
 }
 
-.graph-app-logo-mask{
+.graph-app-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light);
+  color: var(--primary-foreground);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.graph-app-logo-mark {
+  font-size: 0.9rem;
+}
+
+.graph-app-logo-mask {
   width: 60px;
   height: 60px;
   display: block;
-  background: #fff; /* this is the “color” */
+  background-color: white;
   -webkit-mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat center / contain;
   mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat center / contain;
 }
 
+.light-theme .graph-app-logo-mask {
+  filter: invert(1);
+}
 
 .graph-container > .row {
   flex: 1 1 auto;
@@ -788,7 +866,7 @@ h2 {
 /* Light theme: outlined cards with blue border */
 .light-theme .legend-section {
   border-color: var(--primary);      // 1px blue outline in light mode
-}
+} 
 
 /* Dark theme: keep subtle grey outline */
 .dark-theme .legend-section {
@@ -810,6 +888,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: var( --sidebar-accent);
   padding: 0rem 0.9rem;
   cursor: pointer;
 }
@@ -828,6 +907,7 @@ h2 {
 /* Section body content */
 .legend-section-body {
   padding: 0rem 0.9rem 0.75rem;
+  background-color: var( --sidebar-accent);
 }
 
 .legend-footer {
@@ -883,7 +963,7 @@ h2 {
 
 /* Dark theme adjustment uses the same tokens, which already change with theme */
 .dark-theme .graph-status-bar {
-  background-color: var(--secondary);
+  background-color: var(--sidebar);
   color: var(--muted-foreground);
 }
 
@@ -954,7 +1034,7 @@ h2 {
 }
 
 .dark-theme .graph-topbar {
-  background-color: var(--secondary);
+  background-color: var(--sidebar);
   color: var(--muted-foreground);
 }
 
@@ -1126,29 +1206,14 @@ h2 {
   padding: 0 24px;
   display: flex;
   align-items: center;
+  background-color: var(--sidebar);
   gap: 12px;
-  background-color: var(--card);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
   z-index: 11;
 }
 
-.graph-app-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--primary-light);
-  color: var(--primary-foreground);
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
-}
 
-.graph-app-logo-mark {
-  font-size: 0.9rem;
-}
 
 .graph-app-header-text {
   display: flex;
@@ -1346,7 +1411,7 @@ body.light-theme {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border);
-  background: var(--card);
+  background: var(--sidebar);
   flex: 0 0 auto;
 }
 
@@ -1396,4 +1461,90 @@ body.light-theme {
 
 .legend-collapsed-label {
   font-weight: var(--font-weight-medium);
+}
+
+/* GraphSelector scrollable list */
+.graph-selector {
+  width: 100%;
+}
+
+.graph-selector-list {
+  width: 100%;
+  max-height: 190px;              /* adjust as needed */
+  overflow: auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.12); /* will be overridden by theme below */
+}
+
+.graph-selector-group + .graph-selector-group {
+  margin-top: 10px;
+}
+
+.graph-selector-group-title {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+  margin: 0 0 6px 2px;
+}
+.graph-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.graph-tree-toggle,
+.graph-tree-toggle-spacer {
+  width: 18px;
+  flex: 0 0 18px;
+  text-align: center;
+}
+
+.graph-tree-toggle {
+  border: none;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.graph-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+}
+
+.graph-tree-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.graph-tree-row.is-selected .graph-tree-item {
+  background: rgba(74, 158, 255, 0.18);
+  border-color: rgba(74, 158, 255, 0.35);
+}
+
+.graph-tree-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 8px;
+}
+
+.graph-tree-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

@@ -24,7 +24,7 @@ const LegendSection = ({ title, isOpen, onToggle, children }) => (
     <Box className="legend-section-header" onClick={onToggle}>
       <Typography className="legend-section-title" variant="subtitle2">
         {title}
-      </Typography>
+      </Typography> 
       <IconButton
         size="small"
         className="legend-section-toggle"
@@ -104,7 +104,17 @@ function collectLayerEdgeTypes(cy) {
   return s;
 }
 
-const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) => {
+const LegendToggle = ({
+    hoveredNodeRef,
+    graphName,
+    setGraphName,
+    onCollapse,
+    loadFromStore,
+    onRequestNavigate,
+    selectedNodeId,
+    setSelectedNodeId
+  }) => {
+
   const cy = useCy();
   const scrollRef = useRef(null);
 
@@ -116,7 +126,7 @@ const LegendToggle = ({ hoveredNodeRef, graphName, setGraphName, onCollapse }) =
   const layerEdgeTypesSet = useMemo(() => collectLayerEdgeTypes(cy), [cy, graphName]);
 
   // Keep HE_2025 ordering/colors from config, but only show types that are present
-const nodeTypeList = useMemo(() => {
+  const nodeTypeList = useMemo(() => {
   const present = new Map(layerNodeTypes.map((x) => [x.type, x]));
 
   if (isHE2025) {
@@ -195,6 +205,25 @@ const nodeTypeList = useMemo(() => {
     setter(newSet);
   };
 
+
+  useEffect(() => {
+    if (!cy || cy.destroyed()) return;
+
+    const onSel = (evt) => {
+      try { setSelectedNodeId(evt?.target?.id?.() || null); } catch { setSelectedNodeId(null); }
+    };
+    const onUnsel = () => setSelectedNodeId(null);
+
+    cy.on("select", "node", onSel);
+    cy.on("unselect", "node", onUnsel);
+
+    return () => {
+      try {
+        cy.off("select", "node", onSel);
+        cy.off("unselect", "node", onUnsel);
+      } catch {}
+    };
+  }, [cy, graphName]);
   const resetView = () => {
     if (!cy || cy.destroyed()) return;
 
@@ -259,25 +288,23 @@ const nodeTypeList = useMemo(() => {
           isOpen={sectionsOpen.dataset}
           onToggle={() => toggleSection("dataset")}
         >
-          <GraphSelector graphName={graphName} setGraphName={setGraphName} />
-        </LegendSection>
+      <GraphSelector
+          cy={cy}
+          graphName={graphName}
+          setGraphName={setGraphName}
+          loadFromStore={loadFromStore}
+          selectedNodeId={selectedNodeId}
+          onRequestNavigate={onRequestNavigate}
+        />
 
-        {layoutSupported && (
-          <LegendSection
-            title="Layout Mode"
-            isOpen={sectionsOpen.layout}
-            onToggle={() => toggleSection("layout")}
-          >
-            <LayoutSwitcher graphName={graphName} setGraphName={setGraphName} />
-          </LegendSection>
-        )}
+        </LegendSection>
 
         {/* Edge Types only relevant for HE_2025 */}
         {isHE2025 && edgeTypeList.length > 0 && (
           <LegendSection
-            title="Edge Types"
-            isOpen={sectionsOpen.edgeTypes}
-            onToggle={() => toggleSection("edgeTypes")}
+          title="Edge Types"
+          isOpen={sectionsOpen.edgeTypes}
+          onToggle={() => toggleSection("edgeTypes")}
           >
             <EdgeTypeToggle
               cy={cy}
@@ -286,16 +313,16 @@ const nodeTypeList = useMemo(() => {
               onToggle={(type) =>
                 toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, (t) =>
                   cy.edges(`[type = "${t}"], [category = "${t}"]`)
-                )
-              }
-            />
+            )
+          }
+          />
           </LegendSection>
         )}
 
         {nodeTogglesVisible && (
           <LegendSection
-            title="Node Types"
-            isOpen={sectionsOpen.nodeTypes}
+          title="Node Types"
+          isOpen={sectionsOpen.nodeTypes}
             onToggle={() => toggleSection("nodeTypes")}
           >
             <NodeTypeToggle
@@ -305,9 +332,9 @@ const nodeTypeList = useMemo(() => {
               onToggle={(type) =>
                 toggleType(type, visibleNodeTypes, setVisibleNodeTypes, (t) =>
                   cy.nodes(`[type = "${t}"], [category = "${t}"]`)
-                )
-              }
-            />
+            )
+          }
+          />
           </LegendSection>
         )}
 
@@ -315,20 +342,28 @@ const nodeTypeList = useMemo(() => {
           title="Search Node"
           isOpen={sectionsOpen.search}
           onToggle={() => toggleSection("search")}
-        >
+          >
           <SearchBox cy={cy} showTitle={false} />
         </LegendSection>
 
         {/* Similarity section only for HE_2025 */}
         {isHE2025 && (
           <LegendSection
-            title="Min Similarity"
-            isOpen={sectionsOpen.similarity}
-            onToggle={() => toggleSection("similarity")}
+          title="Min Similarity"
+          isOpen={sectionsOpen.similarity}
+          onToggle={() => toggleSection("similarity")}
           >
             <ScoreFilter cy={cy} showTitle={false} />
           </LegendSection>
         )}
+
+          <LegendSection
+            title="Layout Mode"
+            isOpen={sectionsOpen.layout}
+            onToggle={() => toggleSection("layout")}
+          >
+            <LayoutSwitcher graphName={graphName} setGraphName={setGraphName} />
+          </LegendSection>
       </Box>
 
       {/* Fixed footer / Reset button */}

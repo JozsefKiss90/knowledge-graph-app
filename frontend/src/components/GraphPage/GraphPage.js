@@ -21,6 +21,7 @@ import { getClusterConfigForId } from "../NodeDetalParts/useNodeDetail";
 
 function GraphPage() {
   const { ready, graphName, setGraphName, loadFromStore } = useGraphData();
+  const [pendingNav, setPendingNav] = useState(null);
   const [cyInstance, setCyInstance] = useState(null);
   const hoveredNodeRef = useRef(null);
   const { darkMode, setDarkMode } = useDarkMode();
@@ -31,6 +32,7 @@ function GraphPage() {
   const { layoutOptions: userLayout, updateOption } = useLayoutOptions();
   const [bookmarksCount, setBookmarksCount] = useState(0);
   const [hoveredNode, setHoveredNode] = useState(null);
+  const [selectedNodeId, setSelectedNodeId] = useState(null);
 
     // Clear hover card when the active graph / layer changes
   useEffect(() => {
@@ -38,73 +40,132 @@ function GraphPage() {
     setHoveredNode(null);
   }, [graphName]);
 
+  useEffect(() => {
+  if (!pendingNav || !cyInstance || cyInstance.destroyed()) return;
 
-    useEffect(() => {
+  const clean = (k) => String(k || "").replace("_cose", "");
+  const { clusterKey, destinationId, callId } = pendingNav;
+
+  const currentKey = clean(graphName);
+  const desiredDestKey = destinationId ? `DEST_${String(destinationId)}` : null;
+
+  // If we're already in a DEST_ layer:
+  if (currentKey.startsWith("DEST_") && destinationId) {
+    // If we're NOT on the requested destination, go back to cluster first (to reopen another destination)
+    if (currentKey !== desiredDestKey) {
+      if (clusterKey) {
+        setGraphName(clusterKey);
+      }
+      return;
+    }
+
+    // We ARE on the requested destination layer:
+    // - if the request is only to open the destination, we are done
+    if (!callId) {
+      setPendingNav(null);
+      return;
+    }
+
+    // - if we also need a call, proceed to tap the call below (do NOT bounce back to cluster)
+  }
+
+  // Ensure we are in the right cluster dataset before trying to open destination
+  if (clusterKey && currentKey !== clusterKey && !currentKey.startsWith("DEST_")) {
+    setGraphName(clusterKey);
+    return;
+  }
+
+  // If we need a destination and we are currently on the cluster layer, tap it
+  if (destinationId && currentKey === clusterKey) {
+    const n = cyInstance.$id(String(destinationId));
+    if (n && n.nonempty && n.nonempty()) {
+      n.emit("tap"); // openDestinationLayer via setupEvents
+      return;
+    }
+  }
+
+  // If we need a call and we are on the correct DEST layer, tap it
+  if (callId && currentKey.startsWith("DEST_")) {
+    const n = cyInstance.$id(String(callId));
+    if (n && n.nonempty && n.nonempty()) {
+      n.emit("tap"); // setupEvents will navigate to details
+      setPendingNav(null);
+      return;
+    }
+  }
+
+  // If request was only dataset switching, clear it
+  if (!destinationId && !callId) {
+    setPendingNav(null);
+  }
+}, [pendingNav, cyInstance, graphName, setGraphName]);
+
+  useEffect(() => {
     let lastHoveredId = null;
     let cancelled = false;
 
-    const hydrateHoveredNode = async (node) => {
-      if (!node) {
-        setHoveredNode(null);
-        return;
-      }
+  const hydrateHoveredNode = async (node) => {
+    if (!node) {
+      setHoveredNode(null);
+      return;
+    }
 
-      // Always show the basic node immediately
-      setHoveredNode(node);
+    // Always show the basic node immediately
+    setHoveredNode(node);
 
       // Only hydrate Calls (Destination / others never hit the WP API)
-      const isCall =
-        node.type === "Call" || node.category === "Call";
+    const isCall =
+      node.type === "Call" || node.category === "Call";
 
-      if (!isCall) return;
+    if (!isCall) return;
 
-      try {
-        const config = getClusterConfigForId(node.id);
-        if (!config) return;
+    try {
+      const config = getClusterConfigForId(node.id);
+      if (!config) return;
 
-        const endpoint = config.buildNodeEndpoint(node.id);
-        const res = await fetch(endpoint);
-        if (!res.ok) {
-          console.error(
-            "Failed to hydrate hovered Call node:",
-            node.id,
-            res.status
-          );
-          return;
-        }
-
-        const detail = await res.json();
-
-        // Only update if we’re still looking at the same node
-        if (!cancelled && node.id === lastHoveredId) {
-          setHoveredNode({ ...node, ...detail });
-        }
-      } catch (err) {
-        console.error("Error hydrating hovered Call node:", err);
-      }
-    };
-
-    const interval = setInterval(() => {
-      const current = hoveredNodeRef.current;
-
-      if (!current || !current.id) {
-        if (lastHoveredId !== null) {
-          lastHoveredId = null;
-          setHoveredNode(null);
-        }
+      const endpoint = config.buildNodeEndpoint(node.id);
+      const res = await fetch(endpoint);
+      if (!res.ok) {
+        console.error(
+          "Failed to hydrate hovered Call node:",
+          node.id,
+          res.status
+        );
         return;
       }
 
-      if (current.id !== lastHoveredId) {
-        lastHoveredId = current.id;
-        hydrateHoveredNode(current);
-      }
-    }, 120); // small polling interval while hovering
+      const detail = await res.json();
 
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
+      // Only update if we’re still looking at the same node
+      if (!cancelled && node.id === lastHoveredId) {
+        setHoveredNode({ ...node, ...detail });
+      }
+    } catch (err) {
+      console.error("Error hydrating hovered Call node:", err);
+    }
+  };
+
+  const interval = setInterval(() => {
+    const current = hoveredNodeRef.current;
+
+    if (!current || !current.id) {
+      if (lastHoveredId !== null) {
+        lastHoveredId = null;
+        setHoveredNode(null);
+      }
+      return;
+    }
+
+    if (current.id !== lastHoveredId) {
+      lastHoveredId = current.id;
+      hydrateHoveredNode(current);
+    }
+  }, 120); // small polling interval while hovering
+
+  return () => {
+    cancelled = true;
+    clearInterval(interval);
+  };
   }, [hoveredNodeRef]);
 
   useEffect(() => {
@@ -250,10 +311,14 @@ function GraphPage() {
                 </button>
               </div>
             ) : (
-              <LegendToggle
+            <LegendToggle
                 hoveredNodeRef={hoveredNodeRef}
                 graphName={graphName}
+                loadFromStore={loadFromStore}
+                onRequestNavigate={(req) => setPendingNav(req)}
                 setGraphName={setGraphName}
+                selectedNodeId={selectedNodeId}
+                setSelectedNodeId={setSelectedNodeId}
                 onCollapse={() => setIsLegendCollapsed(true)}
               />
             )}
@@ -266,7 +331,6 @@ function GraphPage() {
               loadFromStore={loadFromStore}
               onCyReady={(cy) => {
                 setCyInstance(cy);
-                // Ensure initial zoom/pan matches the Reset View button behaviour
                 requestAnimationFrame(() => {
                   try { cy.fit({ padding: 60 }); } catch {}
                 });
