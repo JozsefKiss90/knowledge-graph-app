@@ -210,7 +210,7 @@ h2 {
 
 /* Common layout for the scrollable MUI Box */
 .legend-sidebar {
-  width: 400px;
+  width: 320px;
   height: 100%;
   padding: 0;                 // header / content / footer manage their own padding
   overflow: hidden;           // let .legend-content handle scrolling
@@ -1054,7 +1054,6 @@ h2 {
   color: #fff;
   font-weight: 600;
   cursor: pointer;
-  white-space: nowrap;
 }
 
 .graph-topbar-chip--active {
@@ -1545,6 +1544,40 @@ body.light-theme {
 
 .graph-tree-label {
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  //text-overflow: ellipsis;
+  //white-space: nowrap;
+}
+
+/* Graph Selector – compact density */
+.graph-selector .graph-tree-row {
+  /* smaller vertical rhythm */
+  margin: 0;
+}
+
+.graph-selector .graph-tree-item {
+  padding: 4px 8px;          /* was larger */
+  min-height: 26px;          /* tighter rows */
+  border-radius: 8px;
+}
+
+.graph-selector .graph-tree-label {
+  line-height: 1.15;
+}
+
+.graph-selector .graph-tree-toggle,
+.graph-selector .graph-tree-toggle-spacer {
+  width: 18px;               /* tighter indent controls */
+  min-width: 18px;
+}
+
+.graph-selector .graph-tree-dot {
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+}
+
+.graph-selector .graph-selector-group-title {
+  margin: 6px 0 4px;         /* tighter group spacing */
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
 }

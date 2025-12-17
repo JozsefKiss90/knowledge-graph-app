@@ -40,7 +40,7 @@ const GraphView = forwardRef(function GraphView(
   // OUTER wrapper (relative) + inner Cytoscape container (absolute)
   const wrapperRef = useRef(null);
   const cyContainerRef = useRef(null);
-
+  console.log("GraphView render", { graphName, graphData });
   const cyRef = useRef(null);
   const [ready, setReady] = useState(false);
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const GraphView = forwardRef(function GraphView(
   const [glowCircles, setGlowCircles] = useState([]);
   const rafGlowRef = useRef(0);
   const lastGlowKeyRef = useRef("");
-
+  
   useEffect(() => {
     nhRef.current = nestedHandlers;
   }, [nestedHandlers]);

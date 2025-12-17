@@ -9,8 +9,6 @@ export const stylesheet = [
       "font-weight": 400,
       "text-valign": "bottom",
       "text-halign": "center",
-      "text-wrap": "wrap",
-      "text-max-width": 90,
       "text-margin-y": 8,
       color: "data(themeLabelColor)",
       "text-outline-width": 0,

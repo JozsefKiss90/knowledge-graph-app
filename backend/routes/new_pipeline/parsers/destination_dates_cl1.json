@@ -1,0 +1,125 @@
+{
+  "Staying healthy in a rapidly changing society": {
+    "calls": {
+      "HORIZON-HLTH-2026-01": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-HLTH-2027-01": {
+        "opening_date": "2027-02-10",
+        "deadline": "2027-04-13"
+      },
+      "HORIZON-HLTH-2027-03": {
+        "opening_date": "2027-06-03",
+        "deadline": "2027-09-22"
+      }
+    } 
+  },
+  "Living and working in a health-promoting environment": {
+    "calls": {
+      "HORIZON-HLTH-2026-01": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-HLTH-2027-01": {
+        "opening_date": "2027-02-10",
+        "deadline": "2027-04-13"
+      },
+      "HORIZON-HLTH-2027-03": {
+        "opening_date": "2027-06-03",
+        "deadline": "2027-09-22"
+      }
+    }
+  },
+  "Tackling diseases and reducing disease burden": {
+    "calls": {
+      "HORIZON-HLTH-2026-01": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-HLTH-2026-02": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-09-15"
+      },
+      "HORIZON-HLTH-2026-03": {
+        "opening_date": "2027-02-10",
+        "deadline": "2027-04-13"
+      },
+      "HORIZON-HLTH-2027-01": {
+        "opening_date": "2027-02-10",
+        "deadline": "2027-04-13"
+      },
+      "HORIZON-HLTH-2027-02": {
+        "opening_date": "2027-02-10",
+        "deadline_first_stage": "2027-04-13",
+        "deadline_second_stage": "2027-09-22"
+      },
+      "HORIZON-HLTH-2027-03": {
+        "opening_date": "2027-06-03",
+        "deadline": "2027-09-22"
+      }
+    }
+  },
+  "Ensuring equal access to innovative, sustainable, and high-quality": {
+    "calls": {
+      "HORIZON-HLTH-2026-01": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-HLTH-2026-04": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-HLTH-2027-01": {
+        "opening_date": "2027-02-10",
+        "deadline": "2027-04-13"
+      },
+      "HORIZON-HLTH-2027-03": {
+        "opening_date": "2027-06-03",
+        "deadline": "2027-09-22"
+      }
+    }
+  },
+  "Developing and using new tools, technologies and digital solutions for a": {
+    "calls": {
+      "HORIZON-HLTH-2026-01": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-HLTH-2027-01": {
+        "opening_date": "2027-02-10",
+        "deadline": "2027-04-13"
+      },
+      "HORIZON-HLTH-2027-02": {
+        "opening_date": "2027-02-10",
+        "deadline_first_stage": "2027-04-13",
+        "deadline_second_stage": "2027-09-22"
+      },
+      "HORIZON-HLTH-2027-03": {
+        "opening_date": "2027-06-03",
+        "deadline": "2027-09-22"
+      }
+    }
+  },
+  "Maintaining an innovative, sustainable, and competitive EU health": {
+    "calls": {
+      "HORIZON-HLTH-2026-01": {
+        "opening_date": "2026-02-10",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-HLTH-2027-01": {
+        "opening_date": "2027-02-10",
+        "deadline": "2027-04-13"
+      },
+      "HORIZON-HLTH-2027-02": {
+        "opening_date": "2027-02-10",
+        "deadline_first_stage": "2027-04-13",
+        "deadline_second_stage": "2027-09-22"
+      },
+      "HORIZON-HLTH-2027-03": {
+        "opening_date": "2027-06-03",
+        "deadline": "2027-09-22"
+      }
+    }
+  }
+}

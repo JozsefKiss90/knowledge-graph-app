@@ -105,6 +105,13 @@
   --text-2xl: 1.5rem;
 }
 
+.MuiTooltip-tooltip {
+  max-width: none !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
 .dark,body.dark-theme  {
     /* Graph surface */ 
   --graph-surface: #121e30; /* or var(--background) if you prefer */

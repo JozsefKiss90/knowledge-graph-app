@@ -286,17 +286,17 @@ function GraphPage() {
       fluid
       className="flex-grow-1 d-flex flex-column p-0 overflow-hidden graph-container"
     >        
-      <Row className="flex-grow-1 w-100 g-0 legend-titles" style={{ flexWrap: "nowrap" }}>
+      <Row className="flex-grow-1 w-100 g-0" style={{ flexWrap: "nowrap" }}>
           {/* LEFT SIDEBAR */}
           <Col
             xs="auto"
             className="p-0 sidebar-transition"
             style={{
-              width: isLegendCollapsed ? 60 : 320,
+              width: isLegendCollapsed ? 60 : 360,
 
               backgroundColor: darkMode ? "rgb(20, 43, 59)" : "rgb(233, 233, 233)",
               position: "relative",
-            }}
+            }} 
           >
            {isLegendCollapsed ? (
               <div className="legend-collapsed-shell">

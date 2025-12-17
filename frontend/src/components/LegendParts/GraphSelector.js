@@ -1,6 +1,7 @@
 ﻿// src/components/LegendParts/GraphSelector.js
 import { useEffect, useMemo, useState } from "react";
 import { buildElements } from "../utils/buildElements";
+import Tooltip from "@mui/material/Tooltip";
 
 const groupColors = {
   meta: "#3B82F6",
@@ -196,11 +197,36 @@ export default function GraphSelector({
       ) : (
         <span className="graph-tree-toggle-spacer" />
       )}
-
-      <button type="button" className="graph-tree-item" onClick={onClick} title={item.label}>
-        <span className="graph-tree-dot" style={{ backgroundColor: item.color }} />
-        <span className="graph-tree-label">{item.label}</span>
-      </button>
+        <Tooltip
+          title={item.fullLabel ?? item.label}
+          placement="right"
+          arrow
+          enterDelay={350}
+          slotProps={{
+            tooltip: {
+              sx: {
+                maxWidth: "none",       // remove MUI default cap
+                whiteSpace: "normal",   // wrap
+                wordBreak: "break-word",
+                overflow: "visible",
+                textOverflow: "unset",
+                lineHeight: 1.25,
+                fontSize: 13,
+              },
+            },
+            popper: {
+              modifiers: [
+                { name: "flip", options: { fallbackPlacements: ["left", "bottom", "top"] } },
+                { name: "preventOverflow", options: { boundary: "viewport", padding: 8, altAxis: true } },
+              ],
+            },
+          }}
+        >
+          <button type="button" className="graph-tree-item" onClick={onClick}>
+            <span className="graph-tree-dot" style={{ backgroundColor: item.color }} />
+            <span className="graph-tree-label">{item.label}</span>
+          </button>
+        </Tooltip>
     </div>
   );
 

@@ -5,6 +5,6 @@ class ClusterGraphBuilderCL1(BaseClusterBuilder):
     @property
     def cluster_id(self) -> str: return "CL1"
     @property
-    def cluster_name(self) -> str: return "Cluster 1 - Health"
+    def cluster_name(self) -> str: return "Health (Cluster 1)"
     @property
     def source_tag(self) -> str: return "cluster_1"

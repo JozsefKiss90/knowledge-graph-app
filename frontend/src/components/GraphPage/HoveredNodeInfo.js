@@ -178,10 +178,16 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
     return { ...node, call_id: node.call_id || node.id || node.callId };
   }, [node]);
 
-  const isCallNode = !!enrichedNode && (enrichedNode.type === "Call" || enrichedNode.category === "Call");
+  const nodeKind = useMemo(() => {
+    const t = (enrichedNode?.type || enrichedNode?.category || "").toString().toLowerCase();
+    return t;
+  }, [enrichedNode?.type, enrichedNode?.category]);
 
-    const nodeVisual = useMemo(() => {
-    // Fallbacks if cy is not available or node not found
+  const isCallNode = !!enrichedNode && nodeKind === "call";
+  const isDestinationNode = !!enrichedNode && nodeKind === "destination";
+  const isClusterNode = !!enrichedNode && (nodeKind === "cluster" || nodeKind === "root"); // keep “root-as-cluster” safe
+
+  const nodeVisual = useMemo(() => {
     const fallback = {
       fill: enrichedNode?.color || enrichedNode?.fill || enrichedNode?.backgroundColor || enrichedNode?.bg || "#4a9eff",
       borderColor: "#ffffff",
@@ -194,11 +200,7 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
       const n = cyInstance.$id(String(enrichedNode.id));
       if (!n || n.empty?.()) return fallback;
 
-      // This returns the *computed* rendered style from Cytoscape (matches actual node color)
       const fill = n.style("background-color") || fallback.fill;
-
-      // Your hover/highlight border is effectively white in your styles
-      // (GraphView appends border-color "#fff" for ".highlighted") :contentReference[oaicite:1]{index=1}
       const borderColor = "#ffffff";
       const borderWidthPx = 2;
 
@@ -208,7 +210,6 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
     }
   }, [enrichedNode?.id, enrichedNode?.color, enrichedNode?.fill, enrichedNode?.backgroundColor, enrichedNode?.bg, cyInstance]);
 
-  // Measure size when node changes; safe even when enrichedNode is null
   useLayoutEffect(() => {
     if (!enrichedNode) return;
     if (!cardRef.current) return;
@@ -237,9 +238,8 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
         ro?.disconnect();
       } catch {}
     };
-  }, [enrichedNode?.id, isCallNode]);
+  }, [enrichedNode?.id, isCallNode, isDestinationNode, isClusterNode]);
 
-  // Reset drag on node switch (safe when enrichedNode is null)
   useEffect(() => {
     setDragPos(null);
     dragRef.current.active = false;
@@ -250,7 +250,6 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
     } catch {}
   }, [enrichedNode?.id]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       try {
@@ -265,31 +264,30 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
 
   const title = safeLabel(enrichedNode);
   const typeLabel = safeType(enrichedNode);
-  const idLabel = safeId(enrichedNode);
-  const summary = truncate(enrichedNode.summary || enrichedNode.description || "");
+
+  // Destination: ONLY show title (no chips, summary, metric cards, tags, buttons)
+  const renderDestinationMinimal = isDestinationNode;
+
+  // Cluster summary (single box). We’ll accept several candidate keys now; you’ll finalize JSON later.
+  const clusterSummaryRaw = getFirstNonEmpty(enrichedNode, [
+    "cluster_summary",
+    "clusterSummary",
+    "summary_short",
+    "short_summary",
+    "summary",
+    "description",
+  ]);
+  const clusterSummary = truncate(String(clusterSummaryRaw || ""), SUMMARY_PREVIEW_LIMIT) || PLACEHOLDER;
+
+  const summaryDefault = truncate(enrichedNode.summary || enrichedNode.description || "");
+
   const connections = extractConnections(enrichedNode);
   const centrality = extractCentrality(enrichedNode);
   const tags = extractTags(enrichedNode);
 
-  const isClusterLike =
-    enrichedNode.type === "cluster" ||
-    enrichedNode.type === "Cluster" ||
-    enrichedNode.category === "Cluster";
-
-  const accentColor = isClusterLike ? "#f9b347" : "#4a9eff";
-
-  // Prefer node-provided color fields if you have them; fallback to accent
-  const nodeFill =
-    enrichedNode.color ||
-    enrichedNode.fill ||
-    enrichedNode.backgroundColor ||
-    enrichedNode.bg ||
-    accentColor;
-
-    const handleGraphNavigate = () => {
+  const handleGraphNavigate = () => {
     if (!enrichedNode?.id) return;
 
-    // Trigger same behavior as clicking the node in the graph
     try {
       if (cyInstance && !cyInstance.destroyed?.()) {
         const n = cyInstance.$id(String(enrichedNode.id));
@@ -298,11 +296,8 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
           return;
         }
       }
-    } catch {
-      // ignore and fall back
-    }
+    } catch {}
 
-    // Fallback: go to details
     navigate(`/node/${encodeURIComponent(enrichedNode.id)}`, {
       state: { nodeData: { ...enrichedNode } },
     });
@@ -314,7 +309,6 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
       state: { nodeData: { ...enrichedNode } },
     });
   };
-
 
   const screenPos = enrichedNode.__screenPosition;
   const renderedSize = enrichedNode.__renderedSize;
@@ -495,37 +489,60 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
     window.addEventListener("pointerup", pointerUpListenerRef.current, { passive: true });
   };
 
-  let metricCards;
-  if (isCallNode) {
-    const trl = formatCallFieldValue(
-      "technology_readiness_level",
-      enrichedNode.technology_readiness_level,
-      enrichedNode
-    );
-    const budget = formatCallFieldValue(
-      "indicative_budget",
-      enrichedNode.indicative_budget,
-      enrichedNode
-    );
-    const deadline = formatCallFieldValue("deadline", enrichedNode.deadline, enrichedNode);
-    const actionType = formatCallFieldValue(
-      "type_of_action",
-      enrichedNode.type_of_action,
-      enrichedNode
-    );
+  // --- Metric cards rules ---
+  // - Destination: none (title only)
+  // - Cluster: single Summary box
+  // - Call: existing call metric cards
+  // - Other: keep Connections/Centrality (unchanged)
+  let metricCards = [];
 
-    metricCards = [
-      { label: "TRL", value: trl },
-      { label: "Indicative Budget", value: budget },
-      { label: "Deadline", value: deadline },
-      { label: "Type of Action", value: actionType },
-    ];
-  } else {
-    metricCards = [
-      { label: "Connections", value: connections },
-      { label: "Centrality", value: centrality },
-    ];
+  if (!renderDestinationMinimal) {
+    if (isCallNode) {
+      const trl = formatCallFieldValue(
+        "technology_readiness_level",
+        enrichedNode.technology_readiness_level,
+        enrichedNode
+      );
+      const budget = formatCallFieldValue(
+        "indicative_budget",
+        enrichedNode.indicative_budget,
+        enrichedNode
+      );
+      const deadline = formatCallFieldValue("deadline", enrichedNode.deadline, enrichedNode);
+      const actionType = formatCallFieldValue(
+        "type_of_action",
+        enrichedNode.type_of_action,
+        enrichedNode
+      );
+
+      metricCards = [
+        { label: "TRL", value: trl },
+        { label: "Indicative Budget", value: budget },
+        { label: "Deadline", value: deadline },
+        { label: "Type of Action", value: actionType },
+      ];
+    } else if (isClusterNode) {
+      metricCards = [{ label: "Summary", value: clusterSummary }];
+    } else {
+      metricCards = [
+        { label: "Connections", value: connections },
+        { label: "Centrality", value: centrality },
+      ];
+    }
   }
+
+  // View Details button:
+  // - Required: Cluster shows it
+  // - Keep: Call shows it
+  // - Destination: hide (title-only requirement)
+  const showViewDetails = !!enrichedNode.id && !renderDestinationMinimal && (isClusterNode || isCallNode);
+
+  // Summary text block:
+  // - Destination: none
+  // - Cluster: we use the single Summary metric box only (no extra summary paragraph)
+  // - Others: keep old summary paragraph if present
+  const shouldRenderSummaryParagraph =
+    !renderDestinationMinimal && !isClusterNode && !!summaryDefault;
 
   const maxCardHeight =
     typeof window !== "undefined"
@@ -576,21 +593,24 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
         <CloseIcon fontSize="small" />
       </IconButton>
 
+      {/* HEADER */}
       <Box
         sx={{
           display: "flex",
           alignItems: "flex-start",
           gap: 1.5,
-          mb: 1.5,
+          mb: renderDestinationMinimal ? 0 : 1.5,
           cursor: "grab",
           userSelect: "none",
           "&:active": { cursor: "grabbing" },
           touchAction: "none",
         }}
       >
+        {/* Keep the avatar dot even for Destination; it does not add “boxes” and helps orientation */}
         <Box
           data-no-drag="true"
           onClick={(e) => {
+            if (renderDestinationMinimal) return;
             e.preventDefault();
             e.stopPropagation();
             handleGraphNavigate();
@@ -599,16 +619,15 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
             width: 40,
             height: 40,
             borderRadius: "50%",
-            backgroundColor: nodeFill,
             backgroundColor: nodeVisual.fill,
             border: `${nodeVisual.borderWidthPx}px solid ${nodeVisual.borderColor}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
-            cursor: enrichedNode.id ? "pointer" : "default",
+            cursor: !renderDestinationMinimal && enrichedNode.id ? "pointer" : "default",
           }}
-          title={enrichedNode.id ? "Open" : undefined}
+          title={!renderDestinationMinimal && enrichedNode.id ? "Open" : undefined}
         >
           <Typography variant="subtitle2" sx={{ color: "#fff", fontWeight: 700 }}>
             {title.charAt(0).toUpperCase()}
@@ -616,121 +635,147 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
         </Box>
 
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography
-            data-no-drag="true"
-            variant="subtitle1"
-            sx={{
-              fontWeight: 700,
-              cursor: enrichedNode.id ? "pointer" : "default",
-              "&:hover": enrichedNode.id ? { color: "var(--primary)", textDecoration: "underline" } : {},
-              whiteSpace: "normal",
-              overflow: "visible",
-              textOverflow: "clip",
-              wordBreak: "break-word",
-              lineHeight: 1.2,
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleGraphNavigate();
-            }}
-            title={title}
-          >
-            {title}
-          </Typography>
+         <Typography
+  data-no-drag="true"
+  variant="subtitle1"
+  sx={{
+    fontWeight: 700,
 
-          <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1, mt: 0.5 }}>
-            <Chip
-              data-no-drag="true"
-              label={typeLabel}
-              size="small"
-              sx={{
-                height: 22,
-                fontSize: "0.7rem",
-                fontWeight: 600,
-                borderRadius: "999px",
-                backgroundColor: "rgba(74, 158, 255, 0.1)",
-                color: "var(--primary)",
-              }}
-            />
-          </Box>
-        </Box>
-      </Box>
+    // IMPORTANT: ensure full title is visible (no ellipsis / no line clamp)
+    whiteSpace: "normal !important",
+    overflow: "visible !important",
+    textOverflow: "clip !important",
+    display: "block !important",
+    wordBreak: "break-word",
+    overflowWrap: "anywhere",
 
-      <Divider sx={{ my: 1 }} />
+    // prevent the close icon from visually “cutting” the last characters
+    paddingRight: "32px",
 
-      {summary && (
-        <Typography variant="body2" sx={{ mb: 1.5, lineHeight: 1.4, color: "var(--muted-foreground)" }}>
-          {summary}
-        </Typography>
-      )}
+    cursor: !renderDestinationMinimal && enrichedNode.id ? "pointer" : "default",
+    "&:hover":
+      !renderDestinationMinimal && enrichedNode.id
+        ? { color: "var(--primary)", textDecoration: "underline" }
+        : {},
+    lineHeight: 1.2,
+  }}
+  onClick={(e) => {
+    if (renderDestinationMinimal) return;
+    e.preventDefault();
+    e.stopPropagation();
+    handleGraphNavigate();
+  }}
+  title={title}
+>
+  {title}
+</Typography>
 
-      <Box sx={{ display: "flex", gap: 1, mb: tags.length ? 1.5 : 0.5, flexWrap: "wrap" }}>
-        {metricCards.map((m) => (
-          <Box
-            key={m.label}
-            sx={{ flex: 1, minWidth: 120, p: 1, borderRadius: 2, backgroundColor: "var(--muted)" }}
-          >
-            <Typography variant="caption" sx={{ opacity: 0.7 }}>
-              {m.label}
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              {m.value || PLACEHOLDER}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
 
-      {tags.length > 0 && (
-        <>
-          <Typography variant="caption" sx={{ opacity: 0.7, display: "block", mb: 0.5 }}>
-            Related Topics
-          </Typography>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {tags.map((tag) => (
+          {/* Destination: title only (no chips) */}
+          {!renderDestinationMinimal && (
+            <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1, mt: 0.5 }}>
               <Chip
                 data-no-drag="true"
-                key={tag}
-                label={tag}
+                label={typeLabel}
                 size="small"
                 sx={{
+                  height: 22,
                   fontSize: "0.7rem",
+                  fontWeight: 600,
                   borderRadius: "999px",
-                  backgroundColor: "rgba(0,0,0,0.05)",
-                  color: "var(--foreground)",
+                  backgroundColor: "rgba(74, 158, 255, 0.1)",
+                  color: "var(--primary)",
                 }}
               />
-            ))}
-          </Box>
-        </>
-      )}
-
-      {enrichedNode.id && (
-        <Box sx={{ mt: 1.5 }}>
-          <Button
-            data-no-drag="true"
-            fullWidth
-            size="small"
-            variant="contained"
-            startIcon={<OpenInNewIcon fontSize="small" />}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleDetailNavigate();
-            }}
-            sx={{
-              mt: 0.5,
-              borderRadius: 999,
-              textTransform: "none",
-              fontWeight: 600,
-              backgroundColor: "var(--primary)",
-              color: "var(--primary-foreground)",
-              "&:hover": { backgroundColor: "var(--primary-dark)" },
-            }}
-          >
-            View Details
-          </Button>
+            </Box>
+          )}
         </Box>
+      </Box>
+
+      {/* Destination: stop here (title only) */}
+      {renderDestinationMinimal ? null : (
+        <>
+          <Divider sx={{ my: 1 }} />
+
+          {shouldRenderSummaryParagraph && (
+            <Typography variant="body2" sx={{ mb: 1.5, lineHeight: 1.4, color: "var(--muted-foreground)" }}>
+              {summaryDefault}
+            </Typography>
+          )}
+
+          {/* Metric cards */}
+          {metricCards.length > 0 && (
+            <Box sx={{ display: "flex", gap: 1, mb: tags.length ? 1.5 : 0.5, flexWrap: "wrap" }}>
+              {metricCards.map((m) => (
+                <Box
+                  key={m.label}
+                  sx={{ flex: 1, minWidth: 120, p: 1, borderRadius: 2, backgroundColor: "var(--muted)" }}
+                >
+                  <Typography variant="caption" sx={{ opacity: 0.7 }}>
+                    {m.label}
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    {m.value || PLACEHOLDER}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          )}
+
+          {/* Tags: leave as-is for Calls/others; Cluster can also show tags if present */}
+          {tags.length > 0 && (
+            <>
+              <Typography variant="caption" sx={{ opacity: 0.7, display: "block", mb: 0.5 }}>
+                Related Topics
+              </Typography>
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {tags.map((tag) => (
+                  <Chip
+                    data-no-drag="true"
+                    key={tag}
+                    label={tag}
+                    size="small"
+                    sx={{
+                      fontSize: "0.7rem",
+                      borderRadius: "999px",
+                      backgroundColor: "rgba(0,0,0,0.05)",
+                      color: "var(--foreground)",
+                    }}
+                  />
+                ))}
+              </Box>
+            </>
+          )}
+
+          {/* View Details: REQUIRED for Cluster, kept for Call, hidden for Destination */}
+          {showViewDetails && (
+            <Box sx={{ mt: 1.5 }}>
+              <Button
+                data-no-drag="true"
+                fullWidth
+                size="small"
+                variant="contained"
+                startIcon={<OpenInNewIcon fontSize="small" />}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleDetailNavigate();
+                }}
+                sx={{
+                  mt: 0.5,
+                  borderRadius: 999,
+                  textTransform: "none",
+                  fontWeight: 600,
+                  backgroundColor: "var(--primary)",
+                  color: "var(--primary-foreground)",
+                  "&:hover": { backgroundColor: "var(--primary-dark)" },
+                }}
+              >
+                View Details
+              </Button>
+            </Box>
+          )}
+        </>
       )}
     </Box>
   );

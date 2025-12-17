@@ -218,11 +218,25 @@ function NodeDetail() {
   const { darkMode } = useDarkMode();
   const { id, nodeData, relations, connectedNodes, loading } = useNodeDetail();
   const navigate = useNavigate();
+  console.log("NodeDetail render", { nodeData });
 
   const viewModel = useMemo(() => {
     if (!nodeData) return null;
 
+    const rawType = String(nodeData.type || nodeData.category || "").toLowerCase();
+    const isDestination = rawType === "destination";
+
     const title = nodeData.name || nodeData.label || "Untitled node";
+
+    if (isDestination) {
+      return {
+        kind: "destination",
+        title,
+        summary: (nodeData.summary || "").trim(),
+      };
+    }
+
+    // --- existing Call view model (unchanged) ---
     const typeOfAction = nodeData.type_of_action || "";
     const typeShort = computeTypeShort(typeOfAction);
     const status = (nodeData.status || "").trim();
@@ -248,6 +262,7 @@ function NodeDetail() {
     const fundingLink = nodeData.funding_link;
 
     return {
+      kind: "call",
       title,
       typeOfAction,
       typeShort,
@@ -274,6 +289,143 @@ function NodeDetail() {
       </div>
     );
   }
+
+
+      if (viewModel.kind === "destination") {
+    const summaryText = viewModel.summary || "—";
+    const sourceText = formatValue("source", nodeData.source || "");
+
+    const handleBookmarkDestination = () => {
+      if (!nodeData.id) return;
+      const stored = JSON.parse(localStorage.getItem("bookmarkedDestinations") || "[]");
+      const exists = stored.find((item) => item.id === nodeData.id);
+      if (!exists) {
+        stored.push({ id: nodeData.id, name: nodeData.name });
+        localStorage.setItem("bookmarkedDestinations", JSON.stringify(stored));
+        // eslint-disable-next-line no-alert
+        alert("Destination bookmarked!");
+      } else {
+        // eslint-disable-next-line no-alert
+        alert("Already bookmarked.");
+      }
+    };
+
+    return (
+      <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
+        {/* HEADER BAR */}
+        <header className="nd-header">
+          <Box className="nd-header-left">
+            <Button
+              size="small"
+              variant="text"
+              startIcon={<ArrowBackIcon fontSize="small" />}
+              onClick={() => navigate(-1)}
+              className="nd-back-button"
+            >
+              Back to Graph
+            </Button>
+            <span className="nd-header-divider" />
+            <Chip label="Destination" size="small" className="nd-chip nd-chip--kind" />
+          </Box>
+        </header>
+
+        {/* MAIN CONTENT */}
+        <main className="nd-main">
+          <div className="nd-main-inner">
+            {/* Title */}
+            <Box className="nd-title-block">
+              <Box className="nd-title-dot" />
+              <Box className="nd-title-text">
+                <Typography
+                  variant="h1"
+                  className="nd-title"
+                  sx={{
+                    fontSize: "var(--text-2xl)",
+                    fontWeight: 600,
+                    lineHeight: 1.4,
+                    letterSpacing: "-0.01em",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {viewModel.title}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Same grid structure as Calls */}
+            <div className="nd-grid">
+              {/* LEFT: main column */}
+              <div className="nd-main-column">
+                <Box className="nd-card">
+                  <Box className="nd-card-header">
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      Summary
+                    </Typography>
+                  </Box>
+                  <Box className="nd-card-body nd-card-body--text">
+                    <Typography variant="body2" className="nd-paragraph">
+                      {summaryText}
+                    </Typography>
+                  </Box>
+                </Box>
+              </div>
+
+              {/* RIGHT: sidebar */}
+              <aside className="nd-sidebar">
+                {/* Connections */}
+                <Box className="nd-card">
+                  <Box className="nd-card-header nd-card-header--with-icon">
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      Connections
+                    </Typography>
+                    <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
+                  </Box>
+                  <Box className="nd-card-body nd-card-body--connections">
+                    <NodeConnections
+                      id={id}
+                      relations={relations}
+                      connectedNodes={connectedNodes}
+                      bare
+                    />
+                  </Box>
+                </Box>
+
+                {/* Source */}
+                {sourceText && sourceText !== "—" && (
+                  <Box className="nd-card">
+                    <Box className="nd-card-header">
+                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                        Source
+                      </Typography>
+                    </Box>
+                    <Box className="nd-card-body nd-card-body--row">
+                      <InfoOutlinedIcon fontSize="small" className="nd-timeline-icon" />
+                      <Typography variant="body2">{sourceText}</Typography>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* Actions */}
+                <Box className="nd-card">
+                  <Box className="nd-card-header">
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      Actions
+                    </Typography>
+                  </Box>
+                  <Box className="nd-card-body nd-actions">
+                    <Button fullWidth variant="outlined" onClick={handleBookmarkDestination}>
+                      Bookmark this Destination
+                    </Button>
+                  </Box>
+                </Box>
+              </aside>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
 
   const {
     title,

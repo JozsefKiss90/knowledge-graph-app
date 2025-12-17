@@ -75,7 +75,7 @@ const CLUSTER_CONFIGS = [
 
   // CL5
   createClusterConfig({
-    graphName: "Cluster_5",
+    graphName: "Cluster_5", 
     basePath: "/cluster5",
     useGlobalRelationships: true,
     matchers: [(value) => matchesClusterCode(value, "CL5")],

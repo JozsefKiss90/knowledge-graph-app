@@ -16,7 +16,7 @@ def _slugify(text: str) -> str:
     text = re.sub(r"[^a-zA-Z0-9\-._() ]+", "", text)
     return re.sub(r"[ ]+", "-", text).lower()
 
-class BaseClusterBuilder(ABC):
+class BaseClusterBuilder(ABC): 
     """Abstract builder for all Horizon clusters (CL1/3/4/5/6...)."""
 
     @property
