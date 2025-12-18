@@ -1,0 +1,64 @@
+/* src/styles/graph/_layout-shell.scss */
+
+.header {
+  border-bottom: 1px solid var(--secondary);
+  background-color: var(--background);
+}
+
+.graph-container {
+  width: 100%;
+  flex: 1 1 auto; /* fills remaining space below header */
+  height: auto;
+  // overflow: hidden;
+  background-color: var(--card);
+  min-height: 0;
+}
+
+.graph-container > .row {
+  flex: 1 1 auto;
+  min-height: 0; /* crucial for nested flex layouts */
+}
+
+.graph-container > .row > .col.d-flex {
+  min-height: 0;
+}
+
+/* Utility: animate width changes (belongs to layout/sidebars) */
+.sidebar-transition {
+  transition: width 0.3s ease !important;
+  // overflow: hidden;
+}
+
+/* Positioned badge utility */
+.bookmark-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--node-research-theme);
+  color: var(--primary-foreground);
+  border-radius: 50%;
+  font-size: 0.65rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.graph-main {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.graph-main-inner {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.graph-canvas-wrapper {
+  flex: 1 1 auto;
+  min-height: 0;
+}

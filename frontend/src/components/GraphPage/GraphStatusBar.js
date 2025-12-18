@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles/main.scss";
 
 const GraphStatusBar = ({ nodes, edges, layoutLabel }) => {
   return (

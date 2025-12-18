@@ -69,9 +69,8 @@ export function buildElements(raw) {
         ...e,
         data: {
           ...d,
-          id: String(d.id).trim(),
-          fullLabel,
-          label: shorten(fullLabel, 26),
+          id: String(d.id).trim(), fullLabel,
+          label: fullLabel,
         },
       };
     });
@@ -123,7 +122,7 @@ export function buildElements(raw) {
         type,
         category: n.category || type,
         fullLabel,
-        label: shorten(fullLabel, 26),
+        label: fullLabel,
       },
     });
     nodeIdSet.add(cleanId);

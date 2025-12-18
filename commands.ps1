@@ -10,6 +10,7 @@ $cmd = "python he_wp_parser_merged.py --input `"$Input`" --out `"$Output`""
 if ($Pretty) {
     $cmd += " --pretty"
 }
-
+"docker compose -f docker-compose.dev.yml up --build -d"
+"docker exec -it knowledge-graph-app-backend-1 /bin/bash"
 Write-Host "Running command: $cmd"
 Invoke-Expression $cmd

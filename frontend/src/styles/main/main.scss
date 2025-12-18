@@ -1,0 +1,25 @@
+// src/styles/main.scss
+@import "../variables";
+// foundations
+@import "../foundations/reset";
+@import "../foundations/typography";
+@import "../foundations/scrollbars";
+@import "../foundations/transitions";
+
+// themes
+@import "../themes/theme-wrappers";
+
+// graph (surface + layout shells)
+@import "../graph/cytoscape-surface";
+@import "../graph/layout-shell";
+
+// components
+@import "../components/app-header";
+@import "../components/legend";
+@import "../components/toggles";
+@import "../components/topbar";
+@import "../components/statusbar";
+@import "../components/sidebar-controls";
+@import "../components/hover-card";
+@import "../components/filters";        // if you created it as a separate partial
+@import "../components/graph-selector"; // if you created it as a separate partial

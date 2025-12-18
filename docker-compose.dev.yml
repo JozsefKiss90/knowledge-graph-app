@@ -17,14 +17,14 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile:  Dockerfile.backend.dev
     volumes:
       - ./backend:/app
       - ./pdf_files:/pdf_files
     ports:
       - "8000:8000"
     environment:
-      - ENVIRONMENT=development 
+      - ENVIRONMENT=development
       - NEO4J_URI=bolt://neo4j:7687
       - NEO4J_USER=neo4j
       - NEO4J_PASSWORD=password
@@ -32,18 +32,19 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.frontend.dev
     volumes:
       - ./frontend:/app
       - /app/node_modules
     ports:
       - "3001:3000"
     env_file:
-      - ./frontend/.env.development
+      - ./frontend/.env.frontend.development
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
       - FAST_REFRESH=true
       - WDS_SOCKET_PORT=3000
+
 volumes:
-  #neo4j_data:
+  neo4j_data: {} #we have to use bracktets here to avoid a warning

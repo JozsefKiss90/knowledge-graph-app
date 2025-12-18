@@ -1,0 +1,28 @@
+/* src/styles/foundations/_reset.scss */
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Box sizing baseline (safe and standard) */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Form elements inherit typography by default */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

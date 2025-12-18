@@ -357,9 +357,16 @@ const GraphView = forwardRef(function GraphView(
           .first();
       }
       if (!rootNode || rootNode.empty()) {
-        rootNode = cy.nodes().maxDegree(false).ele;
-      }
-    }
+    
+        const nodesAll = cy.nodes();
+        if (nodesAll.length > 0) {
+          const md = nodesAll.maxDegree(false);
+          rootNode = (md && md.ele) ? md.ele : nodesAll.first();
+        } else {
+          rootNode = null; // or leave as null and render empty state elsewhere
+        }
+              }
+            }
 
     if (rootNode && !rootNode.empty()) {
       if (isRootLayer) {

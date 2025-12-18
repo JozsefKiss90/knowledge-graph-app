@@ -86,7 +86,7 @@ export default function NestedGraphController({
         title: "Horizon Europe",
         graphName: "ROOT",
         elements: rootEls,
-      },
+      }, 
     ]);
     onLevelChange?.("ROOT");
     // eslint-disable-next-line react-hooks/exhaustive-deps

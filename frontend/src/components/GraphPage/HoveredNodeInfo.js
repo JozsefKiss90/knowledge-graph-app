@@ -33,6 +33,33 @@ function safeId(node) {
   return node?.call_id || node?.id || "";
 }
 
+function extractDestinationCallCount(node, cyInstance) {
+  const direct =
+    node?.call_count ??
+    node?.calls_count ??
+    node?.callsCount ??
+    node?.num_calls ??
+    node?.callCount;
+
+  if (typeof direct === "number" && Number.isFinite(direct)) return direct;
+
+  // Fallback: if current cy layer contains HAS_CALL edges (e.g., DEST layer)
+  try {
+    const id = String(node?.id ?? "");
+    if (!id || !cyInstance || cyInstance.destroyed?.()) return null;
+
+    const edges = cyInstance.edges(
+      `[type = "HAS_CALL"][source = "${id}"], [category = "HAS_CALL"][source = "${id}"]`
+    );
+    const len = edges?.length ?? 0;
+    // If this layer does not contain HAS_CALL edges, treat 0 as "unknown" unless we have a direct count
+    return len > 0 ? len : null;
+  } catch {
+    return null;
+  }
+}
+
+
 function extractConnections(node) {
   const candidates = [
     node?.connections,
@@ -186,6 +213,13 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
   const isCallNode = !!enrichedNode && nodeKind === "call";
   const isDestinationNode = !!enrichedNode && nodeKind === "destination";
   const isClusterNode = !!enrichedNode && (nodeKind === "cluster" || nodeKind === "root"); // keep “root-as-cluster” safe
+
+  const destinationCallCount = useMemo(
+  () => (isDestinationNode ? extractDestinationCallCount(enrichedNode, cyInstance) : null),
+  [isDestinationNode, enrichedNode, cyInstance]
+);
+
+  const shouldShowHeaderChips = isCallNode || isClusterNode || isDestinationNode;
 
   const nodeVisual = useMemo(() => {
     const fallback = {
@@ -535,7 +569,9 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
   // - Required: Cluster shows it
   // - Keep: Call shows it
   // - Destination: hide (title-only requirement)
-  const showViewDetails = !!enrichedNode.id && !renderDestinationMinimal && (isClusterNode || isCallNode);
+  // Show for Cluster, Call, and Destination
+  const showViewDetails =
+    !!enrichedNode.id && (isClusterNode || isCallNode || isDestinationNode);
 
   // Summary text block:
   // - Destination: none
@@ -644,7 +680,6 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
     // IMPORTANT: ensure full title is visible (no ellipsis / no line clamp)
     whiteSpace: "normal !important",
     overflow: "visible !important",
-    textOverflow: "clip !important",
     display: "block !important",
     wordBreak: "break-word",
     overflowWrap: "anywhere",
@@ -672,37 +707,73 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
 
 
           {/* Destination: title only (no chips) */}
-          {!renderDestinationMinimal && (
-            <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1, mt: 0.5 }}>
-              <Chip
-                data-no-drag="true"
-                label={typeLabel}
-                size="small"
-                sx={{
-                  height: 22,
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  borderRadius: "999px",
-                  backgroundColor: "rgba(74, 158, 255, 0.1)",
-                  color: "var(--primary)",
-                }}
-              />
-            </Box>
-          )}
+          {shouldShowHeaderChips && (
+  <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1, mt: 0.5 }}>
+    <Chip
+      data-no-drag="true"
+      label={typeLabel}
+      size="small"
+      sx={{
+        height: 22,
+        fontSize: "0.7rem",
+        fontWeight: 600,
+        borderRadius: "999px",
+        backgroundColor: "rgba(74, 158, 255, 0.1)",
+        color: "var(--primary)",
+      }}
+    />
+
+    {isDestinationNode && typeof destinationCallCount === "number" && (
+      <Chip
+        data-no-drag="true"
+        label={`${destinationCallCount.toLocaleString()} Calls`}
+        size="small"
+        sx={{
+          height: 22,
+          fontSize: "0.7rem",
+          fontWeight: 600,
+          borderRadius: "999px",
+          backgroundColor: "rgba(0,0,0,0.06)",
+          color: "var(--foreground)",
+        }}
+      />
+    )}
+  </Box>
+)}
         </Box>
       </Box>
 
-      {/* Destination: stop here (title only) */}
-      {renderDestinationMinimal ? null : (
-        <>
-          <Divider sx={{ my: 1 }} />
-
-          {shouldRenderSummaryParagraph && (
-            <Typography variant="body2" sx={{ mb: 1.5, lineHeight: 1.4, color: "var(--muted-foreground)" }}>
-              {summaryDefault}
-            </Typography>
-          )}
-
+      {renderDestinationMinimal ? (
+  // Destination: title-only, BUT keep "View Details"
+  showViewDetails ? (
+    <Box sx={{ mt: 1.25 }}>
+      <Button
+        data-no-drag="true"
+        fullWidth
+        size="small"
+        variant="contained"
+        startIcon={<OpenInNewIcon fontSize="small" />}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleDetailNavigate();
+        }}
+        sx={{
+          borderRadius: 999,
+          textTransform: "none",
+          fontWeight: 600,
+          backgroundColor: "var(--primary)",
+          color: "var(--primary-foreground)",
+          "&:hover": { backgroundColor: "var(--primary-dark)" },
+        }}
+      >
+        View Details
+      </Button>
+    </Box>
+  ) : null
+) : (
+  <>
+    <Divider sx={{ my: 1 }} />
           {/* Metric cards */}
           {metricCards.length > 0 && (
             <Box sx={{ display: "flex", gap: 1, mb: tags.length ? 1.5 : 0.5, flexWrap: "wrap" }}>

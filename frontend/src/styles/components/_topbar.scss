@@ -1,0 +1,167 @@
+/* src/styles/components/_topbar.scss */
+/* Top bar (levels / actions) — modern 58px variant */
+/* NOTE: This file intentionally supersedes the older 36px .graph-topbar variant. */
+
+.graph-topbar {
+  height: 58px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.graph-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.graph-topbar-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.graph-topbar-breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.graph-topbar-breadcrumb {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: transparent;
+  color: var(--foreground);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.graph-topbar-breadcrumb--home {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.graph-topbar-home-icon {
+  font-size: 18px;
+}
+
+.graph-topbar-breadcrumb--active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.graph-topbar-separator {
+  font-size: 16px;
+  color: var(--muted-foreground);
+}
+
+.graph-topbar-level-pill {
+  margin-left: 12px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+}
+
+.graph-topbar-level-up {
+  margin-left: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.graph-topbar-level-up:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.graph-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Icon buttons */
+.graph-topbar-icon {
+  border-radius: 999px !important;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.graph-topbar-icon:hover {
+  background-color: var(--primary-light);
+}
+
+/* Optional active state (if you use graph-topbar-icon--active) */
+.graph-topbar-icon--active {
+  background-color: rgba(88, 166, 255, 0.2); /* subtle blue halo */
+  transform: translateY(-1px);
+}
+
+/* GraphTopBar: make icons/text theme-aware */
+.dark-theme .graph-topbar,
+.light-theme .graph-topbar {
+  color: var(--foreground);
+}
+
+.dark-theme .graph-topbar .graph-topbar-icon,
+.light-theme .graph-topbar .graph-topbar-icon {
+  color: var(--foreground);
+}
+
+.dark-theme .graph-topbar .graph-topbar-separator,
+.light-theme .graph-topbar .graph-topbar-separator {
+  color: var(--muted-foreground);
+}
+
+/* active crumb can stay “primary” */
+.dark-theme .graph-topbar .graph-topbar-breadcrumb--active .graph-topbar-breadcrumb-label,
+.light-theme .graph-topbar .graph-topbar-breadcrumb--active .graph-topbar-breadcrumb-label {
+  color: var(--primary);
+}
+
+/* Light-mode hard overrides for MUI icons (fixes light mode) */
+body.light-theme {
+  .graph-topbar {
+    .graph-topbar-home-icon {
+      color: var(--foreground) !important;
+    }
+
+    .MuiIconButton-root.graph-topbar-icon {
+      color: var(--foreground) !important;
+    }
+
+    .MuiIconButton-root.graph-topbar-icon .MuiSvgIcon-root {
+      color: inherit !important;
+    }
+
+    .MuiIconButton-root.graph-topbar-icon--active {
+      color: var(--primary) !important;
+      background: var(--sidebar-accent);
+    }
+
+    .MuiIconButton-root.graph-topbar-icon--active .MuiSvgIcon-root {
+      color: inherit !important;
+    }
+  }
+}

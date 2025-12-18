@@ -1,0 +1,73 @@
+/* src/styles/components/_app-header.scss */
+/* App header + logo */
+
+.graph-shell {
+  height: 100vh; /* take exactly the viewport height */
+  display: flex; /* stack header + main area */
+  flex-direction: column;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.graph-app-header {
+  height: 56px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  background-color: var(--sidebar);
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  z-index: 11;
+}
+
+.graph-app-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.graph-app-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+.graph-app-subtitle {
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+}
+
+/* Existing logo block (kept; safe replacement file) */
+.graph-app-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-light);
+  color: var(--primary-foreground);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.graph-app-logo-mark {
+  width: 60px;
+  height: 60px;
+  display: block;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.graph-app-logo-mask {
+  width: 60px;
+  height: 60px;
+  display: block;
+  background-color: white;
+  -webkit-mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat
+    center / contain;
+  mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat center / contain;
+}
+
+.light-theme .graph-app-logo-mask {
+  filter: invert(1);
+}

@@ -6,17 +6,16 @@ import { CyContext } from "../context/CyContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useLayoutOptions } from "./useLayoutOptions";
 import { useDarkMode } from "../context/DarkModeContext";
-import "../../styles/main.scss";
 import { useGraphData } from "./useGraphData";
 import SidebarControls from "./SidebarControls";
 import LegendToggle from "../LegendToggle";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { buildElements } from "../utils/buildElements";
 import ChatBot from "../ChatBot/ChatBot";
 import { layoutConfig } from "../utils/layoutConfig";
 import GraphStatusBar from "./GraphStatusBar";
 import GraphTopBar from "./GraphTopBar";
 import { IconButton } from "@mui/material";
-import HoveredNodeInfo from "./HoveredNodeInfo"
+import HoveredNodeInfo from "./HoveredNodeInfo/HoveredNodeInfo";
 import { getClusterConfigForId } from "../NodeDetalParts/useNodeDetail";
 
 function GraphPage() {
@@ -113,9 +112,42 @@ function GraphPage() {
     // Always show the basic node immediately
     setHoveredNode(node);
 
-      // Only hydrate Calls (Destination / others never hit the WP API)
-    const isCall =
-      node.type === "Call" || node.category === "Call";
+const type = String(node.type || node.category || "").toLowerCase();
+const isCall = type === "call";
+const isDestination = type === "destination";
+
+// Destination: compute call count from the active cluster dataset in store
+if (isDestination) {
+  try {
+    const cleanKey = (k) => String(k || "").replace("_cose", "");
+    // When hovering, graphName is typically the cluster layer key (Cluster_X[_cose])
+    const clusterKey = cleanKey(graphName);
+
+  // Accept Cluster_ and cluster_ (case-insensitive), but keep original key for loadFromStore
+  if (clusterKey && clusterKey.toLowerCase().startsWith("cluster_")) {
+    const raw = loadFromStore?.(clusterKey);
+    if (raw) {
+      const full = buildElements(raw);
+      const edges = full?.edgeElements || [];
+
+      const destId = String(node.id);
+
+      // Be resilient to edge direction (source->target vs target->source)
+      const callCount = edges.filter((e) => {
+        const d = e?.data || {};
+        const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
+        if (!isHasCall) return false;
+        return String(d.source) === destId || String(d.target) === destId;
+      }).length;
+
+      setHoveredNode((prev) => ({ ...(prev || node), call_count: callCount }));
+    }
+  }
+  } catch (err) {
+    console.error("Error enriching hovered Destination node:", err);
+  }
+  return;
+}
 
     if (!isCall) return;
 
@@ -284,17 +316,16 @@ function GraphPage() {
       </div>
     <Container
       fluid
-      className="flex-grow-1 d-flex flex-column p-0 overflow-hidden graph-container"
+      className="flex-grow-1 d-flex flex-column p-0 graph-container" 
+      style={{ flexWrap: "nowrap", minWidth: 0, overflowWrap: "anywhere", wordBreak: "break-word" }}
     >        
-      <Row className="flex-grow-1 w-100 g-0" style={{ flexWrap: "nowrap" }}>
+      <Row className="flex-grow-1 w-100 g-0" style={{ flexWrap: "nowrap", minWidth: 0, overflowWrap: "anywhere", wordBreak: "break-word" }}>
           {/* LEFT SIDEBAR */}
           <Col
             xs="auto"
             className="p-0 sidebar-transition"
             style={{
               width: isLegendCollapsed ? 60 : 360,
-
-              backgroundColor: darkMode ? "rgb(20, 43, 59)" : "rgb(233, 233, 233)",
               position: "relative",
             }} 
           >
@@ -324,7 +355,7 @@ function GraphPage() {
             )}
           </Col>
           {/* MAIN GRAPH PANEL */}
-          <Col className="d-flex flex-column p-0 overflow-hidden">
+          <Col className="d-flex flex-column p-0" style={{ minWidth: 0, overflowWrap: "anywhere", wordBreak: "break-word" }}>
             <NestedGraphController
               initialGraphName="ROOT"
               layoutOptions={effectiveLayout}

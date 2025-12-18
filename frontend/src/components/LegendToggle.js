@@ -211,7 +211,7 @@ const LegendToggle = ({
 
     const onSel = (evt) => {
       try { setSelectedNodeId(evt?.target?.id?.() || null); } catch { setSelectedNodeId(null); }
-    };
+    }; 
     const onUnsel = () => setSelectedNodeId(null);
 
     cy.on("select", "node", onSel);

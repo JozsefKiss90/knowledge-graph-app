@@ -351,7 +351,7 @@ function NodeDetail() {
                 </Typography>
               </Box>
             </Box>
-
+            
             {/* Same grid structure as Calls */}
             <div className="nd-grid">
               {/* LEFT: main column */}

@@ -5,7 +5,7 @@ import NodeDetail from "./components/NodeDetail";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from "./themes/theme";
 import { DarkModeProvider, useDarkMode } from "./components/context/DarkModeContext";
-import './styles/main.scss';
+import './styles/main/main.scss';
 import { useEffect } from 'react';
 import BookmarkedCalls from "./components/BookmarkedCalls";
 import About from "./components/About";
@@ -17,7 +17,7 @@ function AppContent() {
     document.body.classList.toggle('dark-theme', darkMode);
     document.body.classList.toggle('light-theme', !darkMode);
   }, [darkMode]);
-  
+   
   return (
     <Router>
       <Routes>

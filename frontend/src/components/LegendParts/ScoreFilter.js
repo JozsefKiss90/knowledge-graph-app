@@ -5,7 +5,6 @@ import Slider, { SliderThumb, SliderValueLabelProps } from '@mui/material/Slider
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import '../../styles/main.scss';
 
 const ScoreFilter = ({ cy, showTitle = true }) => {
   const [minScore, setMinScore] = useState(0);

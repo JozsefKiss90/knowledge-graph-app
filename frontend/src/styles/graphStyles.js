@@ -9,6 +9,8 @@ export const stylesheet = [
       "font-weight": 400,
       "text-valign": "bottom",
       "text-halign": "center",
+      "text-wrap": "wrap",
+      "text-max-width": 200,
       "text-margin-y": 8,
       color: "data(themeLabelColor)",
       "text-outline-width": 0,
@@ -20,7 +22,7 @@ export const stylesheet = [
     "border-color": "data(themeColor)",
     "border-opacity": 0.65,
 
-    // stronger always-on glow
+    // stronger always-on glow 
     "shadow-offset-x": 0,
     "shadow-offset-y": 0,
     "shadow-blur": 18,

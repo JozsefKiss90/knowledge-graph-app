@@ -1,0 +1,178 @@
+/* src/styles/themes/_theme-wrappers.scss */
+
+.dark-theme {
+  background-color: var(--background);
+  color: var(--primary-foreground);
+
+  html,
+  body,
+  #root {
+    background-color: var(--background);
+    color: var(--primary-foreground);
+  }
+}
+
+.light-theme {
+  background-color: var(--primary-foreground);
+  color: var(--foreground);
+
+  html,
+  body,
+  #root {
+    background-color: var(--primary-foreground);
+    color: var(--foreground);
+  }
+}
+
+/* Theme-scoped overrides seen in snippet */
+.dark-theme .components {
+  background-color: var(--background) !important;
+}
+
+.light-theme .components {
+  background-color: var(--card) !important;
+}
+
+/* Card theming */
+.dark-theme {
+  .card {
+    background-color: var(--foreground);
+    color: var(--primary-foreground);
+  }
+}
+
+.light-theme {
+  .card {
+    background-color: var(--primary-foreground);
+    color: var(--foreground);
+  }
+}
+
+/* Theme-scoped UI pieces */
+.dark-theme .graph-container {
+  background-color: var(--card);
+}
+
+.light-theme .graph-container {
+  background-color: var(--card);
+}
+
+.dark-theme .legend-titles {
+  color: var(--primary-foreground);
+}
+
+.light-theme .legend-titles {
+  color: var(--foreground);
+}
+
+.dark-theme .legend-sidebar {
+  background-color: var(--sidebar);
+  color: var(--primary-foreground);
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--sidebar);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--primary-dark);
+  }
+}
+
+.light-theme .legend-sidebar {
+  background-color: var(--sidebar);
+  color: var(--foreground);
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--muted);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--muted-foreground);
+  }
+}
+
+.dark-theme .icon-button {
+  color: var(--primary-foreground);
+}
+
+.light-theme .icon-button {
+  color: var(--foreground);
+}
+
+.dark-theme .icon-button.svg-glow,
+.light-theme .icon-button.svg-glow {
+  color: var(--success) !important;
+  font-size: xx-large;
+}
+
+.dark-theme .icon-button.info-glow:hover,
+.light-theme .icon-button.info-glow:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px var(--success), 0 0 15px var(--success);
+}
+
+.dark-theme .hover-box {
+  background-color: var(--card);
+  color: var(--foreground);
+  box-shadow: var(--shadow-sm);
+}
+
+.light-theme .hover-box {
+  color: var(--foreground);
+  background-color: var(--card);
+  border: 1px solid var(--border);
+}
+
+/* search-input (deduped; snippet contained duplicates) */
+.dark-theme .search-input {
+  color: var(--primary-foreground);
+  background-color: var(--background);
+  border: 1px solid var(--border);
+}
+
+.light-theme .search-input {
+  color: var(--foreground);
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
+}
+
+.dark-theme .score-button {
+  background-color: var(--node-cluster);
+  color: var(--primary-foreground);
+}
+
+.light-theme .score-button {
+  background-color: var(--warning);
+  color: var(--foreground);
+}
+
+.dark-theme .graph-filter {
+  background-color: var(--card);
+  color: var(--primary-foreground);
+}
+
+.light-theme .graph-filter {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+.MuiInputBase-input.dark-placeholder::placeholder {
+  color: var(--primary-light);
+  opacity: 1;
+}
+
+.MuiInputBase-input.light-placeholder::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+.dark-theme .hovered-node {
+  color: var(--primary-foreground);
+  background-color: var(--background);
+  border: 1px solid var(--border);
+}
+
+.light-theme .hovered-node {
+  color: var(--foreground);
+  background-color: var(--primary-foreground);
+}

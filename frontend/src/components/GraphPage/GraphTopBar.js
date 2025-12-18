@@ -4,7 +4,6 @@ import UndoIcon from "@mui/icons-material/Undo";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import "../../styles/main.scss";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 

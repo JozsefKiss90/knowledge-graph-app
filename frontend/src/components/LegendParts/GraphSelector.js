@@ -71,7 +71,7 @@ export default function GraphSelector({
       {
         id: "HE_2025",
         kind: "sp",
-        label: "Horizon Europe strategic plan (2025 - 2027)",
+        label: "Horizon Europe strategic plan (2025 - 2027)", 
         color: groupColors.sp,
         hasChildren: false, // (you can add children later if you want)
       },
