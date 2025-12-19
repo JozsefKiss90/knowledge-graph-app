@@ -16,6 +16,8 @@ from routes.new_pipeline.cl5_routes import router as cl5
 from routes.new_pipeline.cl1_routes import router as cl1
 from routes.new_pipeline.cl2_routes import router as cl2
 from routes.new_pipeline.cl6_routes import router as cl6
+from database import get_driver
+
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
     from dotenv import load_dotenv 
@@ -64,3 +66,9 @@ app.add_middleware(
 @app.get("/")
 def health_check():
     return {"status": "OK", "env": ENVIRONMENT}
+
+@app.get("/health/db")
+def db_health():
+        with get_driver().session() as s:
+            s.run("RETURN 1")
+        return {"status": "ok"}
