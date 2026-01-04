@@ -1,92 +1,279 @@
-import { Container, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+// src/components/About.js
+import React from "react";
+import { Box, Button, Chip, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import IconButton from "@mui/material/IconButton";
+import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useNavigate } from "react-router-dom";
+import { useDarkMode } from "./context/DarkModeContext";
+import "../styles/nodedetails.scss";
 
-function About() {
+const Bullet = ({ children }) => (
+  <Typography variant="body2" className="nd-paragraph">
+    • {children}
+  </Typography>
+);
+
+export default function About() {
+  const { darkMode } = useDarkMode();
   const navigate = useNavigate();
 
   return (
-    <Container className="mt-4 text-light">
-      <h2>ℹ️ About This Application</h2>
+    <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
+      {/* HEADER BAR (NodeDetail-style) */}
+      <header className="nd-header">
+        <Box className="nd-header-left">
+          <Button
+            size="small"
+            variant="text"
+            startIcon={<ArrowBackIcon fontSize="small" />}
+            onClick={() => navigate("/")}
+            className="nd-back-button"
+          >
+            Back to Graph
+          </Button>
+          <span className="nd-header-divider" />
+          <Chip label="About" size="small" className="nd-chip nd-chip--kind" />
+        </Box>
 
-      <p>
-        This demo application enables intuitive, graph-based exploration of EU policy and research materials.
-        It has been designed to researchers, project managers and academic stakeholders in extracting structured
-        information from complex documents such as <strong>Horizon Europe Work Programmes</strong>,
-        <strong> policy frameworks</strong>, and <strong>strategy papers</strong>.
-      </p>
+        <Box className="nd-header-right">
+          <Button
+            size="small"
+            variant="outlined"
+            startIcon={<BookmarksOutlinedIcon fontSize="small" />}
+            onClick={() => navigate("/bookmarks")}
+          >
+            Bookmarks
+          </Button>
+        </Box>
+      </header>
 
-      <h4>🧠 Purpose</h4>
-      <p>
-        EU research and innovation documentation often contains intricate relationships between clusters,
-        destinations, calls, policies, themes, and strategic goals. This app turns those relationships into
-        interactive network graphs — helping you visually explore the context behind any element.
-      </p>
+      {/* MAIN CONTENT */}
+      <main className="nd-main">
+        <div className="nd-main-inner">
+          {/* Title block */}
+          <Box className="nd-title-block">
+            <Box className="nd-title-dot" />
+            <Box className="nd-title-text">
+              <Typography
+                variant="h1"
+                className="nd-title"
+                sx={{
+                  fontSize: "var(--text-2xl)",
+                  fontWeight: 600,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  wordBreak: "break-word",
+                }}
+              >
+                EU Research Knowledge Graph
+              </Typography>
+              <Typography variant="body2" className="nd-call-id">
+                Horizon Europe strategic planning analytics and navigation across clusters, destinations, and calls
+              </Typography>
+            </Box>
+          </Box>
 
-      <h4>🌐 Available Graphs</h4>
-      <p>
-        As a demo, the application includes three preloaded graphs:
-      </p>
-      <ul>
-        <li><strong>Work Programme 2025 - Cluster 2:</strong> Culture, Creativity and Inclusive Society</li>
-        <li><strong>Work Programme 2025 - Cluster 4:</strong> Digital, Industry and Space</li>
-        <li><strong>Horizon Europe strategic plan (2025 – 2027):</strong> A hybrid policy-to-calls graph including scores and similarities</li>
-      </ul>
+          {/* Optional “tags row” to keep parity with NodeDetail spacing */}
+          <Box className="nd-tags-row">
+            <Chip label="Interactive Graph" size="small" className="nd-tag-chip" variant="outlined" />
+            <Chip label="Filters & Layouts" size="small" className="nd-tag-chip" variant="outlined" />
+            <Chip label="Hover Summaries" size="small" className="nd-tag-chip" variant="outlined" />
+            <Chip label="Node Details" size="small" className="nd-tag-chip" variant="outlined" />
+            <Chip label="Bookmarks" size="small" className="nd-tag-chip" variant="outlined" />
+          </Box>
 
-      <h4>🧩 Features</h4>
-      <ul>
-        <li><strong>Interactive Graph View:</strong> Visualize and zoom into call topics, destinations, themes, etc.</li>
-        <li>
-          <strong>Legend Sidebar:</strong> Toggle visibility of different <em>node types</em> (e.g. calls, topics) and
-          <em> edge types</em> (e.g. "belongs to", "has call").
-          
-            When you hover over a node in the graph, detailed information about that node — such as its name, type,
-            and metadata — is displayed directly in the sidebar. This allows you to quickly inspect nodes without
-            having to click or navigate away.
-        
-        </li>
-        <li><strong>Search:</strong> Instantly locate any node by keyword</li>
-        <li><strong>Score Filter (HE strategic plan only):</strong> Filter call-topic similarity edges by score</li>
-        <li><strong>Dark/Light Mode:</strong> Toggle theme to suit your preference</li>
-        <li><strong>Node Details:</strong> Click a node to view detailed information and structured metadata (e.g. opening date, funding, scope)</li>
-        <li><strong>Call Bookmarking:</strong> Save calls of interest (Cluster 2 and 4 only) and access them later from the 📌 bookmark panel</li>
-      </ul>
-      <h4>🔗 Edge Types</h4>
-        <p>
-          Each connection in the graph represents a meaningful relationship between entities (nodes).
-          You can selectively toggle these edge types in the sidebar to control which connections are displayed:
-        </p>
-        <ul>
-          <li><strong>HAS_CALL:</strong> Connects a destination to a call that implements or supports it.</li>
-          <li><strong>BELONGS_TO_TOPIC:</strong> Links a call to a research or policy topic it addresses directly.</li>
-          <li><strong>SHARED_TOPIC:</strong> Indicates that two calls address a common topic, revealing thematic overlaps.</li>
-          <li><strong>CROSS_TOPIC_SIMILARITY:</strong> Shows similarity scores between topics based on semantic or contextual closeness (Cluster HE_2025 only).</li>
-          <li><strong>BELONGS_TO_DESTINATION:</strong> Highlights which broader policy destination a topic or objective contributes to.</li>
-        </ul>
-        <p>
-          You can hover over any edge type in the legend to temporarily highlight those connections in the graph,
-          making it easier to visually trace relationships and focus your exploration.
-        </p>
-      <h4>🧪 Demo Status</h4>
-      <p>
-        This is a prototype application built to showcase what's possible when EU documents are parsed and structured into a knowledge graph. Based on your feedback and requests, additional features and data sources may be integrated in the future.
-      </p>
-      <OverlayTrigger
-          placement="right"
-          overlay={<Tooltip id="tooltip-back">Go to Graph View</Tooltip>}
-      >
-        <IconButton
+          {/* Grid: main column + sidebar (NodeDetail-style) */}
+          <div className="nd-grid">
+            {/* LEFT: main column */}
+            <div className="nd-main-column">
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    Purpose
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Typography variant="body2" className="nd-paragraph">
+                    This application provides a navigable knowledge graph of Horizon Europe planning artefacts.
+                    It is designed to help you explore how strategic areas connect to destinations and individual calls,
+                    and to quickly switch between overview and detail views as you refine your focus.
+                  </Typography>
+                  <Typography variant="body2" className="nd-paragraph">
+                    The experience is built around fast visual exploration (hover, filters, search) combined with
+                    a structured drill-down path into node-level detail pages.
+                  </Typography>
+                </Box>
+              </Box>
 
-          size="large"
-          onClick={() => navigate("/")}
-          style={{ color: "#39ff14", marginBottom: "1rem", boxShadow: "0 0 8px #39ff14, 0 0 15px #39ff14" }}
-        >
-        <ArrowBackIcon fontSize="large" />
-        </IconButton>
-      </OverlayTrigger>
-    </Container>
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    What you can do
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Bullet>
+                    Start from the top-level view and open a cluster to see the destination landscape for that cluster.
+                  </Bullet>
+                  <Bullet>
+                    From a cluster overview, open a destination to reveal the associated calls as a focused subgraph.
+                  </Bullet>
+                  <Bullet>
+                    Hover nodes to see a compact summary card and quick counts, then open full details when needed.
+                  </Bullet>
+                  <Bullet>
+                    Filter node/edge types, run a node search, and switch layout modes to match your analysis task.
+                  </Bullet>
+                  <Bullet>
+                    Bookmark calls (and destinations) for later review.
+                  </Bullet>
+                </Box>
+              </Box>
+
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    How exploration works
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Typography variant="body2" className="nd-paragraph">
+                    The graph is intentionally multi-layered:
+                  </Typography>
+                  <Bullet>
+                    Top level: a single Horizon Europe root node connected to the available clusters.
+                  </Bullet>
+                  <Bullet>
+                    Cluster level: destinations and their thematic relationships (calls are kept out of the overview to
+                    preserve readability).
+                  </Bullet>
+                  <Bullet>
+                    Destination level: the destination node plus its connected calls (the call layer you can act on).
+                  </Bullet>
+                  <Typography variant="body2" className="nd-paragraph" sx={{ mt: 1 }}>
+                    Use the breadcrumb/navigation bar at the top of the graph view to move back up levels without losing
+                    context.
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    Filters, search, and layouts
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Bullet>
+                    Filters & Controls (left sidebar) lets you switch datasets/layers, toggle node types, and search nodes.
+                  </Bullet>
+                  <Bullet>
+                    On the Strategic Plan dataset, additional controls appear for edge types and similarity threshold.
+                  </Bullet>
+                  <Bullet>
+                    Layout Mode can be switched between force-directed and hierarchical views depending on the dataset.
+                  </Bullet>
+                  <Bullet>
+                    Reset All Filters restores visibility and fits the graph back into view.
+                  </Bullet>
+                </Box>
+              </Box>
+
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    Node details and actions
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Typography variant="body2" className="nd-paragraph">
+                    Selecting a node opens its details page, where calls expose key funding and timeline fields,
+                    and both calls and destinations show a connections panel to navigate to related entities.
+                  </Typography>
+                  <Typography variant="body2" className="nd-paragraph">
+                    Calls also include outbound actions such as opening the funding link (when available) and bookmarking
+                    for later.
+                  </Typography>
+                </Box>
+              </Box>
+            </div>
+
+            {/* RIGHT: sidebar */}
+            <aside className="nd-sidebar">
+              <Box className="nd-card">
+                <Box className="nd-card-header nd-card-header--with-icon">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    Quick start
+                  </Typography>
+                  <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Bullet>Use the left panel to choose a dataset or cluster.</Bullet>
+                  <Bullet>Hover nodes for a summary card; click for full details.</Bullet>
+                  <Bullet>Use Reset All Filters if visibility becomes constrained.</Bullet>
+                  <Bullet>Switch layouts if you need a strict hierarchy view.</Bullet>
+                </Box>
+              </Box>
+
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    Bookmarks
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Typography variant="body2" className="nd-paragraph">
+                    Bookmarks are stored locally in your browser. Use the Bookmarks page to review saved calls and return
+                    to them quickly.
+                  </Typography>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={() => navigate("/bookmarks")}
+                    sx={{ mt: 0.5 }}
+                  >
+                    Open Bookmarks
+                  </Button>
+                </Box>
+              </Box>
+
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    Data loading
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Typography variant="body2" className="nd-paragraph">
+                    Datasets are loaded from the configured backend API. Cluster datasets may be fetched from dedicated
+                    endpoints, and can be derived from the Strategic Plan dataset when needed.
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    Links
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    endIcon={<OpenInNewIcon fontSize="small" />}
+                    onClick={() => navigate("/")}
+                  >
+                    Open Graph
+                  </Button>
+                </Box>
+              </Box>
+            </aside>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
-
-export default About;

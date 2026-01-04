@@ -1,0 +1,41 @@
+{
+  "Staying healthy in a rapidly changing society": {
+    "calls": {
+      "HORIZON-CL1-2026-01": {
+        "opening_date": "2026-01-14",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-CL1-2027-01": {
+        "opening_date": "2027-01-13",
+        "deadline": "2027-04-15"
+      }
+    }
+  },
+  "Living and working in a health-promoting environment": {
+    "calls": {
+      "HORIZON-CL1-2026-01": {
+        "opening_date": "2026-01-14",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-CL1-2027-01": {
+        "opening_date": "2027-01-13",
+        "deadline": "2027-04-15"
+      }
+    }
+  },
+  "Tackling diseases and reducing disease burden": {
+    "calls": {
+      "HORIZON-CL1-2026-01": {
+        "opening_date": "2026-01-14",
+        "deadline": "2026-04-16"
+      },
+      "HORIZON-CL1-2027-01": {
+        "opening_date": "2027-01-13",
+        "deadline": "2027-04-15"
+      }
+    }
+  }
+}
+
+
+python patch_call_dates.py  --grouped ../output_files/cluster_CL6.grouped.json  --dates ./destination-dates/destination_dates_cl6.json  --out ./cluster_CL6.grouped.with_dates.json  --pretty

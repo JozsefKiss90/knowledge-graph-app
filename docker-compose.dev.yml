@@ -44,7 +44,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
       - FAST_REFRESH=true
-      - WDS_SOCKET_PORT=3000
+      - WDS_SOCKET_PORT=3001
 
 volumes:
   neo4j_data: {} #we have to use bracktets here to avoid a warning

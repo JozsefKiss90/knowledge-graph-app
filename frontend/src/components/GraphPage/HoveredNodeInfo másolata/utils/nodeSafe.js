@@ -9,16 +9,7 @@ export const truncate = (text, max = 80) => {
 
 export const safeId = (node) => {
   if (!node) return "";
-  const v =
-    node?.id ??
-    node?.call_id ??
-    node?.callId ??
-    node?.ID ??
-    node?.node_id ??
-    node?.data?.id ??
-    node?.data?.call_id ??
-    node?.data?.callId;
-
+  const v = node?.id ?? node?.ID ?? node?.node_id ?? node?.data?.id;
   return v == null ? "" : String(v);
 };
 

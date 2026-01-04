@@ -1,0 +1,62 @@
+{
+  "Better protect the EU and its citizens against Crime and Terrorism": {
+    "calls": {
+      "HORIZON-CL3-2026-01": {
+        "opening_date": "2026-05-06",
+        "deadline": "2026-11-05"
+      },
+      "HORIZON-CL3-2027-01": {
+        "opening_date": "2027-05-05",
+        "deadline": "2027-11-04"
+      }
+    }
+  },
+  "Effective management of EU external borders": {
+    "calls": {
+      "HORIZON-CL3-2026-01": {
+        "opening_date": "2026-05-06",
+        "deadline": "2026-11-05"
+      },
+      "HORIZON-CL3-2027-01": {
+        "opening_date": "2027-05-05",
+        "deadline": "2027-11-04"
+      }
+    }
+  },
+  "Resilient Infrastructure": {
+    "calls": {
+      "HORIZON-CL3-2026-01": {
+        "opening_date": "2026-05-06",
+        "deadline": "2026-11-05"
+      },
+      "HORIZON-CL3-2027-01": {
+        "opening_date": "2027-05-05",
+        "deadline": "2027-11-04"
+      }
+    }
+  },
+  "Disaster-Resilient Society for Europe": {
+    "calls": {
+      "HORIZON-CL3-2026-01": {
+        "opening_date": "2026-05-06",
+        "deadline": "2026-11-05"
+      },
+      "HORIZON-CL3-2027-01": {
+        "opening_date": "2027-05-05",
+        "deadline": "2027-11-04"
+      }
+    }
+  },
+  "Strengthened Security Research and Innovation": {
+    "calls": {
+      "HORIZON-CL3-2026-01": {
+        "opening_date": "2026-05-06",
+        "deadline": "2026-11-05"
+      },
+      "HORIZON-CL3-2027-01": {
+        "opening_date": "2027-05-05",
+        "deadline": "2027-11-04"
+      }
+    }
+  }
+}

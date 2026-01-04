@@ -21,7 +21,7 @@ import { getClusterConfigForId } from "../NodeDetalParts/useNodeDetail";
 function GraphPage() {
   const { ready, graphName, setGraphName, loadFromStore } = useGraphData();
   const [pendingNav, setPendingNav] = useState(null);
-  const [cyInstance, setCyInstance] = useState(null);
+  const [cyInstance, setCyInstance] = useState(null); 
   const hoveredNodeRef = useRef(null);
   const { darkMode, setDarkMode } = useDarkMode();
   const [isLegendCollapsed, setIsLegendCollapsed] = useState(false);
@@ -32,6 +32,7 @@ function GraphPage() {
   const [bookmarksCount, setBookmarksCount] = useState(0);
   const [hoveredNode, setHoveredNode] = useState(null);
   const [selectedNodeId, setSelectedNodeId] = useState(null);
+  const callDetailCacheRef = useRef(new Map()); // callId -> detail JSON
 
     // Clear hover card when the active graph / layer changes
   useEffect(() => {
@@ -99,9 +100,88 @@ function GraphPage() {
   }
 }, [pendingNav, cyInstance, graphName, setGraphName]);
 
-  useEffect(() => {
-    let lastHoveredId = null;
-    let cancelled = false;
+useEffect(() => {
+  let lastHoveredId = null;
+  let cancelled = false;
+
+  const cleanKey = (k) => String(k || "").replace("_cose", "");
+
+  const getLayerKey = () =>
+    cleanKey(
+      (cyInstance && !cyInstance.destroyed?.()
+        ? cyInstance.scratch?.("layerKey")
+        : null) || graphName
+    );
+
+  // IMPORTANT: on DEST_* layers, the dataset identity is stored in cy.scratch("graphName")
+  const getDatasetKey = () =>
+    cleanKey(
+      (cyInstance && !cyInstance.destroyed?.()
+        ? cyInstance.scratch?.("graphName")
+        : null) || graphName
+    );
+
+  const getNodeId = (n) => String(n?.id ?? n?.data?.id ?? "");
+  const getNodeTypeLower = (n) =>
+    String(n?.type ?? n?.category ?? n?.data?.type ?? n?.data?.category ?? "").toLowerCase();
+
+  const countDestinationsInClusterRaw = (clusterRaw) => {
+    try {
+      const full = buildElements(clusterRaw);
+      const nodes = full?.nodeElements || [];
+      return nodes.filter((el) => {
+        const d = el?.data || {};
+        const t = String(d.type || d.category || "").toLowerCase();
+        return t.includes("destination");
+      }).length;
+    } catch {
+      return null;
+    }
+  };
+
+  const computeCallIdsForDestination = (clusterRaw, destinationId) => {
+    try {
+      const full = buildElements(clusterRaw);
+      const nodes = full?.nodeElements || [];
+      const edges = full?.edgeElements || [];
+
+      const typeById = new Map(
+        nodes.map((el) => {
+          const d = el?.data || {};
+          return [String(d.id || ""), String(d.type || d.category || "").toLowerCase()];
+        })
+      );
+
+      const destId = String(destinationId);
+      const callIds = new Set();
+
+      edges.forEach((el) => {
+        const d = el?.data || {};
+        const et = String(d.type || d.category || d.label || "").toUpperCase();
+
+        // robust match (covers HAS_CALL, has_call, etc.)
+        if (!et.includes("HAS_CALL")) return;
+
+        const s = String(d.source ?? "");
+        const t = String(d.target ?? "");
+        if (!s || !t) return;
+
+        if (s !== destId && t !== destId) return;
+
+        const other = s === destId ? t : s;
+        const otherType = typeById.get(other) || "";
+
+        // if we can identify the other endpoint as a Call, require it; otherwise accept
+        if (otherType && !otherType.includes("call")) return;
+
+        callIds.add(other);
+      });
+
+      return callIds;
+    } catch {
+      return null;
+    }
+  };
 
   const hydrateHoveredNode = async (node) => {
     if (!node) {
@@ -109,67 +189,89 @@ function GraphPage() {
       return;
     }
 
+    const nodeId = getNodeId(node);
+    if (!nodeId) {
+      setHoveredNode(node);
+      return;
+    }
+
     // Always show the basic node immediately
     setHoveredNode(node);
 
-const type = String(node.type || node.category || "").toLowerCase();
-const isCall = type === "call";
-const isDestination = type === "destination";
+    const typeLower = getNodeTypeLower(node);
+    const isCall = typeLower.includes("call");
+    const isDestination = typeLower.includes("destination");
+    const isCluster = typeLower.includes("cluster") || typeLower === "root";
 
-// Destination: compute call count from the active cluster dataset in store
-if (isDestination) {
-  try {
-    const cleanKey = (k) => String(k || "").replace("_cose", "");
-    // When hovering, graphName is typically the cluster layer key (Cluster_X[_cose])
-    const clusterKey = cleanKey(graphName);
+    const layerKey = getLayerKey();
+    const datasetKey = getDatasetKey();
 
-  // Accept Cluster_ and cluster_ (case-insensitive), but keep original key for loadFromStore
-  if (clusterKey && clusterKey.toLowerCase().startsWith("cluster_")) {
-    const raw = loadFromStore?.(clusterKey);
-    if (raw) {
-      const full = buildElements(raw);
-      const edges = full?.edgeElements || [];
+    // ---- CLUSTER cards (ROOT + Cluster_* layers) => show size of the graph opened by that node ----
+    if (isCluster) {
+      // On ROOT: nodeId is the cluster key (Cluster_1..6)
+      // On Cluster_*: the cluster root node id is also the cluster key
+      const clusterKey = cleanKey(nodeId);
+      const raw = loadFromStore?.(clusterKey);
 
-      const destId = String(node.id);
+      const destCount = raw ? countDestinationsInClusterRaw(raw) : null;
 
-      // Be resilient to edge direction (source->target vs target->source)
-      const callCount = edges.filter((e) => {
-        const d = e?.data || {};
-        const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
-        if (!isHasCall) return false;
-        return String(d.source) === destId || String(d.target) === destId;
-      }).length;
-
-      setHoveredNode((prev) => ({ ...(prev || node), call_count: callCount }));
+      if (!cancelled && nodeId === lastHoveredId && typeof destCount === "number") {
+        // node_count = visible nodes in the opened graph:
+        //  - cluster root + destinations
+        setHoveredNode((prev) => ({
+          ...(prev || node),
+          destination_count: destCount,
+          node_count: destCount + 1,
+        }));
+      }
+      return;
     }
-  }
-  } catch (err) {
-    console.error("Error enriching hovered Destination node:", err);
-  }
-  return;
-}
 
+    // ---- DESTINATION cards on Cluster_* layer => compute calls from the CLUSTER dataset in store ----
+    if (isDestination) {
+      // Only cluster datasets have the HAS_CALL relationships we need.
+      if (datasetKey && datasetKey.toLowerCase().startsWith("cluster_")) {
+        const raw = loadFromStore?.(datasetKey);
+        const callIds = raw ? computeCallIdsForDestination(raw, nodeId) : null;
+        const callCount = callIds ? callIds.size : null;
+
+        if (!cancelled && nodeId === lastHoveredId && typeof callCount === "number" && callCount > 0) {
+          // node_count = destination root + calls in the opened graph
+          setHoveredNode((prev) => ({
+            ...(prev || node),
+            call_count: callCount,
+            node_count: callCount + 1,
+          }));
+        }
+      }
+      return;
+    }
+
+    // ---- CALL cards (keep your existing remote hydration) ----
     if (!isCall) return;
 
+    const cached = callDetailCacheRef.current.get(nodeId);
+    if (cached) {
+      if (!cancelled && nodeId === lastHoveredId) {
+        setHoveredNode({ ...node, ...cached });
+      }
+      return;
+    }
+
     try {
-      const config = getClusterConfigForId(node.id);
+      const config = getClusterConfigForId(nodeId);
       if (!config) return;
 
-      const endpoint = config.buildNodeEndpoint(node.id);
+      const endpoint = config.buildNodeEndpoint(nodeId);
       const res = await fetch(endpoint);
       if (!res.ok) {
-        console.error(
-          "Failed to hydrate hovered Call node:",
-          node.id,
-          res.status
-        );
+        console.error("Failed to hydrate hovered Call node:", nodeId, res.status);
         return;
       }
 
       const detail = await res.json();
 
-      // Only update if we’re still looking at the same node
-      if (!cancelled && node.id === lastHoveredId) {
+      if (!cancelled && nodeId === lastHoveredId) {
         setHoveredNode({ ...node, ...detail });
       }
     } catch (err) {
@@ -180,7 +282,8 @@ if (isDestination) {
   const interval = setInterval(() => {
     const current = hoveredNodeRef.current;
 
-    if (!current || !current.id) {
+    const currentId = getNodeId(current);
+    if (!currentId) {
       if (lastHoveredId !== null) {
         lastHoveredId = null;
         setHoveredNode(null);
@@ -188,17 +291,18 @@ if (isDestination) {
       return;
     }
 
-    if (current.id !== lastHoveredId) {
-      lastHoveredId = current.id;
+    if (currentId !== lastHoveredId) {
+      lastHoveredId = currentId;
       hydrateHoveredNode(current);
     }
-  }, 120); // small polling interval while hovering
+  }, 120);
 
   return () => {
     cancelled = true;
     clearInterval(interval);
   };
-  }, [hoveredNodeRef]);
+}, [hoveredNodeRef, cyInstance, graphName, loadFromStore]);
+
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
@@ -419,6 +523,7 @@ if (isDestination) {
               <HoveredNodeInfo
                   node={hoveredNode}
                   cyInstance={cyInstance}
+                  graphName={graphName}
                   onClose={() => {
                      hoveredNodeRef.current = null;
                      setHoveredNode(null);

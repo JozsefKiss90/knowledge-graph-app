@@ -29,10 +29,6 @@ function safeType(node) {
   return t ? String(t).replace(/_/g, " ") : "Node";
 }
 
-function safeId(node) {
-  return node?.call_id || node?.id || "";
-}
-
 function extractDestinationCallCount(node, cyInstance) {
   const direct =
     node?.call_count ??
@@ -58,7 +54,6 @@ function extractDestinationCallCount(node, cyInstance) {
     return null;
   }
 }
-
 
 function extractConnections(node) {
   const candidates = [
@@ -174,7 +169,7 @@ const formatCallFieldValue = (key, rawValue, node) => {
 };
 
 // --------- Component ---------
-const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
+const HoveredNodeInfo = ({ node, cyInstance, onClose, graphName }) => {
   // Hooks MUST be called unconditionally on every render
   const navigate = useNavigate();
 
@@ -214,10 +209,27 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
   const isDestinationNode = !!enrichedNode && nodeKind === "destination";
   const isClusterNode = !!enrichedNode && (nodeKind === "cluster" || nodeKind === "root"); // keep “root-as-cluster” safe
 
+  const activeGraphName = useMemo(() => {
+    try {
+      const scratch = cyInstance && !cyInstance.destroyed?.() ? cyInstance.scratch?.("graphName") : null;
+      return String(graphName ?? scratch ?? "").replace("_cose", "");
+    } catch {
+      return String(graphName ?? "").replace("_cose", "");
+    }
+  }, [graphName, cyInstance]);
+
+  const allowHeMetrics = useMemo(() => activeGraphName === "HE_2025", [activeGraphName]);
+
+  const clusterDestinationCount = useMemo(() => {
+    if (!isClusterNode) return null;
+    const v = enrichedNode?.destination_count ?? enrichedNode?.destinations_count ?? enrichedNode?.destinationCount;
+    return typeof v === "number" && Number.isFinite(v) ? v : null;
+  }, [isClusterNode, enrichedNode]);
+
   const destinationCallCount = useMemo(
-  () => (isDestinationNode ? extractDestinationCallCount(enrichedNode, cyInstance) : null),
-  [isDestinationNode, enrichedNode, cyInstance]
-);
+    () => (isDestinationNode ? extractDestinationCallCount(enrichedNode, cyInstance) : null),
+    [isDestinationNode, enrichedNode, cyInstance]
+  );
 
   const shouldShowHeaderChips = isCallNode || isClusterNode || isDestinationNode;
 
@@ -283,7 +295,7 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
       window.removeEventListener("pointerup", pointerUpListenerRef.current);
     } catch {}
   }, [enrichedNode?.id]);
-
+ 
   useEffect(() => {
     return () => {
       try {
@@ -299,10 +311,10 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
   const title = safeLabel(enrichedNode);
   const typeLabel = safeType(enrichedNode);
 
-  // Destination: ONLY show title (no chips, summary, metric cards, tags, buttons)
+  // Destination: title-only content rules (we still keep View Details per your current behavior)
   const renderDestinationMinimal = isDestinationNode;
 
-  // Cluster summary (single box). We’ll accept several candidate keys now; you’ll finalize JSON later.
+  // Cluster summary (single box).
   const clusterSummaryRaw = getFirstNonEmpty(enrichedNode, [
     "cluster_summary",
     "clusterSummary",
@@ -524,10 +536,6 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
   };
 
   // --- Metric cards rules ---
-  // - Destination: none (title only)
-  // - Cluster: single Summary box
-  // - Call: existing call metric cards
-  // - Other: keep Connections/Centrality (unchanged)
   let metricCards = [];
 
   if (!renderDestinationMinimal) {
@@ -558,27 +566,16 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
     } else if (isClusterNode) {
       metricCards = [{ label: "Summary", value: clusterSummary }];
     } else {
-      metricCards = [
-        { label: "Connections", value: connections },
-        { label: "Centrality", value: centrality },
-      ];
+      metricCards = allowHeMetrics
+        ? [
+            { label: "Connections", value: connections },
+            { label: "Centrality", value: centrality },
+          ]
+        : [];
     }
   }
 
-  // View Details button:
-  // - Required: Cluster shows it
-  // - Keep: Call shows it
-  // - Destination: hide (title-only requirement)
-  // Show for Cluster, Call, and Destination
-  const showViewDetails =
-    !!enrichedNode.id && (isClusterNode || isCallNode || isDestinationNode);
-
-  // Summary text block:
-  // - Destination: none
-  // - Cluster: we use the single Summary metric box only (no extra summary paragraph)
-  // - Others: keep old summary paragraph if present
-  const shouldRenderSummaryParagraph =
-    !renderDestinationMinimal && !isClusterNode && !!summaryDefault;
+  const showViewDetails = !!enrichedNode.id && (isClusterNode || isCallNode || isDestinationNode);
 
   const maxCardHeight =
     typeof window !== "undefined"
@@ -671,109 +668,125 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
         </Box>
 
         <Box sx={{ flex: 1, minWidth: 0 }}>
-         <Typography
-  data-no-drag="true"
-  variant="subtitle1"
-  sx={{
-    fontWeight: 700,
+          <Typography
+            data-no-drag="true"
+            variant="subtitle1"
+            sx={{
+              fontWeight: 700,
 
-    // IMPORTANT: ensure full title is visible (no ellipsis / no line clamp)
-    whiteSpace: "normal !important",
-    overflow: "visible !important",
-    display: "block !important",
-    wordBreak: "break-word",
-    overflowWrap: "anywhere",
+              // IMPORTANT: ensure full title is visible (no ellipsis / no line clamp)
+              whiteSpace: "normal !important",
+              overflow: "visible !important",
+              display: "block !important",
+              wordBreak: "break-word",
+              overflowWrap: "anywhere",
 
-    // prevent the close icon from visually “cutting” the last characters
-    paddingRight: "32px",
+              // prevent the close icon from visually “cutting” the last characters
+              paddingRight: "32px",
 
-    cursor: !renderDestinationMinimal && enrichedNode.id ? "pointer" : "default",
-    "&:hover":
-      !renderDestinationMinimal && enrichedNode.id
-        ? { color: "var(--primary)", textDecoration: "underline" }
-        : {},
-    lineHeight: 1.2,
-  }}
-  onClick={(e) => {
-    if (renderDestinationMinimal) return;
-    e.preventDefault();
-    e.stopPropagation();
-    handleGraphNavigate();
-  }}
-  title={title}
->
-  {title}
-</Typography>
+              cursor: !renderDestinationMinimal && enrichedNode.id ? "pointer" : "default",
+              "&:hover":
+                !renderDestinationMinimal && enrichedNode.id
+                  ? { color: "var(--primary)", textDecoration: "underline" }
+                  : {},
+              lineHeight: 1.2,
+            }}
+            onClick={(e) => {
+              if (renderDestinationMinimal) return;
+              e.preventDefault();
+              e.stopPropagation();
+              handleGraphNavigate();
+            }}
+            title={title}
+          >
+            {title}
+          </Typography>
 
-
-          {/* Destination: title only (no chips) */}
           {shouldShowHeaderChips && (
-  <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1, mt: 0.5 }}>
-    <Chip
-      data-no-drag="true"
-      label={typeLabel}
-      size="small"
-      sx={{
-        height: 22,
-        fontSize: "0.7rem",
-        fontWeight: 600,
-        borderRadius: "999px",
-        backgroundColor: "rgba(74, 158, 255, 0.1)",
-        color: "var(--primary)",
-      }}
-    />
+            <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1, mt: 0.5 }}>
+              <Chip
+                data-no-drag="true"
+                label={typeLabel}
+                size="small"
+                sx={{
+                  height: 22,
+                  fontSize: "0.7rem",
+                  fontWeight: 600,
+                  borderRadius: "999px",
+                  backgroundColor: "rgba(74, 158, 255, 0.1)",
+                  color: "var(--primary)",
+                }}
+              />
 
-    {isDestinationNode && typeof destinationCallCount === "number" && (
-      <Chip
-        data-no-drag="true"
-        label={`${destinationCallCount.toLocaleString()} Calls`}
-        size="small"
-        sx={{
-          height: 22,
-          fontSize: "0.7rem",
-          fontWeight: 600,
-          borderRadius: "999px",
-          backgroundColor: "rgba(0,0,0,0.06)",
-          color: "var(--foreground)",
-        }}
-      />
-    )}
-  </Box>
-)}
+              {isDestinationNode && typeof destinationCallCount === "number" && (
+                <Chip
+                  data-no-drag="true"
+                  label={`${destinationCallCount.toLocaleString()} Calls`}
+                  size="small"
+                  sx={{
+                    height: 22,
+                    fontSize: "0.7rem",
+                    fontWeight: 600,
+                    borderRadius: "999px",
+                    backgroundColor: "rgba(0,0,0,0.06)",
+                    color: "var(--foreground)",
+                  }}
+                />
+              )}
+
+              {isClusterNode && typeof clusterDestinationCount === "number" && (
+                <Chip
+                  data-no-drag="true"
+                  label={`${clusterDestinationCount.toLocaleString()} Destinations`}
+                  size="small"
+                  sx={{
+                    height: 22,
+                    fontSize: "0.7rem",
+                    fontWeight: 600,
+                    borderRadius: "999px",
+                    backgroundColor: "rgba(0,0,0,0.06)",
+                    color: "var(--foreground)",
+                  }}
+                />
+              )}
+            </Box>
+          )}
         </Box>
       </Box>
 
       {renderDestinationMinimal ? (
-  // Destination: title-only, BUT keep "View Details"
-  showViewDetails ? (
-    <Box sx={{ mt: 1.25 }}>
-      <Button
-        data-no-drag="true"
-        fullWidth
-        size="small"
-        variant="contained"
-        startIcon={<OpenInNewIcon fontSize="small" />}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          handleDetailNavigate();
-        }}
-        sx={{
-          borderRadius: 999,
-          textTransform: "none",
-          fontWeight: 600,
-          backgroundColor: "var(--primary)",
-          color: "var(--primary-foreground)",
-          "&:hover": { backgroundColor: "var(--primary-dark)" },
-        }}
-      >
-        View Details
-      </Button>
-    </Box>
-  ) : null
-) : (
-  <>
-    <Divider sx={{ my: 1 }} />
+        showViewDetails ? (
+          <Box sx={{ mt: 1.25 }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                data-no-drag="true"
+                size="small"
+                variant="contained"
+                startIcon={<OpenInNewIcon fontSize="small" />}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleDetailNavigate();
+                }}
+                sx={{
+                  borderRadius: 999,
+                  minWidth: 160,
+                  textTransform: "none",
+                  fontWeight: 600,
+                  backgroundColor: "var(--primary)",
+                  color: "var(--primary-foreground)",
+                  "&:hover": { backgroundColor: "var(--primary-dark)" },
+                }}
+              >
+                View Details 
+              </Button>
+            </Box>
+          </Box>
+        ) : null
+      ) : (
+        <>
+          <Divider sx={{ my: 1 }} />
+
           {/* Metric cards */}
           {metricCards.length > 0 && (
             <Box sx={{ display: "flex", gap: 1, mb: tags.length ? 1.5 : 0.5, flexWrap: "wrap" }}>
@@ -793,7 +806,7 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
             </Box>
           )}
 
-          {/* Tags: leave as-is for Calls/others; Cluster can also show tags if present */}
+          {/* Tags */}
           {tags.length > 0 && (
             <>
               <Typography variant="caption" sx={{ opacity: 0.7, display: "block", mb: 0.5 }}>
@@ -818,12 +831,11 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
             </>
           )}
 
-          {/* View Details: REQUIRED for Cluster, kept for Call, hidden for Destination */}
+          {/* View Details */}
           {showViewDetails && (
-            <Box sx={{ mt: 1.5 }}>
+            <Box sx={{ mt: 1.5, display: "flex", justifyContent: "center" }}>
               <Button
                 data-no-drag="true"
-                fullWidth
                 size="small"
                 variant="contained"
                 startIcon={<OpenInNewIcon fontSize="small" />}
@@ -835,15 +847,16 @@ const HoveredNodeInfo = ({ node, cyInstance, onClose }) => {
                 sx={{
                   mt: 0.5,
                   borderRadius: 999,
+                  minWidth: 160,
                   textTransform: "none",
-                  fontWeight: 600,
+                  fontWeight: 600, 
                   backgroundColor: "var(--primary)",
                   color: "var(--primary-foreground)",
                   "&:hover": { backgroundColor: "var(--primary-dark)" },
-                }}
+                }} 
               >
-                View Details
-              </Button>
+                View Detail
+              </Button> 
             </Box>
           )}
         </>

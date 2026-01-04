@@ -1,5 +1,5 @@
 // src/components/GraphPage/useGraphData.js
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { buildElements } from "../utils/buildElements"; // for safe shapes
 
 const API_BASE = process.env.REACT_APP_API_URL;
@@ -19,10 +19,8 @@ export const GRAPH_ENDPOINTS = {
 function deriveClusterRawFromHE(heRaw, clusterKey) {
   if (!heRaw?.nodes || !heRaw?.rels) return null;
 
-  // normalise HE into elements so we can select by id safely
   const { nodeElements, edgeElements } = buildElements(heRaw);
 
-  // choose nodes where node.data.cluster === clusterKey OR id === clusterKey
   const keepIds = new Set(
     nodeElements
       .map((n) => n.data)
@@ -30,7 +28,6 @@ function deriveClusterRawFromHE(heRaw, clusterKey) {
       .map((d) => d.id)
   );
 
-  // expand by connected edges
   edgeElements.forEach((e) => {
     if (keepIds.has(e.data.source) || keepIds.has(e.data.target)) {
       keepIds.add(e.data.source);
@@ -38,16 +35,13 @@ function deriveClusterRawFromHE(heRaw, clusterKey) {
     }
   });
 
-  // rebuild raw nodes: { id, name, ... } (buildElements supports this shape)
   const rawNodes = nodeElements
     .filter((n) => keepIds.has(n.data.id))
     .map((n) => {
       const d = n.data;
-      // keep id & name (plus original fields if present)
       return { id: d.id, name: d.label || d.name || d.displayLabel || d.id, ...d };
     });
 
-  // rebuild raw relationships in same { rels: { relationships: [...] } } shape
   const rawRels = edgeElements
     .filter((e) => keepIds.has(e.data.source) && keepIds.has(e.data.target))
     .map((e) => ({
@@ -64,16 +58,18 @@ function deriveClusterRawFromHE(heRaw, clusterKey) {
 export function useGraphData() {
   const [ready, setReady] = useState(false);
   const storeRef = useRef(new Map()); // key -> { nodes, rels }
-  const heRef = useRef(null);         // keep HE_2025 raw around (source for derivations)
-  const [graphName, setGraphName] = useState(() => localStorage.getItem("graphName") || "ROOT");
-  
+  const heRef = useRef(null);
+  const [graphName, setGraphNameState] = useState(
+    () => localStorage.getItem("graphName") || "ROOT"
+  );
+
   useEffect(() => {
     let cancelled = false;
 
     async function preloadAll() {
       setReady(false);
 
-      // 1) Load HE_2025 first (source of truth & for derivations)
+      // 1) Load HE_2025 first
       try {
         const ep = GRAPH_ENDPOINTS.HE_2025;
         const [nr, rr] = await Promise.all([
@@ -100,7 +96,6 @@ export function useGraphData() {
           const [nodes, rels] = await Promise.all([nr.json(), rr.json()]);
           storeRef.current.set(key, { nodes, rels });
         } catch (e) {
-          // don’t break; just note it's missing; we’ll derive from HE_2025 on demand
           storeRef.current.set(key, null);
           console.warn(`Cluster endpoint missing for ${key}; will derive from HE_2025 when opened.`);
         }
@@ -113,19 +108,21 @@ export function useGraphData() {
     return () => { cancelled = true; };
   }, []);
 
-  const handleGraphNameChange = (name) => {
+  // ✅ Stable setter (prevents downstream effects from re-running every render)
+  const setGraphName = useCallback((name) => {
     localStorage.setItem("graphName", name);
-    setGraphName(name);
-  };
+    setGraphNameState(name);
+  }, []);
 
-  // public read-through loader
-  function loadFromStore(key) {
+  // ✅ Stable accessor (CRITICAL: prevents GraphPage hover hydration effect from restarting)
+  const loadFromStore = useCallback((key) => {
     if (key === "__keys__") {
       return Object.keys(GRAPH_ENDPOINTS).filter((k) => k !== "HE_2025");
     }
+
     const raw = storeRef.current.get(key);
     if (raw) return raw;
-    // derive lazily when endpoint was missing
+
     if (raw === null && heRef.current) {
       const derived = deriveClusterRawFromHE(heRef.current, key);
       if (derived) {
@@ -133,14 +130,15 @@ export function useGraphData() {
         return derived;
       }
     }
+
     return null;
-  }
+  }, []);
 
   return {
     ready,
     graphName,
-    setGraphName: handleGraphNameChange,
-    storeRef,       // still exposed if you need it
-    loadFromStore,  // <-- preferred accessor
+    setGraphName,
+    storeRef,
+    loadFromStore,
   };
 }

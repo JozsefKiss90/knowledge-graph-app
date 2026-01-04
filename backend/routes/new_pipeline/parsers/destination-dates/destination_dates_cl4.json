@@ -1,0 +1,49 @@
+{
+  "Leadership in materials and production for Europe": {
+    "calls": {
+      "HORIZON-CL4-2026-01": {
+        "opening_date": "2026-01-06",
+        "deadline": "2026-04-21"
+      },
+      "HORIZON-CL4-2027-02": {
+        "opening_date": "2026-09-22",
+        "deadline_first_stage": "2027-02-02",
+        "deadline_second_stage": "2027-09-02"
+      }
+    }
+  },
+  "Achieving open strategic autonomy in digital and emerging enabling technologies": {
+    "calls": {
+      "HORIZON-CL4-2026-02": {
+        "opening_date": "2025-12-16",
+        "deadline_first_stage": "2026-03-17",
+        "deadline_second_stage": "2026-10-13"
+      },
+      "HORIZON-CL4-2027-02": {
+        "opening_date": "2026-09-22",
+        "deadline_first_stage": "2027-02-02",
+        "deadline_second_stage": "2027-09-02"
+      }
+    }
+  },
+  "Developing an agile and secure single market and infrastructure for data-services and trustworthy artificial intelligence services": {
+    "calls": {
+      "HORIZON-CL4-2026-04": {
+        "opening_date": "2026-01-15",
+        "deadline": "2026-04-15"
+      }
+    }
+  },
+  "Open Strategic Autonomy in Developing, Deploying and Using Global Space-Based Infrastructure, Services, Applications and Data": {
+    "calls": {
+      "HORIZON-CL4-2026-03": {
+        "opening_date": "2026-03-10",
+        "deadline": "2026-09-03"
+      },
+      "HORIZON-CL4-2027-03": {
+        "opening_date": "2027-03-09",
+        "deadline": "2027-09-02"
+      }
+    }
+  }
+} 
