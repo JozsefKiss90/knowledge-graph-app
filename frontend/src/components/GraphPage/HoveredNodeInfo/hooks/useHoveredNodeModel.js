@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import CLUSTERS from "../../../utils/heClusterSummaries.json";
 
 import { SUMMARY_PREVIEW_LIMIT } from "../utils/constants";
 import { safeId, safeLabel, safeType, truncate } from "../utils/nodeSafe";
@@ -53,33 +54,36 @@ export function useHoveredNodeModel({
   graphName,
   isHoverFrozen = false,
 }) {
-
   const hoveredKey =
-  hoveredNode && typeof hoveredNode.id === "function"
-    ? hoveredNode.id()
-    : hoveredNode?.id ?? hoveredNode?.call_id ?? "";
+    hoveredNode && typeof hoveredNode.id === "function"
+      ? hoveredNode.id()
+      : hoveredNode?.id ??
+        hoveredNode?.call_id ??
+        hoveredNode?.callId ??
+        hoveredNode?.data?.id ??
+        hoveredNode?.data?.call_id ??
+        hoveredNode?.data?.callId ??
+        "";
 
   return useMemo(() => {
     if (!hoveredNode) return null;
 
     // Normalize input (cy node vs plain object)
-    // Normalize input (cy node vs plain object)
-    // Cytoscape elements expose data() as a function. Sometimes we also receive plain objects.
     const raw = (() => {
-      if (!hoveredNode) return null;
-
-      // Cytoscape element: data() -> object
+      // Cytoscape element
       if (typeof hoveredNode.data === "function") {
         try {
-          return hoveredNode.data();
+          const d = hoveredNode.data();
+          return hoveredNode.__screenPosition ? { ...d, __screenPosition: hoveredNode.__screenPosition } : d;
         } catch {
           // fall through
         }
       }
 
-      // Some codepaths pass { data: {...} }
+      // Cytoscape JSON wrapper: { group, data: {...}, ...enrichment }
       if (hoveredNode.data && typeof hoveredNode.data === "object") {
-        return hoveredNode.data;
+        const { data, ...rest } = hoveredNode;
+        return { ...data, ...rest };
       }
 
       // Plain object
@@ -108,7 +112,6 @@ export function useHoveredNodeModel({
     const isDestinationNode = nodeKind === "destination";
     const isCallNode = nodeKind === "call";
 
-    // Type label shown in chip
     const typeLabel = isDestinationNode
       ? "Destination"
       : isClusterNode
@@ -117,7 +120,6 @@ export function useHoveredNodeModel({
           ? "Call"
           : truncate(typeRaw || "Node", 24);
 
-    // Node visual (color dot)
     const nodeVisual = (() => {
       const fallback = {
         fill: "rgba(255,255,255,0.18)",
@@ -137,31 +139,18 @@ export function useHoveredNodeModel({
       }
     })();
 
-    // Only show tags for non-cluster nodes (cluster cards are intentionally minimal).
     const tags = isClusterNode ? [] : extractTags(raw);
 
-    // Counts
-    const clusterDestinationCount = isClusterNode
-      ? extractClusterDestinationCount(raw)
-      : null;
+    const clusterDestinationCount = isClusterNode ? extractClusterDestinationCount(raw) : null;
 
     let destinationCallCount = isDestinationNode ? extractDestinationCallCount(raw, cyInstance) : null;
-
-    // Fallback: count HAS_CALL edges if this layer contains them
     if (isDestinationNode && destinationCallCount == null) {
       destinationCallCount = countHasCallEdges(cyInstance, id);
     }
 
-    // "How many nodes this graph has" (root/cluster/destination cards)
-    // - Prefer explicit node_count fields
-    // - Otherwise, cluster falls back to destination count; destination falls back to call count
-    const explicitNodeCount = (isClusterNode || isDestinationNode)
-      ? extractNodeCount(raw)
-      : null;
+    const explicitNodeCount = (isClusterNode || isDestinationNode) ? extractNodeCount(raw) : null;
 
-    // nodeCount represents the size of the graph that opens when you drill into this node.
-    // - Cluster opens: cluster root + destinations
-    // - Destination opens: destination root + calls
+    // nodeCount = size of graph opened by drilling into this node
     const nodeCount =
       typeof explicitNodeCount === "number"
         ? explicitNodeCount
@@ -171,14 +160,11 @@ export function useHoveredNodeModel({
             ? destinationCallCount + 1
             : null;
 
-
-    // Determine whether to show Connections/Centrality (ONLY for HE_2025)
     const activeGraph = getActiveGraphName({ graphName, cyInstance });
     const allowHeMetrics = activeGraph === "HE_2025";
 
     const metricCards = [];
 
-    // Centrality/Connections should exist ONLY on HE_2025 (and never on Cluster/Destination cards)
     if (allowHeMetrics && !isClusterNode && !isDestinationNode && !isCallNode) {
       metricCards.push({
         key: "connections",
@@ -187,7 +173,6 @@ export function useHoveredNodeModel({
         variant: "number",
         fullWidth: false,
       });
-
       metricCards.push({
         key: "centrality",
         label: "Centrality",
@@ -197,7 +182,6 @@ export function useHoveredNodeModel({
       });
     }
 
-    // Call node metric cards (keep as-is across graphs)
     if (isCallNode) {
       const fields = [
         { key: "technology_readiness_level", label: "TRL" },
@@ -217,11 +201,11 @@ export function useHoveredNodeModel({
       });
     }
 
-    // Cluster summary: cluster cards should remain minimal per requirements.
     const clusterSummary = (() => {
       if (!isClusterNode) return "";
+      const meta = CLUSTERS?.[id] || CLUSTERS?.[cleanGraphName(id)];
       const s =
-        raw?.cluster_summary ??
+        meta?.summary ??
         raw?.clusterSummary ??
         raw?.summary_short ??
         raw?.short_summary ??
@@ -236,11 +220,6 @@ export function useHoveredNodeModel({
         ? `${ss.slice(0, SUMMARY_PREVIEW_LIMIT - 1)}…`
         : ss;
     })();
-
-    // Behavioral flags for UI
-    const renderDestinationMinimal = isDestinationNode;
-    const showViewDetails = true;
-    const shouldShowHeaderChips = true;
 
     return {
       id,
@@ -263,9 +242,9 @@ export function useHoveredNodeModel({
       metricCards,
       clusterSummary,
 
-      renderDestinationMinimal,
-      showViewDetails,
-      shouldShowHeaderChips,
+      renderDestinationMinimal: isDestinationNode,
+      showViewDetails: !isClusterNode,
+      shouldShowHeaderChips: true,
     };
   }, [hoveredKey, hoveredNode, cyInstance, graphName, isHoverFrozen]);
 }

@@ -3,16 +3,32 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import GraphView from "./GraphView";
 import { buildElements } from "./utils/buildElements";
 
+  const HE_CLUSTER_NAMES = {
+    Cluster_1: "Cluster 1: Health",
+    Cluster_2: "Cluster 2: Culture, Creativity and Inclusive Society",
+    Cluster_3: "Cluster 3: Civil Security for Society",
+    Cluster_4: "Cluster 4: Digital, Industry and Space",
+    Cluster_5: "Cluster 5: Climate, Energy and Mobility",
+    Cluster_6: "Cluster 6: Food, Bioeconomy, Natural Resources, Agriculture and Environment",
+  };
+
+  const cleanKey = (k) => String(k || "").replace(/_cose$/i, "");
+
+  const clusterDisplayName = (key) => {
+    const k = cleanKey(key);
+    return HE_CLUSTER_NAMES[k] || k.replace(/_/g, " ");
+  };
 /** Synthetic ROOT graph */
 function buildRootElements({ clusterKeys }) {
   const centerId = "ROOT_HE";
+
   const nodes = [
     {
       data: { id: centerId, label: "Horizon Europe", type: "root" },
       group: "nodes",
     },
     ...clusterKeys.map((k) => ({
-      data: { id: k, label: k.replace(/_/g, " "), type: "cluster" },
+      data: { id: k, label: clusterDisplayName(k), type: "cluster" },
       group: "nodes",
     })),
   ];
@@ -28,9 +44,6 @@ function clearHover(onNodeHover, onHoverNodeIdChange) {
   onHoverNodeIdChange?.(null);
 }
 
-function cleanKey(k) {
-  return (k || "").replace("_cose", "");
-}
 
 export default function NestedGraphController({
   initialGraphName = "ROOT",
@@ -111,11 +124,24 @@ export default function NestedGraphController({
   const openCluster = useCallback(
     (clusterKey) => {
       const raw = loadFromStore?.(clusterKey);
+      const title = clusterDisplayName(clusterKey);
+
       const elements = raw ? buildElements(raw) : { nodeElements: [], edgeElements: [] };
+
+      // patch cluster root node label inside the cluster graph
+      const patchedNodes = (elements.nodeElements || []).map((el) => {
+        const d = el?.data || {};
+        if (String(d.id) === String(clusterKey)) {
+          return { ...el, data: { ...d, label: title, fullLabel: title } };
+        }
+        return el;
+      });
+
       setLevels((prev) => [
         ...prev,
-        { key: clusterKey, title: clusterKey.replace(/_/g, " "), graphName: clusterKey, elements },
+        { key: clusterKey, title, graphName: clusterKey, elements: { ...elements, nodeElements: patchedNodes } },
       ]);
+
       onLevelChange?.(clusterKey);
       clearHover(onNodeHover, onHoverNodeIdChange);
     },

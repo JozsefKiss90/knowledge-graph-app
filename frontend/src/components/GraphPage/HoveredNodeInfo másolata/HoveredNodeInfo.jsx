@@ -51,7 +51,7 @@ export default function HoveredNodeInfo({
 
   // 3) Drag
   const { dragPos, startDrag, resetDrag } = useHoverCardDrag({ cardRef });
-
+  
   // Reset drag when node changes
   useEffect(() => {
     resetDrag();
@@ -72,6 +72,7 @@ export default function HoveredNodeInfo({
     navigate(`/node/${encodeURIComponent(String(model.id))}`);
     onClose?.();
   };
+  const nodeCountNum = typeof model.nodeCount === "number" ? model.nodeCount : null;
 
   const card = (
     <HoverCardShell
@@ -91,13 +92,25 @@ export default function HoveredNodeInfo({
           showPinned: model.isHoverFrozen,
 
           // Destination: show Calls chip only if we have a real count
-          showCallCount: model.isDestinationNode && typeof model.destinationCallCount === "number",
+
+          // Destination: show Calls chip only if it's a real count AND not identical to nodeCount
+          showCallCount:
+            model.isDestinationNode &&
+            typeof model.destinationCallCount === "number" &&
+            model.destinationCallCount !== nodeCountNum,
           callCount: model.destinationCallCount,
 
-          // Cluster: show Destinations chip only if we have a real count
-          showDestCount: model.isClusterNode && typeof model.clusterDestinationCount === "number",
-          destCount: model.clusterDestinationCount,
+          // Cluster: do NOT show Destinations chip (we standardize on "Nodes" for opened-graph size)
+          showDestCount: false,
+          destCount: null,
           destLabel: "Destinations",
+
+          // Root/Cluster/Destination: show the number of nodes the sub-graph contains (when available)
+          showNodeCount:
+            (model.isClusterNode || model.isDestinationNode) &&
+            typeof model.nodeCount === "number",
+          nodeCount: model.nodeCount,
+          nodeLabel: "Nodes",
         }}
       />
 
@@ -110,19 +123,20 @@ export default function HoveredNodeInfo({
         <>
           {model.metricCards?.length > 0 && <MetricCards items={model.metricCards} />}
 
-          {model.clusterSummary ? (
+          {model.isClusterNode ? (
             <MetricCards
               items={[
                 {
                   key: "summary",
                   label: "Summary",
-                  value: model.clusterSummary,
+                  value: model.clusterSummary || "—",
                   variant: "text",
                   fullWidth: true,
                 },
               ]}
             />
           ) : null}
+
 
           {model.tags?.length > 0 && <TagChips title="Related Topics" tags={model.tags} />}
           {model.showViewDetails && <ViewDetailsButton onClick={handleViewDetails} />}

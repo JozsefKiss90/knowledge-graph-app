@@ -11,7 +11,15 @@ import HoverCardChips from "./HoverCardChips";
  * - nodeVisual: { fill, borderColor, borderWidthPx }
  * - chips: passed through to HoverCardChips
  */
-export default function HoverCardHeader({ title, titleFull, nodeVisual, chips }) {
+export default function HoverCardHeader({
+  title,
+  titleFull,
+  nodeVisual,
+  chips,
+  onTitleClick,
+  onDotClick,
+}) {
+
   const dot = nodeVisual || {
     fill: "rgba(255,255,255,0.18)",
     borderColor: "#ffffff",
@@ -21,16 +29,24 @@ export default function HoverCardHeader({ title, titleFull, nodeVisual, chips })
   return (
     <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1, pr: 4 }}>
       <Box
-        sx={{
-          width: 14,
-          height: 14,
-          borderRadius: "999px",
-          mt: "6px",
-          backgroundColor: dot.fill,
-          border: `${dot.borderWidthPx || 2}px solid ${dot.borderColor || "#fff"}`,
-          flexShrink: 0,
-        }}
-      />
+      onClick={onDotClick}
+      role={onDotClick ? "button" : undefined}
+      tabIndex={onDotClick ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (!onDotClick) return;
+        if (e.key === "Enter" || e.key === " ") onDotClick();
+      }}
+      sx={{
+        width: 32,
+        height: 32,
+        borderRadius: "50%",
+        backgroundColor: nodeVisual?.fill,
+        border: `${nodeVisual?.borderWidthPx || 2}px solid ${nodeVisual?.borderColor || "#fff"}`,
+        cursor: onDotClick ? "pointer" : "default",
+        flex: "0 0 auto",
+      }}
+    />
+
 
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <Typography

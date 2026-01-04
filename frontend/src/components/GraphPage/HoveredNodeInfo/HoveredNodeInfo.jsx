@@ -2,7 +2,6 @@
 import React, { useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
-
 import { useHoverCardMeasure } from "./hooks/useHoverCardMeasure";
 import { useHoverCardDrag } from "./hooks/useHoverCardDrag";
 import { useHoverCardPosition } from "./hooks/useHoverCardPosition";
@@ -67,11 +66,28 @@ export default function HoveredNodeInfo({
 
   if (!model) return null;
 
-  const handleViewDetails = () => {
-    if (!model.id) return;
+  const handlePrimaryNavigate = () => {
+    if (!model?.id) return;
+
+    // Cluster + Destination: open next graph layer by emitting a Cytoscape tap
+    if (model.isClusterNode || model.isDestinationNode) {
+      try {
+        const n = cyInstance?.$id?.(String(model.id));
+        if (n && n.nonempty && n.nonempty()) {
+          n.emit("tap"); // setupEvents will open Cluster / Destination layer
+          onClose?.();
+          return;
+        }
+      } catch {
+        // fall through to route navigation if cy is unavailable
+      }
+    }
+
+    // Call (and fallback): navigate to details page
     navigate(`/node/${encodeURIComponent(String(model.id))}`);
     onClose?.();
   };
+
   const nodeCountNum = typeof model.nodeCount === "number" ? model.nodeCount : null;
 
   const card = (
@@ -86,6 +102,8 @@ export default function HoveredNodeInfo({
         title={model.title}
         titleFull={model.titleFull}
         nodeVisual={model.nodeVisual}
+        onTitleClick={handlePrimaryNavigate}
+        onDotClick={handlePrimaryNavigate}
         chips={{
           typeLabel: model.typeLabel,
           showType: model.shouldShowHeaderChips,
@@ -117,19 +135,19 @@ export default function HoveredNodeInfo({
       {model.renderDestinationMinimal ? (
         <>
           {model.tags?.length > 0 && <TagChips title="Related Topics" tags={model.tags} />}
-          {model.showViewDetails && <ViewDetailsButton onClick={handleViewDetails} />}
+          {model.showViewDetails && <ViewDetailsButton onClick={handlePrimaryNavigate} />}
         </>
       ) : (
         <>
           {model.metricCards?.length > 0 && <MetricCards items={model.metricCards} />}
 
-          {model.clusterSummary ? (
+          {model.isClusterNode ? (
             <MetricCards
               items={[
                 {
                   key: "summary",
                   label: "Summary",
-                  value: model.clusterSummary,
+                  value: model.clusterSummary || "—",
                   variant: "text",
                   fullWidth: true,
                 },
@@ -137,8 +155,9 @@ export default function HoveredNodeInfo({
             />
           ) : null}
 
+
           {model.tags?.length > 0 && <TagChips title="Related Topics" tags={model.tags} />}
-          {model.showViewDetails && <ViewDetailsButton onClick={handleViewDetails} />}
+          {model.showViewDetails && <ViewDetailsButton onClick={handlePrimaryNavigate} />}
         </>
       )}
     </HoverCardShell>

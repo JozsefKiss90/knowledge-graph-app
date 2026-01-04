@@ -39,6 +39,15 @@ const labelMap = {
   type_of_action: "Type Of Action",
 };
 
+
+const OFFICIAL_CALL_PAGE_BASE =
+  "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/";
+
+function buildOfficialCallPageUrl(callId) {
+  if (!callId) return null;
+  return `${OFFICIAL_CALL_PAGE_BASE}${encodeURIComponent(callId)}`;
+}
+
 const textFieldConfig = [
   { key: "expected_outcome", label: "Expected Outcome" },
   { key: "scope", label: "Scope" },
@@ -446,6 +455,8 @@ function NodeDetail() {
     fundingLink,
   } = viewModel;
 
+  const officialCallPageUrl = buildOfficialCallPageUrl(callId || id);
+
   const isStatusOpen = status.toLowerCase() === "open";
 
   const handleApplyNow = () => {
@@ -499,6 +510,17 @@ function NodeDetail() {
         </Box>
 
         <Box className="nd-header-right">
+          {officialCallPageUrl && (
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<OpenInNewIcon fontSize="small" />}
+              onClick={() => window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")}
+            >
+              Official Call Page
+            </Button>
+          )}
+
           {fundingLink && (
             <Button
               size="small"
@@ -506,15 +528,11 @@ function NodeDetail() {
               startIcon={<OpenInNewIcon fontSize="small" />}
               onClick={() => window.open(fundingLink, "_blank", "noopener,noreferrer")}
             >
-              View in Portal
+              Funding Link
             </Button>
           )}
-          <Button
-            size="small"
-            variant="contained"
-            onClick={handleApplyNow}
-            disabled={!fundingLink}
-          >
+
+          <Button size="small" variant="contained" onClick={handleApplyNow} disabled={!fundingLink}>
             Apply Now
           </Button>
         </Box>
