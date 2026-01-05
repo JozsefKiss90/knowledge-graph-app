@@ -23,3 +23,65 @@
 @import "../components/hover-card";
 @import "../components/filters";        // if you created it as a separate partial
 @import "../components/graph-selector"; // if you created it as a separate partial
+
+/* Landscape-only overlay (global) */
+.orientation-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  background: rgba(10, 15, 25, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.orientation-overlay__card {
+  width: min(520px, 100%);
+  border-radius: 16px;
+  padding: 18px 16px;
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+}
+
+.orientation-overlay__title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.orientation-overlay__body {
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  line-height: 1.5;
+}
+
+.orientation-overlay__button {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.orientation-overlay__button:active {
+  transform: translateY(1px);
+}
+@media (orientation: landscape) {
+  .orientation-overlay {
+    display: flex;
+  }
+}
+@media (orientation: portrait) {
+  .orientation-overlay {
+    display: none;
+  }                     
+}

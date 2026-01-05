@@ -14,7 +14,10 @@ REM Railway backend URL (used by React build)
 set REACT_APP_API_URL=https://knowledge-graph-backend-production.up.railway.app
 
 REM Optional: also tag a version (e.g., git SHA). Leave empty to skip.
-set VERSION_TAG=
+REM Optional: also tag a version (e.g., timestamp). Leave empty to skip.
+for /f "tokens=1-4 delims=/ " %%a in ("%date%") do set d=%%d%%b%%c
+for /f "tokens=1-2 delims=: " %%a in ("%time%") do set t=%%a%%b
+set VERSION_TAG=%d%-%t%
 
 echo.
 echo [PROD] Checking Docker login...

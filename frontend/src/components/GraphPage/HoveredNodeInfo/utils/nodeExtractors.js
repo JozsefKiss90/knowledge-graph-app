@@ -115,7 +115,8 @@ export function extractNodeCount(node) {
   return typeof n === "number" ? n : null;
 }
 
-export function extractConnections(node) {
+export function extractConnections(node, cyInstance) {
+  // 1) Prefer explicit numeric fields (if present)
   const candidates = [
     node?.connections,
     node?.degree,
@@ -123,15 +124,123 @@ export function extractConnections(node) {
     node?.num_connections,
   ];
   const value = candidates.find((v) => typeof v === "number" && Number.isFinite(v));
-  return value != null ? value.toLocaleString() : PLACEHOLDER;
+  if (value != null) return value.toLocaleString();
+
+  // 2) Fallback: compute from Cytoscape (incident similarity edges preferred)
+  try {
+    const id = String(node?.id ?? "");
+    if (!id || !cyInstance || cyInstance.destroyed?.()) return PLACEHOLDER;
+
+    const n = cyInstance.$id(id);
+    if (!n || n.empty?.()) return PLACEHOLDER;
+
+    // Prefer similarity edges if present; otherwise count all incident edges
+    const simEdges = n.connectedEdges('[type = "CROSS_TOPIC_SIMILARITY"]');
+    const count = (simEdges?.length ?? 0) > 0 ? simEdges.length : (n.connectedEdges()?.length ?? 0);
+
+    return count ? count.toLocaleString() : PLACEHOLDER;
+  } catch {
+    return PLACEHOLDER;
+  }
 }
 
-export function extractCentrality(node) {
-  const candidates = [node?.centrality, node?.betweenness, node?.closeness, node?.eigenvector];
-  const value = candidates.find((v) => typeof v === "number" && Number.isFinite(v));
-  if (value == null) return PLACEHOLDER;
-  return value.toFixed(2);
+export function extractCentrality(node, cyInstance) {
+  // Centrality for HE_2025 is derived from graph structure:
+  // - Prefer weighted similarity-strength (sum of edge scores) if present
+  // - Else use similarity degree (count of similarity edges)
+  // - Else fall back to total incident edge count
+  //
+  // Then normalize by graph max so it isn't identical to "Connections".
+
+  try {
+    const id = String(node?.id ?? "");
+    if (!id || !cyInstance || cyInstance.destroyed?.()) return PLACEHOLDER;
+
+    const n = cyInstance.$id(id);
+    if (!n || n.empty?.()) return PLACEHOLDER;
+
+    const simEdges = n.connectedEdges(
+      '[type = "CROSS_TOPIC_SIMILARITY"], [category = "CROSS_TOPIC_SIMILARITY"]'
+    );
+
+    // ---- 1) Compute node "strength" ----
+    let strength = 0;
+    let hasAnyWeight = false;
+
+    if (simEdges && simEdges.length > 0) {
+      simEdges.forEach((e) => {
+        // Be permissive about the weight key name
+        const raw =
+          e.data("score") ??
+          e.data("weight") ??
+          e.data("similarity") ??
+          e.data("value");
+
+        const w = raw == null ? NaN : parseFloat(String(raw));
+        if (Number.isFinite(w)) {
+          strength += w;
+          hasAnyWeight = true;
+        }
+      });
+
+      // Similarity edges exist but no numeric weights -> use similarity degree as proxy
+      if (!hasAnyWeight) strength = simEdges.length;
+    } else {
+      // No similarity edges at all -> fall back to total incident edge count
+      strength = n.connectedEdges()?.length ?? 0;
+    }
+
+    if (!strength) return PLACEHOLDER;
+
+    // ---- 2) Normalize by graph max (cached in cy.scratch) ----
+    const cacheKey = "he2025CentralityMax_v1";
+    let maxStrength = cyInstance.scratch(cacheKey);
+
+    if (!maxStrength) {
+      let max = 0;
+
+      cyInstance.nodes().forEach((nodeEl) => {
+        const edges = nodeEl.connectedEdges(
+          '[type = "CROSS_TOPIC_SIMILARITY"], [category = "CROSS_TOPIC_SIMILARITY"]'
+        );
+
+        let s = 0;
+        let any = false;
+
+        if (edges && edges.length > 0) {
+          edges.forEach((e) => {
+            const raw =
+              e.data("score") ??
+              e.data("weight") ??
+              e.data("similarity") ??
+              e.data("value");
+
+            const w = raw == null ? NaN : parseFloat(String(raw));
+            if (Number.isFinite(w)) {
+              s += w;
+              any = true;
+            }
+          });
+
+          if (!any) s = edges.length;
+        } else {
+          s = nodeEl.connectedEdges()?.length ?? 0;
+        }
+
+        if (s > max) max = s;
+      });
+
+      maxStrength = max || 1;
+      cyInstance.scratch(cacheKey, maxStrength);
+    }
+
+    const normalized = strength / (maxStrength || 1);
+    return Number.isFinite(normalized) ? normalized.toFixed(2) : PLACEHOLDER;
+  } catch {
+    return PLACEHOLDER;
+  }
 }
+
 
 export function extractTags(node) {
   const candidates = node?.related_topics || node?.tags || node?.themes;

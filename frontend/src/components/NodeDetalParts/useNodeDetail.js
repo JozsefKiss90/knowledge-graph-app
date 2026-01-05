@@ -13,6 +13,30 @@ const DEFAULT_CONFIG = {
     `${API_BASE}/relationships/?from_id=${encodeURIComponent(id)}`,
 };
 
+// Treat as a "call" only when we have explicit call fields.
+function isCallLike(obj) {
+  if (!obj || typeof obj !== "object") return false;
+  const rawType = String(obj.type || obj.category || "").toLowerCase();
+  if (rawType === "call") return true;
+  return (
+    obj.call_id != null ||
+    obj.type_of_action != null ||
+    obj.min_contribution != null ||
+    obj.max_contribution != null ||
+    obj.indicative_budget != null ||
+    obj.expected_outcome != null ||
+    obj.scope != null ||
+    obj.deadline != null ||
+    obj.opening_date != null
+  );
+}
+
+function isHE2025Entity(obj) {
+  const source = String(obj?.source || "").toLowerCase();
+  return source === "he_2025" && !isCallLike(obj);
+}
+
+
 const matchesClusterCode = (value = "", clusterCode) =>
   value === clusterCode ||
   value.startsWith(`${clusterCode}:`) ||
@@ -164,33 +188,74 @@ export function useNodeDetail() {
     }, {});
   }, []);
 
-  const fetchNodeDetail = useCallback(async (nodeId) => {
+const fetchNodeDetail = useCallback(
+  async (nodeId) => {
     if (!nodeId) return;
-    try {
-      const clusterConfig = getClusterConfigForId(nodeId);
-      persistGraphSelection(clusterConfig.graphName);
 
+    try {
+      // If we already have a HE_2025 entity payload (passed via location.state),
+      // do NOT overwrite it with a cluster-call payload.
+      const preferExistingHeEntity = isHE2025Entity(matchedLocationData);
+
+      const clusterConfig = preferExistingHeEntity
+        ? DEFAULT_CONFIG
+        : getClusterConfigForId(nodeId);
+
+      if (!preferExistingHeEntity) {
+        persistGraphSelection(clusterConfig.graphName);
+      }
+
+      // Relationships
+      const relEndpoint = preferExistingHeEntity
+        ? `${API_BASE}/relationships/`
+        : clusterConfig.buildRelEndpoint(nodeId);
+
+      // Node
       const nodeEndpoint = clusterConfig.buildNodeEndpoint(nodeId);
-      const relEndpoint = clusterConfig.buildRelEndpoint(nodeId);
+
+      // For HE entities, keep the existing nodeData and just fetch relationships.
+      // (If nodeData is missing, fall back to fetching the node as well.)
+      const shouldFetchNode = !preferExistingHeEntity || !matchedLocationData;
+
       const [nodeRes, relRes] = await Promise.all([
-        fetch(nodeEndpoint),
+        shouldFetchNode ? fetch(nodeEndpoint) : Promise.resolve(null),
         fetch(relEndpoint),
       ]);
 
-      if (!nodeRes.ok) {
+      if (shouldFetchNode && nodeRes && !nodeRes.ok) {
         throw new Error(`Node fetch failed with status ${nodeRes.status}`);
       }
       if (!relRes.ok) {
         throw new Error(`Relationship fetch failed with status ${relRes.status}`);
       }
 
-      const nodeJson = await nodeRes.json();
+      const nodeJson = shouldFetchNode && nodeRes ? await nodeRes.json() : null;
       const relJson = await relRes.json();
-      const relationsData = relJson.relationships || [];
 
-      setNodeData(nodeJson);
+      let relationsData = relJson.relationships || relJson || [];
+      if (preferExistingHeEntity && Array.isArray(relationsData)) {
+        // global relationships endpoint -> filter to the current node
+        relationsData = relationsData.filter(
+          (r) => r?.source === nodeId || r?.target === nodeId
+        );
+      }
+
+      // Only set nodeData from the fetch if it does NOT look like a Call payload.
+      if (nodeJson) {
+        if (preferExistingHeEntity && isCallLike(nodeJson)) {
+          // Keep the HE entity payload already in state.
+        } else {
+          setNodeData(nodeJson);
+        }
+      }
+
       setRelations(relationsData);
-      console.log("Fetched nodes:", nodeJson); 
+
+      if (preferExistingHeEntity && matchedLocationData) {
+        // Ensure we keep the entity payload (summary, etc.)
+        setNodeData((prev) => prev || matchedLocationData);
+      }
+
       const neighborIds = Array.from(
         new Set(
           relationsData.flatMap((rel) => {
@@ -203,15 +268,15 @@ export function useNodeDetail() {
       );
 
       const neighborDetails = await fetchNeighborDetails(neighborIds);
-      if (neighborDetails) {
-        setConnectedNodes(neighborDetails);
-      }
+      if (neighborDetails) setConnectedNodes(neighborDetails);
     } catch (err) {
       console.error("Failed to load node detail:", err);
     } finally {
       setLoading(false);
     }
-  }, [fetchNeighborDetails]);
+  },
+  [fetchNeighborDetails, matchedLocationData]
+);
 
   useEffect(() => {
     setRelations([]);

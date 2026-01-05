@@ -231,11 +231,39 @@ function NodeDetail() {
 
   const viewModel = useMemo(() => {
     if (!nodeData) return null;
-
     const rawType = String(nodeData.type || nodeData.category || "").toLowerCase();
+    const source = String(nodeData.source || "").toLowerCase();
     const isDestination = rawType === "destination";
 
+    const isHeEntity =
+      String(nodeData.source || "").toLowerCase() === "he_2025" &&
+      rawType !== "call" &&
+      nodeData.call_id == null &&
+      nodeData.type_of_action == null &&
+      nodeData.scope == null;
+
     const title = nodeData.name || nodeData.label || "Untitled node";
+
+    if (isHeEntity) {
+      return {
+        kind: "he_entity",
+        title,
+        summary: (nodeData.summary || "").trim(),
+      };
+    }
+
+    // Heuristic: treat as "call" only if it's explicitly a call OR has call-like fields
+    const isCall =
+      rawType === "call" ||
+      nodeData.call_id != null ||
+      nodeData.type_of_action != null ||
+      nodeData.min_contribution != null ||
+      nodeData.max_contribution != null ||
+      nodeData.indicative_budget != null ||
+      nodeData.expected_outcome != null ||
+      nodeData.scope != null ||
+      nodeData.deadline != null ||
+      nodeData.opening_date != null;
 
     if (isDestination) {
       return {
@@ -244,6 +272,19 @@ function NodeDetail() {
         summary: (nodeData.summary || "").trim(),
       };
     }
+
+    // HE_2025 graph entities (topic/institution/research_theme/etc.)
+    if (source === "he_2025" && !isCall) {
+      return {
+        kind: "he_entity",
+        title,
+        entityType: rawType || "node",
+        summary: (nodeData.summary || nodeData.description || "").trim(),
+        source: nodeData.source || "",
+      };
+    }
+
+    // --- existing Call view model (unchanged) ---
 
     // --- existing Call view model (unchanged) ---
     const typeOfAction = nodeData.type_of_action || "";
@@ -265,7 +306,6 @@ function NodeDetail() {
     const expectedEUContribution = nodeData.expected_eu_contribution;
     const deadline = nodeData.deadline;
     const openingDate = nodeData.opening_date;
-    const source = formatValue("source", nodeData.source || "");
     const callId = nodeData.call_id || nodeData.id;
 
     const fundingLink = nodeData.funding_link;
@@ -299,8 +339,110 @@ function NodeDetail() {
     );
   }
 
+  if (viewModel.kind === "he_entity") {
+    const summaryText = viewModel.summary || "—";
+    const sourceText = formatValue("source", nodeData.source || "");
 
-      if (viewModel.kind === "destination") {
+    return (
+      <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
+        {/* HEADER BAR */}
+        <header className="nd-header">
+          <Box className="nd-header-left">
+            <Button
+              size="small"
+              variant="text"
+              startIcon={<ArrowBackIcon fontSize="small" />}
+              onClick={() => navigate(-1)}
+            >
+              Back to Graph
+            </Button>
+          </Box>
+        </header>
+
+        <main className="nd-main">
+          <div className="nd-main-inner">
+            {/* Title */}
+            <Box className="nd-title-block">
+              <Box className="nd-title-dot" />
+              <Box className="nd-title-text">
+                <Typography
+                  variant="h4"
+                  className="nd-title"
+                  sx={{
+                    fontSize: "var(--text-2xl)",
+                    fontWeight: 600,
+                    lineHeight: 1.4,
+                    letterSpacing: "-0.01em",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {viewModel.title}
+                </Typography>
+                <Typography variant="subtitle2" className="nd-subtitle">
+                  Node ID: {nodeData.id || id}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Match the Destination grid layout, minus bookmarking */}
+            <div className="nd-grid">
+              <div className="nd-main-column">
+                <Box className="nd-card">
+                  <Box className="nd-card-header">
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      Summary
+                    </Typography>
+                  </Box>
+                  <Box className="nd-card-body nd-card-body--text">
+                    <Typography variant="body2" className="nd-paragraph">
+                      {summaryText}
+                    </Typography>
+                  </Box>
+                </Box>
+              </div>
+
+              <aside className="nd-sidebar">
+                {/* Connections */}
+                <Box className="nd-card">
+                  <Box className="nd-card-header nd-card-header--with-icon">
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      Connections
+                    </Typography>
+                    <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
+                  </Box>
+                  <Box className="nd-card-body nd-card-body--connections">
+                    <NodeConnections
+                      id={id}
+                      relations={relations}
+                      connectedNodes={connectedNodes}
+                      bare
+                    />
+                  </Box>
+                </Box>
+
+                {/* Source */}
+                {sourceText && sourceText !== "—" && (
+                  <Box className="nd-card">
+                    <Box className="nd-card-header">
+                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                        Source
+                      </Typography>
+                    </Box>
+                    <Box className="nd-card-body nd-card-body--row">
+                      <InfoOutlinedIcon fontSize="small" className="nd-timeline-icon" />
+                      <Typography variant="body2">{sourceText}</Typography>
+                    </Box>
+                  </Box>
+                )}
+              </aside>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (viewModel.kind === "destination") {
     const summaryText = viewModel.summary || "—";
     const sourceText = formatValue("source", nodeData.source || "");
 
@@ -435,7 +577,6 @@ function NodeDetail() {
     );
   }
 
-
   const {
     title,
     typeOfAction,
@@ -457,7 +598,7 @@ function NodeDetail() {
 
   const officialCallPageUrl = buildOfficialCallPageUrl(callId || id);
 
-  const isStatusOpen = status.toLowerCase() === "open";
+  const isStatusOpen = String(status || "").toLowerCase() === "open";
 
   const handleApplyNow = () => {
     if (fundingLink) {

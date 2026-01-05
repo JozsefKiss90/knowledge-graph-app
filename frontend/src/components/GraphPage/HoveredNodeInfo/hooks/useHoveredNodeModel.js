@@ -166,17 +166,18 @@ export function useHoveredNodeModel({
     const metricCards = [];
 
     if (allowHeMetrics && !isClusterNode && !isDestinationNode && !isCallNode) {
-      metricCards.push({
+     metricCards.push({
         key: "connections",
         label: "Connections",
-        value: extractConnections(raw),
+        value: extractConnections(raw, cyInstance),
         variant: "number",
         fullWidth: false,
       });
+
       metricCards.push({
         key: "centrality",
         label: "Centrality",
-        value: extractCentrality(raw),
+        value: extractCentrality(raw, cyInstance),
         variant: "number",
         fullWidth: false,
       });
