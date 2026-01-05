@@ -462,9 +462,20 @@ const GraphView = forwardRef(function GraphView(
     // initial
     scheduleGlowUpdate();
 
-    onCyReadyRef.current && onCyReadyRef.current(cy);
+    // Keep Cytoscape centered when the container size changes (mobile, wrapping bars, etc.)
+    const ro = new ResizeObserver(() => {
+      try {
+        cy.resize();
+        // smaller padding on tight screens
+        const w = cy.width() || 0;
+        const pad = w && w < 900 ? 30 : 60;
+        cy.fit(cy.elements(), pad);
+      } catch {}
+    });
+    if (wrapperRef.current) ro.observe(wrapperRef.current);
 
     return () => {
+     try { ro.disconnect(); } catch {}
       try {
         cy.off("pan zoom resize", onAny);
         cy.off("drag position", "node", onAny);

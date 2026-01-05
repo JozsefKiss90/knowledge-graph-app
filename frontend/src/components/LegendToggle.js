@@ -91,8 +91,6 @@ if (key.toLowerCase() === "root") {
   return out;
 }
 
-
-
 // Collect edge types in the CURRENT Cytoscape layer (used only for HE_2025)
 function collectLayerEdgeTypes(cy) {
   if (!cy || cy.destroyed()) return new Set();

@@ -1,22 +1,22 @@
 {
   "Climate, Energy and Mobility (Cluster 5)": {
-    "Destination 1": {
-      "summary": ""
+    "Climate sciences and responses for the transformation towards climate neutrality": {
+      "summary": "Supports the scientific basis and applied solutions needed to deliver climate neutrality and greater resilience to climate impacts. It covers improved climate observations, modelling and attribution, assessment of risks and tipping points, and actionable knowledge for adaptation and mitigation. Projects are expected to strengthen evidence for EU and national policies, improve decision-support tools for regions and sectors, and accelerate uptake of climate services by public authorities and businesses."
     },
-    "Destination 2": {
-      "summary": ""
+    "Cross-sectoral solutions for the climate transition": {
+      "summary": "Funds systemic approaches that cut across sectors to accelerate the transition to a climate-neutral and climate- resilient economy. It typically addresses governance, finance and societal readiness, integration of mitigation and adaptation into planning, and solutions that link energy, mobility, industry, buildings and land use. Expected results include scalable transition pathways, stronger stakeholder engagement and behavioural insights, and practical frameworks for implementation and monitoring at local, regional and European levels."
     },
-    "Destination 3": {
-      "summary": ""
+    "Sustainable, secure and competitive energy supply": {
+      "summary": "Advances technologies and systems that secure Europe’s energy supply while reducing emissions and strategic dependencies. Focus areas include renewable energy technologies and value chains, energy systems integration, grids and storage, hydrogen and other renewable fuels, and CO₂ capture, utilisation and storage where relevant. Projects should deliver higher-performing and more affordable solutions, demonstrators and pilots, and pathways to industrialisation that strengthen EU competitiveness and resilience."
     },
-    "Destination 4": {
-      "summary": ""
+    "Efficient, sustainable and inclusive energy use": {
+      "summary": "Targets the demand side of the energy system, improving efficiency, affordability and sustainability in buildings and industry. It supports deep renovation and climate-neutral construction, smart and flexible buildings, industrial electrification and waste-heat recovery, and digital solutions that optimise energy use. Outcomes should include lower energy consumption and emissions, reduced disruption and cost for renovations, improved comfort and health, and scalable approaches that can be replicated across Europe."
     },
-    "Destination 5": {
-      "summary": ""
+    "Clean and competitive solutions for all transport modes": {
+      "summary": "Accelerates the decarbonisation and competitiveness of transport across road, aviation and waterborne modes. It promotes zero- and low-emission technologies and fuels, circular design and manufacturing, advanced digitalisation and AI for operations, and solutions that reduce the environmental and health footprint of transport. Projects are expected to deliver demonstrable reductions in emissions and pollution, improved performance and safety, and industrial leadership for European manufacturers and service providers."
     },
-    "Destination 6": {
-      "summary": ""
+    "Safe, Resilient Transport and Smart Mobility services for passengers and goods": {
+      "summary": "Develops smart, safe and resilient mobility services for passengers and freight, enabling multimodal, climate-neutral and digitally enabled transport systems. Priorities include connected, cooperative and automated mobility, resilient and efficient logistics and infrastructure, urban and rural mobility solutions, and improved safety and network robustness. Expected results include interoperable solutions ready for deployment, better user experience and accessibility, stronger resilience to disruptions, and reduced road fatalities and transport externalities."
     }
   }
 }

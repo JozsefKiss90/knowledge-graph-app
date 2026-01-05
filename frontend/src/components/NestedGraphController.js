@@ -55,6 +55,7 @@ export default function NestedGraphController({
   onLevelChange,
   targetGraphName,
   renderLevelBar,
+  onGraphStats,
 }) {
   const graphRef = useRef(null);
 
@@ -68,6 +69,42 @@ export default function NestedGraphController({
   ]);
 
   const current = levels[levels.length - 1];
+  // ✅ Report node/edge counts from the active layer’s element data (source of truth)
+useEffect(() => {
+  const els = current?.elements || { nodeElements: [], edgeElements: [] };
+  let nodes = els.nodeElements || [];
+  let edges = els.edgeElements || [];
+
+  const layerKey = String(current?.key || "");
+  const isClusterOverview = layerKey.startsWith("Cluster_");
+
+  // Match GraphView filtering: do not count Calls or HAS_CALL edges on cluster overview
+  if (isClusterOverview) {
+    const callIds = new Set(
+      nodes
+        .filter((n) => {
+          const d = n?.data || {};
+          return d.type === "Call" || d.category === "Call";
+        })
+        .map((n) => String(n?.data?.id))
+        .filter(Boolean)
+    );
+
+    nodes = nodes.filter((n) => !callIds.has(String(n?.data?.id)));
+
+    edges = edges.filter((e) => {
+      const d = e?.data || {};
+      const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
+      const touchesCall =
+        callIds.has(String(d.source)) || callIds.has(String(d.target));
+      return !isHasCall && !touchesCall;
+    });
+  }
+
+  onGraphStats?.({ nodes: nodes.length, edges: edges.length });
+}, [current?.key, current?.elements, onGraphStats]);
+
+
   const lastAppliedTargetRef = useRef(initialGraphName);
 
   const handleLevelClick = useCallback(
@@ -278,28 +315,29 @@ export default function NestedGraphController({
     console.log( "layerkey",current?.key );    
   return (
     <div className="graph-main-inner">
-      {levelBar}
-      <div className="graph-canvas-wrapper">
-        <GraphView
-          key={current.key}
-          ref={graphRef}
-          graphData={current.elements}
-          graphName={current.graphName}
-          layerKey={current.key}
-          layoutOptions={layoutOptions}
-          onCyReady={(cy) => {
-            // Safety: if any Call nodes exist in cluster overview, hide them
-            const key = current.key || "";
-            if (key.startsWith("Cluster_")) {
-              cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden");
-            }
-            onCyReady?.(cy);
-          }}
-          onNodeHover={onNodeHover}
-          onHoverNodeIdChange={onHoverNodeIdChange}
-          nestedHandlers={nestedHandlers}
-        />
+        {levelBar}
+        <div className="graph-canvas-wrapper">
+          <GraphView
+            key={current.key}
+            ref={graphRef}
+            graphData={current.elements}
+            graphName={current.graphName}
+            layerKey={current.key}
+            layoutOptions={layoutOptions}
+            nestedHandlers={nestedHandlers}
+            onCyReady={(cy) => {
+              // Safety: if any Call nodes exist in cluster overview, hide them
+              const key = current.key || "";
+              if (key.startsWith("Cluster_")) {
+                cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden");
+              }
+              onCyReady?.(cy);
+            }}
+            onNodeHover={onNodeHover}
+            onHoverNodeIdChange={onHoverNodeIdChange}
+          />
+        </div>
       </div>
-    </div>
+
   );
 }

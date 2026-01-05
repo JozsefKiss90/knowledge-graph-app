@@ -6,7 +6,7 @@ import HoverCardChips from "./HoverCardChips";
  * Header: dot + title + chips.
  *
  * Props:
- * - title: display title
+ * - title: display title 
  * - titleFull: optional full title for tooltip
  * - nodeVisual: { fill, borderColor, borderWidthPx }
  * - chips: passed through to HoverCardChips
@@ -21,7 +21,7 @@ export default function HoverCardHeader({
 }) {
 
   const dot = nodeVisual || {
-    fill: "rgba(255,255,255,0.18)",
+    fill: "hsla(71, 100%, 50%, 1.00)",
     borderColor: "#ffffff",
     borderWidthPx: 2,
   };
@@ -40,8 +40,8 @@ export default function HoverCardHeader({
         width: 32,
         height: 32,
         borderRadius: "50%",
-        backgroundColor: nodeVisual?.fill,
-        border: `${nodeVisual?.borderWidthPx || 2}px solid ${nodeVisual?.borderColor || "#fff"}`,
+        backgroundColor: dot.fill,
+        border: `${dot.borderWidthPx || 2}px solid ${dot.borderColor || "#fff"}`,
         cursor: onDotClick ? "pointer" : "default",
         flex: "0 0 auto",
       }}

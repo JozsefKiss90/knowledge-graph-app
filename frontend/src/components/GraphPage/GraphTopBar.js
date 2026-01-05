@@ -1,11 +1,24 @@
 // src/components/GraphPage/GraphTopBar.js
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import React, { useMemo, useState } from "react";
+import {
+  Box,
+  IconButton,
+  Tooltip,
+  Typography,
+  Menu,
+  MenuItem,
+  Divider,
+  useMediaQuery,
+} from "@mui/material";
+
 import UndoIcon from "@mui/icons-material/Undo";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const GraphTopBar = ({
   levels,
@@ -25,13 +38,137 @@ const GraphTopBar = ({
   );
   const levelNumber = currentIndex + 1;
 
+  const currentTitle = useMemo(() => {
+    const found = levels.find((l) => l.key === currentKey);
+    return found?.title || "Graph";
+  }, [levels, currentKey]);
+
   const isTree = layoutMode === "tree";
 
+  // Compact breakpoint: covers iPhone SE landscape etc.
+  const isCompact = useMediaQuery("(max-width: 1024px), (max-height: 520px)");  // Overflow menu (compact)
+  const [menuAnchor, setMenuAnchor] = useState(null);
+  const menuOpen = Boolean(menuAnchor);
+  const openMenu = (e) => setMenuAnchor(e.currentTarget);
+  const closeMenu = () => setMenuAnchor(null);
+
+  if (isCompact) {
+    return (
+      <Box className="graph-topbar graph-topbar--compact">
+        <Box className="graph-topbar-compact-left">
+          {canGoBack && (
+            <Tooltip title="Back one level">
+              <IconButton
+                size="small"
+                className="graph-topbar-icon graph-topbar-compact-back"
+                onClick={onBack}
+                aria-label="Back one level"
+              >
+                <ArrowBackIosNewIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          )}
+
+          <Tooltip title="Home">
+            <IconButton
+              size="small"
+              className="graph-topbar-icon graph-topbar-compact-home"
+              onClick={() => onLevelClick(0)}
+              aria-label="Home"
+            >
+              <HomeOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title={currentTitle}>
+            <Typography
+              variant="body2"
+              component="div"
+              className="graph-topbar-compact-title"
+            >
+              {currentTitle}
+            </Typography>
+          </Tooltip>
+        </Box>
+
+        <Box className="graph-topbar-compact-right">
+          <Box className="graph-topbar-compact-pill" title={`Level ${levelNumber}`}>
+            <Typography variant="caption">L{levelNumber}</Typography>
+          </Box>
+
+          <Tooltip title="More">
+            <IconButton
+              size="small"
+              className="graph-topbar-icon"
+              onClick={openMenu}
+              aria-label="More actions"
+            >
+              <MoreVertIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            anchorEl={menuAnchor}
+            open={menuOpen}
+            onClose={closeMenu}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            {layoutSwitchVisible && (
+              <>
+                <MenuItem
+                  onClick={() => {
+                    onLayoutModeChange?.("force");
+                    closeMenu();
+                  }}
+                  selected={!isTree}
+                >
+                  <GridOnIcon fontSize="small" style={{ marginRight: 10 }} />
+                  Force layout
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    onLayoutModeChange?.("tree");
+                    closeMenu();
+                  }}
+                  selected={isTree}
+                >
+                  <AccountTreeIcon fontSize="small" style={{ marginRight: 10 }} />
+                  Hierarchy layout
+                </MenuItem>
+                <Divider />
+              </>
+            )}
+
+            <MenuItem
+              onClick={() => {
+                onResetView?.();
+                closeMenu();
+              }}
+            >
+              <UndoIcon fontSize="small" style={{ marginRight: 10 }} />
+              Reset view
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                onFitView?.();
+                closeMenu();
+              }}
+            >
+              <OpenInFullIcon fontSize="small" style={{ marginRight: 10 }} />
+              Fit to screen
+            </MenuItem>
+          </Menu>
+        </Box>
+      </Box>
+    );
+  }
+
+  // Desktop / wide layout: keep your existing breadcrumb UI unchanged
   return (
     <Box className="graph-topbar">
-      {/* LEFT: breadcrumb + Level pill */}
       <Box className="graph-topbar-left">
-        {/* Home chip */}
         <button
           type="button"
           className="graph-topbar-breadcrumb graph-topbar-breadcrumb--home"
@@ -40,10 +177,9 @@ const GraphTopBar = ({
           <HomeOutlinedIcon fontSize="small" className="graph-topbar-home-icon" />
         </button>
 
-        {/* Separator and crumbs after ROOT */}
         <Box className="graph-topbar-breadcrumbs">
           {levels.slice(0, currentIndex + 1).map((lvl, index) => {
-            if (index === 0) return null; // skip ROOT label, we use “AI Research” etc. in lvl.title
+            if (index === 0) return null;
             const isActive = lvl.key === currentKey;
             return (
               <Box key={lvl.key} className="graph-topbar-breadcrumb-wrapper">
@@ -69,12 +205,10 @@ const GraphTopBar = ({
           })}
         </Box>
 
-        {/* Level pill */}
         <Box className="graph-topbar-level-pill">
           <Typography variant="caption">Level {levelNumber}</Typography>
         </Box>
 
-        {/* Optional “up one level” control, aligned with crumbs */}
         {canGoBack && (
           <button
             type="button"
@@ -86,8 +220,7 @@ const GraphTopBar = ({
           </button>
         )}
       </Box>
-      
-      {/* RIGHT: actions (Reset / Fit / Layout) */}
+
       <Box className="graph-topbar-actions">
         {layoutSwitchVisible && (
           <>
@@ -119,27 +252,19 @@ const GraphTopBar = ({
         )}
 
         <Tooltip title="Reset view">
-          <IconButton
-            size="small"
-            className="graph-topbar-icon"
-            onClick={onResetView}
-          >
+          <IconButton size="small" className="graph-topbar-icon" onClick={onResetView}>
             <UndoIcon fontSize="small" />
           </IconButton>
         </Tooltip>
+
         <Tooltip title="Fit to screen">
-          <IconButton
-            size="small"
-            className="graph-topbar-icon"
-            onClick={onFitView}
-          >
+          <IconButton size="small" className="graph-topbar-icon" onClick={onFitView}>
             <OpenInFullIcon fontSize="small" />
           </IconButton>
         </Tooltip>
-      </Box> 
+      </Box>
     </Box>
   );
 };
 
 export default GraphTopBar;
-  

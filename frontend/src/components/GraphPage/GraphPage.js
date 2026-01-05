@@ -327,6 +327,7 @@ useEffect(() => {
 
   // smooth zoom when legend collapses/expands
   const didMountRef = useRef(false);
+
   useEffect(() => {
     if (!cyInstance || cyInstance.destroyed()) return;
     if (!didMountRef.current) {
@@ -342,28 +343,8 @@ useEffect(() => {
     }
   }, [isLegendCollapsed, cyInstance]);
 
-  // ✅ keep node / edge counts in sync with the current Cytoscape instance
-  useEffect(() => {
-    if (!cyInstance || cyInstance.destroyed()) return;
 
-    const updateStats = () => {
-      setGraphStats({
-        nodes: cyInstance.nodes().length,
-        edges: cyInstance.edges().length,
-      });
-    }; 
 
-    updateStats();
-    cyInstance.on("add remove", updateStats);
-
-    return () => {
-      try {
-        cyInstance.off("add remove", updateStats);
-      } catch {
-        /* ignore */
-      }
-    };
-  }, [cyInstance]);
 
   // ⬇️ after all hooks, you can safely early-return
   if (!ready) {
@@ -464,6 +445,7 @@ useEffect(() => {
               initialGraphName="ROOT"
               layoutOptions={effectiveLayout}
               loadFromStore={loadFromStore}
+              onGraphStats={setGraphStats}
               onCyReady={(cy) => {
                 setCyInstance(cy);
                 requestAnimationFrame(() => {
@@ -480,7 +462,7 @@ useEffect(() => {
                 setHoveredNode(null);
               }}
               targetGraphName={graphName}
-              renderLevelBar={({
+              renderLevelBar={({ 
                 levels,
                 currentKey,
                 onLevelClick,

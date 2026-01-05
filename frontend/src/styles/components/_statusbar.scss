@@ -55,3 +55,41 @@
   margin: 0 4px;
   opacity: 0.5;
 }
+
+/* ===============================
+   Responsive fixes (append-only)
+   Keeps desktop unchanged
+   =============================== */
+
+.graph-status-bar,
+.graph-status-left,
+.graph-status-right {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .graph-status-bar {
+    height: auto;        /* allow wrap */
+    min-height: 32px;    /* preserve baseline */
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    row-gap: 4px;
+    column-gap: 12px;
+  }
+
+  .graph-status-right {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 740px) {
+  .graph-status-bar {
+    font-size: 12px;
+  }
+
+  /* Remove “label noise” so values fit */
+  .graph-status-label,
+  .graph-status-separator {
+    display: none;
+  }
+}

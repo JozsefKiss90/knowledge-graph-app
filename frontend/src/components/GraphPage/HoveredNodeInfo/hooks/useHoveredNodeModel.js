@@ -121,19 +121,35 @@ export function useHoveredNodeModel({
           : truncate(typeRaw || "Node", 24);
 
     const nodeVisual = (() => {
-      const fallback = {
-        fill: "rgba(255,255,255,0.18)",
-        borderColor: "#ffffff",
-        borderWidthPx: 2,
+      // Distinct fallback palette by node type (only used when cy style can't be read)
+      const byKind = {
+        cluster: { fill: "hsla(71, 100%, 50%, 1.00)", borderColor: "#ffffff", borderWidthPx: 2 },      // green
+        destination: { fill: "hsla(206, 100%, 62%, 1.00)", borderColor: "#ffffff", borderWidthPx: 2 }, // blue
+        call: { fill: "hsla(38, 100%, 55%, 1.00)", borderColor: "#ffffff", borderWidthPx: 2 },        // orange
+        node: { fill: "rgba(255,255,255,0.18)", borderColor: "#ffffff", borderWidthPx: 2 },
       };
 
+      const fallback = byKind[nodeKind] || byKind.node;
+
+      // If we cannot read Cytoscape, use the type-based fallback (not grey)
       if (!id || !cyInstance || cyInstance?.destroyed?.()) return fallback;
 
       try {
         const n = cyInstance.$id(String(id));
         if (!n || n.empty?.()) return fallback;
+
         const fill = n.style("background-color") || fallback.fill;
-        return { ...fallback, fill };
+        const borderColor = n.style("border-color") || fill || fallback.borderColor;
+
+        const bwRaw = n.style("border-width");
+        const borderWidthPx =
+          typeof bwRaw === "number"
+            ? bwRaw
+            : typeof bwRaw === "string"
+              ? parseFloat(bwRaw) || fallback.borderWidthPx
+              : fallback.borderWidthPx;
+
+        return { fill, borderColor, borderWidthPx };
       } catch {
         return fallback;
       }

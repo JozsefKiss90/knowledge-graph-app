@@ -322,3 +322,47 @@
   letter-spacing: 0.08em;
   font-size: 0.72rem;
 }
+
+/* --- Responsive legend column sizing --- */
+:root {
+  --legend-width: clamp(240px, 30vw, 360px);
+  --legend-width-wide: clamp(280px, 32vw, 420px);
+  --legend-collapsed-width: 56px;
+}
+
+/* Apply this class to the element that wraps the LegendToggle sidebar */
+.legend-column {
+  width: var(--legend-width);
+  flex: 0 0 var(--legend-width);
+  min-width: 220px;
+  max-width: 460px;
+
+  height: 100%;
+  min-height: 0; /* allow legend-content to scroll */
+  transition: width 0.22s ease, flex-basis 0.22s ease;
+}
+
+/* Collapsed state */
+.legend-column.is-collapsed {
+  width: var(--legend-collapsed-width);
+  flex: 0 0 var(--legend-collapsed-width);
+  min-width: var(--legend-collapsed-width);
+  max-width: var(--legend-collapsed-width);
+}
+
+/* Landscape phones / tight widths: slightly smaller legend */
+@media (max-width: 900px) {
+  .legend-column {
+    width: clamp(210px, 34vw, 300px);
+    flex-basis: clamp(210px, 34vw, 300px);
+    min-width: 200px;
+  }
+}
+
+/* Very tight landscape phones: keep it usable but compact */
+@media (max-width: 740px) {
+  .legend-column {
+    width: 220px;
+    flex: 0 0 220px;
+  }
+}

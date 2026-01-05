@@ -1,25 +1,25 @@
 {
   "Food, Bioeconomy, Natural Resources, Agriculture and Environment (Cluster 6)": {
     "Biodiversity and ecosystem services": {
-      "summary": ""
+      "summary": "Supports implementation of EU biodiversity and nature restoration priorities by generating evidence, tools and solutions to halt biodiversity loss and restore ecosystems. It emphasises nature-based solutions, ecosystem resilience and the protection/enhancement of ecosystem services, including maintaining and improving natural carbon sinks (soils, forests, wetlands and marine ecosystems) and strengthening biodiversity observation and decision support."
     },
-    "Fair, healthy and environment-friendly food systems from primary": {
-      "summary": ""
+    "Fair, healthy and environment-friendly food systems from primary production to consumption": {
+      "summary": "Advances the transformation of agriculture, fisheries, aquaculture and food systems to be competitive, resilient and sustainable within planetary boundaries. It targets innovations that improve productivity while working with nature (e.g., reduced pesticide and nutrient pressures, animal health and welfare, antimicrobial resistance prevention), and supports healthier, more inclusive diets and food-system integration across actors and policies under a One Health perspective."
     },
     "Circular economy and bioeconomy sectors": {
-      "summary": ""
+      "summary": "Accelerates the transition to a competitive circular economy and sustainable bioeconomy by developing circular and bio-based materials, products, processes and value chains. Priorities include ecodesign and waste prevention, scaling reuse/repair/recycling systems, strengthening markets for secondary materials, and advancing biotechnology and biomanufacturing to reduce dependence on fossil feedstocks while safeguarding biodiversity and resource supply."
     },
     "Clean environment and zero pollution": {
-      "summary": ""
+      "summary": "Delivers research and innovation to reduce air, water and soil pollution in line with the EU zero‑pollution ambition and related legislation. It focuses on prevention, monitoring and remediation of pollutants (including emerging contaminants such as PFAS), safe and sustainable by design chemicals and materials, cleaner industrial and agri-food practices, and solutions that support water resilience and healthier ecosystems."
     },
     "Land, ocean and water for climate action": {
-      "summary": ""
+      "summary": "Strengthens mitigation and adaptation to climate change across land, ocean and water systems, supporting Europe’s climate-neutrality and climate-resilience objectives. It develops improved evidence for policy and governance (including Arctic and Antarctic dimensions), advances land-use and carbon-removal solutions (e.g., carbon farming and LULUCF-related measures), and improves resilience of water infrastructures and marine/coastal ecosystems within the ocean–climate–biodiversity nexus."
     },
-    "Resilient, inclusive, healthy and green rural, coastal and urban": {
-      "summary": ""
+    "Resilient, inclusive, healthy and green rural, coastal and urban communities": {
+      "summary": "Supports sustainable development and a just transition for rural, coastal and urban communities by improving resilience to social, economic and environmental shocks. It promotes community-led innovation, nature-based solutions, stronger local food and bioeconomy entrepreneurship, and better access to knowledge and tools (including digital), aligned with CAP implementation and long-term visions for rural areas and place-based transformation."
     },
-    "Innovative governance, environmental observations and digital solutions in": {
-      "summary": ""
+    "Innovative governance, environmental observations and digital solutions in support of the Green Deal": {
+      "summary": "Develops governance models, science–society–policy interfaces and interoperable environmental observation systems that enable sustainability and resilience. It advances digital and data-driven solutions (including Earth intelligence) to support Green Deal implementation, water management and ocean governance, and strengthens Agriculture Knowledge and Innovation Systems (AKIS) to better translate research into practice and improve competitiveness and sustainability."
     }
   }
 }
