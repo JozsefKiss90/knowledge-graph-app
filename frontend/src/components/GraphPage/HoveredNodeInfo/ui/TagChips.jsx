@@ -13,9 +13,9 @@ export default function TagChips({ title = "Related Topics", tags = [] }) {
 
   return (
     <>
-      <Divider sx={{ my: 1.25, borderColor: "rgba(255,255,255,0.10)" }} />
+      <Divider sx={{ my: 1.25, borderColor: "var(--border)" }} />
 
-      <Typography sx={{ fontSize: 12, fontWeight: 700, opacity: 0.9, mb: 0.75 }}>
+      <Typography sx={{ fontSize: 12, fontWeight: 700, color: "var(--foreground)", mb: 0.75 }}>
         {title}
       </Typography>
 
@@ -29,8 +29,9 @@ export default function TagChips({ title = "Related Topics", tags = [] }) {
             sx={{
               height: 22,
               borderRadius: 999,
-              background: "rgba(255,255,255,0.10)",
-              color: "#fff",
+              background: "var(--muted)",
+              border: "1px solid var(--border)",
+              color: "var(--foreground)",
             }}
           />
         ))}

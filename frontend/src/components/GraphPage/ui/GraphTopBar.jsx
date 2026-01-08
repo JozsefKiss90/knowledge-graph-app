@@ -1,5 +1,5 @@
 // src/components/GraphPage/GraphTopBar.js
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect  } from "react";
 import {
   Box,
   IconButton,
@@ -52,6 +52,10 @@ const GraphTopBar = ({
   const openMenu = (e) => setMenuAnchor(e.currentTarget);
   const closeMenu = () => setMenuAnchor(null);
 
+  useEffect(() => {
+    setMenuAnchor(null);
+  }, [isCompact]);
+  
   if (isCompact) {
     return (
       <Box className="graph-topbar graph-topbar--compact">
@@ -114,31 +118,34 @@ const GraphTopBar = ({
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            {layoutSwitchVisible && (
-              <>
-                <MenuItem
-                  onClick={() => {
-                    onLayoutModeChange?.("force");
-                    closeMenu();
-                  }}
-                  selected={!isTree}
-                >
-                  <GridOnIcon fontSize="small" style={{ marginRight: 10 }} />
-                  Force layout
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    onLayoutModeChange?.("tree");
-                    closeMenu();
-                  }}
-                  selected={isTree}
-                >
-                  <AccountTreeIcon fontSize="small" style={{ marginRight: 10 }} />
-                  Hierarchy layout
-                </MenuItem>
-                <Divider />
-              </>
-            )}
+           {layoutSwitchVisible ? ([
+  <MenuItem
+    key="layout-force"
+    onClick={() => {
+      onLayoutModeChange?.("force");
+      closeMenu();
+    }}
+    selected={layoutMode !== "tree"}
+  >
+    <GridOnIcon fontSize="small" style={{ marginRight: 10 }} />
+    Force layout
+  </MenuItem>,
+
+  <MenuItem
+    key="layout-tree"
+    onClick={() => {
+      onLayoutModeChange?.("tree");
+      closeMenu();
+    }}
+    selected={layoutMode === "tree"}
+  >
+    <AccountTreeIcon fontSize="small" style={{ marginRight: 10 }} />
+    Hierarchy layout
+  </MenuItem>,
+
+  <Divider key="layout-divider" />,
+]) : null}
+
 
             <MenuItem
               onClick={() => {

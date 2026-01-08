@@ -32,14 +32,16 @@ export default function HoverCardShell({
         maxHeight,
         overflow: "auto",
         borderRadius: "16px",
-        background: "rgba(14, 16, 22, 0.94)",
-        border: "1px solid rgba(255,255,255,0.14)",
-        boxShadow: "0 18px 70px rgba(0,0,0,0.55)",
-        backdropFilter: "blur(10px)",
-        color: "#fff",
         p: 1.5,
-        position: "fixed",
+
+        backgroundColor: "var(--card)",
+        color: "var(--card-foreground)",
+        border: "1px solid var(--border)",
+        boxShadow: "0 18px 44px rgba(2, 6, 23, 0.18), 0 6px 16px rgba(2, 6, 23, 0.12)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
       }}
+
     >
       {/* Close button (top-right) */}
       <Box sx={{ position: "absolute", top: 6, right: 6, zIndex: 2 }}>
@@ -50,9 +52,9 @@ export default function HoverCardShell({
             e.stopPropagation();
             onClose?.();
           }}
-          sx={{
-            color: "rgba(255,255,255,0.75)",
-            "&:hover": { color: "#fff" },
+        sx={{
+            color: "var(--foreground-muted)",
+            "&:hover": { color: "var(--foreground)" },
           }}
           aria-label="Close"
         >

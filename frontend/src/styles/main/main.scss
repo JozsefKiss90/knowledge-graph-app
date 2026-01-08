@@ -21,9 +21,9 @@
 @import "../components/statusbar";
 @import "../components/sidebar-controls";
 @import "../components/hover-card";
-@import "../components/filters";        // if you created it as a separate partial
-@import "../components/graph-selector"; // if you created it as a separate partial
-
+@import "../components/filters";        
+@import "../components/graph-selector"; 
+@import "../components/chatbot";
 /* Landscape-only overlay (global) */
 .orientation-overlay {
   position: fixed;
@@ -76,12 +76,8 @@
   transform: translateY(1px);
 }
 @media (orientation: landscape) {
-  .orientation-overlay {
-    display: flex;
-  }
+  .orientation-overlay { display: none; }
 }
 @media (orientation: portrait) {
-  .orientation-overlay {
-    display: none;
-  }                     
+  .orientation-overlay { display: flex; }
 }

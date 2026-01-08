@@ -20,8 +20,7 @@ export default function MetricCards({ items = [] }) {
 
   return (
     <>
-      <Divider sx={{ my: 1.25, borderColor: "rgba(255,255,255,0.10)" }} />
-
+      <Divider sx={{ my: 1.25, borderColor: "var(--border)" }} />
       {gridItems.length > 0 && (
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
           {gridItems.map((m) => (
@@ -29,12 +28,12 @@ export default function MetricCards({ items = [] }) {
               key={m.key || m.label}
               sx={{
                 borderRadius: "14px",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.06)",
+                border: "1px solid var(--border)",
+                background: "var(--muted)",
                 p: 1,
               }}
             >
-              <Typography sx={{ fontSize: 11, opacity: 0.8, fontWeight: 700 }}>
+              <Typography sx={{ fontSize: 11, color: "var(--foreground-muted)", fontWeight: 700 }}>
                 {m.label}
               </Typography>
               <Typography
@@ -60,8 +59,8 @@ export default function MetricCards({ items = [] }) {
               key={m.key || m.label}
               sx={{
                 borderRadius: "14px",
-                border: "1px solid rgba(255,255,255,0.10)",
-                background: "rgba(255,255,255,0.06)",
+                border: "1px solid var(--border)",
+                background: "var(--muted)",
                 p: 1,
               }}
             >

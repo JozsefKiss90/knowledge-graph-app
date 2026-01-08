@@ -99,9 +99,9 @@ function collectLayerEdgeTypes(cy) {
     const t = e.data("type") || e.data("category");
     if (t) s.add(t);
   });
-  return s;
+  return s; 
 }
-
+ 
 const LegendToggle = ({
     hoveredNodeRef,
     graphName,
@@ -222,6 +222,7 @@ const LegendToggle = ({
       } catch {}
     };
   }, [cy, graphName]);
+
   const resetView = () => {
     if (!cy || cy.destroyed()) return;
 
@@ -229,9 +230,16 @@ const LegendToggle = ({
     cy.nodes().removeClass("faded highlighted is-hovered");
     cy.edges().removeClass("faded highlighted");
     cy.nodes().unselect();
-    cy.fit({ padding: 60 });
 
-    // Reset to “all types in this layer”
+    // Resize-safe: ensure Cytoscape recalculates container size first,
+    // then fit after the DOM has settled.
+    requestAnimationFrame(() => {
+      try { cy.resize(); } catch {}
+      window.setTimeout(() => {
+        try { cy.fit({ padding: 60 }); } catch {}
+      }, 150);
+    });
+
     setVisibleNodeTypes(new Set(nodeTypeList.map((x) => x.type)));
     setVisibleEdgeTypes(new Set(edgeTypeList.map((x) => x.type)));
   };
@@ -259,14 +267,28 @@ const LegendToggle = ({
         boxSizing: "border-box",
       }}
     >
-      {/* Header: Filters & Controls  collapse */}
       <Box className="legend-header">
-        <Box display="flex" alignItems="center" gap={1}>
-          <FilterListIcon fontSize="small" />
-          <Typography variant="subtitle1" fontWeight="bold">
-            Filters &amp; Controls
-          </Typography>
-        </Box>
+      {/* LEFT: brand badge (shown on mobile only via CSS) */}
+     <Box className="legend-header-left" display="flex" alignItems="center" gap={1}>
+        {/* Desktop/default icon */} 
+        <FilterListIcon className="legend-filter-icon" fontSize="small" />
+
+        {/* Mobile-only brand icon */}
+        <div className="graph-app-logo legend-brand-badge" aria-hidden="true">
+          <span className="graph-app-logo-mark graph-app-logo-mask" aria-hidden="true" />
+        </div>
+      </Box>
+
+
+      {/* CENTER: title */}
+      <Box className="legend-header-center">
+        <Typography className="legend-header-title" variant="subtitle1" fontWeight="bold">
+          Filters &amp; Controls
+        </Typography>
+      </Box>
+
+      {/* RIGHT: collapse chevron */}
+      <Box className="legend-header-right">
         {onCollapse && (
           <IconButton
             onClick={onCollapse}
@@ -278,6 +300,7 @@ const LegendToggle = ({
           </IconButton>
         )}
       </Box>
+    </Box>
 
       {/* Scrollable content */}
       <Box className="legend-content">

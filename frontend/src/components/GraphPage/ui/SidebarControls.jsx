@@ -6,8 +6,8 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EmailIcon from "@mui/icons-material/Email";
-import MessageDrawer from "../LegendParts/MessageDrawer";
-import CustomDrawer from "../LegendParts/CustomDrawer";
+import MessageDrawer from "../../LegendParts/MessageDrawer";
+import CustomDrawer from "../../LegendParts/CustomDrawer";
 import LayoutControls from "./LayoutControls";
 import { useNavigate } from "react-router-dom";
 

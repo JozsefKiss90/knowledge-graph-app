@@ -31,8 +31,8 @@ export default function HoverCardChips({
           fontSize: "0.7rem",
           fontWeight: 600,
           borderRadius: "999px",
-          backgroundColor: "rgba(74, 158, 255, 0.12)",
-          color: "var(--primary)",
+          backgroundColor: "color-mix(in srgb, var(--primary) 20%, transparent)",
+          color: "var(--primary-dark)",
         }}
       />
     );
@@ -50,7 +50,8 @@ export default function HoverCardChips({
           fontSize: "0.7rem",
           fontWeight: 600,
           borderRadius: "999px",
-          backgroundColor: "rgba(255,255,255,0.08)",
+          backgroundColor: "var(--muted)",
+          border: "1px solid var(--border)",
           color: "var(--foreground)",
         }}
       />
@@ -68,7 +69,8 @@ export default function HoverCardChips({
           fontSize: "0.7rem",
           fontWeight: 600,
           borderRadius: "999px",
-          backgroundColor: "rgba(255,255,255,0.08)",
+          backgroundColor: "var(--muted)",
+          border: "1px solid var(--border)",
           color: "var(--foreground)",
         }}
       />
@@ -86,7 +88,8 @@ export default function HoverCardChips({
           fontSize: "0.7rem",
           fontWeight: 600,
           borderRadius: "999px",
-          backgroundColor: "rgba(255,255,255,0.08)",
+          backgroundColor: "var(--muted)",
+          border: "1px solid var(--border)",
           color: "var(--foreground)",
         }}
       />

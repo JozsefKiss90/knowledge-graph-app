@@ -361,3 +361,29 @@ body.light-theme {
 .graph-topbar--compact {
   flex-wrap: nowrap !important;
 }
+
+@media (max-width: 480px), (max-height: 620px) {
+  .graph-topbar.graph-topbar--compact {
+    height: var(--mobile-bar-height);
+    min-height: var(--mobile-bar-height);
+    padding: 6px 8px;
+  }
+
+  .graph-topbar-compact-title {
+    font-size: 0.9rem;
+    line-height: 1.05;
+    max-width: 52vw; /* prevents overflow into right icons */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .graph-topbar-icon {
+    padding: 6px;
+  }
+
+  .graph-topbar-compact-pill {
+    height: 22px;
+    padding: 0 8px;
+  }
+}

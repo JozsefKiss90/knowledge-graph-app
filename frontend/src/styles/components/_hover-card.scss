@@ -52,3 +52,87 @@
     transform: translate(-50%, -100%) scale(1);
   }
 }
+
+/* ===== Hover card: LIGHT THEME distinct styling ===== */
+/* Applies when NOT in dark mode */
+body:not(.dark-theme):not(.dark) {
+  .hovered-node-card {
+    /* Slight translucency + crispness in light UI */
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(15, 23, 42, 0.14); /* slate-ish */
+    box-shadow:
+      0 18px 44px rgba(2, 6, 23, 0.16),
+      0 6px 16px rgba(2, 6, 23, 0.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Optional: if you have metric “tiles” inside the card (Paper/Box wrappers) */
+  .hovered-node-card .hover-card-metric,
+  .hovered-node-card .metric-card,
+  .hovered-node-card .hovered-node-card__metric {
+    background: rgba(15, 23, 42, 0.04);
+    border: 1px solid rgba(15, 23, 42, 0.10);
+  }
+
+  /* Tag chips / small pills */
+  .hovered-node-card .MuiChip-root {
+    background: rgba(15, 23, 42, 0.06);
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    color: var(--foreground);
+  }
+
+  /* Primary button inside the card (View Details) – keep it readable in light mode */
+  .hovered-node-card .MuiButton-contained {
+    /* Your current --primary in light theme is very pale; this improves contrast */
+    background-color: var(--primary-dark);
+    color: #fff;
+
+    &:hover {
+      background-color: #002f60; /* slightly darker than --primary-dark */
+    }
+  }
+}
+
+/* ===== Hover card: DARK THEME stays as-is, but you may optionally reinforce it ===== */
+body.dark-theme, body.dark {
+  .hovered-node-card {
+    /* Keep your existing var(--card)/var(--border) behavior;
+       optionally add subtle backdrop blur for parity */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+}
+
+/* Hover card shell */
+.hover-card {
+  position: fixed; /* positionStyle sets left/top; keep fixed for stability */
+  z-index: 1200;
+
+  width: 360px;
+  max-width: min(420px, calc(100vw - 24px));
+  max-height: min(520px, calc(100vh - 24px));
+  overflow: auto;
+
+  border-radius: 16px;
+  padding: 12px;
+
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+
+  box-shadow: 0 18px 44px rgba(2, 6, 23, 0.18), 0 6px 16px rgba(2, 6, 23, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Title inherits theme foreground */
+.hover-card .hover-card-title {
+  color: var(--foreground);
+}
+
+/* Make the internal chips row not shift layout */
+.hover-card .MuiChip-root {
+  line-height: 1;
+}
+

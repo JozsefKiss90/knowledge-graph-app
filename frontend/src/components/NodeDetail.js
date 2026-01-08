@@ -649,34 +649,6 @@ function NodeDetail() {
             />
           )}
         </Box>
-
-        <Box className="nd-header-right">
-          {officialCallPageUrl && (
-            <Button
-              size="small"
-              variant="outlined"
-              startIcon={<OpenInNewIcon fontSize="small" />}
-              onClick={() => window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")}
-            >
-              Official Call Page
-            </Button>
-          )}
-
-          {fundingLink && (
-            <Button
-              size="small"
-              variant="outlined"
-              startIcon={<OpenInNewIcon fontSize="small" />}
-              onClick={() => window.open(fundingLink, "_blank", "noopener,noreferrer")}
-            >
-              Funding Link
-            </Button>
-          )}
-
-          <Button size="small" variant="contained" onClick={handleApplyNow} disabled={!fundingLink}>
-            Apply Now
-          </Button>
-        </Box>
       </header>
 
       {/* MAIN CONTENT */}
@@ -883,8 +855,55 @@ function NodeDetail() {
                       </Box>
                     )}
                   </Box>
+                            
+                  <Box className="nd-header-right" sx={{paddingTop: '20px'}}>
+                    {officialCallPageUrl && (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        startIcon={<OpenInNewIcon fontSize="small" />}
+                        onClick={() => window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")}
+                      >
+                        Official Call Page
+                      </Button>
+                    )}
+
+                    {fundingLink && (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        startIcon={<OpenInNewIcon fontSize="small" />}
+                        onClick={() => window.open(fundingLink, "_blank", "noopener,noreferrer")}
+                      >
+                        Funding Link
+                      </Button>
+                    )}
+
+
+                  </Box>
                 </Box>
               )}
+
+                       {/* Actions / Bookmark */}
+              <Box className="nd-card">
+                <Box className="nd-card-header">
+                  <Typography
+                    variant="body2"
+                    className="nd-card-title nd-muted-label"
+                  >
+                    Actions
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-actions">
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={handleBookmark}
+                  >
+                    Bookmark this Call
+                  </Button>
+                </Box>
+              </Box>
 
               {/* Connections – reuse existing component */}
               <Box className="nd-card">
@@ -931,26 +950,7 @@ function NodeDetail() {
                 </Box>
               )}
 
-              {/* Actions / Bookmark */}
-              <Box className="nd-card">
-                <Box className="nd-card-header">
-                  <Typography
-                    variant="body2"
-                    className="nd-card-title nd-muted-label"
-                  >
-                    Actions
-                  </Typography>
-                </Box>
-                <Box className="nd-card-body nd-actions">
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    onClick={handleBookmark}
-                  >
-                    Bookmark this Call
-                  </Button>
-                </Box>
-              </Box>
+    
             </aside>
           </div>
         </div>
