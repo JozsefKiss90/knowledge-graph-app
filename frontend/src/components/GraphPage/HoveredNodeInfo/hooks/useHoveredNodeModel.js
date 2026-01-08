@@ -17,6 +17,16 @@ function cleanGraphName(name) {
   return String(name || "").replace(/_cose$/i, "");
 }
 
+const resolveClusterSummaryKey = (nodeId, typeLower) => {
+  const cleanId = cleanGraphName(nodeId);
+
+  // Root-center node should use the HE dataset key
+  if (typeLower === "root" || cleanId === "ROOT_HE") return "HE_2025";
+
+  return cleanId;
+};
+
+
 function getActiveGraphName({ graphName, cyInstance }) {
   const direct = cleanGraphName(graphName);
   if (direct) return direct;
@@ -220,7 +230,9 @@ export function useHoveredNodeModel({
 
     const clusterSummary = (() => {
       if (!isClusterNode) return "";
-      const meta = CLUSTERS?.[id] || CLUSTERS?.[cleanGraphName(id)];
+      const summaryKey = resolveClusterSummaryKey(id, typeLower);
+      const meta = CLUSTERS?.[summaryKey] || CLUSTERS?.[id];
+
       const s =
         meta?.summary ??
         raw?.clusterSummary ??

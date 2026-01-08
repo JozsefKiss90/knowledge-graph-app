@@ -5,7 +5,7 @@ export const stylesheet = [
     selector: "node",
     style: {
       label: "data(label)",
-      "font-size": 6,
+      "font-size": 8,
       "font-weight": 400,
       "text-valign": "bottom",
       "text-halign": "center",
@@ -33,7 +33,7 @@ export const stylesheet = [
     "bounds-expansion": "6px 6px 24px 6px",
     },
   },
-
+  
   {
     selector: "edge",
     style: {
@@ -47,6 +47,15 @@ export const stylesheet = [
   },
 
   // NODE TYPE sizing only (colour comes from data(themeColor))
+  {
+  selector: "node.as-root, node[type = 'root'], node[category = 'root']",
+  style: {
+    "font-size": 11,
+    "font-weight": 700,
+    "text-margin-y": 10,
+  },
+},
+
   {
     selector: "node[type = 'cluster'], node[category = 'cluster']",
     style: { width: 40, height: 40, "font-size": 10, "font-weight": 600 },
@@ -71,7 +80,7 @@ export const stylesheet = [
     selector: ".is-hovered",
     style: {
       "font-weight": 700,
-      "font-size": 8,
+      "font-size": 10,
       color: "data(themeLabelColor)",
     },
   },

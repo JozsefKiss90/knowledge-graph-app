@@ -109,25 +109,20 @@ export default function HoveredNodeInfo({
           showType: model.shouldShowHeaderChips,
           showPinned: model.isHoverFrozen,
 
-          // Destination: show Calls chip only if we have a real count
-
-          // Destination: show Calls chip only if it's a real count AND not identical to nodeCount
+          // Destination cards: show Calls only
           showCallCount:
-            model.isDestinationNode &&
-            typeof model.destinationCallCount === "number" &&
-            model.destinationCallCount !== nodeCountNum,
+            model.isDestinationNode && typeof model.destinationCallCount === "number",
           callCount: model.destinationCallCount,
-
-          // Cluster: do NOT show Destinations chip (we standardize on "Nodes" for opened-graph size)
-          showDestCount: false,
-          destCount: null,
+        
+          // Cluster cards (incl. root): show Destinations only
+          showDestCount:
+            model.isClusterNode && typeof model.clusterDestinationCount === "number",
+          destCount: model.clusterDestinationCount,
           destLabel: "Destinations",
 
-          // Root/Cluster/Destination: show the number of nodes the sub-graph contains (when available)
-          showNodeCount:
-            (model.isClusterNode || model.isDestinationNode) &&
-            typeof model.nodeCount === "number",
-          nodeCount: model.nodeCount,
+          // Never show "Nodes" (redundant: usually n  1 due to root)
+          showNodeCount: false,
+          nodeCount: null,
           nodeLabel: "Nodes",
         }}
       />
