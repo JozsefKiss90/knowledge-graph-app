@@ -131,7 +131,7 @@ export function getClusterConfigForId(id) {
     if (directMatch) return directMatch;
   }
 
-  const storedGraph = (localStorage.getItem("graphName") || "").replace("_cose", "");
+  const storedGraph = (localStorage.getItem("nodeDetailGraphName") || "").replace("_cose", "");
   const storedConfig = CLUSTER_CONFIGS.find((config) => config.graphName === storedGraph);
   return storedConfig || DEFAULT_CONFIG;
 }
@@ -140,8 +140,9 @@ function persistGraphSelection(graphName) {
   if (!graphName) return;
   const prevLayoutIsCose = localStorage.getItem("graphName")?.endsWith("_cose");
   const storedName = prevLayoutIsCose ? `${graphName}_cose` : graphName;
-  localStorage.setItem("graphName", storedName);
+  localStorage.setItem("nodeDetailGraphName", storedName);
 }
+
 
 export function useNodeDetail() {
   const { id: routeParamId } = useParams();

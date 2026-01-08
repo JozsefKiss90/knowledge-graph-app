@@ -83,8 +83,29 @@ export default function HoveredNodeInfo({
       }
     }
 
-    // Call (and fallback): navigate to details page
-    navigate(`/node/${encodeURIComponent(String(model.id))}`);
+      const safeId = encodeURIComponent(String(model.id));
+
+      // Capture the user's current graph context so NodeDetail can return to it
+      const returnLayerKey =
+        (cyInstance && !cyInstance?.destroyed?.()
+          ? cyInstance?.scratch?.("layerKey")
+          : null) || graphName || null;
+
+      const returnGraphName =
+        (cyInstance && !cyInstance?.destroyed?.()
+          ? cyInstance?.scratch?.("graphName")
+          : null) || graphName || null;
+
+      navigate(`/node/${safeId}`, {
+        state: {
+          // optional: some pages may rely on this (you already pass nodeData elsewhere sometimes)
+          nodeData: node ?? null,
+
+          // this is the important part:
+          returnLayerKey,
+          returnGraphName,
+        },
+      });
     onClose?.();
   };
 

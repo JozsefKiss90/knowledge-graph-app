@@ -15,14 +15,14 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EuroIcon from "@mui/icons-material/Euro";
 import GroupIcon from "@mui/icons-material/Group";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDarkMode } from "./context/DarkModeContext";
 import "../styles/nodedetails.scss";
 import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
 
 // --- helpers reused from previous implementation ---------------------------
-
+ 
 const labelMap = {
   funding_link: "Funding Link",
   expected_eu_contribution: "Expected EU Contribution",
@@ -227,7 +227,36 @@ function NodeDetail() {
   const { darkMode } = useDarkMode();
   const { id, nodeData, relations, connectedNodes, loading } = useNodeDetail();
   const navigate = useNavigate();
-  console.log("NodeDetail render", { nodeData });
+  const location = useLocation();
+
+   const handleBackToGraph = () => {
+    const returnLayerKey = String(location.state?.returnLayerKey || "");
+    const returnGraphName = String(location.state?.returnGraphName || "");
+
+    // Cluster dataset key must be restored into GraphPage's graphName
+    const clusterKey =
+      returnGraphName.startsWith("Cluster_")
+        ? returnGraphName
+        : returnLayerKey.startsWith("Cluster_")
+        ? returnLayerKey
+        : "ROOT";
+
+    // Always restore dataset to a cluster/root layer
+    localStorage.setItem("graphName", clusterKey);
+
+    // If we came from a destination layer (i.e., Call details), reopen the destination
+    // BUT do NOT include callId, otherwise GraphPage will navigate right back to NodeDetail.
+    if (returnLayerKey.startsWith("DEST_")) {
+      const destinationId = returnLayerKey.replace(/^DEST_/, "");
+      localStorage.setItem("pendingNav", JSON.stringify({ clusterKey, destinationId }));
+    } else {
+      localStorage.removeItem("pendingNav");
+    }
+
+    navigate("/", { replace: true });
+  };
+
+
 
   const viewModel = useMemo(() => {
     if (!nodeData) return null;
@@ -352,7 +381,7 @@ function NodeDetail() {
               size="small"
               variant="text"
               startIcon={<ArrowBackIcon fontSize="small" />}
-              onClick={() => navigate(-1)}
+              onClick={handleBackToGraph}
             >
               Back to Graph
             </Button>
@@ -470,7 +499,7 @@ function NodeDetail() {
               size="small"
               variant="text"
               startIcon={<ArrowBackIcon fontSize="small" />}
-              onClick={() => navigate(-1)}
+              onClick={handleBackToGraph}
               className="nd-back-button"
             >
               Back to Graph
@@ -630,7 +659,7 @@ function NodeDetail() {
             size="small"
             variant="text"
             startIcon={<ArrowBackIcon fontSize="small" />}
-            onClick={() => navigate(-1)}
+            onClick={handleBackToGraph}
             className="nd-back-button"
           >
             Back to Graph

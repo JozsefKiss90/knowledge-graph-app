@@ -54,6 +54,17 @@ function GraphPage() {
     setHoveredNode(null);
   }, [graphName]);
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("pendingNav");
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed && (parsed.clusterKey || parsed.destinationId || parsed.callId)) {
+        setPendingNav(parsed);
+      }
+    } catch {}
+  }, []);
+
   // Compute effective layout (memoized)
   const effectiveLayout = useMemo(() => {
     const isTreeLayout = userLayout?.name === "breadthfirst";
@@ -75,6 +86,10 @@ function GraphPage() {
     graphName,
     setGraphName,
   });
+
+  useEffect(() => {
+    if (pendingNav == null) localStorage.removeItem("pendingNav");
+  }, [pendingNav]);
 
   // Hover hydration (polling)
   useHoverHydration({

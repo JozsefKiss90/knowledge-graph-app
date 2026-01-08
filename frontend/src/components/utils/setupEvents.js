@@ -96,7 +96,19 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
     // Default: navigate to node details
     const id = data?.id;
     if (id) {
-      navigate(`/node/${encodeURIComponent(id)}`, { state: { nodeData: { ...data } } });
+     const returnLayerKey =
+       (cy?.scratch?.("layerKey") || localStorage.getItem("graphName") || "ROOT");
+     const returnGraphName =
+       (cy?.scratch?.("graphName") || localStorage.getItem("graphName") || "ROOT");
+        
+     navigate(`/node/${encodeURIComponent(id)}`, {
+       state: {
+         nodeData: { ...data },
+         returnLayerKey,
+         returnGraphName,
+       },
+     });
+
     }
   });
 
