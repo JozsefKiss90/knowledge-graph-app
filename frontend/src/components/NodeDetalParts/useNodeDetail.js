@@ -3,31 +3,43 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
-export const API_BASE = process.env.REACT_APP_API_URL;  // <-- export
+export const API_BASE = process.env.REACT_APP_API_URL; // <-- export
 
 const DEFAULT_CONFIG = {
   graphName: "HE_2025",
-  buildNodeEndpoint: (id) =>
-    `${API_BASE}/nodes/${encodeURIComponent(id)}`,
-  buildRelEndpoint: (id) =>
-    `${API_BASE}/relationships/?from_id=${encodeURIComponent(id)}`,
+  buildNodeEndpoint: (id) => `${API_BASE}/nodes/${encodeURIComponent(id)}`,
+  buildRelEndpoint: (id) => `${API_BASE}/relationships/?from_id=${encodeURIComponent(id)}`,
 };
 
-// Treat as a "call" only when we have explicit call fields.
+// Treat as a "call" when we have explicit call fields (updated for new schema).
 function isCallLike(obj) {
   if (!obj || typeof obj !== "object") return false;
+
   const rawType = String(obj.type || obj.category || "").toLowerCase();
   if (rawType === "call") return true;
+
+  const hasDeadlines =
+    (Array.isArray(obj.deadlines) && obj.deadlines.filter(Boolean).length > 0) ||
+    obj.deadline != null;
+
   return (
-    obj.call_id != null ||
+    obj.call_id != null ||              // legacy
+    obj.identifier != null ||           // new identity key
+    obj.topic_id != null ||             // new identity key
     obj.type_of_action != null ||
     obj.min_contribution != null ||
     obj.max_contribution != null ||
     obj.indicative_budget != null ||
     obj.expected_outcome != null ||
     obj.scope != null ||
-    obj.deadline != null ||
-    obj.opening_date != null
+    hasDeadlines ||
+    obj.opening_date != null ||
+    obj.award_criteria_scoring_thresholds != null ||
+    obj.admissibility_conditions != null ||
+    obj.eligible_countries != null ||
+    obj.other_eligibility_conditions != null ||
+    obj.financial_and_operational_capacity != null ||
+    obj.submission_and_evaluation_process != null
   );
 }
 
@@ -36,13 +48,10 @@ function isHE2025Entity(obj) {
   return source === "he_2025" && !isCallLike(obj);
 }
 
-
 const matchesClusterCode = (value = "", clusterCode) =>
   value === clusterCode ||
   value.startsWith(`${clusterCode}:`) ||
   value.startsWith(`HORIZON-${clusterCode}-`);
-
-// src/components/NodeDetail/useNodeDetail.js
 
 const createClusterConfig = ({ graphName, basePath, matchers, useGlobalRelationships = false }) => ({
   graphName,
@@ -70,7 +79,6 @@ const CLUSTER_CONFIGS = [
   createClusterConfig({
     graphName: "Cluster_2",
     basePath: "/cluster2",
-    // useGlobalRelationships: false  (default)
     matchers: [
       (value) => value.startsWith("cluster2_"),
       (value) => matchesClusterCode(value, "CL2"),
@@ -78,7 +86,7 @@ const CLUSTER_CONFIGS = [
     ],
   }),
 
-  // CL3 (no longer special, same as others)
+  // CL3
   createClusterConfig({
     graphName: "Cluster_3",
     basePath: "/cluster3",
@@ -99,7 +107,7 @@ const CLUSTER_CONFIGS = [
 
   // CL5
   createClusterConfig({
-    graphName: "Cluster_5", 
+    graphName: "Cluster_5",
     basePath: "/cluster5",
     useGlobalRelationships: true,
     matchers: [(value) => matchesClusterCode(value, "CL5")],
@@ -113,7 +121,6 @@ const CLUSTER_CONFIGS = [
     matchers: [(value) => matchesClusterCode(value, "CL6")],
   }),
 ];
-
 
 export function getClusterConfigForId(id) {
   const normalized = (id || "").trim();
@@ -143,7 +150,6 @@ function persistGraphSelection(graphName) {
   localStorage.setItem("nodeDetailGraphName", storedName);
 }
 
-
 export function useNodeDetail(options = {}) {
   const { idOverride, initialNodeData } = options || {};
 
@@ -154,12 +160,9 @@ export function useNodeDetail(options = {}) {
   const id = routeId ? decodeURIComponent(routeId) : routeId;
 
   const matchedLocationData = useMemo(() => {
-    // Embedded mode: prefer explicit initial payload if it matches the id
     if (initialNodeData && (!id || initialNodeData.id === id)) {
       return initialNodeData;
     }
-
-    // Route mode: fall back to location.state
     const candidate = location.state?.nodeData;
     if (!candidate) return null;
     if (candidate.id && id && candidate.id !== id) return null;
@@ -182,9 +185,7 @@ export function useNodeDetail(options = {}) {
       try {
         const preferExistingHeEntity = isHE2025Entity(matchedLocationData);
 
-        const clusterConfig = preferExistingHeEntity
-          ? DEFAULT_CONFIG
-          : getClusterConfigForId(nodeId);
+        const clusterConfig = preferExistingHeEntity ? DEFAULT_CONFIG : getClusterConfigForId(nodeId);
 
         if (!preferExistingHeEntity) {
           persistGraphSelection(clusterConfig.graphName);
@@ -207,9 +208,7 @@ export function useNodeDetail(options = {}) {
           throw new Error(`Node fetch failed with status ${nodeRes.status}`);
         }
         if (!relRes.ok) {
-          throw new Error(
-            `Relationship fetch failed with status ${relRes.status}`
-          );
+          throw new Error(`Relationship fetch failed with status ${relRes.status}`);
         }
 
         const nodeJson = shouldFetchNode && nodeRes ? await nodeRes.json() : null;
@@ -217,9 +216,7 @@ export function useNodeDetail(options = {}) {
 
         let relationsData = relJson.relationships || relJson || [];
         if (preferExistingHeEntity && Array.isArray(relationsData)) {
-          relationsData = relationsData.filter(
-            (r) => r?.source === nodeId || r?.target === nodeId
-          );
+          relationsData = relationsData.filter((r) => r?.source === nodeId || r?.target === nodeId);
         }
 
         if (nodeJson) {

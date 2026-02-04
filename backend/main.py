@@ -17,7 +17,13 @@ from routes.new_pipeline.cl1_routes import router as cl1
 from routes.new_pipeline.cl2_routes import router as cl2
 from routes.new_pipeline.cl6_routes import router as cl6
 from database import get_driver
-
+from routes.new_pipeline.eic_routes import router as eic
+from routes.new_pipeline.eie_routes import router as eie
+from routes.new_pipeline.erc_routes import router as erc
+from routes.new_pipeline.infra_routes import router as infra
+from routes.new_pipeline.msca_routes import router as msca
+from routes.new_pipeline.mission_routes import router as missions
+from routes.new_pipeline.widera_routes import router as widera_router
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
     from dotenv import load_dotenv 
@@ -42,6 +48,13 @@ app.include_router(cl6)
 app.include_router(email_routes.router)
 app.include_router(auth.router)
 app.include_router(chatbot_api.router)
+app.include_router(eic)
+app.include_router(eie)
+app.include_router(erc)
+app.include_router(infra)
+app.include_router(msca)
+app.include_router(missions)
+app.include_router(widera_router)
 
 if ENVIRONMENT == "production":
     allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app", "https://eu-graphs.up.railway.app",

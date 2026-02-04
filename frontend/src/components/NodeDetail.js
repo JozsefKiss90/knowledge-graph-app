@@ -28,31 +28,51 @@ const labelMap = {
   indicative_number_of_projects: "Indicative Number Of Projects",
   max_funded_projects: "Max Funded Projects",
   deadline: "Deadline",
+  deadlines: "Deadlines",
   trl: "Technology Readiness Level",
   source: "Source",
   call_id: "Call ID",
+  identifier: "Topic Identifier",
+  topic_id: "Topic ID",
+  call_identifier: "Call Identifier",
   scope: "Scope",
   min_contribution: "Min Contribution",
   max_contribution: "Max Contribution",
   type_of_action: "Type Of Action",
+  opening_date: "Opening Date",
+  award_criteria_scoring_thresholds: "Award Criteria / Thresholds",
+  admissibility_conditions: "Admissibility Conditions",
+  eligible_countries: "Eligible Countries",
+  other_eligibility_conditions: "Other Eligibility Conditions",
+  financial_and_operational_capacity: "Financial & Operational Capacity",
+  submission_and_evaluation_process: "Submission & Evaluation Process",
+  proposal_page_limits_mentions: "Proposal Page Limits",
+  legal_and_financial_setup: "Legal and Financial Setup",
 };
 
 const OFFICIAL_CALL_PAGE_BASE =
   "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/";
 
-function buildOfficialCallPageUrl(callId) {
-  if (!callId) return null;
-  return `${OFFICIAL_CALL_PAGE_BASE}${encodeURIComponent(callId)}`;
+function buildOfficialCallPageUrl(topicIdentifierOrId) {
+  if (!topicIdentifierOrId) return null;
+  return `${OFFICIAL_CALL_PAGE_BASE}${encodeURIComponent(topicIdentifierOrId)}`;
 }
 
+// Updated for new schema: removed `eligibility_conditions`, added new fields.
 const textFieldConfig = [
   { key: "expected_outcome", label: "Expected Outcome" },
   { key: "scope", label: "Scope" },
-  { key: "eligibility_conditions", label: "Eligibility Conditions" },
-  { key: "legal_and_financial_setup", label: "Legal and Financial Setup" },
+
   { key: "admissibility_conditions", label: "Admissibility Conditions" },
-  { key: "procedure", label: "Procedure" },
-  { key: "exceptional_page_limits", label: "Exceptional Page Limits" },
+  { key: "eligible_countries", label: "Eligible Countries" },
+  { key: "other_eligibility_conditions", label: "Other Eligibility Conditions" },
+  { key: "financial_and_operational_capacity", label: "Financial & Operational Capacity" },
+  { key: "submission_and_evaluation_process", label: "Submission & Evaluation Process" },
+
+  { key: "award_criteria_scoring_thresholds", label: "Award Criteria / Thresholds" },
+
+  { key: "proposal_page_limits_mentions", label: "Proposal Page Limits" },
+  { key: "legal_and_financial_setup", label: "Legal and Financial Setup" },
 ];
 
 function toListItems(value) {
@@ -89,7 +109,6 @@ function formatLabel(key) {
 function formatValue(key, value) {
   if (value === null || value === undefined || value === "") return "—";
 
-  // Amounts (already in € form in your current UI)
   if (["min_contribution", "max_contribution", "indicative_budget"].includes(key)) {
     const num =
       typeof value === "number" ? value : parseFloat(String(value).replace(",", "."));
@@ -100,6 +119,8 @@ function formatValue(key, value) {
   if (typeof value === "number") {
     return Number.isFinite(value) ? value.toLocaleString() : value;
   }
+
+  // deadlines array => join lines for display in key-value contexts
   if (Array.isArray(value)) return value.join(", ");
 
   if (key === "source") {
@@ -152,7 +173,6 @@ function extractTags(nodeData) {
   return [];
 }
 
-// crude mapping “Research and Innovation Actions” → “RIA”
 function computeTypeShort(typeOfAction) {
   if (!typeOfAction) return null;
   const normalized = typeOfAction.toLowerCase();
@@ -163,6 +183,25 @@ function computeTypeShort(typeOfAction) {
   const m = typeOfAction.match(/\b([A-Z]{2,4})\b/);
   if (m) return m[1];
   return typeOfAction.split(" ")[0];
+}
+
+// Prefer the best “topic identifier” for linking to official portal.
+function getPortalTopicKey(nodeData) {
+  return (
+    nodeData.identifier ||
+    nodeData.topic_id ||
+    nodeData.call_id || // legacy fallback
+    nodeData.id ||
+    null
+  );
+}
+
+function normalizeDeadlines(nodeData) {
+  const arr = Array.isArray(nodeData.deadlines) ? nodeData.deadlines.filter(Boolean) : [];
+  const single = nodeData.deadline ? [String(nodeData.deadline)] : [];
+  const merged = [...arr, ...single].map((x) => String(x)).filter(Boolean);
+  // de-dupe while preserving order
+  return Array.from(new Set(merged));
 }
 
 // --- UI helpers -------------------------------------------------------------
@@ -217,23 +256,19 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Mobile breakpoint aligned with your app’s responsive behavior
   const isMobile = useMediaQuery("(max-width: 900px)");
 
-  // Use override id + initial data when embedded, or fall back to route mode
   const { id, nodeData, relations, connectedNodes, loading } = useNodeDetail({
     idOverride: embeddedId,
     initialNodeData: embeddedNodeData,
   });
 
   const handleBackToGraph = () => {
-    // Embedded mode: just close the overlay and reveal the graph
     if (typeof onBack === "function") {
       onBack();
       return;
     }
 
-    // Route mode (/node/:id): restore previous GraphPage context
     const returnLayerKey = String(location.state?.returnLayerKey || "");
     const returnGraphName = String(location.state?.returnGraphName || "");
 
@@ -276,17 +311,22 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       return { kind: "he_entity", title, summary: (nodeData.summary || "").trim() };
     }
 
+    const deadlines = normalizeDeadlines(nodeData);
+
     const isCall =
       rawType === "call" ||
       nodeData.call_id != null ||
+      nodeData.identifier != null ||
+      nodeData.topic_id != null ||
       nodeData.type_of_action != null ||
       nodeData.min_contribution != null ||
       nodeData.max_contribution != null ||
       nodeData.indicative_budget != null ||
       nodeData.expected_outcome != null ||
       nodeData.scope != null ||
-      nodeData.deadline != null ||
-      nodeData.opening_date != null;
+      deadlines.length > 0 ||
+      nodeData.opening_date != null ||
+      nodeData.award_criteria_scoring_thresholds != null;
 
     if (isDestination) {
       return { kind: "destination", title, summary: (nodeData.summary || "").trim() };
@@ -302,7 +342,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       };
     }
 
-    // call view model
     const typeOfAction = nodeData.type_of_action || "";
     const typeShort = computeTypeShort(typeOfAction);
     const status = (nodeData.status || "").trim();
@@ -320,11 +359,10 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       "";
 
     const expectedEUContribution = nodeData.expected_eu_contribution;
-    const deadline = nodeData.deadline;
     const openingDate = nodeData.opening_date;
-    const callId = nodeData.call_id || nodeData.id;
 
-    const fundingLink = nodeData.funding_link;
+    const portalKey = getPortalTopicKey(nodeData);
+    const fundingLink = nodeData.funding_link || nodeData.url || "";
 
     return {
       kind: "call",
@@ -339,10 +377,10 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       indicativeProjects,
       trlText,
       expectedEUContribution,
-      deadline,
+      deadlines,
       openingDate,
       source,
-      callId,
+      portalKey,
       fundingLink,
     };
   }, [nodeData]);
@@ -400,10 +438,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
             </Box>
 
             <div className="nd-grid">
-              <div
-                className="nd-main-column"
-                style={isMobile ? { order: 1 } : undefined}
-              >
+              <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -418,10 +453,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                 </Box>
               </div>
 
-              <aside
-                className="nd-sidebar"
-                style={isMobile ? { order: 2 } : undefined}
-              >
+              <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header nd-card-header--with-icon">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -515,10 +547,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
             </Box>
 
             <div className="nd-grid">
-              <div
-                className="nd-main-column"
-                style={isMobile ? { order: 1 } : undefined}
-              >
+              <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -533,10 +562,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                 </Box>
               </div>
 
-              <aside
-                className="nd-sidebar"
-                style={isMobile ? { order: 2 } : undefined}
-              >
+              <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header nd-card-header--with-icon">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -596,14 +622,13 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     indicativeProjects,
     trlText,
     expectedEUContribution,
-    deadline,
+    deadlines,
     openingDate,
     source,
-    callId,
-    fundingLink,
+    portalKey,
   } = viewModel;
 
-  const officialCallPageUrl = buildOfficialCallPageUrl(callId || id);
+  const officialCallPageUrl = buildOfficialCallPageUrl(portalKey);
   const isStatusOpen = String(status || "").toLowerCase() === "open";
 
   const handleBookmark = () => {
@@ -669,9 +694,12 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
               >
                 {title}
               </Typography>
-              {callId && (
+
+              {/* show best identifier for humans */}
+              {(nodeData.identifier || nodeData.topic_id || nodeData.call_id) && (
                 <Typography variant="body2" className="nd-call-id">
-                  Call ID: {callId}
+                  {formatLabel(nodeData.identifier ? "identifier" : nodeData.topic_id ? "topic_id" : "call_id")}:{" "}
+                  {nodeData.identifier || nodeData.topic_id || nodeData.call_id}
                 </Typography>
               )}
             </Box>
@@ -687,10 +715,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
 
           <div className="nd-grid">
             {/* MAIN COLUMN */}
-            <div
-              className="nd-main-column"
-              style={isMobile ? { order: 1 } : undefined}
-            >
+            <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
               <Box className="nd-card">
                 <Box className="nd-card-header">
                   <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -755,6 +780,21 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                         </div>
                       </div>
                     )}
+
+                    {/* Nice-to-have identity fields when present */}
+                    {(nodeData.call_identifier || nodeData.programme) && (
+                      <div className="nd-metric nd-metric--full">
+                        <div className="nd-metric-label">
+                          <InfoOutlinedIcon fontSize="small" className="nd-metric-icon" />
+                          <span>Identifiers</span>
+                        </div>
+                        <div className="nd-metric-value nd-metric-value--small">
+                          {nodeData.programme ? `Programme: ${nodeData.programme}` : ""}
+                          {nodeData.programme && nodeData.call_identifier ? " • " : ""}
+                          {nodeData.call_identifier ? `Call: ${nodeData.call_identifier}` : ""}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </Box>
               </Box>
@@ -774,25 +814,25 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                 </Box>
               )}
 
-              {/* Text sections (Expected Outcome, Scope, etc.) */}
+              {/* Text sections */}
               {textFieldConfig.map(({ key, label }) => (
                 <TextSectionFromField
                   key={key}
                   nodeData={nodeData}
                   fieldKey={key}
                   label={label}
-                  // Mobile requirement: Expected Outcome & Scope collapsed by default
-                  defaultOpen={isMobile ? !["expected_outcome", "scope"].includes(key) : key === "expected_outcome"}
+                  defaultOpen={
+                    isMobile
+                      ? !["expected_outcome", "scope"].includes(key)
+                      : key === "expected_outcome"
+                  }
                 />
               ))}
             </div>
 
-            {/* SIDEBAR: must come AFTER the text sections on mobile */}
-            <aside
-              className="nd-sidebar"
-              style={isMobile ? { order: 2 } : undefined}
-            >
-              {(openingDate || deadline) && (
+            {/* SIDEBAR */}
+            <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
+              {(openingDate || (deadlines && deadlines.length > 0)) && (
                 <Box className="nd-card">
                   <Box className="nd-card-header">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -813,14 +853,18 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                       </Box>
                     )}
 
-                    {deadline && (
-                      <Box className="nd-timeline-row">
+                    {deadlines && deadlines.length > 0 && (
+                      <Box className="nd-timeline-row" sx={{ alignItems: "flex-start" }}>
                         <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
                         <Box>
-                          <Typography variant="body2">Application Deadline</Typography>
-                          <Typography variant="caption" className="nd-muted-text">
-                            {deadline}
+                          <Typography variant="body2">
+                            Application Deadline{deadlines.length > 1 ? "s" : ""}
                           </Typography>
+                          {deadlines.map((dl, idx) => (
+                            <Typography key={`${dl}-${idx}`} variant="caption" className="nd-muted-text" display="block">
+                              {dl}
+                            </Typography>
+                          ))}
                         </Box>
                       </Box>
                     )}
@@ -877,7 +921,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                   </Box>
                   <Box className="nd-card-body nd-card-body--row">
                     <InfoOutlinedIcon fontSize="small" className="nd-timeline-icon" />
-                    <Typography variant="body2">{source}</Typography>
+                    <Typography variant="body2">{formatValue("source", source)}</Typography>
                   </Box>
                 </Box>
               )}

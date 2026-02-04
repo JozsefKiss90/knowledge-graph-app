@@ -1,33 +1,83 @@
-# backend/routes/new_pipleline/base_cluster_builder.py
 from __future__ import annotations
 from abc import ABC, abstractmethod
 import json, os, re
-from typing import Dict, Any
+from typing import Dict, Any, Optional, List
 
 try:
     from database import db
 except Exception:
     class _DummyDB:
-        def query(self, q, p=None): pass
+        def query(self, q, p=None):  # pragma: no cover
+            pass
     db = _DummyDB()
+
 
 def _slugify(text: str) -> str:
     text = re.sub(r"\s+", " ", (text or "").strip())
     text = re.sub(r"[^a-zA-Z0-9\-._() ]+", "", text)
     return re.sub(r"[ ]+", "-", text).lower()
 
-class BaseClusterBuilder(ABC): 
-    """Abstract builder for all Horizon clusters (CL1/3/4/5/6...)."""
+
+def _as_list_of_str(v: Any) -> List[str]:
+    if isinstance(v, list):
+        return [str(x) for x in v if x is not None and str(x).strip() != ""]
+    if v is None:
+        return []
+    s = str(v).strip()
+    return [s] if s else []
+
+
+def _neo4j_value(v: Any) -> Any:
+    """
+    Neo4j properties must be primitive or arrays of primitives.
+    - dict -> JSON string
+    - list -> list of primitive-safe values (dict/list items -> JSON string)
+    """
+    if v is None:
+        return None
+    if isinstance(v, (str, int, float, bool)):
+        return v
+    if isinstance(v, dict):
+        # store structured data as JSON string
+        try:
+            return json.dumps(v, ensure_ascii=False, sort_keys=True)
+        except Exception:
+            return str(v)
+    if isinstance(v, list):
+        out: List[Any] = []
+        for item in v:
+            if item is None:
+                continue
+            if isinstance(item, (str, int, float, bool)):
+                out.append(item)
+            elif isinstance(item, (dict, list)):
+                try:
+                    out.append(json.dumps(item, ensure_ascii=False, sort_keys=True))
+                except Exception:
+                    out.append(str(item))
+            else:
+                out.append(str(item))
+        return out
+    # fallback for any other object type
+    return str(v)
+
+
+def _sanitize_props(props: Dict[str, Any]) -> Dict[str, Any]:
+    return {k: _neo4j_value(v) for k, v in props.items()}
+
+
+class BaseClusterBuilder(ABC):
+    """Abstract builder for all Horizon clusters (CL1/2/3/4/5/6...)."""
 
     @property
     @abstractmethod
-    def cluster_id(self) -> str: ...           # e.g. "CL3"
+    def cluster_id(self) -> str: ...          # e.g. "CL2"
     @property
     @abstractmethod
-    def cluster_name(self) -> str: ...         # UI label (must match summaries top-level key)
+    def cluster_name(self) -> str: ...        # UI label (must match summaries top-level key)
     @property
     @abstractmethod
-    def source_tag(self) -> str: ...           # e.g. "cluster_3"
+    def source_tag(self) -> str: ...          # e.g. "cluster_2"
 
     def __init__(self, preview: bool = False):
         self.preview = preview
@@ -60,6 +110,16 @@ class BaseClusterBuilder(ABC):
 
         return ""
 
+    def _resolve_call_id(self, call: Dict[str, Any]) -> Optional[str]:
+        """
+        New grouped JSONs no longer use `call_id`; they use `identifier` / `topic_id`.
+        Keep backward compatibility by checking multiple keys.
+        """
+        for k in ("call_id", "identifier", "topic_id", "topic_id_from_budget", "unique_key"):
+            v = call.get(k)
+            if isinstance(v, str) and v.strip():
+                return v.strip()
+        return None
 
     # ---- main API ----
     def create_graph_from_files(self, grouped_calls_path: str, destination_summaries_path: str):
@@ -68,9 +128,7 @@ class BaseClusterBuilder(ABC):
         if not os.path.exists(destination_summaries_path):
             raise FileNotFoundError(f"Summary file not found: {destination_summaries_path}")
 
-        grouped = json.load(open(grouped_calls_path, "r", encoding="utf-8"))
         summaries = json.load(open(destination_summaries_path, "r", encoding="utf-8"))
-
         grouped_raw = json.load(open(grouped_calls_path, "r", encoding="utf-8"))
 
         # Normalize to a list of destination dicts
@@ -93,7 +151,7 @@ class BaseClusterBuilder(ABC):
 
         # destinations + calls
         for dest in destinations:
-            dest_name = ( (dest.get("destination") or dest.get("destination_title") or "").strip() or "_unknown_destination" )
+            dest_name = ((dest.get("destination") or dest.get("destination_title") or "").strip() or "_unknown_destination")
             dest_id = f"{self.cluster_id}:{_slugify(dest_name)}"
             dest_summary = self._get_summary(summaries, dest_name)
 
@@ -111,70 +169,127 @@ class BaseClusterBuilder(ABC):
             )
 
             for call in (dest.get("calls") or []):
-                call_id = call.get("call_id")
+                call_id = self._resolve_call_id(call)
                 if not call_id:
                     continue
 
-                # Optional fields from current/next parser versions (defaults keep them harmless)
-                props = {
+                # deadlines: [string] (new) + deadline: string (legacy/single)
+                deadlines = _as_list_of_str(call.get("deadlines"))
+                deadline_single = (call.get("deadline") or (deadlines[0] if deadlines else "") or "")
+                if deadline_single and not deadlines:
+                    deadlines = [str(deadline_single)]
+
+                # IMPORTANT: Neo4j cannot store dict properties -> store as JSON string
+                budget_year_map = call.get("budget_year_map")
+                budget_year_map_json = ""
+                if isinstance(budget_year_map, dict) and budget_year_map:
+                    budget_year_map_json = json.dumps(budget_year_map, ensure_ascii=False, sort_keys=True)
+
+                props: Dict[str, Any] = {
                     # core identity
                     "id": call_id,
-                    "name": call.get("call_title") or "",
+                    "name": call.get("topic_title") or call.get("call_title") or "",
                     "source": self.source_tag,
                     "type": "Call",
 
-                    # meta / taxonomy (optional now, can be populated later)
-                    "call_type": call.get("call_type") or "",
-                    "call_section": call.get("call_section") or "",
+                    # identity / navigation
+                    "identifier": call.get("identifier") or "",
+                    "topic_id": call.get("topic_id") or "",
+                    "topic_title": call.get("topic_title") or "",
+                    "call_title": call.get("call_title") or "",
+                    "call_identifier": call.get("call_identifier") or "",
+                    "url": call.get("url") or "",
+
+                    # grouping / misc
+                    "programme": call.get("programme") or "",
+                    "group_value": call.get("group_value") or "",
+                    "unique_key": call.get("unique_key") or "",
 
                     # funding & amounts
-                    "min_contribution": call.get("min__contribution") or call.get("min_contribution"),
+                    "min_contribution": call.get("min_contribution"),
                     "max_contribution": call.get("max_contribution"),
-                    "expected_eu_contribution": call.get("expected_eu_contribution") or "",
                     "indicative_budget": call.get("indicative_budget"),
                     "indicative_number_of_projects": call.get("indicative_number_of_projects"),
 
-                    # actions & text blobs
+                    # action + narrative
                     "type_of_action": call.get("type_of_action") or "",
                     "expected_outcome": call.get("expected_outcome") or "",
                     "scope": call.get("scope") or "",
 
-                    # annex-style text blobs (optional)
+                    # conditions / process (new set)
                     "admissibility_conditions": call.get("admissibility_conditions") or "",
-                    "eligibility_conditions": call.get("eligibility_conditions") or "",
-                    "technology_readiness_level": call.get("technology_readiness_level") or "",
-                    "procedure": call.get("procedure") or "",
-                    "legal_and_financial_setup": call.get("legal_and_financial_setup") or "",
-                    "exceptional_page_limits": call.get("exceptional_page_limits") or "",
+                    "eligible_countries": call.get("eligible_countries") or "",
+                    "other_eligibility_conditions": call.get("other_eligibility_conditions") or "",
+                    "financial_and_operational_capacity": call.get("financial_and_operational_capacity") or "",
+                    "submission_and_evaluation_process": call.get("submission_and_evaluation_process") or "",
 
-                    # timing / lifecycle (optional)
-                    "funding_link": call.get("funding_link") or "",
+                    # award criteria (new)
+                    "award_criteria_scoring_thresholds": call.get("award_criteria_scoring_thresholds") or "",
+
+                    # timing / lifecycle
+                    "indicative_timeline": call.get("indicative_timeline") or "",
                     "opening_date": call.get("opening_date") or "",
-                    "deadline": call.get("deadline") or "",
+                    "deadline": deadline_single,
+                    "deadlines": deadlines,
                     "deadline_model": call.get("deadline_model") or "",
-                    "status": call.get("status") or "",
-                    "max_funded_projects": call.get("max_funded_projects"),
+
+                    # legal + page limits
+                    "legal_and_financial_setup": call.get("legal_and_financial_setup") or "",
+                    "proposal_page_limits_mentions": call.get("proposal_page_limits_mentions") or "",
+
+                    # budget traceability (store JSON string, not dict)
+                    "budget_year_map": budget_year_map_json,
+                    "topic_id_from_budget": call.get("topic_id_from_budget") or "",
                 }
+
+                props = _sanitize_props(props)
 
                 self._run(
                     """
                     MERGE (c:Call {id:$id})
-                    SET  c.name=$name, c.source=$source, c.type=$type,
-                         c.call_type=$call_type, c.call_section=$call_section,
-                         c.min_contribution=$min_contribution, c.max_contribution=$max_contribution,
-                         c.expected_eu_contribution=$expected_eu_contribution,
-                         c.indicative_budget=$indicative_budget, c.indicative_number_of_projects=$indicative_number_of_projects,
+                    SET  c.name=$name,
+                         c.source=$source,
+                         c.type=$type,
+
+                         c.identifier=$identifier,
+                         c.topic_id=$topic_id,
+                         c.topic_title=$topic_title,
+                         c.call_title=$call_title,
+                         c.call_identifier=$call_identifier,
+                         c.url=$url,
+
+                         c.programme=$programme,
+                         c.group_value=$group_value,
+                         c.unique_key=$unique_key,
+
+                         c.min_contribution=$min_contribution,
+                         c.max_contribution=$max_contribution,
+                         c.indicative_budget=$indicative_budget,
+                         c.indicative_number_of_projects=$indicative_number_of_projects,
+
                          c.type_of_action=$type_of_action,
-                         c.expected_outcome=$expected_outcome, c.scope=$scope,
+                         c.expected_outcome=$expected_outcome,
+                         c.scope=$scope,
+
                          c.admissibility_conditions=$admissibility_conditions,
-                         c.eligibility_conditions=$eligibility_conditions,
-                         c.technology_readiness_level=$technology_readiness_level,
-                         c.procedure=$procedure,
+                         c.eligible_countries=$eligible_countries,
+                         c.other_eligibility_conditions=$other_eligibility_conditions,
+                         c.financial_and_operational_capacity=$financial_and_operational_capacity,
+                         c.submission_and_evaluation_process=$submission_and_evaluation_process,
+
+                         c.award_criteria_scoring_thresholds=$award_criteria_scoring_thresholds,
+
+                         c.indicative_timeline=$indicative_timeline,
+                         c.opening_date=$opening_date,
+                         c.deadline=$deadline,
+                         c.deadlines=$deadlines,
+                         c.deadline_model=$deadline_model,
+
                          c.legal_and_financial_setup=$legal_and_financial_setup,
-                         c.exceptional_page_limits=$exceptional_page_limits,
-                         c.funding_link=$funding_link, c.opening_date=$opening_date,
-                         c.deadline=$deadline, c.deadline_model=$deadline_model,
-                         c.status=$status, c.max_funded_projects=$max_funded_projects
+                         c.proposal_page_limits_mentions=$proposal_page_limits_mentions,
+
+                         c.budget_year_map=$budget_year_map,
+                         c.topic_id_from_budget=$topic_id_from_budget
                     """,
                     props,
                 )
