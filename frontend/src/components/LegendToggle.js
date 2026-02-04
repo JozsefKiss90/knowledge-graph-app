@@ -177,14 +177,26 @@ const LegendToggle = ({
   // keep wheel scrolling smooth when hover-pane consumes wheel events
   useEffect(() => {
     const handleWheel = (e) => {
-      if (hoveredNodeRef.current && scrollRef.current) {
-        scrollRef.current.scrollTop += e.deltaY;
-        e.preventDefault();
-      }
+      // Only hijack wheel if the event originates inside the hover card/pane.
+      // Adjust selector if your hover card root class differs.
+      const hoverPane = document.querySelector(".hovered-node-info");
+      if (!hoverPane) return;
+
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+
+      // If the wheel is not happening over the hover pane, do nothing (let browser scroll normally)
+      if (!hoverPane.contains(target)) return;
+
+      // If hover pane is present and user is scrolling over it, scroll it manually
+      // (prevents it from blocking scroll propagation)
+      hoverPane.scrollTop += e.deltaY;
+      e.preventDefault();
     };
+
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [hoveredNodeRef]);
+  }, []);
 
   const toggleType = (type, typeSet, setter, selectorFn) => {
     if (!cy || cy.destroyed()) return;
@@ -251,7 +263,7 @@ const LegendToggle = ({
 
   // Show Node Types on ALL layers where there is at least one toggleable type
   const nodeTogglesVisible = !!cy && nodeTypeList.length > 0;
-
+  
   return (
     <Box
       ref={scrollRef}

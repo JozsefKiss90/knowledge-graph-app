@@ -1,0 +1,168 @@
+[
+  {
+    "destination": "s ........................................................................................................ 27",
+    "call_ids": [
+      "HORIZON-HLTH-2026-01-STAYHLTH-02",
+      "HORIZON-HLTH-2026-01-STAYHLTH-03",
+      "HORIZON-HLTH-2027-01-STAYHLTH-01",
+      "HORIZON-HLTH-2026-01-ENVHLTH-01",
+      "HORIZON-HLTH-2026-01-ENVHLTH-04",
+      "HORIZON-HLTH-2026-01-ENVHLTH-05"
+    ]
+  },
+  {
+    "destination": "Tackling diseases and reducing disease burden ........................................... 63",
+    "call_ids": [
+      "HORIZON-HLTH-2027-01-ENVHLTH-02",
+      "HORIZON-HLTH-2027-01-ENVHLTH-MISSCLIMA-03",
+      "HORIZON-HLTH-2026-01-DISEASE-02",
+      "HORIZON-HLTH-2026-01-DISEASE-03",
+      "HORIZON-HLTH-2026-01-DISEASE-04",
+      "HORIZON-HLTH-2026-01-DISEASE-09",
+      "HORIZON-HLTH-2026-01-DISEASE-11",
+      "HORIZON-HLTH-2026-02-DISEASE-12",
+      "HORIZON-HLTH-2026-03-DISEASE-13",
+      "HORIZON-HLTH-2026-01-DISEASE-15",
+      "HORIZON-HLTH-2027-02-DISEASE-01-two-stage",
+      "HORIZON-HLTH-2027-01-DISEASE-05",
+      "HORIZON-HLTH-2027-01-DISEASE-06",
+      "HORIZON-HLTH-2027-01-DISEASE-07",
+      "HORIZON-HLTH-2027-01-DISEASE-08",
+      "HORIZON-HLTH-2027-01-DISEASE-10",
+      "HORIZON-HLTH-2027-02-DISEASE-14-two-stage",
+      "HORIZON-HLTH-2026-01-CARE-01",
+      "HORIZON-HLTH-2026-01-CARE-03"
+    ]
+  },
+  {
+    "destination": "Developing and using new tools, technologies and digital solutions for a",
+    "call_ids": [
+      "HORIZON-HLTH-2026-04-CARE-04",
+      "HORIZON-HLTH-2027-01-CARE-02",
+      "HORIZON-HLTH-2026-01-TOOL-03",
+      "HORIZON-HLTH-2026-01-TOOL-05",
+      "HORIZON-HLTH-2026-01-TOOL-06",
+      "HORIZON-HLTH-2026-01-TOOL-07",
+      "HORIZON-HLTH-2027-02-TOOL-01-two-stage",
+      "HORIZON-HLTH-2027-03-TOOL-02",
+      "HORIZON-HLTH-2027-03-TOOL-04",
+      "HORIZON-HLTH-2027-03-TOOL-08",
+      "HORIZON-HLTH-2026-01-IND-03",
+      "HORIZON-HLTH-2027-01-IND-01",
+      "HORIZON-HLTH-2027-02-IND-02-two-stage",
+      "HORIZON-HLTH-2026-01-ENVHLTH-01",
+      "HORIZON-HLTH-2026-01-ENVHLTH-04",
+      "HORIZON-HLTH-2027-02-DISEASE-01-two-stage",
+      "HORIZON-HLTH-2027-02-DISEASE-14-two-stage",
+      "HORIZON-HLTH-2026-01-CARE-01",
+      "HORIZON-HLTH-2025-02-DISEASE-01",
+      "HORIZON-HLTH-2025-01-CARE-01",
+      "HORIZON-HLTH-2025-01-TOOL-03"
+    ]
+  },
+  {
+    "destination": "“Staying healthy in a rapidly changing society”: The expected impact is that",
+    "call_ids": []
+  },
+  {
+    "destination": "“Maintaining an innovative, sustainable, and competitive EU health",
+    "call_ids": []
+  },
+  {
+    "destination": "Staying healthy in a rapidly changing society",
+    "call_ids": [
+      "HORIZON-HLTH-2026-01-STAYHLTH-02",
+      "HORIZON-HLTH-2026-01-STAYHLTH-03",
+      "HORIZON-HLTH-2026-01-ENVHLTH-01",
+      "HORIZON-HLTH-2027-01-STAYHLTH-01",
+      "HORIZON-HLTH-2027-01-ENVHLTH-02",
+      "HORIZON-HLTH-2027-01-DISEASE-05",
+      "HORIZON-WIDERA-2026-07-ERA-05",
+      "HORIZON-CL2-2025-01-TRANSFO-09",
+      "HORIZON-HLTH-2025-03-STAYHLTH-01-two-stage"
+    ]
+  },
+  {
+    "destination": "Tackling diseases and reducing disease burden",
+    "call_ids": [
+      "HORIZON-HLTH-2026-01-ENVHLTH-04",
+      "HORIZON-HLTH-2026-01-ENVHLTH-05",
+      "HORIZON-HLTH-2026-01-DISEASE-02",
+      "HORIZON-HLTH-2026-01-DISEASE-03",
+      "HORIZON-HLTH-2026-01-DISEASE-04",
+      "HORIZON-HLTH-2026-01-DISEASE-09",
+      "HORIZON-HLTH-2026-01-DISEASE-11",
+      "HORIZON-HLTH-2026-01-DISEASE-15",
+      "HORIZON-HLTH-2026-01-CARE-01",
+      "HORIZON-HLTH-2026-01-CARE-03",
+      "HORIZON-HLTH-2027-02-DISEASE-01",
+      "HORIZON-HLTH-2027-02-DISEASE-14",
+      "HORIZON-hlth-2025-01-disease-07",
+      "HORIZON-CL6-2026-02-FARM2FORK-10",
+      "HORIZON-HLTH-2026-02-DISEASE-12",
+      "HORIZON-HLTH-2026-03-DISEASE-13",
+      "HORIZON-HLTH-2027-02-DISEASE-01-two-stage",
+      "HORIZON-HLTH-2027-01-DISEASE-05",
+      "HORIZON-HLTH-2027-01-DISEASE-06",
+      "HORIZON-HLTH-2027-01-DISEASE-07",
+      "HORIZON-HLTH-2027-01-DISEASE-08",
+      "HORIZON-HLTH-2027-01-DISEASE-10",
+      "HORIZON-HLTH-2027-02-DISEASE-14-two-stage",
+      "HORIZON-HLTH-2025-02-DISEASE-01"
+    ]
+  },
+  {
+    "destination": "Developing and using new tools, technologies and digital solutions for a healthy",
+    "call_ids": [
+      "HORIZON-HLTH-2026-01-TOOL-03",
+      "HORIZON-HLTH-2026-01-TOOL-05",
+      "HORIZON-HLTH-2026-01-TOOL-06",
+      "HORIZON-HLTH-2026-01-TOOL-07",
+      "HORIZON-HLTH-2026-01-IND-03",
+      "HORIZON-HLTH-2027-02-TOOL-01",
+      "HORIZON-HLTH-2027-02-IND-02",
+      "HORIZON-HLTH-2027-03-TOOL-02",
+      "HORIZON-HLTH-2027-03-TOOL-04",
+      "HORIZON-HLTH-2027-03-TOOL-08"
+    ]
+  },
+  {
+    "destination": "Ensuring equal access to innovative, sustainable, and high-quality healthcare",
+    "call_ids": [
+      "HORIZON-HLTH-2026-04-CARE-04",
+      "HORIZON-HLTH-2027-01-DISEASE-06",
+      "HORIZON-HLTH-2027-01-DISEASE-07",
+      "HORIZON-HLTH-2027-01-DISEASE-08",
+      "HORIZON-HLTH-2027-01-DISEASE-10",
+      "HORIZON-HLTH-2027-01-CARE-02",
+      "HORIZON-HLTH-2027-01-IND-01"
+    ]
+  },
+  {
+    "destination": "Living and working in a health-promoting environment",
+    "call_ids": [
+      "HORIZON-HLTH-2026-01-ENVHLTH-01",
+      "HORIZON-HLTH-2026-01-ENVHLTH-04",
+      "HORIZON-HLTH-2026-01-ENVHLTH-05",
+      "HORIZON-HLTH-2027-01-ENVHLTH-02",
+      "HORIZON-HLTH-2027-01-ENVHLTH-MISSCLIMA-03"
+    ]
+  },
+  {
+    "destination": "Ensuring equal access to innovative, sustainable, and high-quality",
+    "call_ids": [
+      "HORIZON-HLTH-2026-01-CARE-01",
+      "HORIZON-HLTH-2026-01-CARE-03",
+      "HORIZON-HLTH-2026-04-CARE-04",
+      "HORIZON-HLTH-2027-01-CARE-02"
+    ]
+  },
+  {
+    "destination": "Maintaining an innovative, sustainable, and competitive EU health",
+    "call_ids": [
+      "HORIZON-HLTH-2026-01-IND-03",
+      "HORIZON-HLTH-2027-01-IND-01",
+      "HORIZON-HLTH-2027-02-IND-02-two-stage"
+    ]
+  }
+]

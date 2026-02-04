@@ -5,7 +5,7 @@ export const stylesheet = [
     selector: "node",
     style: {
       label: "data(label)",
-      "font-size": 8,
+      "font-size": 10,
       "font-weight": 400,
       "text-valign": "bottom",
       "text-halign": "center",
@@ -50,7 +50,7 @@ export const stylesheet = [
   {
   selector: "node.as-root, node[type = 'root'], node[category = 'root']",
   style: {
-    "font-size": 11,
+    "font-size": 12,
     "font-weight": 700,
     "text-margin-y": 10,
   },

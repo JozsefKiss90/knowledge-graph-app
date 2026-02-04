@@ -28,6 +28,7 @@ const GraphView = forwardRef(function GraphView(
     onNodeHover,
     onHoverNodeIdChange,
     nestedHandlers,
+    onOpenDetail,
   },
   ref
 ) {
@@ -72,7 +73,7 @@ const GraphView = forwardRef(function GraphView(
       cyRef.current = null;
     }
 
-    const cy = cytoscape({
+     const cy = cytoscape({
       container: cyContainerRef.current,
       elements,
       style: stylesheet,
@@ -119,15 +120,19 @@ const GraphView = forwardRef(function GraphView(
     stabilizer.schedule(true);
 
     // events
-    setupEvents(
+   setupEvents(
       cy,
       navigate,
       (id) => hoverIdRef.current && hoverIdRef.current(id),
       (data) => hoverRef.current && hoverRef.current(data),
       {
-        shouldOpenCluster: () => String(layerKey || "").replace("_cose", "") === "ROOT",
+        shouldOpenCluster: () =>
+          String(layerKey || "").replace("_cose", "") === "ROOT",
         onClusterOpen: (data) => nhRef.current?.onClusterOpen?.(data),
-        onDestinationToggle: (_, id) => nhRef.current?.onDestinationToggle?.(cy, id),
+        onDestinationToggle: (_, id) =>
+          nhRef.current?.onDestinationToggle?.(cy, id),
+        // NEW: let clicks open inline detail when provided
+        openNodeDetail: onOpenDetail,
       }
     );
 
@@ -139,6 +144,15 @@ const GraphView = forwardRef(function GraphView(
     cy.on("add remove", onAny);
     cy.on("layoutstop", onAny);
 
+    // NEW: hover should also update overlay glow strength (is-hovered / highlighted)
+    cy.on("mouseover", "node", onAny);
+    cy.on("mouseout", "node", onAny);
+
+    // Optional: if you use edge hover highlighting anywhere
+    cy.on("mouseover", "edge", onAny);
+    cy.on("mouseout", "edge", onAny);
+
+
     scheduleGlowUpdate();
 
     // Window resize: preserve user viewport (no re-fit)
@@ -147,11 +161,10 @@ const GraphView = forwardRef(function GraphView(
 
     return () => {
       try {
-        cy.off("pan zoom", onAny);
-        cy.off("drag position", "node", onAny);
-        cy.off("select unselect", "node", onAny);
-        cy.off("add remove", onAny);
-        cy.off("layoutstop", onAny);
+        cy.off("mouseover", "node", onAny);
+        cy.off("mouseout", "node", onAny);
+        cy.off("mouseover", "edge", onAny);
+        cy.off("mouseout", "edge", onAny);
       } catch {}
 
       window.removeEventListener("resize", onWindowResize);
@@ -171,7 +184,7 @@ const GraphView = forwardRef(function GraphView(
       setIsShown(false);
       resetGlow();
     };
-  }, [
+    }, [
     elements,
     graphName,
     layerKey,
@@ -185,8 +198,9 @@ const GraphView = forwardRef(function GraphView(
     scheduleGlowUpdate,
     resetGlow,
     glowRafRef,
+    // IMPORTANT: do NOT include onOpenDetail here – it’s only used for event callbacks
   ]);
-
+  
   useImperativeHandle(ref, () => ({
     rerunLayout: () => {
       const cy = cyRef.current;
@@ -266,9 +280,13 @@ const GraphView = forwardRef(function GraphView(
         height: "100%",
         position: "relative",
         opacity: isShown ? 1 : 0,
+        overflow: "visible",
       }}
     >
-      <div ref={cyContainerRef} style={{ position: "absolute", inset: 0 }} />
+    <div
+      ref={cyContainerRef}
+      style={{ position: "absolute", inset: 0, zIndex: 1 }}
+    />
 
       <svg
         aria-hidden="true"
@@ -278,7 +296,7 @@ const GraphView = forwardRef(function GraphView(
           width: "100%",
           height: "100%",
           pointerEvents: "none",
-          zIndex: 5,
+          zIndex: 50,
           overflow: "visible",
         }}
       >

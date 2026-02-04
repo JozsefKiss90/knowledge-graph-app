@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect, useMemo } from "react";
+// src/components/GraphPage/GraphPage.js
+import { useRef, useState, useEffect, useMemo, useCallback  } from "react";
 import { Container, Row } from "react-bootstrap";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -48,10 +49,52 @@ function GraphPage() {
 
   const callDetailCacheRef = useRef(new Map()); // callId -> detail JSON
 
+  // NEW: inline node detail state (for NodeDetail overlay)
+  const [detailNode, setDetailNode] = useState(null);
+
+    const handleOpenDetail = useCallback((payload) => {
+    // Clear any hover card when opening details
+    hoveredNodeRef.current = null;
+    setHoveredNode(null);
+    setDetailNode(payload || null);
+  }, []);
+
+  const handleCloseDetail = useCallback(() => {
+    setDetailNode((current) => {
+      if (current && (current.returnLayerKey || current.returnGraphName)) {
+        const returnLayerKey = String(current.returnLayerKey || "");
+        const returnGraphName = String(current.returnGraphName || "");
+
+        const clusterKey =
+          returnGraphName.startsWith("Cluster_")
+            ? returnGraphName
+            : returnLayerKey.startsWith("Cluster_")
+            ? returnLayerKey
+            : "ROOT";
+
+        // Move the graph back to the originating cluster / destination context
+        setGraphName(clusterKey);
+
+        if (returnLayerKey.startsWith("DEST_")) {
+          const destinationId = returnLayerKey.replace(/^DEST_/, "");
+          setPendingNav({ clusterKey, destinationId });
+        } else {
+          // For non-destination origins, we don't need pendingNav
+          setPendingNav(null);
+        }
+      }
+
+      // Always close the inline detail
+      return null;
+    });
+  }, [setGraphName, setPendingNav]);
+
+
   // Clear hover card when the active graph / layer changes
   useEffect(() => {
     hoveredNodeRef.current = null;
     setHoveredNode(null);
+    setDetailNode(null); // also close inline detail on dataset change
   }, [graphName]);
 
   useEffect(() => {
@@ -91,6 +134,44 @@ function GraphPage() {
     if (pendingNav == null) localStorage.removeItem("pendingNav");
   }, [pendingNav]);
 
+  // Keep GraphStatusBar counts in sync with Cytoscape
+useEffect(() => {
+  const cy = cyInstance;
+  if (!cy) return;
+
+  const update = () => {
+    try {
+      setGraphStats({
+        nodes: cy.nodes().length,
+        edges: cy.edges().length,
+      });
+    } catch {
+      // no-op
+    }
+  };
+
+  // initial update as soon as cy is ready
+  update();
+
+  // update on structure/layout changes
+  cy.on("add remove", update);
+  cy.on("layoutstop", update);
+
+  // (optional) also update when visibility changes are used instead of add/remove
+  cy.on("style", update);
+
+  return () => {
+    try {
+      cy.off("add remove", update);
+      cy.off("layoutstop", update);
+      cy.off("style", update);
+    } catch {
+      // no-op
+    }
+  };
+}, [cyInstance]);
+
+
   // Hover hydration (polling)
   useHoverHydration({
     cyInstance,
@@ -104,10 +185,11 @@ function GraphPage() {
   // Smooth fit when legend collapses/expands
   useLegendFit({ cyInstance, isLegendCollapsed });
 
-  const { layoutLabel, handleResetView, handleFitView, handleApplyLayout } = createViewControls({
-    cyInstance,
-    effectiveLayout,
-  });
+  const { layoutLabel, handleResetView, handleFitView, handleApplyLayout } =
+    createViewControls({
+      cyInstance,
+      effectiveLayout,
+    });
 
   if (!ready) {
     return (
@@ -128,7 +210,10 @@ function GraphPage() {
           className="flex-grow-1 d-flex flex-column p-0 graph-container"
           style={{ flexWrap: "nowrap", minWidth: 0, minHeight: 0 }}
         >
-          <Row className="flex-grow-1 w-100 g-0" style={{ flexWrap: "nowrap", minWidth: 0, minHeight: 0 }}>
+          <Row
+            className="flex-grow-1 w-100 g-0"
+            style={{ flexWrap: "nowrap", minWidth: 0, minHeight: 0 }}
+          >
             <LeftLegendColumn
               isLegendCollapsed={isLegendCollapsed}
               setIsLegendCollapsed={setIsLegendCollapsed}
@@ -160,6 +245,9 @@ function GraphPage() {
               layoutLabel={layoutLabel}
               onResetView={handleResetView}
               onFitView={handleFitView}
+              detailNode={detailNode}
+              onOpenDetail={handleOpenDetail}
+              onCloseDetail={handleCloseDetail}
             />
 
             <RightControlsColumn

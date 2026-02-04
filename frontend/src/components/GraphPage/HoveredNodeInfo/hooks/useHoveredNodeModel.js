@@ -26,7 +26,6 @@ const resolveClusterSummaryKey = (nodeId, typeLower) => {
   return cleanId;
 };
 
-
 function getActiveGraphName({ graphName, cyInstance }) {
   const direct = cleanGraphName(graphName);
   if (direct) return direct;
@@ -84,7 +83,9 @@ export function useHoveredNodeModel({
       if (typeof hoveredNode.data === "function") {
         try {
           const d = hoveredNode.data();
-          return hoveredNode.__screenPosition ? { ...d, __screenPosition: hoveredNode.__screenPosition } : d;
+          return hoveredNode.__screenPosition
+            ? { ...d, __screenPosition: hoveredNode.__screenPosition }
+            : d;
         } catch {
           // fall through
         }
@@ -113,10 +114,10 @@ export function useHoveredNodeModel({
       typeLower.includes("cluster") || typeLower === "root"
         ? "cluster"
         : typeLower.includes("destination")
-          ? "destination"
-          : typeLower.includes("call")
-            ? "call"
-            : typeLower || "node";
+        ? "destination"
+        : typeLower.includes("call")
+        ? "call"
+        : typeLower || "node";
 
     const isClusterNode = nodeKind === "cluster";
     const isDestinationNode = nodeKind === "destination";
@@ -125,18 +126,34 @@ export function useHoveredNodeModel({
     const typeLabel = isDestinationNode
       ? "Destination"
       : isClusterNode
-        ? "Cluster"
-        : isCallNode
-          ? "Call"
-          : truncate(typeRaw || "Node", 24);
+      ? "Cluster"
+      : isCallNode
+      ? "Call"
+      : truncate(typeRaw || "Node", 24);
 
     const nodeVisual = (() => {
       // Distinct fallback palette by node type (only used when cy style can't be read)
       const byKind = {
-        cluster: { fill: "hsla(71, 100%, 50%, 1.00)", borderColor: "#ffffff", borderWidthPx: 2 },      // green
-        destination: { fill: "hsla(206, 100%, 62%, 1.00)", borderColor: "#ffffff", borderWidthPx: 2 }, // blue
-        call: { fill: "hsla(38, 100%, 55%, 1.00)", borderColor: "#ffffff", borderWidthPx: 2 },        // orange
-        node: { fill: "rgba(255,255,255,0.18)", borderColor: "#ffffff", borderWidthPx: 2 },
+        cluster: {
+          fill: "hsla(71, 100%, 50%, 1.00)",
+          borderColor: "#ffffff",
+          borderWidthPx: 2,
+        }, // green
+        destination: {
+          fill: "hsla(206, 100%, 62%, 1.00)",
+          borderColor: "#ffffff",
+          borderWidthPx: 2,
+        }, // blue
+        call: {
+          fill: "hsla(38, 100%, 55%, 1.00)",
+          borderColor: "#ffffff",
+          borderWidthPx: 2,
+        }, // orange
+        node: {
+          fill: "rgba(255,255,255,0.18)",
+          borderColor: "#ffffff",
+          borderWidthPx: 2,
+        },
       };
 
       const fallback = byKind[nodeKind] || byKind.node;
@@ -156,8 +173,8 @@ export function useHoveredNodeModel({
           typeof bwRaw === "number"
             ? bwRaw
             : typeof bwRaw === "string"
-              ? parseFloat(bwRaw) || fallback.borderWidthPx
-              : fallback.borderWidthPx;
+            ? parseFloat(bwRaw) || fallback.borderWidthPx
+            : fallback.borderWidthPx;
 
         return { fill, borderColor, borderWidthPx };
       } catch {
@@ -167,24 +184,29 @@ export function useHoveredNodeModel({
 
     const tags = isClusterNode ? [] : extractTags(raw);
 
-    const clusterDestinationCount = isClusterNode ? extractClusterDestinationCount(raw) : null;
+    const clusterDestinationCount = isClusterNode
+      ? extractClusterDestinationCount(raw)
+      : null;
 
-    let destinationCallCount = isDestinationNode ? extractDestinationCallCount(raw, cyInstance) : null;
+    let destinationCallCount = isDestinationNode
+      ? extractDestinationCallCount(raw, cyInstance)
+      : null;
     if (isDestinationNode && destinationCallCount == null) {
       destinationCallCount = countHasCallEdges(cyInstance, id);
     }
 
-    const explicitNodeCount = (isClusterNode || isDestinationNode) ? extractNodeCount(raw) : null;
+    const explicitNodeCount =
+      isClusterNode || isDestinationNode ? extractNodeCount(raw) : null;
 
     // nodeCount = size of graph opened by drilling into this node
     const nodeCount =
       typeof explicitNodeCount === "number"
         ? explicitNodeCount
         : isClusterNode && typeof clusterDestinationCount === "number"
-          ? clusterDestinationCount + 1
-          : isDestinationNode && typeof destinationCallCount === "number"
-            ? destinationCallCount + 1
-            : null;
+        ? clusterDestinationCount + 1
+        : isDestinationNode && typeof destinationCallCount === "number"
+        ? destinationCallCount + 1
+        : null;
 
     const activeGraph = getActiveGraphName({ graphName, cyInstance });
     const allowHeMetrics = activeGraph === "HE_2025";
@@ -192,7 +214,7 @@ export function useHoveredNodeModel({
     const metricCards = [];
 
     if (allowHeMetrics && !isClusterNode && !isDestinationNode && !isCallNode) {
-     metricCards.push({
+      metricCards.push({
         key: "connections",
         label: "Connections",
         value: extractConnections(raw, cyInstance),
@@ -210,8 +232,9 @@ export function useHoveredNodeModel({
     }
 
     if (isCallNode) {
+      // UPDATED: remove TRL; add Type of Action instead
       const fields = [
-        { key: "technology_readiness_level", label: "TRL" },
+        { key: "type_of_action", label: "Type of Action" },
         { key: "min_contribution", label: "Min Contribution" },
         { key: "max_contribution", label: "Max Contribution" },
         { key: "indicative_budget", label: "Indicative Budget" },

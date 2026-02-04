@@ -1,5 +1,5 @@
 ﻿// src/components/LegendParts/GraphSelector.js
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { buildElements } from "../utils/buildElements";
 import Tooltip from "@mui/material/Tooltip";
 
@@ -29,6 +29,8 @@ export default function GraphSelector({
   onRequestNavigate,
 }) {
   const layerKey = cleanKey(graphName);
+
+  const listRef = useRef(null);
 
   // expanded state per tree item id
   const [expanded, setExpanded] = useState(() => new Set(["ROOT"]));
@@ -326,9 +328,34 @@ export default function GraphSelector({
   // ROOT selection
   const isRootSelected = layerKey === "ROOT";
 
+  useEffect(() => {
+    const root = listRef.current;
+    if (!root) return;
+
+    // Prefer the explicit "is-selected" marker your TreeRow sets
+    const selectedEl = root.querySelector(".graph-tree-row.is-selected");
+    if (!selectedEl) return;
+
+    // Only scroll if it’s outside the visible viewport of the container
+    const cRect = root.getBoundingClientRect();
+    const eRect = selectedEl.getBoundingClientRect();
+
+    const above = eRect.top < cRect.top;
+    const below = eRect.bottom > cRect.bottom;
+
+    if (above || below) {
+      selectedEl.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+  }, [selectedNodeId, layerKey, expanded, childCache]);
+
   return (
     <div className="graph-selector">
-      <div className="graph-selector-list" role="tree" aria-label="Graph navigation tree">
+      <div
+        className="graph-selector-list"
+        ref={listRef}  
+        role="tree"
+        aria-label="Graph navigation tree"
+        >
         {/* ROOT */}
         <div className="graph-selector-group">
           <div className="graph-selector-group-title">Meta layout</div>

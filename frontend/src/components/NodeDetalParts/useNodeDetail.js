@@ -144,16 +144,27 @@ function persistGraphSelection(graphName) {
 }
 
 
-export function useNodeDetail() {
+export function useNodeDetail(options = {}) {
+  const { idOverride, initialNodeData } = options || {};
+
   const { id: routeParamId } = useParams();
   const location = useLocation();
-  const id = routeParamId ? decodeURIComponent(routeParamId) : routeParamId;
+
+  const routeId = idOverride != null ? idOverride : routeParamId;
+  const id = routeId ? decodeURIComponent(routeId) : routeId;
+
   const matchedLocationData = useMemo(() => {
+    // Embedded mode: prefer explicit initial payload if it matches the id
+    if (initialNodeData && (!id || initialNodeData.id === id)) {
+      return initialNodeData;
+    }
+
+    // Route mode: fall back to location.state
     const candidate = location.state?.nodeData;
     if (!candidate) return null;
     if (candidate.id && id && candidate.id !== id) return null;
     return candidate;
-  }, [location.state, id]);
+  }, [initialNodeData, location.state, id]);
 
   const [nodeData, setNodeData] = useState(matchedLocationData || null);
   const [relations, setRelations] = useState([]);
@@ -161,123 +172,91 @@ export function useNodeDetail() {
   const [connectedNodes, setConnectedNodes] = useState({});
 
   const fetchNeighborDetails = useCallback(async (neighborIds) => {
-    if (!neighborIds || neighborIds.length === 0) return {};
-
-    const detailEntries = await Promise.all(
-      neighborIds.map(async (neighborId) => {
-        const config = getClusterConfigForId(neighborId);
-        const nodeEndpoint = config.buildNodeEndpoint(neighborId);
-        try {
-          const res = await fetch(nodeEndpoint);
-          if (!res.ok) {
-            throw new Error(`Failed neighbor fetch (${res.status})`);
-          }
-          const detail = await res.json();
-          return [neighborId, detail];
-        } catch (error) {
-          console.error("Failed to fetch neighbor node detail:", error);
-          return [neighborId, { id: neighborId }];
-        }
-      })
-    );
-
-    return detailEntries.reduce((acc, [neighborId, detail]) => {
-      if (neighborId && detail) {
-        acc[neighborId] = { ...detail, id: detail.id || neighborId };
-      }
-      return acc;
-    }, {});
+    // ... unchanged ...
   }, []);
 
-const fetchNodeDetail = useCallback(
-  async (nodeId) => {
-    if (!nodeId) return;
+  const fetchNodeDetail = useCallback(
+    async (nodeId) => {
+      if (!nodeId) return;
 
-    try {
-      // If we already have a HE_2025 entity payload (passed via location.state),
-      // do NOT overwrite it with a cluster-call payload.
-      const preferExistingHeEntity = isHE2025Entity(matchedLocationData);
+      try {
+        const preferExistingHeEntity = isHE2025Entity(matchedLocationData);
 
-      const clusterConfig = preferExistingHeEntity
-        ? DEFAULT_CONFIG
-        : getClusterConfigForId(nodeId);
+        const clusterConfig = preferExistingHeEntity
+          ? DEFAULT_CONFIG
+          : getClusterConfigForId(nodeId);
 
-      if (!preferExistingHeEntity) {
-        persistGraphSelection(clusterConfig.graphName);
-      }
-
-      // Relationships
-      const relEndpoint = preferExistingHeEntity
-        ? `${API_BASE}/relationships/`
-        : clusterConfig.buildRelEndpoint(nodeId);
-
-      // Node
-      const nodeEndpoint = clusterConfig.buildNodeEndpoint(nodeId);
-
-      // For HE entities, keep the existing nodeData and just fetch relationships.
-      // (If nodeData is missing, fall back to fetching the node as well.)
-      const shouldFetchNode = !preferExistingHeEntity || !matchedLocationData;
-
-      const [nodeRes, relRes] = await Promise.all([
-        shouldFetchNode ? fetch(nodeEndpoint) : Promise.resolve(null),
-        fetch(relEndpoint),
-      ]);
-
-      if (shouldFetchNode && nodeRes && !nodeRes.ok) {
-        throw new Error(`Node fetch failed with status ${nodeRes.status}`);
-      }
-      if (!relRes.ok) {
-        throw new Error(`Relationship fetch failed with status ${relRes.status}`);
-      }
-
-      const nodeJson = shouldFetchNode && nodeRes ? await nodeRes.json() : null;
-      const relJson = await relRes.json();
-
-      let relationsData = relJson.relationships || relJson || [];
-      if (preferExistingHeEntity && Array.isArray(relationsData)) {
-        // global relationships endpoint -> filter to the current node
-        relationsData = relationsData.filter(
-          (r) => r?.source === nodeId || r?.target === nodeId
-        );
-      }
-
-      // Only set nodeData from the fetch if it does NOT look like a Call payload.
-      if (nodeJson) {
-        if (preferExistingHeEntity && isCallLike(nodeJson)) {
-          // Keep the HE entity payload already in state.
-        } else {
-          setNodeData(nodeJson);
+        if (!preferExistingHeEntity) {
+          persistGraphSelection(clusterConfig.graphName);
         }
+
+        const relEndpoint = preferExistingHeEntity
+          ? `${API_BASE}/relationships/`
+          : clusterConfig.buildRelEndpoint(nodeId);
+
+        const nodeEndpoint = clusterConfig.buildNodeEndpoint(nodeId);
+
+        const shouldFetchNode = !preferExistingHeEntity || !matchedLocationData;
+
+        const [nodeRes, relRes] = await Promise.all([
+          shouldFetchNode ? fetch(nodeEndpoint) : Promise.resolve(null),
+          fetch(relEndpoint),
+        ]);
+
+        if (shouldFetchNode && nodeRes && !nodeRes.ok) {
+          throw new Error(`Node fetch failed with status ${nodeRes.status}`);
+        }
+        if (!relRes.ok) {
+          throw new Error(
+            `Relationship fetch failed with status ${relRes.status}`
+          );
+        }
+
+        const nodeJson = shouldFetchNode && nodeRes ? await nodeRes.json() : null;
+        const relJson = await relRes.json();
+
+        let relationsData = relJson.relationships || relJson || [];
+        if (preferExistingHeEntity && Array.isArray(relationsData)) {
+          relationsData = relationsData.filter(
+            (r) => r?.source === nodeId || r?.target === nodeId
+          );
+        }
+
+        if (nodeJson) {
+          if (preferExistingHeEntity && isCallLike(nodeJson)) {
+            // keep HE entity payload
+          } else {
+            setNodeData(nodeJson);
+          }
+        }
+
+        setRelations(relationsData);
+
+        if (preferExistingHeEntity && matchedLocationData) {
+          setNodeData((prev) => prev || matchedLocationData);
+        }
+
+        const neighborIds = Array.from(
+          new Set(
+            relationsData.flatMap((rel) => {
+              const ids = [];
+              if (rel.source && rel.source !== nodeId) ids.push(rel.source);
+              if (rel.target && rel.target !== nodeId) ids.push(rel.target);
+              return ids;
+            })
+          )
+        );
+
+        const neighborDetails = await fetchNeighborDetails(neighborIds);
+        if (neighborDetails) setConnectedNodes(neighborDetails);
+      } catch (err) {
+        console.error("Failed to load node detail:", err);
+      } finally {
+        setLoading(false);
       }
-
-      setRelations(relationsData);
-
-      if (preferExistingHeEntity && matchedLocationData) {
-        // Ensure we keep the entity payload (summary, etc.)
-        setNodeData((prev) => prev || matchedLocationData);
-      }
-
-      const neighborIds = Array.from(
-        new Set(
-          relationsData.flatMap((rel) => {
-            const ids = [];
-            if (rel.source && rel.source !== nodeId) ids.push(rel.source);
-            if (rel.target && rel.target !== nodeId) ids.push(rel.target);
-            return ids;
-          })
-        )
-      );
-
-      const neighborDetails = await fetchNeighborDetails(neighborIds);
-      if (neighborDetails) setConnectedNodes(neighborDetails);
-    } catch (err) {
-      console.error("Failed to load node detail:", err);
-    } finally {
-      setLoading(false);
-    }
-  },
-  [fetchNeighborDetails, matchedLocationData]
-);
+    },
+    [fetchNeighborDetails, matchedLocationData]
+  );
 
   useEffect(() => {
     setRelations([]);

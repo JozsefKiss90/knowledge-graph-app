@@ -44,7 +44,10 @@ app.include_router(auth.router)
 app.include_router(chatbot_api.router)
 
 if ENVIRONMENT == "production":
-    allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app"]
+    allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app", "https://eu-graphs.up.railway.app",
+    "https://eu-graphs.hu",
+    "https://www.eu-graphs.hu",
+]
 else:
     allowed_origins = ["http://localhost:3000", "http://localhost:3001"]
 

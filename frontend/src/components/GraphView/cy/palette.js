@@ -90,7 +90,6 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
   cy.style()
     .append([
       { selector: ".faded", style: { opacity: 0.15 } },
-      { selector: ".highlighted", style: { "border-width": 2, "border-color": "#fff" } },
       { selector: ".call-hidden", style: { display: "none" } },
       { selector: ".call-visible", style: { display: "element" } },
     ])

@@ -2,23 +2,28 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GraphView from "./GraphView";
 import { buildElements } from "./utils/buildElements";
+import CLUSTERS from "./utils/heClusterSummaries.json"; // adjust path if needed
 
-  const HE_CLUSTER_NAMES = {
-    Cluster_1: "Cluster 1: Health",
-    Cluster_2: "Cluster 2: Culture, Creativity and Inclusive Society",
-    Cluster_3: "Cluster 3: Civil Security for Society",
-    Cluster_4: "Cluster 4: Digital, Industry and Space",
-    Cluster_5: "Cluster 5: Climate, Energy and Mobility",
-    Cluster_6: "Cluster 6: Food, Bioeconomy, Natural Resources, Agriculture and Environment",
-  };
+function cleanGraphName(name) {
+  return String(name || "").replace(/_cose$/i, "");
+}
 
-  const cleanKey = (k) => String(k || "").replace(/_cose$/i, "");
+function resolveClusterTitle(clusterKey) {
+  const key = cleanGraphName(clusterKey);
 
-  const clusterDisplayName = (key) => {
-    const k = cleanKey(key);
-    return HE_CLUSTER_NAMES[k] || k.replace(/_/g, " ");
-  };
-/** Synthetic ROOT graph */
+  // Expecting heClusterSummaries.json entries like:
+  // { "Cluster_3": { "title": "Cluster 3: Civil Security for Society", ... }, ... }
+  const meta = CLUSTERS?.[key] || CLUSTERS?.[clusterKey];
+
+  return (
+    meta?.title ||
+    meta?.name ||
+    meta?.label ||
+    // fallback: at least produce "Cluster 3" instead of "Cluster 3" with underscores
+    key.replace(/_/g, " ")
+  );
+}
+
 function buildRootElements({ clusterKeys }) {
   const centerId = "ROOT_HE";
 
@@ -28,14 +33,20 @@ function buildRootElements({ clusterKeys }) {
       group: "nodes",
     },
     ...clusterKeys.map((k) => ({
-      data: { id: k, label: clusterDisplayName(k), type: "cluster" },
+      data: {
+        id: k,
+        label: resolveClusterTitle(k), // <- FULL TITLE HERE
+        type: "cluster",
+      },
       group: "nodes",
     })),
   ];
+
   const edges = clusterKeys.map((k) => ({
     data: { id: `${centerId}-${k}`, source: centerId, target: k, type: "BELONGS_TO" },
     group: "edges",
   }));
+
   return { nodeElements: nodes, edgeElements: edges };
 }
 
@@ -44,6 +55,9 @@ function clearHover(onNodeHover, onHoverNodeIdChange) {
   onHoverNodeIdChange?.(null);
 }
 
+function cleanKey(k) {
+  return (k || "").replace("_cose", "");
+}
 
 export default function NestedGraphController({
   initialGraphName = "ROOT",
@@ -55,7 +69,8 @@ export default function NestedGraphController({
   onLevelChange,
   targetGraphName,
   renderLevelBar,
-  onGraphStats,
+  // NEW: inline detail handler from GraphMainColumn
+  onOpenDetail,
 }) {
   const graphRef = useRef(null);
 
@@ -69,47 +84,10 @@ export default function NestedGraphController({
   ]);
 
   const current = levels[levels.length - 1];
-  // ✅ Report node/edge counts from the active layer’s element data (source of truth)
-useEffect(() => {
-  const els = current?.elements || { nodeElements: [], edgeElements: [] };
-  let nodes = els.nodeElements || [];
-  let edges = els.edgeElements || [];
-
-  const layerKey = String(current?.key || "");
-  const isClusterOverview = layerKey.startsWith("Cluster_");
-
-  // Match GraphView filtering: do not count Calls or HAS_CALL edges on cluster overview
-  if (isClusterOverview) {
-    const callIds = new Set(
-      nodes
-        .filter((n) => {
-          const d = n?.data || {};
-          return d.type === "Call" || d.category === "Call";
-        })
-        .map((n) => String(n?.data?.id))
-        .filter(Boolean)
-    );
-
-    nodes = nodes.filter((n) => !callIds.has(String(n?.data?.id)));
-
-    edges = edges.filter((e) => {
-      const d = e?.data || {};
-      const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
-      const touchesCall =
-        callIds.has(String(d.source)) || callIds.has(String(d.target));
-      return !isHasCall && !touchesCall;
-    });
-  }
-
-  onGraphStats?.({ nodes: nodes.length, edges: edges.length });
-}, [current?.key, current?.elements, onGraphStats]);
-
-
   const lastAppliedTargetRef = useRef(initialGraphName);
 
   const handleLevelClick = useCallback(
     (index) => {
-      // Compute key first from current state (no state updates yet)
       const next = levels.slice(0, index + 1);
       const key = next[next.length - 1]?.key;
 
@@ -125,8 +103,6 @@ useEffect(() => {
     [levels, onLevelChange, onNodeHover, onHoverNodeIdChange]
   );
 
-
-  // Build ROOT once on mount
   useEffect(() => {
     const keys = (loadFromStore?.("__keys__") || []).filter((k) => k !== "HE_2025");
     const rootEls = buildRootElements({ clusterKeys: keys });
@@ -136,13 +112,12 @@ useEffect(() => {
         title: "Horizon Europe",
         graphName: "ROOT",
         elements: rootEls,
-      }, 
+      },
     ]);
     onLevelChange?.("ROOT");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Re-run layout when layout *name* changes
   useEffect(() => {
     graphRef.current?.rerunLayout?.();
   }, [layoutOptions?.name]);
@@ -161,24 +136,16 @@ useEffect(() => {
   const openCluster = useCallback(
     (clusterKey) => {
       const raw = loadFromStore?.(clusterKey);
-      const title = clusterDisplayName(clusterKey);
-
       const elements = raw ? buildElements(raw) : { nodeElements: [], edgeElements: [] };
-
-      // patch cluster root node label inside the cluster graph
-      const patchedNodes = (elements.nodeElements || []).map((el) => {
-        const d = el?.data || {};
-        if (String(d.id) === String(clusterKey)) {
-          return { ...el, data: { ...d, label: title, fullLabel: title } };
-        }
-        return el;
-      });
-
       setLevels((prev) => [
         ...prev,
-        { key: clusterKey, title, graphName: clusterKey, elements: { ...elements, nodeElements: patchedNodes } },
+        {
+          key: clusterKey,
+          title: clusterKey.replace(/_/g, " "),
+          graphName: clusterKey,
+          elements,
+        },
       ]);
-
       onLevelChange?.(clusterKey);
       clearHover(onNodeHover, onHoverNodeIdChange);
     },
@@ -186,12 +153,10 @@ useEffect(() => {
   );
 
   const popLevel = useCallback(() => {
-    // Compute next + key without using a functional updater (avoids “setState during render”)
     setLevels((prev) => {
       const next = prev.length > 1 ? prev.slice(0, -1) : prev;
       const key = next[next.length - 1]?.key;
 
-      // Defer parent updates to microtask so it’s never during render
       queueMicrotask(() => {
         if (key) {
           onLevelChange?.(key);
@@ -236,7 +201,8 @@ useEffect(() => {
 
       if (callNodes.length === 0) return;
 
-      const title = destEl.data.label ||  destEl.data.name || destEl.data.id || destinationId;
+      const title =
+        destEl.data.label || destEl.data.name || destEl.data.id || destinationId;
       const destKey = `DEST_${destEl.data.id || destinationId}`;
 
       setLevels((prev) => [
@@ -244,20 +210,18 @@ useEffect(() => {
         {
           key: destKey,
           title,
-          // keep dataset identity for the layer so GraphSelector still makes sense
           graphName: atKey,
           elements: { nodeElements: [destEl, ...callNodes], edgeElements: callEdges },
         },
       ]);
       onLevelChange?.(destKey);
       lastAppliedTargetRef.current = destKey;
-      
+
       clearHover(onNodeHover, onHoverNodeIdChange);
     },
-    [current?.key, loadFromStore, onNodeHover, onHoverNodeIdChange]
+    [current?.key, loadFromStore, onNodeHover, onHoverNodeIdChange, onLevelChange]
   );
 
-  // Handlers for ROOT / clusters / destination
   const nestedHandlers = useMemo(
     () => ({
       onClusterOpen: (data) => {
@@ -271,7 +235,6 @@ useEffect(() => {
     [current?.key, openCluster, openHE, openDestinationLayer, popLevel]
   );
 
-  // React when Graph Filter selects a graph (ROOT / SP / Cluster)
   useEffect(() => {
     if (!targetGraphName) return;
 
@@ -284,19 +247,26 @@ useEffect(() => {
     if (target === "ROOT" && at !== "ROOT") {
       const keys = (loadFromStore?.("__keys__") || []).filter((k) => k !== "HE_2025");
       const rootEls = buildRootElements({ clusterKeys: keys });
-      setLevels([{ key: "ROOT", title: "Horizon Europe", graphName: "ROOT", elements: rootEls }]);
+      setLevels([
+        {
+          key: "ROOT",
+          title: "Horizon Europe",
+          graphName: "ROOT",
+          elements: rootEls,
+        },
+      ]);
       onLevelChange?.("ROOT");
       return;
     }
 
     if (target === "HE_2025" && at !== "HE_2025") {
-      setLevels((prev) => [{ ...prev[0] }]); // keep same root, then push SP
+      setLevels((prev) => [{ ...prev[0] }]);
       openHE();
       return;
     }
 
     if (target !== at && target !== "ROOT") {
-      setLevels((prev) => [{ ...prev[0] }]); // reset to root then push cluster
+      setLevels((prev) => [{ ...prev[0] }]);
       openCluster(target);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -312,32 +282,33 @@ useEffect(() => {
           onBack: popLevel,
         })
       : null;
-    console.log( "layerkey",current?.key );    
+
+  console.log("layerkey", current?.key);
   return (
     <div className="graph-main-inner">
-        {levelBar}
-        <div className="graph-canvas-wrapper">
-          <GraphView
-            key={current.key}
-            ref={graphRef}
-            graphData={current.elements}
-            graphName={current.graphName}
-            layerKey={current.key}
-            layoutOptions={layoutOptions}
-            nestedHandlers={nestedHandlers}
-            onCyReady={(cy) => {
-              // Safety: if any Call nodes exist in cluster overview, hide them
-              const key = current.key || "";
-              if (key.startsWith("Cluster_")) {
-                cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden");
-              }
-              onCyReady?.(cy);
-            }}
-            onNodeHover={onNodeHover}
-            onHoverNodeIdChange={onHoverNodeIdChange}
-          />
-        </div>
+      {levelBar}
+      <div className="graph-canvas-wrapper">
+        <GraphView
+          key={current.key}
+          ref={graphRef}
+          graphData={current.elements}
+          graphName={current.graphName}
+          layerKey={current.key}
+          layoutOptions={layoutOptions}
+          onCyReady={(cy) => {
+            const key = current.key || "";
+            if (key.startsWith("Cluster_")) {
+              cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden");
+            }
+            onCyReady?.(cy);
+          }}
+          onNodeHover={onNodeHover}
+          onHoverNodeIdChange={onHoverNodeIdChange}
+          nestedHandlers={nestedHandlers}
+          // NEW: forward inline detail handler to GraphView/setupEvents
+          onOpenDetail={onOpenDetail}
+        />
       </div>
-
+    </div>
   );
 }

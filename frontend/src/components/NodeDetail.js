@@ -1,13 +1,11 @@
-// src/components/NodeDetail.js
 import React, { useState, useMemo } from "react";
 import {
   Box,
   Button,
   Chip,
   Typography,
-  Divider,
   CircularProgress,
-  IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -22,7 +20,7 @@ import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
 
 // --- helpers reused from previous implementation ---------------------------
- 
+
 const labelMap = {
   funding_link: "Funding Link",
   expected_eu_contribution: "Expected EU Contribution",
@@ -38,7 +36,6 @@ const labelMap = {
   max_contribution: "Max Contribution",
   type_of_action: "Type Of Action",
 };
-
 
 const OFFICIAL_CALL_PAGE_BASE =
   "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/";
@@ -83,30 +80,28 @@ function toListItems(value) {
 }
 
 function formatLabel(key) {
-  return labelMap[key] || key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return (
+    labelMap[key] ||
+    key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+  );
 }
 
 function formatValue(key, value) {
   if (value === null || value === undefined || value === "") return "—";
 
-  // “million” amounts
+  // Amounts (already in € form in your current UI)
   if (["min_contribution", "max_contribution", "indicative_budget"].includes(key)) {
     const num =
-      typeof value === "number"
-        ? value
-        : parseFloat(String(value).replace(",", "."));
-    if (Number.isFinite(num)) {
-      return `${num.toLocaleString()} million`;
-    }
+      typeof value === "number" ? value : parseFloat(String(value).replace(",", "."));
+    if (Number.isFinite(num)) return `${num.toLocaleString()} €`;
     return value;
   }
 
   if (typeof value === "number") {
     return Number.isFinite(value) ? value.toLocaleString() : value;
   }
-  if (Array.isArray(value)) {
-    return value.join(", ");
-  }
+  if (Array.isArray(value)) return value.join(", ");
+
   if (key === "source") {
     return value.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
@@ -122,13 +117,10 @@ function parseMillionFromText(text) {
 }
 
 function computeIndicativeNumberOfProjects(nodeData) {
-  // Prefer backend numeric
   if (nodeData.indicative_number_of_projects != null) {
     const val = nodeData.indicative_number_of_projects;
     const num =
-      typeof val === "number"
-        ? val
-        : parseFloat(String(val).replace(",", "."));
+      typeof val === "number" ? val : parseFloat(String(val).replace(",", "."));
     if (Number.isFinite(num)) return num;
   }
 
@@ -139,9 +131,7 @@ function computeIndicativeNumberOfProjects(nodeData) {
 
   const eu = parseMillionFromText(nodeData.expected_eu_contribution);
 
-  if (!Number.isFinite(totalBudget) || !Number.isFinite(eu) || eu <= 0) {
-    return null;
-  }
+  if (!Number.isFinite(totalBudget) || !Number.isFinite(eu) || eu <= 0) return null;
 
   const projects = Math.round(totalBudget / eu);
   return Number.isFinite(projects) ? projects : null;
@@ -168,10 +158,8 @@ function computeTypeShort(typeOfAction) {
   const normalized = typeOfAction.toLowerCase();
   if (normalized.includes("research and innovation")) return "RIA";
   if (normalized.includes("innovation action")) return "IA";
-  if (normalized.includes("coordination") && normalized.includes("support"))
-    return "CSA";
+  if (normalized.includes("coordination") && normalized.includes("support")) return "CSA";
 
-  // Fallback: first group of 2–4 capital letters, else first word
   const m = typeOfAction.match(/\b([A-Z]{2,4})\b/);
   if (m) return m[1];
   return typeOfAction.split(" ")[0];
@@ -204,14 +192,15 @@ const CollapsibleSection = ({ title, defaultOpen = true, children }) => {
   );
 };
 
-const TextSectionFromField = ({ nodeData, fieldKey, label }) => {
+const TextSectionFromField = ({ nodeData, fieldKey, label, defaultOpen = true }) => {
   const raw = nodeData[fieldKey];
   if (!raw) return null;
+
   const items = toListItems(raw);
   if (items.length === 0) return null;
 
   return (
-    <CollapsibleSection title={label || formatLabel(fieldKey)} defaultOpen={fieldKey === "expected_outcome"}>
+    <CollapsibleSection title={label || formatLabel(fieldKey)} defaultOpen={defaultOpen}>
       {items.map((item, idx) => (
         <Typography key={idx} variant="body2" className="nd-paragraph">
           {item}
@@ -223,17 +212,31 @@ const TextSectionFromField = ({ nodeData, fieldKey, label }) => {
 
 // --- main component ---------------------------------------------------------
 
-function NodeDetail() {
+function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
   const { darkMode } = useDarkMode();
-  const { id, nodeData, relations, connectedNodes, loading } = useNodeDetail();
   const navigate = useNavigate();
   const location = useLocation();
 
-   const handleBackToGraph = () => {
+  // Mobile breakpoint aligned with your app’s responsive behavior
+  const isMobile = useMediaQuery("(max-width: 900px)");
+
+  // Use override id + initial data when embedded, or fall back to route mode
+  const { id, nodeData, relations, connectedNodes, loading } = useNodeDetail({
+    idOverride: embeddedId,
+    initialNodeData: embeddedNodeData,
+  });
+
+  const handleBackToGraph = () => {
+    // Embedded mode: just close the overlay and reveal the graph
+    if (typeof onBack === "function") {
+      onBack();
+      return;
+    }
+
+    // Route mode (/node/:id): restore previous GraphPage context
     const returnLayerKey = String(location.state?.returnLayerKey || "");
     const returnGraphName = String(location.state?.returnGraphName || "");
 
-    // Cluster dataset key must be restored into GraphPage's graphName
     const clusterKey =
       returnGraphName.startsWith("Cluster_")
         ? returnGraphName
@@ -241,11 +244,8 @@ function NodeDetail() {
         ? returnLayerKey
         : "ROOT";
 
-    // Always restore dataset to a cluster/root layer
     localStorage.setItem("graphName", clusterKey);
 
-    // If we came from a destination layer (i.e., Call details), reopen the destination
-    // BUT do NOT include callId, otherwise GraphPage will navigate right back to NodeDetail.
     if (returnLayerKey.startsWith("DEST_")) {
       const destinationId = returnLayerKey.replace(/^DEST_/, "");
       localStorage.setItem("pendingNav", JSON.stringify({ clusterKey, destinationId }));
@@ -256,10 +256,9 @@ function NodeDetail() {
     navigate("/", { replace: true });
   };
 
-
-
   const viewModel = useMemo(() => {
     if (!nodeData) return null;
+
     const rawType = String(nodeData.type || nodeData.category || "").toLowerCase();
     const source = String(nodeData.source || "").toLowerCase();
     const isDestination = rawType === "destination";
@@ -274,14 +273,9 @@ function NodeDetail() {
     const title = nodeData.name || nodeData.label || "Untitled node";
 
     if (isHeEntity) {
-      return {
-        kind: "he_entity",
-        title,
-        summary: (nodeData.summary || "").trim(),
-      };
+      return { kind: "he_entity", title, summary: (nodeData.summary || "").trim() };
     }
 
-    // Heuristic: treat as "call" only if it's explicitly a call OR has call-like fields
     const isCall =
       rawType === "call" ||
       nodeData.call_id != null ||
@@ -295,14 +289,9 @@ function NodeDetail() {
       nodeData.opening_date != null;
 
     if (isDestination) {
-      return {
-        kind: "destination",
-        title,
-        summary: (nodeData.summary || "").trim(),
-      };
+      return { kind: "destination", title, summary: (nodeData.summary || "").trim() };
     }
 
-    // HE_2025 graph entities (topic/institution/research_theme/etc.)
     if (source === "he_2025" && !isCall) {
       return {
         kind: "he_entity",
@@ -313,9 +302,7 @@ function NodeDetail() {
       };
     }
 
-    // --- existing Call view model (unchanged) ---
-
-    // --- existing Call view model (unchanged) ---
+    // call view model
     const typeOfAction = nodeData.type_of_action || "";
     const typeShort = computeTypeShort(typeOfAction);
     const status = (nodeData.status || "").trim();
@@ -368,13 +355,13 @@ function NodeDetail() {
     );
   }
 
+  // ---------------- HE ENTITY VIEW ----------------
   if (viewModel.kind === "he_entity") {
     const summaryText = viewModel.summary || "—";
     const sourceText = formatValue("source", nodeData.source || "");
 
     return (
       <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
-        {/* HEADER BAR */}
         <header className="nd-header">
           <Box className="nd-header-left">
             <Button
@@ -390,7 +377,6 @@ function NodeDetail() {
 
         <main className="nd-main">
           <div className="nd-main-inner">
-            {/* Title */}
             <Box className="nd-title-block">
               <Box className="nd-title-dot" />
               <Box className="nd-title-text">
@@ -413,9 +399,11 @@ function NodeDetail() {
               </Box>
             </Box>
 
-            {/* Match the Destination grid layout, minus bookmarking */}
             <div className="nd-grid">
-              <div className="nd-main-column">
+              <div
+                className="nd-main-column"
+                style={isMobile ? { order: 1 } : undefined}
+              >
                 <Box className="nd-card">
                   <Box className="nd-card-header">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -430,8 +418,10 @@ function NodeDetail() {
                 </Box>
               </div>
 
-              <aside className="nd-sidebar">
-                {/* Connections */}
+              <aside
+                className="nd-sidebar"
+                style={isMobile ? { order: 2 } : undefined}
+              >
                 <Box className="nd-card">
                   <Box className="nd-card-header nd-card-header--with-icon">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -440,16 +430,10 @@ function NodeDetail() {
                     <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
                   </Box>
                   <Box className="nd-card-body nd-card-body--connections">
-                    <NodeConnections
-                      id={id}
-                      relations={relations}
-                      connectedNodes={connectedNodes}
-                      bare
-                    />
+                    <NodeConnections id={id} relations={relations} connectedNodes={connectedNodes} bare />
                   </Box>
                 </Box>
 
-                {/* Source */}
                 {sourceText && sourceText !== "—" && (
                   <Box className="nd-card">
                     <Box className="nd-card-header">
@@ -471,6 +455,7 @@ function NodeDetail() {
     );
   }
 
+  // ---------------- DESTINATION VIEW ----------------
   if (viewModel.kind === "destination") {
     const summaryText = viewModel.summary || "—";
     const sourceText = formatValue("source", nodeData.source || "");
@@ -492,7 +477,6 @@ function NodeDetail() {
 
     return (
       <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
-        {/* HEADER BAR */}
         <header className="nd-header">
           <Box className="nd-header-left">
             <Button
@@ -509,10 +493,8 @@ function NodeDetail() {
           </Box>
         </header>
 
-        {/* MAIN CONTENT */}
         <main className="nd-main">
           <div className="nd-main-inner">
-            {/* Title */}
             <Box className="nd-title-block">
               <Box className="nd-title-dot" />
               <Box className="nd-title-text">
@@ -531,11 +513,12 @@ function NodeDetail() {
                 </Typography>
               </Box>
             </Box>
-            
-            {/* Same grid structure as Calls */}
+
             <div className="nd-grid">
-              {/* LEFT: main column */}
-              <div className="nd-main-column">
+              <div
+                className="nd-main-column"
+                style={isMobile ? { order: 1 } : undefined}
+              >
                 <Box className="nd-card">
                   <Box className="nd-card-header">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -550,9 +533,10 @@ function NodeDetail() {
                 </Box>
               </div>
 
-              {/* RIGHT: sidebar */}
-              <aside className="nd-sidebar">
-                {/* Connections */}
+              <aside
+                className="nd-sidebar"
+                style={isMobile ? { order: 2 } : undefined}
+              >
                 <Box className="nd-card">
                   <Box className="nd-card-header nd-card-header--with-icon">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -561,16 +545,10 @@ function NodeDetail() {
                     <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
                   </Box>
                   <Box className="nd-card-body nd-card-body--connections">
-                    <NodeConnections
-                      id={id}
-                      relations={relations}
-                      connectedNodes={connectedNodes}
-                      bare
-                    />
+                    <NodeConnections id={id} relations={relations} connectedNodes={connectedNodes} bare />
                   </Box>
                 </Box>
 
-                {/* Source */}
                 {sourceText && sourceText !== "—" && (
                   <Box className="nd-card">
                     <Box className="nd-card-header">
@@ -585,7 +563,6 @@ function NodeDetail() {
                   </Box>
                 )}
 
-                {/* Actions */}
                 <Box className="nd-card">
                   <Box className="nd-card-header">
                     <Typography variant="body2" className="nd-card-title nd-muted-label">
@@ -606,6 +583,7 @@ function NodeDetail() {
     );
   }
 
+  // ---------------- CALL VIEW ----------------
   const {
     title,
     typeOfAction,
@@ -626,14 +604,7 @@ function NodeDetail() {
   } = viewModel;
 
   const officialCallPageUrl = buildOfficialCallPageUrl(callId || id);
-
   const isStatusOpen = String(status || "").toLowerCase() === "open";
-
-  const handleApplyNow = () => {
-    if (fundingLink) {
-      window.open(fundingLink, "_blank", "noopener,noreferrer");
-    }
-  };
 
   const handleBookmark = () => {
     if (!nodeData.id) return;
@@ -652,7 +623,6 @@ function NodeDetail() {
 
   return (
     <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
-      {/* HEADER BAR */}
       <header className="nd-header">
         <Box className="nd-header-left">
           <Button
@@ -664,10 +634,11 @@ function NodeDetail() {
           >
             Back to Graph
           </Button>
+
           <span className="nd-header-divider" />
-          {typeShort && (
-            <Chip label={typeShort} size="small" className="nd-chip nd-chip--kind" />
-          )}
+
+          {typeShort && <Chip label={typeShort} size="small" className="nd-chip nd-chip--kind" />}
+
           {status && (
             <Chip
               label={status}
@@ -680,63 +651,53 @@ function NodeDetail() {
         </Box>
       </header>
 
-      {/* MAIN CONTENT */}
       <main className="nd-main">
         <div className="nd-main-inner">
-          {/* Title & tags */}
           <Box className="nd-title-block">
             <Box className="nd-title-dot" />
-              <Box className="nd-title-text">
-                <Typography
-                  variant="h1"
-                  className="nd-title"
-                  sx={{
-                    fontSize: "var(--text-2xl)",
-                    fontWeight: 600,
-                    lineHeight: 1.4,
-                    letterSpacing: "-0.01em",
-                    // optional: truncate if titles are very long
-                    wordBreak: "break-word",
-                  }}
-                >
-                  {title}
+            <Box className="nd-title-text">
+              <Typography
+                variant="h1"
+                className="nd-title"
+                sx={{
+                  fontSize: "var(--text-2xl)",
+                  fontWeight: 600,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  wordBreak: "break-word",
+                }}
+              >
+                {title}
+              </Typography>
+              {callId && (
+                <Typography variant="body2" className="nd-call-id">
+                  Call ID: {callId}
                 </Typography>
-                {callId && (
-                  <Typography variant="body2" className="nd-call-id">
-                    Call ID: {callId}
-                  </Typography>
-                )}
-              </Box>
+              )}
+            </Box>
           </Box>
 
           {tags.length > 0 && (
             <Box className="nd-tags-row">
               {tags.map((tag) => (
-                <Chip
-                  key={tag}
-                  label={tag}
-                  size="small"
-                  className="nd-tag-chip"
-                  variant="outlined"
-                />
+                <Chip key={tag} label={tag} size="small" className="nd-tag-chip" variant="outlined" />
               ))}
             </Box>
           )}
 
-          {/* Grid: main (2 columns) + sidebar */}
           <div className="nd-grid">
-            {/* LEFT: main column */}
-            <div className="nd-main-column">
-              {/* Key Information */}
+            {/* MAIN COLUMN */}
+            <div
+              className="nd-main-column"
+              style={isMobile ? { order: 1 } : undefined}
+            >
               <Box className="nd-card">
                 <Box className="nd-card-header">
-                  <Typography
-                    variant="body2"
-                    className="nd-card-title nd-muted-label"
-                  >
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
                     Key Information
                   </Typography>
                 </Box>
+
                 <Box className="nd-card-body">
                   <div className="nd-metrics-grid">
                     <div className="nd-metric">
@@ -769,9 +730,7 @@ function NodeDetail() {
                         <span>Indicative Projects</span>
                       </div>
                       <div className="nd-metric-value">
-                        {indicativeProjects != null
-                          ? indicativeProjects.toLocaleString()
-                          : "—"}
+                        {indicativeProjects != null ? indicativeProjects.toLocaleString() : "—"}
                       </div>
                     </div>
 
@@ -781,12 +740,10 @@ function NodeDetail() {
                           <InfoOutlinedIcon fontSize="small" className="nd-metric-icon" />
                           <span>Type of Action</span>
                         </div>
-                        <div className="nd-metric-value nd-metric-value--small">
-                          {typeOfAction}
-                        </div>
+                        <div className="nd-metric-value nd-metric-value--small">{typeOfAction}</div>
                       </div>
                     )}
-                    
+
                     {expectedEUContribution && (
                       <div className="nd-metric nd-metric--full">
                         <div className="nd-metric-label">
@@ -802,14 +759,10 @@ function NodeDetail() {
                 </Box>
               </Box>
 
-              {/* TRL */}
               {trlText && (
                 <Box className="nd-card">
                   <Box className="nd-card-header">
-                    <Typography
-                      variant="body2"
-                      className="nd-card-title nd-muted-label"
-                    >
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
                       Technology Readiness Level
                     </Typography>
                   </Box>
@@ -821,7 +774,6 @@ function NodeDetail() {
                 </Box>
               )}
 
-
               {/* Text sections (Expected Outcome, Scope, etc.) */}
               {textFieldConfig.map(({ key, label }) => (
                 <TextSectionFromField
@@ -829,157 +781,106 @@ function NodeDetail() {
                   nodeData={nodeData}
                   fieldKey={key}
                   label={label}
+                  // Mobile requirement: Expected Outcome & Scope collapsed by default
+                  defaultOpen={isMobile ? !["expected_outcome", "scope"].includes(key) : key === "expected_outcome"}
                 />
               ))}
             </div>
 
-            {/* RIGHT: sidebar */}
-            <aside className="nd-sidebar">
-              {/* Timeline */}
+            {/* SIDEBAR: must come AFTER the text sections on mobile */}
+            <aside
+              className="nd-sidebar"
+              style={isMobile ? { order: 2 } : undefined}
+            >
               {(openingDate || deadline) && (
                 <Box className="nd-card">
                   <Box className="nd-card-header">
-                    <Typography
-                      variant="body2"
-                      className="nd-card-title nd-muted-label"
-                    >
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
                       Timeline
                     </Typography>
                   </Box>
+
                   <Box className="nd-card-body">
                     {openingDate && (
                       <Box className="nd-timeline-row">
-                        <CalendarTodayIcon
-                          fontSize="small"
-                          className="nd-timeline-icon"
-                        />
+                        <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
                         <Box>
                           <Typography variant="body2">Opening Date</Typography>
-                          <Typography
-                            variant="caption"
-                            className="nd-muted-text"
-                          >
+                          <Typography variant="caption" className="nd-muted-text">
                             {openingDate}
                           </Typography>
                         </Box>
                       </Box>
                     )}
+
                     {deadline && (
                       <Box className="nd-timeline-row">
-                        <CalendarTodayIcon
-                          fontSize="small"
-                          className="nd-timeline-icon"
-                        />
+                        <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
                         <Box>
-                          <Typography variant="body2">
-                            Application Deadline
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            className="nd-muted-text"
-                          >
+                          <Typography variant="body2">Application Deadline</Typography>
+                          <Typography variant="caption" className="nd-muted-text">
                             {deadline}
                           </Typography>
                         </Box>
                       </Box>
                     )}
                   </Box>
-                            
-                  <Box className="nd-header-right" sx={{paddingTop: '20px'}}>
+
+                  <Box className="nd-header-right" sx={{ paddingTop: "20px" }}>
                     {officialCallPageUrl && (
                       <Button
                         size="small"
                         variant="outlined"
                         startIcon={<OpenInNewIcon fontSize="small" />}
-                        onClick={() => window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")}
+                        onClick={() =>
+                          window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")
+                        }
                       >
                         Official Call Page
                       </Button>
                     )}
-
-                    {fundingLink && (
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        startIcon={<OpenInNewIcon fontSize="small" />}
-                        onClick={() => window.open(fundingLink, "_blank", "noopener,noreferrer")}
-                      >
-                        Funding Link
-                      </Button>
-                    )}
-
-
                   </Box>
                 </Box>
               )}
 
-                       {/* Actions / Bookmark */}
               <Box className="nd-card">
                 <Box className="nd-card-header">
-                  <Typography
-                    variant="body2"
-                    className="nd-card-title nd-muted-label"
-                  >
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
                     Actions
                   </Typography>
                 </Box>
                 <Box className="nd-card-body nd-actions">
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    onClick={handleBookmark}
-                  >
+                  <Button fullWidth variant="outlined" onClick={handleBookmark}>
                     Bookmark this Call
                   </Button>
                 </Box>
               </Box>
 
-              {/* Connections – reuse existing component */}
               <Box className="nd-card">
                 <Box className="nd-card-header nd-card-header--with-icon">
-                  <Typography
-                    variant="body2"
-                    className="nd-card-title nd-muted-label"
-                  >
+                  <Typography variant="body2" className="nd-card-title nd-muted-label">
                     Connections
                   </Typography>
-                  <InfoOutlinedIcon
-                    fontSize="small"
-                    className="nd-card-header-icon"
-                  />
+                  <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
                 </Box>
                 <Box className="nd-card-body nd-card-body--connections">
-                  <NodeConnections
-                    id={id}
-                    relations={relations}
-                    connectedNodes={connectedNodes}
-                    bare
-                  />
+                  <NodeConnections id={id} relations={relations} connectedNodes={connectedNodes} bare />
                 </Box>
               </Box>
 
-              {/* Source */}
               {source && source !== "—" && (
                 <Box className="nd-card">
                   <Box className="nd-card-header">
-                    <Typography
-                      variant="body2"
-                      className="nd-card-title nd-muted-label"
-                    >
+                    <Typography variant="body2" className="nd-card-title nd-muted-label">
                       Source
                     </Typography>
                   </Box>
                   <Box className="nd-card-body nd-card-body--row">
-                    <InfoOutlinedIcon
-                      fontSize="small"
-                      className="nd-timeline-icon"
-                    />
+                    <InfoOutlinedIcon fontSize="small" className="nd-timeline-icon" />
                     <Typography variant="body2">{source}</Typography>
                   </Box>
                 </Box>
               )}
-
-    
             </aside>
           </div>
         </div>

@@ -138,7 +138,7 @@ const formatCallFieldValue = (key, rawValue, node) => {
       v = getFirstNonEmpty(node, ["indicative_budget", "total_budget", "budget"]);
     }
     const num = parseNumber(v);
-    return num != null ? `${num.toLocaleString()} million` : PLACEHOLDER;
+    return num != null ? `${num.toLocaleString()} €` : PLACEHOLDER;
   }
 
   if (key === "indicative_number_of_projects") {

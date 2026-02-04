@@ -13,31 +13,23 @@ import MetricCards from "./ui/MetricCards";
 import TagChips from "./ui/TagChips";
 import ViewDetailsButton from "./ui/ViewDetailsButton";
 
-/**
- * HoveredNodeInfo (composition root)
- * IMPORTANT: Keep the legacy public signature expected by GraphPage:
- *   <HoveredNodeInfo node={hoveredNode} cyInstance={cyInstance} onClose={...} />
- *
- * graphName is OPTIONAL (GraphPage passes it in newer builds); if missing we fall back
- * to cyInstance.scratch("graphName") inside the view-model.
- */
 export default function HoveredNodeInfo({
   node,
   cyInstance,
   onClose,
   graphName,
   isHoverFrozen = false,
+  // NEW: optional inline detail handler
+  onOpenDetail,
 }) {
   const navigate = useNavigate();
 
-  // Derive anchor from the node itself (legacy behavior: node.__screenPosition)
   const hoverPosition = useMemo(() => {
     const sp = node?.__screenPosition;
     if (!sp) return null;
     return { x: sp.x, y: sp.y };
   }, [node?.__screenPosition]);
 
-  // 1) View model
   const model = useHoveredNodeModel({
     hoveredNode: node,
     cyInstance,
@@ -45,19 +37,14 @@ export default function HoveredNodeInfo({
     isHoverFrozen,
   });
 
-  // 2) Measure card
   const { cardRef, cardSize } = useHoverCardMeasure();
-
-  // 3) Drag
   const { dragPos, startDrag, resetDrag } = useHoverCardDrag({ cardRef });
-  
-  // Reset drag when node changes
+
   useEffect(() => {
     resetDrag();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model?.id]);
 
-  // 4) Auto-position
   const { positionStyle } = useHoverCardPosition({
     hoverPosition,
     dragPos,
@@ -69,47 +56,56 @@ export default function HoveredNodeInfo({
   const handlePrimaryNavigate = () => {
     if (!model?.id) return;
 
-    // Cluster + Destination: open next graph layer by emitting a Cytoscape tap
+    // Cluster + Destination: drill further into the graph
     if (model.isClusterNode || model.isDestinationNode) {
       try {
         const n = cyInstance?.$id?.(String(model.id));
         if (n && n.nonempty && n.nonempty()) {
-          n.emit("tap"); // setupEvents will open Cluster / Destination layer
+          n.emit("tap");
           onClose?.();
           return;
         }
       } catch {
-        // fall through to route navigation if cy is unavailable
+        // fall through
       }
     }
 
-      const safeId = encodeURIComponent(String(model.id));
+    const safeId = encodeURIComponent(String(model.id));
 
-      // Capture the user's current graph context so NodeDetail can return to it
-      const returnLayerKey =
-        (cyInstance && !cyInstance?.destroyed?.()
-          ? cyInstance?.scratch?.("layerKey")
-          : null) || graphName || null;
+    const returnLayerKey =
+      (cyInstance && !cyInstance?.destroyed?.()
+        ? cyInstance?.scratch?.("layerKey")
+        : null) || graphName || null;
 
-      const returnGraphName =
-        (cyInstance && !cyInstance?.destroyed?.()
-          ? cyInstance?.scratch?.("graphName")
-          : null) || graphName || null;
+    const returnGraphName =
+      (cyInstance && !cyInstance?.destroyed?.()
+        ? cyInstance?.scratch?.("graphName")
+        : null) || graphName || null;
 
-      navigate(`/node/${safeId}`, {
-        state: {
-          // optional: some pages may rely on this (you already pass nodeData elsewhere sometimes)
-          nodeData: node ?? null,
+    const payload = {
+      id: model.id,
+      nodeData: node ?? null,
+      returnLayerKey,
+      returnGraphName,
+    };
 
-          // this is the important part:
-          returnLayerKey,
-          returnGraphName,
-        },
-      });
+    // Prefer inline detail if handler provided
+    if (typeof onOpenDetail === "function") {
+      onOpenDetail(payload);
+      onClose?.();
+      return;
+    }
+
+    // Fallback: legacy route navigation
+    navigate(`/node/${safeId}`, {
+      state: {
+        nodeData: node ?? null,
+        returnLayerKey,
+        returnGraphName,
+      },
+    });
     onClose?.();
   };
-
-  const nodeCountNum = typeof model.nodeCount === "number" ? model.nodeCount : null;
 
   const card = (
     <HoverCardShell
@@ -130,18 +126,17 @@ export default function HoveredNodeInfo({
           showType: model.shouldShowHeaderChips,
           showPinned: model.isHoverFrozen,
 
-          // Destination cards: show Calls only
           showCallCount:
-            model.isDestinationNode && typeof model.destinationCallCount === "number",
+            model.isDestinationNode &&
+            typeof model.destinationCallCount === "number",
           callCount: model.destinationCallCount,
-        
-          // Cluster cards (incl. root): show Destinations only
+
           showDestCount:
-            model.isClusterNode && typeof model.clusterDestinationCount === "number",
+            model.isClusterNode &&
+            typeof model.clusterDestinationCount === "number",
           destCount: model.clusterDestinationCount,
           destLabel: "Destinations",
 
-          // Never show "Nodes" (redundant: usually n  1 due to root)
           showNodeCount: false,
           nodeCount: null,
           nodeLabel: "Nodes",
@@ -150,12 +145,18 @@ export default function HoveredNodeInfo({
 
       {model.renderDestinationMinimal ? (
         <>
-          {model.tags?.length > 0 && <TagChips title="Related Topics" tags={model.tags} />}
-          {model.showViewDetails && <ViewDetailsButton onClick={handlePrimaryNavigate} />}
+          {model.tags?.length > 0 && (
+            <TagChips title="Related Topics" tags={model.tags} />
+          )}
+          {model.showViewDetails && (
+            <ViewDetailsButton onClick={handlePrimaryNavigate} />
+          )}
         </>
       ) : (
         <>
-          {model.metricCards?.length > 0 && <MetricCards items={model.metricCards} />}
+          {model.metricCards?.length > 0 && (
+            <MetricCards items={model.metricCards} />
+          )}
 
           {model.isClusterNode ? (
             <MetricCards
@@ -171,9 +172,12 @@ export default function HoveredNodeInfo({
             />
           ) : null}
 
-
-          {model.tags?.length > 0 && <TagChips title="Related Topics" tags={model.tags} />}
-          {model.showViewDetails && <ViewDetailsButton onClick={handlePrimaryNavigate} />}
+          {model.tags?.length > 0 && (
+            <TagChips title="Related Topics" tags={model.tags} />
+          )}
+          {model.showViewDetails && (
+            <ViewDetailsButton onClick={handlePrimaryNavigate} />
+          )}
         </>
       )}
     </HoverCardShell>
