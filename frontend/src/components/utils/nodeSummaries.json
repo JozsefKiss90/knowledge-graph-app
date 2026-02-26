@@ -1,0 +1,81 @@
+{
+  "__aliases__": {
+    "ROOT_HE": "HE_ROOT",
+    "Horizon Europe": "HE_ROOT",
+    "HORIZON_EUROPE": "HE_ROOT",
+    "PROG_HE_ROOT": "HE_ROOT",
+    "HE": "HE_ROOT"
+  },
+  "ROOT_EU": {
+    "title": "EU Funding Programmes",
+    "summary": "Entry point to EU-level funding programmes. Select a programme to browse work programmes, destinations, and calls."
+  },
+  "HE_ROOT": {
+    "title": "Horizon Europe",
+    "summary": "Horizon Europe is the EU’s framework programme for research and innovation. Explore pillars → work programmes → destinations → calls."
+  },
+  "PILLAR_P1": {
+    "title": "Pillar I: Excellent Science",
+    "summary": "Supports frontier research, researcher mobility and training, and world-class research infrastructures."
+  },
+  "PILLAR_P2": {
+    "title": "Pillar II: Global Challenges & European Industrial Competitiveness",
+    "summary": "Addresses societal challenges and strengthens industrial competitiveness via thematic clusters and missions."
+  },
+  "Cluster_4": {
+    "title": "Cluster 4",
+    "summary": "Digital, Industry & Space cluster: supports R&I on digital technologies, key enabling technologies, industrial transformation, and space."
+  },
+  "DEP": {
+    "title": "Digital Europe",
+    "summary": "Funds deployment of digital capacity and technologies across Europe (AI, cybersecurity, advanced digital skills, interoperability)."
+  },
+  "ERASMUS": {
+    "title": "Erasmus+",
+    "summary": "Supports education, training, youth, and sport cooperation projects and partnerships across Europe."
+  },
+  "PILLAR_P3": {
+    "title": "Pillar III: Innovative Europe",
+    "summary": "Boosts breakthrough innovation and scale-up capacity via the European Innovation Council (EIC), the European Innovation Ecosystems (EIE), and the European Institute of Innovation and Technology (EIT), strengthening pathways from research to market."
+  },
+  "PILLAR_WIDERA": {
+    "title": "Widening Participation & Strengthening the ERA (WIDERA)",
+    "summary": "Improves R&I performance in Widening countries by strengthening capacity, excellence, and networking, while supporting reforms and actions that advance the European Research Area (ERA)."
+  },
+  "CEF": {
+    "title": "Connecting Europe Facility (CEF)",
+    "summary": "Supports the deployment and upgrade of trans-European networks and infrastructures—primarily transport, energy, and digital connectivity—enabling cross-border integration, resilience, and strategic autonomy."
+  },
+  "CREA": {
+    "title": "Creative Europe (CREA)",
+    "summary": "Supports Europe’s cultural and creative sectors by funding cross-border cooperation, content development and distribution, audience development, and media actions, with an emphasis on diversity, innovation, and European added value."
+  },
+  "EURATOM": {
+    "title": "EURATOM Research and Training",
+    "summary": "Funds nuclear research and training to improve safety, security, safeguards, and radiation protection, and to advance fusion and fission knowledge where relevant, ensuring high standards and responsible use."
+  },
+  "MISS": {
+    "title": "EU Missions (Horizon Europe)",
+    "summary": "Mission-oriented R&I portfolios designed to deliver measurable results by a target date, combining research, innovation, deployment, and citizen engagement to address major societal challenges at scale."
+  },
+  "Cluster_1": {
+    "title": "Cluster 1: Health",
+    "summary": "Improves and protects citizens’ health and wellbeing through prevention, diagnostics, treatments, and resilient health systems, including digital health and preparedness."
+  },
+  "Cluster_2": {
+    "title": "Cluster 2: Culture, Creativity and Inclusive Society",
+    "summary": "Strengthens democratic governance, cultural heritage, creative industries, and social inclusion by addressing inequality, participation, skills, and societal resilience."
+  },
+  "Cluster_3": {
+    "title": "Cluster 3: Civil Security for Society",
+    "summary": "Enhances Europe’s resilience to security threats by supporting capabilities for disaster risk reduction, cybersecurity, crime and terrorism prevention, and secure societies while safeguarding fundamental rights."
+  },
+  "Cluster_5": {
+    "title": "Cluster 5: Climate, Energy and Mobility",
+    "summary": "Accelerates the green transition through clean energy, climate action, sustainable mobility, and resilient systems, supporting decarbonisation, circularity, and climate neutrality goals."
+  },
+  "Cluster_6": {
+    "title": "Cluster 6: Food, Bioeconomy, Natural Resources, Agriculture and Environment",
+    "summary": "Supports sustainable food systems and bioeconomy pathways, biodiversity and ecosystem restoration, and resilient agriculture and resource management aligned with environmental and climate objectives."
+  }
+}

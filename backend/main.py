@@ -24,6 +24,12 @@ from routes.new_pipeline.infra_routes import router as infra
 from routes.new_pipeline.msca_routes import router as msca
 from routes.new_pipeline.mission_routes import router as missions
 from routes.new_pipeline.widera_routes import router as widera_router
+from routes.new_pipeline.dep_routes import router as dep_router
+from routes.new_pipeline.erasmus_routes import router as era_router
+from routes.new_pipeline.euratom_routes import router as euratom_router 
+from routes.new_pipeline.cef_routes import router as cef_router 
+from routes.new_pipeline.crea_routes import router as crea_router 
+
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
     from dotenv import load_dotenv 
@@ -55,6 +61,11 @@ app.include_router(infra)
 app.include_router(msca)
 app.include_router(missions)
 app.include_router(widera_router)
+app.include_router(dep_router)
+app.include_router(era_router)
+app.include_router(cef_router)
+app.include_router(euratom_router)
+app.include_router(crea_router)
 
 if ENVIRONMENT == "production":
     allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app", "https://eu-graphs.up.railway.app",

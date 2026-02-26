@@ -89,27 +89,63 @@ class BaseClusterBuilder(ABC):
         db.query(query, params or {})
 
     def _get_summary(self, summaries: Dict[str, Any], key: str) -> str:
-        # direct match at top level
+        key = (key or "").strip()
+        if not key:
+            return ""
+
+        # 1) direct match at top level
         if key in summaries and isinstance(summaries[key], dict):
             return summaries[key].get("summary", "") or ""
 
-        # nested under cluster key (most of your files)
+        # 2) pick cluster block
         cluster_block = summaries.get(self.cluster_name)
-        if isinstance(cluster_block, dict):
-            if key in cluster_block and isinstance(cluster_block[key], dict):
-                return cluster_block[key].get("summary", "") or ""
 
-        # also try stripping a trailing (YYYY), for both levels
-        m = re.match(r"^(.*)\s+\(\d{4}\)$", key or "")
+        if not isinstance(cluster_block, dict):
+            # Heuristic: if summaries has exactly one top-level dict block, use it.
+            dict_blocks = [v for v in summaries.values() if isinstance(v, dict)]
+            if len(dict_blocks) == 1:
+                cluster_block = dict_blocks[0]
+            else:
+                # Try to find a block whose key mentions the cluster id/name
+                # e.g. "Civil Security for Society (Cluster 3)"
+                needle = (self.cluster_id or "").lower()
+                for k, v in summaries.items():
+                    if isinstance(v, dict):
+                        kk = str(k).lower()
+                        if needle and (needle in kk or f"cluster {needle[-1:]}" in kk):
+                            cluster_block = v
+                            break
+
+        # helper to query either top-level or cluster block
+        def _lookup(k: str) -> str:
+            if k in summaries and isinstance(summaries[k], dict):
+                return summaries[k].get("summary", "") or ""
+            if isinstance(cluster_block, dict) and k in cluster_block and isinstance(cluster_block[k], dict):
+                return cluster_block[k].get("summary", "") or ""
+            return ""
+
+        # 3) direct in cluster block
+        s = _lookup(key)
+        if s:
+            return s
+
+        # 4) destination prefix variant (your CL3/CL4 summary files)
+        s = _lookup(f"Destination - {key}")
+        if s:
+            return s
+
+        # 5) strip trailing years / ranges: Foo (2026), Foo (2026-27), Foo (2026-2027)
+        m = re.match(r"^(.*)\s+\((\d{4})(?:\s*[-–]\s*(\d{2}|\d{4}))\)$", key)
         if m:
-            base = m.group(1)
-            if base in summaries and isinstance(summaries[base], dict):
-                return summaries[base].get("summary", "") or ""
-            if isinstance(cluster_block, dict) and base in cluster_block and isinstance(cluster_block[base], dict):
-                return cluster_block[base].get("summary", "") or ""
+            base = m.group(1).strip()
+            return _lookup(base) or _lookup(f"Destination - {base}") or ""
+
+        m = re.match(r"^(.*)\s+\(\d{4}\)$", key)
+        if m:
+            base = m.group(1).strip()
+            return _lookup(base) or _lookup(f"Destination - {base}") or ""
 
         return ""
-
     def _resolve_call_id(self, call: Dict[str, Any]) -> Optional[str]:
         """
         New grouped JSONs no longer use `call_id`; they use `identifier` / `topic_id`.

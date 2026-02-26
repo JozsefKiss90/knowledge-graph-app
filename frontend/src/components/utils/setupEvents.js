@@ -1,14 +1,8 @@
 // setupEvents.js
-// Hover + click behaviour for ROOT / clusters / HE_2025.
+// Hover + click behaviour for navigation layers (ROOT / PILLAR_*) and programme graphs.
 
 export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts = {}) {
-  const {
-    shouldOpenCluster,
-    onClusterOpen,
-    onDestinationToggle,
-    // NEW: optional inline detail opener (GraphPage overlay)
-    openNodeDetail,
-  } = opts;
+  const { shouldOpenCluster, onClusterOpen, onDestinationToggle, openNodeDetail } = opts;
 
   if (!cy || cy.destroyed()) return;
 
@@ -19,11 +13,12 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
   const applyHover = (node) => {
     cy.batch(() => {
       cy.nodes().removeClass("highlighted faded is-hovered");
+      cy.edges().removeClass("highlighted faded");
 
       if (!node) return;
       node.addClass("is-hovered");
 
-      const neigh = node.closedNeighborhood(); // node + incident edges + neighbours
+      const neigh = node.closedNeighborhood();
       const edges = node.connectedEdges();
       const others = cy.elements().not(neigh);
 
@@ -79,61 +74,61 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
 
   // -------- Click / tap ----------
   cy.on("tap", "node", (evt) => {
-      const node = evt.target;
-      const data = node.data();
+    const node = evt.target;
+    const data = node.data();
 
-      const atRoot = shouldOpenCluster ? !!shouldOpenCluster() : false;
+    // ✅ HARD RULE: synthetic navigation nodes should never open node detail.
+    // Always delegate these to onClusterOpen.
+    if (data?.type === "root" || data?.type === "pillar" || data?.type === "programme") {
+      onClusterOpen?.(data);
+      return;
+    }
 
-      // From ROOT: open cluster or SP
-      if (atRoot) {
-        if (data?.type === "cluster" || data?.type === "root") {
-          onClusterOpen?.(data);
-          return;
-        }
+    const atNavLayer = shouldOpenCluster ? !!shouldOpenCluster() : false;
+
+    // Navigation layers (fallback): open cluster-like items
+    if (atNavLayer) {
+      if (data?.type === "cluster") {
+        onClusterOpen?.(data);
+        return;
+      }
+      return;
+    }
+
+    // Destination in programme overview: open destination layer (Destination + Calls)
+    if ((data?.type === "Destination" || data?.category === "Destination") && onDestinationToggle) {
+      onDestinationToggle(cy, data.id);
+      return;
+    }
+
+    // Default: open node details
+    const id = data?.id;
+    if (id) {
+      const returnLayerKey = cy?.scratch?.("layerKey") || localStorage.getItem("graphName") || "ROOT";
+      const returnGraphName = cy?.scratch?.("graphName") || localStorage.getItem("graphName") || "ROOT";
+
+      const payload = { id, data: { ...data }, returnLayerKey, returnGraphName };
+
+      if (typeof openNodeDetail === "function") {
+        openNodeDetail(payload);
         return;
       }
 
-      // Destination in cluster overview: open destination layer (Destination + Calls)
-      if (
-        (data?.type === "Destination" || data?.category === "Destination") &&
-        onDestinationToggle
-      ) {
-        onDestinationToggle(cy, data.id);
-        return;
-      }
+      navigate(`/node/${encodeURIComponent(id)}`, {
+        state: { nodeData: { ...data }, returnLayerKey, returnGraphName },
+      });
+    }
+  });
 
-      // Default: open node details
-      const id = data?.id;
-      if (id) {
-        const returnLayerKey =
-          cy?.scratch?.("layerKey") || localStorage.getItem("graphName") || "ROOT";
-        const returnGraphName =
-          cy?.scratch?.("graphName") || localStorage.getItem("graphName") || "ROOT";
-
-        const payload = {
-          id,
-          data: { ...data },
-          returnLayerKey,
-          returnGraphName,
-        };
-
-        // Prefer inline detail if handler is provided
-        if (typeof openNodeDetail === "function") {
-          openNodeDetail(payload);
-          return;
-        }
-
-        // Fallback: legacy route navigation
-        navigate(`/node/${encodeURIComponent(id)}`, {
-          state: {
-            nodeData: { ...data },
-            returnLayerKey,
-            returnGraphName,
-          },
-        });
-      }
-    });
   // Cursor hints
-  cy.nodes().on("mouseover", () => { try { cy.container().style.cursor = "pointer"; } catch {} });
-  cy.nodes().on("mouseout",  () => { try { cy.container().style.cursor = "default"; } catch {} });
+  cy.nodes().on("mouseover", () => {
+    try {
+      cy.container().style.cursor = "pointer";
+    } catch {}
+  });
+  cy.nodes().on("mouseout", () => {
+    try {
+      cy.container().style.cursor = "default";
+    } catch {}
+  });
 }

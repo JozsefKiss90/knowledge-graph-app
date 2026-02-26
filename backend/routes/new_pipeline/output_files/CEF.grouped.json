@@ -1,0 +1,110 @@
+{
+  "destinations": [
+    {
+      "destination_title": "Cross-border renewables",
+      "calls": [
+        {
+          "call_id": "CEF-E-2026-CBRENEW-STUDIES",
+          "topic_identifier": "CEF-E-2026-CBRENEW-STUDIES",
+          "callccm2Id": "49844424",
+          "callIdentifier": "CEF-E-2026-CBRENEW",
+          "call_title": "Cross-border renewables",
+          "type_of_action": "CEF-PJG CEF Project Grants",
+          "expected_eu_contribution": "",
+          "min__contribution": 0.0,
+          "max_contribution": 0.0,
+          "indicative_budget": 150000000.0,
+          "indicative_number_of_projects": null,
+          "admissibility_conditions": "described in section 5 of the call document .\nProposal page limits and layout: described in Part B of the Application Form available in the Submission System.",
+          "eligibility_conditions": "",
+          "technology_readiness_level": "",
+          "procedure": "described section 8 of the call document and the Online Manual .",
+          "legal_and_financial_setup": "described in section 7 of the call document .",
+          "exceptional_page_limits": "1. admissibility conditions: proposal page limit and layout: described in section 5 of the call document .\nProposal page limits and layout: described in Part B of the Application Form available in the Submission System.",
+          "expected_outcome": "",
+          "scope": "",
+          "opening_date": "2026-02-05",
+          "deadline": "2026-03-12T00:00:00+00:00",
+          "status": "",
+          "deadline_model": "single-stage",
+          "funding_link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/CEF-E-2026-CBRENEW-STUDIES",
+          "destination": "Cross-border renewables",
+          "tags": [],
+          "keywords": [
+            "CEF-E-2026-CBRENEW-STUDIES",
+            "CEF-E-2026-CBRENEW"
+          ]
+        },
+        {
+          "call_id": "CEF-E-2026-CBRENEW-WORKS",
+          "topic_identifier": "CEF-E-2026-CBRENEW-WORKS",
+          "callccm2Id": "49844424",
+          "callIdentifier": "CEF-E-2026-CBRENEW",
+          "call_title": "Cross-border renewables",
+          "type_of_action": "CEF-INFRA CEF Infrastructure Projects",
+          "expected_eu_contribution": "",
+          "min__contribution": 0.0,
+          "max_contribution": 0.0,
+          "indicative_budget": 150000000.0,
+          "indicative_number_of_projects": null,
+          "admissibility_conditions": "described in section 5 of the call document .\nProposal page limits and layout: described in Part B of the Application Form available in the Submission System.",
+          "eligibility_conditions": "",
+          "technology_readiness_level": "",
+          "procedure": "described section 8 of the call document and the Online Manual .",
+          "legal_and_financial_setup": "described in section 7 of the call document .",
+          "exceptional_page_limits": "1. admissibility conditions: proposal page limit and layout: described in section 5 of the call document .\nProposal page limits and layout: described in Part B of the Application Form available in the Submission System.",
+          "expected_outcome": "",
+          "scope": "",
+          "opening_date": "2026-02-05",
+          "deadline": "2026-03-12T00:00:00+00:00",
+          "status": "",
+          "deadline_model": "single-stage",
+          "funding_link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/CEF-E-2026-CBRENEW-WORKS",
+          "destination": "Cross-border renewables",
+          "tags": [],
+          "keywords": [
+            "CEF-E-2026-CBRENEW-WORKS",
+            "CEF-E-2026-CBRENEW"
+          ]
+        }
+      ]
+    },
+    {
+      "destination_title": "Submarine Cable Repair Capacities-Pilot Works",
+      "calls": [
+        {
+          "call_id": "CEF-DIG-2026-CABLE-REPAIR-CAPACITIES-PILOT-WORKS",
+          "topic_identifier": "CEF-DIG-2026-CABLE-REPAIR-CAPACITIES-PILOT-WORKS",
+          "callccm2Id": "50462708",
+          "callIdentifier": "CEF-DIG-2026-CABLE-REPAIR-CAPACITIES-PILOT",
+          "call_title": "Submarine Cable Repair Capacities-Pilot Works",
+          "type_of_action": "CEF-INFRA CEF Infrastructure Projects",
+          "expected_eu_contribution": "",
+          "min__contribution": 0.0,
+          "max_contribution": 0.0,
+          "indicative_budget": 20000000.0,
+          "indicative_number_of_projects": null,
+          "admissibility_conditions": "",
+          "eligibility_conditions": "",
+          "technology_readiness_level": "",
+          "procedure": "",
+          "legal_and_financial_setup": "",
+          "exceptional_page_limits": "conditions: 1. Admissibility Conditions: described in section 5 of the call document.\n2. Proposal page limits and layout: described in Part B of the Application Form available in the Submission System\n3. Eligible countries: described in section 6 of of the call document\n4. Other eligibility conditions: describe\napplication form and annexes: Proposals (including annexes and supporting documents) must be submitted using the forms provided inside the Submission System (NOT the documents available on the Topic page - they are only for information and reference).\nApplication form (Part A and B)\nDetailed budget table per Work Package\nLetter",
+          "expected_outcome": "",
+          "scope": "",
+          "opening_date": "2026-02-05",
+          "deadline": "2026-05-06T00:00:00+00:00",
+          "status": "",
+          "deadline_model": "single-stage",
+          "funding_link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/CEF-DIG-2026-CABLE-REPAIR-CAPACITIES-PILOT-WORKS",
+          "destination": "Submarine Cable Repair Capacities-Pilot Works",
+          "tags": [],
+          "keywords": [
+            "CEF-DIG-2026-CABLE-REPAIR-CAPACITIES-PILOT-WORKS",
+            "CEF-DIG-2026-CABLE-REPAIR-CAPACITIES-PILOT"
+          ]
+        }
+      ]
+    }
+  ]
+}

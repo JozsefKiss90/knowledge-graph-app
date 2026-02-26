@@ -30,7 +30,7 @@ function isCallLike(obj) {
     obj.min_contribution != null ||
     obj.max_contribution != null ||
     obj.indicative_budget != null ||
-    obj.expected_outcome != null ||
+    obj.expected_outcome != null || 
     obj.scope != null ||
     hasDeadlines ||
     obj.opening_date != null ||

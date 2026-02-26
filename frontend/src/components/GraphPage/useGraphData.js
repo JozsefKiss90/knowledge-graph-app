@@ -1,21 +1,48 @@
 // src/components/GraphPage/useGraphData.js
 import { useCallback, useEffect, useRef, useState } from "react";
-import { buildElements } from "../utils/buildElements"; // for safe shapes
+import { buildElements } from "../utils/buildElements";
 
 const API_BASE = process.env.REACT_APP_API_URL;
 
-// All datasets we want to use
 export const GRAPH_ENDPOINTS = {
-  HE_2025: { nodes: "/nodes/", rels: "/relationships/" },           // Strategic Plan (isolated)
+  // Strategic Plan (isolated)
+  HE_2025: { nodes: "/nodes/", rels: "/relationships/" },
+
+  // Pillar II – clusters
+  Cluster_1: { nodes: "/cluster1/nodes", rels: "/cluster1/relationships" },
   Cluster_2: { nodes: "/cluster2/nodes", rels: "/cluster2/relationships" },
   Cluster_3: { nodes: "/cluster3/nodes", rels: "/cluster3/relationships" },
   Cluster_4: { nodes: "/cluster4/nodes", rels: "/cluster4/relationships" },
   Cluster_5: { nodes: "/cluster5/nodes", rels: "/cluster5/relationships" },
-  Cluster_1: { nodes: "/cluster1/nodes", rels: "/cluster1/relationships" },
   Cluster_6: { nodes: "/cluster6/nodes", rels: "/cluster6/relationships" },
+
+  // Pillar I – Excellent Science
+  ERC: { nodes: "/erc/nodes", rels: "/erc/relationships" },
+  MSCA: { nodes: "/msca/nodes", rels: "/msca/relationships" },
+  INFRA: { nodes: "/infra/nodes", rels: "/infra/relationships" },
+
+  // Pillar II – Missions
+  MISS: { nodes: "/missions/nodes", rels: "/missions/relationships" },
+
+  // Pillar III – Innovative Europe
+  EIC: { nodes: "/eic/nodes", rels: "/eic/relationships" },
+  EIE: { nodes: "/eie/nodes", rels: "/eie/relationships" },
+  // EIT: { nodes: "/eit/nodes", rels: "/eit/relationships" },
+
+  // Cross-pillar / horizontal
+  WIDERA: { nodes: "/widera/nodes", rels: "/widera/relationships" },
+
+  // Standalone programmes (no pillars)
+  DEP: { nodes: "/dep/nodes", rels: "/dep/relationships" },
+  ERASMUS: { nodes: "/erasmus/nodes", rels: "/erasmus/relationships" },
+
+  // ✅ New standalone programmes
+  CEF: { nodes: "/cef/nodes", rels: "/cef/relationships" },
+  CREA: { nodes: "/crea/nodes", rels: "/crea/relationships" },
+  EURATOM: { nodes: "/euratom/nodes", rels: "/euratom/relationships" },
 };
 
-// ---- helper: derive a cluster subgraph client-side from HE_2025 raw
+// ---- helper: derive a cluster subgraph client-side from HE_2025 raw (kept for backwards compatibility)
 function deriveClusterRawFromHE(heRaw, clusterKey) {
   if (!heRaw?.nodes || !heRaw?.rels) return null;
 
@@ -57,8 +84,9 @@ function deriveClusterRawFromHE(heRaw, clusterKey) {
 
 export function useGraphData() {
   const [ready, setReady] = useState(false);
-  const storeRef = useRef(new Map()); // key -> { nodes, rels }
+  const storeRef = useRef(new Map());
   const heRef = useRef(null);
+
   const [graphName, setGraphNameState] = useState(
     () => localStorage.getItem("graphName") || "ROOT"
   );
@@ -69,7 +97,7 @@ export function useGraphData() {
     async function preloadAll() {
       setReady(false);
 
-      // 1) Load HE_2025 first
+      // 1) Load HE_2025 first (best-effort)
       try {
         const ep = GRAPH_ENDPOINTS.HE_2025;
         const [nr, rr] = await Promise.all([
@@ -80,12 +108,13 @@ export function useGraphData() {
         heRef.current = { nodes, rels };
         storeRef.current.set("HE_2025", heRef.current);
       } catch (e) {
-        console.error("Failed to preload HE_2025; cluster derivation will be empty.", e);
+        console.error("Failed to preload HE_2025; HE-derived fallback will be empty.", e);
         heRef.current = null;
       }
 
-      // 2) Try each cluster endpoint; if it fails, mark as derived-from-HE (lazy)
+      // 2) Preload every other dataset. If missing, store null and keep going.
       const entries = Object.entries(GRAPH_ENDPOINTS).filter(([k]) => k !== "HE_2025");
+
       for (const [key, ep] of entries) {
         try {
           const [nr, rr] = await Promise.all([
@@ -97,7 +126,7 @@ export function useGraphData() {
           storeRef.current.set(key, { nodes, rels });
         } catch (e) {
           storeRef.current.set(key, null);
-          console.warn(`Cluster endpoint missing for ${key}; will derive from HE_2025 when opened.`);
+          console.warn(`Endpoint missing for ${key}; dataset will be unavailable until backend is ready.`);
         }
       }
 
@@ -105,16 +134,16 @@ export function useGraphData() {
     }
 
     preloadAll();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  // ✅ Stable setter (prevents downstream effects from re-running every render)
   const setGraphName = useCallback((name) => {
     localStorage.setItem("graphName", name);
     setGraphNameState(name);
   }, []);
 
-  // ✅ Stable accessor (CRITICAL: prevents GraphPage hover hydration effect from restarting)
   const loadFromStore = useCallback((key) => {
     if (key === "__keys__") {
       return Object.keys(GRAPH_ENDPOINTS).filter((k) => k !== "HE_2025");
@@ -123,7 +152,7 @@ export function useGraphData() {
     const raw = storeRef.current.get(key);
     if (raw) return raw;
 
-    if (raw === null && heRef.current) {
+    if (raw === null && heRef.current && /^Cluster_\d+$/i.test(String(key))) {
       const derived = deriveClusterRawFromHE(heRef.current, key);
       if (derived) {
         storeRef.current.set(key, derived);
@@ -134,11 +163,5 @@ export function useGraphData() {
     return null;
   }, []);
 
-  return {
-    ready,
-    graphName,
-    setGraphName,
-    storeRef,
-    loadFromStore,
-  };
+  return { ready, graphName, setGraphName, storeRef, loadFromStore };
 }
