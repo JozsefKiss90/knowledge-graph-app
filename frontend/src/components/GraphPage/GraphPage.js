@@ -60,34 +60,14 @@ function GraphPage() {
   }, []);
 
   const handleCloseDetail = useCallback(() => {
-    setDetailNode((current) => {
-      if (current && (current.returnLayerKey || current.returnGraphName)) {
-        const returnLayerKey = String(current.returnLayerKey || "");
-        const returnGraphName = String(current.returnGraphName || "");
-
-        const clusterKey =
-          returnGraphName.startsWith("Cluster_")
-            ? returnGraphName
-            : returnLayerKey.startsWith("Cluster_")
-            ? returnLayerKey
-            : "ROOT";
-
-        // Move the graph back to the originating cluster / destination context
-        setGraphName(clusterKey);
-
-        if (returnLayerKey.startsWith("DEST_")) {
-          const destinationId = returnLayerKey.replace(/^DEST_/, "");
-          setPendingNav({ clusterKey, destinationId });
-        } else {
-          // For non-destination origins, we don't need pendingNav
-          setPendingNav(null);
-        }
-      }
-
-      // Always close the inline detail
-      return null;
-    });
-  }, [setGraphName, setPendingNav]);
+    // Inline detail is rendered on top of the already active graph view.
+    // So “Back to Graph” should only dismiss the detail overlay and must not
+    // mutate graphName / pendingNav, otherwise the parent graph state and the
+    // NestedGraphController level stack can drift apart.
+    hoveredNodeRef.current = null;
+    setHoveredNode(null);
+    setDetailNode(null);
+  }, []);
 
 
   // Clear hover card when the active graph / layer changes

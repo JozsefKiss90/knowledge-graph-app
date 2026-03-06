@@ -63,7 +63,29 @@ export function createStabilizer({
             34;
 
           const visible = cy.elements(":visible");
-          cy.fit(visible.length ? visible : cy.elements(), pad);
+          const fitTarget = visible.length ? visible : cy.elements();
+          cy.fit(fitTarget, pad);
+
+          // ✅ Clamp zoom for sparse graphs (prevents over-fit magnification)
+          try {
+            const count = cy.nodes(":visible").length;
+
+            // These are the numbers that will actually change what you see.
+            // Start conservative; adjust down if you want more "zoomed out".
+            let maxZoom =
+              count <= 2 ? 1.6 :
+              count <= 3 ? 1.4 :
+              count <= 5 ? 1.2 :
+              1.35;
+
+            const minZoom = 1;
+
+            const z = cy.zoom();
+            if (z > maxZoom) cy.zoom(maxZoom);
+            if (z < minZoom) cy.zoom(minZoom);
+
+            cy.center(fitTarget);
+          } catch {}
         } catch {}
 
         const wasInitial = !didInitialAutoFitRef.current;

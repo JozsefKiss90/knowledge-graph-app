@@ -226,7 +226,7 @@ export function useNodeDetail(options = {}) {
             setNodeData(nodeJson);
           }
         }
-
+      
         setRelations(relationsData);
 
         if (preferExistingHeEntity && matchedLocationData) {

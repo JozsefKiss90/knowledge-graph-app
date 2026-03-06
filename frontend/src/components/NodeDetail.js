@@ -42,12 +42,36 @@ const labelMap = {
   opening_date: "Opening Date",
   award_criteria_scoring_thresholds: "Award Criteria / Thresholds",
   admissibility_conditions: "Admissibility Conditions",
+  eligibility_conditions: "Eligibility Conditions",
   eligible_countries: "Eligible Countries",
   other_eligibility_conditions: "Other Eligibility Conditions",
   financial_and_operational_capacity: "Financial & Operational Capacity",
   submission_and_evaluation_process: "Submission & Evaluation Process",
   proposal_page_limits_mentions: "Proposal Page Limits",
   legal_and_financial_setup: "Legal and Financial Setup",
+
+  // new description section fields
+  description_root: "Description",
+  objective: "Objective",
+  expected_outcome: "Expected Outcome",
+  expected_results: "Expected Results",
+  expected_impact: "Expected Impact",
+  specific_challenge: "Specific Challenge",
+  challenge: "Challenge",
+  background: "Background",
+  context: "Context",
+  eligible_applicants: "Eligible Applicants",
+  eligible_activities: "Eligible Activities",
+  funding_rules: "Funding Rules",
+  conditions_for_participation: "Conditions For Participation",
+  application_procedure: "Application Procedure",
+  submission: "Submission",
+  evaluation: "Evaluation",
+  award_criteria: "Award Criteria",
+  implementation: "Implementation",
+  work_programme: "Work Programme",
+  additional_information: "Additional Information",
+  tags_from_description: "Tags From Description",
 };
 
 const OFFICIAL_CALL_PAGE_BASE =
@@ -58,22 +82,90 @@ function buildOfficialCallPageUrl(topicIdentifierOrId) {
   return `${OFFICIAL_CALL_PAGE_BASE}${encodeURIComponent(topicIdentifierOrId)}`;
 }
 
-// Updated for new schema: removed `eligibility_conditions`, added new fields.
-const textFieldConfig = [
+const CANONICAL_DESCRIPTION_SECTION_KEYS = [
+  "description_root",
+  "objective",
+  "scope",
+  "expected_outcome",
+  "expected_results",
+  "expected_impact",
+  "specific_challenge",
+  "challenge",
+  "background",
+  "context",
+  "eligible_applicants",
+  "eligible_activities",
+  "funding_rules",
+  "conditions_for_participation",
+  "application_procedure",
+  "submission",
+  "evaluation",
+  "award_criteria",
+  "implementation",
+  "work_programme",
+  "additional_information",
+];
+
+// Primary rendering order for long-form text sections.
+const baseTextFieldConfig = [
+  { key: "description_root", label: "Description" },
+  { key: "objective", label: "Objective" },
   { key: "expected_outcome", label: "Expected Outcome" },
+  { key: "expected_results", label: "Expected Results" },
+  { key: "expected_impact", label: "Expected Impact" },
   { key: "scope", label: "Scope" },
+  { key: "specific_challenge", label: "Specific Challenge" },
+  { key: "challenge", label: "Challenge" },
+  { key: "background", label: "Background" },
+  { key: "context", label: "Context" },
 
   { key: "admissibility_conditions", label: "Admissibility Conditions" },
+  { key: "eligibility_conditions", label: "Eligibility Conditions" },
+  { key: "eligible_applicants", label: "Eligible Applicants" },
+  { key: "eligible_activities", label: "Eligible Activities" },
   { key: "eligible_countries", label: "Eligible Countries" },
   { key: "other_eligibility_conditions", label: "Other Eligibility Conditions" },
+  { key: "conditions_for_participation", label: "Conditions For Participation" },
   { key: "financial_and_operational_capacity", label: "Financial & Operational Capacity" },
-  { key: "submission_and_evaluation_process", label: "Submission & Evaluation Process" },
 
+  { key: "application_procedure", label: "Application Procedure" },
+  { key: "submission", label: "Submission" },
+  { key: "submission_and_evaluation_process", label: "Submission & Evaluation Process" },
+  { key: "evaluation", label: "Evaluation" },
+  { key: "award_criteria", label: "Award Criteria" },
   { key: "award_criteria_scoring_thresholds", label: "Award Criteria / Thresholds" },
 
+  { key: "funding_rules", label: "Funding Rules" },
+  { key: "implementation", label: "Implementation" },
+  { key: "work_programme", label: "Work Programme" },
   { key: "proposal_page_limits_mentions", label: "Proposal Page Limits" },
   { key: "legal_and_financial_setup", label: "Legal and Financial Setup" },
+  { key: "additional_information", label: "Additional Information" },
 ];
+
+function hasRenderableValue(value) {
+  if (value == null) return false;
+  if (Array.isArray(value)) return value.some((v) => String(v ?? "").trim());
+  if (typeof value === "object") return Object.keys(value).length > 0;
+  return String(value).trim() !== "";
+}
+
+function getDynamicDescriptionSectionConfig(nodeData) {
+  const advertised = Array.isArray(nodeData?._description_section_keys)
+    ? nodeData._description_section_keys.filter((k) => typeof k === "string" && k.trim())
+    : [];
+
+  const existingKeys = new Set(baseTextFieldConfig.map((f) => f.key));
+  const dynamic = [];
+
+  for (const key of advertised) {
+    if (!existingKeys.has(key) && hasRenderableValue(nodeData?.[key])) {
+      dynamic.push({ key, label: formatLabel(key) });
+    }
+  }
+
+  return dynamic;
+}
 
 function toListItems(value) {
   if (!value) return [];
@@ -120,7 +212,6 @@ function formatValue(key, value) {
     return Number.isFinite(value) ? value.toLocaleString() : value;
   }
 
-  // deadlines array => join lines for display in key-value contexts
   if (Array.isArray(value)) return value.join(", ");
 
   if (key === "source") {
@@ -159,7 +250,12 @@ function computeIndicativeNumberOfProjects(nodeData) {
 }
 
 function extractTags(nodeData) {
-  const candidates = nodeData.related_topics || nodeData.tags || nodeData.themes;
+  const candidates =
+    nodeData.related_topics ||
+    nodeData.tags ||
+    nodeData.tags_from_description ||
+    nodeData.themes;
+
   if (Array.isArray(candidates)) {
     return candidates.map((t) => String(t)).filter(Boolean).slice(0, 6);
   }
@@ -185,12 +281,11 @@ function computeTypeShort(typeOfAction) {
   return typeOfAction.split(" ")[0];
 }
 
-// Prefer the best “topic identifier” for linking to official portal.
 function getPortalTopicKey(nodeData) {
   return (
     nodeData.identifier ||
     nodeData.topic_id ||
-    nodeData.call_id || // legacy fallback
+    nodeData.call_id ||
     nodeData.id ||
     null
   );
@@ -200,7 +295,6 @@ function normalizeDeadlines(nodeData) {
   const arr = Array.isArray(nodeData.deadlines) ? nodeData.deadlines.filter(Boolean) : [];
   const single = nodeData.deadline ? [String(nodeData.deadline)] : [];
   const merged = [...arr, ...single].map((x) => String(x)).filter(Boolean);
-  // de-dupe while preserving order
   return Array.from(new Set(merged));
 }
 
@@ -233,7 +327,31 @@ const CollapsibleSection = ({ title, defaultOpen = true, children }) => {
 
 const TextSectionFromField = ({ nodeData, fieldKey, label, defaultOpen = true }) => {
   const raw = nodeData[fieldKey];
-  if (!raw) return null;
+  if (!hasRenderableValue(raw)) return null;
+
+  if (fieldKey === "tags_from_description") {
+    const items = Array.isArray(raw)
+      ? raw.map((x) => String(x).trim()).filter(Boolean)
+      : toListItems(raw);
+
+    if (items.length === 0) return null;
+
+    return (
+      <CollapsibleSection title={label || formatLabel(fieldKey)} defaultOpen={defaultOpen}>
+        <Box className="nd-tags-row">
+          {items.map((item) => (
+            <Chip
+              key={item}
+              label={item}
+              size="small"
+              className="nd-tag-chip"
+              variant="outlined"
+            />
+          ))}
+        </Box>
+      </CollapsibleSection>
+    );
+  }
 
   const items = toListItems(raw);
   if (items.length === 0) return null;
@@ -262,6 +380,14 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     idOverride: embeddedId,
     initialNodeData: embeddedNodeData,
   });
+
+  const textFieldConfig = useMemo(() => {
+    if (!nodeData) return baseTextFieldConfig;
+
+    const dynamicFields = getDynamicDescriptionSectionConfig(nodeData);
+
+    return [...baseTextFieldConfig, ...dynamicFields];
+  }, [nodeData]);
 
   const handleBackToGraph = () => {
     if (typeof onBack === "function") {
@@ -313,6 +439,11 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
 
     const deadlines = normalizeDeadlines(nodeData);
 
+    const hasDescriptionSections =
+      CANONICAL_DESCRIPTION_SECTION_KEYS.some((key) => hasRenderableValue(nodeData[key])) ||
+      (Array.isArray(nodeData._description_section_keys) &&
+        nodeData._description_section_keys.some((key) => hasRenderableValue(nodeData[key])));
+
     const isCall =
       rawType === "call" ||
       nodeData.call_id != null ||
@@ -324,6 +455,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       nodeData.indicative_budget != null ||
       nodeData.expected_outcome != null ||
       nodeData.scope != null ||
+      hasDescriptionSections ||
       deadlines.length > 0 ||
       nodeData.opening_date != null ||
       nodeData.award_criteria_scoring_thresholds != null;
@@ -393,7 +525,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     );
   }
 
-  // ---------------- HE ENTITY VIEW ----------------
   if (viewModel.kind === "he_entity") {
     const summaryText = viewModel.summary || "—";
     const sourceText = formatValue("source", nodeData.source || "");
@@ -487,7 +618,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     );
   }
 
-  // ---------------- DESTINATION VIEW ----------------
   if (viewModel.kind === "destination") {
     const summaryText = viewModel.summary || "—";
     const sourceText = formatValue("source", nodeData.source || "");
@@ -609,7 +739,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     );
   }
 
-  // ---------------- CALL VIEW ----------------
   const {
     title,
     typeOfAction,
@@ -695,7 +824,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                 {title}
               </Typography>
 
-              {/* show best identifier for humans */}
               {(nodeData.identifier || nodeData.topic_id || nodeData.call_id) && (
                 <Typography variant="body2" className="nd-call-id">
                   {formatLabel(nodeData.identifier ? "identifier" : nodeData.topic_id ? "topic_id" : "call_id")}:{" "}
@@ -714,7 +842,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
           )}
 
           <div className="nd-grid">
-            {/* MAIN COLUMN */}
             <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
               <Box className="nd-card">
                 <Box className="nd-card-header">
@@ -781,7 +908,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                       </div>
                     )}
 
-                    {/* Nice-to-have identity fields when present */}
                     {(nodeData.call_identifier || nodeData.programme) && (
                       <div className="nd-metric nd-metric--full">
                         <div className="nd-metric-label">
@@ -814,7 +940,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                 </Box>
               )}
 
-              {/* Text sections */}
               {textFieldConfig.map(({ key, label }) => (
                 <TextSectionFromField
                   key={key}
@@ -823,14 +948,22 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                   label={label}
                   defaultOpen={
                     isMobile
-                      ? !["expected_outcome", "scope"].includes(key)
-                      : key === "expected_outcome"
+                      ? !["description_root", "objective", "expected_outcome", "scope"].includes(key)
+                      : ["description_root", "objective", "expected_outcome"].includes(key)
                   }
                 />
               ))}
+
+              {hasRenderableValue(nodeData.tags_from_description) && (
+                <TextSectionFromField
+                  nodeData={nodeData}
+                  fieldKey="tags_from_description"
+                  label="Tags From Description"
+                  defaultOpen={false}
+                />
+              )}
             </div>
 
-            {/* SIDEBAR */}
             <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
               {(openingDate || (deadlines && deadlines.length > 0)) && (
                 <Box className="nd-card">

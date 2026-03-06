@@ -14,7 +14,7 @@ import { useGlowOverlay } from "./useGlowOverlay";
 import { applyPaletteAndTheme } from "./cy/palette";
 import { tagRootNode } from "./cy/rootTagging";
 import { createStabilizer } from "./cy/stabilization";
-import { createLayoutFactory } from "./cy/createLayout";
+import { createLayoutFactory } from "./cy/createLayout"; 
 
 cytoscape.use(coseBilkent);
 
@@ -39,6 +39,24 @@ const GraphView = forwardRef(function GraphView(
   const [isShown, setIsShown] = useState(false);
   const navigate = useNavigate();
   const { darkMode } = useDarkMode();
+
+  function clampZoomForSparseGraphs(cy) {
+    const count = cy.nodes(":visible").length;
+
+    // Tune these to taste
+    const minZoom = 0.25;
+    let maxZoom = 1.4;
+
+    if (count <= 2) maxZoom = 0.55;
+    else if (count <= 3) maxZoom = 0.70;
+    else if (count <= 5) maxZoom = 0.95;
+
+    const z = cy.zoom();
+    if (z > maxZoom) cy.zoom(maxZoom);
+    if (z < minZoom) cy.zoom(minZoom);
+
+    cy.center(cy.elements(":visible"));
+  }
 
   const { nhRef, hoverRef, hoverIdRef, onCyReadyRef, layoutOptionsRef, lastLayoutNameRef } =
     useLatestRefs({
@@ -84,7 +102,8 @@ const GraphView = forwardRef(function GraphView(
     });
 
     cyRef.current = cy;
-
+    cy.scratch("layerKey", layerKey);
+    cy.scratch("graphName", graphName);
     // Expose cy to parent
     try {
       onCyReadyRef.current?.(cy);
@@ -119,6 +138,7 @@ const GraphView = forwardRef(function GraphView(
     // Kick once after mount
     stabilizer.schedule(true);
 
+    
     // events
    setupEvents(
       cy,
@@ -262,9 +282,17 @@ const GraphView = forwardRef(function GraphView(
         const w = cy.width() || 0;
         const pad = w <= 700 ? 18 : 34;
         cy.fit(cy.elements(":visible"), pad);
+
+        const count = cy.nodes(":visible").length;
+        let maxZoom = 1.4;
+        if (count <= 2) maxZoom = 0.55;
+        else if (count <= 3) maxZoom = 0.70;
+        else if (count <= 5) maxZoom = 0.95;
+
+        if (cy.zoom() > maxZoom) cy.zoom(maxZoom);
+        cy.center(cy.elements(":visible"));
       }
-
-
+      clampZoomForSparseGraphs(cy);
       lastLayoutNameRef.current = name;
     },
     getCy: () => cyRef.current,

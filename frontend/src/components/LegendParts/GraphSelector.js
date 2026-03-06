@@ -51,7 +51,10 @@ const PROGRAMMES_BY_PILLAR = {
     { key: "EIC", label: "EIC" },
     { key: "EIE", label: "EIE" },
   ],
-  WIDERA: [{ key: "WIDERA", label: "WIDERA" }],
+
+  // ✅ IMPORTANT: do NOT nest WIDERA under itself
+  // The pillar row will open the WIDERA dataset directly.
+  WIDERA: [],
 };
 
 // Map programme key -> pillar key (so we can auto-open the correct pillar section)
@@ -61,6 +64,10 @@ const PROGRAMME_TO_PILLAR = (() => {
     const list = PROGRAMMES_BY_PILLAR[pillar.id] || [];
     list.forEach((p) => map.set(p.key, pillar.key));
   }
+
+  // ✅ Keep WIDERA as “owned” by the WIDERA pillar (even though we removed nesting)
+  map.set("WIDERA", "PILLAR_WIDERA");
+
   return map;
 })();
 
@@ -312,31 +319,40 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
   );
 
   const renderProgramme = (programmeItem, depth) => {
-    const programmeKey = programmeItem.key;
-    const isSel = layerKey === programmeKey;
+  const programmeKey = programmeItem.key;
+  const isSel = layerKey === programmeKey;
 
-    const isOpen = expanded.has(programmeKey);
-    if (isOpen) ensureProgrammeChildren(programmeKey);
+  const isOpen = expanded.has(programmeKey);
+  if (isOpen) ensureProgrammeChildren(programmeKey);
 
-    const dests = childCache.get(programmeKey) || [];
+  const dests = childCache.get(programmeKey) || [];
 
-    return (
-      <div key={programmeKey}>
-        <TreeRow
-          item={{ id: programmeKey, label: programmeItem.label, color: groupColors.programme }}
-          depth={depth}
-          isSelected={isSel}
-          showToggle
-          onToggle={() => toggleExpanded(programmeKey)}
-          onClick={() => {
-            requestScrollTo(programmeKey);
-            selectDataset(programmeKey);
-          }}
-        />
-        {isOpen && dests.map((dest) => renderDestination(programmeKey, dest, depth + 1))}
-      </div>
-    );
-  };
+  return (
+    <div key={programmeKey}>
+      <TreeRow
+        item={{
+          id: programmeKey,
+          label: programmeItem.label,
+          color: groupColors.programme,
+        }}
+        depth={depth}
+        isSelected={isSel}
+        showToggle
+        onToggle={() => toggleExpanded(programmeKey)}
+        onClick={() => {
+          requestScrollTo(programmeKey);
+          selectDataset(programmeKey);
+        }}
+      />
+
+      {isOpen && (
+        <div className="graph-tree-children">
+          {dests.map((dest) => renderDestination(programmeKey, dest, depth + 1))}
+        </div>
+      )}
+    </div>
+  );
+};
 
   const renderDestination = (programmeKey, destItem, depth) => {
     const destId = destItem.id;
@@ -476,29 +492,43 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
                       />
 
                       {/* Pillars nested directly under HE_ROOT */}
-                      {PILLARS.map((p) => (
-                        <div key={p.key}>
-                          <TreeRow
-                            item={{ id: p.key, label: p.label, color: groupColors.pillar }}
-                            depth={3}
-                            isSelected={layerKey === p.key}
-                            showToggle
-                            onToggle={() => toggleExpanded(p.key)}
-                            onClick={() => {
-                              requestScrollTo(p.key);
-                              selectDataset(p.key);
-                            }}
-                          />
+                      {PILLARS.map((p) => {
+                        const isWideraPillar = p.id === "WIDERA";
 
-                          {expanded.has(p.key) && (
-                            <div className="graph-tree-children">
-                              {(PROGRAMMES_BY_PILLAR[p.id] || [])
-                                .filter((prg) => availableKeys.has(prg.key))
-                                .map((prg) => renderProgramme(prg, 4))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                        return (
+                          <div key={p.key}>
+                            <TreeRow
+                              item={{ id: p.key, label: p.label, color: groupColors.pillar }}
+                              depth={3}
+                              isSelected={isWideraPillar ? layerKey === "WIDERA" : layerKey === p.key}
+                              showToggle={!isWideraPillar}
+                              onToggle={() => {
+                                if (!isWideraPillar) toggleExpanded(p.key);
+                              }}
+                              onClick={() => {
+                                requestScrollTo(p.key);
+
+                                // ✅ Clicking the WIDERA pillar opens the WIDERA dataset directly
+                                if (isWideraPillar) {
+                                  selectDataset("WIDERA");
+                                  return;
+                                }
+
+                                selectDataset(p.key);
+                              }}
+                            />
+
+                            {/* ✅ No nested children under WIDERA pillar (prevents WIDERA → WIDERA duplication) */}
+                            {!isWideraPillar && expanded.has(p.key) && (
+                              <div className="graph-tree-children">
+                                {(PROGRAMMES_BY_PILLAR[p.id] || [])
+                                  .filter((prg) => availableKeys.has(prg.key))
+                                  .map((prg) => renderProgramme(prg, 4))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
 

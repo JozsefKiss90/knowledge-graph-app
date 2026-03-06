@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Box } from "@mui/material";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useHoverCardMeasure } from "./hooks/useHoverCardMeasure";
@@ -18,22 +19,22 @@ const SUMMARY_PREVIEW_LIMIT = 240;
 const PLACEHOLDER = "—";
 const API_BASE = process.env.REACT_APP_API_URL || "";
 
+// Limit hover-card tags so the footer/action area remains reachable.
+const HOVER_TAG_LIMIT = 8;
+
 // Simple in-memory cache for destination summaries (per page load)
 const DEST_SUMMARY_CACHE = new Map();
 
 function inferDatasetPrefix({ node, graphName }) {
   const id = String(node?.id || "");
 
-  // Prefer parsing destination id prefix (CL1..CL6)
   const m = id.match(/^CL([1-6]):/i);
   if (m) return `/cluster${m[1]}`;
 
-  // Fall back to dataset key
   const g = String(graphName || "").replace(/_cose$/i, "");
   const m2 = g.match(/^Cluster_([1-6])$/i);
   if (m2) return `/cluster${m2[1]}`;
 
-  // Fall back to node.source (if present)
   const src = String(node?.source || "").toLowerCase();
   const srcMap = {
     cluster_1: "/cluster1",
@@ -85,19 +86,15 @@ function isDestinationNode(node) {
 function resolveSummaryKey(node, graphName) {
   if (!node) return null;
 
-  // Destinations: stable key = destination id
   if (isDestinationNode(node) && node.id) return String(node.id);
-  // Programme nodes: prefer programmeKey
   if (node.programmeKey) return cleanKey(node.programmeKey);
 
-  // Synthetic ids: PROG_DEP -> DEP
   if (node.id) {
     const id = cleanKey(node.id);
     if (/^PROG_/i.test(id)) return id.replace(/^PROG_/i, "");
     return id;
   }
 
-  // fallback: graphName
   if (graphName) return cleanKey(graphName);
 
   return null;
@@ -135,7 +132,6 @@ export default function HoveredNodeInfo({
 }) {
   const navigate = useNavigate();
 
-  // ✅ Hooks must be unconditional: compute these before any early returns
   const hoverPosition = useMemo(() => {
     const sp = node?.__screenPosition;
     if (!sp) return null;
@@ -159,56 +155,52 @@ export default function HoveredNodeInfo({
 
   const [fetchedDestSummary, setFetchedDestSummary] = useState("");
 
-// Lazy-fetch destination summary if missing in bulk graph payload
-useEffect(() => {
-  const isDest = String(node?.type || node?.category || "").toLowerCase() === "destination";
-  const nodeId = String(node?.id || "");
-  const raw = String(node?.summary || "").trim();
+  useEffect(() => {
+    const isDest = String(node?.type || node?.category || "").toLowerCase() === "destination";
+    const nodeId = String(node?.id || "");
+    const raw = String(node?.summary || "").trim();
 
-  // If not destination, or already has summary, clear fetched
-  if (!isDest || !nodeId) {
-    setFetchedDestSummary("");
-    return;
-  }
-  if (raw) {
-    setFetchedDestSummary("");
-    return;
-  }
-
-  // Cache hit
-  if (DEST_SUMMARY_CACHE.has(nodeId)) {
-    setFetchedDestSummary(DEST_SUMMARY_CACHE.get(nodeId) || "");
-    return;
-  }
-
-  const prefix = inferDatasetPrefix({ node, graphName });
-  if (!prefix) {
-    setFetchedDestSummary("");
-    return;
-  }
-
-  let cancelled = false;
-
-  (async () => {
-    try {
-      const url = `${API_BASE}${prefix}/node/${encodeURIComponent(nodeId)}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Failed fetch ${res.status} for ${url}`);
-      const data = await res.json();
-      const s = String(data?.summary || "").trim();
-      DEST_SUMMARY_CACHE.set(nodeId, s);
-      if (!cancelled) setFetchedDestSummary(s);
-    } catch (e) {
-      DEST_SUMMARY_CACHE.set(nodeId, "");
-      if (!cancelled) setFetchedDestSummary("");
-      // optional: console.debug(e);
+    if (!isDest || !nodeId) {
+      setFetchedDestSummary("");
+      return;
     }
-  })();
+    if (raw) {
+      setFetchedDestSummary("");
+      return;
+    }
 
-  return () => {
-    cancelled = true;
-  };
-}, [node?.id, node?.type, node?.category, node?.summary, graphName]);
+    if (DEST_SUMMARY_CACHE.has(nodeId)) {
+      setFetchedDestSummary(DEST_SUMMARY_CACHE.get(nodeId) || "");
+      return;
+    }
+
+    const prefix = inferDatasetPrefix({ node, graphName });
+    if (!prefix) {
+      setFetchedDestSummary("");
+      return;
+    }
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const url = `${API_BASE}${prefix}/node/${encodeURIComponent(nodeId)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Failed fetch ${res.status} for ${url}`);
+        const data = await res.json();
+        const s = String(data?.summary || "").trim();
+        DEST_SUMMARY_CACHE.set(nodeId, s);
+        if (!cancelled) setFetchedDestSummary(s);
+      } catch (e) {
+        DEST_SUMMARY_CACHE.set(nodeId, "");
+        if (!cancelled) setFetchedDestSummary("");
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [node?.id, node?.type, node?.category, node?.summary, graphName]);
 
   const { positionStyle } = useHoverCardPosition({
     hoverPosition,
@@ -216,7 +208,6 @@ useEffect(() => {
     cardSize,
   });
 
-  // ✅ compute summary-related memoized values unconditionally too
   const summaryEntry = useMemo(() => getSummaryEntry(node, graphName), [node, graphName]);
 
   const resolvedSummary = useMemo(() => {
@@ -233,18 +224,42 @@ useEffect(() => {
     return truncate(s, SUMMARY_PREVIEW_LIMIT) || PLACEHOLDER;
   }, [summaryEntry, node, fetchedDestSummary]);
 
+  const shouldShowSummary = useMemo(() => {
+    return !!node && !isCallNode(node);
+  }, [node]);
 
-    const shouldShowSummary = useMemo(() => {
-      return !!node && !isCallNode(node);
-    }, [node]);
+  const visibleTags = useMemo(() => {
+    const tags = Array.isArray(model?.tags) ? model.tags.filter(Boolean) : [];
+    if (tags.length <= HOVER_TAG_LIMIT) return tags;
+    const hiddenCount = tags.length - HOVER_TAG_LIMIT;
+    return [...tags.slice(0, HOVER_TAG_LIMIT), `+${hiddenCount} more`];
+  }, [model?.tags]);
 
-  // NOW safe to early-return
+  const filteredMetricCards = useMemo(() => {
+        if (!Array.isArray(model?.metricCards)) return [];
+
+        return model.metricCards.filter((m) => {
+          const key = String(m?.key || "").toLowerCase();
+          const val = String(m?.value || "").replace(/[^\d.]/g, "");
+
+          const isContribution =
+            key.includes("min_contribution") ||
+            key.includes("max_contribution") ||
+            m.label === "Min Contribution" ||
+            m.label === "Max Contribution";
+
+          if (!isContribution) return true;
+
+          const num = Number(val);
+          return Number.isFinite(num) && num !== 0;
+        });
+    }, [model?.metricCards]);
+
   if (!model) return null;
 
   const handlePrimaryNavigate = () => {
     if (!model?.id) return;
 
-    // Cluster + Destination: drill further into the graph
     if (model.isClusterNode || model.isDestinationNode) {
       try {
         const n = cyInstance?.$id?.(String(model.id));
@@ -305,6 +320,28 @@ useEffect(() => {
       ]
     : [];
 
+  const tagsBlock =
+    visibleTags?.length > 0 ? (
+      <Box sx={{ mt: 1 }}>
+        <Box
+          sx={{
+            maxHeight: 88,
+            overflowY: "auto",
+            pr: 0.5,
+            overscrollBehavior: "contain",
+          }}
+        >
+          <TagChips title="Related Topics" tags={visibleTags} />
+        </Box>
+      </Box>
+    ) : null;
+
+  const detailsButtonBlock = model.showViewDetails ? (
+    <Box sx={{ mt: 1, position: "sticky", bottom: 0, background: "var(--surface, transparent)", zIndex: 1 }}>
+      <ViewDetailsButton onClick={handlePrimaryNavigate} />
+    </Box>
+  ) : null;
+
   const card = (
     <HoverCardShell
       cardRef={cardRef}
@@ -343,31 +380,18 @@ useEffect(() => {
 
       {model.renderDestinationMinimal ? (
         <>
-          {/* ✅ Summary still shown for minimal destination cards */}
           {summaryCardItems.length > 0 && <MetricCards items={summaryCardItems} />}
-
-          {model.tags?.length > 0 && (
-            <TagChips title="Related Topics" tags={model.tags} />
-          )}
-          {model.showViewDetails && (
-            <ViewDetailsButton onClick={handlePrimaryNavigate} />
-          )}
+          {tagsBlock}
+          {detailsButtonBlock}
         </>
       ) : (
         <>
-          {model.metricCards?.length > 0 && (
-            <MetricCards items={model.metricCards} />
+          {filteredMetricCards.length > 0 && (
+            <MetricCards items={filteredMetricCards} />
           )}
-
-          {/* ✅ universal summary for all non-call nodes */}
           {summaryCardItems.length > 0 && <MetricCards items={summaryCardItems} />}
-
-          {model.tags?.length > 0 && (
-            <TagChips title="Related Topics" tags={model.tags} />
-          )}
-          {model.showViewDetails && (
-            <ViewDetailsButton onClick={handlePrimaryNavigate} />
-          )}
+          {tagsBlock}
+          {detailsButtonBlock}
         </>
       )}
     </HoverCardShell>

@@ -40,7 +40,7 @@ const PROGRAMMES_BY_PILLAR = {
     { key: "EIC", title: "EIC" },
     { key: "EIE", title: "EIE" },
   ],
-  WIDERA: [{ key: "WIDERA", title: "WIDERA" }],
+  WIDERA: [],
 };
 
 function clearHover(onNodeHover, onHoverNodeIdChange) {
@@ -59,6 +59,16 @@ function cleanKey(k) {
   return (k || "").replace("_cose", "");
 }
 
+function outboundLevelKey(level) {
+  if (!level) return "ROOT";
+
+  const key = String(level.key || "");
+  if (key.startsWith("DEST_")) {
+    return level.graphName || "ROOT";
+  }
+
+  return key || level.graphName || "ROOT";
+}
 /**
  * SUPER ROOT: Horizon Europe + standalone programmes
  */
@@ -187,11 +197,13 @@ export default function NestedGraphController({
 
       setLevels(next);
 
-      if (key) {
-        lastAppliedTargetRef.current = key;
-        onLevelChange?.(key);
-      }
+      const activeLevel = next[next.length - 1];
+      const outboundKey = outboundLevelKey(activeLevel);
 
+      if (outboundKey) {
+        lastAppliedTargetRef.current = outboundKey;
+        onLevelChange?.(outboundKey);
+      }
       clearHover(onNodeHover, onHoverNodeIdChange);
     },
     [levels, onLevelChange, onNodeHover, onHoverNodeIdChange]
@@ -261,11 +273,13 @@ export default function NestedGraphController({
   const popLevel = useCallback(() => {
     setLevels((prev) => {
       const next = prev.length > 1 ? prev.slice(0, -1) : prev;
-      const key = next[next.length - 1]?.key;
+      const activeLevel = next[next.length - 1];
+      const outboundKey = outboundLevelKey(activeLevel);
+
       queueMicrotask(() => {
-        if (key) {
-          lastAppliedTargetRef.current = key;
-          onLevelChange?.(key);
+        if (outboundKey) {
+          lastAppliedTargetRef.current = outboundKey;
+          onLevelChange?.(outboundKey);
         }
       });
       return next;
@@ -296,12 +310,28 @@ export default function NestedGraphController({
 
       const callIdSet = new Set(callEdges.map((e) => e?.data?.target).filter(Boolean));
 
+      const isRealCallNode = (d) => {
+        const type = String(d?.type || d?.category || "");
+        if (type !== "Call") return false;
+
+        const id = String(d?.id || "");
+        const label = String(d?.label || d?.name || "");
+
+        // ✅ guard against synthetic/meta nodes leaking into call layer
+        if (!id) return false;
+        if (/^PILLAR_/i.test(id)) return false;
+        if (/^PROG_/i.test(id)) return false;
+        if (/^HE(_|$)/i.test(id)) return false;
+        if (/horizon\s*europe/i.test(label)) return false;
+        if (id === "WIDERA") return false;
+
+        return true;
+      };
+
       const callNodes = allNodes.filter((n) => {
         const d = n?.data || {};
-        const isCall = d.type === "Call" || d.category === "Call";
-        return isCall && callIdSet.has(d.id);
+        return callIdSet.has(d.id) && isRealCallNode(d);
       });
-
       if (callNodes.length === 0) return;
 
       const title = destEl.data.label || destEl.data.name || destEl.data.id || destinationId;
@@ -312,8 +342,8 @@ export default function NestedGraphController({
         { key: destKey, title, graphName: atKey, elements: { nodeElements: [destEl, ...callNodes], edgeElements: callEdges } },
       ]);
 
-      lastAppliedTargetRef.current = destKey;
-      onLevelChange?.(destKey);
+      lastAppliedTargetRef.current = atKey;
+      onLevelChange?.(atKey);
       clearHover(onNodeHover, onHoverNodeIdChange);
     },
     [current?.key, loadFromStore, onNodeHover, onHoverNodeIdChange, onLevelChange]
@@ -336,10 +366,20 @@ export default function NestedGraphController({
           if (programmeKey) openProgramme(programmeKey);
           return;
         }
-
         if (data?.type === "pillar") {
-          const pid = pillarIdFromKey(data.id);
-          if (pid) openPillar(pid);
+        const pid = pillarIdFromKey(data.id);
+        if (!pid) return;
+
+        // Prevent recursive re-opening of the same pillar level (breadcrumb explosion)
+        if (current?.key === `PILLAR_${pid}`) return;
+
+        // WIDERA is special: it should behave like a programme entry (go straight to calls)
+        if (pid === "WIDERA") {
+          openProgramme("WIDERA");
+          return;
+        }
+
+        openPillar(pid);
           return;
         }
       },
@@ -353,7 +393,9 @@ export default function NestedGraphController({
     if (!targetGraphName) return;
 
     const target = cleanKey(targetGraphName);
-
+    if (String(target).startsWith("DEST_")) {
+      return;
+    }
     if (target === current?.key) {
       lastAppliedTargetRef.current = target;
       return;
@@ -415,7 +457,7 @@ export default function NestedGraphController({
           onCyReady={(cy) => {
             const key = current.key || "";
             const isDatasetOverview =
-              key !== "ROOT" && key !== "HE_ROOT" && key !== "HE_2025" && !isPillarKey(key) && !key.startsWith("DEST_");
+              key !== "ROOT" && key !== "HE_2025" && !isPillarKey(key) && !key.startsWith("DEST_") && key !== "WIDERA"
             if (isDatasetOverview) {
               cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden");
             }

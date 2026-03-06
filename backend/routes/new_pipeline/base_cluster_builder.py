@@ -38,7 +38,6 @@ def _neo4j_value(v: Any) -> Any:
     if isinstance(v, (str, int, float, bool)):
         return v
     if isinstance(v, dict):
-        # store structured data as JSON string
         try:
             return json.dumps(v, ensure_ascii=False, sort_keys=True)
         except Exception:
@@ -58,7 +57,6 @@ def _neo4j_value(v: Any) -> Any:
             else:
                 out.append(str(item))
         return out
-    # fallback for any other object type
     return str(v)
 
 
@@ -69,12 +67,39 @@ def _sanitize_props(props: Dict[str, Any]) -> Dict[str, Any]:
 class BaseClusterBuilder(ABC):
     """Abstract builder for all Horizon clusters (CL1/2/3/4/5/6...)."""
 
+    DESCRIPTION_SECTION_FIELDS = [
+        "description_root",
+        "objective",
+        "scope",
+        "expected_outcome",
+        "expected_results",
+        "expected_impact",
+        "specific_challenge",
+        "challenge",
+        "background",
+        "context",
+        "eligible_applicants",
+        "eligible_activities",
+        "funding_rules",
+        "conditions_for_participation",
+        "application_procedure",
+        "submission",
+        "evaluation",
+        "award_criteria",
+        "implementation",
+        "work_programme",
+        "additional_information",
+        "tags_from_description",
+    ]
+
     @property
     @abstractmethod
     def cluster_id(self) -> str: ...          # e.g. "CL2"
+
     @property
     @abstractmethod
     def cluster_name(self) -> str: ...        # UI label (must match summaries top-level key)
+
     @property
     @abstractmethod
     def source_tag(self) -> str: ...          # e.g. "cluster_2"
@@ -93,21 +118,16 @@ class BaseClusterBuilder(ABC):
         if not key:
             return ""
 
-        # 1) direct match at top level
         if key in summaries and isinstance(summaries[key], dict):
             return summaries[key].get("summary", "") or ""
 
-        # 2) pick cluster block
         cluster_block = summaries.get(self.cluster_name)
 
         if not isinstance(cluster_block, dict):
-            # Heuristic: if summaries has exactly one top-level dict block, use it.
             dict_blocks = [v for v in summaries.values() if isinstance(v, dict)]
             if len(dict_blocks) == 1:
                 cluster_block = dict_blocks[0]
             else:
-                # Try to find a block whose key mentions the cluster id/name
-                # e.g. "Civil Security for Society (Cluster 3)"
                 needle = (self.cluster_id or "").lower()
                 for k, v in summaries.items():
                     if isinstance(v, dict):
@@ -116,7 +136,6 @@ class BaseClusterBuilder(ABC):
                             cluster_block = v
                             break
 
-        # helper to query either top-level or cluster block
         def _lookup(k: str) -> str:
             if k in summaries and isinstance(summaries[k], dict):
                 return summaries[k].get("summary", "") or ""
@@ -124,17 +143,14 @@ class BaseClusterBuilder(ABC):
                 return cluster_block[k].get("summary", "") or ""
             return ""
 
-        # 3) direct in cluster block
         s = _lookup(key)
         if s:
             return s
 
-        # 4) destination prefix variant (your CL3/CL4 summary files)
         s = _lookup(f"Destination - {key}")
         if s:
             return s
 
-        # 5) strip trailing years / ranges: Foo (2026), Foo (2026-27), Foo (2026-2027)
         m = re.match(r"^(.*)\s+\((\d{4})(?:\s*[-–]\s*(\d{2}|\d{4}))\)$", key)
         if m:
             base = m.group(1).strip()
@@ -146,6 +162,7 @@ class BaseClusterBuilder(ABC):
             return _lookup(base) or _lookup(f"Destination - {base}") or ""
 
         return ""
+
     def _resolve_call_id(self, call: Dict[str, Any]) -> Optional[str]:
         """
         New grouped JSONs no longer use `call_id`; they use `identifier` / `topic_id`.
@@ -157,6 +174,117 @@ class BaseClusterBuilder(ABC):
                 return v.strip()
         return None
 
+    def _collect_description_section_props(self, call: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Include:
+        1) all canonical flattened description section fields
+        2) any dynamically advertised keys from `_description_section_keys`
+        """
+        out: Dict[str, Any] = {}
+
+        for key in self.DESCRIPTION_SECTION_FIELDS:
+            if key in call and call.get(key) not in (None, "", [], {}):
+                out[key] = call.get(key)
+
+        dynamic_keys = call.get("_description_section_keys")
+        if isinstance(dynamic_keys, list):
+            for key in dynamic_keys:
+                if not isinstance(key, str) or not key.strip():
+                    continue
+                if key in out:
+                    continue
+                value = call.get(key)
+                if value not in (None, "", [], {}):
+                    out[key] = value
+
+        if isinstance(dynamic_keys, list) and dynamic_keys:
+            out["_description_section_keys"] = dynamic_keys
+
+        return out
+
+    def _build_call_props(self, call: Dict[str, Any], call_id: str) -> Dict[str, Any]:
+        deadlines = _as_list_of_str(call.get("deadlines"))
+        deadline_single = (call.get("deadline") or (deadlines[0] if deadlines else "") or "")
+        if deadline_single and not deadlines:
+            deadlines = [str(deadline_single)]
+
+        budget_year_map = call.get("budget_year_map")
+        budget_year_map_json = ""
+        if isinstance(budget_year_map, dict) and budget_year_map:
+            budget_year_map_json = json.dumps(budget_year_map, ensure_ascii=False, sort_keys=True)
+
+        props: Dict[str, Any] = {
+            # core identity
+            "id": call_id,
+            "name": call.get("topic_title") or call.get("call_title") or "",
+            "source": self.source_tag,
+            "type": "Call",
+
+            # identity / navigation
+            "identifier": call.get("identifier") or "",
+            "topic_id": call.get("topic_id") or "",
+            "topic_title": call.get("topic_title") or "",
+            "call_title": call.get("call_title") or "",
+            "call_identifier": call.get("call_identifier") or call.get("callIdentifier") or "",
+            "callccm2Id": call.get("callccm2Id") or "",
+            "url": call.get("url") or call.get("funding_link") or "",
+            "funding_link": call.get("funding_link") or call.get("url") or "",
+
+            # grouping / misc
+            "programme": call.get("programme") or "",
+            "group_value": call.get("group_value") or "",
+            "destination": call.get("destination") or "",
+            "unique_key": call.get("unique_key") or "",
+
+            # taxonomy / lists
+            "tags": call.get("tags") or [],
+            "keywords": call.get("keywords") or [],
+
+            # funding & amounts
+            "expected_eu_contribution": call.get("expected_eu_contribution") or "",
+            "min_contribution": call.get("min_contribution"),
+            "max_contribution": call.get("max_contribution"),
+            "indicative_budget": call.get("indicative_budget"),
+            "indicative_number_of_projects": call.get("indicative_number_of_projects"),
+
+            # action + narrative
+            "type_of_action": call.get("type_of_action") or "",
+            "expected_outcome": call.get("expected_outcome") or "",
+            "scope": call.get("scope") or "",
+
+            # conditions / process
+            "admissibility_conditions": call.get("admissibility_conditions") or "",
+            "eligibility_conditions": call.get("eligibility_conditions") or "",
+            "eligible_countries": call.get("eligible_countries") or "",
+            "other_eligibility_conditions": call.get("other_eligibility_conditions") or "",
+            "financial_and_operational_capacity": call.get("financial_and_operational_capacity") or "",
+            "submission_and_evaluation_process": call.get("submission_and_evaluation_process") or "",
+            "procedure": call.get("procedure") or "",
+
+            # award criteria
+            "award_criteria_scoring_thresholds": call.get("award_criteria_scoring_thresholds") or "",
+
+            # timing / lifecycle
+            "indicative_timeline": call.get("indicative_timeline") or "",
+            "opening_date": call.get("opening_date") or "",
+            "deadline": deadline_single,
+            "deadlines": deadlines,
+            "deadline_model": call.get("deadline_model") or "",
+            "status": call.get("status") or "",
+
+            # legal + page limits
+            "legal_and_financial_setup": call.get("legal_and_financial_setup") or "",
+            "proposal_page_limits_mentions": call.get("proposal_page_limits_mentions") or "",
+            "exceptional_page_limits": call.get("exceptional_page_limits") or "",
+
+            # budget traceability
+            "budget_year_map": budget_year_map_json,
+            "topic_id_from_budget": call.get("topic_id_from_budget") or "",
+        }
+
+        props.update(self._collect_description_section_props(call))
+        return _sanitize_props(props)
+
     # ---- main API ----
     def create_graph_from_files(self, grouped_calls_path: str, destination_summaries_path: str):
         if not os.path.exists(grouped_calls_path):
@@ -167,7 +295,6 @@ class BaseClusterBuilder(ABC):
         summaries = json.load(open(destination_summaries_path, "r", encoding="utf-8"))
         grouped_raw = json.load(open(grouped_calls_path, "r", encoding="utf-8"))
 
-        # Normalize to a list of destination dicts
         if isinstance(grouped_raw, dict) and "destinations" in grouped_raw:
             destinations = grouped_raw.get("destinations") or []
         elif isinstance(grouped_raw, list):
@@ -175,7 +302,6 @@ class BaseClusterBuilder(ABC):
         else:
             raise ValueError("Unrecognized grouped file structure: expected list or {'destinations': [...]}")
 
-        # cluster node
         cluster_summary = self._get_summary(summaries, self.cluster_name)
         self._run(
             """
@@ -184,6 +310,34 @@ class BaseClusterBuilder(ABC):
             """,
             {"id": self.cluster_id, "name": self.cluster_name, "source": self.source_tag, "summary": cluster_summary},
         )
+
+        # ---------------------------------------------------------
+        # WIDERA special case: no destination layer (Cluster → Call)
+        # ---------------------------------------------------------
+        if (self.cluster_id or "").strip().upper() == "WIDERA":
+            for dest in destinations:
+                for call in (dest.get("calls") or []):
+                    call_id = self._resolve_call_id(call)
+                    if not call_id:
+                        continue
+
+                    props = self._build_call_props(call, call_id)
+
+                    self._run(
+                        """
+                        MERGE (c:Call {id:$id})
+                        SET c += $props
+                        """,
+                        {"id": call_id, "props": props},
+                    )
+
+                    self._run(
+                        "MATCH (cl:Cluster {id:$cid}),(c:Call {id:$call_id}) "
+                        "MERGE (cl)-[:HAS_CALL]->(c)",
+                        {"cid": self.cluster_id, "call_id": call_id},
+                    )
+
+            return
 
         # destinations + calls
         for dest in destinations:
@@ -209,125 +363,14 @@ class BaseClusterBuilder(ABC):
                 if not call_id:
                     continue
 
-                # deadlines: [string] (new) + deadline: string (legacy/single)
-                deadlines = _as_list_of_str(call.get("deadlines"))
-                deadline_single = (call.get("deadline") or (deadlines[0] if deadlines else "") or "")
-                if deadline_single and not deadlines:
-                    deadlines = [str(deadline_single)]
-
-                # IMPORTANT: Neo4j cannot store dict properties -> store as JSON string
-                budget_year_map = call.get("budget_year_map")
-                budget_year_map_json = ""
-                if isinstance(budget_year_map, dict) and budget_year_map:
-                    budget_year_map_json = json.dumps(budget_year_map, ensure_ascii=False, sort_keys=True)
-
-                props: Dict[str, Any] = {
-                    # core identity
-                    "id": call_id,
-                    "name": call.get("topic_title") or call.get("call_title") or "",
-                    "source": self.source_tag,
-                    "type": "Call",
-
-                    # identity / navigation
-                    "identifier": call.get("identifier") or "",
-                    "topic_id": call.get("topic_id") or "",
-                    "topic_title": call.get("topic_title") or "",
-                    "call_title": call.get("call_title") or "",
-                    "call_identifier": call.get("call_identifier") or "",
-                    "url": call.get("url") or "",
-
-                    # grouping / misc
-                    "programme": call.get("programme") or "",
-                    "group_value": call.get("group_value") or "",
-                    "unique_key": call.get("unique_key") or "",
-
-                    # funding & amounts
-                    "min_contribution": call.get("min_contribution"),
-                    "max_contribution": call.get("max_contribution"),
-                    "indicative_budget": call.get("indicative_budget"),
-                    "indicative_number_of_projects": call.get("indicative_number_of_projects"),
-
-                    # action + narrative
-                    "type_of_action": call.get("type_of_action") or "",
-                    "expected_outcome": call.get("expected_outcome") or "",
-                    "scope": call.get("scope") or "",
-
-                    # conditions / process (new set)
-                    "admissibility_conditions": call.get("admissibility_conditions") or "",
-                    "eligible_countries": call.get("eligible_countries") or "",
-                    "other_eligibility_conditions": call.get("other_eligibility_conditions") or "",
-                    "financial_and_operational_capacity": call.get("financial_and_operational_capacity") or "",
-                    "submission_and_evaluation_process": call.get("submission_and_evaluation_process") or "",
-
-                    # award criteria (new)
-                    "award_criteria_scoring_thresholds": call.get("award_criteria_scoring_thresholds") or "",
-
-                    # timing / lifecycle
-                    "indicative_timeline": call.get("indicative_timeline") or "",
-                    "opening_date": call.get("opening_date") or "",
-                    "deadline": deadline_single,
-                    "deadlines": deadlines,
-                    "deadline_model": call.get("deadline_model") or "",
-
-                    # legal + page limits
-                    "legal_and_financial_setup": call.get("legal_and_financial_setup") or "",
-                    "proposal_page_limits_mentions": call.get("proposal_page_limits_mentions") or "",
-
-                    # budget traceability (store JSON string, not dict)
-                    "budget_year_map": budget_year_map_json,
-                    "topic_id_from_budget": call.get("topic_id_from_budget") or "",
-                }
-
-                props = _sanitize_props(props)
+                props = self._build_call_props(call, call_id)
 
                 self._run(
                     """
                     MERGE (c:Call {id:$id})
-                    SET  c.name=$name,
-                         c.source=$source,
-                         c.type=$type,
-
-                         c.identifier=$identifier,
-                         c.topic_id=$topic_id,
-                         c.topic_title=$topic_title,
-                         c.call_title=$call_title,
-                         c.call_identifier=$call_identifier,
-                         c.url=$url,
-
-                         c.programme=$programme,
-                         c.group_value=$group_value,
-                         c.unique_key=$unique_key,
-
-                         c.min_contribution=$min_contribution,
-                         c.max_contribution=$max_contribution,
-                         c.indicative_budget=$indicative_budget,
-                         c.indicative_number_of_projects=$indicative_number_of_projects,
-
-                         c.type_of_action=$type_of_action,
-                         c.expected_outcome=$expected_outcome,
-                         c.scope=$scope,
-
-                         c.admissibility_conditions=$admissibility_conditions,
-                         c.eligible_countries=$eligible_countries,
-                         c.other_eligibility_conditions=$other_eligibility_conditions,
-                         c.financial_and_operational_capacity=$financial_and_operational_capacity,
-                         c.submission_and_evaluation_process=$submission_and_evaluation_process,
-
-                         c.award_criteria_scoring_thresholds=$award_criteria_scoring_thresholds,
-
-                         c.indicative_timeline=$indicative_timeline,
-                         c.opening_date=$opening_date,
-                         c.deadline=$deadline,
-                         c.deadlines=$deadlines,
-                         c.deadline_model=$deadline_model,
-
-                         c.legal_and_financial_setup=$legal_and_financial_setup,
-                         c.proposal_page_limits_mentions=$proposal_page_limits_mentions,
-
-                         c.budget_year_map=$budget_year_map,
-                         c.topic_id_from_budget=$topic_id_from_budget
+                    SET c += $props
                     """,
-                    props,
+                    {"id": call_id, "props": props},
                 )
 
                 self._run(
