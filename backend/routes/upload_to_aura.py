@@ -1,37 +1,70 @@
-import requests
 import os
+import requests
 
-BASE_URL = "https://knowledge-graph-backend-production.up.railway.app"
+BASE_URL = os.getenv(
+    "AURA_BACKEND_URL",
+    "https://knowledge-graph-backend-production.up.railway.app"
+).rstrip("/")
 
-print("Deleting old Cluster graphs...")
-for i in range(1, 7):
-    r = requests.delete(f"{BASE_URL}/cluster{i}/all")
-    print(f"DELETE /cluster{i}/all ->", r.status_code, r.text)
+# All dataset graph endpoints
+DATASETS = [
+    "cluster1",
+    "cluster2",
+    "cluster3",
+    "cluster4",
+    "cluster5",
+    "cluster6",
+    "eic",
+    "eie",
+    "erc",
+    "infra",
+    "msca",
+    "missions",
+    "widera",
+    "dep",
+    "erasmus",
+    "euratom",
+    "cef",
+    "crea"
+]
 
-print("Repopulating Cluster graphs...")
-for i in range(1, 7):
-    r = requests.post(f"{BASE_URL}/cluster{i}/populate", json={})
-    print(f"POST /cluster{i}/populate ->", r.status_code, r.text)
 
-# Step 3: Upload integrated nodes/relationships/summaries
-#print("Uploading nodes, relationships, and topic summaries to /integrate/...")
+def delete_graphs():
+    print("\nDeleting existing graphs...\n")
 
-'''with open("../correctly_processed_nodes.json", "rb") as nodes_f, \
-     open("../canonical_topic_relationships.json", "rb") as rels_f, \
-     open("../topic_summaries_generated.json", "rb") as summaries_f:
+    for dataset in DATASETS:
+        url = f"{BASE_URL}/{dataset}/all"
 
-    files = {
-        "nodes_file": ("correctly_processed_nodes.json", nodes_f, "application/json"),
-        "relationships_file": ("canonical_topic_relationships.json", rels_f, "application/json"),
-        "topic_summaries_file": ("topic_summaries_generated.json", summaries_f, "application/json")
-    }
+        try:
+            r = requests.delete(url)
+            print(f"DELETE {url} -> {r.status_code}")
+        except Exception as e:
+            print(f"ERROR deleting {dataset}: {e}")
 
-    response = requests.post(f"{BASE_URL}/integrate/", files=files)
-    print("Integration upload status:", response.status_code)
-    print("Response:", response.text)'''
-'''
-print("Deleting integrated graph in AuraDB...")
-res_delete = requests.delete(f"{BASE_URL}/integrate/")
-print("DELETE /integrate/ status:", res_delete.status_code)
-print("Response:", res_delete.text)
-'''
+
+def populate_graphs():
+    print("\nPopulating graphs...\n")
+
+    for dataset in DATASETS:
+        url = f"{BASE_URL}/{dataset}/populate"
+
+        try:
+            r = requests.post(url, json={})
+            print(f"POST {url} -> {r.status_code}")
+        except Exception as e:
+            print(f"ERROR populating {dataset}: {e}")
+
+
+def main():
+    print("\n===============================")
+    print(" EU GRAPHS AURA POPULATION JOB ")
+    print("===============================\n")
+
+    delete_graphs()
+    populate_graphs()
+
+    print("\nFinished populating Aura graphs.\n")
+
+
+if __name__ == "__main__":
+    main()
