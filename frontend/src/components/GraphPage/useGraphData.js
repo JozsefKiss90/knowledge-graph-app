@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { buildElements } from "../utils/buildElements";
 
 const API_BASE = process.env.REACT_APP_API_URL;
-
+ 
 export const GRAPH_ENDPOINTS = {
   // Strategic Plan (isolated)
   HE_2025: { nodes: "/nodes/", rels: "/relationships/" },

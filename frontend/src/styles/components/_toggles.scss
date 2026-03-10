@@ -50,7 +50,6 @@
   }
 }
 
-/* Map node types to swatches */
 .node-toggle-button.type-root { --swatch: var(--nt-root); }
 .node-toggle-button.type-policy { --swatch: var(--nt-policy); }
 .node-toggle-button.type-strategy { --swatch: var(--nt-strategy); }
@@ -61,6 +60,11 @@
 .node-toggle-button.type-destination { --swatch: var(--nt-destination); }
 .node-toggle-button.type-call { --swatch: var(--nt-call); }
 
+/* NEW */
+.node-toggle-button.type-meta { --swatch: var(--nt-meta); }
+.node-toggle-button.type-programme { --swatch: var(--nt-programme); }
+.node-toggle-button.type-pillar { --swatch: var(--nt-pillar); }
+.node-toggle-button.type-sp { --swatch: var(--nt-sp); }
 /* Focus accessibility */
 .node-toggle-button:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--swatch) 55%, transparent) !important;

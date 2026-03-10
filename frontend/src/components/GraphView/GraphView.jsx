@@ -241,7 +241,7 @@ const GraphView = forwardRef(function GraphView(
         const root = cy.nodes("node[type='cluster'], node[category='cluster']").first();
         if (root && !root.empty()) root.position({ x: 0, y: -200 });
       }
-
+ 
       if (comingFromTree) {
         cy.batch(() => {
           const w = cy.width() || 1000;

@@ -11,7 +11,6 @@
  
 .graph-app-header {
   height: 56px;
-  padding: 0 24px;
   display: flex;
   align-items: center;
   background-color: var(--sidebar);
@@ -38,34 +37,34 @@
 
 /* Existing logo block (kept; safe replacement file) */
 .graph-app-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--primary-light);
+  background: var(--primary-background);
   color: var(--primary-foreground);
   font-weight: 700;
   box-shadow: var(--shadow-sm);
 }
 
 .graph-app-logo-mark {
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   display: block;
   color: #fff;
   font-size: 0.9rem;
 }
 
 .graph-app-logo-mask {
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 70px;
   display: block;
-  background-color: white;
-  -webkit-mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat
+  background-color: rgb(255, 255, 255);
+  -webkit-mask: url("/graph-logo-yellow.svg") no-repeat
     center / contain;
-  mask: url("/ChatGPT-Image-Dec-15_-2025_-10_35_05-PM.svg") no-repeat center / contain;
+  mask: url("/graph-logo-yellow.svg") no-repeat center / contain;
 }
 
 .light-theme .graph-app-logo-mask {

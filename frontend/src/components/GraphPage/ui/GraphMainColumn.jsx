@@ -16,6 +16,7 @@ export default function GraphMainColumn({
   loadFromStore,
   effectiveLayout,
   updateOption,
+  onApplyLayout,
   onGraphStats,
   onCyReady,
   onNodeHover,
@@ -71,16 +72,12 @@ export default function GraphMainColumn({
               canGoBack,
               onBack,
             }) => {
-              const isRootLayer = currentKey === "ROOT";
-              const isClusterLayer = currentKey.startsWith("Cluster_");
-              const isDestinationLayer = currentKey.startsWith("DEST_");
-
-              const layoutSwitchVisible =
-                (isRootLayer || isClusterLayer || isDestinationLayer) &&
-                graphName !== "HE_2025";
+               const layoutSwitchVisible = currentKey !== "HE_2025";
 
               const layoutMode =
-                effectiveLayout.name === "breadthfirst" ? "tree" : "force";
+                effectiveLayout.name === "breadthfirst"
+                  ? "breadthfirst"
+                  : "cose-bilkent";
 
               return (
                 <GraphTopBar
@@ -93,11 +90,14 @@ export default function GraphMainColumn({
                   onFitView={onFitView}
                   layoutMode={layoutMode}
                   layoutSwitchVisible={layoutSwitchVisible}
-                  onLayoutModeChange={(mode) => {
-                    if (!layoutSwitchVisible) return;
-                    const nextName =
-                      mode === "tree" ? "breadthfirst" : "cose-bilkent";
+                  onLayoutModeChange={(nextName) => {
+                    if (currentKey === "HE_2025") return;
+
                     updateOption("name", nextName);
+                    onApplyLayout?.({
+                      ...effectiveLayout,
+                      name: nextName,
+                    });
                   }}
                 />
               );

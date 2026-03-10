@@ -1,4 +1,3 @@
-// src/components/LegendToggle.js
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCy } from "./context/CyContext";
 import Box from "@mui/material/Box";
@@ -24,17 +23,13 @@ const LegendSection = ({ title, isOpen, onToggle, children }) => (
     <Box className="legend-section-header" onClick={onToggle}>
       <Typography className="legend-section-title" variant="subtitle2">
         {title}
-      </Typography> 
+      </Typography>
       <IconButton
         size="small"
         className="legend-section-toggle"
         aria-label={isOpen ? `Collapse ${title}` : `Expand ${title}`}
       >
-        {isOpen ? (
-          <ExpandLessIcon fontSize="small" />
-        ) : (
-          <ExpandMoreIcon fontSize="small" />
-        )}
+        {isOpen ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
       </IconButton>
     </Box>
     {isOpen && <Box className="legend-section-body">{children}</Box>}
@@ -46,25 +41,26 @@ const normalizeGraphName = (name) => String(name || "").replace("_cose", "");
 function collectLayerNodeTypes(cy) {
   if (!cy || cy.destroyed()) return [];
 
-  const typeToColorCounts = new Map(); // type -> Map(color -> count)
+  const typeToColorCounts = new Map();
 
   cy.nodes().forEach((n) => {
     const t = n.data("type") || n.data("category");
     if (!t) return;
     let key = String(t);
 
-// Remap 'root' nodes to the effective type for this layer so button colors stay congruent.
-// GraphView assigns role classes (as-root / as-cluster-root / as-destination-root).
-if (key.toLowerCase() === "root") {
-  try {
-    if (n.hasClass && n.hasClass("as-cluster-root")) key = "cluster";
-    else if (n.hasClass && n.hasClass("as-destination-root")) key = "Destination";
-  } catch {}
-}
-
+    if (key.toLowerCase() === "root") {
+      try {
+        if (n.hasClass && n.hasClass("as-cluster-root")) key = "cluster";
+        else if (n.hasClass && n.hasClass("as-destination-root")) key = "Destination";
+      } catch {}
+    }
 
     let color;
-    try { color = n.style("background-color"); } catch { color = undefined; }
+    try {
+      color = n.style("background-color");
+    } catch {
+      color = undefined;
+    }
     if (!color) return;
 
     if (!typeToColorCounts.has(key)) typeToColorCounts.set(key, new Map());
@@ -77,21 +73,23 @@ if (key.toLowerCase() === "root") {
     let bestColor;
     let bestCount = -1;
     for (const [c, count] of cmap.entries()) {
-      if (count > bestCount) { bestCount = count; bestColor = c; }
+      if (count > bestCount) {
+        bestCount = count;
+        bestColor = c;
+      }
     }
     out.push({
       type,
       label:
-      String(type).toLowerCase() === "root"
-        ? "Horizon Europe"
-        : String(type).replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase()),
+        String(type).toLowerCase() === "root"
+          ? "Funding Programmes"
+          : String(type).replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase()),
       color: bestColor,
     });
   }
   return out;
 }
 
-// Collect edge types in the CURRENT Cytoscape layer (used only for HE_2025)
 function collectLayerEdgeTypes(cy) {
   if (!cy || cy.destroyed()) return new Set();
   const s = new Set();
@@ -99,46 +97,63 @@ function collectLayerEdgeTypes(cy) {
     const t = e.data("type") || e.data("category");
     if (t) s.add(t);
   });
-  return s; 
+  return s;
 }
- 
-const LegendToggle = ({
-    hoveredNodeRef,
-    graphName,
-    setGraphName,
-    onCollapse,
-    loadFromStore,
-    onRequestNavigate,
-    selectedNodeId,
-    setSelectedNodeId
-  }) => {
 
+function selectorForType(cy, type) {
+  return cy.nodes(`[type = "${type}"], [category = "${type}"]`);
+}
+
+function isNodeTypeActuallyVisible(cy, type) {
+  if (!cy || cy.destroyed()) return false;
+  const els = selectorForType(cy, type);
+  if (!els || els.length === 0) return false;
+
+  return els.some((el) => {
+    try {
+      const explicitlyHidden = typeof el.hidden === "function" ? el.hidden() : false;
+      const classHidden = el.hasClass?.("call-hidden");
+      return !explicitlyHidden && !classHidden;
+    } catch {
+      return false;
+    }
+  });
+}
+
+const LegendToggle = ({
+  hoveredNodeRef,
+  graphName,
+  setGraphName,
+  onCollapse,
+  loadFromStore,
+  onRequestNavigate,
+  selectedNodeId,
+  setSelectedNodeId,
+}) => {
   const cy = useCy();
   const scrollRef = useRef(null);
 
   const cleanGraphName = normalizeGraphName(graphName);
   const isHE2025 = cleanGraphName === "HE_2025";
 
-  // Node/edge types present in the current layer
   const layerNodeTypes = useMemo(() => collectLayerNodeTypes(cy), [cy, graphName]);
   const layerEdgeTypesSet = useMemo(() => collectLayerEdgeTypes(cy), [cy, graphName]);
 
-  // Keep HE_2025 ordering/colors from config, but only show types that are present
   const nodeTypeList = useMemo(() => {
-  const present = new Map(layerNodeTypes.map((x) => [x.type, x]));
+    const present = new Map(layerNodeTypes.map((x) => [x.type, x]));
 
-  if (isHE2025) {
-    const configured = getNodeTypeList("HE_2025");
-    return configured
-      .filter((x) => present.has(x.type))
-      .map((x) => ({
-        ...present.get(x.type),
-        ...x, // configured color wins for HE_2025
-      }));
-  }
+    if (isHE2025) {
+      const configured = getNodeTypeList("HE_2025");
+      return configured
+        .filter((x) => present.has(x.type))
+        .map((x) => ({
+          ...present.get(x.type),
+          ...x,
+        }));
+    }
 
-  return layerNodeTypes;
-}, [isHE2025, layerNodeTypes]);
+    return layerNodeTypes;
+  }, [isHE2025, layerNodeTypes]);
 
   const edgeTypeList = useMemo(() => {
     if (!isHE2025) return [];
@@ -146,19 +161,28 @@ const LegendToggle = ({
     return configured.filter((x) => layerEdgeTypesSet.has(x.type));
   }, [isHE2025, layerEdgeTypesSet]);
 
-  // Visible sets – default to all types in the current layer (resets on layer change)
   const [visibleNodeTypes, setVisibleNodeTypes] = useState(new Set());
   const [visibleEdgeTypes, setVisibleEdgeTypes] = useState(new Set());
 
   useEffect(() => {
-    setVisibleNodeTypes(new Set(nodeTypeList.map((x) => x.type)));
+    if (!cy || cy.destroyed()) {
+      setVisibleNodeTypes(new Set(nodeTypeList.map((x) => x.type)));
+      return;
+    }
+
+    const nextVisible = new Set(
+      nodeTypeList
+        .map((x) => x.type)
+        .filter((type) => isNodeTypeActuallyVisible(cy, type))
+    );
+
+    setVisibleNodeTypes(nextVisible);
   }, [cy, graphName, nodeTypeList]);
 
   useEffect(() => {
     setVisibleEdgeTypes(new Set(edgeTypeList.map((x) => x.type)));
   }, [cy, graphName, edgeTypeList]);
 
-  // section open/closed state (all open by default)
   const [sectionsOpen, setSectionsOpen] = useState({
     dataset: true,
     layout: true,
@@ -174,22 +198,15 @@ const LegendToggle = ({
       [key]: !prev[key],
     }));
 
-  // keep wheel scrolling smooth when hover-pane consumes wheel events
   useEffect(() => {
     const handleWheel = (e) => {
-      // Only hijack wheel if the event originates inside the hover card/pane.
-      // Adjust selector if your hover card root class differs.
       const hoverPane = document.querySelector(".hovered-node-info");
       if (!hoverPane) return;
 
       const target = e.target;
       if (!(target instanceof Element)) return;
-
-      // If the wheel is not happening over the hover pane, do nothing (let browser scroll normally)
       if (!hoverPane.contains(target)) return;
 
-      // If hover pane is present and user is scrolling over it, scroll it manually
-      // (prevents it from blocking scroll propagation)
       hoverPane.scrollTop += e.deltaY;
       e.preventDefault();
     };
@@ -206,22 +223,33 @@ const LegendToggle = ({
 
     if (newSet.has(type)) {
       newSet.delete(type);
+
+      if (type === "Call") {
+        elements.addClass("call-hidden");
+      }
       elements.hide();
     } else {
       newSet.add(type);
+
+      if (type === "Call") {
+        elements.removeClass("call-hidden");
+      }
       elements.show();
     }
 
     setter(newSet);
   };
 
-
   useEffect(() => {
     if (!cy || cy.destroyed()) return;
 
     const onSel = (evt) => {
-      try { setSelectedNodeId(evt?.target?.id?.() || null); } catch { setSelectedNodeId(null); }
-    }; 
+      try {
+        setSelectedNodeId(evt?.target?.id?.() || null);
+      } catch {
+        setSelectedNodeId(null);
+      }
+    };
     const onUnsel = () => setSelectedNodeId(null);
 
     cy.on("select", "node", onSel);
@@ -233,7 +261,7 @@ const LegendToggle = ({
         cy.off("unselect", "node", onUnsel);
       } catch {}
     };
-  }, [cy, graphName]);
+  }, [cy, graphName, setSelectedNodeId]);
 
   const resetView = () => {
     if (!cy || cy.destroyed()) return;
@@ -243,101 +271,116 @@ const LegendToggle = ({
     cy.edges().removeClass("faded highlighted");
     cy.nodes().unselect();
 
-    // Resize-safe: ensure Cytoscape recalculates container size first,
-    // then fit after the DOM has settled.
+    const shouldDefaultHideCalls =
+      cleanGraphName !== "ROOT" &&
+      cleanGraphName !== "HE_2025" &&
+      !/^PILLAR_/i.test(cleanGraphName) &&
+      !/^DEST_/i.test(cleanGraphName) &&
+      cleanGraphName !== "WIDERA";
+
+    if (shouldDefaultHideCalls) {
+      cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden").hide();
+    } else {
+      cy.nodes("[type = 'Call'], [category = 'Call']").removeClass("call-hidden").show();
+    }
+
     requestAnimationFrame(() => {
-      try { cy.resize(); } catch {}
+      try {
+        cy.resize();
+      } catch {}
       window.setTimeout(() => {
-        try { cy.fit({ padding: 60 }); } catch {}
+        try {
+          cy.fit({ padding: 60 });
+        } catch {}
       }, 150);
     });
 
-    setVisibleNodeTypes(new Set(nodeTypeList.map((x) => x.type)));
+    const nextVisibleNodeTypes = new Set(
+      nodeTypeList
+        .map((x) => x.type)
+        .filter((type) => isNodeTypeActuallyVisible(cy, type))
+    );
+
+    setVisibleNodeTypes(nextVisibleNodeTypes);
     setVisibleEdgeTypes(new Set(edgeTypeList.map((x) => x.type)));
   };
 
-  // Keep LayoutSwitcher behaviour as-is (graphName suffix based)
-  const layoutSupported = ["HE_2025", "Cluster_1", "Cluster_2", "Cluster_3", "Cluster_4", "Cluster_5", "Cluster_6"].includes(
-    cleanGraphName
-  );
+  const layoutSupported = [
+    "HE_2025",
+    "Cluster_1",
+    "Cluster_2",
+    "Cluster_3",
+    "Cluster_4",
+    "Cluster_5",
+    "Cluster_6",
+  ].includes(cleanGraphName);
 
-  // Show Node Types on ALL layers where there is at least one toggleable type
   const nodeTogglesVisible = !!cy && nodeTypeList.length > 0;
-  
+
   return (
     <Box
       ref={scrollRef}
       className="legend-sidebar legend-filters-panel"
       component="aside"
       sx={{
-        width: "100%",          // inherit the 300px from GraphPage
+        width: "100%",
         minWidth: "100%",
         maxWidth: "100%",
-       height: "100%",
-       display: "flex",
-       flexDirection: "column",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
         boxSizing: "border-box",
       }}
     >
       <Box className="legend-header">
-      {/* LEFT: brand badge (shown on mobile only via CSS) */}
-     <Box className="legend-header-left" display="flex" alignItems="center" gap={1}>
-        {/* Desktop/default icon */} 
-        <FilterListIcon className="legend-filter-icon" fontSize="small" />
+        <Box className="legend-header-left" display="flex" alignItems="center" gap={1}>
+          <FilterListIcon className="legend-filter-icon" fontSize="small" />
+          <div className="graph-app-logo legend-brand-badge" aria-hidden="true">
+            <span className="graph-app-logo-mark graph-app-logo-mask" aria-hidden="true" />
+          </div>
+        </Box>
 
-        {/* Mobile-only brand icon */}
-        <div className="graph-app-logo legend-brand-badge" aria-hidden="true">
-          <span className="graph-app-logo-mark graph-app-logo-mask" aria-hidden="true" />
-        </div>
+        <Box className="legend-header-center">
+          <Typography className="legend-header-title" variant="subtitle1" fontWeight="bold">
+            Filters &amp; Controls
+          </Typography>
+        </Box>
+
+        <Box className="legend-header-right">
+          {onCollapse && (
+            <IconButton
+              onClick={onCollapse}
+              size="small"
+              title="Collapse Legend"
+              className="legend-collapse-button"
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+          )}
+        </Box>
       </Box>
 
-
-      {/* CENTER: title */}
-      <Box className="legend-header-center">
-        <Typography className="legend-header-title" variant="subtitle1" fontWeight="bold">
-          Filters &amp; Controls
-        </Typography>
-      </Box>
-
-      {/* RIGHT: collapse chevron */}
-      <Box className="legend-header-right">
-        {onCollapse && (
-          <IconButton
-            onClick={onCollapse}
-            size="small"
-            title="Collapse Legend"
-            className="legend-collapse-button"
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-        )}
-      </Box>
-    </Box>
-
-      {/* Scrollable content */}
       <Box className="legend-content">
         <LegendSection
           title="Graph Dataset"
           isOpen={sectionsOpen.dataset}
           onToggle={() => toggleSection("dataset")}
         >
-      <GraphSelector
-          cy={cy}
-          graphName={graphName}
-          setGraphName={setGraphName}
-          loadFromStore={loadFromStore}
-          selectedNodeId={selectedNodeId}
-          onRequestNavigate={onRequestNavigate}
-        />
-
+          <GraphSelector
+            cy={cy}
+            graphName={graphName}
+            setGraphName={setGraphName}
+            loadFromStore={loadFromStore}
+            selectedNodeId={selectedNodeId}
+            onRequestNavigate={onRequestNavigate}
+          />
         </LegendSection>
 
-        {/* Edge Types only relevant for HE_2025 */}
         {isHE2025 && edgeTypeList.length > 0 && (
           <LegendSection
-          title="Edge Types"
-          isOpen={sectionsOpen.edgeTypes}
-          onToggle={() => toggleSection("edgeTypes")}
+            title="Edge Types"
+            isOpen={sectionsOpen.edgeTypes}
+            onToggle={() => toggleSection("edgeTypes")}
           >
             <EdgeTypeToggle
               cy={cy}
@@ -346,16 +389,16 @@ const LegendToggle = ({
               onToggle={(type) =>
                 toggleType(type, visibleEdgeTypes, setVisibleEdgeTypes, (t) =>
                   cy.edges(`[type = "${t}"], [category = "${t}"]`)
-            )
-          }
-          />
+                )
+              }
+            />
           </LegendSection>
         )}
 
         {nodeTogglesVisible && (
           <LegendSection
-          title="Node Types"
-          isOpen={sectionsOpen.nodeTypes}
+            title="Node Types"
+            isOpen={sectionsOpen.nodeTypes}
             onToggle={() => toggleSection("nodeTypes")}
           >
             <NodeTypeToggle
@@ -365,9 +408,9 @@ const LegendToggle = ({
               onToggle={(type) =>
                 toggleType(type, visibleNodeTypes, setVisibleNodeTypes, (t) =>
                   cy.nodes(`[type = "${t}"], [category = "${t}"]`)
-            )
-          }
-          />
+                )
+              }
+            />
           </LegendSection>
         )}
 
@@ -375,31 +418,29 @@ const LegendToggle = ({
           title="Search Node"
           isOpen={sectionsOpen.search}
           onToggle={() => toggleSection("search")}
-          >
+        >
           <SearchBox cy={cy} showTitle={false} />
         </LegendSection>
 
-        {/* Similarity section only for HE_2025 */}
         {isHE2025 && (
           <LegendSection
-          title="Min Similarity"
-          isOpen={sectionsOpen.similarity}
-          onToggle={() => toggleSection("similarity")}
+            title="Min Similarity"
+            isOpen={sectionsOpen.similarity}
+            onToggle={() => toggleSection("similarity")}
           >
             <ScoreFilter cy={cy} showTitle={false} />
           </LegendSection>
         )}
 
-          <LegendSection
-            title="Layout Mode"
-            isOpen={sectionsOpen.layout}
-            onToggle={() => toggleSection("layout")}
-          >
-            <LayoutSwitcher graphName={graphName} setGraphName={setGraphName} />
-          </LegendSection>
+        <LegendSection
+          title="Layout Mode"
+          isOpen={sectionsOpen.layout}
+          onToggle={() => toggleSection("layout")}
+        >
+          <LayoutSwitcher graphName={graphName} setGraphName={setGraphName} />
+        </LegendSection>
       </Box>
 
-      {/* Fixed footer / Reset button */}
       <Box className="legend-footer">
         <button type="button" className="legend-reset-button" onClick={resetView}>
           <span className="legend-reset-icon">⟳</span>

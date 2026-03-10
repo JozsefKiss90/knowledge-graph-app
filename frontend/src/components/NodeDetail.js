@@ -150,6 +150,18 @@ function hasRenderableValue(value) {
   return String(value).trim() !== "";
 }
 
+function formatDateShort(value) {
+  if (!value) return "—";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return String(value);
+
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 function getDynamicDescriptionSectionConfig(nodeData) {
   const advertised = Array.isArray(nodeData?._description_section_keys)
     ? nodeData._description_section_keys.filter((k) => typeof k === "string" && k.trim())
@@ -345,7 +357,7 @@ const TextSectionFromField = ({ nodeData, fieldKey, label, defaultOpen = true })
               label={item}
               size="small"
               className="nd-tag-chip"
-              variant="outlined"
+              variant="filled"
             />
           ))}
         </Box>
@@ -726,7 +738,12 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                     </Typography>
                   </Box>
                   <Box className="nd-card-body nd-actions">
-                    <Button fullWidth variant="outlined" onClick={handleBookmarkDestination}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      className="nd-primary-button nd-primary-button--bookmark"
+                      onClick={handleBookmarkDestination}
+                    >
                       Bookmark this Destination
                     </Button>
                   </Box>
@@ -836,8 +853,14 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
           {tags.length > 0 && (
             <Box className="nd-tags-row">
               {tags.map((tag) => (
-                <Chip key={tag} label={tag} size="small" className="nd-tag-chip" variant="outlined" />
-              ))}
+                <Chip
+                  key={tag}
+                  label={tag}
+                  size="small"
+                  className="nd-tag-chip"
+                  variant="filled"
+                />              
+                ))}
             </Box>
           )}
 
@@ -887,34 +910,32 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                     </div>
 
                     {typeOfAction && (
-                      <div className="nd-metric nd-metric--full">
-                        <div className="nd-metric-label">
-                          <InfoOutlinedIcon fontSize="small" className="nd-metric-icon" />
+                      <div className="nd-info-row">
+                        <div className="nd-info-row-label">
+                          <InfoOutlinedIcon fontSize="small" className="nd-info-row-icon" />
                           <span>Type of Action</span>
                         </div>
-                        <div className="nd-metric-value nd-metric-value--small">{typeOfAction}</div>
+                        <div className="nd-info-row-value">{typeOfAction}</div>
                       </div>
                     )}
 
                     {expectedEUContribution && (
-                      <div className="nd-metric nd-metric--full">
-                        <div className="nd-metric-label">
-                          <EuroIcon fontSize="small" className="nd-metric-icon" />
+                      <div className="nd-info-row">
+                        <div className="nd-info-row-label">
+                          <EuroIcon fontSize="small" className="nd-info-row-icon" />
                           <span>Expected EU Contribution</span>
                         </div>
-                        <div className="nd-metric-value nd-metric-value--small">
-                          {expectedEUContribution}
-                        </div>
+                        <div className="nd-info-row-value">{expectedEUContribution}</div>
                       </div>
                     )}
 
                     {(nodeData.call_identifier || nodeData.programme) && (
-                      <div className="nd-metric nd-metric--full">
-                        <div className="nd-metric-label">
-                          <InfoOutlinedIcon fontSize="small" className="nd-metric-icon" />
+                      <div className="nd-info-row">
+                        <div className="nd-info-row-label">
+                          <InfoOutlinedIcon fontSize="small" className="nd-info-row-icon" />
                           <span>Identifiers</span>
                         </div>
-                        <div className="nd-metric-value nd-metric-value--small">
+                        <div className="nd-info-row-value">
                           {nodeData.programme ? `Programme: ${nodeData.programme}` : ""}
                           {nodeData.programme && nodeData.call_identifier ? " • " : ""}
                           {nodeData.call_identifier ? `Call: ${nodeData.call_identifier}` : ""}
@@ -973,50 +994,59 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                     </Typography>
                   </Box>
 
-                  <Box className="nd-card-body">
-                    {openingDate && (
-                      <Box className="nd-timeline-row">
-                        <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
-                        <Box>
-                          <Typography variant="body2">Opening Date</Typography>
-                          <Typography variant="caption" className="nd-muted-text">
-                            {openingDate}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    )}
-
-                    {deadlines && deadlines.length > 0 && (
-                      <Box className="nd-timeline-row" sx={{ alignItems: "flex-start" }}>
-                        <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
-                        <Box>
-                          <Typography variant="body2">
-                            Application Deadline{deadlines.length > 1 ? "s" : ""}
-                          </Typography>
-                          {deadlines.map((dl, idx) => (
-                            <Typography key={`${dl}-${idx}`} variant="caption" className="nd-muted-text" display="block">
-                              {dl}
-                            </Typography>
-                          ))}
-                        </Box>
-                      </Box>
-                    )}
+              <Box className="nd-card-body">
+                {openingDate && (
+                  <Box className="nd-timeline-row">
+                    <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
+                    <Box className="nd-timeline-content">
+                      <Typography variant="body2" className="nd-timeline-label">
+                        Opening Date
+                      </Typography>
+                      <Typography variant="caption" className="nd-timeline-date">
+                        {formatDateShort(openingDate)}
+                      </Typography>
+                    </Box>
                   </Box>
+                )}
 
-                  <Box className="nd-header-right" sx={{ paddingTop: "20px" }}>
-                    {officialCallPageUrl && (
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        startIcon={<OpenInNewIcon fontSize="small" />}
-                        onClick={() =>
-                          window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")
-                        }
-                      >
-                        Official Call Page
-                      </Button>
-                    )}
+                {deadlines && deadlines.length > 0 && (
+                  <Box className="nd-timeline-row">
+                    <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
+                    <Box className="nd-timeline-content">
+                      <Typography variant="body2" className="nd-timeline-label">
+                        Application Deadline{deadlines.length > 1 ? "s" : ""}
+                      </Typography>
+                      {deadlines.map((dl, idx) => (
+                        <Typography
+                          key={`${dl}-${idx}`}
+                          variant="caption"
+                          className="nd-timeline-date"
+                          display="block"
+                        >
+                          {formatDateShort(dl)}
+                        </Typography>
+                      ))}
+                    </Box>
                   </Box>
+                )}
+
+                {officialCallPageUrl && (
+                  <Box className="nd-card-action">
+                    <Button
+                      fullWidth
+                      size="medium"
+                      variant="contained"
+                      className="nd-primary-button nd-primary-button--official"
+                      startIcon={<OpenInNewIcon fontSize="small" />}
+                      onClick={() =>
+                        window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")
+                      }
+                    >
+                      Official Call Page
+                    </Button>
+                  </Box>
+                )}
+              </Box>
                 </Box>
               )}
 
@@ -1027,7 +1057,12 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                   </Typography>
                 </Box>
                 <Box className="nd-card-body nd-actions">
-                  <Button fullWidth variant="outlined" onClick={handleBookmark}>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    className="nd-secondary-button nd-secondary-button--bookmark"
+                    onClick={handleBookmark}
+                  >
                     Bookmark this Call
                   </Button>
                 </Box>

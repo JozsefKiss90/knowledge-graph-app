@@ -7,8 +7,8 @@ export default function GraphAppHeader() {
         <span className="graph-app-logo-mark graph-app-logo-mask" aria-hidden="true" />
       </div>
       <div className="graph-app-header-text">
-        <div className="graph-app-title">Horizon Europe Knowledge Graph</div>
-        <div className="graph-app-subtitle">Explore relationships between research projects, funding, and topics</div>
+        <div className="graph-app-title">EU Knowledge Graph</div>
+        <div className="graph-app-subtitle">Explore relationships between funding programmes, topics, and research projects</div>
       </div>
     </div>
   );

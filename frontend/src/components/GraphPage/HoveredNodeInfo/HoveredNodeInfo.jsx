@@ -235,35 +235,59 @@ export default function HoveredNodeInfo({
     return [...tags.slice(0, HOVER_TAG_LIMIT), `+${hiddenCount} more`];
   }, [model?.tags]);
 
-  const filteredMetricCards = useMemo(() => {
-        if (!Array.isArray(model?.metricCards)) return [];
+const filteredMetricCards = useMemo(() => {
+  if (!Array.isArray(model?.metricCards)) return [];
 
-        return model.metricCards.filter((m) => {
-          const key = String(m?.key || "").toLowerCase();
-          const val = String(m?.value || "").replace(/[^\d.]/g, "");
+  return model.metricCards
+    .filter((m) => {
+      const key = String(m?.key || "").toLowerCase();
+      const val = String(m?.value || "").replace(/[^\d.]/g, "");
 
-          const isContribution =
-            key.includes("min_contribution") ||
-            key.includes("max_contribution") ||
-            m.label === "Min Contribution" ||
-            m.label === "Max Contribution";
+      const isContribution =
+        key.includes("min_contribution") ||
+        key.includes("max_contribution") ||
+        m.label === "Min Contribution" ||
+        m.label === "Max Contribution";
 
-          if (!isContribution) return true;
+      if (!isContribution) return true;
 
-          const num = Number(val);
-          return Number.isFinite(num) && num !== 0;
-        });
-    }, [model?.metricCards]);
+      const num = Number(val);
+      return Number.isFinite(num) && num !== 0;
+    })
+    .map((m) => {
+      const label = String(m?.label || "").toLowerCase();
+
+      // --- FIX: keep only acronym for Type of Action ---
+      if (label.includes("type of action")) {
+        const raw = String(m?.value || "");
+        const acronym = raw.split(/\s+/)[0]; // take first token only
+
+        return {
+          ...m,
+          value: acronym,
+        };
+      }
+
+      return m;
+    });
+}, [model?.metricCards]);
 
   if (!model) return null;
 
   const handlePrimaryNavigate = () => {
     if (!model?.id) return;
 
-    if (model.isClusterNode || model.isDestinationNode) {
+    const shouldDrillIntoGraph =
+      model.isClusterNode ||
+      model.isDestinationNode ||
+      model.isProgrammeNode ||
+      model.isPillarNode ||
+      model.isRootNode;
+
+    if (shouldDrillIntoGraph) {
       try {
         const n = cyInstance?.$id?.(String(model.id));
-        if (n && n.nonempty && n.nonempty()) {
+        if (n && typeof n.empty === "function" && !n.empty()) {
           n.emit("tap");
           onClose?.();
           return;
@@ -271,6 +295,12 @@ export default function HoveredNodeInfo({
       } catch {
         // fall through
       }
+    }
+
+    // Only calls should open node detail from the hover card
+    if (!model.isCallNode) {
+      onClose?.();
+      return;
     }
 
     const safeId = encodeURIComponent(String(model.id));
@@ -338,7 +368,10 @@ export default function HoveredNodeInfo({
 
   const detailsButtonBlock = model.showViewDetails ? (
     <Box sx={{ mt: 1, position: "sticky", bottom: 0, background: "var(--surface, transparent)", zIndex: 1 }}>
-      <ViewDetailsButton onClick={handlePrimaryNavigate} />
+      <ViewDetailsButton
+        onClick={handlePrimaryNavigate}
+        label={model.isCallNode ? "View Details" : "Enter Graph"}
+      />
     </Box>
   ) : null;
 

@@ -47,7 +47,6 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
         edgeCall: "rgba(245,158,11,0.70)",
       };
 
-  // Sync CSS variables used by toggle buttons
   const root = document.documentElement;
   root.style.setProperty("--nt-root", PALETTE.root);
   root.style.setProperty("--nt-policy", PALETTE.policy);
@@ -61,37 +60,39 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
   root.style.setProperty("--nt-label", PALETTE.label);
   root.style.setProperty("--nt-border", PALETTE.border);
 
-const resolveNodeGroup = (n) => {
-  const g = n.data("group");
-  if (g && groupColors[g]) return g;
+  // NEW: sync navigation-layer/group colors too
+  root.style.setProperty("--nt-meta", groupColors.meta || PALETTE.root);
+  root.style.setProperty("--nt-programme", groupColors.programme || PALETTE.strategy);
+  root.style.setProperty("--nt-pillar", groupColors.pillar || PALETTE.cluster);
+  root.style.setProperty("--nt-sp", groupColors.sp || PALETTE.policy);
 
-  const tRaw = n.data("type") || n.data("category") || "";
-  const t = String(tRaw).toLowerCase();
+  const resolveNodeGroup = (n) => {
+    const g = n.data("group");
+    if (g && groupColors[g]) return g;
 
-  if (t.includes("meta")) return "meta";
+    const tRaw = n.data("type") || n.data("category") || "";
+    const t = String(tRaw).toLowerCase();
 
-  if (t.includes("root")) {
-    // ✅ ONLY the meta-level root node should be "meta"
-    // meta layerKey is "ROOT" and its center node id is ROOT_EU
-    if (String(layerKey) === "ROOT" && n.id && n.id() === "ROOT_EU") return "meta";
+    if (t.includes("meta")) return "meta";
 
-    // ✅ all other "root" nodes are programme roots (e.g., ROOT_HE)
-    return "programme";
-  }
+    if (t.includes("root")) {
+      if (String(layerKey) === "ROOT" && n.id && n.id() === "ROOT_EU") return "meta";
+      return "programme";
+    }
 
-  if (t.includes("sp")) return "sp";
-  if (t.includes("pillar")) return "pillar";
-  if (t.includes("programme") || t.includes("cluster")) return "programme";
-  if (t.includes("destination")) return "destination";
-  if (t.includes("call")) return "call";
+    if (t.includes("sp")) return "sp";
+    if (t.includes("pillar")) return "pillar";
+    if (t.includes("programme") || t.includes("cluster")) return "programme";
+    if (t.includes("destination")) return "destination";
+    if (t.includes("call")) return "call";
 
-  return null;
-};
+    return null;
+  };
 
-const nodeColorFor = (n) => {
-  const group = resolveNodeGroup(n);
-  return (group && groupColors[group]) ? groupColors[group] : PALETTE.base;
-};
+  const nodeColorFor = (n) => {
+    const group = resolveNodeGroup(n);
+    return (group && groupColors[group]) ? groupColors[group] : PALETTE.base;
+  };
 
   const edgeColorFor = (e) => {
     const t = e.data("type") || "";

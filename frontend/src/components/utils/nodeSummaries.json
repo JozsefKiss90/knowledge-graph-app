@@ -8,11 +8,11 @@
   },
   "ROOT_EU": {
     "title": "EU Funding Programmes",
-    "summary": "Entry point to EU-level funding programmes. Select a programme to browse work programmes, destinations, and calls."
+    "summary": "EU funding programmes for 2021–2027 offer billions in grants, loans, and guarantees across sectors like research, digital transformation, and green energy, managed either directly by the Commission or by national authorities. Explore programmes → pillars → clusters → calls."
   },
   "HE_ROOT": {
     "title": "Horizon Europe",
-    "summary": "Horizon Europe is the EU’s framework programme for research and innovation. Explore pillars → work programmes → destinations → calls."
+    "summary": "Horizon Europe is the world's largest research and innovation programme running from 2021 until 2027, providing over £80 billion in funding to address some of the greatest global challenges."
   },
   "PILLAR_P1": {
     "title": "Pillar I: Excellent Science",
@@ -77,5 +77,34 @@
   "Cluster_6": {
     "title": "Cluster 6: Food, Bioeconomy, Natural Resources, Agriculture and Environment",
     "summary": "Supports sustainable food systems and bioeconomy pathways, biodiversity and ecosystem restoration, and resilient agriculture and resource management aligned with environmental and climate objectives."
+  },
+  "ERC": {
+    "title": "European Research Council (ERC)",
+    "summary": "Funds frontier research conducted by top-level scientists, promoting excellence and innovation in all scientific disciplines."
+  },
+  "EIE": {
+    "title": "European Innovation Ecosystems (EIE)",
+    "summary": "Supports the development of innovative ecosystems that foster collaboration between academia, industry, and public stakeholders to drive research and innovation."
+  },
+  "EIT": {
+    "title": "European Institute of Innovation and Technology (EIT)",
+    "summary": "Promotes innovation and entrepreneurship across Europe by integrating education, research, and business through Knowledge and Innovation Communities (KICs)."
+  },
+  "MSCA": {
+    "title": "Marie Skłodowska-Curie Actions (MSCA)",
+    "summary": "Supports researcher mobility, training, and career development across all disciplines and sectors, fostering international and intersectoral collaboration."  
+  },
+  "RI": {
+    "title": "Research Infrastructures (RI)",
+    "summary": "Supports the development and operation of world-class research infrastructures, enabling cutting-edge research and innovation across disciplines and sectors."
+  },
+  "WIDERA": {
+    "title": "Widening Participation & Strengthening the ERA (WIDERA)",
+    "summary": "Improves R&I performance in Widening countries by strengthening capacity, excellence, and networking, while supporting reforms and actions that advance the European Research Area (ERA)."
+  },
+  "INFRA": {
+    "title": "Infrastructure",
+    "summary": "Supports the development and operation of world-class research infrastructures, enabling cutting-edge research and innovation across disciplines and sectors."
+    }
   }
-}
+

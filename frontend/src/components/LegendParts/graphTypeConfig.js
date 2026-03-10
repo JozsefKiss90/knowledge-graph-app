@@ -51,6 +51,7 @@ export const getNodeTypeList = (graphName) => {
       { type: 'research_theme', color: 'rgb(180, 143, 47)' },
       { type: 'institution', color: 'rgb(118, 46, 160)' },
       { type: 'topic', color: 'rgb(182, 182, 47)' },
+      { type: 'search', color: 'rgb(182, 182, 47)' },
     ];
   } else if (clean === "Cluster_2") {
     return [

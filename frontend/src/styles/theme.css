@@ -1,8 +1,8 @@
 :root {
     /* Graph surface */
   --graph-surface: var(--background);
-  --graph-grid-line: rgba(122, 122, 122, 0.06);
-  --graph-grid-line-strong: rgba(94, 94, 94, 0.09);
+  --graph-grid-line: rgba(122, 122, 122, 0.05);
+  --graph-grid-line-strong: rgba(94, 94, 94, 0.08);
   --graph-vignette: radial-gradient(ellipse at center, rgb(255, 255, 255) 20%, rgb(245, 245, 245) 680%, rgba(255, 255, 255, 0.164) 100%);
   --font-size: 16px;
   
@@ -113,75 +113,94 @@
   text-overflow: unset !important;
 }
 
-.dark,body.dark-theme  {
-    /* Graph surface */ 
-  --graph-surface: #121e30; /* or var(--background) if you prefer */
-  --graph-grid-line: rgba(134, 134, 134, 0.045);
-  --graph-grid-line-strong: rgba(134, 134, 134, 0.045);
-  --graph-vignette: radial-gradient(ellipse at center, rgba(39, 39, 39, 0) 0%, rgba(29, 29, 29, 0.28) 65%, rgba(0,0,0,0.42) 100%);
-  --background: #0D1117;
-  --foreground: #E6EDF3;
-  --card: #171d27;
-  --card-foreground: #E6EDF3;
-  --popover: #161B22;
-  --popover-foreground: #E6EDF3;
-  --primary: #4A9EFF;
-  --primary-foreground: #FFFFFF;
-  --primary-light: #1A3556;
-  --primary-dark: #71B4FF;
-  --secondary: #21262D;
-  --secondary-foreground: #E6EDF3;
-  --muted: #21262D;
-  --muted-foreground: #8B949E;
-  --accent: #28323f;
-  --accent-foreground: #E6EDF3;
-  --destructive: #F85149;
-  --destructive-foreground: #FFFFFF;
-  --success: #3FB950;
-  --success-foreground: #FFFFFF;
-  --warning: #D29922;
-  --warning-foreground: #0D1117;
-  --border: #30363D;
+.dark,
+body.dark-theme {
+  /* Graph surface */
+  --graph-surface: #07111f;
+  --graph-grid-line: rgba(120, 156, 214, 0.045);
+  --graph-grid-line-strong: rgba(120, 156, 214, 0.07);
+  --graph-vignette:
+    radial-gradient(
+      ellipse at center,
+      rgba(18, 46, 88, 0.04) 0%,
+      rgba(8, 18, 34, 0.18) 58%,
+      rgba(2, 7, 15, 0.34) 100%
+    );
+
+  /* Core surfaces */
+  --background: #040b16;
+  --foreground: #f5f9ff;
+  --card: #0d1930;
+  --card-foreground: #f5f9ff;
+  --popover: #0f1d36;
+  --popover-foreground: #f5f9ff;
+
+  /* Brand / accent */
+  --primary: #3d8fff;
+  --primary-foreground: #ffffff;
+  --primary-light: #12284a;
+  --primary-dark: #25cfff;
+
+  /* Secondary surfaces */
+  --secondary: #10203b;
+  --secondary-foreground: #e7f0fb;
+
+  /* Muted / accent */
+  --muted: #12213b;
+  --muted-foreground: #9aacc9;
+  --accent: #163055;
+  --accent-foreground: #eef6ff;
+
+  /* Status */
+  --destructive: #ff6b7a;
+  --destructive-foreground: #ffffff;
+  --success: #35d07f;
+  --success-foreground: #ffffff;
+  --warning: #f3b84b;
+  --warning-foreground: #08111f;
+
+  /* Borders & inputs */
+  --border: rgba(82, 111, 160, 0.34);
   --input: transparent;
-  --input-background: #0D1117;
-  --switch-background: #484F58;
-  --ring: #4A9EFF;
-  
-  /* Node Type Colors - Dark Mode */
-  --node-policy: #4A9EFF;
-  --node-research: #3FB950;
-  --node-cluster: #F59E0B;
-  --node-research-theme: #F778BA;
-  --node-institution: #A78BFA;
-  --node-kpi: #4ADE80;
-  
-  /* Edge Type Colors - Dark Mode */
-  --edge-relates: #4A9EFF;
-  --edge-maps: #818CF8;
-  --edge-similarity: #2DD4BF;
-  
-  /* Chart Colors - Dark Mode */
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  
-  /* Sidebar - Dark Mode */
-  --sidebar: #131b29;
-  --sidebar-foreground: #E6EDF3;
-  --sidebar-primary: #4A9EFF;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1d2836;
-  --sidebar-accent-foreground: #E6EDF3;
-  --sidebar-border: #30363D;
-  --sidebar-ring: #4A9EFF;
-  
-  /* Shadows - Dark Mode */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  --input-background: #0c172c;
+  --switch-background: #31486c;
+  --ring: #47a9ff;
+
+  /* Node type colors */
+  --node-policy: #43a8ff;
+  --node-research: #35d07f;
+  --node-cluster: #f3b84b;
+  --node-research-theme: #ec6cff;
+  --node-institution: #9c8cff;
+  --node-kpi: #19d4ff;
+
+  /* Edge colors */
+  --edge-relates: #47a9ff;
+  --edge-maps: #7e8fff;
+  --edge-similarity: #25cfff;
+
+  /* Chart colors */
+  --chart-1: #47a9ff;
+  --chart-2: #25cfff;
+  --chart-3: #35d07f;
+  --chart-4: #f3b84b;
+  --chart-5: #9c8cff;
+
+  /* Sidebar */
+  --sidebar: #0b1628;
+  --sidebar-foreground: #f5f9ff;
+  --sidebar-primary: #47a9ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #12213b;
+  --sidebar-accent-foreground: #eef6ff;
+  --sidebar-border: rgba(82, 111, 160, 0.28);
+  --sidebar-ring: #47a9ff;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.26);
+  --shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 22px 46px rgba(0, 0, 0, 0.38);
 
   --foreground-muted: var(--muted-foreground);
 }

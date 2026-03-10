@@ -171,13 +171,16 @@ useEffect(() => {
       effectiveLayout,
     });
 
-  if (!ready) {
-    return (
-      <div className="d-flex align-items-center justify-content-center h-100">
-        <CircularProgress color="primary" />
-      </div>
-    );
-  }
+    if (!ready) {
+      return (
+        <div
+          className="d-flex align-items-center justify-content-center"
+          style={{ width: "100vw", height: "100vh" }}
+        >
+          <CircularProgress color="primary" />
+        </div>
+      );
+    }
 
   return (
     <CyContext.Provider value={cyInstance}>
@@ -212,6 +215,7 @@ useEffect(() => {
               loadFromStore={loadFromStore}
               effectiveLayout={effectiveLayout}
               updateOption={updateOption}
+              onApplyLayout={handleApplyLayout}
               onGraphStats={setGraphStats}
               onCyReady={setCyInstance}
               onNodeHover={(node) => {

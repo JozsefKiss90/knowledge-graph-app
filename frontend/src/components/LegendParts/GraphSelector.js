@@ -437,7 +437,6 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
     <div className="graph-selector">
       <div className="graph-selector-list" ref={listRef} role="tree" aria-label="Graph navigation tree">
         <div className="graph-selector-group">
-          <div className="graph-selector-group-title">Meta layout</div>
 
           <TreeRow
             item={{ id: "ROOT", label: "EU Funding Programmes", color: groupColors.meta }}

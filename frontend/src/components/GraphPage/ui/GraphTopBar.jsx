@@ -1,5 +1,4 @@
-// src/components/GraphPage/GraphTopBar.js
-import React, { useMemo, useState, useEffect  } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -20,6 +19,13 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
+function formatLevelTitle(title) {
+  if (!title) return "";
+  return String(title)
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 const GraphTopBar = ({
   levels,
   currentKey,
@@ -28,9 +34,8 @@ const GraphTopBar = ({
   onBack,
   onResetView,
   onFitView,
-  layoutMode,            // "force" | "tree"
-  onLayoutModeChange,    // (mode) => void
-  layoutSwitchVisible,   // boolean
+  layoutMode,
+  onLayoutModeChange,
 }) => {
   const currentIndex = Math.max(
     0,
@@ -43,10 +48,9 @@ const GraphTopBar = ({
     return found?.title || "Graph";
   }, [levels, currentKey]);
 
-  const isTree = layoutMode === "tree";
+  const isTree = layoutMode === "breadthfirst";
 
-  // Compact breakpoint: covers iPhone SE landscape etc.
-  const isCompact = useMediaQuery("(max-width: 1024px), (max-height: 520px)");  // Overflow menu (compact)
+  const isCompact = useMediaQuery("(max-width: 1024px), (max-height: 520px)");
   const [menuAnchor, setMenuAnchor] = useState(null);
   const menuOpen = Boolean(menuAnchor);
   const openMenu = (e) => setMenuAnchor(e.currentTarget);
@@ -54,8 +58,8 @@ const GraphTopBar = ({
 
   useEffect(() => {
     setMenuAnchor(null);
-  }, [isCompact]);
-  
+  }, [isCompact, currentKey]);
+
   if (isCompact) {
     return (
       <Box className="graph-topbar graph-topbar--compact">
@@ -84,13 +88,13 @@ const GraphTopBar = ({
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={currentTitle}>
+          <Tooltip title={formatLevelTitle(currentTitle)}>
             <Typography
               variant="body2"
               component="div"
               className="graph-topbar-compact-title"
             >
-              {currentTitle}
+              {formatLevelTitle(currentTitle)}
             </Typography>
           </Tooltip>
         </Box>
@@ -118,34 +122,29 @@ const GraphTopBar = ({
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
-           {layoutSwitchVisible ? ([
-  <MenuItem
-    key="layout-force"
-    onClick={() => {
-      onLayoutModeChange?.("force");
-      closeMenu();
-    }}
-    selected={layoutMode !== "tree"}
-  >
-    <GridOnIcon fontSize="small" style={{ marginRight: 10 }} />
-    Force layout
-  </MenuItem>,
+            <MenuItem
+              onClick={() => {
+                onLayoutModeChange?.("cose-bilkent");
+                closeMenu();
+              }}
+              selected={!isTree}
+            >
+              <GridOnIcon fontSize="small" style={{ marginRight: 10 }} />
+              Force layout
+            </MenuItem>
 
-  <MenuItem
-    key="layout-tree"
-    onClick={() => {
-      onLayoutModeChange?.("tree");
-      closeMenu();
-    }}
-    selected={layoutMode === "tree"}
-  >
-    <AccountTreeIcon fontSize="small" style={{ marginRight: 10 }} />
-    Hierarchy layout
-  </MenuItem>,
+            <MenuItem
+              onClick={() => {
+                onLayoutModeChange?.("breadthfirst");
+                closeMenu();
+              }}
+              selected={isTree}
+            >
+              <AccountTreeIcon fontSize="small" style={{ marginRight: 10 }} />
+              Hierarchy layout
+            </MenuItem>
 
-  <Divider key="layout-divider" />,
-]) : null}
-
+            <Divider />
 
             <MenuItem
               onClick={() => {
@@ -172,7 +171,6 @@ const GraphTopBar = ({
     );
   }
 
-  // Desktop / wide layout: keep your existing breadcrumb UI unchanged
   return (
     <Box className="graph-topbar">
       <Box className="graph-topbar-left">
@@ -197,14 +195,15 @@ const GraphTopBar = ({
                     isActive ? " graph-topbar-breadcrumb--active" : ""
                   }`}
                   onClick={() => onLevelClick(index)}
-                  title={lvl.title}
+                  title={formatLevelTitle(lvl.title)}
                 >
                   <Typography
-                    variant="body2"
                     component="span"
-                    className="graph-topbar-breadcrumb-label"
+                    className={`graph-topbar-breadcrumb-label level-${index} ${
+                      isActive ? "is-active" : ""
+                    }`}
                   >
-                    {lvl.title}
+                    {formatLevelTitle(lvl.title)}
                   </Typography>
                 </button>
               </Box>
@@ -229,34 +228,27 @@ const GraphTopBar = ({
       </Box>
 
       <Box className="graph-topbar-actions">
-        {layoutSwitchVisible && (
-          <>
-            <Tooltip title="Force-Directed Layout">
-              <IconButton
-                size="small"
-                className={`graph-topbar-icon${
-                  !isTree ? " graph-topbar-icon--active" : ""
-                }`}
-                color="default"
-                onClick={() => onLayoutModeChange?.("force")}
-              >
-                <GridOnIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Hierarchical Layout">
-              <IconButton
-                size="small"
-                className={`graph-topbar-icon${
-                  isTree ? " graph-topbar-icon--active" : ""
-                }`}
-                color="default"
-                onClick={() => onLayoutModeChange?.("tree")}
-              >
-                <AccountTreeIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </>
-        )}
+        <Tooltip title="Force-Directed Layout">
+          <IconButton
+            size="small"
+            className={`graph-topbar-icon${!isTree ? " graph-topbar-icon--active" : ""}`}
+            color="default"
+            onClick={() => onLayoutModeChange?.("cose-bilkent")}
+          >
+            <GridOnIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Hierarchical Layout">
+          <IconButton
+            size="small"
+            className={`graph-topbar-icon${isTree ? " graph-topbar-icon--active" : ""}`}
+            color="default"
+            onClick={() => onLayoutModeChange?.("breadthfirst")}
+          >
+            <AccountTreeIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
 
         <Tooltip title="Reset view">
           <IconButton size="small" className="graph-topbar-icon" onClick={onResetView}>

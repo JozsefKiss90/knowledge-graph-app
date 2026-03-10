@@ -5,7 +5,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 /**
  * Centered "View Details" button.
  */
-export default function ViewDetailsButton({ onClick }) {
+export default function ViewDetailsButton({ onClick, label = "View Details" }) {
   return (
     <Box sx={{ mt: 1.5, display: "flex", justifyContent: "center" }}>
       <Button
@@ -23,7 +23,7 @@ export default function ViewDetailsButton({ onClick }) {
           "&:hover": { backgroundColor: "var(--primary-dark)" },
         }}
       >
-        View Details
+        {label}
       </Button>
     </Box>
   );

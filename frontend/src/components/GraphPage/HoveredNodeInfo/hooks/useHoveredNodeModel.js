@@ -110,25 +110,38 @@ export function useHoveredNodeModel({
     const typeRaw = safeType(raw);
     const typeLower = String(typeRaw || "").toLowerCase();
 
-    const nodeKind =
-      typeLower.includes("cluster") || typeLower === "root"
-        ? "cluster"
-        : typeLower.includes("destination")
-        ? "destination"
-        : typeLower.includes("call")
-        ? "call"
-        : typeLower || "node";
+    const typeLabelRaw = String(typeRaw || "").toLowerCase();
 
-    const isClusterNode = nodeKind === "cluster";
-    const isDestinationNode = nodeKind === "destination";
-    const isCallNode = nodeKind === "call";
+    const isRootNode = typeLabelRaw === "root";
+    const isPillarNode = typeLabelRaw.includes("pillar");
+    const isProgrammeNode = typeLabelRaw.includes("programme");
+    const isClusterNode =
+      typeLabelRaw.includes("cluster") || isRootNode;
+    const isDestinationNode = typeLabelRaw.includes("destination");
+    const isCallNode = typeLabelRaw.includes("call");
+
+    const nodeKind = isCallNode
+      ? "call"
+      : isDestinationNode
+      ? "destination"
+      : isPillarNode
+      ? "pillar"
+      : isProgrammeNode
+      ? "programme"
+      : isClusterNode
+      ? "cluster"
+      : typeLabelRaw || "node";
 
     const typeLabel = isDestinationNode
       ? "Destination"
-      : isClusterNode
-      ? "Cluster"
       : isCallNode
       ? "Call"
+      : isPillarNode
+      ? "Pillar"
+      : isProgrammeNode
+      ? "Programme"
+      : isClusterNode
+      ? "Cluster"
       : truncate(typeRaw || "Node", 24);
 
     const nodeVisual = (() => {
@@ -276,6 +289,9 @@ export function useHoveredNodeModel({
     return {
       id,
       nodeKind,
+      isRootNode,
+      isPillarNode,
+      isProgrammeNode,
       isClusterNode,
       isDestinationNode,
       isCallNode,
@@ -295,7 +311,13 @@ export function useHoveredNodeModel({
       clusterSummary,
 
       renderDestinationMinimal: isDestinationNode,
-      showViewDetails: !isClusterNode,
+      showViewDetails:
+        isCallNode ||
+        isDestinationNode ||
+        isClusterNode ||
+        isPillarNode ||
+        isProgrammeNode ||
+        isRootNode,
       shouldShowHeaderChips: true,
     };
   }, [hoveredKey, hoveredNode, cyInstance, graphName, isHoverFrozen]);
