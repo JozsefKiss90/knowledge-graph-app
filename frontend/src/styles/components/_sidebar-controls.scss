@@ -1,0 +1,54 @@
+/* src/styles/components/_sidebar-controls.scss */
+/* === Right sidebar icon rail === */
+
+.sidebar-controls {
+  width: 60px;
+  height: 100%;
+  background-color: var(--sidebar);
+  border-left: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.75rem;
+  gap: 0.5rem;
+}
+
+/* Base button: small rounded square, icon color inherits from theme */
+.sidebar-controls-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px !important;
+  margin: 2px 0;
+  box-shadow: var(--shadow-sm);
+  /* let theme variants below set bg + color */
+}
+
+.sidebar-controls-button svg {
+  color: inherit; /* icon uses button’s text color */
+}
+
+/* Default colors per theme */
+.dark-theme .sidebar-controls-button {
+  background-color: var(--sidebar); /* same tone as rail */
+  color: var(--primary-foreground); /* white */
+}
+
+.light-theme .sidebar-controls-button {
+  background-color: var(--sidebar); /* light sidebar tone */
+  color: var(--foreground); /* black / dark text */
+}
+
+/* Hover state: light grey background + blue icon */
+.dark-theme .sidebar-controls-button:hover,
+.light-theme .sidebar-controls-button:hover {
+  background-color: var(--card); /* lighter than sidebar */
+  color: var(--primary); /* blue icon */
+}
+
+/* Divider line between main tools and settings */
+.sidebar-controls-divider {
+  width: 28px;
+  height: 1px;
+  margin: 8px 0;
+  background-color: var(--sidebar-border);
+}

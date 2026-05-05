@@ -1,0 +1,7 @@
+/* src/styles/foundations/_transitions.scss */
+
+/* Note: .sidebar-transition is a layout utility. Once the split is complete,
+   you may prefer moving this rule to graph/_layout-shell.scss. */
+.sidebar-transition {
+  transition: width 0.3s ease !important;
+}

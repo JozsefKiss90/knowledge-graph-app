@@ -1,0 +1,95 @@
+/* src/styles/components/_statusbar.scss */
+/* Bottom status bar inside the central graph column */
+
+.graph-status-bar {
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  background-color: var(--secondary);
+  color: var(--muted-foreground);
+  border-top: 1px solid var(--border);
+}
+
+/* Dark theme adjustment uses the same tokens, which already change with theme */
+.dark-theme .graph-status-bar {
+  background-color: var(--sidebar);
+  color: var(--muted-foreground);
+}
+
+.graph-status-left,
+.graph-status-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.graph-status-label {
+  opacity: 0.8;
+}
+
+.graph-status-value {
+  font-weight: var(--font-weight-medium);
+}
+
+/* small coloured dots before Nodes / Edges */
+.graph-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.graph-status-dot-nodes {
+  background-color: var(--primary);
+}
+
+.graph-status-dot-edges {
+  background-color: var(--node-policy); /* contrast colour for edges */
+}
+
+.graph-status-separator {
+  margin: 0 4px;
+  opacity: 0.5;
+}
+
+/* ===============================
+   Responsive fixes (append-only)
+   Keeps desktop unchanged
+   =============================== */
+
+.graph-status-bar,
+.graph-status-left,
+.graph-status-right {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .graph-status-bar {
+    height: auto;        /* allow wrap */
+    min-height: 32px;    /* preserve baseline */
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    row-gap: 4px;
+    column-gap: 12px;
+  }
+
+  .graph-status-right {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 740px) {
+  .graph-status-bar {
+    font-size: 12px;
+  }
+
+  /* Remove “label noise” so values fit */
+  .graph-status-label,
+  .graph-status-separator {
+    display: none;
+  }
+}

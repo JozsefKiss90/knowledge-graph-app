@@ -1,0 +1,11 @@
+/* src/styles/components/_filters.scss */
+
+.graph-filter {
+  background-color: var(--card);
+  padding: 4px 1px;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--foreground);
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}

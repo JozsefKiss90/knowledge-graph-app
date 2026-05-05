@@ -1,11 +1,17 @@
-from fastapi import APIRouter, HTTPException, Path, Query
+from fastapi import APIRouter, HTTPException, Path, Query, Depends
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 from pathlib import Path
 import json
 from database import db
+from auth.auth import require_admin
+from utils.rate_limiter import limiter
+from utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/nodes", tags=["Nodes"])
+
+def format_label(key: str) -> str:
+    return key.replace("_", " ").title()
 
 class NodeCreateRequest(BaseModel):
     label: str
@@ -16,9 +22,10 @@ class NodeUpdateRequest(BaseModel):
     name: str  # Unique identifier
     updates: Dict[str, Any]
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(require_admin)])
 def create_node(request: NodeCreateRequest):
     try:
+        validate_cypher_identifier(request.label)
         cypher = f"CREATE (n:{request.label}) SET n += $props RETURN n"
         result = db.query(cypher, {"props": request.properties})
         return {"node": result}
@@ -29,30 +36,31 @@ def create_node(request: NodeCreateRequest):
 def list_nodes(label: Optional[str] = None):
     try:
         if label:
+            validate_cypher_identifier(label)
             cypher = f"MATCH (n:{label}) RETURN n"
         else:
             cypher = """
             MATCH (n)
-            WHERE n.id IS NOT NULL AND n.name IS NOT NULL
+            WHERE (n.id IS NOT NULL AND n.name IS NOT NULL)
+            AND (n.source IS NULL OR (n.source <> 'cluster_4' AND n.source <> 'cluster_2' AND n.source <> 'cluster_3' AND n.source <> 'cluster_5' AND n.source <> 'cluster_1' AND n.source <> 'cluster_6'))
             RETURN n
             """
         result = db.query(cypher)
         filtered_result = [r for r in result if r.get("n", {}).get("name")]
 
-        # ✅ Patch in canonical topics
-        topic_path = Path("canonical_topic_nodes.json")
-        if topic_path.exists():
-            with open(topic_path) as f:
-                topic_data = json.load(f)
-                for topic in topic_data:
-                    filtered_result.append({
-                        "n": {
-                            "id": topic["id"],
-                            "name": topic["label"],
-                            "type": "topic",
-                            "summary": ""
-                        }
-                    })
+            # Also include all topic nodes from Neo4j (no hardcoding)
+        topic_cypher = "MATCH (t:Topic) RETURN t"
+        topic_nodes = db.query(topic_cypher)
+        for r in topic_nodes:
+            t = r["t"]
+            filtered_result.append({
+                "n": {
+                    "id": t.get("id"),
+                    "name": format_label(t.get("name", t.get("id"))),
+                    "type": "topic",
+                    "summary": t.get("summary", "")
+                }
+            })
 
         return {"nodes": filtered_result}
 
@@ -77,9 +85,10 @@ def get_node_by_id(node_id: str):
         raise HTTPException(status_code=500, detail=f"Failed to fetch node: {str(e)}")
 
 
-@router.put("/")
+@router.put("/", dependencies=[Depends(require_admin)])
 def update_node(request: NodeUpdateRequest):
     try:
+        validate_cypher_identifier(request.label)
         cypher = f"""
         MATCH (n:{request.label} {{name: $name}})
         SET n += $updates
@@ -93,6 +102,7 @@ def update_node(request: NodeUpdateRequest):
 @router.delete("/")
 def delete_node(label: str = Query(...), name: str = Query(...)):
     try:
+        validate_cypher_identifier(label)
         cypher = f"""
         MATCH (n:{label} {{name: $name}})
         DETACH DELETE n
@@ -102,25 +112,3 @@ def delete_node(label: str = Query(...), name: str = Query(...)):
         return {"deleted": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete node: {str(e)}")
-
-@router.get("/raw_nodes/")
-async def get_raw_nodes():
-    query = """
-    MATCH (n)
-    RETURN n
-    """
-    try:
-        result = db.query(query)
-        nodes = []
-        for record in result:
-            n = record.get("n", {})
-            nodes.append({
-                "id": n.get("id"),
-                "name": n.get("name", "Unnamed"),
-                "summary": n.get("summary", ""),
-                "type": n.get("type", "")
-            })
-        return {"nodes": nodes}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch raw nodes: {str(e)}")
-

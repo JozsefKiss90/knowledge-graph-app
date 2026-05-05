@@ -1,39 +1,45 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
-const NODE_TYPES = [
-  { type: 'policy', color: '#00bcd4' },
-  { type: 'strategy', color: '#4caf50' },
-  { type: 'cluster', color: '#ff7043' },
-  { type: 'research_theme', color: '#ffb300' },
-  { type: 'institution', color: '#9c27b0' },
-  { type: 'topic', color: '#ffc107' }
-];
+const normalizeTypeClass = (value) =>
+  String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\+/g, "plus")
+    .replace(/\s+/g, "_");
 
-const NodeTypeToggle = ({ cy, visibleTypes, onToggle }) => (
+const resolveTypeClass = (type, label) => {
+  const t = normalizeTypeClass(type);
+  const l = normalizeTypeClass(label);
+
+  if (t === "root" && l === "programme") return "programme";
+  if (t === "root" && l === "funding_programmes") return "meta";
+  return t;
+};
+
+const NodeTypeToggle = ({ types, visibleTypes, onToggle }) => (
   <Box>
-    <Typography variant="subtitle1" fontWeight="medium">Node Types</Typography>
-    <Box display="flex" gap={1} flexWrap="wrap" mt={1}>
-      {NODE_TYPES.map(({ type, color }) => (
-        <Button
-          key={type}
-          variant={visibleTypes.has(type) ? "contained" : "outlined"}
-          size="small"
-          onClick={() => onToggle(type)}
-          sx={{
-            borderColor: color,
-            color: visibleTypes.has(type) ? 'white' : color,
-            backgroundColor: visibleTypes.has(type) ? color : 'transparent',
-            '&:hover': {
-              backgroundColor: visibleTypes.has(type) ? color : '#f5f5f5'
-            }
-          }}
-        >
-          {type.replace('_', ' ')}
-        </Button>
-      ))}
+    <Box display="flex" gap={1} flexWrap="wrap" sx={{ mt: 1 }}>
+      {types.map((item) => {
+        const type = item.type;
+        const isActive = visibleTypes.has(type);
+        const label = typeof item.label === "string" ? item.label : type;
+        const typeClass = resolveTypeClass(type, label);
+
+        return (
+          <Button
+            key={type}
+            variant="contained"
+            size="small"
+            disableElevation
+            onClick={() => onToggle(type)}
+            className={`node-toggle-button type-${typeClass}${isActive ? "" : ` type-${typeClass}-active`}`}
+          >
+            {label.replaceAll("_", " ")}
+          </Button>
+        );
+      })}
     </Box>
   </Box>
 );

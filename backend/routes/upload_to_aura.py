@@ -1,18 +1,70 @@
+import os
 import requests
 
-# Endpoint
-url = "http://localhost/api/integrate/"
+BASE_URL = os.getenv(
+    "AURA_BACKEND_URL",
+    "https://knowledge-graph-backend-production.up.railway.app"
+).rstrip("/")
 
-# Open files as file objects
-with open("backend/neo4j_nodes_cleaned.json", "rb") as nodes_f, \
-     open("backend/canonical_topic_relationships.json", "rb") as rels_f:
+# All dataset graph endpoints
+DATASETS = [
+    "cluster1",
+    "cluster2",
+    "cluster3",
+    "cluster4",
+    "cluster5",
+    "cluster6",
+    "eic",
+    "eie",
+    "erc",
+    "infra",
+    "msca",
+    "missions",
+    "widera",
+    "dep",
+    "erasmus",
+    "euratom",
+    "cef",
+    "crea"
+]
 
-    files = {
-        "nodes_file": ("neo4j_nodes_cleaned.json", nodes_f, "application/json"),
-        "relationships_file": ("canonical_topic_relationships.json", rels_f, "application/json")
-    }
 
-    response = requests.post(url, files=files)
+def delete_graphs():
+    print("\nDeleting existing graphs...\n")
 
-    print("Status Code:", response.status_code)
-    print("Response:", response.text)
+    for dataset in DATASETS:
+        url = f"{BASE_URL}/{dataset}/all"
+
+        try:
+            r = requests.delete(url)
+            print(f"DELETE {url} -> {r.status_code}")
+        except Exception as e:
+            print(f"ERROR deleting {dataset}: {e}")
+
+
+def populate_graphs():
+    print("\nPopulating graphs...\n")
+
+    for dataset in DATASETS:
+        url = f"{BASE_URL}/{dataset}/populate"
+
+        try:
+            r = requests.post(url, json={})
+            print(f"POST {url} -> {r.status_code}")
+        except Exception as e:
+            print(f"ERROR populating {dataset}: {e}")
+
+
+def main():
+    print("\n===============================")
+    print(" EU GRAPHS AURA POPULATION JOB ")
+    print("===============================\n")
+
+    delete_graphs()
+    populate_graphs()
+
+    print("\nFinished populating Aura graphs.\n")
+
+
+if __name__ == "__main__":
+    main()

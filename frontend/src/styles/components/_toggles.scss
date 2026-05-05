@@ -1,0 +1,206 @@
+/* src/styles/components/_toggles.scss */
+/* Node & edge toggle buttons — theme-synchronised palette + subtle neon glow */
+
+.node-toggle-button {
+  --swatch: var(--nt-policy); /* default fallback */
+
+  border: 1px solid color-mix(in srgb, var(--swatch) 70%, transparent) !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  letter-spacing: 0.2px !important;
+
+  /* subtle glow baseline */
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--swatch) 22%, transparent),
+    0 0 12px color-mix(in srgb, var(--swatch) 18%, transparent) !important;
+
+  .MuiButton-startIcon,
+  .MuiSvgIcon-root {
+    color: inherit !important;
+  }
+}
+
+/* Active (contained) */
+.node-toggle-button:not([class*="-active"]) {
+  background: color-mix(in srgb, var(--swatch) 50%, transparent) !important;
+  color: var(--foreground) !important;
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--swatch) 38%, transparent),
+    0 0 16px color-mix(in srgb, var(--swatch) 28%, transparent) !important;
+
+  &:hover {
+    background: color-mix(in srgb, var(--swatch) 28%, transparent) !important;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--swatch) 48%, transparent),
+      0 0 18px color-mix(in srgb, var(--swatch) 34%, transparent) !important;
+  }
+}
+
+/* Inactive (outlined) — your code appends "-active" when NOT active */
+.node-toggle-button[class*="-active"] {
+  background: transparent !important;
+  color: color-mix(in srgb, var(--swatch) 92%, var(--foreground)) !important;
+
+  &:hover {
+    background: color-mix(in srgb, var(--swatch) 12%, transparent) !important;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--swatch) 34%, transparent),
+      0 0 16px color-mix(in srgb, var(--swatch) 26%, transparent) !important;
+  }
+}
+
+.node-toggle-button.type-root { --swatch: var(--nt-root); }
+.node-toggle-button.type-policy { --swatch: var(--nt-policy); }
+.node-toggle-button.type-strategy { --swatch: var(--nt-strategy); }
+.node-toggle-button.type-cluster { --swatch: var(--nt-cluster); } 
+.node-toggle-button.type-research_theme { --swatch: var(--nt-research_theme); }
+.node-toggle-button.type-institution { --swatch: var(--nt-institution); }
+.node-toggle-button.type-topic { --swatch: var(--nt-topic); }
+.node-toggle-button.type-destination { --swatch: var(--nt-destination); }
+.node-toggle-button.type-call { --swatch: var(--nt-call); }
+
+/* NEW */
+.node-toggle-button.type-meta { --swatch: var(--nt-meta); }
+.node-toggle-button.type-programme { --swatch: var(--nt-programme); }
+.node-toggle-button.type-pillar { --swatch: var(--nt-pillar); }
+.node-toggle-button.type-sp { --swatch: var(--nt-sp); }
+/* Focus accessibility */
+.node-toggle-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--swatch) 55%, transparent) !important;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* SHARED PATTERNS for NODE & EDGE toggles                              */
+/* ------------------------------------------------------------------ */
+
+.node-toggle-button.type-research_theme,
+.edge-toggle-button.type-research_theme {
+  background-color: var(--btn-research_theme-bg);
+  color: var(--btn-research_theme-text);
+  border: 1px solid var(--btn-research_theme-border);
+}
+
+.node-toggle-button.type-research_theme-active,
+.edge-toggle-button.type-research_theme-active {
+  background-color: transparent;
+  color: var(--btn-research_theme-text);
+  border: 1px solid var(--btn-research_theme-border);
+}
+
+.node-toggle-button.type-research_theme:hover,
+.edge-toggle-button.type-research_theme:hover {
+  background-color: var(--btn-research_theme-text);
+  color: var(--btn-research_theme-bg);
+}
+
+.node-toggle-button.type-research_theme-active:hover,
+.edge-toggle-button.type-research_theme-active:hover {
+  background-color: transparent;
+  color: var(--btn-research_theme-text);
+}
+
+/* Institution */
+.node-toggle-button.type-institution,
+.edge-toggle-button.type-institution {
+  background-color: var(--btn-institution-bg);
+  color: var(--btn-institution-text);
+  border: 1px solid var(--btn-institution-border);
+}
+
+.node-toggle-button.type-institution-active,
+.edge-toggle-button.type-institution-active {
+  background-color: transparent;
+  color: var(--btn-institution-text);
+  border: 1px solid var(--btn-institution-border);
+}
+
+.node-toggle-button.type-institution:hover,
+.edge-toggle-button.type-institution:hover {
+  background-color: var(--btn-institution-text);
+  color: var(--btn-institution-bg);
+}
+
+.node-toggle-button.type-institution-active:hover,
+.edge-toggle-button.type-institution-active:hover {
+  background-color: transparent;
+  color: var(--btn-institution-text);
+}
+
+/* Topic */
+.node-toggle-button.type-topic,
+.edge-toggle-button.type-topic {
+  background-color: var(--btn-topic-bg);
+  color: var(--btn-topic-text);
+  border: 1px solid var(--btn-topic-border);
+}
+
+.node-toggle-button.type-topic-active,
+.edge-toggle-button.type-topic-active {
+  background-color: transparent;
+  color: var(--btn-topic-text);
+  border: 1px solid var(--btn-topic-border);
+}
+
+.node-toggle-button.type-topic:hover,
+.edge-toggle-button.type-topic:hover {
+  background-color: var(--btn-topic-text);
+  color: var(--btn-topic-bg);
+}
+
+.node-toggle-button.type-topic-active:hover,
+.edge-toggle-button.type-topic-active:hover {
+  background-color: transparent;
+  color: var(--btn-topic-text);
+}
+
+/* Call (edge only) */
+.edge-toggle-button.type-call {
+  background-color: var(--btn-call-bg);
+  color: var(--btn-call-text);
+  border: 1px solid var(--btn-call-border);
+}
+
+.edge-toggle-button.type-call-active {
+  background-color: transparent;
+  color: var(--btn-call-text);
+  border: 1px solid var(--btn-call-border);
+}
+
+.edge-toggle-button.type-call:hover {
+  background-color: var(--btn-call-text);
+  color: var(--btn-call-bg);
+}
+
+.edge-toggle-button.type-call-active:hover {
+  background-color: transparent;
+  color: var(--btn-call-text);
+}
+
+/* Additional shared edge/node patterns preserved verbatim from main.scss */
+.node-toggle-button.type-theme,
+.edge-toggle-button.type-theme {
+  background-color: var(--btn-theme-bg);
+  color: var(--btn-theme-text);
+  border: 1px solid var(--btn-theme-border);
+}
+
+.node-toggle-button.type-theme-active,
+.edge-toggle-button.type-theme-active {
+  background-color: transparent;
+  color: var(--btn-theme-text);
+  border: 1px solid var(--btn-theme-border);
+}
+
+.node-toggle-button.type-theme:hover,
+.edge-toggle-button.type-theme:hover {
+  background-color: var(--btn-theme-text);
+  color: var(--btn-theme-bg);
+}
+
+.node-toggle-button.type-theme-active:hover,
+.edge-toggle-button.type-theme-active:hover {
+  background-color: transparent;
+  color: var(--btn-theme-text);
+}

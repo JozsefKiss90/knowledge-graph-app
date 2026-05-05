@@ -1,0 +1,56 @@
+/* src/styles/graph/_cytoscape-surface.scss */
+
+.cytoscape_container {
+  background: var(--graph-surface);
+  // overflow: hidden; /* ensures the pseudo background stays clipped nicely */
+}
+
+/* Subtle “striped/grid” background layer */
+.cytoscape_container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* Two-layer grid: fine + slightly stronger lines */
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--graph-grid-line) 0px,
+      var(--graph-grid-line) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--graph-grid-line) 0px,
+      var(--graph-grid-line) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--graph-grid-line-strong) 0px,
+      var(--graph-grid-line-strong) 1px,
+      transparent 1px,
+      transparent 240px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--graph-grid-line-strong) 0px,
+      var(--graph-grid-line-strong) 1px,
+      transparent 1px,
+      transparent 240px
+    ),
+    var(--graph-vignette);
+
+  opacity: 1;
+}
+
+/* Ensure Cytoscape and overlays are above the background */
+.cytoscape_container > div {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}

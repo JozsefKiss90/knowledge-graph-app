@@ -1,0 +1,30 @@
+/* src/styles/foundations/_scrollbars.scss */
+
+/* No global scrollbar rules were included in the provided snippet.
+   Keep component-scoped scrollbar rules (e.g., .legend-sidebar::-webkit-scrollbar-*)
+   in components/_legend.scss, not in foundations. */
+
+/* Optional global scrollbar baseline (uncomment if desired)
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-foreground) var(--muted);
+}
+*/

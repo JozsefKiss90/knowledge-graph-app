@@ -1,0 +1,19 @@
+{
+  "Digital, Industry and Space (Cluster 4)": {
+    "Leadership in materials and production for Europe": {
+      "summary": "Advances Europe’s industrial base by developing sustainable, competitive materials and manufacturing technologies. Focus includes advanced materials (including circular and low-carbon materials), scalable and flexible production processes, digitalised and automated factories, and resilient value chains. Expected outcomes are improved productivity and quality, reduced energy and resource use, increased recycling and re-use, and faster industrial uptake through pilots and demonstrators."
+    },
+    "Developing an agile and secure single market and infrastructure for dataservices and trustworthy artificial intelligence services": {
+      "summary": "Builds the foundations for a trusted, secure and interoperable European data and AI ecosystem. It supports data spaces and data services, cloud-to-edge infrastructures, cybersecurity-by-design, and governance and compliance mechanisms that enable sharing and re-use of data across sectors while protecting rights and confidentiality. Projects should deliver trustworthy AI and data services that can be deployed at scale, strengthen Europe’s digital single market and reduce dependencies on non-EU platforms."
+    },
+    "Achieving open strategic autonomy in digital and emerging enabling technologies": {
+      "summary": "Strengthens Europe’s capacity to develop and industrialise key digital and enabling technologies, from components and microelectronics to computing, connectivity and advanced software. The destination prioritises technology roadmaps, prototype-to-product pathways and resilient supply chains, with attention to sustainability, security and standards. Expected results include higher technology readiness of European solutions, improved strategic autonomy and faster uptake in critical industrial and public-sector applications."
+    },
+    "Open Strategic Autonomy in Developing, Deploying and Using Global": {
+      "summary": "Enhances Europe’s autonomy in space and related infrastructures by developing, deploying and exploiting space-based services, applications and data. Activities typically cover Earth observation, satellite communications, navigation and downstream services, as well as secure access to and processing of space data. Projects should deliver improved capabilities for public policy and industry, including climate and environmental monitoring, security and resilience, and new commercial services built on European space assets."
+    },
+    "Digital and industrial technologies driving human-centric innovation": {
+      "summary": "Promotes digital and industrial technologies that are designed around people and societal needs, ensuring that innovation supports wellbeing, skills and inclusion. It covers human-centric AI and robotics, safe and responsible digitalisation at work, and approaches that improve usability, transparency and trust. Expected impacts include higher acceptance and uptake of new technologies, better quality jobs and productivity, and reduced risks related to safety, bias, privacy and ethics."
+    }
+  }
+}

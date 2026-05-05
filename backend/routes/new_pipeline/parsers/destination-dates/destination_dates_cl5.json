@@ -1,0 +1,26 @@
+{
+  "Climate sciences and responses for the transformation towards climate neutrality": {
+    "calls": {
+      "HORIZON-CL5-2026-01": {
+        "opening_date": "2026-01-21",
+        "deadline": "2026-04-21"
+      },
+      "HORIZON-CL5-2027-01": {
+        "opening_date": "2027-01-20",
+        "deadline": "2027-04-20"
+      }
+    }
+  },
+  "Cross-sectoral solutions for the climate transition": {
+    "calls": {
+      "HORIZON-CL5-2026-02": {
+        "opening_date": "2026-02-04",
+        "deadline": "2026-05-05"
+      },
+      "HORIZON-CL5-2027-02": {
+        "opening_date": "2027-02-03",
+        "deadline": "2027-05-04"
+      }
+    }
+  }
+}

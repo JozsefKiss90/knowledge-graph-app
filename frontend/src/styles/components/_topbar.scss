@@ -1,0 +1,590 @@
+/* src/styles/components/_topbar.scss */
+/* Top bar (levels / actions) — modern 58px variant */
+/* NOTE: This file intentionally supersedes the older 36px .graph-topbar variant. */
+
+.graph-topbar {
+  height: 57px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--sidebar); 
+  border-bottom: 1px solid var(--border);
+}
+
+/* Breadcrumb container */
+.graph-topbar-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* Base breadcrumb */
+
+.graph-topbar-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+/* Typography hierarchy */
+
+.graph-topbar-breadcrumb-label {
+  display: inline-block;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  padding: 4px 4px;
+  font-size: 13px;
+  line-height: 1.2;
+  color: #a9bdd6;
+  transition:
+    color 0.16s ease,
+    opacity 0.16s ease,
+    text-shadow 0.16s ease,
+    background 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+/* Depth hierarchy */
+.graph-topbar-breadcrumb-label.level-1 {
+  font-weight: 600;
+  color: #d7e6f7;
+}
+
+.graph-topbar-breadcrumb-label.level-2 {
+  font-weight: 500;
+  color: #bfd0e6;
+}
+
+.graph-topbar-breadcrumb-label.level-3 {
+  font-weight: 500;
+  color: #b0c2db;
+  opacity: 0.95;
+}
+
+.graph-topbar-breadcrumb-label.level-4,
+.graph-topbar-breadcrumb-label.level-5,
+.graph-topbar-breadcrumb-label.level-6 {
+  color: #a7b8d1;
+  opacity: 0.88;
+}
+/* Active level */
+
+.graph-topbar-breadcrumb-label.is-active {
+  padding: 4px 10px;
+  border-radius: 16px;
+  background: linear-gradient(
+    180deg,
+    rgba(63, 147, 255, 0.25),
+    rgba(63, 147, 255, 0.12)
+  );
+  color: #eaf3ff;
+  font-weight: 600;
+}
+
+/* Hover */
+.graph-topbar-breadcrumb:hover {
+  background: rgba(61, 143, 255, 0.08);
+}
+
+.graph-topbar-breadcrumb:hover .graph-topbar-breadcrumb-label {
+  color: #ffffff;
+}
+
+/* Chevron separator */
+
+.graph-topbar-separator {
+  margin: 0 6px;
+  font-size: 16px !important;
+  color: rgba(157, 181, 214, 0.42);
+  flex: 0 0 auto;
+}
+
+.graph-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.graph-topbar-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.graph-topbar-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.graph-topbar-breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.graph-topbar-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 999px;
+  transition:
+    transform 0.16s ease,
+    background-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+
+.graph-topbar-home-icon {
+  font-size: 18px;
+  color: #dceaff;
+}
+
+.graph-topbar-breadcrumb--active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.graph-topbar-separator {
+  font-size: 16px;
+  color: var(--muted-foreground);
+}
+
+/* Level indicator: informational only */
+.graph-topbar-level-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 14px;
+  margin-left: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(76, 111, 162, 0.26);
+  background: rgba(14, 28, 52, 0.62);
+  color: #b9cae2;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.graph-topbar-level-pill .MuiTypography-root {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: inherit;
+}
+
+/* Level up: clickable, should glow and stand apart */
+.graph-topbar-level-up {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 14px;
+  margin-left: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(89, 154, 255, 0.55);
+  background: linear-gradient(
+    180deg,
+    rgba(63, 147, 255, 0.22) 0%,
+    rgba(63, 147, 255, 0.1) 100%
+  );
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(76, 145, 255, 0.12),
+    0 0 12px rgba(63, 147, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+}
+
+.graph-topbar-level-up:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  border-color: rgba(108, 177, 255, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(76, 145, 255, 0.16),
+    0 0 16px rgba(63, 147, 255, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.graph-topbar-level-up:active {
+  transform: translateY(0);
+}
+
+.graph-topbar-level-up:focus-visible,
+.graph-topbar-breadcrumb:focus-visible {
+  outline: 2px solid rgba(102, 182, 255, 0.65);
+  outline-offset: 2px;
+}
+
+.graph-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Icon buttons */
+.graph-topbar-icon {
+  border-radius: 999px !important;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.graph-topbar-icon:hover {
+  background-color: var(--primary-light);
+}
+
+/* Optional active state (if you use graph-topbar-icon--active) */
+.graph-topbar-icon--active {
+  background-color: rgba(88, 166, 255, 0.2); /* subtle blue halo */
+  transform: translateY(-1px);
+}
+
+/* GraphTopBar: make icons/text theme-aware */
+.dark-theme .graph-topbar,
+.light-theme .graph-topbar {
+  color: var(--foreground);
+}
+
+.dark-theme .graph-topbar .graph-topbar-icon,
+.light-theme .graph-topbar .graph-topbar-icon {
+  color: var(--foreground);
+}
+
+.dark-theme .graph-topbar .graph-topbar-separator,
+.light-theme .graph-topbar .graph-topbar-separator {
+  color: var(--muted-foreground);
+}
+
+/* active crumb can stay “primary” */
+.dark-theme .graph-topbar .graph-topbar-breadcrumb--active .graph-topbar-breadcrumb-label,
+.light-theme .graph-topbar .graph-topbar-breadcrumb--active .graph-topbar-breadcrumb-label {
+  color: var(--primary);
+}
+
+/* Active breadcrumb: white text + blue glow like the node type buttons */
+.graph-topbar-breadcrumb--active .graph-topbar-breadcrumb-label,
+.graph-topbar-breadcrumb-label.is-active {
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: #ffffff !important;
+  font-weight: 600;
+  background: linear-gradient(
+    180deg,
+    rgba(63, 147, 255, 0.24) 0%,
+    rgba(63, 147, 255, 0.12) 100%
+  );
+  border: 1px solid rgba(84, 162, 255, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(76, 145, 255, 0.18),
+    0 0 12px rgba(63, 147, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  text-shadow: 0 0 8px rgba(103, 181, 255, 0.28);
+}
+
+.graph-topbar-breadcrumb--active:hover {
+  background: transparent;
+}
+
+.graph-topbar-breadcrumb--active:hover .graph-topbar-breadcrumb-label {
+  filter: brightness(1.04);
+}
+
+/* Non-active hover */
+.graph-topbar-breadcrumb:hover .graph-topbar-breadcrumb-label:not(.is-active) {
+  color: #ffffff;
+}
+
+
+/* Light-mode hard overrides for MUI icons (fixes light mode) */
+body.light-theme {
+  .graph-topbar {
+    .graph-topbar-home-icon {
+      color: var(--foreground) !important;
+    }
+
+    .MuiIconButton-root.graph-topbar-icon {
+      color: var(--foreground) !important;
+    }
+
+    .MuiIconButton-root.graph-topbar-icon .MuiSvgIcon-root {
+      color: inherit !important;
+    }
+
+    .MuiIconButton-root.graph-topbar-icon--active {
+      color: var(--primary) !important;
+      background: var(--sidebar-accent);
+    }
+
+    .MuiIconButton-root.graph-topbar-icon--active .MuiSvgIcon-root {
+      color: inherit !important;
+    }
+  }
+}
+/* ===============================
+   Responsive Topbar Fix (GRID)
+   Append-only. Keeps desktop intact.
+   =============================== */
+
+/* Allow flex/grid children to shrink properly */
+.graph-topbar,
+.graph-topbar-left,
+.graph-topbar-breadcrumbs,
+.graph-topbar-actions,
+.graph-topbar-breadcrumb-wrapper,
+.graph-topbar-breadcrumb,
+.graph-topbar-breadcrumb-label {
+  min-width: 0;
+}
+
+/* Breadcrumbs should scroll (never wrap) */
+.graph-topbar-breadcrumbs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Avoid scrollbar chrome */
+.graph-topbar-breadcrumbs::-webkit-scrollbar {
+  height: 0;
+}
+
+/* Make breadcrumb labels ellipsize instead of wrapping into 2 lines */
+.graph-topbar-breadcrumb-label {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px; /* desktop-safe cap */
+}
+
+/* ---- Breakpoint chosen because your failing device widths are ~932px ---- */
+@media (max-width: 1024px) {
+  /* Switch the whole bar to a stable 2-column grid */
+  .graph-topbar {
+    height: auto;            /* CRITICAL: stop clipping */
+    min-height: 58px;        /* preserve baseline */
+    padding: 8px 12px;       /* reclaim space */
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 10px;
+    row-gap: 8px;
+    align-items: start;
+  }
+
+  /* Left becomes a 2-row grid:
+     Row1: home + crumbs
+     Row2: pill + level-up */
+  .graph-topbar-left {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-areas:
+      "home crumbs crumbs crumbs"
+      "pill pill up up";
+    column-gap: 8px;
+    row-gap: 6px;
+    align-items: center;
+  }
+
+/* Home button */
+.graph-topbar-breadcrumb--home {
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(88, 120, 170, 0.34);
+  background: rgba(13, 28, 52, 0.75);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.graph-topbar-breadcrumb--home:hover {
+  background: rgba(22, 43, 77, 0.92);
+  border-color: rgba(95, 148, 232, 0.42);
+}
+  .graph-topbar-breadcrumbs {
+    grid-area: crumbs;
+    max-width: 100%;
+  }
+
+  .graph-topbar-level-pill {
+    grid-area: pill;
+    margin-left: 0; /* undo desktop margin so it doesn't push */
+    justify-self: start;
+  }
+
+  .graph-topbar-level-up {
+    grid-area: up;
+    margin-left: 0; /* undo desktop margin so it doesn't push */
+    justify-self: start;
+  }
+
+  /* Actions stay in the right column */
+  .graph-topbar-actions {
+    justify-self: end;
+    align-self: start;
+    gap: 2px;
+  }
+
+  /* Tighter label cap so long cluster names don’t dominate */
+  .graph-topbar-breadcrumb-label {
+    max-width: 160px;
+  }
+}
+
+/* Very tight widths: put actions on their own row */
+@media (max-width: 740px) {
+  .graph-topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-topbar-actions {
+    justify-self: end;
+  }
+
+  .graph-topbar-breadcrumb-label {
+    max-width: 120px;
+  }
+
+  .graph-topbar-level-pill,
+  .graph-topbar-level-up {
+    font-size: 12px;
+  }
+}
+
+/* ===============================
+   Compact Topbar (responsive)
+   Append-only; does not affect desktop.
+   =============================== */
+
+.graph-topbar--compact {
+  height: 44px;              /* smaller than 58px */
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Left side: back/home + title */
+.graph-topbar-compact-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0; /* allow title ellipsis */
+  flex: 1 1 auto;
+}
+
+.graph-topbar-compact-title {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--foreground);
+  font-size: var(--text-sm);
+}
+
+/* Right side: L3 pill + menu */
+.graph-topbar-compact-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+/* Compact topbar */
+.graph-topbar-compact-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(76, 111, 162, 0.26);
+  background: rgba(14, 28, 52, 0.62);
+  color: #b9cae2;
+}
+
+.graph-topbar-compact-pill .MuiTypography-root {
+  font-size: 11px;
+  font-weight: 600;
+  color: inherit;
+}
+
+/* Make the back icon slightly tighter */
+.graph-topbar-compact-back .MuiSvgIcon-root {
+  font-size: 16px;
+}
+
+/* Very small landscape (e.g., iPhone SE): tighten further */
+@media (max-width: 420px) {
+  .graph-topbar--compact {
+    height: 40px;
+    padding: 0 8px;
+  }
+
+  .graph-topbar-compact-title {
+    font-size: 12px;
+  }
+
+  .graph-topbar-compact-pill {
+    padding: 2px 6px;
+  }
+}
+
+/* If compact topbar is active, ensure old responsive rules do not interfere */
+.graph-topbar--compact {
+  flex-wrap: nowrap !important;
+}
+
+@media (max-width: 480px), (max-height: 620px) {
+  .graph-topbar.graph-topbar--compact {
+    height: var(--mobile-bar-height);
+    min-height: var(--mobile-bar-height);
+    padding: 6px 8px;
+  }
+
+  .graph-topbar-compact-title {
+    font-size: 0.9rem;
+    line-height: 1.05;
+    max-width: 52vw; /* prevents overflow into right icons */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .graph-topbar-icon {
+    padding: 6px;
+  }
+
+  .graph-topbar-compact-pill {
+    height: 22px;
+    padding: 0 8px;
+  }
+}

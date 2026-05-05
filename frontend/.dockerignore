@@ -1,2 +1,23 @@
-node_modules/
-build/
+**/node_modules
+**/.next
+**/build
+**/dist
+**/.cache
+**/.git
+**/.DS_Store
+**/*.log
+
+# Python
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.mypy_cache
+**/.venv
+**/venv
+
+# Generated/output artifacts
+**/output_files
+**/pdfs
+
+# If you intended to ignore runtime config JSON, do it explicitly, not globally:
+# **/some-large-export.json

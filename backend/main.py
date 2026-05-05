@@ -1,26 +1,101 @@
+import os
 from fastapi import FastAPI
 from routes import nodes, relationships
 from fastapi.middleware.cors import CORSMiddleware
-from routes import populate  
-'''from routes import extraction_pipeline
-from routes import segment_pdf'''
 from routes import integrate
+from routes import email_routes
+from auth import auth
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi.responses import JSONResponse
+from utils.rate_limiter import limiter
+from chatbot import chatbot_api 
+from routes.new_pipeline.cl3_routes import router as cl3
+from routes.new_pipeline.cl4_routes import router as cl4
+from routes.new_pipeline.cl5_routes import router as cl5
+from routes.new_pipeline.cl1_routes import router as cl1
+from routes.new_pipeline.cl2_routes import router as cl2
+from routes.new_pipeline.cl6_routes import router as cl6
+from database import get_driver
+from routes.new_pipeline.eic_routes import router as eic
+from routes.new_pipeline.eie_routes import router as eie
+from routes.new_pipeline.erc_routes import router as erc
+from routes.new_pipeline.infra_routes import router as infra
+from routes.new_pipeline.msca_routes import router as msca
+from routes.new_pipeline.mission_routes import router as missions
+from routes.new_pipeline.widera_routes import router as widera_router
+from routes.new_pipeline.dep_routes import router as dep_router
+from routes.new_pipeline.erasmus_routes import router as era_router
+from routes.new_pipeline.euratom_routes import router as euratom_router 
+from routes.new_pipeline.cef_routes import router as cef_router 
+from routes.new_pipeline.crea_routes import router as crea_router 
+
+# Load .env file if not in production
+if os.getenv("ENVIRONMENT") != "production":
+    from dotenv import load_dotenv 
+    load_dotenv(dotenv_path=".env.development")
+
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+print("ENVIRONMENT:", ENVIRONMENT)
 
 app = FastAPI()
+
+app.state.limiter = limiter
+
 app.include_router(nodes.router)
 app.include_router(relationships.router)
 app.include_router(integrate.router)
-'''app.include_router(extraction_pipeline.router)
-app.include_router(segment_pdf.router)'''
+app.include_router(cl3)
+app.include_router(cl4)
+app.include_router(cl5)
+app.include_router(cl2)
+app.include_router(cl1)
+app.include_router(cl6)
+app.include_router(email_routes.router)
+app.include_router(auth.router)
+app.include_router(chatbot_api.router)
+app.include_router(eic)
+app.include_router(eie)
+app.include_router(erc)
+app.include_router(infra)
+app.include_router(msca)
+app.include_router(missions)
+app.include_router(widera_router)
+app.include_router(dep_router)
+app.include_router(era_router)
+app.include_router(cef_router)
+app.include_router(euratom_router)
+app.include_router(crea_router)
+
+if ENVIRONMENT == "production":
+    allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app", "https://eu-graphs.up.railway.app",
+    "https://eu-graphs.hu",
+    "https://www.eu-graphs.hu",
+]
+else:
+    allowed_origins = ["http://localhost:3000", "http://localhost:3001"]
+
+@app.exception_handler(RateLimitExceeded)
+def rate_limit_handler(request, exc):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Rate limit exceeded"}
+    )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"], 
+    allow_methods=["*"],
     allow_headers=["*"],
-) 
-app.include_router(populate.router)
+)
 
 @app.get("/")
 def health_check():
-    return {"status": "OK"}
+    return {"status": "OK", "env": ENVIRONMENT}
+
+@app.get("/health/db")
+def db_health():
+        with get_driver().session() as s:
+            s.run("RETURN 1")
+        return {"status": "ok"}

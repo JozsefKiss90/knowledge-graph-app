@@ -1,7 +1,10 @@
-from fastapi import APIRouter, HTTPException, Body, Query
+from fastapi import APIRouter, HTTPException, Body, Query, Depends
 from pydantic import BaseModel
 from database import db
 from typing import Optional
+from auth.auth import require_admin
+from utils.rate_limiter import limiter
+from utils.validation import validate_cypher_identifier 
 
 router = APIRouter(prefix="/relationships", tags=["Relationships"])
 
@@ -10,7 +13,7 @@ class RelationshipCreateRequest(BaseModel):
     to_name: str
     relation_type: str
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(require_admin)])
 def create_relationship(request: RelationshipCreateRequest = Body(...)):
     try:
         cypher = f"""
@@ -29,17 +32,23 @@ def create_relationship(request: RelationshipCreateRequest = Body(...)):
 @router.get("/")
 def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[str] = Query(None)):
     try:
-        cleaned_relationships = []  # ✅ always define it first
+        cleaned_relationships = []
 
         if from_id:
+            validate_cypher_identifier(from_id)
             cypher = """
-            MATCH (a {id: $from_id})-[r]->(b)
+            MATCH (a)-[r]-(b)
+            WHERE a.id = $from_id
+            AND (a.source IS NULL OR (a.source <> 'cluster_2' AND a.source <> 'cluster_3' AND a.source <> 'cluster_4'))
+            AND (b.source IS NULL OR (b.source <> 'cluster_2' AND b.source <> 'cluster_3' AND b.source <> 'cluster_4'))
             RETURN a, b, type(r) AS type, properties(r) AS props
             """
             result = db.query(cypher, {"from_id": from_id})
         else:
             cypher = """
             MATCH (a)-[r]->(b)
+            WHERE (a.source IS NULL OR (a.source <> 'cluster_2' AND a.source <> 'cluster_3' AND a.source <> 'cluster_4'))
+            AND (b.source IS NULL OR (b.source <> 'cluster_2' AND b.source <> 'cluster_3' AND b.source <> 'cluster_4'))
             RETURN a, b, type(r) AS type, properties(r) AS props
             """
             result = db.query(cypher)
@@ -66,6 +75,7 @@ def get_relationships(from_id: Optional[str] = Query(None), from_name: Optional[
 @router.delete("/")
 def delete_relationship(from_name: str = Query(...), to_name: str = Query(...), relation_type: str = Query(...)):
     try:
+        validate_cypher_identifier(relation_type, field_name="relation_type")
         cypher = f"""
         MATCH (a {{name: $from}})-[r:{relation_type}]->(b {{name: $to}})
         DELETE r
@@ -76,8 +86,7 @@ def delete_relationship(from_name: str = Query(...), to_name: str = Query(...), 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete relationship: {str(e)}")
 
-
-@router.get("/debug_unprocessed/")
+@router.get("/debug_unprocessed/", dependencies=[Depends(require_admin)])
 def debug_unprocessed_relationships():
     try:
         cypher = """
@@ -93,7 +102,7 @@ def debug_unprocessed_relationships():
             b = record["b"]
             rel_type = record["type"]
             props = record["props"]
-            
+
             relationships.append({
                 "source": a.get("id"),
                 "target": b.get("id"),
@@ -101,8 +110,6 @@ def debug_unprocessed_relationships():
                 **props
             })
 
-        
         return {"raw_result": relationships}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch raw relationships: {str(e)}")
-

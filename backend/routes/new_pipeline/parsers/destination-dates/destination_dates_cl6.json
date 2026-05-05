@@ -1,0 +1,23 @@
+{
+  "Biodiversity and ecosystem services": {
+    "calls": {
+      "HORIZON-CL6-2026-01": {
+        "opening_date": "2026-04-17",
+        "deadline": "2026-09-17"
+      },
+      "HORIZON-CL6-2026-01-two-stage": {
+        "opening_date": "2026-02-12",
+        "deadline_first_stage": "2026-04-16",
+        "deadline_second_stage": "2026-09-23"
+      }
+    }
+  },
+  "Fair, healthy and environment-friendly food systems from primary production to consumption": {
+    "calls": {
+      "HORIZON-CL6-2026-02": {
+        "opening_date": "2026-01-14",
+        "deadline": "2026-04-14"
+      }
+    }
+  }
+}
