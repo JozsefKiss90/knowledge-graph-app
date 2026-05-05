@@ -38,23 +38,51 @@ const LegendSection = ({ title, isOpen, onToggle, children }) => (
 
 const normalizeGraphName = (name) => String(name || "").replace("_cose", "");
 
-function collectLayerNodeTypes(cy) {
+function resolveRootLabel(cleanGraphName) {
+  if (cleanGraphName === "ROOT") return "Funding Programmes";
+
+  if (
+    cleanGraphName === "Horizon Europe" ||
+    cleanGraphName === "Digital Europe" ||
+    cleanGraphName === "Erasmus+" ||
+    cleanGraphName === "Connecting Europe Facility (CEF)" ||
+    cleanGraphName === "Creative Europe (CREA)" ||
+    cleanGraphName === "EURATOM" ||
+    cleanGraphName === "WIDERA" ||
+    cleanGraphName === "MSCA" ||
+    cleanGraphName === "INFRA" ||
+    cleanGraphName === "EIC" ||
+    cleanGraphName === "EIE" ||
+    cleanGraphName === "MISS" ||
+    /^PILLAR_/i.test(cleanGraphName)
+  ) {
+    return "Programme";
+  }
+
+  if (/^Cluster_/i.test(cleanGraphName)) return "Cluster";
+  if (/^DEST_/i.test(cleanGraphName)) return "Destination";
+
+  return "Programme";
+}
+
+function collectLayerNodeTypes(cy, graphName) {
   if (!cy || cy.destroyed()) return [];
 
+  const cleanGraphName = normalizeGraphName(graphName);
   const typeToColorCounts = new Map();
 
   cy.nodes().forEach((n) => {
     const t = n.data("type") || n.data("category");
     if (!t) return;
+
     let key = String(t);
 
-    if (key.toLowerCase() === "root") {
-      try {
-        if (n.hasClass && n.hasClass("as-cluster-root")) key = "cluster";
-        else if (n.hasClass && n.hasClass("as-destination-root")) key = "Destination";
-      } catch {}
-    }
-
+    try {
+      if (n.hasClass?.("as-root")) {
+        key = "root";
+      }
+    } catch {}
+    
     let color;
     try {
       color = n.style("background-color");
@@ -78,18 +106,21 @@ function collectLayerNodeTypes(cy) {
         bestColor = c;
       }
     }
+
+    const label =
+      String(type).toLowerCase() === "root"
+        ? resolveRootLabel(cleanGraphName)
+        : String(type).replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+
     out.push({
       type,
-      label:
-        String(type).toLowerCase() === "root"
-          ? "Funding Programmes"
-          : String(type).replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase()),
+      label,
       color: bestColor,
     });
   }
+
   return out;
 }
-
 function collectLayerEdgeTypes(cy) {
   if (!cy || cy.destroyed()) return new Set();
   const s = new Set();
@@ -101,6 +132,9 @@ function collectLayerEdgeTypes(cy) {
 }
 
 function selectorForType(cy, type) {
+  if (type === "root") {
+    return cy.nodes(".as-root");
+  }
   return cy.nodes(`[type = "${type}"], [category = "${type}"]`);
 }
 
@@ -136,25 +170,38 @@ const LegendToggle = ({
   const cleanGraphName = normalizeGraphName(graphName);
   const isHE2025 = cleanGraphName === "HE_2025";
 
-  const layerNodeTypes = useMemo(() => collectLayerNodeTypes(cy), [cy, graphName]);
+  const layerNodeTypes = useMemo(
+    () => collectLayerNodeTypes(cy, graphName),
+    [cy, graphName]
+  );
+  
   const layerEdgeTypesSet = useMemo(() => collectLayerEdgeTypes(cy), [cy, graphName]);
 
-  const nodeTypeList = useMemo(() => {
-    const present = new Map(layerNodeTypes.map((x) => [x.type, x]));
+const nodeTypeList = useMemo(() => {
+  const present = new Map(layerNodeTypes.map((x) => [x.type, x]));
 
-    if (isHE2025) {
-      const configured = getNodeTypeList("HE_2025");
-      return configured
-        .filter((x) => present.has(x.type))
-        .map((x) => ({
-          ...present.get(x.type),
-          ...x,
-        }));
-    }
+  if (isHE2025) {
+    const configured = getNodeTypeList("HE_2025");
+    return configured
+      .filter((x) => present.has(x.type))
+      .map((x) => ({
+        ...present.get(x.type),
+        ...x,
+      }));
+  }
 
-    return layerNodeTypes;
-  }, [isHE2025, layerNodeTypes]);
+  let items = layerNodeTypes;
 
+  const hasProgrammeRoot = present.has("root");
+  if (hasProgrammeRoot) {
+    items = items.filter((x) => {
+      const t = String(x.type).toLowerCase();
+      return t !== "cluster";
+    });
+  }
+
+  return items;
+}, [isHE2025, layerNodeTypes]);
   const edgeTypeList = useMemo(() => {
     if (!isHE2025) return [];
     const configured = getEdgeTypeList("HE_2025");
@@ -175,6 +222,11 @@ const LegendToggle = ({
         .map((x) => x.type)
         .filter((type) => isNodeTypeActuallyVisible(cy, type))
     );
+
+    if (selectorForType(cy, "root").filter(":visible").length > 0) {
+      nextVisible.add("root");
+    }
+    nextVisible.delete("cluster");
 
     setVisibleNodeTypes(nextVisible);
   }, [cy, graphName, nodeTypeList]);
@@ -401,16 +453,16 @@ const LegendToggle = ({
             isOpen={sectionsOpen.nodeTypes}
             onToggle={() => toggleSection("nodeTypes")}
           >
-            <NodeTypeToggle
-              cy={cy}
-              types={nodeTypeList}
-              visibleTypes={visibleNodeTypes}
-              onToggle={(type) =>
-                toggleType(type, visibleNodeTypes, setVisibleNodeTypes, (t) =>
-                  cy.nodes(`[type = "${t}"], [category = "${t}"]`)
-                )
-              }
-            />
+          <NodeTypeToggle
+            cy={cy}
+            types={nodeTypeList}
+            visibleTypes={visibleNodeTypes}
+            onToggle={(type) =>
+              toggleType(type, visibleNodeTypes, setVisibleNodeTypes, (t) =>
+                selectorForType(cy, t)
+              )
+            }
+          />
           </LegendSection>
         )}
 

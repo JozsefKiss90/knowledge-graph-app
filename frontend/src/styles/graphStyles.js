@@ -9,6 +9,33 @@ export const groupColors = {
   call: "#F59E0B",
 };
 
+/* ------------------------------------------------
+   Responsive detection
+------------------------------------------------ */
+
+const vw = window.innerWidth || 0;
+const vh = window.innerHeight || 0;
+
+const shortestSide = Math.min(vw, vh);
+
+const isTouchDevice =
+  window.matchMedia?.("(pointer: coarse)")?.matches ||
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0;
+
+const isMobile = isTouchDevice && shortestSide <= 900;
+
+/* Label scaling */
+
+const FONT_SCALE = isMobile ? 1.45 : 1;
+const NODE_SCALE = isMobile ? 1.2 : 1;
+
+const LABEL_MAX_WIDTH = isMobile ? 260 : 200;
+
+/* ------------------------------------------------
+   Color helpers
+------------------------------------------------ */
+
 function resolveNodeGroup(data) {
   if (!data) return null;
 
@@ -40,6 +67,7 @@ function resolveNodeColor(ele) {
 
 function resolveRootColor(ele, fallbackGroup) {
   const data = ele?.data ? ele.data() : ele;
+
   const explicit =
     (ele?.data &&
       (ele.data("themeRootColor") ||
@@ -51,6 +79,7 @@ function resolveRootColor(ele, fallbackGroup) {
 
   if (explicit) return explicit;
   if (fallbackGroup && groupColors[fallbackGroup]) return groupColors[fallbackGroup];
+
   return resolveNodeColor(ele);
 }
 
@@ -62,23 +91,34 @@ function resolveEdgeColor(ele) {
   return ele?.data?.("themeEdgeColor") || "rgba(148,163,184,0.65)";
 }
 
+/* ------------------------------------------------
+   Cytoscape stylesheet
+------------------------------------------------ */
+
 export const stylesheet = [
   {
     selector: "node",
     style: {
       label: "data(label)",
-      "font-size": 10,
+
+      "font-size": 10 * FONT_SCALE,
       "font-weight": 400,
+
       "text-valign": "bottom",
       "text-halign": "center",
-      "text-wrap": "wrap",
-      "text-max-width": 200,
-      "text-margin-y": 8,
-      color: (ele) => resolveLabelColor(ele),
-      "text-outline-width": 0,
 
-      width: 30,
-      height: 30,
+      "text-wrap": "wrap",
+      "text-max-width": LABEL_MAX_WIDTH,
+
+      "text-margin-y": 8,
+
+      color: (ele) => resolveLabelColor(ele),
+
+      "text-outline-width": isMobile ? 2 : 0,
+      "text-outline-color": "#000",
+
+      width: 30 * NODE_SCALE,
+      height: 30 * NODE_SCALE,
 
       "background-color": (ele) => resolveNodeColor(ele),
 
@@ -105,9 +145,9 @@ export const stylesheet = [
   {
     selector: "node.as-root, node[type = 'root'], node[category = 'root']",
     style: {
-      width: 42,
-      height: 42,
-      "font-size": 12,
+      width: 42 * NODE_SCALE,
+      height: 42 * NODE_SCALE,
+      "font-size": 12 * FONT_SCALE,
       "font-weight": 700,
       "text-margin-y": 10,
       color: (ele) => resolveLabelColor(ele),
@@ -117,9 +157,9 @@ export const stylesheet = [
   {
     selector: "node[type = 'pillar'], node[category = 'pillar']",
     style: {
-      width: 46,
-      height: 46,
-      "font-size": 10,
+      width: 46 * NODE_SCALE,
+      height: 46 * NODE_SCALE,
+      "font-size": 10 * FONT_SCALE,
       "font-weight": 700,
       color: (ele) => resolveLabelColor(ele),
     },
@@ -128,9 +168,9 @@ export const stylesheet = [
   {
     selector: "node[type = 'programme'], node[category = 'programme']",
     style: {
-      width: 40,
-      height: 40,
-      "font-size": 10,
+      width: 40 * NODE_SCALE,
+      height: 40 * NODE_SCALE,
+      "font-size": 10 * FONT_SCALE,
       "font-weight": 600,
       color: (ele) => resolveLabelColor(ele),
     },
@@ -139,9 +179,9 @@ export const stylesheet = [
   {
     selector: "node[type = 'cluster'], node[category = 'cluster']",
     style: {
-      width: 40,
-      height: 40,
-      "font-size": 10,
+      width: 40 * NODE_SCALE,
+      height: 40 * NODE_SCALE,
+      "font-size": 10 * FONT_SCALE,
       "font-weight": 600,
       color: (ele) => resolveLabelColor(ele),
     },
@@ -149,22 +189,32 @@ export const stylesheet = [
 
   {
     selector: "node[type = 'Destination'], node[category = 'Destination']",
-    style: { width: 34, height: 34 },
+    style: {
+      width: 34 * NODE_SCALE,
+      height: 34 * NODE_SCALE,
+    },
   },
 
   {
     selector: "node[type = 'Call'], node[category = 'Call']",
-    style: { width: 26, height: 26 },
+    style: {
+      width: 26 * NODE_SCALE,
+      height: 26 * NODE_SCALE,
+    },
   },
 
   { selector: "edge[type = 'SHARED_TOPIC']", style: { "line-style": "dashed" } },
-  { selector: "edge[type = 'CROSS_TOPIC_SIMILARITY']", style: { "line-style": "dotted" } },
+
+  {
+    selector: "edge[type = 'CROSS_TOPIC_SIMILARITY']",
+    style: { "line-style": "dotted" },
+  },
 
   {
     selector: ".is-hovered",
     style: {
       "font-weight": 700,
-      "font-size": 10,
+      "font-size": 10 * FONT_SCALE,
       color: (ele) => resolveLabelColor(ele),
     },
   },

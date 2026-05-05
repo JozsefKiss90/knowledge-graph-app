@@ -1,44 +1,41 @@
-// src/components/utils/layoutConfig.js
+const isMobile = window.innerWidth <= 900;
 
-// One uniform default (ROOT + clusters)
 const UNIFORM_DEFAULT = {
   name: "cose-bilkent",
   fit: true,
-  padding: 60,
+  padding: isMobile ? 10 : 60,
   randomize: true,
   animate: "end",
   animationDuration: 400,
   nodeDimensionsIncludeLabels: false,
   quality: "default",
-  nodeRepulsion: 12000,
-  idealEdgeLength: 140,
+  nodeRepulsion: isMobile ? 2000 : 12000,
+  idealEdgeLength: isMobile ? 40 : 140,
   edgeElasticity: 0.2,
-  gravity: 0.3,
+  gravity: isMobile ? 1 : 0.3,
   numIter: 10000,
   tile: true,
-  tilingPaddingVertical: 16,
-  tilingPaddingHorizontal: 16,
+  tilingPaddingVertical: isMobile ? 5 : 16,
+  tilingPaddingHorizontal: isMobile ? 5 : 16,
 };
 
-// Keep SP (HE_2025) separate — you can tune it as before
 const HE_2025_PRESET = {
   name: "cose-bilkent",
   fit: true,
-  padding: 50,
+  padding: isMobile ? 20 : 50,
   randomize: false,
   animate: false,
   nodeDimensionsIncludeLabels: false,
   quality: "proof",
-  nodeRepulsion: 25000,
-  idealEdgeLength: 170,
+  nodeRepulsion: isMobile ? 10000 : 25000,
+  idealEdgeLength: isMobile ? 100 : 170,
   edgeElasticity: 0.1,
-  gravity: 0.4,
+  gravity: isMobile ? 0.80 : 0.4,
   numIter: 20000,
   tile: true,
-  tilingPaddingVertical: 10,
-  tilingPaddingHorizontal: 10,
+  tilingPaddingVertical: isMobile ? 3 : 10,
+  tilingPaddingHorizontal: isMobile ? 3 : 10,
 };
-
 const TREE_DEFAULT = {
   name: "breadthfirst",
   fit: true,

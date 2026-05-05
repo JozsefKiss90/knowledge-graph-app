@@ -379,6 +379,60 @@ const TextSectionFromField = ({ nodeData, fieldKey, label, defaultOpen = true })
   );
 };
 
+// add near the other helpers
+
+function parseValidDate(value) {
+  if (!value) return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function getLatestDeadline(deadlines = []) {
+  const parsed = deadlines
+    .map(parseValidDate)
+    .filter(Boolean)
+    .sort((a, b) => b.getTime() - a.getTime());
+
+  return parsed[0] || null;
+}
+
+function normalizeStatusLabel(status) {
+  const raw = String(status || "").trim().toLowerCase();
+  if (!raw) return "";
+
+  if (raw === "open") return "Open";
+  if (raw === "closed") return "Closed";
+  if (raw === "forthcoming" || raw === "upcoming") return "Forthcoming";
+
+  return raw.charAt(0).toUpperCase() + raw.slice(1);
+}
+
+function inferCallStatus(nodeData, deadlines) {
+  const explicit = normalizeStatusLabel(nodeData?.status);
+  if (explicit) return explicit;
+
+  const now = new Date();
+  const openingDate = parseValidDate(nodeData?.opening_date);
+  const latestDeadline = getLatestDeadline(deadlines);
+
+  // Not yet opened
+  if (openingDate && openingDate.getTime() > now.getTime()) {
+    return "Forthcoming";
+  }
+
+  // Open until the last known application deadline passes
+  if (latestDeadline) {
+    return latestDeadline.getTime() >= now.getTime() ? "Open" : "Closed";
+  }
+
+  // Fallback: if we only know it has opened but no deadline is present
+  if (openingDate && openingDate.getTime() <= now.getTime()) {
+    return "Open";
+  }
+
+  return "";
+}
+
 // --- main component ---------------------------------------------------------
 
 function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
@@ -488,7 +542,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
 
     const typeOfAction = nodeData.type_of_action || "";
     const typeShort = computeTypeShort(typeOfAction);
-    const status = (nodeData.status || "").trim();
+    const status = inferCallStatus(nodeData, deadlines);
     const tags = extractTags(nodeData);
 
     const minContribution = formatValue("min_contribution", nodeData.min_contribution);
@@ -775,7 +829,13 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
   } = viewModel;
 
   const officialCallPageUrl = buildOfficialCallPageUrl(portalKey);
-  const isStatusOpen = String(status || "").toLowerCase() === "open";
+  const statusKey = String(status || "").toLowerCase();
+  const statusClass =
+    statusKey === "open"
+      ? "nd-chip--status-open"
+      : statusKey === "forthcoming"
+      ? "nd-chip--status-forthcoming"
+      : "nd-chip--status-closed";
 
   const handleBookmark = () => {
     if (!nodeData.id) return;
@@ -796,9 +856,9 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
       <header className="nd-header">
         <Box className="nd-header-left">
-          <Button
+          <Button 
             size="small"
-            variant="text"
+            variant="text" 
             startIcon={<ArrowBackIcon fontSize="small" />}
             onClick={handleBackToGraph}
             className="nd-back-button"
@@ -810,13 +870,11 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
 
           {typeShort && <Chip label={typeShort} size="small" className="nd-chip nd-chip--kind" />}
 
-          {status && (
+         {status && (
             <Chip
               label={status}
               size="small"
-              className={`nd-chip nd-chip--status${
-                isStatusOpen ? " nd-chip--status-open" : " nd-chip--status-closed"
-              }`}
+              className={`nd-chip nd-chip--status ${statusClass}`}
             />
           )}
         </Box>

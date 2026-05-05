@@ -39,24 +39,64 @@ const GraphView = forwardRef(function GraphView(
   const [isShown, setIsShown] = useState(false);
   const navigate = useNavigate();
   const { darkMode } = useDarkMode();
+  console.log("GRAPHVIEW_RENDERED_2026_03_10");
+function applyResponsiveViewport(cy, reason = "unknown") {
+  if (!cy || cy.destroyed()) return;
 
-  function clampZoomForSparseGraphs(cy) {
-    const count = cy.nodes(":visible").length;
+  const vw = window.innerWidth || 0;
+  const vh = window.innerHeight || 0;
+  const shortestSide = Math.min(vw, vh);
 
-    // Tune these to taste
-    const minZoom = 0.25;
-    let maxZoom = 1.4;
+  const isTouchDevice =
+    window.matchMedia?.("(pointer: coarse)")?.matches ||
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0;
 
-    if (count <= 2) maxZoom = 0.55;
-    else if (count <= 3) maxZoom = 0.70;
-    else if (count <= 5) maxZoom = 0.95;
+  const isMobile = isTouchDevice && shortestSide <= 900;
 
-    const z = cy.zoom();
-    if (z > maxZoom) cy.zoom(maxZoom);
-    if (z < minZoom) cy.zoom(minZoom);
+  const visible = cy.elements(":visible");
+  if (!visible || visible.empty()) return;
 
-    cy.center(cy.elements(":visible"));
+  const count = cy.nodes(":visible").length;
+
+  const pad = isMobile ? 180 : 34;
+  let minZoom = isMobile ? 0.8 : 0.25;
+  let maxZoom = isMobile ? 0.7 : 1.4;
+
+  if (!isMobile) {
+    if (count <= 2) minZoom = 0.55;
+    if (count <= 2) minZoom = 0.55;
+    else if (count <= 3) minZoom = 0.7;
+    else if (count <= 5) minZoom = 0.95;
   }
+
+  console.log("[applyResponsiveViewport]", {
+    reason,
+    vw,
+    vh,
+    shortestSide,
+    isTouchDevice,
+    isMobile,
+    count,
+    pad,
+    minZoom,
+    maxZoom,
+    zoomBefore: cy.zoom(),
+  });
+
+  cy.fit(visible, pad);
+
+  const z = cy.zoom();
+  if (z > maxZoom) cy.zoom(maxZoom);
+  if (z < minZoom) cy.zoom(minZoom);
+
+  cy.center(visible);
+
+  console.log("[applyResponsiveViewport:done]", {
+    reason,
+    zoomAfter: cy.zoom(),
+  });
+}
 
   const { nhRef, hoverRef, hoverIdRef, onCyReadyRef, layoutOptionsRef, lastLayoutNameRef } =
     useLatestRefs({
@@ -129,14 +169,24 @@ const GraphView = forwardRef(function GraphView(
     const makeLayout = createLayoutFactory({ cy, layoutOptionsRef, layerMeta });
 
     const layout = makeLayout();
+
     layout.on("layoutstop", () => {
+      applyResponsiveViewport(cy, "layoutstop");
       scheduleGlowUpdate();
-      stabilizer.schedule(true);
+      stabilizer.schedule(false);
     });
+
     layout.run();
 
-    // Kick once after mount
-    stabilizer.schedule(true);
+    // Force a post-mount viewport correction even if layoutstop is unreliable
+    const t1 = window.setTimeout(() => {
+      applyResponsiveViewport(cy, "post-mount-150");
+    }, 150);
+
+    const t2 = window.setTimeout(() => {
+      applyResponsiveViewport(cy, "post-mount-500");
+      stabilizer.schedule(false);
+    }, 500);
 
     
     // events
@@ -203,6 +253,8 @@ const GraphView = forwardRef(function GraphView(
       cyRef.current = null;
       setIsShown(false);
       resetGlow();
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
     };
     }, [
     elements,
@@ -279,20 +331,8 @@ const GraphView = forwardRef(function GraphView(
 
       layout.run();
       if (fit) {
-        const w = cy.width() || 0;
-        const pad = w <= 700 ? 18 : 34;
-        cy.fit(cy.elements(":visible"), pad);
-
-        const count = cy.nodes(":visible").length;
-        let maxZoom = 1.4;
-        if (count <= 2) maxZoom = 0.55;
-        else if (count <= 3) maxZoom = 0.70;
-        else if (count <= 5) maxZoom = 0.95;
-
-        if (cy.zoom() > maxZoom) cy.zoom(maxZoom);
-        cy.center(cy.elements(":visible"));
+        applyResponsiveViewport(cy);
       }
-      clampZoomForSparseGraphs(cy);
       lastLayoutNameRef.current = name;
     },
     getCy: () => cyRef.current,

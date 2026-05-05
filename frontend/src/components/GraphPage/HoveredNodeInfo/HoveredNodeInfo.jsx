@@ -235,6 +235,81 @@ export default function HoveredNodeInfo({
     return [...tags.slice(0, HOVER_TAG_LIMIT), `+${hiddenCount} more`];
   }, [model?.tags]);
 
+function inferTypeOfActionAcronym(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return PLACEHOLDER;
+
+  const upper = raw.toUpperCase();
+
+  // 1) Prefer explicit known acronyms if they already exist anywhere in the string
+  const knownAcronyms = [
+    "RIA",
+    "IA",
+    "CSA",
+    "PCP",
+    "PPI",
+    "COFUND",
+    "ERC",
+    "MSCA",
+    "EIC",
+  ];
+
+  for (const acronym of knownAcronyms) {
+    const re = new RegExp(`\\b${acronym}\\b`, "i");
+    if (re.test(upper)) return acronym;
+  }
+
+  // 2) Infer from common full action names
+  const normalized = raw
+    .replace(/^HORIZON[-\s]+/i, "")
+    .replace(/^ERC[-\s]+/i, "")
+    .replace(/^MSCA[-\s]+/i, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  if (normalized.includes("research and innovation action")) return "RIA";
+  if (normalized.includes("research and innovation actions")) return "RIA";
+
+  if (
+    normalized.includes("innovation action") &&
+    !normalized.includes("research and innovation action")
+  ) {
+    return "IA";
+  }
+  if (
+    normalized.includes("innovation actions") &&
+    !normalized.includes("research and innovation actions")
+  ) {
+    return "IA";
+  }
+
+  if (normalized.includes("coordination and support action")) return "CSA";
+  if (normalized.includes("coordination and support actions")) return "CSA";
+
+  if (normalized.includes("programme cofund action")) return "COFUND";
+  if (normalized.includes("programme cofund actions")) return "COFUND";
+
+  if (normalized.includes("pre-commercial procurement")) return "PCP";
+  if (normalized.includes("public procurement of innovative solutions")) return "PPI";
+
+  if (normalized.includes("training and mobility action")) return "MSCA";
+  if (normalized.includes("training and mobility actions")) return "MSCA";
+
+  // 3) Handle patterns like "HORIZON-RIA ..."
+  const prefixedMatch = upper.match(/\b(?:HORIZON|ERC|MSCA|EIC)-([A-Z]+)\b/);
+  if (prefixedMatch?.[1]) return prefixedMatch[1];
+
+  // 4) Final fallback: build acronym from capital letters / initials
+  const fallback = raw
+    .split(/[\s/()-]+/)
+    .filter(Boolean)
+    .map((w) => w[0]?.toUpperCase() || "")
+    .join("");
+
+  return fallback || raw;
+}
+
 const filteredMetricCards = useMemo(() => {
   if (!Array.isArray(model?.metricCards)) return [];
 
@@ -256,15 +331,11 @@ const filteredMetricCards = useMemo(() => {
     })
     .map((m) => {
       const label = String(m?.label || "").toLowerCase();
-
-      // --- FIX: keep only acronym for Type of Action ---
+      console.log("Processing metric card:", { label, value: m?.value });
       if (label.includes("type of action")) {
-        const raw = String(m?.value || "");
-        const acronym = raw.split(/\s+/)[0]; // take first token only
-
         return {
           ...m,
-          value: acronym,
+          value: inferTypeOfActionAcronym(m?.value),
         };
       }
 

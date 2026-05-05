@@ -111,8 +111,27 @@ export function buildElements(raw) {
 
     const fullLabel =
       n.fullLabel ?? n.label ?? n.name ?? n.title ?? n.displayLabel ?? cleanId;
-    const type =
+    let type =
       (n.type ?? n.Type ?? n.category ?? n.node_type ?? "").toString().trim();
+
+    // normalise programme roots
+    const label =
+      n.fullLabel ?? n.label ?? n.name ?? n.title ?? n.displayLabel ?? "";
+
+    const isProgrammeRoot =
+      type === "cluster" &&
+      (
+        label === "Horizon Europe" ||
+        label === "Digital Europe" ||
+        label === "Erasmus+" ||
+        label === "Connecting Europe Facility (CEF)" ||
+        label === "Creative Europe (CREA)" ||
+        label === "EURATOM"
+      );
+
+    if (isProgrammeRoot) {
+      type = "root";
+    }
 
     nodeElements.push({
       group: "nodes",
