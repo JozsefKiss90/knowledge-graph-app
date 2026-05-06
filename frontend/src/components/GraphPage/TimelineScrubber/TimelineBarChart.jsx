@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-const BAR_GAP = 2;
+const BAR_GAP = 1;
 const AXIS_HEIGHT = 18;
 const HANDLE_HIT = 10;
 const TOP_PAD = 4;

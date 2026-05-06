@@ -56,15 +56,18 @@ export default function TimelineScrubber({
 
   return (
     <div className="timeline-scrubber">
-      {/* Left label */}
-      <div className="timeline-scrubber__label">
-        <span className="timeline-scrubber__title">Calls over time</span>
-        <span className="timeline-scrubber__count">
-          {displayCount} CALL{displayCount !== 1 ? "S" : ""}
-        </span>
+      {/* Top row: labels + range */}
+      <div className="timeline-scrubber__header">
+        <div className="timeline-scrubber__label">
+          <span className="timeline-scrubber__title">Calls over time</span>
+          <span className="timeline-scrubber__count">
+            {displayCount} CALL{displayCount !== 1 ? "S" : ""}
+          </span>
+        </div>
+        <div className="timeline-scrubber__range">{rangeLabel}</div>
       </div>
 
-      {/* Center: bar chart */}
+      {/* Chart fills remaining height */}
       <div className="timeline-scrubber__chart">
         <TimelineBarChart
           buckets={buckets}
@@ -75,9 +78,6 @@ export default function TimelineScrubber({
           onJumpTo={jumpTo}
         />
       </div>
-
-      {/* Right: range display */}
-      <div className="timeline-scrubber__range">{rangeLabel}</div>
     </div>
   );
 }
