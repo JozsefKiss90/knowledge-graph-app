@@ -82,10 +82,10 @@ export function monthKeyToDate(key) {
   return new Date(`${key}-01T00:00:00`);
 }
 
-/** Short label: "Jan 24", "Mar 25" */
+/** Short label: "Jan", "Feb", … (year omitted since chart is single-year) */
 export function formatMonthShort(date) {
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  return `${months[date.getMonth()]} ${String(date.getFullYear()).slice(2)}`;
+  return months[date.getMonth()];
 }
 
 /** Label for the range display: "Sept 2026 > Dec 2026" */
@@ -98,54 +98,64 @@ export function formatRangeLabel(startDate, endDate) {
 }
 
 /**
- * Bucket calls into monthly counts.
- * Each bucket counts how many calls have an open interval overlapping that month.
+ * Bucket calls into 12 monthly buckets for the current year (Jan–Dec).
+ *
+ * Each bucket gets a `status`:
+ *  - "open"     – the month has calls whose opening_date <= today AND deadline >= today
+ *                 (i.e. the call is currently accepting submissions)
+ *  - "upcoming" – the month has calls whose opening_date is in the future
+ *                 (call not yet open but will be)
+ *  - "closed"   – all other months that have calls (calls whose deadline has passed)
+ *  - "empty"    – no calls overlap this month
  */
 export function bucketCallsByMonth(callsWithDates) {
-  if (!callsWithDates || callsWithDates.length === 0) return [];
+  const YEAR = new Date().getFullYear();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  // Find global range
-  let minDate = null;
-  let maxDate = null;
-
-  for (const c of callsWithDates) {
-    const { openDate, closeDate } = c;
-    const earliest = openDate || closeDate;
-    const latest = closeDate || openDate;
-    if (earliest && (!minDate || earliest < minDate)) minDate = earliest;
-    if (latest && (!maxDate || latest > maxDate)) maxDate = latest;
-  }
-
-  if (!minDate || !maxDate) return [];
-
-  // Build month keys from minDate to maxDate
   const buckets = [];
-  const cur = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
-  const end = new Date(maxDate.getFullYear(), maxDate.getMonth(), 1);
 
-  while (cur <= end) {
-    const key = monthKey(cur);
-    const monthStart = new Date(cur);
-    const monthEnd = new Date(cur.getFullYear(), cur.getMonth() + 1, 0); // last day of month
+  for (let m = 0; m < 12; m++) {
+    const monthStart = new Date(YEAR, m, 1);
+    const monthEnd = new Date(YEAR, m + 1, 0); // last day of month
 
     let count = 0;
+    let hasOpen = false;
+    let hasUpcoming = false;
+
     for (const c of callsWithDates) {
       const cOpen = c.openDate || c.closeDate;
       const cClose = c.closeDate || c.openDate;
-      // Overlap: call open range intersects this month
+
+      // Does this call overlap this month?
       if (cOpen <= monthEnd && cClose >= monthStart) {
         count++;
+
+        // Is the call currently open (accepting submissions right now)?
+        if (cOpen <= today && cClose >= today) {
+          hasOpen = true;
+        }
+        // Is the call upcoming (opens in the future)?
+        else if (cOpen > today) {
+          hasUpcoming = true;
+        }
       }
     }
 
-    buckets.push({
-      key,
-      date: new Date(cur),
-      label: formatMonthShort(cur),
-      count,
-    });
+    let status = "empty";
+    if (count > 0) {
+      if (hasOpen) status = "open";
+      else if (hasUpcoming) status = "upcoming";
+      else status = "closed";
+    }
 
-    cur.setMonth(cur.getMonth() + 1);
+    buckets.push({
+      key: monthKey(monthStart),
+      date: monthStart,
+      label: formatMonthShort(monthStart),
+      count,
+      status,
+    });
   }
 
   return buckets;

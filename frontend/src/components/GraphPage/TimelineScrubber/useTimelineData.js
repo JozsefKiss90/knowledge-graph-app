@@ -145,10 +145,13 @@ export function useTimelineData(loadFromStore, currentKey, levels) {
     }
 
     const buckets = bucketCallsByMonth(unique);
+    // totalCalls = calls that have at least one date and fall within the current year
+    const callsInYear = buckets.reduce((sum, b) => sum + b.count, 0);
 
     return {
       buckets,
       totalCalls: unique.length,
+      callsInYear,
       callsWithDates: unique,
     };
   }, [loadFromStore, currentKey, levels]);

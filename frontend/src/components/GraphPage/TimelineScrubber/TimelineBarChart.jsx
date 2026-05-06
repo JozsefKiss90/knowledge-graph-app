@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-const BAR_GAP = 1;
+const BAR_GAP = 2;
 const AXIS_HEIGHT = 18;
 const HANDLE_HIT = 10;
 const TOP_PAD = 4;
+const BAR_RADIUS = 2.5;
 
 export default function TimelineBarChart({
   buckets,
@@ -16,7 +17,6 @@ export default function TimelineBarChart({
   const containerRef = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
-  // Measure the wrapper div (not the SVG)
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -39,7 +39,6 @@ export default function TimelineBarChart({
   const step = count > 0 ? size.width / count : 0;
   const barW = Math.max(0, step - BAR_GAP);
 
-  // pixel X → fractional bucket index
   const xToIdx = useCallback(
     (clientX) => {
       const r = containerRef.current?.getBoundingClientRect();
@@ -95,7 +94,6 @@ export default function TimelineBarChart({
     onEndDrag();
   }, [onEndDrag]);
 
-  // Axis label interval
   const labelInterval = count > 0
     ? Math.max(1, Math.ceil(count / Math.max(1, Math.floor(size.width / 52))))
     : 1;
@@ -121,6 +119,48 @@ export default function TimelineBarChart({
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
+          {/* Gradient + glow defs */}
+          <defs>
+            {/* Closed (blue) */}
+            <linearGradient id="tl-grad-closed" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="rgba(41,110,210,0.55)" />
+              <stop offset="100%" stopColor="rgba(80,165,255,0.8)" />
+            </linearGradient>
+            {/* Open (green) */}
+            <linearGradient id="tl-grad-open" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="rgba(30,160,90,0.65)" />
+              <stop offset="100%" stopColor="rgba(60,220,140,0.95)" />
+            </linearGradient>
+            {/* Upcoming (yellow) */}
+            <linearGradient id="tl-grad-upcoming" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="rgba(200,150,30,0.6)" />
+              <stop offset="100%" stopColor="rgba(255,210,80,0.92)" />
+            </linearGradient>
+
+            {/* Glow filters */}
+            <filter id="tl-glow-closed" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="tl-glow-open" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <filter id="tl-glow-upcoming" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
           {/* Selection overlay background */}
           <rect
             x={selX}
@@ -128,16 +168,27 @@ export default function TimelineBarChart({
             width={selW}
             height={chartHeight}
             className="timeline-chart__selection-bg"
-            rx={3}
+            rx={4}
           />
 
           {/* Bars */}
           {buckets.map((b, i) => {
             if (b.count === 0) return null;
             const x = i * step + BAR_GAP / 2;
-            const h = Math.max(1, (b.count / maxCount) * barAreaHeight);
+            const h = Math.max(2, (b.count / maxCount) * barAreaHeight);
             const y = chartHeight - h;
-            const isSelected = i >= start && i <= end;
+
+            let fill, filterUrl;
+            if (b.status === "open") {
+              fill = "url(#tl-grad-open)";
+              filterUrl = "url(#tl-glow-open)";
+            } else if (b.status === "upcoming") {
+              fill = "url(#tl-grad-upcoming)";
+              filterUrl = "url(#tl-glow-upcoming)";
+            } else {
+              fill = "url(#tl-grad-closed)";
+              filterUrl = "url(#tl-glow-closed)";
+            }
 
             return (
               <rect
@@ -146,12 +197,9 @@ export default function TimelineBarChart({
                 y={y}
                 width={barW}
                 height={h}
-                rx={1}
-                className={
-                  isSelected
-                    ? "timeline-chart__bar timeline-chart__bar--selected"
-                    : "timeline-chart__bar"
-                }
+                rx={BAR_RADIUS}
+                fill={fill}
+                filter={filterUrl}
               />
             );
           })}
@@ -163,10 +211,10 @@ export default function TimelineBarChart({
             width={selW}
             height={chartHeight}
             className="timeline-chart__selection-border"
-            rx={3}
+            rx={4}
           />
 
-          {/* Left drag handle (invisible hit area) */}
+          {/* Left drag handle hit area */}
           <rect
             x={selX - HANDLE_HIT / 2}
             y={0}
@@ -175,7 +223,6 @@ export default function TimelineBarChart({
             fill="transparent"
             style={{ cursor: "ew-resize" }}
           />
-          {/* Left handle visual line */}
           <line
             x1={selX}
             y1={4}
@@ -184,7 +231,7 @@ export default function TimelineBarChart({
             className="timeline-chart__handle-line"
           />
 
-          {/* Right drag handle */}
+          {/* Right drag handle hit area */}
           <rect
             x={selX + selW - HANDLE_HIT / 2}
             y={0}
@@ -193,7 +240,6 @@ export default function TimelineBarChart({
             fill="transparent"
             style={{ cursor: "ew-resize" }}
           />
-          {/* Right handle visual line */}
           <line
             x1={selX + selW}
             y1={4}

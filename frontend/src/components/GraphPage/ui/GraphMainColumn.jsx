@@ -172,7 +172,7 @@ export default function GraphMainColumn({
                 hoveredNodeRef.current = null;
                 setHoveredNode(null);
               }}
-              // “View Details” from hover card
+              // "View Details" from hover card
               onOpenDetail={onOpenDetail}
             />
 

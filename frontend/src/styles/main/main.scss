@@ -90,6 +90,7 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
+  position: relative; /* positioning context for floating timeline scrubber */
 }
 
 /* Container for the embedded NodeDetail */

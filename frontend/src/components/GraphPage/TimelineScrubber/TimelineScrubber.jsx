@@ -15,7 +15,7 @@ export default function TimelineScrubber({
   isOpen,
   onSelectionChange,
 }) {
-  const { buckets, totalCalls } = useTimelineData(loadFromStore, currentKey, levels);
+  const { buckets, totalCalls, callsInYear } = useTimelineData(loadFromStore, currentKey, levels);
 
   const {
     range,
@@ -50,42 +50,30 @@ export default function TimelineScrubber({
       ? formatRangeLabel(buckets[range.start]?.date, buckets[range.end]?.date)
       : "";
 
-  // Count calls within selected range
-  const selectedCount =
-    buckets.length > 0
-      ? buckets.slice(range.start, range.end + 1).reduce((sum, b) => Math.max(sum, b.count), 0)
-      : 0;
-
-  void selectedCount; // available for future use
-
   if (!isOpen) return null;
 
+  const displayCount = callsInYear || totalCalls;
+
   return (
-    <div className={`timeline-scrubber${buckets.length === 0 ? " timeline-scrubber--empty" : ""}`}>
+    <div className="timeline-scrubber">
       {/* Left label */}
       <div className="timeline-scrubber__label">
         <span className="timeline-scrubber__title">Calls over time</span>
         <span className="timeline-scrubber__count">
-          {totalCalls} CALL{totalCalls !== 1 ? "S" : ""}
+          {displayCount} CALL{displayCount !== 1 ? "S" : ""}
         </span>
       </div>
 
       {/* Center: bar chart */}
       <div className="timeline-scrubber__chart">
-        {buckets.length > 0 ? (
-          <TimelineBarChart
-            buckets={buckets}
-            selectionRange={range}
-            onStartDrag={startDrag}
-            onDragMove={onDragMove}
-            onEndDrag={endDrag}
-            onJumpTo={jumpTo}
-          />
-        ) : (
-          <div className="timeline-scrubber__empty-msg">
-            No call dates available for this layer
-          </div>
-        )}
+        <TimelineBarChart
+          buckets={buckets}
+          selectionRange={range}
+          onStartDrag={startDrag}
+          onDragMove={onDragMove}
+          onEndDrag={endDrag}
+          onJumpTo={jumpTo}
+        />
       </div>
 
       {/* Right: range display */}

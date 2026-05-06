@@ -1,38 +1,81 @@
 /* src/styles/components/_timeline-scrubber.scss */
-/* Timeline scrubber panel – sits between graph canvas and status bar */
+/* Timeline scrubber – floating rounded panel above the status bar */
+
+/* ============================================
+   Floating panel
+   ============================================ */
 
 .timeline-scrubber {
-  flex-shrink: 0;
-  height: 90px;
+  position: absolute;
+  bottom: 46px; /* 32px status-bar + 14px gap */
+  left: 24px;
+  right: 24px;
+  height: 88px;
+  z-index: 20;
+
   display: flex;
   align-items: stretch;
-  padding: 0 16px;
-  background: var(--sidebar);
-  border-top: 1px solid var(--border);
+  padding: 0 18px;
   gap: 16px;
   overflow: hidden;
-  position: relative;
+
+  border-radius: 14px;
+  pointer-events: auto;
 }
 
-.timeline-scrubber--empty {
-  height: 40px;
-  align-items: center;
+/* Dark theme surface */
+.dark-theme .timeline-scrubber {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(14, 28, 54, 0.92) 0%,
+      rgba(8, 18, 38, 0.96) 100%
+    );
+  border: 1px solid rgba(72, 120, 190, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(60, 110, 180, 0.08),
+    0 4px 24px rgba(0, 0, 0, 0.38),
+    0 0 40px rgba(50, 120, 220, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-/* Upward triangle connector centered at top */
+/* Light theme surface */
+.light-theme .timeline-scrubber {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(241, 243, 246, 0.98) 100%
+    );
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
+/* Upward triangle / notch */
 .timeline-scrubber::before {
   content: "";
   position: absolute;
-  top: -6px;
+  top: -7px;
   left: 50%;
   transform: translateX(-50%);
-  width: 12px;
-  height: 6px;
+  width: 14px;
+  height: 7px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  background: var(--sidebar);
 }
 
-/* ---- Left label area ---- */
+.dark-theme .timeline-scrubber::before {
+  background: rgba(14, 28, 54, 0.92);
+}
+
+.light-theme .timeline-scrubber::before {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+/* ============================================
+   Left label area
+   ============================================ */
 
 .timeline-scrubber__label {
   flex: 0 0 auto;
@@ -50,28 +93,43 @@
   white-space: nowrap;
 }
 
+/* Small bullet before the title, matching the design */
+.timeline-scrubber__title::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  background: var(--muted-foreground);
+  opacity: 0.6;
+}
+
 .timeline-scrubber__count {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 999px;
   white-space: nowrap;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 
 .dark-theme .timeline-scrubber__count {
-  color: #eaf3ff;
-  background: rgba(63, 147, 255, 0.15);
-  border: 1px solid rgba(63, 147, 255, 0.25);
+  color: #d0e2ff;
+  background: rgba(63, 147, 255, 0.12);
+  border: 1px solid rgba(63, 147, 255, 0.2);
 }
 
 .light-theme .timeline-scrubber__count {
   color: var(--primary-dark);
-  background: rgba(0, 81, 165, 0.08);
-  border: 1px solid rgba(0, 81, 165, 0.18);
+  background: rgba(0, 81, 165, 0.07);
+  border: 1px solid rgba(0, 81, 165, 0.15);
 }
 
-/* ---- Center: chart area ---- */
+/* ============================================
+   Center: chart area
+   ============================================ */
 
 .timeline-scrubber__chart {
   flex: 1 1 auto;
@@ -82,20 +140,14 @@
   align-items: stretch;
 }
 
-/* The inner wrapper created by TimelineBarChart */
 .timeline-chart {
   width: 100%;
   height: 100%;
 }
 
-.timeline-scrubber__empty-msg {
-  font-size: var(--text-xs);
-  color: var(--muted-foreground);
-  opacity: 0.7;
-  align-self: center;
-}
-
-/* ---- Right: range display ---- */
+/* ============================================
+   Right: range display
+   ============================================ */
 
 .timeline-scrubber__range {
   flex: 0 0 auto;
@@ -111,30 +163,8 @@
 }
 
 /* ============================================
-   SVG bar chart elements (class-based styling)
+   SVG chart – selection + handles + axis
    ============================================ */
-
-/* Default bar */
-.timeline-chart__bar {
-  transition: fill 0.12s ease;
-}
-
-.dark-theme .timeline-chart__bar {
-  fill: rgba(61, 143, 255, 0.25);
-}
-
-.light-theme .timeline-chart__bar {
-  fill: rgba(0, 81, 165, 0.18);
-}
-
-/* Selected bar */
-.dark-theme .timeline-chart__bar--selected {
-  fill: rgba(71, 158, 255, 0.75);
-}
-
-.light-theme .timeline-chart__bar--selected {
-  fill: rgba(0, 81, 165, 0.55);
-}
 
 /* Selection overlay background */
 .timeline-chart__selection-bg {
@@ -156,12 +186,12 @@
 }
 
 .dark-theme .timeline-chart__selection-border {
-  stroke: rgba(61, 143, 255, 0.4);
+  stroke: rgba(80, 150, 255, 0.3);
   stroke-width: 1;
 }
 
 .light-theme .timeline-chart__selection-border {
-  stroke: rgba(0, 81, 165, 0.3);
+  stroke: rgba(0, 81, 165, 0.2);
   stroke-width: 1;
 }
 
@@ -173,11 +203,11 @@
 }
 
 .dark-theme .timeline-chart__handle-line {
-  stroke: rgba(61, 143, 255, 0.55);
+  stroke: rgba(80, 160, 255, 0.45);
 }
 
 .light-theme .timeline-chart__handle-line {
-  stroke: rgba(0, 81, 165, 0.4);
+  stroke: rgba(0, 81, 165, 0.3);
 }
 
 /* Axis labels */
@@ -190,7 +220,7 @@
 }
 
 .dark-theme .timeline-chart__axis-label {
-  fill: var(--muted-foreground);
+  fill: rgba(154, 172, 201, 0.7);
 }
 
 .light-theme .timeline-chart__axis-label {
@@ -201,9 +231,22 @@
    Responsive
    ============================================ */
 
+@media (max-width: 1024px) {
+  .timeline-scrubber {
+    left: 16px;
+    right: 16px;
+    height: 78px;
+    padding: 0 14px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+}
+
 @media (max-width: 900px) {
   .timeline-scrubber {
-    height: 70px;
+    left: 12px;
+    right: 12px;
+    height: 68px;
     padding: 0 10px;
     gap: 10px;
   }
@@ -220,9 +263,13 @@
 
 @media (max-width: 740px) {
   .timeline-scrubber {
-    height: 60px;
+    left: 8px;
+    right: 8px;
+    height: 58px;
+    bottom: 10px;
     padding: 0 8px;
     gap: 8px;
+    border-radius: 10px;
   }
 
   .timeline-scrubber__label {
@@ -234,7 +281,7 @@
   }
 
   .timeline-scrubber__range {
-    min-width: 80px;
+    min-width: 70px;
     font-size: 9px;
   }
 }
