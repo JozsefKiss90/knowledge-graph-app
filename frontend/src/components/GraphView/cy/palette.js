@@ -122,6 +122,7 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
       { selector: ".faded", style: { opacity: 0.15 } },
       { selector: ".call-hidden", style: { display: "none" } },
       { selector: ".call-visible", style: { display: "element" } },
+      { selector: ".timeline-hidden", style: { display: "none" } },
     ])
     .update();
 

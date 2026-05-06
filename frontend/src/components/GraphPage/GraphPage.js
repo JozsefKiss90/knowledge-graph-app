@@ -40,6 +40,10 @@ function GraphPage() {
 
   const [graphStats, setGraphStats] = useState({ nodes: 0, edges: 0 });
 
+  const [timelineOpen, setTimelineOpen] = useState(true);
+  const [timelineSelection, setTimelineSelection] = useState(null);
+  // timelineSelection: { start: Date, end: Date } | null (null = show all)
+
   const { layoutOptions: userLayout, updateOption } = useLayoutOptions();
 
   const bookmarksCount = useBookmarksCount();
@@ -75,6 +79,7 @@ function GraphPage() {
     hoveredNodeRef.current = null;
     setHoveredNode(null);
     setDetailNode(null); // also close inline detail on dataset change
+    setTimelineSelection(null); // reset timeline filter on layer change
   }, [graphName]);
 
   useEffect(() => {
@@ -232,6 +237,9 @@ useEffect(() => {
               detailNode={detailNode}
               onOpenDetail={handleOpenDetail}
               onCloseDetail={handleCloseDetail}
+              timelineOpen={timelineOpen}
+              timelineSelection={timelineSelection}
+              setTimelineSelection={setTimelineSelection}
             />
 
             <RightControlsColumn
@@ -245,6 +253,8 @@ useEffect(() => {
               updateOption={updateOption}
               handleApplyLayout={handleApplyLayout}
               bookmarksCount={bookmarksCount}
+              timelineOpen={timelineOpen}
+              setTimelineOpen={setTimelineOpen}
             />
           </Row>
         </Container>

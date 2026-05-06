@@ -45,6 +45,13 @@
   color: var(--primary); /* blue icon */
 }
 
+/* Active state for toggle buttons (e.g. timeline scrubber) */
+.dark-theme .sidebar-controls-button--active,
+.light-theme .sidebar-controls-button--active {
+  background-color: var(--card);
+  color: var(--primary);
+}
+
 /* Divider line between main tools and settings */
 .sidebar-controls-divider {
   width: 28px;

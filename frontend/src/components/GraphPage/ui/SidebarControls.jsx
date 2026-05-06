@@ -6,6 +6,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EmailIcon from "@mui/icons-material/Email";
+import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import MessageDrawer from "../../LegendParts/MessageDrawer";
 import CustomDrawer from "../../LegendParts/CustomDrawer";
 import LayoutControls from "./LayoutControls";
@@ -22,6 +23,8 @@ const SidebarControls = ({
   updateOption,
   handleApplyLayout,
   bookmarksCount,
+  timelineOpen,
+  setTimelineOpen,
 }) => {
   const navigate = useNavigate();
 
@@ -75,6 +78,15 @@ const SidebarControls = ({
           onClick={() => setIsMessageDrawerOpen(true)}
         >
           <EmailIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip {...tooltipProps} title="Timeline scrubber">
+        <IconButton
+          className={`sidebar-controls-button${timelineOpen ? " sidebar-controls-button--active" : ""}`}
+          onClick={() => setTimelineOpen((prev) => !prev)}
+        >
+          <BarChartOutlinedIcon fontSize="small" />
         </IconButton>
       </Tooltip>
 

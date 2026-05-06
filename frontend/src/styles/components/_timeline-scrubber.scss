@@ -1,0 +1,240 @@
+/* src/styles/components/_timeline-scrubber.scss */
+/* Timeline scrubber panel – sits between graph canvas and status bar */
+
+.timeline-scrubber {
+  flex-shrink: 0;
+  height: 90px;
+  display: flex;
+  align-items: stretch;
+  padding: 0 16px;
+  background: var(--sidebar);
+  border-top: 1px solid var(--border);
+  gap: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.timeline-scrubber--empty {
+  height: 40px;
+  align-items: center;
+}
+
+/* Upward triangle connector centered at top */
+.timeline-scrubber::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 6px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background: var(--sidebar);
+}
+
+/* ---- Left label area ---- */
+
+.timeline-scrubber__label {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 170px;
+  padding: 8px 0;
+}
+
+.timeline-scrubber__title {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+.timeline-scrubber__count {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.dark-theme .timeline-scrubber__count {
+  color: #eaf3ff;
+  background: rgba(63, 147, 255, 0.15);
+  border: 1px solid rgba(63, 147, 255, 0.25);
+}
+
+.light-theme .timeline-scrubber__count {
+  color: var(--primary-dark);
+  background: rgba(0, 81, 165, 0.08);
+  border: 1px solid rgba(0, 81, 165, 0.18);
+}
+
+/* ---- Center: chart area ---- */
+
+.timeline-scrubber__chart {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+/* The inner wrapper created by TimelineBarChart */
+.timeline-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-scrubber__empty-msg {
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
+  opacity: 0.7;
+  align-self: center;
+}
+
+/* ---- Right: range display ---- */
+
+.timeline-scrubber__range {
+  flex: 0 0 auto;
+  min-width: 140px;
+  text-align: right;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ============================================
+   SVG bar chart elements (class-based styling)
+   ============================================ */
+
+/* Default bar */
+.timeline-chart__bar {
+  transition: fill 0.12s ease;
+}
+
+.dark-theme .timeline-chart__bar {
+  fill: rgba(61, 143, 255, 0.25);
+}
+
+.light-theme .timeline-chart__bar {
+  fill: rgba(0, 81, 165, 0.18);
+}
+
+/* Selected bar */
+.dark-theme .timeline-chart__bar--selected {
+  fill: rgba(71, 158, 255, 0.75);
+}
+
+.light-theme .timeline-chart__bar--selected {
+  fill: rgba(0, 81, 165, 0.55);
+}
+
+/* Selection overlay background */
+.timeline-chart__selection-bg {
+  pointer-events: none;
+}
+
+.dark-theme .timeline-chart__selection-bg {
+  fill: rgba(61, 143, 255, 0.05);
+}
+
+.light-theme .timeline-chart__selection-bg {
+  fill: rgba(0, 81, 165, 0.03);
+}
+
+/* Selection border */
+.timeline-chart__selection-border {
+  fill: none;
+  pointer-events: none;
+}
+
+.dark-theme .timeline-chart__selection-border {
+  stroke: rgba(61, 143, 255, 0.4);
+  stroke-width: 1;
+}
+
+.light-theme .timeline-chart__selection-border {
+  stroke: rgba(0, 81, 165, 0.3);
+  stroke-width: 1;
+}
+
+/* Drag handle visual lines */
+.timeline-chart__handle-line {
+  pointer-events: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.dark-theme .timeline-chart__handle-line {
+  stroke: rgba(61, 143, 255, 0.55);
+}
+
+.light-theme .timeline-chart__handle-line {
+  stroke: rgba(0, 81, 165, 0.4);
+}
+
+/* Axis labels */
+.timeline-chart__axis-label {
+  font-size: 9px;
+  font-family: inherit;
+  text-anchor: middle;
+  user-select: none;
+  pointer-events: none;
+}
+
+.dark-theme .timeline-chart__axis-label {
+  fill: var(--muted-foreground);
+}
+
+.light-theme .timeline-chart__axis-label {
+  fill: var(--muted-foreground);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 900px) {
+  .timeline-scrubber {
+    height: 70px;
+    padding: 0 10px;
+    gap: 10px;
+  }
+
+  .timeline-scrubber__label {
+    min-width: 120px;
+  }
+
+  .timeline-scrubber__range {
+    min-width: 100px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 740px) {
+  .timeline-scrubber {
+    height: 60px;
+    padding: 0 8px;
+    gap: 8px;
+  }
+
+  .timeline-scrubber__label {
+    min-width: auto;
+  }
+
+  .timeline-scrubber__title {
+    display: none;
+  }
+
+  .timeline-scrubber__range {
+    min-width: 80px;
+    font-size: 9px;
+  }
+}

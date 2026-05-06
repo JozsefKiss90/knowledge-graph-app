@@ -13,6 +13,8 @@ export default function RightControlsColumn({
   updateOption,
   handleApplyLayout,
   bookmarksCount,
+  timelineOpen,
+  setTimelineOpen,
 }) {
   return (
     <Col xs="auto">
@@ -27,6 +29,8 @@ export default function RightControlsColumn({
         updateOption={updateOption}
         handleApplyLayout={handleApplyLayout}
         bookmarksCount={bookmarksCount}
+        timelineOpen={timelineOpen}
+        setTimelineOpen={setTimelineOpen}
       />
     </Col>
   );
