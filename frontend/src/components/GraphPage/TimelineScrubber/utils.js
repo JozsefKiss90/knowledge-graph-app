@@ -2,14 +2,36 @@
  * Timeline scrubber date utilities.
  */
 
-/** Display config for top-level programmes (colours + labels for popover). */
+/** Display config for programmes at every layer (colours + labels for popover). */
 export const PROGRAMME_DISPLAY = {
+  /* ── Level 1: top-level programmes (ROOT view) ── */
   HE:      { label: "Horizon Europe",              color: "#22C55E" },
   DEP:     { label: "Digital Europe",               color: "#60A5FA" },
   ERASMUS: { label: "Erasmus+",                     color: "#A78BFA" },
   CEF:     { label: "Connecting Europe Facility",    color: "#FBBF24" },
   CREA:    { label: "Creative Europe",              color: "#F472B6" },
   EURATOM: { label: "EURATOM",                      color: "#22D3EE" },
+
+  /* ── Level 2+: HE Pillar I – Excellent Science ── */
+  ERC:     { label: "ERC",                          color: "#38BDF8" },
+  MSCA:    { label: "MSCA",                         color: "#818CF8" },
+  INFRA:   { label: "Research Infra.",              color: "#2DD4BF" },
+
+  /* ── Level 2+: HE Pillar II – Global Challenges ── */
+  Cluster_1: { label: "CL1 – Health",              color: "#F87171" },
+  Cluster_2: { label: "CL2 – Culture",             color: "#FB923C" },
+  Cluster_3: { label: "CL3 – Security",            color: "#FBBF24" },
+  Cluster_4: { label: "CL4 – Digital",             color: "#A3E635" },
+  Cluster_5: { label: "CL5 – Climate",             color: "#34D399" },
+  Cluster_6: { label: "CL6 – Food & Bio",          color: "#22D3EE" },
+  MISS:      { label: "Missions",                  color: "#E879F9" },
+
+  /* ── Level 2+: HE Pillar III – Innovative Europe ── */
+  EIC:     { label: "EIC",                          color: "#C084FC" },
+  EIE:     { label: "EIE",                          color: "#F472B6" },
+
+  /* ── Cross-cutting ── */
+  WIDERA:  { label: "WIDERA",                       color: "#FB7185" },
 };
 
 /** Try to parse a date string into a Date. Returns null on failure. */
