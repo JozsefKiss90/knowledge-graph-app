@@ -82,19 +82,20 @@ export function monthKeyToDate(key) {
   return new Date(`${key}-01T00:00:00`);
 }
 
-/** Short label: "Jan", "Feb", … (year omitted since chart is single-year) */
+/** Short label: "JAN", "FEB", … (year omitted since chart is single-year) */
 export function formatMonthShort(date) {
-  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
   return months[date.getMonth()];
 }
 
-/** Label for the range display: "Sept 2026 > Dec 2026" */
-export function formatRangeLabel(startDate, endDate) {
+/** Label parts for the range display: { start: "Sept 2026", end: "Dec 2026" } */
+export function formatRangeParts(startDate, endDate) {
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
-  if (!startDate || !endDate) return "";
-  const s = `${months[startDate.getMonth()]} ${startDate.getFullYear()}`;
-  const e = `${months[endDate.getMonth()]} ${endDate.getFullYear()}`;
-  return `${s}  >  ${e}`;
+  if (!startDate || !endDate) return null;
+  return {
+    start: `${months[startDate.getMonth()]} ${startDate.getFullYear()}`,
+    end: `${months[endDate.getMonth()]} ${endDate.getFullYear()}`,
+  };
 }
 
 /**

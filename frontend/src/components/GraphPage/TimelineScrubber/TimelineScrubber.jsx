@@ -2,7 +2,8 @@ import React, { useEffect, useCallback } from "react";
 import TimelineBarChart from "./TimelineBarChart";
 import { useTimelineData } from "./useTimelineData";
 import { useTimelineSelection } from "./useTimelineSelection";
-import { formatRangeLabel } from "./utils";
+import { formatRangeParts } from "./utils";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 /**
  * Timeline scrubber: shows open calls over time as a bar chart
@@ -44,11 +45,11 @@ export default function TimelineScrubber({
     notifySelection();
   }, [notifySelection]);
 
-  // Build range label
-  const rangeLabel =
+  // Build range label parts
+  const rangeParts =
     buckets.length > 0
-      ? formatRangeLabel(buckets[range.start]?.date, buckets[range.end]?.date)
-      : "";
+      ? formatRangeParts(buckets[range.start]?.date, buckets[range.end]?.date)
+      : null;
 
   if (!isOpen) return null;
 
@@ -64,7 +65,13 @@ export default function TimelineScrubber({
             {displayCount} CALL{displayCount !== 1 ? "S" : ""}
           </span>
         </div>
-        <div className="timeline-scrubber__range">{rangeLabel}</div>
+        {rangeParts && (
+          <div className="timeline-scrubber__range">
+            <span>{rangeParts.start}</span>
+            <ArrowForwardIcon className="timeline-scrubber__range-arrow" />
+            <span>{rangeParts.end}</span>
+          </div>
+        )}
       </div>
 
       {/* Chart fills remaining height */}

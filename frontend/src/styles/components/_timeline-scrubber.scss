@@ -158,10 +158,18 @@
    ============================================ */
 
 .timeline-scrubber__range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: var(--text-xs);
   font-weight: 500;
   color: var(--muted-foreground);
   white-space: nowrap;
+}
+
+.timeline-scrubber__range-arrow {
+  font-size: 14px !important;
+  opacity: 0.7;
 }
 
 /* ============================================
@@ -174,11 +182,11 @@
 }
 
 .dark-theme .timeline-chart__selection-bg {
-  fill: rgba(61, 143, 255, 0.05);
+  fill: rgba(61, 142, 255, 0);
 }
 
 .light-theme .timeline-chart__selection-bg {
-  fill: rgba(0, 81, 165, 0.03);
+  fill: rgba(0, 80, 165, 0);
 }
 
 /* Selection border */
@@ -187,15 +195,7 @@
   pointer-events: none;
 }
 
-.dark-theme .timeline-chart__selection-border {
-  stroke: rgba(80, 150, 255, 0.3);
-  stroke-width: 1;
-}
 
-.light-theme .timeline-chart__selection-border {
-  stroke: rgba(0, 81, 165, 0.2);
-  stroke-width: 1;
-}
 
 /* Drag handle visual lines */
 .timeline-chart__handle-line {
@@ -204,13 +204,7 @@
   stroke-linecap: round;
 }
 
-.dark-theme .timeline-chart__handle-line {
-  stroke: rgba(80, 160, 255, 0.45);
-}
 
-.light-theme .timeline-chart__handle-line {
-  stroke: rgba(0, 81, 165, 0.3);
-}
 
 /* Axis labels */
 .timeline-chart__axis-label {

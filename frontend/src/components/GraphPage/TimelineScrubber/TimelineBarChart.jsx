@@ -94,9 +94,7 @@ export default function TimelineBarChart({
     onEndDrag();
   }, [onEndDrag]);
 
-  const labelInterval = count > 0
-    ? Math.max(1, Math.ceil(count / Math.max(1, Math.floor(size.width / 52))))
-    : 1;
+  const labelInterval = 1;
 
   const { start, end } = selectionRange;
   const selX = start * step;
