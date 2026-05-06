@@ -2,6 +2,16 @@
  * Timeline scrubber date utilities.
  */
 
+/** Display config for top-level programmes (colours + labels for popover). */
+export const PROGRAMME_DISPLAY = {
+  HE:      { label: "Horizon Europe",              color: "#22C55E" },
+  DEP:     { label: "Digital Europe",               color: "#60A5FA" },
+  ERASMUS: { label: "Erasmus+",                     color: "#A78BFA" },
+  CEF:     { label: "Connecting Europe Facility",    color: "#FBBF24" },
+  CREA:    { label: "Creative Europe",              color: "#F472B6" },
+  EURATOM: { label: "EURATOM",                      color: "#22D3EE" },
+};
+
 /** Try to parse a date string into a Date. Returns null on failure. */
 export function parseCallDate(value) {
   if (!value) return null;
@@ -125,6 +135,7 @@ export function bucketCallsByMonth(callsWithDates) {
     let count = 0;
     let hasOpen = false;
     let hasUpcoming = false;
+    const byProgramme = {};
 
     for (const c of callsWithDates) {
       const cOpen = c.openDate || c.closeDate;
@@ -133,6 +144,9 @@ export function bucketCallsByMonth(callsWithDates) {
       // Does this call overlap this month?
       if (cOpen <= monthEnd && cClose >= monthStart) {
         count++;
+        if (c.programme) {
+          byProgramme[c.programme] = (byProgramme[c.programme] || 0) + 1;
+        }
 
         // Only consider open/upcoming for months that haven't fully passed
         if (!monthInPast) {
@@ -158,6 +172,7 @@ export function bucketCallsByMonth(callsWithDates) {
       label: formatMonthShort(monthStart),
       count,
       status,
+      byProgramme,
     });
   }
 

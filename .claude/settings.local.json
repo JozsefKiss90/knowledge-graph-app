@@ -8,7 +8,11 @@
       "Bash(node ./node_modules/react-scripts/bin/react-scripts.js build)",
       "Bash(grep -r \"APIRouter\" /c/Code/knowledge-graph-app/backend/routes/new_pipeline/*.py)",
       "Bash(xxd)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(./node_modules/.bin/react-scripts build:*)",
+      "Bash(ls C:Codeknowledge-graph-appfrontendnode_modules.binreact-scripts*)",
+      "Bash(ls C:Codeknowledge-graph-appfrontendnode_modulesreact-scriptsbin/*)",
+      "Bash(node node_modules/react-scripts/bin/react-scripts.js build)"
     ]
   }
 }

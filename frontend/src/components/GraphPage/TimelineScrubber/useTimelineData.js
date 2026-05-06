@@ -14,6 +14,15 @@ const ALL_HE_PROGRAMMES = Object.values(PROGRAMMES_BY_PILLAR).flat();
 
 const STANDALONE_PROGRAMMES = ["DEP", "ERASMUS", "CEF", "CREA", "EURATOM"];
 
+// Map every sub-programme key to its top-level parent
+const PARENT_PROGRAMME = {};
+for (const prog of ALL_HE_PROGRAMMES) {
+  PARENT_PROGRAMME[prog] = "HE";
+}
+for (const prog of STANDALONE_PROGRAMMES) {
+  PARENT_PROGRAMME[prog] = prog;
+}
+
 function cleanKey(k) {
   return String(k || "").replace(/_cose$/i, "");
 }
@@ -124,12 +133,20 @@ export function useTimelineData(loadFromStore, currentKey, levels) {
       const parentKey = cleanKey(parentLevel?.key || parentLevel?.graphName || "");
       const raw = parentKey ? loadFromStore(parentKey) : null;
       allCalls = extractCallsFromRaw(raw, destId);
+      const prog = PARENT_PROGRAMME[parentKey] || parentKey;
+      allCalls.forEach(c => { c.programme = prog; });
     } else {
       const datasetKeys = resolveDatasetKeys(key, loadFromStore);
+      const useParent = key === "ROOT";
       for (const dk of datasetKeys) {
         const raw = loadFromStore(cleanKey(dk));
         if (raw) {
-          allCalls = allCalls.concat(extractCallsFromRaw(raw, null));
+          const calls = extractCallsFromRaw(raw, null);
+          const prog = useParent
+            ? (PARENT_PROGRAMME[cleanKey(dk)] || cleanKey(dk))
+            : cleanKey(dk);
+          calls.forEach(c => { c.programme = prog; });
+          allCalls = allCalls.concat(calls);
         }
       }
     }

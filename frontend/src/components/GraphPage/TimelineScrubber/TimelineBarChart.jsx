@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import TimelineHoverPopover from "./TimelineHoverPopover";
 
 const BAR_GAP = 1;
 const AXIS_HEIGHT = 18;
@@ -16,6 +17,7 @@ export default function TimelineBarChart({
 }) {
   const containerRef = useRef(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const [hoveredIdx, setHoveredIdx] = useState(null);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -75,6 +77,7 @@ export default function TimelineBarChart({
       }
 
       draggingRef.current = true;
+      setHoveredIdx(null);
       e.currentTarget.setPointerCapture(e.pointerId);
     },
     [count, xToIdx, selectionRange, step, onStartDrag, onJumpTo]
@@ -94,174 +97,217 @@ export default function TimelineBarChart({
     onEndDrag();
   }, [onEndDrag]);
 
+  // Hover tracking
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (draggingRef.current) {
+        setHoveredIdx(null);
+        return;
+      }
+      const idx = Math.floor(xToIdx(e.clientX));
+      setHoveredIdx(idx >= 0 && idx < count ? idx : null);
+    },
+    [xToIdx, count]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    setHoveredIdx(null);
+  }, []);
+
   const labelInterval = 1;
 
   const { start, end } = selectionRange;
   const selX = start * step;
   const selW = (end - start + 1) * step;
 
+  // Popover positioning
+  let popoverProps = null;
+  if (
+    hoveredIdx !== null &&
+    hoveredIdx >= 0 &&
+    hoveredIdx < count &&
+    buckets[hoveredIdx]?.count > 0
+  ) {
+    const hb = buckets[hoveredIdx];
+    const barH = Math.max(2, (hb.count / maxCount) * barAreaHeight);
+    popoverProps = {
+      bucket: hb,
+      barCenterX: hoveredIdx * step + step / 2,
+      barTopY: chartHeight - barH,
+      chartWidth: size.width,
+      chartHeight,
+    };
+  }
+
   return (
     <div
       ref={containerRef}
       className="timeline-chart"
       style={{ width: "100%", height: "100%", position: "relative" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       {size.width > 0 && count > 0 && (
-        <svg
-          width={size.width}
-          height={size.height}
-          viewBox={`0 0 ${size.width} ${size.height}`}
-          style={{ display: "block", cursor: "pointer", userSelect: "none" }}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-        >
-          {/* Gradient + glow defs */}
-          <defs>
-            {/* Closed (blue) */}
-            <linearGradient id="tl-grad-closed" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="rgba(41,110,210,0.55)" />
-              <stop offset="100%" stopColor="rgba(80,165,255,0.8)" />
-            </linearGradient>
-            {/* Open (green) */}
-            <linearGradient id="tl-grad-open" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="rgba(30,160,90,0.65)" />
-              <stop offset="100%" stopColor="rgba(60,220,140,0.95)" />
-            </linearGradient>
-            {/* Upcoming (yellow) */}
-            <linearGradient id="tl-grad-upcoming" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="rgba(200,150,30,0.6)" />
-              <stop offset="100%" stopColor="rgba(255,210,80,0.92)" />
-            </linearGradient>
+        <>
+          <svg
+            width={size.width}
+            height={size.height}
+            viewBox={`0 0 ${size.width} ${size.height}`}
+            style={{ display: "block", cursor: "pointer", userSelect: "none" }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+          >
+            {/* Gradient + glow defs */}
+            <defs>
+              {/* Closed (blue) */}
+              <linearGradient id="tl-grad-closed" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="rgba(41,110,210,0.55)" />
+                <stop offset="100%" stopColor="rgba(80,165,255,0.8)" />
+              </linearGradient>
+              {/* Open (green) */}
+              <linearGradient id="tl-grad-open" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="rgba(30,160,90,0.65)" />
+                <stop offset="100%" stopColor="rgba(60,220,140,0.95)" />
+              </linearGradient>
+              {/* Upcoming (yellow) */}
+              <linearGradient id="tl-grad-upcoming" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="rgba(200,150,30,0.6)" />
+                <stop offset="100%" stopColor="rgba(255,210,80,0.92)" />
+              </linearGradient>
 
-            {/* Glow filters */}
-            <filter id="tl-glow-closed" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <filter id="tl-glow-open" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <filter id="tl-glow-upcoming" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
+              {/* Glow filters */}
+              <filter id="tl-glow-closed" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="tl-glow-open" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="tl-glow-upcoming" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
 
-          {/* Selection overlay background */}
-          <rect
-            x={selX}
-            y={0}
-            width={selW}
-            height={chartHeight}
-            className="timeline-chart__selection-bg"
-            rx={4}
-          />
+            {/* Selection overlay background */}
+            <rect
+              x={selX}
+              y={0}
+              width={selW}
+              height={chartHeight}
+              className="timeline-chart__selection-bg"
+              rx={4}
+            />
 
-          {/* Bars */}
-          {buckets.map((b, i) => {
-            if (b.count === 0) return null;
-            const x = i * step + BAR_GAP / 2;
-            const h = Math.max(2, (b.count / maxCount) * barAreaHeight);
-            const y = chartHeight - h;
+            {/* Bars */}
+            {buckets.map((b, i) => {
+              if (b.count === 0) return null;
+              const x = i * step + BAR_GAP / 2;
+              const h = Math.max(2, (b.count / maxCount) * barAreaHeight);
+              const y = chartHeight - h;
 
-            let fill, filterUrl;
-            if (b.status === "open") {
-              fill = "url(#tl-grad-open)";
-              filterUrl = "url(#tl-glow-open)";
-            } else if (b.status === "upcoming") {
-              fill = "url(#tl-grad-upcoming)";
-              filterUrl = "url(#tl-glow-upcoming)";
-            } else {
-              fill = "url(#tl-grad-closed)";
-              filterUrl = "url(#tl-glow-closed)";
-            }
+              let fill, filterUrl;
+              if (b.status === "open") {
+                fill = "url(#tl-grad-open)";
+                filterUrl = "url(#tl-glow-open)";
+              } else if (b.status === "upcoming") {
+                fill = "url(#tl-grad-upcoming)";
+                filterUrl = "url(#tl-glow-upcoming)";
+              } else {
+                fill = "url(#tl-grad-closed)";
+                filterUrl = "url(#tl-glow-closed)";
+              }
 
-            return (
-              <rect
-                key={b.key}
-                x={x}
-                y={y}
-                width={barW}
-                height={h}
-                rx={BAR_RADIUS}
-                fill={fill}
-                filter={filterUrl}
-              />
-            );
-          })}
+              return (
+                <rect
+                  key={b.key}
+                  x={x}
+                  y={y}
+                  width={barW}
+                  height={h}
+                  rx={BAR_RADIUS}
+                  fill={fill}
+                  filter={filterUrl}
+                />
+              );
+            })}
 
-          {/* Selection border */}
-          <rect
-            x={selX}
-            y={0}
-            width={selW}
-            height={chartHeight}
-            className="timeline-chart__selection-border"
-            rx={4}
-          />
+            {/* Selection border */}
+            <rect
+              x={selX}
+              y={0}
+              width={selW}
+              height={chartHeight}
+              className="timeline-chart__selection-border"
+              rx={4}
+            />
 
-          {/* Left drag handle hit area */}
-          <rect
-            x={selX - HANDLE_HIT / 2}
-            y={0}
-            width={HANDLE_HIT}
-            height={chartHeight}
-            fill="transparent"
-            style={{ cursor: "ew-resize" }}
-          />
-          <line
-            x1={selX}
-            y1={4}
-            x2={selX}
-            y2={chartHeight - 4}
-            className="timeline-chart__handle-line"
-          />
+            {/* Left drag handle hit area */}
+            <rect
+              x={selX - HANDLE_HIT / 2}
+              y={0}
+              width={HANDLE_HIT}
+              height={chartHeight}
+              fill="transparent"
+              style={{ cursor: "ew-resize" }}
+            />
+            <line
+              x1={selX}
+              y1={4}
+              x2={selX}
+              y2={chartHeight - 4}
+              className="timeline-chart__handle-line"
+            />
 
-          {/* Right drag handle hit area */}
-          <rect
-            x={selX + selW - HANDLE_HIT / 2}
-            y={0}
-            width={HANDLE_HIT}
-            height={chartHeight}
-            fill="transparent"
-            style={{ cursor: "ew-resize" }}
-          />
-          <line
-            x1={selX + selW}
-            y1={4}
-            x2={selX + selW}
-            y2={chartHeight - 4}
-            className="timeline-chart__handle-line"
-          />
+            {/* Right drag handle hit area */}
+            <rect
+              x={selX + selW - HANDLE_HIT / 2}
+              y={0}
+              width={HANDLE_HIT}
+              height={chartHeight}
+              fill="transparent"
+              style={{ cursor: "ew-resize" }}
+            />
+            <line
+              x1={selX + selW}
+              y1={4}
+              x2={selX + selW}
+              y2={chartHeight - 4}
+              className="timeline-chart__handle-line"
+            />
 
-          {/* Axis labels */}
-          {buckets.map((b, i) => {
-            if (i % labelInterval !== 0) return null;
-            const x = i * step + step / 2;
-            return (
-              <text
-                key={`lbl-${b.key}`}
-                x={x}
-                y={size.height - 3}
-                className="timeline-chart__axis-label"
-              >
-                {b.label}
-              </text>
-            );
-          })}
-        </svg>
+            {/* Axis labels */}
+            {buckets.map((b, i) => {
+              if (i % labelInterval !== 0) return null;
+              const x = i * step + step / 2;
+              return (
+                <text
+                  key={`lbl-${b.key}`}
+                  x={x}
+                  y={size.height - 3}
+                  className="timeline-chart__axis-label"
+                >
+                  {b.label}
+                </text>
+              );
+            })}
+          </svg>
+
+          {/* Hover popover */}
+          {popoverProps && <TimelineHoverPopover {...popoverProps} />}
+        </>
       )}
     </div>
   );
