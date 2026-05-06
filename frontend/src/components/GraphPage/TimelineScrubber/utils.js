@@ -100,12 +100,13 @@ export function formatRangeLabel(startDate, endDate) {
 /**
  * Bucket calls into 12 monthly buckets for the current year (Jan–Dec).
  *
- * Each bucket gets a `status`:
- *  - "open"     – the month has calls whose opening_date <= today AND deadline >= today
- *                 (i.e. the call is currently accepting submissions)
- *  - "upcoming" – the month has calls whose opening_date is in the future
- *                 (call not yet open but will be)
- *  - "closed"   – all other months that have calls (calls whose deadline has passed)
+ * Each bucket gets a `status` colour hint:
+ *  - "open"     – the month is now or in the future AND has calls that are
+ *                 currently accepting submissions (opening_date <= today <= deadline)
+ *  - "upcoming" – the month is in the future AND only has calls whose
+ *                 opening_date has not yet arrived
+ *  - "closed"   – the month is entirely in the past, or all overlapping calls
+ *                 have already closed
  *  - "empty"    – no calls overlap this month
  */
 export function bucketCallsByMonth(callsWithDates) {
@@ -118,6 +119,7 @@ export function bucketCallsByMonth(callsWithDates) {
   for (let m = 0; m < 12; m++) {
     const monthStart = new Date(YEAR, m, 1);
     const monthEnd = new Date(YEAR, m + 1, 0); // last day of month
+    const monthInPast = monthEnd < today;
 
     let count = 0;
     let hasOpen = false;
@@ -131,13 +133,13 @@ export function bucketCallsByMonth(callsWithDates) {
       if (cOpen <= monthEnd && cClose >= monthStart) {
         count++;
 
-        // Is the call currently open (accepting submissions right now)?
-        if (cOpen <= today && cClose >= today) {
-          hasOpen = true;
-        }
-        // Is the call upcoming (opens in the future)?
-        else if (cOpen > today) {
-          hasUpcoming = true;
+        // Only consider open/upcoming for months that haven't fully passed
+        if (!monthInPast) {
+          if (cOpen <= today && cClose >= today) {
+            hasOpen = true;
+          } else if (cOpen > today) {
+            hasUpcoming = true;
+          }
         }
       }
     }

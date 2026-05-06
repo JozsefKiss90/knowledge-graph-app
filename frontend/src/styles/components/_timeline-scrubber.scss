@@ -10,13 +10,13 @@
   bottom: 46px; /* 32px status-bar + 14px gap */
   left: 50%;
   transform: translateX(-50%);
-  width: min(520px, 60%);
-  height: 96px;
+  width: min(540px, 60%);
+  height: 140px;
   z-index: 20;
 
   display: flex;
   flex-direction: column;
-  padding: 6px 18px 4px;
+  padding: 14px 27px 12px;
   overflow: hidden;
 
   border-radius: 14px;
