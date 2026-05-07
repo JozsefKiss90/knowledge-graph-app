@@ -2,13 +2,22 @@
 import React from "react";
 import { Box, Chip } from "@mui/material";
 
+const CALL_STATUS_STYLES = {
+  open: { backgroundColor: "rgba(76, 175, 80, 0.15)", color: "#4caf50", label: "Open" },
+  forthcoming: { backgroundColor: "rgba(255, 193, 7, 0.15)", color: "#ffc107", label: "Forthcoming" },
+  closed: { backgroundColor: "rgba(244, 67, 54, 0.15)", color: "#f44336", label: "Closed" },
+};
+
 export default function HoverCardChips({
   typeLabel,
   showType = true,
   showPinned = false,
 
+  callStatus = null,
+
   showCallCount = false,
   callCount = null,
+  callLabel = "Open Calls",
 
   showDestCount = false,
   destCount = null,
@@ -38,6 +47,25 @@ export default function HoverCardChips({
     );
   }
 
+  if (callStatus && CALL_STATUS_STYLES[callStatus]) {
+    const s = CALL_STATUS_STYLES[callStatus];
+    chips.push(
+      <Chip
+        key="callStatus"
+        label={s.label}
+        size="small"
+        sx={{
+          height: 22,
+          fontSize: "0.7rem",
+          fontWeight: 600,
+          borderRadius: "999px",
+          backgroundColor: s.backgroundColor,
+          color: s.color,
+        }}
+      />
+    );
+  }
+
   // IMPORTANT: render NodeCount in addition to Call/Destination counts (not mutually exclusive)
   if (showNodeCount && typeof nodeCount === "number") {
     chips.push(
@@ -62,7 +90,7 @@ export default function HoverCardChips({
     chips.push(
       <Chip
         key="callCount"
-        label={`${callCount.toLocaleString()} Calls`}
+        label={`${callCount.toLocaleString()} ${callLabel}`}
         size="small"
         sx={{
           height: 22,
@@ -71,7 +99,7 @@ export default function HoverCardChips({
           borderRadius: "999px",
           backgroundColor: "var(--muted)",
           border: "1px solid var(--border)",
-          color: "var(--foreground)",
+          color: "#4caf50",
         }}
       />
     );

@@ -175,6 +175,7 @@ export default function NestedGraphController({
   targetGraphName,
   renderLevelBar,
   onOpenDetail,
+  onCompareSelect,
 }) {
   const graphRef = useRef(null);
 
@@ -467,6 +468,7 @@ export default function NestedGraphController({
           onHoverNodeIdChange={onHoverNodeIdChange}
           nestedHandlers={nestedHandlers}
           onOpenDetail={onOpenDetail}
+          onCompareSelect={onCompareSelect}
         />
       </div>
     </div>

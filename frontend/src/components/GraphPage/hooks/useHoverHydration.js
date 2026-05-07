@@ -1,6 +1,17 @@
 import { useEffect } from "react";
 import { buildElements } from "../../utils/buildElements";
 import { getClusterConfigForId } from "../../NodeDetalParts/useNodeDetail";
+import { getCallDateRange } from "../TimelineScrubber/utils";
+
+function isCallCurrentlyOpen(nodeData) {
+  const range = getCallDateRange(nodeData);
+  if (!range) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const open = range.openDate || range.closeDate;
+  const close = range.closeDate || range.openDate;
+  return open <= today && close >= today;
+}
 
 export function useHoverHydration({
   cyInstance,
@@ -46,16 +57,30 @@ export function useHoverHydration({
       }
     };
 
-    const computeCallIdsForDestination = (clusterRaw, destinationId) => {
+    const countOpenCallsInRaw = (rawData) => {
+      try {
+        const full = buildElements(rawData);
+        const nodes = full?.nodeElements || [];
+        return nodes.filter((el) => {
+          const d = el?.data || {};
+          const t = String(d.type || d.category || "").toLowerCase();
+          return t.includes("call") && isCallCurrentlyOpen(d);
+        }).length;
+      } catch {
+        return null;
+      }
+    };
+
+    const computeOpenCallIdsForDestination = (clusterRaw, destinationId) => {
       try {
         const full = buildElements(clusterRaw);
         const nodes = full?.nodeElements || [];
         const edges = full?.edgeElements || [];
 
-        const typeById = new Map(
+        const nodeDataById = new Map(
           nodes.map((el) => {
             const d = el?.data || {};
-            return [String(d.id || ""), String(d.type || d.category || "").toLowerCase()];
+            return [String(d.id || ""), d];
           })
         );
 
@@ -74,8 +99,10 @@ export function useHoverHydration({
           if (s !== destId && t !== destId) return;
 
           const other = s === destId ? t : s;
-          const otherType = typeById.get(other) || "";
+          const otherData = nodeDataById.get(other);
+          const otherType = String(otherData?.type || otherData?.category || "").toLowerCase();
           if (otherType && !otherType.includes("call")) return;
+          if (!isCallCurrentlyOpen(otherData)) return;
 
           callIds.add(other);
         });
@@ -114,30 +141,83 @@ export function useHoverHydration({
         const clusterKey = cleanKey(nodeId);
         const raw = loadFromStore?.(clusterKey);
         const destCount = raw ? countDestinationsInClusterRaw(raw) : null;
+        const callCount = raw ? countOpenCallsInRaw(raw) : null;
 
-        if (!cancelled && nodeId === lastHoveredId && typeof destCount === "number") {
+        if (!cancelled && nodeId === lastHoveredId && (typeof destCount === "number" || typeof callCount === "number")) {
           setHoveredNode((prev) => ({
             ...(prev || node),
-            destination_count: destCount,
-            node_count: destCount + 1,
+            ...(typeof destCount === "number" ? { destination_count: destCount, node_count: destCount + 1 } : {}),
+            ...(typeof callCount === "number" ? { open_call_count: callCount } : {}),
           }));
         }
         return;
       }
 
       if (isDestination) {
-        if (datasetKey && datasetKey.toLowerCase().startsWith("cluster_")) {
+        if (datasetKey) {
           const raw = loadFromStore?.(datasetKey);
-          const callIds = raw ? computeCallIdsForDestination(raw, nodeId) : null;
+          const callIds = raw ? computeOpenCallIdsForDestination(raw, nodeId) : null;
           const callCount = callIds ? callIds.size : null;
 
-          if (!cancelled && nodeId === lastHoveredId && typeof callCount === "number" && callCount > 0) {
+          if (!cancelled && nodeId === lastHoveredId && typeof callCount === "number") {
             setHoveredNode((prev) => ({
               ...(prev || node),
-              call_count: callCount,
-              node_count: callCount + 1,
+              open_call_count: callCount,
             }));
           }
+        }
+        return;
+      }
+
+      const isProgramme = typeLower.includes("programme");
+      const isPillar = typeLower.includes("pillar");
+
+      if (isProgramme) {
+        // Programme nodes have IDs like PROG_ERC but store keys are ERC
+        const progKey =
+          node?.programmeKey ||
+          node?.data?.programmeKey ||
+          cleanKey(nodeId).replace(/^PROG_/i, "");
+        const raw = loadFromStore?.(progKey);
+        const callCount = raw ? countOpenCallsInRaw(raw) : null;
+
+        if (!cancelled && nodeId === lastHoveredId && typeof callCount === "number") {
+          setHoveredNode((prev) => ({
+            ...(prev || node),
+            open_call_count: callCount,
+          }));
+        }
+        return;
+      }
+
+      if (isPillar) {
+        // Aggregate calls across all child programmes of this pillar
+        const PILLAR_PROGRAMMES = {
+          P1: ["ERC", "MSCA", "INFRA"],
+          P2: ["Cluster_1", "Cluster_2", "Cluster_3", "Cluster_4", "Cluster_5", "Cluster_6", "MISS"],
+          P3: ["EIC", "EIE"],
+          WIDERA: ["WIDERA"],
+        };
+        const pillarId = cleanKey(nodeId).replace(/^PILLAR_/i, "");
+        const childKeys = PILLAR_PROGRAMMES[pillarId] || [];
+        let totalCalls = 0;
+        let foundAny = false;
+
+        for (const key of childKeys) {
+          const raw = loadFromStore?.(key);
+          if (!raw) continue;
+          const count = countOpenCallsInRaw(raw);
+          if (typeof count === "number") {
+            totalCalls += count;
+            foundAny = true;
+          }
+        }
+
+        if (!cancelled && nodeId === lastHoveredId && foundAny) {
+          setHoveredNode((prev) => ({
+            ...(prev || node),
+            open_call_count: totalCalls,
+          }));
         }
         return;
       }

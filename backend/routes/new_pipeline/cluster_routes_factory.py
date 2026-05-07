@@ -31,8 +31,7 @@ def make_cluster_router(
             rows = db.query("""
                 MATCH (n)
                 WHERE n.source = $source AND n.id IS NOT NULL AND n.name IS NOT NULL
-                RETURN labels(n) AS labels, n.id AS id, n.name AS name, n.type AS type, n.source AS source,
-                       n.opening_date AS opening_date, n.deadline AS deadline, n.deadlines AS deadlines
+                RETURN n
                 ORDER BY labels(n), n.name
             """, {"source": source})
             return {"status": "success", "count": len(rows), "data": rows}

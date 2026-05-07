@@ -123,6 +123,16 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
       { selector: ".call-hidden", style: { display: "none" } },
       { selector: ".call-visible", style: { display: "element" } },
       { selector: ".timeline-hidden", style: { display: "none" } },
+      {
+        selector: ".compare-selected",
+        style: {
+          "border-width": 4,
+          "border-color": "#3d8fff",
+          "border-opacity": 1,
+          "overlay-opacity": 0.08,
+          "overlay-color": "#3d8fff",
+        },
+      },
     ])
     .update();
 

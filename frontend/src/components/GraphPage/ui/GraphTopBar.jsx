@@ -36,6 +36,8 @@ const GraphTopBar = ({
   onFitView,
   layoutMode,
   onLayoutModeChange,
+  compareOpen,
+  compareNodes,
 }) => {
   const currentIndex = Math.max(
     0,
@@ -224,6 +226,16 @@ const GraphTopBar = ({
           >
             Level up
           </button>
+        )}
+
+        {compareOpen && compareNodes?.length === 2 && (
+          <Box className="graph-topbar-compare-pill">
+            <Typography variant="caption">
+              Compare: {compareNodes[0]?.label || compareNodes[0]?.name || compareNodes[0]?.id}
+              {" > "}
+              {compareNodes[1]?.label || compareNodes[1]?.name || compareNodes[1]?.id}
+            </Typography>
+          </Box>
         )}
       </Box>
 

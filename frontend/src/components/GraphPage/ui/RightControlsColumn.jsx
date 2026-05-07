@@ -15,6 +15,8 @@ export default function RightControlsColumn({
   bookmarksCount,
   timelineOpen,
   setTimelineOpen,
+  compareOpen,
+  setCompareOpen,
 }) {
   return (
     <Col xs="auto">
@@ -31,6 +33,8 @@ export default function RightControlsColumn({
         bookmarksCount={bookmarksCount}
         timelineOpen={timelineOpen}
         setTimelineOpen={setTimelineOpen}
+        compareOpen={compareOpen}
+        setCompareOpen={setCompareOpen}
       />
     </Col>
   );

@@ -13,7 +13,8 @@
       "Bash(ls C:Codeknowledge-graph-appfrontendnode_modules.binreact-scripts*)",
       "Bash(ls C:Codeknowledge-graph-appfrontendnode_modulesreact-scriptsbin/*)",
       "Bash(node node_modules/react-scripts/bin/react-scripts.js build)",
-      "Bash(find . -iname *compare* -type f)"
+      "Bash(find . -iname *compare* -type f)",
+      "Bash(grep -A2 '\"\"scripts\"\"' package.json)"
     ]
   }
 }

@@ -237,6 +237,25 @@
   outline-offset: 2px;
 }
 
+.graph-topbar-compare-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 12px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  margin-left: 8px;
+}
+
+.graph-topbar-compare-pill .MuiTypography-caption {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+}
+
 .graph-topbar-actions {
   display: flex;
   align-items: center;

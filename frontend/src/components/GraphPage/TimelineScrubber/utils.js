@@ -170,13 +170,11 @@ export function bucketCallsByMonth(callsWithDates) {
           byProgramme[c.programme] = (byProgramme[c.programme] || 0) + 1;
         }
 
-        // Only consider open/upcoming for months that haven't fully passed
-        if (!monthInPast) {
-          if (cOpen <= today && cClose >= today) {
-            hasOpen = true;
-          } else if (cOpen > today) {
-            hasUpcoming = true;
-          }
+        // Is this call currently accepting submissions?
+        if (cOpen <= today && cClose >= today) {
+          hasOpen = true;
+        } else if (!monthInPast && cOpen > today) {
+          hasUpcoming = true;
         }
       }
     }

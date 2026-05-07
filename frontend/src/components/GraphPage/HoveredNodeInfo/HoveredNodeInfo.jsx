@@ -465,10 +465,13 @@ const filteredMetricCards = useMemo(() => {
           showType: model.shouldShowHeaderChips,
           showPinned: model.isHoverFrozen,
 
+          callStatus: model.callStatus,
+
           showCallCount:
-            model.isDestinationNode &&
-            typeof model.destinationCallCount === "number",
-          callCount: model.destinationCallCount,
+            !model.isCallNode &&
+            typeof model.openCallCount === "number",
+          callCount: model.openCallCount,
+          callLabel: "Open Calls",
 
           showDestCount:
             model.isClusterNode &&

@@ -1,7 +1,7 @@
 // Hover + click behaviour for navigation layers (ROOT / PILLAR_*) and programme graphs.
 
 export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts = {}) {
-  const { shouldOpenCluster, onClusterOpen, onDestinationToggle, openNodeDetail } = opts;
+  const { shouldOpenCluster, onClusterOpen, onDestinationToggle, openNodeDetail, getCompareSelect } = opts;
 
   if (!cy || cy.destroyed()) return;
 
@@ -73,6 +73,16 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
   cy.on("tap", "node", (evt) => {
     const node = evt.target;
     const data = node.data();
+
+    // Compare mode intercept: if active, add non-call nodes to compare selection
+    const compareSelect = typeof getCompareSelect === "function" ? getCompareSelect() : null;
+    if (typeof compareSelect === "function") {
+      const t = String(data?.type || data?.category || "").toLowerCase();
+      if (t !== "call") {
+        compareSelect(data, node);
+        return;
+      }
+    }
 
     if (data?.type === "root" || data?.type === "pillar" || data?.type === "programme") {
       onClusterOpen?.(data);

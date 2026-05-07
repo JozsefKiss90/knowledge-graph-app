@@ -7,6 +7,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EmailIcon from "@mui/icons-material/Email";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import MessageDrawer from "../../LegendParts/MessageDrawer";
 import CustomDrawer from "../../LegendParts/CustomDrawer";
 import LayoutControls from "./LayoutControls";
@@ -25,6 +26,8 @@ const SidebarControls = ({
   bookmarksCount,
   timelineOpen,
   setTimelineOpen,
+  compareOpen,
+  setCompareOpen,
 }) => {
   const navigate = useNavigate();
 
@@ -87,6 +90,15 @@ const SidebarControls = ({
           onClick={() => setTimelineOpen((prev) => !prev)}
         >
           <BarChartOutlinedIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip {...tooltipProps} title="Compare programmes">
+        <IconButton
+          className={`sidebar-controls-button${compareOpen ? " sidebar-controls-button--active" : ""}`}
+          onClick={() => setCompareOpen((prev) => !prev)}
+        >
+          <CompareArrowsIcon fontSize="small" />
         </IconButton>
       </Tooltip>
 

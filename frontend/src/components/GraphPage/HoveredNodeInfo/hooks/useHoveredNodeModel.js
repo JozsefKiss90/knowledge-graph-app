@@ -12,6 +12,7 @@ import {
   extractTags,
 } from "../utils/nodeExtractors";
 import { formatCallFieldValue } from "../utils/callFields";
+import { getCallDateRange } from "../../TimelineScrubber/utils";
 
 function cleanGraphName(name) {
   return String(name || "").replace(/_cose$/i, "");
@@ -208,6 +209,19 @@ export function useHoveredNodeModel({
       destinationCallCount = countHasCallEdges(cyInstance, id);
     }
 
+    // Open call count: unified across all non-call node types
+    const openCallCount = (() => {
+      if (isCallNode) return null;
+
+      // All node types: use hydrated open_call_count (only truly open calls)
+      const oc =
+        raw?.open_call_count ??
+        raw?.openCallCount;
+      if (typeof oc === "number" && Number.isFinite(oc)) return oc;
+
+      return null;
+    })();
+
     const explicitNodeCount =
       isClusterNode || isDestinationNode ? extractNodeCount(raw) : null;
 
@@ -243,6 +257,20 @@ export function useHoveredNodeModel({
         fullWidth: false,
       });
     }
+
+    // Call status: open / forthcoming / closed
+    const callStatus = (() => {
+      if (!isCallNode) return null;
+      const range = getCallDateRange(raw);
+      if (!range) return null;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const open = range.openDate || range.closeDate;
+      const close = range.closeDate || range.openDate;
+      if (open <= today && close >= today) return "open";
+      if (open > today) return "forthcoming";
+      return "closed";
+    })();
 
     if (isCallNode) {
       // UPDATED: remove TRL; add Type of Action instead
@@ -304,6 +332,8 @@ export function useHoveredNodeModel({
 
       destinationCallCount,
       clusterDestinationCount,
+      openCallCount,
+      callStatus,
       nodeCount,
       tags,
 

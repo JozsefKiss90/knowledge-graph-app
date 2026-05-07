@@ -1,5 +1,5 @@
 // src/components/GraphPage/ui/GraphMainColumn.jsx
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { Col } from "react-bootstrap";
 
 import NestedGraphController from "../../NestedGraphController";
@@ -11,6 +11,7 @@ import TimelineScrubber from "../TimelineScrubber/TimelineScrubber";
 // Adjust this import if your ChatBot lives elsewhere
 import ChatBot from "../../ChatBot/ChatBot";
 import { parseCallDate } from "../TimelineScrubber/utils";
+import CompareDrawer from "../CompareDrawer/CompareDrawer";
 
 export default function GraphMainColumn({
   graphName,
@@ -36,9 +37,58 @@ export default function GraphMainColumn({
   timelineOpen,
   timelineSelection,
   setTimelineSelection,
+  compareOpen,
+  setCompareOpen,
+  compareNodes,
+  setCompareNodes,
 }) {
   const isDetailMode = !!detailNode;
   const levelsRef = useRef([]);
+
+  // Compare selection handler: adds a node to compareNodes (max 2)
+  const handleCompareSelect = useCallback(
+    (nodeData, cyNode) => {
+      if (!nodeData) return;
+      const id = nodeData.programmeKey || nodeData.id;
+      const visual = (() => {
+        if (!cyNode) return null;
+        try {
+          const fill = typeof cyNode.style === "function" ? cyNode.style("background-color") : null;
+          const borderColor = typeof cyNode.style === "function" ? cyNode.style("border-color") : null;
+          return { fill: fill || "#3d8fff", borderColor: borderColor || "#fff", borderWidthPx: 2 };
+        } catch { return null; }
+      })();
+
+      setCompareNodes((prev) => {
+        // Don't add duplicates
+        if (prev.some((n) => (n.programmeKey || n.id) === id)) return prev;
+        const entry = { ...nodeData, nodeVisual: visual };
+        if (prev.length < 2) return [...prev, entry];
+        // Replace second node
+        return [prev[0], entry];
+      });
+    },
+    [setCompareNodes]
+  );
+
+  // Only active when compareOpen is true
+  const compareSelectCallback = compareOpen ? handleCompareSelect : null;
+
+  // Sync compare-selected Cytoscape class with compareNodes state
+  useEffect(() => {
+    const cy = cyInstance;
+    if (!cy || cy.destroyed?.()) return;
+    cy.nodes().removeClass("compare-selected");
+    if (!compareOpen || !compareNodes?.length) return;
+    compareNodes.forEach((n) => {
+      const id = n.id;
+      if (!id) return;
+      try {
+        const el = cy.$id(String(id));
+        if (el && !el.empty()) el.addClass("compare-selected");
+      } catch {}
+    });
+  }, [cyInstance, compareOpen, compareNodes]);
 
   // Apply timeline date filtering to Cytoscape call nodes
   useEffect(() => {
@@ -147,6 +197,8 @@ export default function GraphMainColumn({
                   onFitView={onFitView}
                   layoutMode={layoutMode}
                   layoutSwitchVisible={layoutSwitchVisible}
+                  compareOpen={compareOpen}
+                  compareNodes={compareNodes}
                   onLayoutModeChange={(nextName) => {
                     if (currentKey === "HE_2025") return;
 
@@ -161,6 +213,7 @@ export default function GraphMainColumn({
             }}
             // for clicks in GraphView/setupEvents
             onOpenDetail={onOpenDetail}
+            onCompareSelect={compareSelectCallback}
           />
 
           <div className="graph-main">
@@ -177,6 +230,19 @@ export default function GraphMainColumn({
             />
 
             <ChatBot />
+
+            <CompareDrawer
+              open={compareOpen}
+              nodes={compareNodes}
+              loadFromStore={loadFromStore}
+              onClose={() => {
+                setCompareOpen(false);
+                setCompareNodes([]);
+              }}
+              onClearNode={(index) => {
+                setCompareNodes((prev) => prev.filter((_, i) => i !== index));
+              }}
+            />
           </div>
 
           <TimelineScrubber

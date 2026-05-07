@@ -29,6 +29,7 @@ const GraphView = forwardRef(function GraphView(
     onHoverNodeIdChange,
     nestedHandlers,
     onOpenDetail,
+    onCompareSelect,
   },
   ref
 ) {
@@ -106,6 +107,9 @@ function applyResponsiveViewport(cy, reason = "unknown") {
       onCyReady,
       layoutOptions,
     });
+
+  const compareSelectRef = useRef(onCompareSelect);
+  compareSelectRef.current = onCompareSelect;
 
   const elements = useGraphElements(graphData, layerKey);
 
@@ -203,6 +207,7 @@ function applyResponsiveViewport(cy, reason = "unknown") {
           nhRef.current?.onDestinationToggle?.(cy, id),
         // NEW: let clicks open inline detail when provided
         openNodeDetail: onOpenDetail,
+        getCompareSelect: () => compareSelectRef.current || null,
       }
     );
 

@@ -57,12 +57,26 @@ export default function TimelineScrubber({
 
   return (
     <div className="timeline-scrubber">
-      {/* Top row: labels + range */}
+      {/* Top row: labels + legend + range */}
       <div className="timeline-scrubber__header">
         <div className="timeline-scrubber__label">
           <span className="timeline-scrubber__title">Calls over time</span>
           <span className="timeline-scrubber__count">
             {displayCount} CALL{displayCount !== 1 ? "S" : ""}
+          </span>
+        </div>
+        <div className="timeline-scrubber__legend">
+          <span className="timeline-scrubber__legend-item">
+            <span className="timeline-scrubber__legend-dot timeline-scrubber__legend-dot--open" />
+            Open
+          </span>
+          <span className="timeline-scrubber__legend-item">
+            <span className="timeline-scrubber__legend-dot timeline-scrubber__legend-dot--upcoming" />
+            Forthcoming
+          </span>
+          <span className="timeline-scrubber__legend-item">
+            <span className="timeline-scrubber__legend-dot timeline-scrubber__legend-dot--closed" />
+            Closed
           </span>
         </div>
         {rangeParts && (

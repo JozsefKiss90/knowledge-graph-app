@@ -38,6 +38,10 @@ function GraphPage() {
   const [isMessageDrawerOpen, setIsMessageDrawerOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  // Compare drawer state
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [compareNodes, setCompareNodes] = useState([]);
+
   const [graphStats, setGraphStats] = useState({ nodes: 0, edges: 0 });
 
   const [timelineOpen, setTimelineOpen] = useState(true);
@@ -80,6 +84,7 @@ function GraphPage() {
     setHoveredNode(null);
     setDetailNode(null); // also close inline detail on dataset change
     setTimelineSelection(null); // reset timeline filter on layer change
+    setCompareNodes([]); // reset compare selection on layer change
   }, [graphName]);
 
   useEffect(() => {
@@ -240,6 +245,10 @@ useEffect(() => {
               timelineOpen={timelineOpen}
               timelineSelection={timelineSelection}
               setTimelineSelection={setTimelineSelection}
+              compareOpen={compareOpen}
+              setCompareOpen={setCompareOpen}
+              compareNodes={compareNodes}
+              setCompareNodes={setCompareNodes}
             />
 
             <RightControlsColumn
@@ -255,6 +264,8 @@ useEffect(() => {
               bookmarksCount={bookmarksCount}
               timelineOpen={timelineOpen}
               setTimelineOpen={setTimelineOpen}
+              compareOpen={compareOpen}
+              setCompareOpen={setCompareOpen}
             />
           </Row>
         </Container>

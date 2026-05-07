@@ -132,8 +132,53 @@
 }
 
 /* ============================================
-   Center: chart area
+   Legend (colour key for bar statuses)
    ============================================ */
+
+.timeline-scrubber__legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timeline-scrubber__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.dark-theme .timeline-scrubber__legend-item {
+  color: rgba(154, 172, 201, 0.75);
+}
+
+.light-theme .timeline-scrubber__legend-item {
+  color: var(--muted-foreground);
+}
+
+.timeline-scrubber__legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.timeline-scrubber__legend-dot--open {
+  background: rgba(50, 200, 120, 0.9);
+  box-shadow: 0 0 4px rgba(50, 200, 120, 0.4);
+}
+
+.timeline-scrubber__legend-dot--upcoming {
+  background: rgba(240, 195, 60, 0.9);
+  box-shadow: 0 0 4px rgba(240, 195, 60, 0.4);
+}
+
+.timeline-scrubber__legend-dot--closed {
+  background: rgba(70, 145, 240, 0.9);
+  box-shadow: 0 0 4px rgba(70, 145, 240, 0.4);
+}
 
 /* ============================================
    Chart area (fills below the header)
@@ -414,6 +459,10 @@
   }
 
   .timeline-scrubber__title {
+    display: none;
+  }
+
+  .timeline-scrubber__legend {
     display: none;
   }
 
