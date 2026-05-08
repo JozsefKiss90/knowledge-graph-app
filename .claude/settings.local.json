@@ -15,7 +15,9 @@
       "Bash(node node_modules/react-scripts/bin/react-scripts.js build)",
       "Bash(find . -iname *compare* -type f)",
       "Bash(grep -A2 '\"\"scripts\"\"' package.json)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

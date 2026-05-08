@@ -3,19 +3,65 @@ from pydantic import BaseModel
 import os
 import requests
 
-from chatbot.call_search import search_metadata
-from chatbot.context_builder import build_context
+from chatbot.call_search import search_metadata, _detect_filters
+from chatbot.context_builder import build_context, _format_budget
 
 router = APIRouter()
 
 class ChatRequest(BaseModel):
     question: str
 
+def _call_card(doc: dict) -> dict:
+    """Extract the fields the frontend needs for a call card."""
+    budget = doc.get("budget")
+    return {
+        "identifier": doc["identifier"],
+        "title": doc.get("title", ""),
+        "deadline": doc.get("deadline", ""),
+        "budget_label": _format_budget(budget),
+        "budget_total": budget["total_eur"] if budget else None,
+        "action_type": doc.get("action_type", ""),
+        "cluster": doc.get("call_identifier", ""),
+        "url": doc.get("url", ""),
+    }
+
+def _build_chips(matches: list, filters: dict) -> list:
+    """Build filter chips from matched calls and detected filters."""
+    from datetime import date
+
+    chips = []
+    today = date.today().isoformat()
+
+    # Work programmes (deduplicated, from matched calls' call_title)
+    programmes = {}
+    for m in matches:
+        ct = m.get("call_title") or m.get("call_identifier") or ""
+        if ct and ct not in programmes:
+            programmes[ct] = True
+    for prog in programmes:
+        chips.append({"type": "programme", "label": prog})
+
+    # Open / closed call counts
+    open_count = sum(1 for m in matches if (m.get("deadline") or "") >= today)
+    closed_count = len(matches) - open_count
+    if open_count:
+        chips.append({"type": "status", "label": f"Open calls: {open_count}"})
+    if closed_count:
+        chips.append({"type": "status", "label": f"Closed calls: {closed_count}"})
+
+    # Action types from filters
+    if "action_types" in filters:
+        for at in sorted(filters["action_types"]):
+            chips.append({"type": "action_type", "label": at})
+
+    return chips
+
 @router.post("/chatbot/query")
 async def chatbot_query(request: ChatRequest):
     question = request.question
     try:
         matches = search_metadata(question)
+        filters = _detect_filters(question)
         context = build_context(matches, question)
         answer = call_llm(question, context)
     except Exception as e:
@@ -23,6 +69,9 @@ async def chatbot_query(request: ChatRequest):
     return {
         "answer": answer,
         "sources": [m["identifier"] for m in matches],
+        "matched_calls": [_call_card(m) for m in matches],
+        "filters": _build_chips(matches, filters),
+        "total_matches": len(matches),
     }
 
 _SYSTEM_PROMPT = """You are a Horizon Europe 2026-2027 call assistant. Answer the user's question using ONLY the call metadata provided below.

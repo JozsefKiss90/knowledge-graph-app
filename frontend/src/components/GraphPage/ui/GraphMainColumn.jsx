@@ -229,7 +229,7 @@ export default function GraphMainColumn({
               onOpenDetail={onOpenDetail}
             />
 
-            <ChatBot />
+            <ChatBot onOpenDetail={onOpenDetail} />
 
             <CompareDrawer
               open={compareOpen}
