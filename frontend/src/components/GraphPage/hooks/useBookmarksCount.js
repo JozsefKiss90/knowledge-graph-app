@@ -1,12 +1,28 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function useBookmarksCount() {
-  const [count, setCount] = useState(0);
+  const read = useCallback(() => {
+    const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
+    return stored.length;
+  }, []);
+
+  const [count, setCount] = useState(read);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
-    setCount(stored.length);
-  }, []);
+    const refresh = () => setCount(read());
+
+    // Same-tab updates (dispatched from ChatBot / NodeDetail)
+    window.addEventListener("bookmarksChanged", refresh);
+    // Cross-tab updates
+    window.addEventListener("storage", (e) => {
+      if (e.key === "bookmarkedCalls") refresh();
+    });
+
+    return () => {
+      window.removeEventListener("bookmarksChanged", refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, [read]);
 
   return count;
 }

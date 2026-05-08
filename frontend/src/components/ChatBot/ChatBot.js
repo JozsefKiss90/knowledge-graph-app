@@ -7,10 +7,13 @@ import {
   CircularProgress,
   IconButton,
   InputAdornment,
+  Tooltip,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CloseIcon from "@mui/icons-material/Close";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useDarkMode } from "../context/DarkModeContext";
 
 /* ── Lightweight markdown-to-JSX renderer (no external deps) ──── */
@@ -149,6 +152,10 @@ const ChatBot = ({ onOpenDetail }) => {
   const [filters, setFilters] = useState([]);
   const [totalMatches, setTotalMatches] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
+  const [bookmarkedIds, setBookmarkedIds] = useState(() => {
+    const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
+    return new Set(stored.map((b) => b.id));
+  });
   const inputRef = useRef(null);
 
   const { darkMode } = useDarkMode();
@@ -228,6 +235,21 @@ const ChatBot = ({ onOpenDetail }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const toggleBookmark = (call, e) => {
+    e.stopPropagation(); // don't trigger card click
+    const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
+    const exists = stored.find((b) => b.id === call.identifier);
+    let next;
+    if (exists) {
+      next = stored.filter((b) => b.id !== call.identifier);
+    } else {
+      next = [...stored, { id: call.identifier, name: call.title }];
+    }
+    localStorage.setItem("bookmarkedCalls", JSON.stringify(next));
+    setBookmarkedIds(new Set(next.map((b) => b.id)));
+    window.dispatchEvent(new Event("bookmarksChanged"));
   };
 
   const handleReset = () => {
@@ -349,9 +371,26 @@ const ChatBot = ({ onOpenDetail }) => {
                   tabIndex={0}
                   onKeyDown={(e) => e.key === "Enter" && handleCardClick(call)}
                 >
-                  <Typography variant="caption" className="chatbot-call-card__id">
-                    {call.identifier}
-                  </Typography>
+                  <div className="chatbot-call-card__header">
+                    <Typography variant="caption" className="chatbot-call-card__id">
+                      {call.identifier}
+                    </Typography>
+                    <Tooltip
+                      title={bookmarkedIds.has(call.identifier) ? "Remove bookmark" : "Bookmark call"}
+                      placement="top"
+                      arrow
+                    >
+                      <IconButton
+                        size="small"
+                        className="chatbot-call-card__bookmark"
+                        onClick={(e) => toggleBookmark(call, e)}
+                      >
+                        {bookmarkedIds.has(call.identifier)
+                          ? <BookmarkIcon fontSize="small" />
+                          : <BookmarkBorderIcon fontSize="small" />}
+                      </IconButton>
+                    </Tooltip>
+                  </div>
                   <Typography variant="body2" className="chatbot-call-card__title">
                     {call.title}
                   </Typography>

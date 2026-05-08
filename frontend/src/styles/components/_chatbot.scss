@@ -306,12 +306,35 @@
   }
 }
 
+.chatbot-call-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.chatbot-call-card__bookmark {
+  padding: 2px;
+  margin: -2px -4px -2px 0;
+  transition: color 0.12s ease;
+}
+.chatbot--dark .chatbot-call-card__bookmark {
+  color: rgba(140, 185, 255, 0.45);
+  &:hover { color: rgba(160, 200, 255, 0.85); }
+}
+.chatbot--dark .chatbot-call-card__bookmark .MuiSvgIcon-root[data-testid="BookmarkIcon"],
+.chatbot--dark .chatbot-call-card__bookmark--active {
+  color: #7eb8ff;
+}
+.chatbot--light .chatbot-call-card__bookmark {
+  color: #aaa;
+  &:hover { color: #555; }
+}
+
 .chatbot-call-card__id {
-  display: block;
   font-size: 0.68rem;
   letter-spacing: 0.04em;
   font-weight: 600;
-  margin-bottom: 2px;
 }
 .chatbot--dark .chatbot-call-card__id {
   color: rgba(120, 170, 255, 0.75);
