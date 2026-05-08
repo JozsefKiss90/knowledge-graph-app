@@ -331,7 +331,8 @@ const nodeTypeList = useMemo(() => {
       cleanGraphName !== "WIDERA";
 
     if (shouldDefaultHideCalls) {
-      cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden").hide();
+      cy.nodes("[type = 'Call'][!promoted], [category = 'Call'][!promoted]").addClass("call-hidden").hide();
+      cy.nodes("[type = 'Call'][?promoted], [category = 'Call'][?promoted]").removeClass("call-hidden").show();
     } else {
       cy.nodes("[type = 'Call'], [category = 'Call']").removeClass("call-hidden").show();
     }

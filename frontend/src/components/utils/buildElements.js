@@ -49,6 +49,135 @@ const extractRawEdges = (raw) => {
   return toArray(candidates.find((v) => v != null));
 };
 
+/**
+ * Remove destination nodes that don't have 2+ genuinely different calls.
+ * "Different" is determined by call **label/name**, not by node ID — regional
+ * variants with the same display name count as one call.
+ *
+ *  - 0 calls  → destination removed (orphan)
+ *  - 1 unique call name → destination removed, one representative call promoted
+ *  - 2+ unique call names → destination kept
+ *
+ * Promoted calls get `promoted: true` + `promotedFromDest` data flags and
+ * stay visible on programme overviews.  Duplicate call nodes (same name under
+ * a collapsed destination) and their edges are removed.
+ */
+export function collapseSingleCallDestinations({ nodeElements, edgeElements }) {
+  const destIds = new Set();
+  const nodeMap = new Map();
+  nodeElements.forEach((n) => {
+    nodeMap.set(n?.data?.id, n);
+    const t = String(n?.data?.type || n?.data?.category || "").toLowerCase();
+    if (t === "destination") destIds.add(n.data.id);
+  });
+  if (destIds.size === 0) return { nodeElements, edgeElements };
+
+  // Map each destination → its call node IDs (from HAS_CALL edges)
+  const callIdsByDest = new Map();
+  edgeElements.forEach((e) => {
+    const d = e?.data || {};
+    const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
+    if (isHasCall && destIds.has(d.source)) {
+      if (!callIdsByDest.has(d.source)) callIdsByDest.set(d.source, new Set());
+      callIdsByDest.get(d.source).add(d.target);
+    }
+  });
+
+  // For each destination, group its calls by display label, then decide fate
+  const toRemove = new Set();                // 0-call orphan destinations
+  const toPromote = new Map();               // destId → representative callId
+  const extraCallIds = new Set();            // duplicate call nodes to drop
+
+  destIds.forEach((destId) => {
+    const callIds = callIdsByDest.get(destId);
+    if (!callIds || callIds.size === 0) {
+      toRemove.add(destId);
+      return;
+    }
+
+    // Group calls by label
+    const labelGroups = new Map();           // label → [callId, …]
+    callIds.forEach((cid) => {
+      const node = nodeMap.get(cid);
+      const label = node?.data?.label || node?.data?.name || node?.data?.fullLabel || cid;
+      if (!labelGroups.has(label)) labelGroups.set(label, []);
+      labelGroups.get(label).push(cid);
+    });
+
+    if (labelGroups.size <= 1) {
+      // 0-1 unique label → collapse destination, keep first call as representative
+      const ids = [...labelGroups.values()][0];
+      toPromote.set(destId, ids[0]);
+      ids.slice(1).forEach((id) => extraCallIds.add(id));
+    }
+    // 2+ unique labels → keep destination as-is
+  });
+
+  const allCollapsed = new Set([...toRemove, ...toPromote.keys()]);
+  if (allCollapsed.size === 0 && extraCallIds.size === 0) {
+    return { nodeElements, edgeElements };
+  }
+
+  // callId → destId for traceability on promoted calls
+  const callToDest = new Map();
+  toPromote.forEach((callId, destId) => callToDest.set(callId, destId));
+
+  // Build new node list
+  const newNodes = [];
+  nodeElements.forEach((n) => {
+    const id = n?.data?.id;
+    if (allCollapsed.has(id)) return;            // remove collapsed destinations
+    if (extraCallIds.has(id)) return;            // remove duplicate call nodes
+    if (callToDest.has(id)) {
+      newNodes.push({ ...n, data: { ...n.data, promoted: true, promotedFromDest: callToDest.get(id) } });
+    } else {
+      newNodes.push(n);
+    }
+  });
+
+  // Build new edge list
+  const newEdges = [];
+  const rewiredSeen = new Set();
+
+  edgeElements.forEach((e) => {
+    const d = e?.data || {};
+    const isHasCall = d.type === "HAS_CALL" || d.category === "HAS_CALL";
+    const isHasDest = d.type === "HAS_DESTINATION" || d.category === "HAS_DESTINATION";
+
+    // Drop any edge touching a removed duplicate call node
+    if (extraCallIds.has(d.source) || extraCallIds.has(d.target)) return;
+
+    // Drop HAS_CALL from any collapsed destination
+    if (isHasCall && allCollapsed.has(d.source)) return;
+
+    // Drop HAS_DESTINATION → orphan destination
+    if (isHasDest && toRemove.has(d.target)) return;
+
+    // Rewire HAS_DESTINATION → promoted destination to its representative call
+    if (isHasDest && toPromote.has(d.target)) {
+      const callId = toPromote.get(d.target);
+      const dedup = `${d.source}->${callId}`;
+      if (!rewiredSeen.has(dedup)) {
+        rewiredSeen.add(dedup);
+        newEdges.push({
+          ...e,
+          data: {
+            ...d,
+            id: `${d.source}->${callId}-promoted`,
+            target: callId,
+            type: "HAS_CALL",
+          },
+        });
+      }
+      return;
+    }
+
+    newEdges.push(e);
+  });
+
+  return { nodeElements: newNodes, edgeElements: newEdges };
+}
+
 export function buildElements(raw) {
   if (!raw) return { nodeElements: [], edgeElements: [] };
 

@@ -1,7 +1,7 @@
 // NestedGraphController.js
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GraphView from "./GraphView";
-import { buildElements } from "./utils/buildElements";
+import { buildElements, collapseSingleCallDestinations } from "./utils/buildElements";
 import CLUSTERS from "./utils/heClusterSummaries.json";
 
 function cleanGraphName(name) {
@@ -261,7 +261,8 @@ export default function NestedGraphController({
       }
 
       const raw = loadFromStore?.(programmeKey);
-      const elements = raw ? buildElements(raw) : { nodeElements: [], edgeElements: [] };
+      const built = raw ? buildElements(raw) : { nodeElements: [], edgeElements: [] };
+      const elements = collapseSingleCallDestinations(built);
 
       setLevels((prev) => [...prev, { key: programmeKey, title: programmeKey, graphName: programmeKey, elements }]);
       lastAppliedTargetRef.current = programmeKey;
@@ -460,7 +461,7 @@ export default function NestedGraphController({
             const isDatasetOverview =
               key !== "ROOT" && key !== "HE_2025" && !isPillarKey(key) && !key.startsWith("DEST_") && key !== "WIDERA"
             if (isDatasetOverview) {
-              cy.nodes("[type = 'Call'], [category = 'Call']").addClass("call-hidden");
+              cy.nodes("[type = 'Call'][!promoted], [category = 'Call'][!promoted]").addClass("call-hidden");
             }
             onCyReady?.(cy);
           }}

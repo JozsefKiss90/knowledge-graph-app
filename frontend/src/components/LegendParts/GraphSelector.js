@@ -1,6 +1,6 @@
 ﻿// src/components/LegendParts/GraphSelector.js
 import { useEffect, useMemo, useRef, useState } from "react";
-import { buildElements } from "../utils/buildElements";
+import { buildElements, collapseSingleCallDestinations } from "../utils/buildElements";
 import Tooltip from "@mui/material/Tooltip";
 
 const groupColors = {
@@ -154,9 +154,10 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
       return;
     }
 
-    const full = buildElements(raw);
-    const nodes = full?.nodeElements || [];
-    const edges = full?.edgeElements || [];
+    const built = buildElements(raw);
+    const collapsed = collapseSingleCallDestinations(built);
+    const nodes = collapsed?.nodeElements || [];
+    const edges = collapsed?.edgeElements || [];
 
     const nodeById = new Map(nodes.map((n) => [String(n?.data?.id), n]));
     const callTargetsByDest = new Map();
@@ -167,10 +168,11 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
       if (!isHasCall) return;
       const src = String(d.source);
       const tgt = String(d.target);
-      if (!callTargetsByDest.has(src)) callTargetsByDest.set(src, []);
-      callTargetsByDest.get(src).push(tgt);
+      if (!callTargetsByDest.has(src)) callTargetsByDest.set(src, new Set());
+      callTargetsByDest.get(src).add(tgt);
     });
 
+    // Remaining destination nodes (2+ unique calls)
     const destinations = nodes
       .filter((n) => {
         const d = n?.data || {};
@@ -187,17 +189,33 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
           kind: "destination",
           label,
           color: groupColors.destination,
-          hasChildren: (callTargetsByDest.get(id) || []).length > 0,
+          hasChildren: (callTargetsByDest.get(id) || new Set()).size > 0,
           programmeKey: clean,
         };
       });
 
-    setChildCache((prev) => new Map(prev).set(clean, destinations));
+    // Promoted call nodes (single-call destinations that were collapsed)
+    const promotedCalls = nodes
+      .filter((n) => n?.data?.promoted)
+      .map((n) => {
+        const d = n.data || {};
+        return {
+          id: String(d.id),
+          kind: "call",
+          label: d.label || d.name || String(d.id),
+          color: groupColors.call,
+          hasChildren: false,
+          programmeKey: clean,
+        };
+      });
+
+    // Mixed children: promoted calls first, then destinations
+    setChildCache((prev) => new Map(prev).set(clean, [...promotedCalls, ...destinations]));
 
     setChildCache((prev) => {
       const next = new Map(prev);
       destinations.forEach((dest) => {
-        const callIds = callTargetsByDest.get(dest.id) || [];
+        const callIds = [...(callTargetsByDest.get(dest.id) || [])];
         const calls = callIds.map((cid) => {
           const callNode = nodeById.get(String(cid));
           const cd = callNode?.data || {};
@@ -347,12 +365,32 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
 
       {isOpen && (
         <div className="graph-tree-children">
-          {dests.map((dest) => renderDestination(programmeKey, dest, depth + 1))}
+          {dests.map((child) =>
+            child.kind === "call"
+              ? renderPromotedCall(programmeKey, child, depth + 1)
+              : renderDestination(programmeKey, child, depth + 1)
+          )}
         </div>
       )}
     </div>
   );
 };
+
+  const renderPromotedCall = (programmeKey, callItem, depth) => (
+    <div key={`${programmeKey}::promoted::${callItem.id}`}>
+      <TreeRow
+        item={{ ...callItem, id: callItem.id }}
+        depth={depth}
+        isSelected={selectedNodeId && String(selectedNodeId) === String(callItem.id)}
+        showToggle={false}
+        onToggle={() => {}}
+        onClick={() => {
+          requestScrollTo(callItem.id);
+          onRequestNavigate?.({ clusterKey: programmeKey, callId: callItem.id });
+        }}
+      />
+    </div>
+  );
 
   const renderDestination = (programmeKey, destItem, depth) => {
     const destId = destItem.id;
