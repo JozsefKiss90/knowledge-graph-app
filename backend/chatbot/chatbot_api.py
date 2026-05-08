@@ -1,11 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import os
 import requests
-from fastapi import HTTPException
+
+from chatbot.call_search import search_metadata
+from chatbot.context_builder import build_context
 
 router = APIRouter()
- 
+
 class ChatRequest(BaseModel):
     question: str
 
@@ -13,20 +15,35 @@ class ChatRequest(BaseModel):
 async def chatbot_query(request: ChatRequest):
     question = request.question
     try:
-        answer = call_llm(question)
+        matches = search_metadata(question)
+        context = build_context(matches, question)
+        answer = call_llm(question, context)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    return {"answer": answer}
+    return {
+        "answer": answer,
+        "sources": [m["identifier"] for m in matches],
+    }
 
-def call_llm(prompt: str) -> str:
+_SYSTEM_PROMPT = """You are a Horizon Europe 2026-2027 call assistant. Answer the user's question using ONLY the call metadata provided below.
+
+Rules:
+- Answer ONLY from the supplied metadata. Do not use outside knowledge.
+- If the information is not present in the metadata, say clearly that the metadata does not contain it.
+- When referencing calls, always include the full identifier (e.g. HORIZON-CL2-2026-01-DEMOCRACY-01).
+- Be concise and factual. Use bullet points for lists.
+- If multiple calls match, summarise the key differences.
+- Include the call URL when it would be helpful for the user.
+
+=== CALL METADATA ===
+{context}
+=== END METADATA ==="""
+
+
+def call_llm(question: str, context: str) -> str:
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
         raise Exception("OPENROUTER_API_KEY is not set in the backend environment")
-
-    print("OPENROUTER_API_KEY present:", bool(api_key))
-    print("OPENROUTER_API_KEY repr:", repr(api_key[:12] + "..." + api_key[-6:]))
-    print("OPENROUTER_API_KEY length:", len(api_key))
-    print("Prompt repr:", repr(prompt))
 
     headers = {
         "Authorization": f"Bearer {api_key.strip()}",
@@ -40,9 +57,9 @@ def call_llm(prompt: str) -> str:
         "messages": [
             {
                 "role": "system",
-                "content": "You are a helpful assistant that answers questions about the Horizon Europe 2025 programme. Be concise and clear."
+                "content": _SYSTEM_PROMPT.format(context=context),
             },
-            {"role": "user", "content": prompt},
+            {"role": "user", "content": question},
         ],
     }
 
@@ -52,9 +69,6 @@ def call_llm(prompt: str) -> str:
         json=data,
         timeout=60,
     )
-
-    print("OpenRouter status:", response.status_code)
-    print("OpenRouter body:", response.text)
 
     if response.status_code != 200:
         raise Exception(f"{response.status_code} - {response.text}")
