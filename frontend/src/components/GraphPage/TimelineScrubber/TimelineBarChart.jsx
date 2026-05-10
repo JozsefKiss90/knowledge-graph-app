@@ -211,37 +211,65 @@ export default function TimelineBarChart({
               rx={4}
             />
 
-            {/* Bars */}
+            {/* Bars – stacked segments: closed (bottom), open (middle), forthcoming (top) */}
             {buckets.map((b, i) => {
               if (b.count === 0) return null;
               const x = i * step + BAR_GAP / 2;
-              const h = Math.max(2, (b.count / maxCount) * barAreaHeight);
-              const y = chartHeight - h;
+              const totalH = Math.max(2, (b.count / maxCount) * barAreaHeight);
+              const barBottom = chartHeight;
 
-              let fill, filterUrl;
-              if (b.status === "open") {
-                fill = "url(#tl-grad-open)";
-                filterUrl = "url(#tl-glow-open)";
-              } else if (b.status === "upcoming") {
-                fill = "url(#tl-grad-upcoming)";
-                filterUrl = "url(#tl-glow-upcoming)";
-              } else {
-                fill = "url(#tl-grad-closed)";
-                filterUrl = "url(#tl-glow-closed)";
-              }
+              // Build segments ordered bottom-to-top: closed, open, upcoming
+              const segments = [
+                { count: b.closedCount,  fill: "url(#tl-grad-closed)",  filter: "url(#tl-glow-closed)"  },
+                { count: b.openCount,    fill: "url(#tl-grad-open)",    filter: "url(#tl-glow-open)"    },
+                { count: b.upcomingCount, fill: "url(#tl-grad-upcoming)", filter: "url(#tl-glow-upcoming)" },
+              ].filter(s => s.count > 0);
 
-              return (
-                <rect
-                  key={b.key}
-                  x={x}
-                  y={y}
-                  width={barW}
-                  height={h}
-                  rx={BAR_RADIUS}
-                  fill={fill}
-                  filter={filterUrl}
-                />
-              );
+              let cursor = 0; // accumulated height from bottom
+              return segments.map((seg, si) => {
+                const segH = (seg.count / b.count) * totalH;
+                const segY = barBottom - cursor - segH;
+                cursor += segH;
+
+                // Round top corners on topmost segment, bottom corners on bottommost
+                const isBottom = si === 0;
+                const isTop = si === segments.length - 1;
+
+                if (segments.length === 1) {
+                  return (
+                    <rect
+                      key={`${b.key}-${si}`}
+                      x={x} y={segY} width={barW} height={segH}
+                      rx={BAR_RADIUS}
+                      fill={seg.fill} filter={seg.filter}
+                    />
+                  );
+                }
+
+                // For multi-segment bars, use clipPath-free rounded corners via path
+                const r = BAR_RADIUS;
+                const rTop = isTop ? r : 0;
+                const rBot = isBottom ? r : 0;
+                const w = barW;
+                const h = segH;
+                const path = `M${x + rBot},${segY + h}`
+                  + ` Q${x},${segY + h} ${x},${segY + h - rBot}`
+                  + ` L${x},${segY + rTop}`
+                  + ` Q${x},${segY} ${x + rTop},${segY}`
+                  + ` L${x + w - rTop},${segY}`
+                  + ` Q${x + w},${segY} ${x + w},${segY + rTop}`
+                  + ` L${x + w},${segY + h - rBot}`
+                  + ` Q${x + w},${segY + h} ${x + w - rBot},${segY + h}`
+                  + ` Z`;
+
+                return (
+                  <path
+                    key={`${b.key}-${si}`}
+                    d={path}
+                    fill={seg.fill} filter={seg.filter}
+                  />
+                );
+              });
             })}
 
             {/* Selection border */}

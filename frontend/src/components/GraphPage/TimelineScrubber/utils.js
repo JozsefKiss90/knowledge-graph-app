@@ -155,8 +155,9 @@ export function bucketCallsByMonth(callsWithDates) {
     const monthInPast = monthEnd < today;
 
     let count = 0;
-    let hasOpen = false;
-    let hasUpcoming = false;
+    let openCount = 0;
+    let closedCount = 0;
+    let upcomingCount = 0;
     const byProgramme = {};
 
     for (const c of callsWithDates) {
@@ -172,17 +173,19 @@ export function bucketCallsByMonth(callsWithDates) {
 
         // Is this call currently accepting submissions?
         if (cOpen <= today && cClose >= today) {
-          hasOpen = true;
+          openCount++;
         } else if (!monthInPast && cOpen > today) {
-          hasUpcoming = true;
+          upcomingCount++;
+        } else {
+          closedCount++;
         }
       }
     }
 
     let status = "empty";
     if (count > 0) {
-      if (hasOpen) status = "open";
-      else if (hasUpcoming) status = "upcoming";
+      if (openCount > 0) status = "open";
+      else if (upcomingCount > 0) status = "upcoming";
       else status = "closed";
     }
 
@@ -191,6 +194,9 @@ export function bucketCallsByMonth(callsWithDates) {
       date: monthStart,
       label: formatMonthShort(monthStart),
       count,
+      openCount,
+      closedCount,
+      upcomingCount,
       status,
       byProgramme,
     });
