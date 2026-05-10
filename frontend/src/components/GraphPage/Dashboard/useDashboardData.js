@@ -92,6 +92,8 @@ export function useDashboardData(loadFromStore) {
         if (callMap.has(d.id)) continue;
 
         const range = getCallDateRange(d);
+        if (!range) continue; // skip calls without any parseable dates
+
         const budget = parseNumber(d.indicative_budget) || parseNumber(d.total_budget) || parseNumber(d.budget) || 0;
 
         // Determine status

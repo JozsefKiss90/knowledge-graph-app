@@ -53,7 +53,7 @@ export default function TimelineScrubber({
 
   if (!isOpen) return null;
 
-  const displayCount = callsInYear || totalCalls;
+  const displayCount = totalCalls;
 
   return (
     <div className="timeline-scrubber">
