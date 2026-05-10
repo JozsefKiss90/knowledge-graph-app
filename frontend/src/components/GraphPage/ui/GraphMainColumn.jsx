@@ -93,18 +93,6 @@ export default function GraphMainColumn({
     });
   }, [cyInstance, compareOpen, compareNodes]);
 
-  // Re-fit cytoscape when switching from dashboard back to graph
-  useEffect(() => {
-    if (viewMode !== "graph" || !cyInstance) return;
-    const timer = setTimeout(() => {
-      try {
-        cyInstance.resize();
-        cyInstance.fit(undefined, 30);
-      } catch {}
-    }, 50);
-    return () => clearTimeout(timer);
-  }, [viewMode, cyInstance]);
-
   // Apply timeline date filtering to Cytoscape call nodes
   useEffect(() => {
     const cy = cyInstance;
@@ -169,147 +157,141 @@ export default function GraphMainColumn({
             onBack={onCloseDetail}
           />
         </div>
-      ) : (
-        // GRAPH + DASHBOARD MODE
+      ) : viewMode === "dashboard" ? (
+        // DASHBOARD MODE
         <>
-          {/* NestedGraphController always mounted (provides top bar + keeps graph state alive) */}
-          <div style={viewMode === "dashboard" ? { display: "none" } : undefined}>
-            <NestedGraphController
-              initialGraphName="ROOT"
-              layoutOptions={effectiveLayout}
-              loadFromStore={loadFromStore}
-              onGraphStats={onGraphStats}
-              onCyReady={(cy) => onCyReady?.(cy)}
-              onNodeHover={onNodeHover}
-              onHoverNodeIdChange={() => {}}
-              onLevelChange={(key) => {
-                setGraphName(key);
+          <GraphTopBar
+            levels={levelsRef.current}
+            currentKey={graphName}
+            onLevelClick={() => {}}
+            canGoBack={false}
+            onBack={() => {}}
+            onResetView={onResetView}
+            onFitView={onFitView}
+            layoutMode="cose-bilkent"
+            compareOpen={false}
+            compareNodes={[]}
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            onLayoutModeChange={() => {}}
+          />
+          <PortfolioDashboard
+            loadFromStore={loadFromStore}
+            graphStats={graphStats}
+            setViewMode={setViewMode}
+          />
+          <GraphStatusBar
+            nodes={graphStats.nodes}
+            edges={graphStats.edges}
+            layoutLabel="Dashboard view"
+          />
+        </>
+      ) : (
+        // GRAPH MODE: original graph layout (top bar + canvas + status bar + chatbot)
+        <>
+          <NestedGraphController
+            initialGraphName="ROOT"
+            layoutOptions={effectiveLayout}
+            loadFromStore={loadFromStore}
+            onGraphStats={onGraphStats}
+            onCyReady={(cy) => onCyReady?.(cy)}
+            onNodeHover={onNodeHover}
+            onHoverNodeIdChange={() => {}}
+            onLevelChange={(key) => {
+              setGraphName(key);
+              hoveredNodeRef.current = null;
+              setHoveredNode(null);
+            }}
+            targetGraphName={graphName}
+            renderLevelBar={({
+              levels,
+              currentKey,
+              onLevelClick,
+              canGoBack,
+              onBack,
+            }) => {
+               levelsRef.current = levels;
+               const layoutSwitchVisible = currentKey !== "HE_2025";
+
+              const layoutMode =
+                effectiveLayout.name === "breadthfirst"
+                  ? "breadthfirst"
+                  : "cose-bilkent";
+
+              return (
+                <GraphTopBar
+                  levels={levels}
+                  currentKey={currentKey}
+                  onLevelClick={onLevelClick}
+                  canGoBack={canGoBack}
+                  onBack={onBack}
+                  onResetView={onResetView}
+                  onFitView={onFitView}
+                  layoutMode={layoutMode}
+                  layoutSwitchVisible={layoutSwitchVisible}
+                  compareOpen={compareOpen}
+                  compareNodes={compareNodes}
+                  viewMode={viewMode}
+                  setViewMode={setViewMode}
+                  onLayoutModeChange={(nextName) => {
+                    if (currentKey === "HE_2025") return;
+
+                    updateOption("name", nextName);
+                    onApplyLayout?.({
+                      ...effectiveLayout,
+                      name: nextName,
+                    });
+                  }}
+                />
+              );
+            }}
+            // for clicks in GraphView/setupEvents
+            onOpenDetail={onOpenDetail}
+            onCompareSelect={compareSelectCallback}
+          />
+
+          <div className="graph-main">
+            <HoveredNodeInfo
+              node={hoveredNode}
+              cyInstance={cyInstance}
+              graphName={graphName}
+              onClose={() => {
                 hoveredNodeRef.current = null;
                 setHoveredNode(null);
               }}
-              targetGraphName={graphName}
-              renderLevelBar={({
-                levels,
-                currentKey,
-                onLevelClick,
-                canGoBack,
-                onBack,
-              }) => {
-                levelsRef.current = levels;
-                const layoutSwitchVisible = currentKey !== "HE_2025";
-
-                const layoutMode =
-                  effectiveLayout.name === "breadthfirst"
-                    ? "breadthfirst"
-                    : "cose-bilkent";
-
-                return (
-                  <GraphTopBar
-                    levels={levels}
-                    currentKey={currentKey}
-                    onLevelClick={onLevelClick}
-                    canGoBack={canGoBack}
-                    onBack={onBack}
-                    onResetView={onResetView}
-                    onFitView={onFitView}
-                    layoutMode={layoutMode}
-                    layoutSwitchVisible={layoutSwitchVisible}
-                    compareOpen={compareOpen}
-                    compareNodes={compareNodes}
-                    viewMode={viewMode}
-                    setViewMode={setViewMode}
-                    onLayoutModeChange={(nextName) => {
-                      if (currentKey === "HE_2025") return;
-
-                      updateOption("name", nextName);
-                      onApplyLayout?.({
-                        ...effectiveLayout,
-                        name: nextName,
-                      });
-                    }}
-                  />
-                );
-              }}
-              // for clicks in GraphView/setupEvents
+              // "View Details" from hover card
               onOpenDetail={onOpenDetail}
-              onCompareSelect={compareSelectCallback}
+            />
+
+            <ChatBot onOpenDetail={onOpenDetail} />
+
+            <CompareDrawer
+              open={compareOpen}
+              nodes={compareNodes}
+              loadFromStore={loadFromStore}
+              onClose={() => {
+                setCompareOpen(false);
+                setCompareNodes([]);
+              }}
+              onClearNode={(index) => {
+                setCompareNodes((prev) => prev.filter((_, i) => i !== index));
+              }}
             />
           </div>
 
-          {viewMode === "dashboard" ? (
-            <>
-              {/* Re-render the top bar in dashboard mode since the NestedGraphController is hidden */}
-              <GraphTopBar
-                levels={levelsRef.current}
-                currentKey={graphName}
-                onLevelClick={() => {}}
-                canGoBack={false}
-                onBack={() => {}}
-                onResetView={onResetView}
-                onFitView={onFitView}
-                layoutMode="cose-bilkent"
-                compareOpen={false}
-                compareNodes={[]}
-                viewMode={viewMode}
-                setViewMode={setViewMode}
-                onLayoutModeChange={() => {}}
-              />
-              <PortfolioDashboard
-                loadFromStore={loadFromStore}
-                graphStats={graphStats}
-                setViewMode={setViewMode}
-              />
-              <GraphStatusBar
-                nodes={graphStats.nodes}
-                edges={graphStats.edges}
-                layoutLabel="Dashboard view"
-              />
-            </>
-          ) : (
-            <>
-              <div className="graph-main">
-                <HoveredNodeInfo
-                  node={hoveredNode}
-                  cyInstance={cyInstance}
-                  graphName={graphName}
-                  onClose={() => {
-                    hoveredNodeRef.current = null;
-                    setHoveredNode(null);
-                  }}
-                  onOpenDetail={onOpenDetail}
-                />
+          <TimelineScrubber
+            loadFromStore={loadFromStore}
+            currentKey={graphName}
+            levels={levelsRef.current}
+            isOpen={timelineOpen && !isDetailMode}
+            onSelectionChange={setTimelineSelection}
+          />
 
-                <ChatBot onOpenDetail={onOpenDetail} />
-
-                <CompareDrawer
-                  open={compareOpen}
-                  nodes={compareNodes}
-                  loadFromStore={loadFromStore}
-                  onClose={() => {
-                    setCompareOpen(false);
-                    setCompareNodes([]);
-                  }}
-                  onClearNode={(index) => {
-                    setCompareNodes((prev) => prev.filter((_, i) => i !== index));
-                  }}
-                />
-              </div>
-
-              <TimelineScrubber
-                loadFromStore={loadFromStore}
-                currentKey={graphName}
-                levels={levelsRef.current}
-                isOpen={timelineOpen && !isDetailMode}
-                onSelectionChange={setTimelineSelection}
-              />
-
-              <GraphStatusBar
-                nodes={graphStats.nodes}
-                edges={graphStats.edges}
-                layoutLabel={layoutLabel}
-              />
-            </>
-          )}
+          <GraphStatusBar
+            nodes={graphStats.nodes}
+            edges={graphStats.edges}
+            layoutLabel={layoutLabel}
+          />
         </>
       )}
     </Col>
