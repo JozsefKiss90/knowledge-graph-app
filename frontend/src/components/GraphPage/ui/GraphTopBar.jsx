@@ -18,6 +18,7 @@ import GridOnIcon from "@mui/icons-material/GridOn";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 
 function formatLevelTitle(title) {
   if (!title) return "";
@@ -38,6 +39,8 @@ const GraphTopBar = ({
   onLayoutModeChange,
   compareOpen,
   compareNodes,
+  viewMode,
+  setViewMode,
 }) => {
   const currentIndex = Math.max(
     0,
@@ -102,6 +105,17 @@ const GraphTopBar = ({
         </Box>
 
         <Box className="graph-topbar-compact-right">
+          <Tooltip title={viewMode === "dashboard" ? "Back to graph" : "Dashboard"}>
+            <IconButton
+              size="small"
+              className={`graph-topbar-icon${viewMode === "dashboard" ? " graph-topbar-icon--active" : ""}`}
+              onClick={() => setViewMode?.(viewMode === "dashboard" ? "graph" : "dashboard")}
+              aria-label="Toggle dashboard"
+            >
+              <DashboardOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
           <Box className="graph-topbar-compact-pill" title={`Level ${levelNumber}`}>
             <Typography variant="caption">L{levelNumber}</Typography>
           </Box>
@@ -237,6 +251,21 @@ const GraphTopBar = ({
             </Typography>
           </Box>
         )}
+
+        <Tooltip title={viewMode === "dashboard" ? "Back to graph" : "Dashboard"}>
+          <button
+            type="button"
+            className={`graph-topbar-breadcrumb graph-topbar-breadcrumb--dashboard${
+              viewMode === "dashboard" ? " graph-topbar-breadcrumb--active" : ""
+            }`}
+            onClick={() => setViewMode?.(viewMode === "dashboard" ? "graph" : "dashboard")}
+          >
+            <DashboardOutlinedIcon fontSize="small" style={{ fontSize: 15, marginRight: 4 }} />
+            <Typography component="span" className="graph-topbar-breadcrumb-label">
+              {viewMode === "dashboard" ? "Back to graph" : "Dashboard"}
+            </Typography>
+          </button>
+        </Tooltip>
       </Box>
 
       <Box className="graph-topbar-actions">

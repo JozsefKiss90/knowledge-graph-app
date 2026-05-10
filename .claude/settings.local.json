@@ -20,7 +20,13 @@
       "Bash(npm uninstall:*)",
       "Bash(node:*)",
       "Bash(node -e \":*)",
-      "Bash(find C:/Users/jozse/.claude -maxdepth 3 -name *172546* -o -name *pernyo*)"
+      "Bash(find C:/Users/jozse/.claude -maxdepth 3 -name *172546* -o -name *pernyo*)",
+      "Bash(find /c/Code/knowledge-graph-app/backend/routes -name *he* -o -name *HE* -o -name *root*)",
+      "Bash(ls:*)",
+      "Bash(find /c/Code/knowledge-graph-app/backend -path */node_modules -prune -o -name *.py -type f -exec grep -l ^.*/nodes/.*$ {})",
+      "Bash(2)",
+      "Bash(grep -r \"^@router.get\" /c/Code/knowledge-graph-app/backend/routes/*.py)",
+      "Bash(grep:*)"
     ]
   }
 }

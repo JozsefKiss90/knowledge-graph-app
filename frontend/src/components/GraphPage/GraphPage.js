@@ -44,6 +44,8 @@ function GraphPage() {
 
   const [graphStats, setGraphStats] = useState({ nodes: 0, edges: 0 });
 
+  const [viewMode, setViewMode] = useState("graph"); // "graph" | "dashboard"
+
   const [timelineOpen, setTimelineOpen] = useState(true);
   const [timelineSelection, setTimelineSelection] = useState(null);
   // timelineSelection: { start: Date, end: Date } | null (null = show all)
@@ -220,6 +222,8 @@ useEffect(() => {
             />
 
             <GraphMainColumn
+              viewMode={viewMode}
+              setViewMode={setViewMode}
               graphName={graphName}
               setGraphName={setGraphName}
               loadFromStore={loadFromStore}
