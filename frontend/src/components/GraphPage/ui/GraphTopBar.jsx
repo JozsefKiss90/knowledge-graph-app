@@ -105,17 +105,6 @@ const GraphTopBar = ({
         </Box>
 
         <Box className="graph-topbar-compact-right">
-          <Tooltip title={viewMode === "dashboard" ? "Back to graph" : "Dashboard"}>
-            <IconButton
-              size="small"
-              className={`graph-topbar-icon${viewMode === "dashboard" ? " graph-topbar-icon--active" : ""}`}
-              onClick={() => setViewMode?.(viewMode === "dashboard" ? "graph" : "dashboard")}
-              aria-label="Toggle dashboard"
-            >
-              <DashboardOutlinedIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-
           <Box className="graph-topbar-compact-pill" title={`Level ${levelNumber}`}>
             <Typography variant="caption">L{levelNumber}</Typography>
           </Box>
@@ -182,6 +171,17 @@ const GraphTopBar = ({
               Fit to screen
             </MenuItem>
           </Menu>
+
+          <Tooltip title={viewMode === "dashboard" ? "Back to Graph" : "Open Dashboard"}>
+            <IconButton
+              size="small"
+              className={`graph-topbar-icon${viewMode === "dashboard" ? " graph-topbar-icon--active" : ""}`}
+              onClick={() => setViewMode?.(viewMode === "dashboard" ? "graph" : "dashboard")}
+              aria-label="Toggle dashboard"
+            >
+              <DashboardOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
     );
@@ -252,23 +252,19 @@ const GraphTopBar = ({
           </Box>
         )}
 
-        <Tooltip title={viewMode === "dashboard" ? "Back to graph" : "Dashboard"}>
-          <button
-            type="button"
-            className={`graph-topbar-breadcrumb graph-topbar-breadcrumb--dashboard${
-              viewMode === "dashboard" ? " graph-topbar-breadcrumb--active" : ""
-            }`}
-            onClick={() => setViewMode?.(viewMode === "dashboard" ? "graph" : "dashboard")}
-          >
-            <DashboardOutlinedIcon fontSize="small" style={{ fontSize: 15, marginRight: 4 }} />
-            <Typography component="span" className="graph-topbar-breadcrumb-label">
-              {viewMode === "dashboard" ? "Back to graph" : "Dashboard"}
-            </Typography>
-          </button>
-        </Tooltip>
       </Box>
 
       <Box className="graph-topbar-actions">
+        <button
+          type="button"
+          className={`graph-topbar-dash-btn${viewMode === "dashboard" ? " graph-topbar-dash-btn--active" : ""}`}
+          onClick={() => setViewMode?.(viewMode === "dashboard" ? "graph" : "dashboard")}
+        >
+          <DashboardOutlinedIcon className="graph-topbar-dash-btn__icon" />
+          <span className="graph-topbar-dash-btn__label">
+            {viewMode === "dashboard" ? "Back to Graph" : "Open Dashboard"}
+          </span>
+        </button>
         <Tooltip title="Force-Directed Layout">
           <IconButton
             size="small"
