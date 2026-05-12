@@ -84,6 +84,7 @@ function deriveClusterRawFromHE(heRaw, clusterKey) {
 
 export function useGraphData() {
   const [ready, setReady] = useState(false);
+  const [progress, setProgress] = useState(0);
   const storeRef = useRef(new Map());
   const heRef = useRef(null);
 
@@ -114,6 +115,9 @@ export function useGraphData() {
 
       // 2) Preload every other dataset. If missing, store null and keep going.
       const entries = Object.entries(GRAPH_ENDPOINTS).filter(([k]) => k !== "HE_2025");
+      const total = entries.length + 1; // +1 for HE_2025
+      let loaded = 1; // HE_2025 already done
+      if (!cancelled) setProgress(Math.round((loaded / total) * 100));
 
       for (const [key, ep] of entries) {
         try {
@@ -128,6 +132,8 @@ export function useGraphData() {
           storeRef.current.set(key, null);
           console.warn(`Endpoint missing for ${key}; dataset will be unavailable until backend is ready.`);
         }
+        loaded++;
+        if (!cancelled) setProgress(Math.round((loaded / total) * 100));
       }
 
       if (!cancelled) setReady(true);
@@ -163,5 +169,5 @@ export function useGraphData() {
     return null;
   }, []);
 
-  return { ready, graphName, setGraphName, storeRef, loadFromStore };
+  return { ready, progress, graphName, setGraphName, storeRef, loadFromStore };
 }

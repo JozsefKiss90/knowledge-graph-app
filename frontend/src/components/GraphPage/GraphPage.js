@@ -1,7 +1,9 @@
 // src/components/GraphPage/GraphPage.js
 import { useRef, useState, useEffect, useMemo, useCallback  } from "react";
 import { Container, Row } from "react-bootstrap";
+import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 
 import { CyContext } from "../context/CyContext";
 import { useDarkMode } from "../context/DarkModeContext";
@@ -25,7 +27,7 @@ import GraphMainColumn from "./ui/GraphMainColumn";
 import RightControlsColumn from "./ui/RightControlsColumn";
 
 function GraphPage() {
-  const { ready, graphName, setGraphName, loadFromStore } = useGraphData();
+  const { ready, progress, graphName, setGraphName, loadFromStore } = useGraphData();
 
   const [pendingNav, setPendingNav] = useState(null);
   const [cyInstance, setCyInstance] = useState(null);
@@ -186,10 +188,34 @@ useEffect(() => {
     if (!ready) {
       return (
         <div
-          className="d-flex align-items-center justify-content-center"
+          className="d-flex align-items-center justify-content-center flex-column"
           style={{ width: "100vw", height: "100vh" }}
         >
-          <CircularProgress color="primary" />
+          <Box sx={{ position: "relative", display: "inline-flex" }}>
+            <CircularProgress
+              variant="determinate"
+              value={progress}
+              size={80}
+              thickness={4}
+              color="primary"
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography variant="body2" color="white" fontWeight={600}>
+                {progress}%
+              </Typography>
+            </Box>
+          </Box>
+          <Typography variant="body2" color="white" sx={{ mt: 2 }}>
+            Loading graph data…
+          </Typography>
         </div>
       );
     }
