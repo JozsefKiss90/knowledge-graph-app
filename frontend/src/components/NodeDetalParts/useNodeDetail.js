@@ -5,10 +5,10 @@ export const API_BASE = process.env.REACT_APP_API_URL;
 
 const DEFAULT_CONFIG = {
   graphName: "HE_2025",
-  buildNodeEndpoint: (id) => `${API_BASE}/nodes/${encodeURIComponent(id)}`,
+  buildNodeEndpoint: (id) => `${API_BASE}/hewiki/node/${encodeURIComponent(id)}`,
   buildRelEndpoint: (id) =>
-    `${API_BASE}/relationships/?from_id=${encodeURIComponent(id)}`,
-  buildAllRelEndpoint: () => `${API_BASE}/relationships/`,
+    `${API_BASE}/hewiki/relationships?from_id=${encodeURIComponent(id)}`,
+  buildAllRelEndpoint: () => `${API_BASE}/hewiki/relationships`,
 };
 
 function isCallLike(obj) {
@@ -44,7 +44,7 @@ function isCallLike(obj) {
 
 function isHE2025Entity(obj) {
   const source = String(obj?.source || "").toLowerCase();
-  return source === "he_2025" && !isCallLike(obj);
+  return source === "he_wiki" && !isCallLike(obj);
 }
 
 const matchesClusterCode = (value = "", clusterCode) =>

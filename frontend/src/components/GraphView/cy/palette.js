@@ -90,12 +90,22 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
   };
 
   const nodeColorFor = (n) => {
+    // Check type-specific palette colours first (policy, strategy, etc.)
+    const tRaw = n.data("type") || n.data("category") || "";
+    const t = String(tRaw);
+    if (PALETTE[t]) return PALETTE[t];
+    const tLower = t.toLowerCase();
+    if (PALETTE[tLower]) return PALETTE[tLower];
+
+    // Fall back to navigation-group colours
     const group = resolveNodeGroup(n);
     return (group && groupColors[group]) ? groupColors[group] : PALETTE.base;
   };
 
   const edgeColorFor = (e) => {
     const t = e.data("type") || "";
+    if (t === "RELATES_TO") return PALETTE.edgeBelongs;
+    if (t === "WIKI_LINK") return PALETTE.edgeShared;
     if (t === "BELONGS_TO_TOPIC") return PALETTE.edgeBelongs;
     if (t === "SHARED_TOPIC") return PALETTE.edgeShared;
     if (t === "CROSS_TOPIC_SIMILARITY") return PALETTE.edgeCross;

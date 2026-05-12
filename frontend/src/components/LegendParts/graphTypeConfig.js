@@ -1,5 +1,5 @@
 export const defaultEdgeTypes = {
-  HE_2025: new Set(['BELONGS_TO_TOPIC', 'SHARED_TOPIC', 'CROSS_TOPIC_SIMILARITY']),
+  HE_2025: new Set(['RELATES_TO', 'WIKI_LINK']),
   Cluster_4: new Set(['HAS_DESTINATION', 'HAS_CALL']),
   Cluster_2: new Set(['HAS_DESTINATION', 'HAS_CALL']),
   Cluster_3: new Set(['HAS_DESTINATION', 'HAS_CALL']),
@@ -24,9 +24,8 @@ export const getEdgeTypeList = (graphName) => {
   const clean = graphName.replace("_cose", "");
   if (clean === "HE_2025") {
     return [
-      { type: 'BELONGS_TO_TOPIC', color: 'rgb(0, 175, 140)' },
-      { type: 'SHARED_TOPIC', color: 'rgb(70, 149, 252)' },
-      { type: 'CROSS_TOPIC_SIMILARITY', color: 'rgb(223, 182, 70)' },
+      { type: 'RELATES_TO', color: 'rgb(0, 175, 140)' },
+      { type: 'WIKI_LINK', color: 'rgb(70, 149, 252)' },
     ];
   } else if (clean === "Cluster_2") {
     return [
@@ -45,13 +44,13 @@ export const getNodeTypeList = (graphName) => {
   const clean = graphName.replace("_cose", "");
   if (clean === "HE_2025") {
     return [
-      { type: 'policy', color: 'rgb(1, 173, 196)' },
-      { type: 'strategy', color: 'rgb(64, 180, 116)' },
-      { type: 'cluster', color: 'rgb(197, 91, 67)' },
-      { type: 'research_theme', color: 'rgb(180, 143, 47)' },
-      { type: 'institution', color: 'rgb(118, 46, 160)' },
-      { type: 'topic', color: 'rgb(182, 182, 47)' },
-      { type: 'search', color: 'rgb(182, 182, 47)' },
+      { type: 'policy', color: 'rgb(34, 211, 238)' },
+      { type: 'strategy', color: 'rgb(52, 211, 153)' },
+      { type: 'cluster', color: 'rgb(163, 230, 53)' },
+      { type: 'research_theme', color: 'rgb(251, 191, 36)' },
+      { type: 'institution', color: 'rgb(192, 132, 252)' },
+      { type: 'topic', color: 'rgb(253, 224, 71)' },
+      { type: 'search', color: 'rgb(253, 224, 71)' },
     ];
   } else if (clean === "Cluster_2") {
     return [

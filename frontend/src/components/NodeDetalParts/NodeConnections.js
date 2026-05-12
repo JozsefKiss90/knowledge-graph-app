@@ -43,6 +43,7 @@ function inferGraphNameFromId(id = "", detail = {}) {
       widera: "WIDERA",
       he_2025: "HE_2025",
       HE_2025: "HE_2025",
+      he_wiki: "HE_2025",
     };
 
     if (sourceMap[normalizedSource]) {

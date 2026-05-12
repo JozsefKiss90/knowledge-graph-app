@@ -104,13 +104,13 @@ function GraphPage() {
 
   // Compute effective layout (memoized)
   const effectiveLayout = useMemo(() => {
+    // HE_2025 uses its own preset directly (layout switcher is disabled for it)
+    if (graphName === "HE_2025") return layoutConfig.HE_2025;
+
     const isTreeLayout = userLayout?.name === "breadthfirst";
-    const base =
-      graphName === "HE_2025"
-        ? layoutConfig.HE_2025
-        : isTreeLayout
-        ? layoutConfig.DEFAULT_TREE
-        : layoutConfig.DEFAULT;
+    const base = isTreeLayout
+      ? layoutConfig.DEFAULT_TREE
+      : layoutConfig.DEFAULT;
 
     return computeEffectiveLayout({ base, userLayout });
   }, [graphName, userLayout]);
