@@ -1,0 +1,2618 @@
+[
+  {
+    "source": "ai-in-science",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai-in-science",
+    "target": "artificial-intelligence",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai-in-science",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai-in-science",
+    "target": "choose-europe-for-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai-in-science",
+    "target": "open-strategic-autonomy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "choose-europe-for-science",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "choose-europe-for-science",
+    "target": "marie-sklodowska-curie-actions",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "choose-europe-for-science",
+    "target": "research-infrastructures",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "choose-europe-for-science",
+    "target": "european-innovation-ecosystems",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "choose-europe-for-science",
+    "target": "widening-participation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "circular-economy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "clean-industrial-deal",
+    "target": "lump-sum-funding",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "competitiveness-compass",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "competitiveness-compass",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "competitiveness-compass",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "competitiveness-compass",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "competitiveness-compass",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "competitiveness-compass",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "do-no-significant-harm",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "climate-neutrality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "biodiversity",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-green-deal",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "competitiveness-compass",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "biodiversity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "ai-in-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe-strategic-plan-2025-2027",
+    "target": "choose-europe-for-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "european-research-council",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "european-innovation-council",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "european-institute-of-innovation-and-technology",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "joint-research-centre",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "marie-sklodowska-curie-actions",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "european-partnerships",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "eu-missions",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "horizon-europe-strategic-plan-2025-2027",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "research-infrastructures",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "cluster-1-health",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "european-innovation-ecosystems",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "ssh-integration",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "do-no-significant-harm",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "international-cooperation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "social-innovation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "societal-readiness",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon-europe",
+    "target": "lump-sum-funding",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "open-strategic-autonomy",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-strategic-autonomy",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-strategic-autonomy",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-strategic-autonomy",
+    "target": "critical-raw-materials",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-strategic-autonomy",
+    "target": "international-cooperation",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-strategic-autonomy",
+    "target": "quantum-technologies",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "open-strategic-autonomy",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "cluster-1-health",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "competitiveness-compass",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
+    "target": "artificial-intelligence",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "strategy-for-european-life-sciences",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "eu-missions",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "artificial-intelligence",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "lump-sum-funding",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "innovation-actions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "european-innovation-council",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "ai-in-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-1-health",
+    "target": "do-no-significant-harm",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "ssh-integration",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "gender-equality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "social-innovation",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "european-partnerships",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "cluster-1-health",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-2-culture-creativity-and-inclusive-society",
+    "target": "societal-readiness",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "cybersecurity",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "innovation-procurement",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "european-innovation-council",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-3-civil-security-for-society",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "ai-in-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "artificial-intelligence",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "advanced-materials",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "quantum-technologies",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "critical-raw-materials",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "cluster-1-health",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "lump-sum-funding",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "two-stage-calls",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-4-digital-industry-and-space",
+    "target": "european-innovation-council",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "climate-neutrality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "circular-economy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-5-climate-energy-and-mobility",
+    "target": "do-no-significant-harm",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "biodiversity",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "circular-economy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "climate-neutrality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "cluster-1-health",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "joint-research-centre",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "do-no-significant-harm",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "ssh-integration",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-commission",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-commission",
+    "target": "european-research-council",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-commission",
+    "target": "european-innovation-council",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-commission",
+    "target": "joint-research-centre",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-commission",
+    "target": "european-green-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-commission",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-commission",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-commission",
+    "target": "european-institute-of-innovation-and-technology",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-commission",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-commission",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-commission",
+    "target": "marie-sklodowska-curie-actions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-innovation-council",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-innovation-council",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-innovation-council",
+    "target": "gender-equality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-innovation-council",
+    "target": "innovation-procurement",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-innovation-council",
+    "target": "choose-europe-for-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-innovation-council",
+    "target": "european-innovation-ecosystems",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-innovation-ecosystems",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-innovation-ecosystems",
+    "target": "european-innovation-council",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-innovation-ecosystems",
+    "target": "choose-europe-for-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-innovation-ecosystems",
+    "target": "open-strategic-autonomy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-institute-of-innovation-and-technology",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-institute-of-innovation-and-technology",
+    "target": "european-partnerships",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-institute-of-innovation-and-technology",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-institute-of-innovation-and-technology",
+    "target": "european-innovation-council",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-open-science-cloud",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-open-science-cloud",
+    "target": "open-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-open-science-cloud",
+    "target": "research-infrastructures",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-open-science-cloud",
+    "target": "european-partnerships",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "european-institute-of-innovation-and-technology",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-partnerships",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "european-research-council",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-research-council",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-research-council",
+    "target": "open-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "european-research-council",
+    "target": "choose-europe-for-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "joint-research-centre",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "joint-research-centre",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "joint-research-centre",
+    "target": "cluster-1-health",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "joint-research-centre",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "marie-sklodowska-curie-actions",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "marie-sklodowska-curie-actions",
+    "target": "choose-europe-for-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "marie-sklodowska-curie-actions",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "marie-sklodowska-curie-actions",
+    "target": "european-research-council",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "marie-sklodowska-curie-actions",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "dissemination-and-exploitation",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "dissemination-and-exploitation",
+    "target": "open-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "dissemination-and-exploitation",
+    "target": "innovation-procurement",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "dissemination-and-exploitation",
+    "target": "european-innovation-council",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "do-no-significant-harm",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "do-no-significant-harm",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "do-no-significant-harm",
+    "target": "climate-neutrality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "do-no-significant-harm",
+    "target": "biodiversity",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "do-no-significant-harm",
+    "target": "circular-economy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "do-no-significant-harm",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "do-no-significant-harm",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ethics-and-integrity",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ethics-and-integrity",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ethics-and-integrity",
+    "target": "open-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ethics-and-integrity",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ethics-and-integrity",
+    "target": "societal-readiness",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ethics-and-integrity",
+    "target": "social-innovation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "gender-equality",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "gender-equality",
+    "target": "ssh-integration",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "gender-equality",
+    "target": "european-innovation-council",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "gender-equality",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "gender-equality",
+    "target": "societal-readiness",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "gender-equality",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "international-cooperation",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "international-cooperation",
+    "target": "european-commission",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "international-cooperation",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "international-cooperation",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "international-cooperation",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "open-science",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-science",
+    "target": "european-open-science-cloud",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-science",
+    "target": "research-infrastructures",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "open-science",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "open-science",
+    "target": "dissemination-and-exploitation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "open-science",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "social-innovation",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "social-innovation",
+    "target": "ssh-integration",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "social-innovation",
+    "target": "societal-readiness",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "social-innovation",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "social-innovation",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "societal-readiness",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "societal-readiness",
+    "target": "ssh-integration",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "societal-readiness",
+    "target": "social-innovation",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "societal-readiness",
+    "target": "gender-equality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "societal-readiness",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ssh-integration",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ssh-integration",
+    "target": "gender-equality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ssh-integration",
+    "target": "societal-readiness",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ssh-integration",
+    "target": "social-innovation",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ssh-integration",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ssh-integration",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ssh-integration",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "advanced-materials",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "advanced-materials",
+    "target": "critical-raw-materials",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "advanced-materials",
+    "target": "ai-in-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "advanced-materials",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "advanced-materials",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "advanced-materials",
+    "target": "open-strategic-autonomy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "artificial-intelligence",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "artificial-intelligence",
+    "target": "ai-in-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "artificial-intelligence",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "artificial-intelligence",
+    "target": "ethics-and-integrity",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "artificial-intelligence",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "artificial-intelligence",
+    "target": "open-strategic-autonomy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "biodiversity",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "biodiversity",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "biodiversity",
+    "target": "do-no-significant-harm",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "biodiversity",
+    "target": "eu-missions",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "biodiversity",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "biodiversity",
+    "target": "climate-neutrality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "circular-economy",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "circular-economy",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "circular-economy",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "circular-economy",
+    "target": "do-no-significant-harm",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "circular-economy",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "circular-economy",
+    "target": "european-green-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "do-no-significant-harm",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "eu-missions",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "circular-economy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "climate-neutrality",
+    "target": "biodiversity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "critical-raw-materials",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "critical-raw-materials",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "critical-raw-materials",
+    "target": "advanced-materials",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "critical-raw-materials",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "critical-raw-materials",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "international-cooperation",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "artificial-intelligence",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "cybersecurity",
+    "target": "quantum-technologies",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "quantum-technologies",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "quantum-technologies",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "quantum-technologies",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "eu-missions",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "eu-missions",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "eu-missions",
+    "target": "climate-neutrality",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "eu-missions",
+    "target": "biodiversity",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "international-cooperation",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "dissemination-and-exploitation",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "innovation-procurement",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "european-innovation-council",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "lump-sum-funding",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "innovation-procurement",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-procurement",
+    "target": "european-innovation-council",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-procurement",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-procurement",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "lump-sum-funding",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "lump-sum-funding",
+    "target": "two-stage-calls",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "new-european-bauhaus",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "new-european-bauhaus",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "new-european-bauhaus",
+    "target": "circular-economy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "new-european-bauhaus",
+    "target": "social-innovation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "research-infrastructures",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "research-infrastructures",
+    "target": "european-open-science-cloud",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "research-infrastructures",
+    "target": "choose-europe-for-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "research-infrastructures",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "two-stage-calls",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "two-stage-calls",
+    "target": "lump-sum-funding",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "widening-participation",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "widening-participation",
+    "target": "choose-europe-for-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "widening-participation",
+    "target": "european-commission",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "artificial-intelligence",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "ai-in-science",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "ethics-and-integrity",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "cluster-1-health",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "research-infrastructures",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "european-open-science-cloud",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "open-strategic-autonomy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "ai_ecosystem_in_horizon_europe",
+    "target": "competitiveness-compass",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "lump-sum-funding",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "two-stage-calls",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "innovation-procurement",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "european-partnerships",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "ai-in-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "dissemination-and-exploitation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "funding_instrument_comparison",
+    "target": "do-no-significant-harm",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "horizon-europe-strategic-plan-2025-2027",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "ssh-integration",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "societal-readiness",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "ethics-and-integrity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "do-no-significant-harm",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "open-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "open-strategic-autonomy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "lump-sum-funding",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "two-stage-calls",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "clean-industrial-deal",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "ai-in-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "european-open-science-cloud",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_policy_evolution_2021_2027",
+    "target": "social-innovation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "horizon-europe",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "horizon-europe-strategic-plan-2025-2027",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "european-green-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "clean-industrial-deal",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "open-strategic-autonomy",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "competitiveness-compass",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "biodiversity",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "cluster-1-health",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "do-no-significant-harm",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "circular-economy",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "new-european-bauhaus",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "ai-in-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "european-open-science-cloud",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "artificial-intelligence",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "quantum-technologies",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "critical-raw-materials",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "choose-europe-for-science",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "widening-participation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "international-cooperation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "ssh-integration",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "social-innovation",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "he_strategic_orientations_map",
+    "target": "societal-readiness",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "cluster-1-health",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "cluster-2-culture-creativity-and-inclusive-society",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "cluster-3-civil-security-for-society",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "cluster-4-digital-industry-and-space",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "cluster-5-climate-energy-and-mobility",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "cluster-6-food-bioeconomy-natural-resources-agriculture-and-environment",
+    "type": "RELATES_TO",
+    "origin": "frontmatter"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "horizon-europe",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "ssh-integration",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "european-partnerships",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "eu-missions",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "joint-research-centre",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "horizon_europe_cluster_interactions",
+    "target": "european-open-science-cloud",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  }
+]

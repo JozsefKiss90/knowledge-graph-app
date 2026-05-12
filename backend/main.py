@@ -28,7 +28,8 @@ from routes.new_pipeline.dep_routes import router as dep_router
 from routes.new_pipeline.erasmus_routes import router as era_router
 from routes.new_pipeline.euratom_routes import router as euratom_router 
 from routes.new_pipeline.cef_routes import router as cef_router 
-from routes.new_pipeline.crea_routes import router as crea_router 
+from routes.new_pipeline.crea_routes import router as crea_router
+from routes.new_pipeline.he_wiki.he_wiki_routes import router as hewiki_router
 
 # Load .env file if not in production
 if os.getenv("ENVIRONMENT") != "production":
@@ -66,6 +67,7 @@ app.include_router(era_router)
 app.include_router(cef_router)
 app.include_router(euratom_router)
 app.include_router(crea_router)
+app.include_router(hewiki_router)
 
 if ENVIRONMENT == "production":
     allowed_origins = [ "http://localhost:3000", "https://knowledge-graph-frontend-production.up.railway.app", "https://eu-graphs.up.railway.app",

@@ -26,7 +26,30 @@
       "Bash(find /c/Code/knowledge-graph-app/backend -path */node_modules -prune -o -name *.py -type f -exec grep -l ^.*/nodes/.*$ {})",
       "Bash(2)",
       "Bash(grep -r \"^@router.get\" /c/Code/knowledge-graph-app/backend/routes/*.py)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(python -m routes.new_pipeline.he_wiki.parse_obsidian)",
+      "Bash(curl -s http://localhost:8000/)",
+      "Bash(powershell -Command \"try { $r = Invoke-WebRequest -Uri 'http://localhost:8000/' -TimeoutSec 3 -UseBasicParsing; $r.Content } catch { Write-Output 'NOT_RUNNING' }\")",
+      "Bash(python -m uvicorn main:app --host 0.0.0.0 --port 8000)",
+      "Bash(pip install:*)",
+      "Bash(powershell -Command \"try { \\(Invoke-WebRequest -Uri ''http://localhost:8000/'' -TimeoutSec 5 -UseBasicParsing\\).Content } catch { ''FAILED: '' + [string]$_Exception.Message }\")",
+      "Bash(powershell -Command \"try { \\(Invoke-WebRequest -Uri http://localhost:8000/ -TimeoutSec 5 -UseBasicParsing\\).Content } catch { ''FAILED'' }\")",
+      "Bash(python -c \"from main import app; print\\(''Import OK''\\)\")",
+      "Bash(powershell -Command \"\\(Invoke-WebRequest -Uri http://localhost:8000/ -TimeoutSec 5 -UseBasicParsing\\).Content\")",
+      "Bash(powershell -Command \"\\(Invoke-WebRequest -Uri http://127.0.0.1:8000/ -TimeoutSec 5 -UseBasicParsing\\).Content\")",
+      "Bash(powershell -Command \"\\(Invoke-WebRequest -Uri http://127.0.0.1:8000/hewiki/populate -Method POST -ContentType 'application/json' -Body '{}' -TimeoutSec 30 -UseBasicParsing\\).Content\")",
+      "Bash(powershell -Command \"Stop-Process -Id 273872 -ErrorAction SilentlyContinue\")",
+      "Bash(NEO4J_URI=\"neo4j+s://96b57db7.databases.neo4j.io\" NEO4J_USER=\"neo4j\" NEO4J_PASSWORD=\"vTp4YQBHJGGe9QrLmapkG9913ikLRr6LTUQQLdMbmQ4\" ENVIRONMENT=\"production\" python -m uvicorn main:app --host 127.0.0.1 --port 8000)",
+      "Bash(powershell -Command \"\\(Invoke-WebRequest -Uri http://127.0.0.1:8000/hewiki/populate -Method POST -ContentType 'application/json' -Body '{}' -TimeoutSec 60 -UseBasicParsing\\).Content\")",
+      "Bash(powershell -Command \"\\(Invoke-WebRequest -Uri http://127.0.0.1:8000/hewiki/nodes -TimeoutSec 10 -UseBasicParsing\\).Content\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(f''''Status: {d[\"\"status\"\"]}, Count: {d[\"\"count\"\"]}''''\\); [print\\(f''''  {n[\"\"n\"\"][\"\"id\"\"]:45s} {n[\"\"n\"\"][\"\"category\"\"]:15s} {n[\"\"n\"\"][\"\"name\"\"]}''''\\) for n in d[''''data''''][:10]]; print\\(f''''  ... and {d[\"\"count\"\"]-10} more''''\\)\")",
+      "Bash(powershell -Command \"\\(Invoke-WebRequest -Uri http://127.0.0.1:8000/hewiki/relationships -TimeoutSec 10 -UseBasicParsing\\).Content\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); rels=d[''''relationships'''']; print\\(f''''Total relationships: {len\\(rels\\)}''''\\); types={}; [types.__setitem__\\(r[''''type''''], types.get\\(r[''''type''''],0\\)+1\\) for r in rels]; print\\(f''''By type: {types}''''\\); print\\(\\); [print\\(f''''  {r[\"\"source\"\"]:40s} --{r[\"\"type\"\"]:12s}--> {r[\"\"target\"\"]}''''\\) for r in rels[:8]]; print\\(f''''  ... and {len\\(rels\\)-8} more''''\\)\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(f''''id:       {d[\"\"id\"\"]}''''\\); print\\(f''''name:     {d[\"\"name\"\"]}''''\\); print\\(f''''category: {d[\"\"category\"\"]}''''\\); print\\(f''''keywords: {d[\"\"keywords\"\"]}''''\\); print\\(f''''aliases:  {d[\"\"aliases\"\"]}''''\\); print\\(f''''summary:  {d[\"\"summary\"\"][:200]}...''''\\)\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); rels=d[''''relationships'''']; print\\(f''''Relationships from artificial-intelligence: {len\\(rels\\)}''''\\); [print\\(f''''  --{r[\"\"type\"\"]:12s}--> {r[\"\"target\"\"]}''''\\) for r in rels]\")",
+      "Bash(powershell -Command \"Stop-Process -Id 254620 -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -Command \"Get-Process -Name python -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue\")",
+      "Bash(NEO4J_URI=\"bolt://localhost:7687\" NEO4J_USER=\"neo4j\" NEO4J_PASSWORD=\"password\" ENVIRONMENT=\"development\" python -m uvicorn main:app --host 127.0.0.1 --port 8000)"
     ]
   }
 }
