@@ -114,10 +114,36 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
     return PALETTE.edgeDefault;
   };
 
+  const isHEWiki = graphName === "HE_2025";
+
+  // For HE_2025: compute degree range for proportional node sizing
+  let minDeg = Infinity;
+  let maxDeg = 0;
+  if (isHEWiki) {
+    cy.nodes().forEach((n) => {
+      const d = n.degree(false);
+      if (d < minDeg) minDeg = d;
+      if (d > maxDeg) maxDeg = d;
+    });
+    if (minDeg === Infinity) minDeg = 0;
+  }
+
+  const HE_MIN_SIZE = 22;
+  const HE_MAX_SIZE = 62;
+  const HE_FONT = 12.5;
+
   cy.nodes().forEach((n) => {
     n.data("themeColor", nodeColorFor(n));
     n.data("themeLabelColor", PALETTE.label);
     n.data("themeBorderColor", PALETTE.border);
+
+    if (isHEWiki) {
+      const deg = n.degree(false);
+      const ratio = maxDeg > minDeg ? (deg - minDeg) / (maxDeg - minDeg) : 0.5;
+      const size = HE_MIN_SIZE + ratio * (HE_MAX_SIZE - HE_MIN_SIZE);
+      n.data("themeSize", Math.round(size));
+      n.data("themeFontSize", HE_FONT);
+    }
   });
 
   cy.edges().forEach((e) => {
@@ -127,24 +153,35 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
   cy.scratch("graphName", graphName);
   cy.scratch("layerKey", layerKey);
 
-  cy.style()
-    .append([
-      { selector: ".faded", style: { opacity: 0.15 } },
-      { selector: ".call-hidden", style: { display: "none" } },
-      { selector: ".call-visible", style: { display: "element" } },
-      { selector: ".timeline-hidden", style: { display: "none" } },
-      {
-        selector: ".compare-selected",
-        style: {
-          "border-width": 4,
-          "border-color": "#3d8fff",
-          "border-opacity": 1,
-          "overlay-opacity": 0.08,
-          "overlay-color": "#3d8fff",
-        },
+  const extraStyles = [
+    { selector: ".faded", style: { opacity: 0.15 } },
+    { selector: ".call-hidden", style: { display: "none" } },
+    { selector: ".call-visible", style: { display: "element" } },
+    { selector: ".timeline-hidden", style: { display: "none" } },
+    {
+      selector: ".compare-selected",
+      style: {
+        "border-width": 4,
+        "border-color": "#3d8fff",
+        "border-opacity": 1,
+        "overlay-opacity": 0.08,
+        "overlay-color": "#3d8fff",
       },
-    ])
-    .update();
+    },
+  ];
+
+  if (isHEWiki) {
+    extraStyles.push({
+      selector: "node[themeSize]",
+      style: {
+        width: "data(themeSize)",
+        height: "data(themeSize)",
+        "font-size": "data(themeFontSize)",
+      },
+    });
+  }
+
+  cy.style().append(extraStyles).update();
 
   return PALETTE;
 }

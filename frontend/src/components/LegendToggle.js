@@ -232,8 +232,18 @@ const nodeTypeList = useMemo(() => {
   }, [cy, graphName, nodeTypeList]);
 
   useEffect(() => {
-    setVisibleEdgeTypes(new Set(edgeTypeList.map((x) => x.type)));
-  }, [cy, graphName, edgeTypeList]);
+    const initial = new Set(edgeTypeList.map((x) => x.type));
+
+    // Default-hide RELATES_TO edges for the HE wiki graph
+    if (isHE2025 && initial.has("RELATES_TO")) {
+      initial.delete("RELATES_TO");
+      if (cy && !cy.destroyed()) {
+        cy.edges('[type = "RELATES_TO"], [category = "RELATES_TO"]').hide();
+      }
+    }
+
+    setVisibleEdgeTypes(initial);
+  }, [cy, graphName, edgeTypeList, isHE2025]);
 
   const [sectionsOpen, setSectionsOpen] = useState({
     dataset: true,

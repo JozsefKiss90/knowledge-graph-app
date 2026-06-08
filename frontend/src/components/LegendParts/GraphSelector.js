@@ -477,6 +477,18 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
         <div className="graph-selector-group">
 
           <TreeRow
+            item={{ id: "HE_2025", label: "Horizon Europe strategic plan (2025 - 2027)", color: groupColors.sp }}
+            depth={0}
+            isSelected={layerKey === "HE_2025"}
+            showToggle={false}
+            onToggle={() => {}}
+            onClick={() => {
+              requestScrollTo("HE_2025");
+              selectDataset("HE_2025");
+            }}
+          />
+
+          <TreeRow
             item={{ id: "ROOT", label: "EU Funding Programmes", color: groupColors.meta }}
             depth={0}
             isSelected={isRootSelected}
@@ -505,7 +517,7 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
                   <TreeRow
                     item={{ id: "HE_ROOT", label: "Horizon Europe", color: groupColors.programme }}
                     depth={2}
-                    isSelected={layerKey === "HE_ROOT" || layerKey === "HE_2025" || isPillarKey(layerKey) || /^Cluster_\d+$/i.test(layerKey)}
+                    isSelected={layerKey === "HE_ROOT" || isPillarKey(layerKey) || /^Cluster_\d+$/i.test(layerKey)}
                     showToggle
                     onToggle={() => toggleExpanded("HE_ROOT")}
                     onClick={() => {
@@ -516,17 +528,6 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
 
                   {expanded.has("HE_ROOT") && (
                     <div className="graph-tree-children">
-                      <TreeRow
-                        item={{ id: "HE_2025", label: "Horizon Europe strategic plan (2025 - 2027)", color: groupColors.sp }}
-                        depth={3}
-                        isSelected={layerKey === "HE_2025"}
-                        showToggle={false}
-                        onToggle={() => {}}
-                        onClick={() => {
-                          requestScrollTo("HE_2025");
-                          selectDataset("HE_2025");
-                        }}
-                      />
 
                       {/* Pillars nested directly under HE_ROOT */}
                       {PILLARS.map((p) => {

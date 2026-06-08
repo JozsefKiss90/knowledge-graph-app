@@ -1,8 +1,8 @@
   
   // All HE Wiki nodes by category                                                                                                                                            
-  MATCH (n:HEWikiNode)                                          
+"'  MATCH (n:HEWikiNode)                                          
   RETURN n.category AS category, count(*) AS count
-  ORDER BY count DESC
+  ORDER BY count DESC'"
 
   // All relationships by type
   MATCH (a:HEWikiNode)-[r]->(b:HEWikiNode)

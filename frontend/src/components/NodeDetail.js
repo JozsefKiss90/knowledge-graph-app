@@ -19,6 +19,102 @@ import "../styles/nodedetails.scss";
 import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
 
+// --- lightweight markdown-to-JSX renderer for wiki body text ---------------
+
+function renderMarkdownBody(text) {
+  if (!text) return null;
+
+  const lines = text.split("\n");
+  const elements = [];
+  let listBuffer = [];
+  let key = 0;
+
+  const flushList = () => {
+    if (listBuffer.length === 0) return;
+    elements.push(
+      <ul key={key++} className="nd-md-list">
+        {listBuffer.map((item, i) => (
+          <li key={i}>{inlineMarkdown(item)}</li>
+        ))}
+      </ul>
+    );
+    listBuffer = [];
+  };
+
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+
+    // blank line
+    if (!line.trim()) {
+      flushList();
+      continue;
+    }
+
+    // headings
+    const hMatch = line.match(/^(#{1,4})\s+(.+)/);
+    if (hMatch) {
+      flushList();
+      const level = hMatch[1].length;
+      const Tag = level === 1 ? "h3" : level === 2 ? "h4" : "h5";
+      elements.push(
+        <Tag key={key++} className="nd-md-heading">
+          {inlineMarkdown(hMatch[2])}
+        </Tag>
+      );
+      continue;
+    }
+
+    // list item
+    const liMatch = line.match(/^\s*[-*]\s+(.*)/);
+    if (liMatch) {
+      listBuffer.push(liMatch[1]);
+      continue;
+    }
+
+    // paragraph line
+    flushList();
+    elements.push(
+      <p key={key++} className="nd-paragraph">
+        {inlineMarkdown(line)}
+      </p>
+    );
+  }
+
+  flushList();
+  return elements;
+}
+
+function inlineMarkdown(text) {
+  // Split on bold (**...**), wiki links ([[...]]), and reassemble as JSX
+  const parts = [];
+  let remaining = text;
+  let i = 0;
+
+  const regex = /(\*\*(.+?)\*\*|\[\[(.+?)\]\])/g;
+  let match;
+  let lastIndex = 0;
+
+  while ((match = regex.exec(remaining)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(remaining.slice(lastIndex, match.index));
+    }
+    if (match[2]) {
+      // bold
+      parts.push(<strong key={i++}>{match[2]}</strong>);
+    } else if (match[3]) {
+      // wiki link — render as plain text (no navigation target)
+      parts.push(<em key={i++}>{match[3]}</em>);
+    }
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < remaining.length) {
+    parts.push(remaining.slice(lastIndex));
+  }
+
+  return parts.length === 1 && typeof parts[0] === "string" ? parts[0] : parts;
+}
+
 // --- helpers reused from previous implementation ---------------------------
 
 const labelMap = {
@@ -491,16 +587,35 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     const isDestination = rawType === "destination";
 
     const isHeEntity =
-      String(nodeData.source || "").toLowerCase() === "he_2025" &&
+      (source === "he_wiki" || source === "he_2025") &&
       rawType !== "call" &&
       nodeData.call_id == null &&
-      nodeData.type_of_action == null &&
-      nodeData.scope == null;
+      nodeData.type_of_action == null;
 
     const title = nodeData.name || nodeData.label || "Untitled node";
 
     if (isHeEntity) {
-      return { kind: "he_entity", title, summary: (nodeData.summary || "").trim() };
+      const keywords = Array.isArray(nodeData.keywords)
+        ? nodeData.keywords.filter(Boolean)
+        : [];
+      const aliases = Array.isArray(nodeData.aliases)
+        ? nodeData.aliases.filter(Boolean)
+        : [];
+      const sourceDocs = Array.isArray(nodeData.source_documents)
+        ? nodeData.source_documents.filter(Boolean)
+        : [];
+
+      return {
+        kind: "he_entity",
+        title,
+        entityType: rawType || nodeData.category || "node",
+        summary: (nodeData.summary || "").trim(),
+        body: (nodeData.body || "").trim(),
+        keywords,
+        aliases,
+        sourceDocs,
+        nodeStatus: nodeData.status || "",
+      };
     }
 
     const deadlines = normalizeDeadlines(nodeData);
@@ -530,13 +645,27 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       return { kind: "destination", title, summary: (nodeData.summary || "").trim() };
     }
 
-    if (source === "he_2025" && !isCall) {
+    if ((source === "he_wiki" || source === "he_2025") && !isCall) {
+      const keywords = Array.isArray(nodeData.keywords)
+        ? nodeData.keywords.filter(Boolean)
+        : [];
+      const aliases = Array.isArray(nodeData.aliases)
+        ? nodeData.aliases.filter(Boolean)
+        : [];
+      const sourceDocs = Array.isArray(nodeData.source_documents)
+        ? nodeData.source_documents.filter(Boolean)
+        : [];
+
       return {
         kind: "he_entity",
         title,
-        entityType: rawType || "node",
+        entityType: rawType || nodeData.category || "node",
         summary: (nodeData.summary || nodeData.description || "").trim(),
-        source: nodeData.source || "",
+        body: (nodeData.body || "").trim(),
+        keywords,
+        aliases,
+        sourceDocs,
+        nodeStatus: nodeData.status || "",
       };
     }
 
@@ -594,6 +723,12 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
   if (viewModel.kind === "he_entity") {
     const summaryText = viewModel.summary || "—";
     const sourceText = formatValue("source", nodeData.source || "");
+    const entityLabel = viewModel.entityType
+      ? viewModel.entityType.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+      : "";
+    const statusLabel = normalizeStatusLabel(viewModel.nodeStatus);
+
+    const bodyElements = viewModel.body ? renderMarkdownBody(viewModel.body) : null;
 
     return (
       <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
@@ -604,9 +739,13 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
               variant="text"
               startIcon={<ArrowBackIcon fontSize="small" />}
               onClick={handleBackToGraph}
+              className="nd-back-button"
             >
               Back to Graph
             </Button>
+            <span className="nd-header-divider" />
+            {entityLabel && <Chip label={entityLabel} size="small" className="nd-chip nd-chip--kind" />}
+            {statusLabel && <Chip label={statusLabel} size="small" className="nd-chip nd-chip--status nd-chip--status-open" />}
           </Box>
         </header>
 
@@ -634,6 +773,14 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
               </Box>
             </Box>
 
+            {viewModel.keywords.length > 0 && (
+              <Box className="nd-tags-row">
+                {viewModel.keywords.map((kw) => (
+                  <Chip key={kw} label={kw} size="small" className="nd-tag-chip" variant="filled" />
+                ))}
+              </Box>
+            )}
+
             <div className="nd-grid">
               <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
                 <Box className="nd-card">
@@ -648,6 +795,12 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                     </Typography>
                   </Box>
                 </Box>
+
+                {bodyElements && bodyElements.length > 0 && (
+                  <CollapsibleSection title="Details" defaultOpen>
+                    {bodyElements}
+                  </CollapsibleSection>
+                )}
               </div>
 
               <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
@@ -662,6 +815,36 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                     <NodeConnections id={id} relations={relations} connectedNodes={connectedNodes} bare />
                   </Box>
                 </Box>
+
+                {viewModel.aliases.length > 0 && (
+                  <Box className="nd-card">
+                    <Box className="nd-card-header">
+                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                        Also Known As
+                      </Typography>
+                    </Box>
+                    <Box className="nd-card-body nd-card-body--text">
+                      {viewModel.aliases.map((a, idx) => (
+                        <Typography key={idx} variant="body2" className="nd-paragraph">{a}</Typography>
+                      ))}
+                    </Box>
+                  </Box>
+                )}
+
+                {viewModel.sourceDocs.length > 0 && (
+                  <Box className="nd-card">
+                    <Box className="nd-card-header">
+                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                        Source Documents
+                      </Typography>
+                    </Box>
+                    <Box className="nd-card-body nd-card-body--text">
+                      {viewModel.sourceDocs.map((doc, idx) => (
+                        <Typography key={idx} variant="body2" className="nd-paragraph" sx={{ wordBreak: "break-all" }}>{doc}</Typography>
+                      ))}
+                    </Box>
+                  </Box>
+                )}
 
                 {sourceText && sourceText !== "—" && (
                   <Box className="nd-card">

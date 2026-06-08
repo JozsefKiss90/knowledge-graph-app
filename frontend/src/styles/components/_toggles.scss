@@ -178,6 +178,60 @@
   color: var(--btn-call-text);
 }
 
+/* HE Wiki edge types */
+.edge-toggle-button.type-relates_to {
+  --swatch: var(--nt-strategy);
+}
+.edge-toggle-button.type-wiki_link {
+  --swatch: var(--nt-destination);
+}
+
+.edge-toggle-button {
+  --swatch: var(--nt-policy);
+
+  border: 1px solid color-mix(in srgb, var(--swatch) 70%, transparent) !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  letter-spacing: 0.2px !important;
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--swatch) 22%, transparent),
+    0 0 12px color-mix(in srgb, var(--swatch) 18%, transparent) !important;
+}
+
+.edge-toggle-button:not([class*="-active"]) {
+  background: color-mix(in srgb, var(--swatch) 50%, transparent) !important;
+  color: var(--foreground) !important;
+
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--swatch) 38%, transparent),
+    0 0 16px color-mix(in srgb, var(--swatch) 28%, transparent) !important;
+
+  &:hover {
+    background: color-mix(in srgb, var(--swatch) 28%, transparent) !important;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--swatch) 48%, transparent),
+      0 0 18px color-mix(in srgb, var(--swatch) 34%, transparent) !important;
+  }
+}
+
+.edge-toggle-button[class*="-active"] {
+  background: transparent !important;
+  color: color-mix(in srgb, var(--swatch) 92%, var(--foreground)) !important;
+
+  &:hover {
+    background: color-mix(in srgb, var(--swatch) 12%, transparent) !important;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--swatch) 34%, transparent),
+      0 0 16px color-mix(in srgb, var(--swatch) 26%, transparent) !important;
+  }
+}
+
+.edge-toggle-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--swatch) 55%, transparent) !important;
+  outline-offset: 2px;
+}
+
 /* Additional shared edge/node patterns preserved verbatim from main.scss */
 .node-toggle-button.type-theme,
 .edge-toggle-button.type-theme {

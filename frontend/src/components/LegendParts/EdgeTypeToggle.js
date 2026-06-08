@@ -3,6 +3,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
+const EDGE_TITLES = {
+  BELONGS_TO_TOPIC: "Toggle topic links",
+  SHARED_TOPIC: "Toggle shared topics",
+  CROSS_TOPIC_SIMILARITY: "Toggle similar topics",
+  RELATES_TO: "Toggle relates-to links",
+  WIKI_LINK: "Toggle wiki links",
+};
+
 const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => {
   if (!visibleTypes || !types) return null;
 
@@ -14,12 +22,12 @@ const EdgeTypeToggle = ({ cy, types, visibleTypes, onToggle }) => {
           const classType = type.replace(/\s+/g, '').toLowerCase();
           const isActive = visibleTypes.has(type)
           return (
-            <Button 
+            <Button
               key={type}
               variant={isActive ? 'contained' : 'outlined'}
               size="small"
               disableElevation
-              title={`${type==="BELONGS_TO_TOPIC" ? "Toggle topic links" : type==="SHARED_TOPIC" ? "Toggle shadred topics" : "Toggle similar topics"}`}
+              title={EDGE_TITLES[type] || `Toggle ${type.replaceAll('_', ' ').toLowerCase()}`}
               className={`edge-toggle-button type-${classType}${!isActive ? '-active' : ''}`}
               onClick={() => onToggle(type)}
               onMouseEnter={() => {

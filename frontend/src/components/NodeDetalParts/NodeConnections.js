@@ -356,12 +356,8 @@ const NodeConnections = ({ id, relations, connectedNodes = {}, bare = false }) =
                   >
                     {displayName || neighborId}
                   </Link>
-                  <div className="nd-connection-sub">{connectionLabel}</div>
                 </div>
               </div>
-              {detail.summary && (
-                <div className="nd-connection-summary">{detail.summary}</div>
-              )}
             </div>
           );
         })}

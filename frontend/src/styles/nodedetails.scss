@@ -426,6 +426,33 @@
   margin-bottom: 0;
 }
 
+.nd-md-heading {
+  font-weight: 600;
+  color: var(--nd-text);
+  margin: 18px 0 6px;
+  line-height: 1.4;
+}
+
+h3.nd-md-heading { font-size: 16px; }
+h4.nd-md-heading { font-size: 15px; }
+h5.nd-md-heading { font-size: 14px; }
+
+.nd-md-heading:first-child {
+  margin-top: 0;
+}
+
+.nd-md-list {
+  margin: 0 0 12px;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--nd-text-soft);
+
+  li {
+    margin-bottom: 4px;
+  }
+}
+
 .nd-card-toggle {
   min-width: auto !important;
   padding: 0 !important;
