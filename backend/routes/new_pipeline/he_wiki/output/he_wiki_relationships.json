@@ -475,6 +475,12 @@
   },
   {
     "source": "strategy-for-european-life-sciences",
+    "target": "artificial-intelligence",
+    "type": "WIKI_LINK",
+    "origin": "body"
+  },
+  {
+    "source": "strategy-for-european-life-sciences",
     "target": "clean-industrial-deal",
     "type": "WIKI_LINK",
     "origin": "body"
@@ -488,12 +494,6 @@
   {
     "source": "strategy-for-european-life-sciences",
     "target": "eu-missions",
-    "type": "WIKI_LINK",
-    "origin": "body"
-  },
-  {
-    "source": "strategy-for-european-life-sciences",
-    "target": "artificial-intelligence",
     "type": "WIKI_LINK",
     "origin": "body"
   },
@@ -1966,6 +1966,12 @@
     "target": "dissemination-and-exploitation",
     "type": "RELATES_TO",
     "origin": "frontmatter"
+  },
+  {
+    "source": "innovation-actions",
+    "target": "gender-equality",
+    "type": "WIKI_LINK",
+    "origin": "body"
   },
   {
     "source": "innovation-actions",

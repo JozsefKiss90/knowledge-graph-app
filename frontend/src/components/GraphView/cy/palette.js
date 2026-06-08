@@ -14,6 +14,7 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
         research_theme: "#FBBF24",
         institution: "#C084FC",
         topic: "#FDE047",
+        synthesis: "#FB7185",
         Destination: "#60A5FA",
         Call: "#F59E0B",
 
@@ -36,6 +37,7 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
         research_theme: "rgba(234,179,8,0.90)",
         institution: "rgba(147,51,234,0.86)",
         topic: "rgba(202,138,4,0.86)",
+        synthesis: "rgba(244,63,94,0.86)",
         Destination: "rgba(59,130,246,0.88)",
         Call: "rgba(245,158,11,0.88)",
 
@@ -55,6 +57,7 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
   root.style.setProperty("--nt-research_theme", PALETTE.research_theme);
   root.style.setProperty("--nt-institution", PALETTE.institution);
   root.style.setProperty("--nt-topic", PALETTE.topic);
+  root.style.setProperty("--nt-synthesis", PALETTE.synthesis);
   root.style.setProperty("--nt-destination", PALETTE.Destination);
   root.style.setProperty("--nt-call", PALETTE.Call);
   root.style.setProperty("--nt-label", PALETTE.label);

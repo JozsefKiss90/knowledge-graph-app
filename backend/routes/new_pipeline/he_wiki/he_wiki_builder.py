@@ -33,7 +33,17 @@ def _neo4j_value(v: Any) -> Any:
     if isinstance(v, dict):
         return json.dumps(v, ensure_ascii=False, sort_keys=True)
     if isinstance(v, list):
-        return [str(item) for item in v if item is not None]
+        # Neo4j only stores arrays of primitives; JSON-encode any nested
+        # dict/list items rather than relying on str() (matches base_cluster_builder).
+        out = []
+        for item in v:
+            if item is None:
+                continue
+            if isinstance(item, (dict, list)):
+                out.append(json.dumps(item, ensure_ascii=False, sort_keys=True))
+            else:
+                out.append(str(item))
+        return out
     return str(v)
 
 

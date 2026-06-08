@@ -49,7 +49,12 @@
       "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); rels=d[''''relationships'''']; print\\(f''''Relationships from artificial-intelligence: {len\\(rels\\)}''''\\); [print\\(f''''  --{r[\"\"type\"\"]:12s}--> {r[\"\"target\"\"]}''''\\) for r in rels]\")",
       "Bash(powershell -Command \"Stop-Process -Id 254620 -ErrorAction SilentlyContinue\")",
       "Bash(powershell -Command \"Get-Process -Name python -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue\")",
-      "Bash(NEO4J_URI=\"bolt://localhost:7687\" NEO4J_USER=\"neo4j\" NEO4J_PASSWORD=\"password\" ENVIRONMENT=\"development\" python -m uvicorn main:app --host 127.0.0.1 --port 8000)"
+      "Bash(NEO4J_URI=\"bolt://localhost:7687\" NEO4J_USER=\"neo4j\" NEO4J_PASSWORD=\"password\" ENVIRONMENT=\"development\" python -m uvicorn main:app --host 127.0.0.1 --port 8000)",
+      "Read(//c/Code/knowledge-graph-app/backend/routes/new_pipeline/he_wiki/output/**)",
+      "Bash(python -c \"import json; n=json.load\\(open\\('he_wiki_nodes.json',encoding='utf-8'\\)\\); r=json.load\\(open\\('he_wiki_relationships.json',encoding='utf-8'\\)\\); print\\('nodes',len\\(n\\)\\); print\\('rels',len\\(r\\)\\); from collections import Counter; print\\('cats',Counter\\(x['category'] for x in n\\)\\); print\\('reltypes',Counter\\(x['type'] for x in r\\)\\); print\\('sample node keys',list\\(n[0].keys\\(\\)\\)\\); print\\('sample rel',r[0]\\)\")",
+      "Read(//c/Code/knowledge-graph-app/backend/**)",
+      "Bash(python -c \"import importlib; m=importlib.import_module\\('routes.new_pipeline.he_wiki.he_wiki_routes'\\); print\\('routes import OK; router prefix=', m.router.prefix\\); print\\('routes:', [ \\(r.path, list\\(r.methods\\)\\) for r in m.router.routes ]\\)\")",
+      "Bash(Get-ChildItem *)"
     ]
   }
 }

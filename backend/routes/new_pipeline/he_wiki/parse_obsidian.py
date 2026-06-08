@@ -23,6 +23,10 @@ OUTPUT_DIR = SCRIPT_DIR / "output"
 
 SKIP_FILES = {"index.md", "log.md"}
 
+# Wikilink targets that are intentionally not graph entities (master index /
+# ingestion log pages). Links to these are dropped without a warning.
+SKIP_LINK_TARGETS = {"index", "log"}
+
 CATEGORY_FOLDERS = [
     "strategies",
     "clusters",
@@ -61,8 +65,19 @@ def _parse_frontmatter(content: str) -> Tuple[dict, str]:
 
 
 def _extract_wikilinks(body: str) -> List[str]:
-    """Extract all [[wikilink]] targets from markdown body."""
-    return list(dict.fromkeys(re.findall(r"\[\[([^\]]+)\]\]", body)))
+    """Extract all [[wikilink]] targets from markdown body.
+
+    Obsidian wikilinks may carry a display alias ([[Target|Display]]) and/or a
+    section anchor ([[Target#Section]]). Normalize each to the bare target page
+    so it can be resolved against the title->id lookup; otherwise the pipe/anchor
+    text leaks into the lookup key and the edge is silently dropped.
+    """
+    targets: List[str] = []
+    for raw in re.findall(r"\[\[([^\]]+)\]\]", body):
+        target = raw.split("|", 1)[0].split("#", 1)[0].strip()
+        if target:
+            targets.append(target)
+    return list(dict.fromkeys(targets))
 
 
 def _extract_summary(body: str) -> str:
@@ -127,6 +142,7 @@ def parse_all() -> Tuple[List[dict], List[dict]]:
     nodes: List[dict] = []
     relationships: List[dict] = []
     seen_edges = set()
+    unresolved: List[Tuple[str, str, str]] = []
 
     for md_file, fm, body in file_entries:
         name = md_file.stem
@@ -155,7 +171,11 @@ def parse_all() -> Tuple[List[dict], List[dict]]:
 
         for target_name in related_nodes:
             target_id = title_to_id.get(target_name)
-            if not target_id or target_id == node_id:
+            if target_id is None:
+                if str(target_name).strip().lower() not in SKIP_LINK_TARGETS:
+                    unresolved.append((name, str(target_name), "frontmatter"))
+                continue
+            if target_id == node_id:
                 continue
             edge_key = (node_id, target_id)
             if edge_key not in seen_edges:
@@ -171,7 +191,11 @@ def parse_all() -> Tuple[List[dict], List[dict]]:
         # Relationships from body wikilinks (WIKI_LINK), excluding already-added
         for link_target in _extract_wikilinks(body):
             target_id = title_to_id.get(link_target)
-            if not target_id or target_id == node_id:
+            if target_id is None:
+                if str(link_target).strip().lower() not in SKIP_LINK_TARGETS:
+                    unresolved.append((name, str(link_target), "body"))
+                continue
+            if target_id == node_id:
                 continue
             if target_id in related_ids:
                 continue
@@ -184,6 +208,21 @@ def parse_all() -> Tuple[List[dict], List[dict]]:
                     "type": "WIKI_LINK",
                     "origin": "body",
                 })
+
+    if unresolved:
+        # De-duplicate identical (source, target, origin) warnings while keeping order.
+        seen_warn = set()
+        unique = []
+        for w in unresolved:
+            if w not in seen_warn:
+                seen_warn.add(w)
+                unique.append(w)
+        print(
+            f"\n[parse_obsidian] WARNING: {len(unique)} reference(s) could not be "
+            f"resolved to an entity and were dropped:"
+        )
+        for src, tgt, origin in unique:
+            print(f"  - {src!r} -> {tgt!r} ({origin})")
 
     return nodes, relationships
 

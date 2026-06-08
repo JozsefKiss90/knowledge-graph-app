@@ -9,7 +9,7 @@ export const defaultEdgeTypes = {
 };
 
 export const defaultNodeTypes = {
-  HE_2025: new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic']),
+  HE_2025: new Set(['policy', 'strategy', 'cluster', 'research_theme', 'institution', 'topic', 'synthesis']),
   // Cluster views – start with Destination only
   Cluster_4: new Set(['Destination']),
   Cluster_2: new Set(['Destination']),
@@ -50,6 +50,7 @@ export const getNodeTypeList = (graphName) => {
       { type: 'research_theme', color: 'rgb(251, 191, 36)' },
       { type: 'institution', color: 'rgb(192, 132, 252)' },
       { type: 'topic', color: 'rgb(253, 224, 71)' },
+      { type: 'synthesis', color: 'rgb(251, 113, 133)' },
       { type: 'search', color: 'rgb(253, 224, 71)' },
     ];
   } else if (clean === "Cluster_2") {
