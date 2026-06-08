@@ -48,6 +48,10 @@ export default function GraphMainColumn({
   const isDetailMode = !!detailNode;
   const levelsRef = useRef([]);
 
+  // The HE Wiki graph is a flat entity network — Compare/Timeline (cluster/Call tools) don't apply.
+  const isHEWiki = graphName === "HE_2025";
+  const heWikiMissing = isHEWiki && !loadFromStore?.("HE_2025");
+
   // Compare selection handler: adds a node to compareNodes (max 2)
   const handleCompareSelect = useCallback(
     (nodeData, cyNode) => {
@@ -74,8 +78,8 @@ export default function GraphMainColumn({
     [setCompareNodes]
   );
 
-  // Only active when compareOpen is true
-  const compareSelectCallback = compareOpen ? handleCompareSelect : null;
+  // Only active when compareOpen is true (never for the HE Wiki graph)
+  const compareSelectCallback = compareOpen && !isHEWiki ? handleCompareSelect : null;
 
   // Sync compare-selected Cytoscape class with compareNodes state
   useEffect(() => {
@@ -250,6 +254,40 @@ export default function GraphMainColumn({
             onCompareSelect={compareSelectCallback}
           />
 
+          {heWikiMissing && (
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 20,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 24,
+                pointerEvents: "none",
+              }}
+            >
+              <div
+                style={{
+                  pointerEvents: "auto",
+                  maxWidth: 440,
+                  textAlign: "center",
+                  background: "rgba(15,23,42,0.88)",
+                  color: "#e5edff",
+                  border: "1px solid rgba(148,163,184,0.35)",
+                  borderRadius: 12,
+                  padding: "16px 20px",
+                }}
+              >
+                <strong>HE Wiki graph unavailable</strong>
+                <div style={{ marginTop: 8, fontSize: 13, opacity: 0.85, lineHeight: 1.5 }}>
+                  The <code>/hewiki</code> data could not be loaded from the backend.
+                  Start the backend and run <code>POST /hewiki/populate</code>, then reload the page.
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="graph-main">
             <HoveredNodeInfo
               node={hoveredNode}
@@ -266,7 +304,7 @@ export default function GraphMainColumn({
             <ChatBot onOpenDetail={onOpenDetail} />
 
             <CompareDrawer
-              open={compareOpen}
+              open={compareOpen && !isHEWiki}
               nodes={compareNodes}
               loadFromStore={loadFromStore}
               onClose={() => {
@@ -283,7 +321,7 @@ export default function GraphMainColumn({
             loadFromStore={loadFromStore}
             currentKey={graphName}
             levels={levelsRef.current}
-            isOpen={timelineOpen && !isDetailMode}
+            isOpen={timelineOpen && !isDetailMode && !isHEWiki}
             onSelectionChange={setTimelineSelection}
           />
 

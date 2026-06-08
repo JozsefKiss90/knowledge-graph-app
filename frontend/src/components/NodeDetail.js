@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   Box,
   Button,
@@ -21,7 +21,33 @@ import NodeConnections from "./NodeDetalParts/NodeConnections";
 
 // --- lightweight markdown-to-JSX renderer for wiki body text ---------------
 
-function renderMarkdownBody(text) {
+// Build a resolver from the node's already-fetched neighbors: maps a wikilink's
+// display target (name / alias / id / slug) to that neighbor's id. Returns null
+// for links that aren't connected nodes (e.g. dangling [[index]]), so those stay
+// plain text instead of becoming dead links.
+function makeWikiResolver(connectedNodes) {
+  const map = new Map();
+  const add = (text, entry) => {
+    const k = String(text || "").trim().toLowerCase();
+    if (k && !map.has(k)) map.set(k, entry);
+  };
+  Object.entries(connectedNodes || {}).forEach(([nid, d]) => {
+    const entry = { id: nid, data: d || undefined };
+    add(nid, entry);
+    add(d?.name, entry);
+    add(d?.label, entry);
+    (Array.isArray(d?.aliases) ? d.aliases : []).forEach((a) => add(a, entry));
+  });
+  return (rawInner) => {
+    const target = String(rawInner || "").split("|")[0].split("#")[0].trim().toLowerCase();
+    if (!target) return null;
+    if (map.has(target)) return map.get(target);
+    const slug = target.replace(/[^a-z0-9\-._() ]+/g, "").replace(/\s+/g, "-");
+    return map.has(slug) ? map.get(slug) : null;
+  };
+}
+
+function renderMarkdownBody(text, renderWikiLink) {
   if (!text) return null;
 
   const lines = text.split("\n");
@@ -34,7 +60,7 @@ function renderMarkdownBody(text) {
     elements.push(
       <ul key={key++} className="nd-md-list">
         {listBuffer.map((item, i) => (
-          <li key={i}>{inlineMarkdown(item)}</li>
+          <li key={i}>{inlineMarkdown(item, renderWikiLink)}</li>
         ))}
       </ul>
     );
@@ -58,7 +84,7 @@ function renderMarkdownBody(text) {
       const Tag = level === 1 ? "h3" : level === 2 ? "h4" : "h5";
       elements.push(
         <Tag key={key++} className="nd-md-heading">
-          {inlineMarkdown(hMatch[2])}
+          {inlineMarkdown(hMatch[2], renderWikiLink)}
         </Tag>
       );
       continue;
@@ -75,7 +101,7 @@ function renderMarkdownBody(text) {
     flushList();
     elements.push(
       <p key={key++} className="nd-paragraph">
-        {inlineMarkdown(line)}
+        {inlineMarkdown(line, renderWikiLink)}
       </p>
     );
   }
@@ -84,7 +110,7 @@ function renderMarkdownBody(text) {
   return elements;
 }
 
-function inlineMarkdown(text) {
+function inlineMarkdown(text, renderWikiLink) {
   // Split on bold (**...**), wiki links ([[...]]), and reassemble as JSX
   const parts = [];
   let remaining = text;
@@ -102,8 +128,12 @@ function inlineMarkdown(text) {
       // bold
       parts.push(<strong key={i++}>{match[2]}</strong>);
     } else if (match[3]) {
-      // wiki link — render as plain text (no navigation target)
-      parts.push(<em key={i++}>{match[3]}</em>);
+      // wiki link — clickable when it resolves to a connected node, else plain text
+      parts.push(
+        <React.Fragment key={i++}>
+          {renderWikiLink ? renderWikiLink(match[3]) : <em>{match[3]}</em>}
+        </React.Fragment>
+      );
     }
     lastIndex = regex.lastIndex;
   }
@@ -712,6 +742,37 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     };
   }, [nodeData]);
 
+  // Resolve [[wikilinks]] in the body against this node's fetched neighbors,
+  // so curated/contextual links navigate to the target entity's detail page.
+  const wikiResolver = useMemo(() => makeWikiResolver(connectedNodes), [connectedNodes]);
+
+  const renderWikiLink = useCallback(
+    (rawInner) => {
+      const raw = String(rawInner || "");
+      const display =
+        (raw.includes("|") ? raw.split("|").slice(1).join("|") : raw.split("#")[0]).trim() ||
+        raw.trim();
+      const resolved = wikiResolver(raw);
+      if (!resolved) return <em>{display}</em>;
+      return (
+        <a
+          href={`/node/${encodeURIComponent(resolved.id)}`}
+          onClick={(e) => {
+            e.preventDefault();
+            localStorage.setItem("graphName", "HE_2025");
+            navigate(`/node/${encodeURIComponent(resolved.id)}`, {
+              state: { returnGraphName: "HE_2025", graphName: "HE_2025", nodeData: resolved.data },
+            });
+          }}
+          style={{ color: "#4f9dff", textDecoration: "underline", cursor: "pointer" }}
+        >
+          {display}
+        </a>
+      );
+    },
+    [wikiResolver, navigate]
+  );
+
   if (loading || !nodeData || !viewModel) {
     return (
       <div className="nd-loading-wrapper">
@@ -728,7 +789,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       : "";
     const statusLabel = normalizeStatusLabel(viewModel.nodeStatus);
 
-    const bodyElements = viewModel.body ? renderMarkdownBody(viewModel.body) : null;
+    const bodyElements = viewModel.body ? renderMarkdownBody(viewModel.body, renderWikiLink) : null;
 
     return (
       <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>

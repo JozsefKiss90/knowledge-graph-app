@@ -210,6 +210,17 @@ export const stylesheet = [
     style: { "line-style": "dotted" },
   },
 
+  // HE Wiki edges: distinguish curated frontmatter links (solid) from
+  // contextual body wikilinks (dashed) by line style, not colour alone.
+  {
+    selector: "edge[type = 'RELATES_TO'], edge[category = 'RELATES_TO']",
+    style: { "line-style": "solid" },
+  },
+  {
+    selector: "edge[type = 'WIKI_LINK'], edge[category = 'WIKI_LINK']",
+    style: { "line-style": "dashed" },
+  },
+
   {
     selector: ".is-hovered",
     style: {

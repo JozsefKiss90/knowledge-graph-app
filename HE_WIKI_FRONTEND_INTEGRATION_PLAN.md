@@ -8,6 +8,15 @@ This document is therefore a **completion & hardening plan**, not a greenfield b
 
 All file:line anchors below were verified against the working tree on branch `claude_redesign`.
 
+> **Implementation status (Phases 1–4 done).** Phases 1–4 below are implemented and the frontend production build passes. Remaining: Phase 5 (optional). Changes:
+> - **1.1/1.2** Compare & Timeline gated off for `HE_2025` — `SidebarControls.jsx` (buttons hidden), `GraphMainColumn.jsx` (drawer/scrubber/selection gated via `isHEWiki`), `GraphPage.js` (closes Compare on entering the wiki graph), prop threaded through `RightControlsColumn.jsx`.
+> - **2.1** Search now matches `name`/`keywords`/`aliases`/`summary`/`body` — `SearchBox.js`, `LegendToggle.js`.
+> - **2.2** Body `[[wikilinks]]` are clickable, resolved against fetched neighbors (dangling links stay plain text) — `NodeDetail.js`.
+> - **3.1** Graph picker only offers `HE_2025` when its data loaded — `GraphSelector.js`.
+> - **3.2** Empty-state overlay when `/hewiki` data is missing — `GraphMainColumn.jsx`.
+> - **4.1** `RELATES_TO` solid / `WIKI_LINK` dashed edge styles — `graphStyles.js`.
+> - **4.2** Legend note explaining the default-hidden curated edges — `LegendToggle.js`.
+
 ---
 
 ## 1. Current State (verified — already working)

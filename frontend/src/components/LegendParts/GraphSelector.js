@@ -476,17 +476,21 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
       <div className="graph-selector-list" ref={listRef} role="tree" aria-label="Graph navigation tree">
         <div className="graph-selector-group">
 
-          <TreeRow
-            item={{ id: "HE_2025", label: "Horizon Europe strategic plan (2025 - 2027)", color: groupColors.sp }}
-            depth={0}
-            isSelected={layerKey === "HE_2025"}
-            showToggle={false}
-            onToggle={() => {}}
-            onClick={() => {
-              requestScrollTo("HE_2025");
-              selectDataset("HE_2025");
-            }}
-          />
+          {/* Only offer the HE Wiki graph when its data actually loaded; otherwise
+              clicking it would navigate to a blank canvas with no feedback. */}
+          {loadFromStore?.("HE_2025") && (
+            <TreeRow
+              item={{ id: "HE_2025", label: "Horizon Europe strategic plan (2025 - 2027)", color: groupColors.sp }}
+              depth={0}
+              isSelected={layerKey === "HE_2025"}
+              showToggle={false}
+              onToggle={() => {}}
+              onClick={() => {
+                requestScrollTo("HE_2025");
+                selectDataset("HE_2025");
+              }}
+            />
+          )}
 
           <TreeRow
             item={{ id: "ROOT", label: "EU Funding Programmes", color: groupColors.meta }}

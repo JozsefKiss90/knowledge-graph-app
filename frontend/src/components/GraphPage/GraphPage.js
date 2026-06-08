@@ -89,6 +89,8 @@ function GraphPage() {
     setDetailNode(null); // also close inline detail on dataset change
     setTimelineSelection(null); // reset timeline filter on layer change
     setCompareNodes([]); // reset compare selection on layer change
+    // Compare doesn't apply to the flat HE Wiki graph — make sure it isn't left open.
+    if (graphName === "HE_2025") setCompareOpen(false);
   }, [graphName]);
 
   useEffect(() => {
@@ -296,6 +298,7 @@ useEffect(() => {
               setTimelineOpen={setTimelineOpen}
               compareOpen={compareOpen}
               setCompareOpen={setCompareOpen}
+              graphName={graphName}
             />
           </Row>
         </Container>

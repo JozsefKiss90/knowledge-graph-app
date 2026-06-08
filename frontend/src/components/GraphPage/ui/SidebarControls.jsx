@@ -28,8 +28,12 @@ const SidebarControls = ({
   setTimelineOpen,
   compareOpen,
   setCompareOpen,
+  graphName,
 }) => {
   const navigate = useNavigate();
+
+  // Compare & Timeline are cluster/Call-oriented; they don't apply to the flat HE Wiki graph.
+  const isHEWiki = graphName === "HE_2025";
 
   // Re-usable tooltip props so all tooltips look/animate the same
   const tooltipProps = {
@@ -84,23 +88,27 @@ const SidebarControls = ({
         </IconButton>
       </Tooltip>
 
-      <Tooltip {...tooltipProps} title="Timeline scrubber">
-        <IconButton
-          className={`sidebar-controls-button${timelineOpen ? " sidebar-controls-button--active" : ""}`}
-          onClick={() => setTimelineOpen((prev) => !prev)}
-        >
-          <BarChartOutlinedIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+      {!isHEWiki && (
+        <>
+          <Tooltip {...tooltipProps} title="Timeline scrubber">
+            <IconButton
+              className={`sidebar-controls-button${timelineOpen ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => setTimelineOpen((prev) => !prev)}
+            >
+              <BarChartOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
 
-      <Tooltip {...tooltipProps} title="Compare programmes">
-        <IconButton
-          className={`sidebar-controls-button${compareOpen ? " sidebar-controls-button--active" : ""}`}
-          onClick={() => setCompareOpen((prev) => !prev)}
-        >
-          <CompareArrowsIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
+          <Tooltip {...tooltipProps} title="Compare programmes">
+            <IconButton
+              className={`sidebar-controls-button${compareOpen ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => setCompareOpen((prev) => !prev)}
+            >
+              <CompareArrowsIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </>
+      )}
 
       {/* Divider between main tools and settings, as in Figma */}
       <div className="sidebar-controls-divider" />

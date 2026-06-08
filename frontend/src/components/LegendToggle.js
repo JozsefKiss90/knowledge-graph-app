@@ -455,6 +455,13 @@ const nodeTypeList = useMemo(() => {
                 )
               }
             />
+            <Typography
+              variant="caption"
+              sx={{ display: "block", mt: 1, opacity: 0.7, fontStyle: "italic" }}
+            >
+              Curated “RELATES_TO” links (solid) start hidden — toggle them on above.
+              “WIKI_LINK” (dashed) are contextual links mentioned in the text.
+            </Typography>
           </LegendSection>
         )}
 
@@ -482,7 +489,7 @@ const nodeTypeList = useMemo(() => {
           isOpen={sectionsOpen.search}
           onToggle={() => toggleSection("search")}
         >
-          <SearchBox cy={cy} showTitle={false} />
+          <SearchBox cy={cy} showTitle={false} graphName={graphName} />
         </LegendSection>
 
         {isHE2025 && (

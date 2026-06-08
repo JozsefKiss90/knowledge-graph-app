@@ -6,16 +6,36 @@ import Typography from '@mui/material/Typography';
 import { useDarkMode } from '../context/DarkModeContext';
 
 
-const SearchBox = ({ cy, showTitle = true }) => {
+const asText = (v) => {
+  if (v == null) return '';
+  if (Array.isArray(v)) return v.join(' ');
+  return String(v);
+};
+
+const SearchBox = ({ cy, showTitle = true, graphName }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { darkMode } = useDarkMode();
+  const isHEWiki = graphName === 'HE_2025';
   const handleSearch = () => {
     if (!cy || !searchTerm.trim()) return;
     const term = searchTerm.toLowerCase();
-    const matched = cy.nodes().filter(n =>
-      n.data('id')?.toLowerCase().includes(term) ||
-      n.data('label')?.toLowerCase().includes(term)
-    );
+    // Match id/label plus HE Wiki content fields (name, keywords, aliases, summary, body).
+    // Cluster nodes lack these fields, so the extra checks are harmless there.
+    const matched = cy.nodes().filter((n) => {
+      const haystack = [
+        n.data('id'),
+        n.data('label'),
+        n.data('name'),
+        n.data('keywords'),
+        n.data('aliases'),
+        n.data('summary'),
+        n.data('body'),
+      ]
+        .map(asText)
+        .join(' ')
+        .toLowerCase();
+      return haystack.includes(term);
+    });
     cy.nodes().removeClass('faded highlighted');
     cy.edges().removeClass('faded');
     if (matched.length > 0) {
@@ -37,7 +57,7 @@ const SearchBox = ({ cy, showTitle = true }) => {
         size="small"
         fullWidth
         margin="dense"
-        placeholder="Call ID or label"
+        placeholder={isHEWiki ? "Name, keyword, alias, text…" : "Call ID or label"}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-button"
