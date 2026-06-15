@@ -25,3 +25,8 @@ npm-debug.log
 # OS
 .DS_Store
 Thumbs.db
+
+# CORDIS source data (large raw/extracted/processed DET tables, ~3.5GB).
+# The committed evidence is the small generated frontend/src/data/cordisThemeEvidence.json;
+# regenerate it from this data with: python CORDIS/build_theme_evidence.py
+CORDIS/data/

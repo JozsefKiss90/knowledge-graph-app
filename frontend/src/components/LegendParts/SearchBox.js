@@ -27,6 +27,7 @@ const SearchBox = ({ cy, showTitle = true, graphName }) => {
         n.data('label'),
         n.data('name'),
         n.data('keywords'),
+        n.data('related_topics'),
         n.data('aliases'),
         n.data('summary'),
         n.data('body'),

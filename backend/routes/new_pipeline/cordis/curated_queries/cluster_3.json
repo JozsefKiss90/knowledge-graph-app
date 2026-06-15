@@ -1,0 +1,53 @@
+{
+  "_about": "Curated CORDIS DET queries for Cluster 3 (Civil Security) call subjects, keyed by call title (= the Call node's `name`). Reviewed/hand-written (phrase-quoted domain terms scoped with contenttype=project) because auto-generated queries mis-tag ambiguous subjects. The tagger fetches each query, aggregates the funded projects' EuroSciVoc research fields, and writes them onto the matching Call nodes. Edit freely; re-run tagging to apply.",
+  "queries": {
+    "Improving capabilities of law enforcement to counter climate-related challenges": "contenttype=project AND \"law enforcement\" AND (\"climate change\" OR \"environmental crime\")",
+    "Open topic on preventing and countering the misuse of emerging technologies for criminal purposes, including issues related to lawful access to data": "contenttype=project AND (\"law enforcement\" OR \"criminal investigation\") AND (\"lawful interception\" OR \"lawful access\" OR \"digital forensics\")",
+    "Missing persons: prevention and investigation": "contenttype=project AND \"missing persons\" AND (\"law enforcement\" OR \"police\" OR \"forensic\")",
+    "Crime prevention approaches, online and off-line, tackling the nexus between addictions and crime": "contenttype=project AND \"crime prevention\" AND (\"addiction\" OR \"substance abuse\" OR \"drugs\")",
+    "Enhancing the security of citizens against terrorism and lone-actor violence in confined spaces such as schools": "contenttype=project AND (\"counter-terrorism\" OR \"terrorism\") AND (\"public spaces\" OR \"soft targets\" OR \"lone actor\")",
+    "Prevention and mitigation of misuse of synthetic biology for bioterrorism purposes": "contenttype=project AND (\"bioterrorism\" OR \"biosecurity\") AND (\"synthetic biology\" OR \"biological threats\")",
+    "Online harms detection and investigation tools using a short development cycle model": "contenttype=project AND (\"online harms\" OR \"illegal content\" OR \"child sexual abuse\" OR \"cybercrime\")",
+    "Community policing in diverse societies in Europe": "contenttype=project AND \"community policing\"",
+    "Open topic on enhanced prevention, detection and deterrence of societal issues related to various forms of crime": "contenttype=project AND (\"crime prevention\" OR \"organised crime\") AND frameworkProgramme=HORIZON",
+    "Open topic on increasing security of citizens against terrorism, including in public spaces": "contenttype=project AND (\"counter-terrorism\" OR \"terrorism\") AND \"public spaces\"",
+    "Effective and evidence-based responses to the increased availability and use of synthetic drugs and stimulants in Europe": "contenttype=project AND (\"synthetic drugs\" OR \"new psychoactive substances\" OR \"drug trafficking\")",
+
+    "Advanced border surveillance and situational awareness": "contenttype=project AND (\"border surveillance\" OR \"border security\")",
+    "Accessible and available travel facilitation": "contenttype=project AND (\"travel facilitation\" OR \"border crossing\" OR \"passenger flow\")",
+    "Reliability of age assessment methods in the context of security and border management": "contenttype=project AND \"age assessment\" AND (\"border\" OR \"migration\")",
+    "Open topic on research and innovation for effective management of EU external borders that promotes fundamental rights and EU values": "contenttype=project AND (\"border management\" OR \"external borders\")",
+    "Trusted, secure, quality future digital travel credentials": "contenttype=project AND (\"digital travel credentials\" OR \"digital identity\") AND (\"border\" OR \"travel\")",
+    "Detection and characterisation of threats or illegal/ smuggled goods in cargo": "contenttype=project AND (\"cargo\" OR \"smuggling\" OR \"contraband\") AND (\"detection\" OR \"screening\")",
+
+    "Tools and processes to support stress tests of critical infrastructure": "contenttype=project AND \"critical infrastructure\" AND (\"stress test\" OR \"resilience\")",
+    "Security challenges of the green transition in urban und peri urban areas": "contenttype=project AND (\"urban security\" OR \"critical infrastructure\") AND (\"green transition\" OR \"energy transition\")",
+    "Targeted innovative capabilities for the resilience of critical entities to natural and human-induced disasters, including hybrid scenarios": "contenttype=project AND \"critical infrastructure\" AND (\"resilience\" OR \"hybrid threats\")",
+    "Enhancing physical protection of critical infrastructures": "contenttype=project AND \"critical infrastructure\" AND \"physical protection\"",
+    "Impact of malicious use of Open-Source Intelligence on critical infrastructure business continuity": "contenttype=project AND (\"open-source intelligence\" OR \"OSINT\") AND (\"critical infrastructure\" OR \"business continuity\")",
+
+    "Designing new ways of risk awareness and enhanced disaster preparedness": "contenttype=project AND (\"disaster preparedness\" OR \"risk awareness\" OR \"disaster risk reduction\")",
+    "Multi-hazard approach and cumulative / cascading impacts": "contenttype=project AND (\"multi-hazard\" OR \"cascading effects\" OR \"cascading impacts\")",
+    "Development of innovative tools, processes, equipment and technologies through responses to disasters and emergencies for search and rescue in hazardous conditions": "contenttype=project AND (\"search and rescue\" OR \"first responders\") AND (\"disaster\" OR \"emergency\")",
+    "Open topic on driving innovation uptake of disaster risk solutions": "contenttype=project AND (\"disaster risk\" OR \"disaster resilience\" OR \"civil protection\")",
+    "Climate security and civil preparedness � new ways to develop pre- and post-crisis climate-change related scenarios for a more resilient Europe": "contenttype=project AND \"climate\" AND (\"civil protection\" OR \"disaster preparedness\" OR \"crisis management\")",
+    "Open Topic on advanced protective gear optimized for CBRN-E (Chemical, Biological, Radiological, Nuclear, Explosives) environments and new generation of smart protective equipment for disaster responders": "contenttype=project AND (\"CBRN\" OR \"chemical biological radiological\") AND (\"protective equipment\" OR \"first responders\")",
+    "Societal resilience, engagement of the younger generations and digital innovation for disaster resilience": "contenttype=project AND (\"societal resilience\" OR \"community resilience\") AND \"disaster\"",
+    "Enhancing decision support system for disaster crises: leveraging emerging technologies for improved civil preparedness and crisis management": "contenttype=project AND (\"crisis management\" OR \"decision support\") AND (\"disaster\" OR \"civil protection\")",
+    "Enhancing preparedness for large-scale cross-border disasters": "contenttype=project AND (\"cross-border\" OR \"large-scale\") AND (\"disaster\" OR \"civil protection\")",
+
+    "Open topic on supporting disruptive technological innovations for civil security": "contenttype=project AND \"civil security\" AND (\"disruptive\" OR \"emerging technologies\")",
+    "Demand-led innovation in security": "contenttype=project AND (\"security research\" OR \"civil security\") AND (\"demand-led\" OR \"practitioners\")",
+    "Public procurement of innovation for security": "contenttype=project AND (\"public procurement\" OR \"pre-commercial procurement\") AND \"security\"",
+    "Development of ecosystem and next-generation capabilities for a secured European Critical Communication System in civil security": "contenttype=project AND (\"critical communication\" OR \"mission-critical communication\" OR \"broadband\") AND \"security\"",
+    "Approaches and tools for security in software and hardware development and assessment": "contenttype=project AND (\"secure software\" OR \"software security\" OR \"hardware security\" OR \"secure coding\")",
+    "Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI)": "contenttype=project AND (\"secure AI\" OR \"AI security\" OR \"adversarial machine learning\" OR \"trustworthy AI\")",
+    "Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations": "contenttype=project AND (\"cryptographic schemes\" OR \"cryptographic implementations\" OR \"applied cryptography\")",
+    "Accelerating uptake through open proposals for advanced SME innovation": "contenttype=project AND \"civil security\" AND (\"SME\" OR \"innovation uptake\")",
+    "Open grounds for future pre-commercial procurement of innovative security technologies": "contenttype=project AND \"pre-commercial procurement\" AND \"security\"",
+    "New primitives and protocols for functionalities of future hybrid classical-hybrid and quantum networks": "contenttype=project AND (\"quantum networks\" OR \"quantum communication\" OR \"quantum key distribution\")",
+    "Artificial Intelligence for Cybersecurity applications": "contenttype=project AND (\"artificial intelligence\" OR \"machine learning\") AND \"cybersecurity\"",
+    "Secure Computing Continuum (IoT, Edge, Cloud, Data spaces)": "contenttype=project AND (\"computing continuum\" OR \"edge computing\" OR \"IoT security\") AND (\"secure\" OR \"security\")",
+    "Secure PQC implementations, Cryptanalysis and Post-quantum Digital Trust": "contenttype=project AND (\"post-quantum\" OR \"post quantum\" OR \"quantum-safe\") AND (\"cryptography\" OR \"cryptographic\")"
+  }
+}
