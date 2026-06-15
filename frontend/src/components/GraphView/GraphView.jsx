@@ -227,6 +227,26 @@ function applyResponsiveViewport(cy, reason = "unknown") {
     cy.on("mouseover", "edge", onAny);
     cy.on("mouseout", "edge", onAny);
 
+    // HE Wiki semantic zoom: when zoomed out, hide non-hub labels to reduce clutter
+    // in the dense network; hub labels (set via data.heHub in palette) stay visible.
+    const isHEWikiView = String(graphName || "").replace("_cose", "") === "HE_2025";
+    const LABEL_ZOOM_CUTOFF = 0.5;
+    let heLabelsHidden = null;
+    const updateHeLabels = () => {
+      if (!isHEWikiView || cy.destroyed()) return;
+      const shouldHide = cy.zoom() < LABEL_ZOOM_CUTOFF;
+      if (shouldHide === heLabelsHidden) return;
+      heLabelsHidden = shouldHide;
+      const nonHubs = cy.nodes("[^heHub]");
+      cy.batch(() => {
+        if (shouldHide) nonHubs.addClass("he-label-hidden");
+        else nonHubs.removeClass("he-label-hidden");
+      });
+    };
+    if (isHEWikiView) {
+      cy.on("zoom", updateHeLabels);
+      updateHeLabels();
+    }
 
     scheduleGlowUpdate();
 
@@ -240,6 +260,7 @@ function applyResponsiveViewport(cy, reason = "unknown") {
         cy.off("mouseout", "node", onAny);
         cy.off("mouseover", "edge", onAny);
         cy.off("mouseout", "edge", onAny);
+        if (isHEWikiView) cy.off("zoom", updateHeLabels);
       } catch {}
 
       window.removeEventListener("resize", onWindowResize);

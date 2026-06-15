@@ -221,6 +221,15 @@ export const stylesheet = [
     style: { "line-style": "dashed" },
   },
 
+  // HE Wiki: synthesis (overview/strategic-map) nodes get a distinct dashed outline.
+  {
+    selector: "node[type = 'synthesis'], node[category = 'synthesis']",
+    style: { "border-style": "dashed", "border-width": 3, "border-opacity": 0.9 },
+  },
+
+  // HE Wiki semantic zoom: non-hub labels are hidden when zoomed out (toggled in GraphView).
+  { selector: "node.he-label-hidden", style: { "text-opacity": 0 } },
+
   {
     selector: ".is-hovered",
     style: {
@@ -235,6 +244,8 @@ export const stylesheet = [
     style: {
       "border-width": 2,
       "border-color": (ele) => resolveNodeColor(ele),
+      // Always reveal labels on interaction, even when semantic-zoom has hidden them.
+      "text-opacity": 1,
     },
   },
 

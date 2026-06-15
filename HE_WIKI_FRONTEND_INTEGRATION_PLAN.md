@@ -8,7 +8,13 @@ This document is therefore a **completion & hardening plan**, not a greenfield b
 
 All file:line anchors below were verified against the working tree on branch `claude_redesign`.
 
-> **Implementation status (Phases 1–4 done).** Phases 1–4 below are implemented and the frontend production build passes. Remaining: Phase 5 (optional). Changes:
+> **Implementation status (Phases 1–5 done).** Phases 1–4 and the net-new parts of Phase 5 are implemented; the frontend production build passes.
+>
+> **Phase 5 outcome:** during implementation, **5.1 (category filter)** and **5.2 (origin filter)** were found to be *redundant* — for `HE_2025` the existing **Node Types** toggle already filters by category (node `type` = category), and the existing **Edge Types** toggle already filters by origin (`RELATES_TO`⟺frontmatter, `WIKI_LINK`⟺body are 1:1). Building them would duplicate existing UI, so they were intentionally skipped. **5.3 (repurpose Compare/Timeline)** conflicts with the shipped "hide" decision (1.1/1.2) and was skipped. **5.4 legibility polish** was implemented (minus the exploratory fcose engine swap):
+> - **5.4a** Semantic-zoom labels — when zoomed out, only hub nodes (top ~⅓ by degree) keep labels to declutter the 437-edge network; interaction (hover/search) always reveals labels — `palette.js` (`heHub` flag), `GraphView.jsx` (zoom listener), `graphStyles.js` (`.he-label-hidden`).
+> - **5.4b** Synthesis (overview) nodes get a distinct dashed outline — `graphStyles.js`.
+>
+> **Phase 1–4 changes:**
 > - **1.1/1.2** Compare & Timeline gated off for `HE_2025` — `SidebarControls.jsx` (buttons hidden), `GraphMainColumn.jsx` (drawer/scrubber/selection gated via `isHEWiki`), `GraphPage.js` (closes Compare on entering the wiki graph), prop threaded through `RightControlsColumn.jsx`.
 > - **2.1** Search now matches `name`/`keywords`/`aliases`/`summary`/`body` — `SearchBox.js`, `LegendToggle.js`.
 > - **2.2** Body `[[wikilinks]]` are clickable, resolved against fetched neighbors (dangling links stay plain text) — `NodeDetail.js`.

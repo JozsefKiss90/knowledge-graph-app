@@ -119,16 +119,25 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
 
   const isHEWiki = graphName === "HE_2025";
 
-  // For HE_2025: compute degree range for proportional node sizing
+  // For HE_2025: compute degree range for proportional node sizing + hub detection
   let minDeg = Infinity;
   let maxDeg = 0;
+  let hubCut = Infinity;
   if (isHEWiki) {
+    const degs = [];
     cy.nodes().forEach((n) => {
       const d = n.degree(false);
+      degs.push(d);
       if (d < minDeg) minDeg = d;
       if (d > maxDeg) maxDeg = d;
     });
     if (minDeg === Infinity) minDeg = 0;
+    // Hubs ≈ top third by degree; their labels persist when zoomed out (semantic zoom).
+    if (degs.length) {
+      const sorted = degs.slice().sort((a, b) => a - b);
+      const idx = Math.min(Math.floor(sorted.length * 0.66), sorted.length - 1);
+      hubCut = sorted[idx];
+    }
   }
 
   const HE_MIN_SIZE = 22;
@@ -146,6 +155,8 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
       const size = HE_MIN_SIZE + ratio * (HE_MAX_SIZE - HE_MIN_SIZE);
       n.data("themeSize", Math.round(size));
       n.data("themeFontSize", HE_FONT);
+      if (deg >= hubCut) n.data("heHub", true);
+      else n.removeData("heHub");
     }
   });
 
