@@ -23,8 +23,11 @@ except Exception:  # importable/testable without a live database
     db = _DummyDB()
 
 from .cordis_parser import parse_extraction
+from .cordis_builder import CordisGraphBuilder
 
 TAG_SOURCE_LABEL = "Research fields of EU-funded projects on this subject (CORDIS, FP7-Horizon Europe)"
+# A2: label for the subject-area evidence link from a Call to its funded CORDIS projects.
+AREA_LINK_LABEL = "Funded projects matching this call's subject (CORDIS, FP7-Horizon Europe)"
 
 
 def aggregate_fields(projects: List[Dict[str, Any]], top_n: int = 6) -> List[str]:
@@ -53,7 +56,8 @@ def _calls_in_scope(source: str) -> List[Dict[str, str]]:
     # The subject is the call's topic title where present, else its name (clusters populate `name`
     # from the call title, e.g. CL3 has no `topic_title`). Both are stored on the Call node.
     rows = db.query(
-        "MATCH (c:Call {source:$s}) WITH c, coalesce(c.topic_title, c.name) AS subject "
+        "MATCH (c:Call {source:$s}) "
+        "WITH c, CASE WHEN c.topic_title IS NULL OR c.topic_title = '' THEN c.name ELSE c.topic_title END AS subject "
         "WHERE subject IS NOT NULL AND subject <> '' "
         "RETURN c.id AS id, subject AS subject",
         {"s": source},
@@ -80,10 +84,15 @@ def tag_calls(
     local_path: Optional[str] = None,
     preview: bool = False,
     query_map: Optional[Dict[str, str]] = None,
+    ingest_projects: bool = True,
 ) -> Dict[str, Any]:
     """Tag the calls in ``source`` (a cluster source tag) — or an explicit ``calls`` list — grouping by
     distinct subject so each subject is fetched once. When ``query_map`` is supplied, each subject is
-    fetched with its **curated** query and subjects without one are skipped (no unreliable auto-query)."""
+    fetched with its **curated** query and subjects without one are skipped (no unreliable auto-query).
+
+    When ``ingest_projects`` (default True, idea A2), the same per-subject fetch ALSO ingests the full
+    projects and links every call on that subject to them via (:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject),
+    so one fetch powers both the A1 tags and the A2 funded-projects panel."""
     if calls is None:
         if not source:
             raise ValueError("tag_calls needs either `source` (cluster tag) or an explicit `calls` list.")
@@ -105,6 +114,8 @@ def tag_calls(
     calls_tagged = 0
     empty_subjects: List[str] = []
     failed_subjects: List[Dict[str, str]] = []
+    ingest_totals = {"projects": 0, "organisations": 0, "fields": 0, "participations": 0}
+    area_links_total = 0
 
     for subject, call_ids in by_subject.items():
         # Pick the query: curated where available; raw subject only when no curated map is supplied.
@@ -122,6 +133,29 @@ def tag_calls(
         except Exception as e:  # noqa: BLE001 - per-subject resilience
             failed_subjects.append({"subject": subject, "error": str(e)[:160]})
             continue
+
+        # A2: ingest the full projects (idempotent MERGE) so they're queryable, and link every call on
+        # this subject to them by subject AREA. Works for 2026 calls (exact call-code match is empty).
+        if ingest_projects:
+            ing = CordisGraphBuilder(preview=preview).ingest(projects)
+            for k in ingest_totals:
+                ingest_totals[k] += ing.get(k, 0)
+            if not preview:
+                pids = [p["id"] for p in projects if p.get("id")]
+                for cid in call_ids:
+                    res = db.query(
+                        "MATCH (c:Call {id:$cid}) "
+                        "SET c.cordis_area_query=$subj, c.cordis_area_project_count=$n, "
+                        "    c.cordis_area_link_source=$src "
+                        "WITH c UNWIND $pids AS pid "
+                        "MATCH (pr:CordisProject {id:pid, source:'cordis'}) "
+                        "MERGE (c)-[r:HAS_FUNDED_PROJECT]->(pr) SET r.linkType='subject' "
+                        "RETURN count(r) AS n",
+                        {"cid": cid, "subj": subject, "n": len(projects),
+                         "pids": pids, "src": AREA_LINK_LABEL},
+                    )
+                    area_links_total += (res[0]["n"] if res else 0)
+
         fields = aggregate_fields(projects, top_n=top_n)
         subjects_done += 1
         if not fields:
@@ -144,6 +178,8 @@ def tag_calls(
         "empty_subjects": len(empty_subjects),
         "failed_subjects": len(failed_subjects),
         "failed_detail": failed_subjects[:10],
+        "ingested": ingest_totals,
+        "area_links": area_links_total,
         "preview": preview,
     }
 
@@ -156,3 +192,16 @@ def clear_tags(source: str) -> Dict[str, Any]:
         {"s": source},
     )
     return {"status": "cleared", "scope": source}
+
+
+def clear_area_links(source: Optional[str] = None) -> Dict[str, Any]:
+    """A2: remove the subject-area evidence links + area provenance, leaving ingested projects/A1 tags."""
+    db.query("MATCH (:Call)-[r:HAS_FUNDED_PROJECT]->() DELETE r")
+    if source:
+        db.query("MATCH (c:Call {source:$s}) "
+                 "REMOVE c.cordis_area_query, c.cordis_area_project_count, c.cordis_area_link_source",
+                 {"s": source})
+    else:
+        db.query("MATCH (c:Call) "
+                 "REMOVE c.cordis_area_query, c.cordis_area_project_count, c.cordis_area_link_source")
+    return {"status": "cleared", "scope": source or "all"}

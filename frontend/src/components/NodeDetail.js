@@ -18,6 +18,7 @@ import { useDarkMode } from "./context/DarkModeContext";
 import "../styles/nodedetails.scss";
 import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
+import CordisEvidencePanel from "./GraphPage/CordisEvidence/CordisEvidencePanel";
 
 // --- lightweight markdown-to-JSX renderer for wiki body text ---------------
 
@@ -1261,6 +1262,10 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                     </Typography>
                   </Box>
                 </Box>
+              )}
+
+              {viewModel.kind === "call" && (
+                <CordisEvidencePanel callId={nodeData.id || id} />
               )}
 
               {textFieldConfig.map(({ key, label }) => (

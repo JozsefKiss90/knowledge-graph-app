@@ -3,7 +3,29 @@
 > Second consumer of the data backbone (`CORDIS_PLANS/00-data-backbone.md`), built on top of A1
 > (`CORDIS_PLANS/01-A1-topic-tags-on-calls.md`).
 > Process: this plan is the review checkpoint required before coding (ideas doc §"mandatory process").
-> Status: **PLAN — awaiting review.** Branch `cordis`.
+> Status: **IMPLEMENTED & VERIFIED (offline) — ready for the live ingest/tag run.** Branch `cordis`.
+> Decisions applied: card on the detail page only · tied to the call's curated subject · gated behind
+> the (extended) `/tag-calls` ingest job · FP-spread bars sized by project count.
+> **Post-implementation tweaks (user feedback):** (1) mount passes `callId={nodeData.id || id}` — the
+> inline/embedded detail path has a sparse `nodeData` whose `.id` can be undefined, which made the panel
+> render `null` on in-graph clicks; (2) decision-3 changed from "empty state" to **hide-when-empty** — the
+> card renders only when the call has real CORDIS evidence (`projectCount > 0`), so there's no empty card
+> on every call.
+>
+> **Built:** (backend) `cordis_tagger.tag_calls` now also ingests the projects and creates
+> `(:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject)` per subject (`ingest_projects=True`); new
+> `GET /cordis/call-evidence`, `DELETE /cordis/area-links`; `clear_area_links()`. (frontend)
+> `GraphPage/CordisEvidence/{useCordisEvidence.js,CordisEvidencePanel.jsx}`, `_cordis-evidence.scss`
+> (+ main.scss import), mounted in `NodeDetail.js` after the TRL card, gated on `viewModel.kind==="call"`.
+>
+> **Verified offline (real extraction):** aggregation shape matches known truth — 278 projects,
+> €1,467,874,630 total EU contribution, Horizon-Europe-only spread, top orgs (Fraunhofer/CEA/CERTH),
+> top countries (ES/IT/DE); `tag_calls(preview, ingest_projects=True)` reports the projects/orgs ingested;
+> all 9 `/cordis` routes register; frontend build passes.
+>
+> **Remaining (user — needs Neo4j + key):** `POST /cordis/tag-calls {"source":"cluster_3"}` now also
+> ingests projects + links them; then open a CL3 call → the panel shows the funded-project landscape.
+> `DELETE /cordis/area-links?source=cluster_3` reverts A2 without touching A1 tags or ingested projects.
 
 ---
 

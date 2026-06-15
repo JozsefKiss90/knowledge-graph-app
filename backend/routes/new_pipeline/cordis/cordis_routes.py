@@ -10,7 +10,7 @@ Endpoints:
 import os
 import tempfile
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel
 
 from database import db
@@ -34,6 +34,7 @@ class TagCallsPayload(BaseModel):
     source: str          # cluster source tag whose Call nodes to tag, e.g. "cluster_3"
     top_n: int = 6
     preview: bool = False
+    ingest_projects: bool = True   # A2: also ingest projects + create subject-area evidence links
 
 
 @router.post("/fetch")
@@ -73,27 +74,44 @@ def ingest_local(payload: IngestLocalPayload):
 
 
 @router.post("/tag-calls")
-def tag_calls_endpoint(payload: TagCallsPayload):
-    """Tag the Call nodes of a cluster with research-field tags from CORDIS (idea A1).
+def tag_calls_endpoint(payload: TagCallsPayload, background_tasks: BackgroundTasks):
+    """Start the CORDIS tag/ingest job for a cluster **in the background** and return immediately.
 
-    Groups calls by distinct ``topic_title``, fetches each subject from the CORDIS API once, and writes
-    the top research fields onto ``related_topics``/``keywords``. Needs CORDIS_API_KEY + Neo4j.
+    Each distinct call subject is a CORDIS extraction (minutes each), so running the whole cluster
+    inline would make this HTTP request hang and time out. So this endpoint validates the API key,
+    kicks off the job in the background, and returns right away. Poll GET /cordis/stats and
+    GET /cordis/call-evidence for progress. Needs CORDIS_API_KEY + Neo4j.
     """
     try:
-        from .cordis_client import CordisError
+        from .cordis_client import CordisClient, CordisError
         from .cordis_tagger import tag_calls, load_curated_queries
         query_map = load_curated_queries(payload.source)
         try:
-            stats_out = tag_calls(source=payload.source, top_n=payload.top_n, mode="live",
-                                  preview=payload.preview, query_map=query_map)
+            CordisClient()  # fail fast with 503 if the key is missing
         except CordisError as e:
             raise HTTPException(status_code=503, detail=str(e))
-        return {"status": "success", "source": payload.source,
-                "curated_queries": bool(query_map), **stats_out}
+
+        def _run():
+            try:
+                tag_calls(source=payload.source, top_n=payload.top_n, mode="live",
+                          preview=payload.preview, query_map=query_map,
+                          ingest_projects=payload.ingest_projects)
+            except Exception:
+                pass  # per-subject errors are already handled inside tag_calls
+
+        background_tasks.add_task(_run)
+        return {
+            "status": "started",
+            "source": payload.source,
+            "curated_subjects": len(query_map or {}),
+            "message": ("Job started in the background — this endpoint returns immediately. Each subject "
+                        "is a CORDIS extraction (a few minutes), so the full cluster takes a while. "
+                        "Poll GET /cordis/stats for progress; tagged calls appear via GET /cordis/call-evidence."),
+        }
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"CORDIS tag-calls failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"CORDIS tag-calls failed to start: {str(e)}")
 
 
 @router.delete("/tags")
@@ -136,6 +154,67 @@ def area(call_code: str):
         return {"call_code": call_code, "count": len(rows), "projects": rows}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS area query failed: {str(e)}")
+
+
+@router.get("/call-evidence")
+def call_evidence(call_id: str, top_n: int = 5):
+    """A2 funded-projects panel: aggregate the CORDIS projects linked to a call's subject AREA
+    (HAS_FUNDED_PROJECT), independent of exact call-code matching. Counts and euros are kept separate."""
+    try:
+        s = SOURCE_TAG
+        summary = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "RETURN count(DISTINCT pr) AS projectCount, "
+            "       sum(pr.ecContribution) AS totalEcContribution, "
+            "       head(collect(c.cordis_area_query)) AS subject",
+            {"cid": call_id, "s": s},
+        )
+        fp = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "WITH coalesce(pr.frameworkProgramme,'Unknown') AS fp, "
+            "     count(DISTINCT pr) AS n, sum(pr.ecContribution) AS funding "
+            "RETURN fp, n, funding ORDER BY n DESC",
+            {"cid": call_id, "s": s},
+        )
+        top_orgs = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "MATCH (og:CordisOrganisation)-[:PARTICIPATED_IN]->(pr) "
+            "WITH og, count(DISTINCT pr) AS n "
+            "RETURN og.name AS name, og.country AS country, n "
+            "ORDER BY n DESC LIMIT $k",
+            {"cid": call_id, "s": s, "k": top_n},
+        )
+        top_countries = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "MATCH (og:CordisOrganisation)-[:PARTICIPATED_IN]->(pr) "
+            "WHERE og.country IS NOT NULL AND og.country <> '' "
+            "WITH og.country AS country, count(DISTINCT og) AS orgs "
+            "RETURN country, orgs ORDER BY orgs DESC LIMIT $k",
+            {"cid": call_id, "s": s, "k": top_n},
+        )
+        head = summary[0] if summary else {}
+        return {
+            "call_id": call_id,
+            "subject": head.get("subject"),
+            "projectCount": head.get("projectCount", 0) or 0,
+            "totalEcContribution": head.get("totalEcContribution", 0) or 0,
+            "frameworkBreakdown": [r for r in fp if r.get("n")],
+            "topOrganisations": top_orgs,
+            "topCountries": top_countries,
+            "provenance": "Funded projects matching this call's subject (CORDIS, FP7-Horizon Europe)",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS call-evidence failed: {str(e)}")
+
+
+@router.delete("/area-links")
+def delete_area_links(source: str = None):
+    """A2: remove subject-area evidence links (HAS_FUNDED_PROJECT) + area provenance; keep projects/tags."""
+    try:
+        from .cordis_tagger import clear_area_links
+        return clear_area_links(source)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS area-links delete failed: {str(e)}")
 
 
 @router.delete("/all")

@@ -1,0 +1,88 @@
+/* A2 — CORDIS funded-projects evidence panel (NodeDetail call view).
+   Reuses .nd-card and .dash-funding__* (dashboard bars); only the cordis-ev__* extras live here. */
+
+.cordis-ev {
+  .cordis-ev__hint {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--foreground-muted);
+    margin-bottom: 12px;
+  }
+
+  .cordis-ev__empty {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--foreground-muted);
+  }
+
+  .cordis-ev__section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--foreground-muted);
+    margin: 16px 0 8px;
+  }
+
+  .cordis-ev__sub {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--foreground-muted);
+  }
+
+  .cordis-ev__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cordis-ev__list-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+
+    &:last-child { border-bottom: none; }
+  }
+
+  .cordis-ev__list-name {
+    font-size: 12.5px;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .cordis-ev__list-count {
+    flex: 0 0 auto;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    white-space: nowrap;
+  }
+
+  .cordis-ev__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .cordis-ev__chip {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--muted);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+  }
+
+  .cordis-ev__prov {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10.5px;
+    line-height: 1.45;
+    color: var(--foreground-muted);
+  }
+}

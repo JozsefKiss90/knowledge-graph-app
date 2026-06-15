@@ -116,6 +116,21 @@ class CordisClient:
         except CordisError:
             return {}
 
+    def list_extractions(self):
+        """All stored server-side extractions for this profile (each has a taskID)."""
+        payload = self._request("GET", "listExtractions", {})
+        return payload.get("result", []) or []
+
+    def delete_all_extractions(self) -> int:
+        """Delete every stored extraction to free the profile cap. Returns how many were deleted."""
+        deleted = 0
+        for e in self.list_extractions():
+            tid = e.get("taskID") or e.get("taskId")
+            if tid:
+                self.delete_extraction(str(tid))
+                deleted += 1
+        return deleted
+
     def poll_until_done(self, task_id: str, timeout_s: int = 1800, interval_s: int = 10) -> Dict[str, Any]:
         deadline = time.time() + timeout_s
         while time.time() < deadline:
