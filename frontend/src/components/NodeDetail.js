@@ -19,6 +19,7 @@ import "../styles/nodedetails.scss";
 import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
 import CordisEvidencePanel from "./GraphPage/CordisEvidence/CordisEvidencePanel";
+import CordisTrendPanel from "./GraphPage/CordisEvidence/CordisTrendPanel";
 
 // --- lightweight markdown-to-JSX renderer for wiki body text ---------------
 
@@ -1265,7 +1266,10 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
               )}
 
               {viewModel.kind === "call" && (
-                <CordisEvidencePanel callId={nodeData.id || id} />
+                <>
+                  <CordisEvidencePanel callId={nodeData.id || id} />
+                  <CordisTrendPanel callId={nodeData.id || id} />
+                </>
               )}
 
               {textFieldConfig.map(({ key, label }) => (

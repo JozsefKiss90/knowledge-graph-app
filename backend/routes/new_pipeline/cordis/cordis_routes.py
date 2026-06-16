@@ -207,6 +207,102 @@ def call_evidence(call_id: str, top_n: int = 5):
         raise HTTPException(status_code=500, detail=f"CORDIS call-evidence failed: {str(e)}")
 
 
+# Chronological order across the FULL programme history (real CORDIS data spans FP2..HORIZON plus
+# non-FP codes like CIP/COST/Euratom); unknown/non-FP codes sort last, then by first year.
+_ERA_ORDER = {"FP1": 1, "FP2": 2, "FP3": 3, "FP4": 4, "FP5": 5, "FP6": 6,
+              "FP7": 7, "H2020": 8, "HORIZON": 9}
+
+TREND_PROVENANCE = "Funded activity on this call's subject, by project start year (CORDIS, FP7-Horizon Europe)"
+
+
+def _aggregate_call_trend(rows, project_count, total_ec, subject, call_id):
+    """Pivot grouped (year, framework-programme) rows into the A6 trend response. Pure — no DB — so it
+    is unit-testable offline against real parsed data. ``rows`` are dicts ``{yr, fp, n, funding}`` exactly
+    as the Cypher returns them (one per year x framework-programme). Counts and euros stay separate."""
+    years: dict = {}
+    eras: dict = {}
+    dated = 0
+    for r in rows:
+        yr, fp = r["yr"], r["fp"]
+        n = r["n"] or 0
+        funding = r["funding"] or 0
+        dated += n
+        yb = years.setdefault(yr, {"year": yr, "count": 0, "funding": 0.0, "byFp": []})
+        yb["count"] += n
+        yb["funding"] += funding
+        yb["byFp"].append({"fp": fp, "n": n, "funding": funding})
+        er = eras.setdefault(fp, {"fp": fp, "count": 0, "funding": 0.0,
+                                  "firstYear": yr, "lastYear": yr})
+        er["count"] += n
+        er["funding"] += funding
+        er["firstYear"] = min(er["firstYear"], yr)
+        er["lastYear"] = max(er["lastYear"], yr)
+
+    year_buckets = [years[y] for y in sorted(years)]
+    era_list = sorted(eras.values(), key=lambda e: (_ERA_ORDER.get(e["fp"], 99), e["firstYear"]))
+    peak = max(year_buckets, key=lambda b: b["count"], default=None)
+
+    return {
+        "call_id": call_id,
+        "subject": subject,
+        "projectCount": project_count,
+        "totalEcContribution": total_ec,
+        "datedProjectCount": dated,
+        "undatedCount": max(project_count - dated, 0),
+        "firstYear": year_buckets[0]["year"] if year_buckets else None,
+        "lastYear": year_buckets[-1]["year"] if year_buckets else None,
+        "eraCount": len(era_list),
+        "peakYear": peak["year"] if peak else None,
+        "peakCount": peak["count"] if peak else 0,
+        "yearBuckets": year_buckets,
+        "eras": era_list,
+        "provenance": TREND_PROVENANCE,
+    }
+
+
+@router.get("/call-trend")
+def call_trend(call_id: str):
+    """A6 funding-history trend: how the CORDIS projects linked to a call's subject AREA
+    (HAS_FUNDED_PROJECT) are distributed across project START YEAR and FRAMEWORK-PROGRAMME era.
+
+    Counts and euros are reported as separate measures; projects with no parseable 4-digit start year
+    are reported as ``undatedCount`` (never silently dropped from the headline). The endpoint returns
+    every raw ``frameworkProgramme`` code as-is and orders eras chronologically — presentation choices
+    (labels, colours, bucketing of minor programmes) are the frontend's, so the data stays honest.
+    """
+    try:
+        s = SOURCE_TAG
+        # Headline totals over ALL linked projects (matches A2 /call-evidence so the two cards agree).
+        head = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "RETURN count(DISTINCT pr) AS projectCount, sum(pr.ecContribution) AS totalEcContribution, "
+            "       head(collect(c.cordis_area_query)) AS subject",
+            {"cid": call_id, "s": s},
+        )
+        # Year x era buckets — only projects whose startDate yields a 4-digit year (toInteger -> null
+        # for malformed dates, filtered out and counted as undated via the headline reconciliation).
+        rows = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "WHERE pr.startDate IS NOT NULL AND pr.startDate <> '' "
+            "WITH pr, toInteger(left(pr.startDate,4)) AS yr, "
+            "     coalesce(pr.frameworkProgramme,'Unknown') AS fp, pr.ecContribution AS ec "
+            "WHERE yr IS NOT NULL "
+            "RETURN yr, fp, count(DISTINCT pr) AS n, sum(ec) AS funding ORDER BY yr, fp",
+            {"cid": call_id, "s": s},
+        )
+
+        h = head[0] if head else {}
+        return _aggregate_call_trend(
+            rows,
+            project_count=h.get("projectCount", 0) or 0,
+            total_ec=h.get("totalEcContribution", 0) or 0,
+            subject=h.get("subject"),
+            call_id=call_id,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS call-trend failed: {str(e)}")
+
+
 @router.delete("/area-links")
 def delete_area_links(source: str = None):
     """A2: remove subject-area evidence links (HAS_FUNDED_PROJECT) + area provenance; keep projects/tags."""
