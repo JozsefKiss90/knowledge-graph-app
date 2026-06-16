@@ -182,6 +182,34 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
         "overlay-color": "#3d8fff",
       },
     },
+    // A3: assistant "act on the graph" highlight. Dedicated classes (NOT the
+    // hover-managed highlighted/faded, which setupEvents wipes on mouseover) so
+    // the highlight persists across layers until cleared. Violet = the assistant
+    // accent, distinct from compare's blue and the amber Call fill.
+    {
+      selector: "node.assistant-match",
+      style: {
+        "border-width": 4,
+        "border-color": "#8b5cf6",
+        "border-opacity": 1,
+        "overlay-color": "#8b5cf6",
+        "overlay-opacity": 0.12,
+        "z-index": 9999,
+        "text-opacity": 1,
+      },
+    },
+    { selector: "node.assistant-dim", style: { opacity: 0.22 } },
+    {
+      selector: "node.assistant-focus",
+      style: {
+        "border-width": 6,
+        "border-color": "#a78bfa",
+        "border-opacity": 1,
+        "overlay-color": "#8b5cf6",
+        "overlay-opacity": 0.22,
+        "z-index": 10000,
+      },
+    },
   ];
 
   if (isHEWiki) {

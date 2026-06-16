@@ -234,16 +234,34 @@
   font-size: 0.75rem;
   font-weight: 500;
   white-space: nowrap;
+  font-family: inherit;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 }
 .chatbot--dark .chatbot-chip {
   background: rgba(40, 65, 120, 0.55);
   color: #b8d0f5;
   border: 1px solid rgba(80, 130, 220, 0.25);
+  &:hover { border-color: rgba(167, 139, 250, 0.6); }
 }
 .chatbot--light .chatbot-chip {
   background: #e8edf5;
   color: #3a3a5c;
   border: 1px solid #ccc;
+  &:hover { border-color: #a78bfa; }
+}
+
+/* Active (selected) filter chip — violet, matching the graph highlight accent */
+.chatbot--dark .chatbot-chip--active {
+  background: rgba(139, 92, 246, 0.30);
+  color: #e9defb;
+  border-color: rgba(167, 139, 250, 0.85);
+}
+.chatbot--light .chatbot-chip--active {
+  background: rgba(139, 92, 246, 0.16);
+  color: #4a2e8f;
+  border-color: #8b5cf6;
 }
 
 .chatbot-chip__dot {
@@ -270,6 +288,37 @@
 }
 .chatbot--light .chatbot-panel__match-count {
   color: #666;
+}
+
+/* ── Match row + clear highlight (A3) ──────────────────────────── */
+.chatbot-panel__match-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  .chatbot-panel__match-count {
+    margin-bottom: 0;
+  }
+}
+
+.chatbot-panel__clear {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.chatbot--dark .chatbot-panel__clear {
+  color: rgba(160, 190, 240, 0.7);
+  &:hover { color: #a78bfa; }
+}
+.chatbot--light .chatbot-panel__clear {
+  color: #777;
+  &:hover { color: #6c63ff; }
 }
 
 /* ── Call cards list ───────────────────────────────────────────── */
@@ -311,6 +360,27 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2px;
+}
+
+/* A3: details + bookmark grouped on the right of the card header */
+.chatbot-call-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.chatbot-call-card__details {
+  padding: 2px;
+  margin: -2px 0;
+  transition: color 0.12s ease;
+}
+.chatbot--dark .chatbot-call-card__details {
+  color: rgba(140, 185, 255, 0.45);
+  &:hover { color: rgba(180, 160, 255, 0.95); }
+}
+.chatbot--light .chatbot-call-card__details {
+  color: #aaa;
+  &:hover { color: #6c63ff; }
 }
 
 .chatbot-call-card__bookmark {
@@ -371,6 +441,28 @@
 .chatbot-call-card__budget {
   /* already inherits color from __meta */
 }
+
+/* A3: "Show in graph" hint, right-aligned in the card meta row */
+.chatbot-call-card__locate {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
+  font-weight: 600;
+
+  .MuiSvgIcon-root {
+    font-size: 0.9rem;
+  }
+}
+.chatbot--dark .chatbot-call-card__locate { color: #a78bfa; }
+.chatbot--light .chatbot-call-card__locate { color: #7c5cff; }
+
+.chatbot-call-card__locate--off {
+  font-weight: 500;
+  opacity: 0.65;
+}
+.chatbot--dark .chatbot-call-card__locate--off { color: rgba(140, 175, 230, 0.55); }
+.chatbot--light .chatbot-call-card__locate--off { color: #aaa; }
 
 /* ── AI answer section ─────────────────────────────────────────── */
 .chatbot-panel__answer {

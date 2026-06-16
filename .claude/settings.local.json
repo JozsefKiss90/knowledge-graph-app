@@ -58,7 +58,18 @@
       "Bash(Select-Object FullName)",
       "Bash(Sort-Object FullName)",
       "Bash(Select-Object Name)",
-      "Bash(xargs -I {} basename {})"
+      "Bash(xargs -I {} basename {})",
+      "Bash(cat)",
+      "Bash(python _diag_cordis.py)",
+      "Bash(NEO4J_URI=\"bolt://localhost:7687\" python _diag_cordis.py)",
+      "Bash(NEO4J_URI=bolt://localhost:7687 python -c ' *)",
+      "Read(//c/Code/knowledge-graph-app/**)",
+      "Bash(curl -s \"http://localhost:8000/cluster3/node/HORIZON-CL3-2026-01-FCT-01\" -o /tmp/node.json -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(python -c \"import json;d=json.load\\(open\\('/tmp/node.json'\\)\\);print\\('related_topics:',d.get\\('related_topics'\\)\\);print\\('type:',d.get\\('type'\\)\\)\")",
+      "Read(//tmp/**)",
+      "Bash(curl -s \"http://localhost:8000/cordis/call-evidence?call_id=HORIZON-CL3-2026-01-FCT-01\" -w \"\\\\nHTTP %{http_code}\\\\n\")",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell(docker exec kg-dev-frontend-1 *)"
     ]
   }
 }

@@ -14,6 +14,8 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CloseIcon from "@mui/icons-material/Close";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import CenterFocusStrongIcon from "@mui/icons-material/CenterFocusStrong";
 import { useDarkMode } from "../context/DarkModeContext";
 
 /* ── Lightweight markdown-to-JSX renderer (no external deps) ──── */
@@ -143,13 +145,42 @@ function MarkdownContent({ text }) {
   return <>{elements}</>;
 }
 
-const ChatBot = ({ onOpenDetail }) => {
+/* ── Filter-chip helpers (pure; module-level so they aren't effect deps) ──── */
+const chipKey = (f) => `${f.type}::${f.label}`;
+
+// Does a result card satisfy a given "FILTER RESULTS" chip?
+function chipMatchesCall(chip, call) {
+  if (chip.type === "programme") {
+    // chip label is the call_title (or its call_identifier fallback)
+    return (call.call_title || "") === chip.label || (call.cluster || "") === chip.label;
+  }
+  if (chip.type === "action_type") {
+    return (call.action_type || "") === chip.label;
+  }
+  if (chip.type === "status") {
+    const todayISO = new Date().toISOString().slice(0, 10);
+    const isOpen = (call.deadline || "") >= todayISO;
+    const label = chip.label.toLowerCase();
+    if (label.startsWith("open")) return isOpen;
+    if (label.startsWith("closed")) return !isOpen;
+  }
+  return true;
+}
+
+const ChatBot = ({
+  onOpenDetail,
+  onAssistantResults,
+  onLocateCall,
+  onClearAssistant,
+  locateCall,
+}) => {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [answer, setAnswer] = useState("");
   const [matchedCalls, setMatchedCalls] = useState([]);
   const [filters, setFilters] = useState([]);
+  const [activeChips, setActiveChips] = useState(() => new Set()); // `${type}::${label}`
   const [totalMatches, setTotalMatches] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
   const [bookmarkedIds, setBookmarkedIds] = useState(() => {
@@ -172,6 +203,37 @@ const ChatBot = ({ onOpenDetail }) => {
     }
   }, [open]);
 
+  // ── "FILTER RESULTS" chips: filter the result set + graph highlight ───────
+  // Apply active chips: chips of the same type are OR'd, different types AND'd.
+  const displayedCalls = useMemo(() => {
+    if (!activeChips.size) return matchedCalls;
+    const active = filters.filter((f) => activeChips.has(chipKey(f)));
+    if (!active.length) return matchedCalls;
+    const byType = {};
+    active.forEach((f) => {
+      (byType[f.type] = byType[f.type] || []).push(f);
+    });
+    return matchedCalls.filter((call) =>
+      Object.values(byType).every((group) => group.some((chip) => chipMatchesCall(chip, call)))
+    );
+  }, [matchedCalls, filters, activeChips]);
+
+  // Keep the graph highlight in sync with whatever the chips currently show.
+  useEffect(() => {
+    if (!hasSearched) return;
+    onAssistantResults?.(displayedCalls);
+  }, [displayedCalls, hasSearched, onAssistantResults]);
+
+  const toggleChip = (f) => {
+    const key = chipKey(f);
+    setActiveChips((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
   const handleSearch = async () => {
     const trimmed = input.trim();
     if (!trimmed || loading) return;
@@ -181,6 +243,7 @@ const ChatBot = ({ onOpenDetail }) => {
     setAnswer("");
     setMatchedCalls([]);
     setFilters([]);
+    setActiveChips(new Set()); // a new search clears any chip filters
     setTotalMatches(0);
 
     try {
@@ -191,10 +254,13 @@ const ChatBot = ({ onOpenDetail }) => {
       });
 
       const data = await res.json();
+      const calls = data?.matched_calls ?? [];
       setAnswer(data?.answer ?? "");
-      setMatchedCalls(data?.matched_calls ?? []);
+      setMatchedCalls(calls);
       setFilters(data?.filters ?? []);
       setTotalMatches(data?.total_matches ?? 0);
+      // The graph highlight is driven by `displayedCalls` via an effect, so it
+      // stays in sync as chip filters are toggled.
     } catch {
       setAnswer("Error contacting the AI search service.");
       setMatchedCalls([]);
@@ -233,6 +299,17 @@ const ChatBot = ({ onOpenDetail }) => {
     }
   };
 
+  // A3: primary card action — drive the graph to the call (highlight + zoom).
+  // Falls back to opening the detail panel when the call isn't in the loaded graph.
+  const handleLocate = (call) => {
+    const located = call?.identifier && onLocateCall ? onLocateCall(call.identifier) : false;
+    if (located) {
+      setOpen(false);
+    } else {
+      handleCardClick(call);
+    }
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -257,8 +334,10 @@ const ChatBot = ({ onOpenDetail }) => {
     setAnswer("");
     setMatchedCalls([]);
     setFilters([]);
+    setActiveChips(new Set());
     setTotalMatches(0);
     setHasSearched(false);
+    onClearAssistant?.();
   };
 
   const themeClass = darkMode ? "chatbot--dark" : "chatbot--light";
@@ -338,58 +417,97 @@ const ChatBot = ({ onOpenDetail }) => {
 
         {!loading && hasSearched && (
           <div className="chatbot-panel__results">
-            {/* Filter chips */}
+            {/* Filter chips — click to narrow the results + graph highlight */}
             {filters.length > 0 && (
               <div className="chatbot-panel__filters">
                 <Typography variant="caption" className="chatbot-panel__filters-label">
-                  FILTER GRAPH TO
+                  FILTER RESULTS
                 </Typography>
                 <div className="chatbot-panel__chips">
-                  {filters.map((f, i) => (
-                    <span key={i} className="chatbot-chip">
-                      <span className="chatbot-chip__dot" data-type={f.type} />
-                      {f.label}
-                    </span>
-                  ))}
+                  {filters.map((f, i) => {
+                    const active = activeChips.has(chipKey(f));
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        className={`chatbot-chip${active ? " chatbot-chip--active" : ""}`}
+                        aria-pressed={active}
+                        onClick={() => toggleChip(f)}
+                      >
+                        <span className="chatbot-chip__dot" data-type={f.type} />
+                        {f.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
-            {/* Matching calls count */}
-            <Typography variant="caption" className="chatbot-panel__match-count">
-              MATCHING CALLS : {totalMatches}
-            </Typography>
+            {/* Matching calls count + clear-highlight */}
+            <div className="chatbot-panel__match-row">
+              <Typography variant="caption" className="chatbot-panel__match-count">
+                MATCHING CALLS :{" "}
+                {activeChips.size > 0 && displayedCalls.length !== totalMatches
+                  ? `${displayedCalls.length} of ${totalMatches}`
+                  : totalMatches}
+              </Typography>
+              {matchedCalls.length > 0 && (
+                <button
+                  type="button"
+                  className="chatbot-panel__clear"
+                  onClick={() => onClearAssistant?.()}
+                >
+                  Clear highlight
+                </button>
+              )}
+            </div>
 
             {/* Call cards */}
             <div className="chatbot-panel__cards">
-              {matchedCalls.map((call, i) => (
+              {displayedCalls.map((call, i) => {
+                const onGraph = !!(locateCall && call.identifier && locateCall(call.identifier));
+                return (
                 <div
                   key={call.identifier || i}
                   className="chatbot-call-card"
-                  onClick={() => handleCardClick(call)}
+                  onClick={() => handleLocate(call)}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && handleCardClick(call)}
+                  onKeyDown={(e) => e.key === "Enter" && handleLocate(call)}
                 >
                   <div className="chatbot-call-card__header">
                     <Typography variant="caption" className="chatbot-call-card__id">
                       {call.identifier}
                     </Typography>
-                    <Tooltip
-                      title={bookmarkedIds.has(call.identifier) ? "Remove bookmark" : "Bookmark call"}
-                      placement="top"
-                      arrow
-                    >
-                      <IconButton
-                        size="small"
-                        className="chatbot-call-card__bookmark"
-                        onClick={(e) => toggleBookmark(call, e)}
+                    <div className="chatbot-call-card__actions">
+                      <Tooltip title="Open details" placement="top" arrow>
+                        <IconButton
+                          size="small"
+                          className="chatbot-call-card__details"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCardClick(call);
+                          }}
+                        >
+                          <ArticleOutlinedIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
+                        title={bookmarkedIds.has(call.identifier) ? "Remove bookmark" : "Bookmark call"}
+                        placement="top"
+                        arrow
                       >
-                        {bookmarkedIds.has(call.identifier)
-                          ? <BookmarkIcon fontSize="small" />
-                          : <BookmarkBorderIcon fontSize="small" />}
-                      </IconButton>
-                    </Tooltip>
+                        <IconButton
+                          size="small"
+                          className="chatbot-call-card__bookmark"
+                          onClick={(e) => toggleBookmark(call, e)}
+                        >
+                          {bookmarkedIds.has(call.identifier)
+                            ? <BookmarkIcon fontSize="small" />
+                            : <BookmarkBorderIcon fontSize="small" />}
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                   </div>
                   <Typography variant="body2" className="chatbot-call-card__title">
                     {call.title}
@@ -401,9 +519,20 @@ const ChatBot = ({ onOpenDetail }) => {
                         {call.budget_label}
                       </span>
                     )}
+                    {onGraph ? (
+                      <span className="chatbot-call-card__locate">
+                        <CenterFocusStrongIcon fontSize="inherit" />
+                        Show in graph
+                      </span>
+                    ) : (
+                      <span className="chatbot-call-card__locate chatbot-call-card__locate--off">
+                        not on graph
+                      </span>
+                    )}
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* AI answer */}

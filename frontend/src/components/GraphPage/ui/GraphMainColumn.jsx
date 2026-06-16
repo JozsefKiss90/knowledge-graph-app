@@ -44,9 +44,17 @@ export default function GraphMainColumn({
   setCompareOpen,
   compareNodes,
   setCompareNodes,
+  assistantMatchIds,
+  assistantMatchDestIds,
+  assistantFocus,
+  onAssistantResults,
+  onLocateCall,
+  onClearAssistant,
+  locateCall,
 }) {
   const isDetailMode = !!detailNode;
   const levelsRef = useRef([]);
+  const assistantFocusHandledRef = useRef(null);
 
   // The HE Wiki graph is a flat entity network — Compare/Timeline (cluster/Call tools) don't apply.
   const isHEWiki = graphName === "HE_2025";
@@ -146,6 +154,83 @@ export default function GraphMainColumn({
       }
     });
   }, [cyInstance, timelineSelection]);
+
+  // A3: highlight assistant matches (and their parent destinations) on every
+  // layer; dim everything else. Re-applies whenever the layer (and thus the
+  // Cytoscape instance) changes, so matches glow wherever they appear.
+  useEffect(() => {
+    const cy = cyInstance;
+    if (!cy || cy.destroyed?.()) return;
+
+    const matchIds = assistantMatchIds || new Set();
+    const matchDestIds = assistantMatchDestIds || new Set();
+
+    cy.batch(() => {
+      cy.nodes().removeClass("assistant-match assistant-dim");
+      if (!matchIds.size) return;
+
+      const calls = cy.nodes("[type = 'Call'], [category = 'Call']");
+      const dests = cy.nodes("[type = 'Destination'], [category = 'Destination']");
+
+      // Only dim a layer that actually contains a match — otherwise navigating to
+      // an unrelated layer after a search would grey out everything (looks broken).
+      const hasMatchHere =
+        calls.filter((n) => matchIds.has(String(n.id()))).nonempty() ||
+        dests.filter((n) => matchDestIds.has(String(n.id()))).nonempty();
+      if (!hasMatchHere) return;
+
+      calls.forEach((n) => {
+        n.addClass(matchIds.has(String(n.id())) ? "assistant-match" : "assistant-dim");
+      });
+      dests.forEach((n) => {
+        n.addClass(matchDestIds.has(String(n.id())) ? "assistant-match" : "assistant-dim");
+      });
+    });
+  }, [cyInstance, graphName, assistantMatchIds, assistantMatchDestIds]);
+
+  // A3: once navigation has reached the layer where the focused call is visible,
+  // center it and add a brief focus ring. Fires once per focus token (seq) per
+  // layer; a fresh click bumps seq so re-clicking the same result re-fires.
+  // Waits for the post-mount auto-fit to settle, then pans (not fits) so it
+  // doesn't fight applyResponsiveViewport.
+  useEffect(() => {
+    const cy = cyInstance;
+    const focusId = assistantFocus?.id;
+    const focusSeq = assistantFocus?.seq;
+    if (!cy || cy.destroyed?.() || !focusId) return;
+
+    let node;
+    try {
+      node = cy.$id(String(focusId));
+    } catch {
+      return;
+    }
+    if (!node || node.empty() || !node.visible()) return; // not on this layer yet
+
+    const stamp = `${focusSeq}@${graphName}`;
+    if (assistantFocusHandledRef.current === stamp) return;
+    assistantFocusHandledRef.current = stamp;
+
+    let ringTimer = null;
+    const t = setTimeout(() => {
+      if (cy.destroyed?.()) return;
+      try {
+        cy.animate({ center: { eles: node }, duration: 400, easing: "ease-in-out" });
+      } catch {}
+      cy.nodes().removeClass("assistant-focus"); // clear any prior ring on this layer
+      node.addClass("assistant-focus");
+      ringTimer = setTimeout(() => {
+        try {
+          if (!cy.destroyed?.()) node.removeClass("assistant-focus");
+        } catch {}
+      }, 2400);
+    }, 700);
+
+    return () => {
+      clearTimeout(t);
+      if (ringTimer) clearTimeout(ringTimer);
+    };
+  }, [cyInstance, graphName, assistantFocus]);
 
   return (
     <Col
@@ -301,7 +386,13 @@ export default function GraphMainColumn({
               onOpenDetail={onOpenDetail}
             />
 
-            <ChatBot onOpenDetail={onOpenDetail} />
+            <ChatBot
+              onOpenDetail={onOpenDetail}
+              onAssistantResults={onAssistantResults}
+              onLocateCall={onLocateCall}
+              onClearAssistant={onClearAssistant}
+              locateCall={locateCall}
+            />
 
             <CompareDrawer
               open={compareOpen && !isHEWiki}

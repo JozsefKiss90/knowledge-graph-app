@@ -20,6 +20,7 @@ import { useLegendFit } from "./hooks/useLegendFit";
 
 import { computeEffectiveLayout } from "./utils/computeEffectiveLayout";
 import { createViewControls } from "./utils/viewControls";
+import { buildCallLocator } from "./utils/buildCallLocator";
 
 import GraphAppHeader from "./ui/GraphAppHeader";
 import LeftLegendColumn from "./ui/LeftLegendColumn";
@@ -63,6 +64,68 @@ function GraphPage() {
 
   // NEW: inline node detail state (for NodeDetail overlay)
   const [detailNode, setDetailNode] = useState(null);
+
+  // A3: assistant "act on the graph" state — matched call ids highlighted across
+  // every layer, their parent destinations (for the overview), and the single
+  // call to center/ring after navigating to it. Focus is a { id, seq } token so
+  // re-clicking the SAME result (same id) still re-fires via a bumped seq.
+  const [assistantMatchIds, setAssistantMatchIds] = useState(() => new Set());
+  const [assistantMatchDestIds, setAssistantMatchDestIds] = useState(() => new Set());
+  const [assistantFocus, setAssistantFocus] = useState(null);
+  const assistantFocusSeqRef = useRef(0);
+
+  // Memoised call -> graph-location index over the preloaded store. The store is
+  // empty until the preload finishes, so build only once `ready` is true.
+  const callLocator = useMemo(
+    () => (ready ? buildCallLocator(loadFromStore) : { size: 0, locate: () => null }),
+    [loadFromStore, ready]
+  );
+
+  // Chatbot returned results: highlight every matched call (and its destination).
+  const handleAssistantResults = useCallback(
+    (matchedCalls) => {
+      const ids = new Set();
+      const destIds = new Set();
+      (matchedCalls || []).forEach((c) => {
+        const id = c?.identifier;
+        if (!id) return;
+        ids.add(String(id));
+        const loc = callLocator.locate(id);
+        if (loc?.destinationId) destIds.add(String(loc.destinationId));
+      });
+      setAssistantMatchIds(ids);
+      setAssistantMatchDestIds(destIds);
+      setAssistantFocus(null);
+    },
+    [callLocator]
+  );
+
+  // A result was clicked: drill the nested graph to the call's layer (without
+  // tapping the call open) and mark it for center/ring. Returns false if the
+  // call isn't in the loaded graph so the caller can fall back to opening detail.
+  const handleLocateCall = useCallback(
+    (identifier) => {
+      const loc = callLocator.locate(identifier);
+      if (!loc) return false;
+      assistantFocusSeqRef.current += 1;
+      setAssistantFocus({ id: String(identifier), seq: assistantFocusSeqRef.current });
+      // Reuse the legend-tree navigation contract (usePendingNav). Omit callId so
+      // the call node is NOT tapped (tapping a Call opens the detail overlay).
+      setPendingNav(
+        loc.destinationId
+          ? { clusterKey: loc.clusterKey, destinationId: loc.destinationId }
+          : { clusterKey: loc.clusterKey }
+      );
+      return true;
+    },
+    [callLocator]
+  );
+
+  const handleClearAssistant = useCallback(() => {
+    setAssistantMatchIds(new Set());
+    setAssistantMatchDestIds(new Set());
+    setAssistantFocus(null);
+  }, []);
 
     const handleOpenDetail = useCallback((payload) => {
     // Clear any hover card when opening details
@@ -281,6 +344,13 @@ useEffect(() => {
               setCompareOpen={setCompareOpen}
               compareNodes={compareNodes}
               setCompareNodes={setCompareNodes}
+              assistantMatchIds={assistantMatchIds}
+              assistantMatchDestIds={assistantMatchDestIds}
+              assistantFocus={assistantFocus}
+              onAssistantResults={handleAssistantResults}
+              onLocateCall={handleLocateCall}
+              onClearAssistant={handleClearAssistant}
+              locateCall={callLocator.locate}
             />
 
             <RightControlsColumn

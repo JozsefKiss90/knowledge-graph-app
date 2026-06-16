@@ -22,6 +22,9 @@ def _call_card(doc: dict) -> dict:
         "budget_total": budget["total_eur"] if budget else None,
         "action_type": doc.get("action_type", ""),
         "cluster": doc.get("call_identifier", ""),
+        # call_title lets the frontend match a result card to its "programme" filter chip
+        # (the chip label is the call_title, falling back to call_identifier).
+        "call_title": doc.get("call_title", ""),
         "url": doc.get("url", ""),
     }
 
