@@ -303,6 +303,111 @@ def call_trend(call_id: str):
         raise HTTPException(status_code=500, detail=f"CORDIS call-trend failed: {str(e)}")
 
 
+RELATED_PROVENANCE = ("Calls whose CORDIS-funded projects share EuroSciVoc research fields with this call "
+                      "(CORDIS, FP7-Horizon Europe)")
+RELATED_CANDIDATE_CAP = 100   # bound the candidate set (ordered by shared-field count) before ranking
+
+
+def _rank_related_calls(rows, target_field_count, top_n):
+    """Rank candidate calls by Jaccard overlap of their EuroSciVoc research-field sets. Pure — no DB — so
+    it is unit-testable offline against real parsed data. ``rows`` are dicts
+    ``{id,name,callId,identifier,subject,subjectProjectCount,shared,oN,sharedTitles}`` exactly as the
+    Cypher returns them (one per candidate call). ``shared`` = |fields(A) ∩ fields(B)|, ``oN`` =
+    |fields(B)|, ``target_field_count`` = |fields(A)|. Jaccard = shared / (|A| + |B| - shared)."""
+    out = []
+    for r in rows:
+        shared = r.get("shared") or 0
+        if shared <= 0:
+            continue
+        oN = r.get("oN") or 0
+        union = target_field_count + oN - shared
+        score = (shared / union) if union > 0 else 0.0
+        out.append({
+            "id": r.get("id"),
+            "name": r.get("name") or r.get("callId") or r.get("identifier") or r.get("id"),
+            "callId": r.get("callId"),
+            "identifier": r.get("identifier"),
+            "subject": r.get("subject"),
+            "subjectProjectCount": r.get("subjectProjectCount") or 0,
+            "sharedCount": shared,
+            "sharedFields": (r.get("sharedTitles") or [])[:12],
+            "score": round(score, 4),
+        })
+    out.sort(key=lambda x: (-x["score"], -x["sharedCount"], (x["name"] or "").lower()))
+    return out[:top_n]
+
+
+@router.get("/related-calls")
+def related_calls(call_id: str, top_n: int = 6):
+    """B3 related-calls explorer: other calls whose CORDIS-funded projects share EuroSciVoc research
+    fields with this call, ranked by Jaccard field overlap. Returns an empty ``related`` list when the
+    call has no CORDIS research fields or no overlapping calls (drives the frontend hide-when-empty).
+
+    Honest framing: this is research-field overlap of funded projects, NOT call similarity or quality.
+    """
+    try:
+        s = SOURCE_TAG
+        tgt = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+            "-[:CLASSIFIED_AS]->(rf:ResearchField {source:$s}) "
+            "RETURN count(DISTINCT rf) AS cN, head(collect(c.cordis_area_query)) AS subject",
+            {"cid": call_id, "s": s},
+        )
+        target_field_count = (tgt[0]["cN"] if tgt else 0) or 0
+        subject = tgt[0]["subject"] if tgt else None
+
+        rows = []
+        if target_field_count > 0:
+            # Pass 1: candidate calls sharing >=1 research field, with their shared-field count + titles.
+            # Grouped by the candidate node only (scalar key) and capped by raw shared count.
+            rows = db.query(
+                "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+                "-[:CLASSIFIED_AS]->(rf:ResearchField {source:$s}) "
+                "WITH collect(DISTINCT rf) AS tfs "
+                "UNWIND tfs AS rf "
+                "MATCH (rf)<-[:CLASSIFIED_AS]-(:CordisProject {source:$s})"
+                "<-[:HAS_FUNDED_PROJECT]-(o:Call) "
+                "WHERE o.id <> $cid "
+                "WITH o, count(DISTINCT rf) AS shared, collect(DISTINCT rf.title) AS sharedTitles "
+                "ORDER BY shared DESC LIMIT $cap "
+                "RETURN o.id AS id, o.name AS name, o.call_id AS callId, o.identifier AS identifier, "
+                "       o.cordis_area_query AS subject, "
+                "       o.cordis_area_project_count AS subjectProjectCount, "
+                "       shared, sharedTitles",
+                {"cid": call_id, "s": s, "cap": RELATED_CANDIDATE_CAP},
+            )
+            # Pass 2: each candidate's OWN total distinct research-field count (for the Jaccard union).
+            ids = [r["id"] for r in rows if r.get("id")]
+            if ids:
+                counts = db.query(
+                    "MATCH (o:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+                    "-[:CLASSIFIED_AS]->(orf:ResearchField {source:$s}) "
+                    "WHERE o.id IN $ids "
+                    "RETURN o.id AS id, count(DISTINCT orf) AS oN",
+                    {"ids": ids, "s": s},
+                )
+                on_by_id = {c["id"]: c["oN"] for c in counts}
+                for r in rows:
+                    r["oN"] = on_by_id.get(r["id"], 0)
+
+        related = _rank_related_calls(rows, target_field_count, top_n)
+        return {
+            "call_id": call_id,
+            "subject": subject,
+            "targetFieldCount": target_field_count,
+            "candidatesConsidered": len(rows),
+            "candidateCap": RELATED_CANDIDATE_CAP,
+            # The cap orders candidates by raw shared-field count before the Jaccard re-rank, so a very
+            # high-overlap low-cardinality call could in principle sit beyond the cap. Disclosed (never
+            # silent) so the client can note truncation; reaching it needs >100 calls sharing a field.
+            "capped": len(rows) >= RELATED_CANDIDATE_CAP,
+            "related": related,
+            "provenance": RELATED_PROVENANCE,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS related-calls failed: {str(e)}")
+
+
 @router.delete("/area-links")
 def delete_area_links(source: str = None):
     """A2: remove subject-area evidence links (HAS_FUNDED_PROJECT) + area provenance; keep projects/tags."""

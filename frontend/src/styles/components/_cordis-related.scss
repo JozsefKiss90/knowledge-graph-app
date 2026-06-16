@@ -1,0 +1,115 @@
+/* B3 — CORDIS related-calls explorer panel (NodeDetail call view).
+   Sibling of the A2 cordis-evidence / A6 cordis-trend cards; reuses .nd-card and CSS vars. */
+
+.cordis-related {
+  .cordis-related__hint {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--foreground-muted);
+    margin-bottom: 12px;
+  }
+
+  .cordis-related__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cordis-related__row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+
+    &:last-child { border-bottom: none; }
+  }
+
+  .cordis-related__main {
+    min-width: 0; /* bound the text column so long names wrap inside the row instead of overflowing */
+    flex: 1 1 auto;
+  }
+
+  .cordis-related__name {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--card-foreground);
+    text-decoration: none;
+
+    &:hover { color: #60a5fa; text-decoration: underline; }
+  }
+
+  .cordis-related__subject {
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: var(--foreground-muted);
+    margin-top: 2px;
+  }
+
+  .cordis-related__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  .cordis-related__chip {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--muted);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+  }
+
+  .cordis-related__chip--more {
+    background: transparent;
+    color: var(--foreground-muted);
+  }
+
+  .cordis-related__overlap {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    width: 84px;
+    padding-top: 1px;
+  }
+
+  .cordis-related__overlap-count {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    white-space: nowrap;
+  }
+
+  .cordis-related__bar-track {
+    width: 100%;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--muted); /* visible in both dark and light themes */
+    overflow: hidden;
+  }
+
+  .cordis-related__bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    min-width: 3px;
+    background: #60a5fa;
+  }
+
+  .cordis-related__prov {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10.5px;
+    line-height: 1.45;
+    color: var(--foreground-muted);
+  }
+}

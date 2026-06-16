@@ -20,6 +20,7 @@ import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
 import CordisEvidencePanel from "./GraphPage/CordisEvidence/CordisEvidencePanel";
 import CordisTrendPanel from "./GraphPage/CordisEvidence/CordisTrendPanel";
+import CordisRelatedPanel from "./GraphPage/CordisEvidence/CordisRelatedPanel";
 
 // --- lightweight markdown-to-JSX renderer for wiki body text ---------------
 
@@ -1269,6 +1270,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                 <>
                   <CordisEvidencePanel callId={nodeData.id || id} />
                   <CordisTrendPanel callId={nodeData.id || id} />
+                  <CordisRelatedPanel callId={nodeData.id || id} />
                 </>
               )}
 
