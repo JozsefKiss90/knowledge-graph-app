@@ -1,0 +1,744 @@
+[
+  {
+    "subject": "AI-assisted digital aircraft design, manufacturing and MRO, towards a competitive aviation",
+    "call_ids": [
+      "HORIZON-CL5-2026-05-D5-07"
+    ]
+  },
+  {
+    "subject": "AI-driven forecasting algorithms for Grid and Consumer friendly Energy Sharing – Societal Readiness pilot",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-22"
+    ]
+  },
+  {
+    "subject": "Accelerated multi-physical and virtual testing for battery aging, reliability, and safety evaluation (Batt4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D2-05"
+    ]
+  },
+  {
+    "subject": "Accelerating freight transport and logistics digital innovation",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-08"
+    ]
+  },
+  {
+    "subject": "Advanced Distribution Management Systems (ADSM) for more efficient and flexible distribution grids",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-26"
+    ]
+  },
+  {
+    "subject": "Advanced TSO control rooms to enhance grid observability, stability and resilience",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-25"
+    ]
+  },
+  {
+    "subject": "Advanced data platforms to integrate whole life carbon in building information tools, assessments, and certification (Built4People Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D4-03"
+    ]
+  },
+  {
+    "subject": "Advancements in Direct Air Capture",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-30"
+    ]
+  },
+  {
+    "subject": "Advancing European climate risk assessments",
+    "call_ids": [
+      "HORIZON-CL5-2026-07-D1-02"
+    ]
+  },
+  {
+    "subject": "Affordable and sustainable primary equipment for Future-Ready multi-terminal HVDC Systems",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-19"
+    ]
+  },
+  {
+    "subject": "Approaches, verification and training for Edge-AI building blocks for CCAM Systems (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-05"
+    ]
+  },
+  {
+    "subject": "Assessing the effect of airport operations on air quality and noise in nearby communities",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-20"
+    ]
+  },
+  {
+    "subject": "Autonomous vessels in short sea shipping and inland waterways",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-16"
+    ]
+  },
+  {
+    "subject": "Closing knowledge gaps on Earth system science in support of global and regional assessments and climate policy",
+    "call_ids": [
+      "HORIZON-CL5-2026-08-Two-Stage",
+      "HORIZON-CL5-2026-08-Two-Stage-D1-06"
+    ]
+  },
+  {
+    "subject": "Co-funding Strategic Energy Technology (SET) Plan renewable fuel value chains at EU, national, regional, and local level",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-08"
+    ]
+  },
+  {
+    "subject": "Community of practice - Data-Driven Decision-Making in Energy",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-28"
+    ]
+  },
+  {
+    "subject": "Competitiveness, energy security and integration aspects of advanced biofuels and renewable fuels of non-biological origin value chains",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-02"
+    ]
+  },
+  {
+    "subject": "Concentrated solar thermal systems for decarbonising industrial processes",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-07"
+    ]
+  },
+  {
+    "subject": "Coordinated topic with India on recycling of EV batteries",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D2-04"
+    ]
+  },
+  {
+    "subject": "Data sharing to support the training and development of AI foundation models in the energy sector",
+    "call_ids": [
+      "HORIZON-CL5-2026-11-D3-23"
+    ]
+  },
+  {
+    "subject": "Data-driven circular economy for e-mobility ecosystem (2ZERO Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-03"
+    ]
+  },
+  {
+    "subject": "De-risking renewable fuel technologies through transnational pre-commercial procurement of renewable fuel industrial value chains",
+    "call_ids": [
+      "HORIZON-CL5-2026-11-D3-04"
+    ]
+  },
+  {
+    "subject": "De-risking wave energy technology development through transnational pre-commercial procurement of wave energy research and development",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-13"
+    ]
+  },
+  {
+    "subject": "Delivery of industrial CCUS clusters – Societal Readiness pilot",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-32"
+    ]
+  },
+  {
+    "subject": "Demonstration for Long-duration Battery Energy Storage Systems (BATT4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-05-D2-08"
+    ]
+  },
+  {
+    "subject": "Demonstration of hydropower technologies for efficient and forward-looking refurbishment of existing hydropower plants",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-11"
+    ]
+  },
+  {
+    "subject": "Demonstration of industrial excess/waste heat conversion to mechanical or electrical power",
+    "call_ids": [
+      "HORIZON-CL5-2027-05-D4-09"
+    ]
+  },
+  {
+    "subject": "Demonstration of solid biofuel supply and conversion to high efficiency CHP from fully sustainable regional value chains",
+    "call_ids": [
+      "HORIZON-CL5-2026-11-D3-05"
+    ]
+  },
+  {
+    "subject": "Demonstration of thermal energy storage solutions for solar thermal plants and systems",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-05"
+    ]
+  },
+  {
+    "subject": "Demonstration of zero emission coaches and buses in long distance operations (2ZERO Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-04"
+    ]
+  },
+  {
+    "subject": "Development of direct recycling processes (BATT4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D2-02"
+    ]
+  },
+  {
+    "subject": "Development of innovative solutions strengthening the security of renewable energy value chains",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-14"
+    ]
+  },
+  {
+    "subject": "Development of sustainable and design-to-cost batteries with (energy-)efficient manufacturing processes and based on advanced and safer materials (Batt4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D2-01"
+    ]
+  },
+  {
+    "subject": "Disruptive Technologies and Innovative Concepts for Energy Saving Onboard of long-distance ships (ZEWT Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-06-Two-Stage",
+      "HORIZON-CL5-2026-06-Two-Stage-D5-10"
+    ]
+  },
+  {
+    "subject": "Economics of climate change and cost of inaction",
+    "call_ids": [
+      "HORIZON-CL5-2026-07-D1-03"
+    ]
+  },
+  {
+    "subject": "Energy-efficient software-defined EVs (2ZERO Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-05-D5-02"
+    ]
+  },
+  {
+    "subject": "Enhanced electric operation and battery durability (ZEWT Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-18"
+    ]
+  },
+  {
+    "subject": "Enhanced resilience in multimodal passenger transport through digital technologies and generative and discriminative AI",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D6-10"
+    ]
+  },
+  {
+    "subject": "Enhancing Mobility for All: affordable, reliable, and accessible multimodal transport for inclusive rural and urban connectivity – Societal Readiness pilot",
+    "call_ids": [
+      "HORIZON-CL5-2027-06-D6-08"
+    ]
+  },
+  {
+    "subject": "Enhancing Resilience and Accuracy in Positioning, Navigation, and Timing (PNT) Systems and e-conspicuity solutions",
+    "call_ids": [
+      "HORIZON-CL5-2027-06-D6-11"
+    ]
+  },
+  {
+    "subject": "European CCAM knowledge hub and tools for safe and scalable deployment (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-06-D6-05"
+    ]
+  },
+  {
+    "subject": "Extending the lifetime of crystalline silicon PV modules (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-12"
+    ]
+  },
+  {
+    "subject": "Federated CCAM data exchange platform (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-06"
+    ]
+  },
+  {
+    "subject": "Fighting disinformation and effectively communicating on climate change",
+    "call_ids": [
+      "HORIZON-CL5-2026-07-D1-04"
+    ]
+  },
+  {
+    "subject": "Fire prevention and mitigation for EVs in confined areas (2ZERO Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-06"
+    ]
+  },
+  {
+    "subject": "Flagship-pilot: large-scale demonstrations of CCAM (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D6-01"
+    ]
+  },
+  {
+    "subject": "Full-scale demonstration of heat upgrade solutions in industrial processes",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D4-08"
+    ]
+  },
+  {
+    "subject": "Generative AI for smarter CCAM: enhancing perception, decision-making, and validation (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D6-03"
+    ]
+  },
+  {
+    "subject": "Geopolitical competition and socioeconomic resilience in CCAM: an innovation and policy roadmap for EU leadership (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D6-02"
+    ]
+  },
+  {
+    "subject": "Grid-forming capabilities for more resilient and RES-based electricity grids",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-18"
+    ]
+  },
+  {
+    "subject": "Higher Voltage, Megawatt Charging System compatible, modular powertrain for Heavy Duty Vehicles (HDV) (2ZERO Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-05"
+    ]
+  },
+  {
+    "subject": "Holistic solutions for CCAM integration in critical scenarios (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-06-D6-04"
+    ]
+  },
+  {
+    "subject": "Hybrid AI-Control Framework for a next-generation grid-scale energy storage and system integration",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-20"
+    ]
+  },
+  {
+    "subject": "Icing in the context of sustainable aviation",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-15"
+    ]
+  },
+  {
+    "subject": "Improved reliability and optimised operations and maintenance for wind energy systems",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-07"
+    ]
+  },
+  {
+    "subject": "Improved system design for innovative PV applications (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-11-D3-14"
+    ]
+  },
+  {
+    "subject": "Improvement of Adaptability, Flexibility and Efficiency of Existing Recycling Processes (BATT4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D2-05"
+    ]
+  },
+  {
+    "subject": "Improving climate and weather models for Africa",
+    "call_ids": [
+      "HORIZON-CL5-2026-07-D1-05"
+    ]
+  },
+  {
+    "subject": "Increasing competitiveness and resilience of multimodal freight transport and logistics for competitive supply chains",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D6-06"
+    ]
+  },
+  {
+    "subject": "Industrial processes and equipment for innovative, reliable and scalable tandem technologies (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-16"
+    ]
+  },
+  {
+    "subject": "Industrial scale up and circularity pathway for IPV technologies (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-13"
+    ]
+  },
+  {
+    "subject": "Innovative Solutions for mitigating the environmental impact of waterborne transport in marine and aquatic Ecosystems (ZEWT Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-17"
+    ]
+  },
+  {
+    "subject": "Innovative approaches for the deployment of Positive Energy Districts",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D4-04"
+    ]
+  },
+  {
+    "subject": "Innovative construction and maintenance, with the use of new materials and techniques, for resilient and sustainable transport infrastructure",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-07"
+    ]
+  },
+  {
+    "subject": "Innovative pathways for low carbon and climate resilient building stock and built environment (Built4People Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D4-03"
+    ]
+  },
+  {
+    "subject": "Innovative solutions for a generative AI-powered digital spine of the EU energy system",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-19"
+    ]
+  },
+  {
+    "subject": "Innovative technologies and solutions to improve wave and tidal energy systems",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-09"
+    ]
+  },
+  {
+    "subject": "Innovative technologies and solutions to improve wind energy systems supporting the Strategic Energy Technology (SET) Plan on wind",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D3-03"
+    ]
+  },
+  {
+    "subject": "Innovative tools and services to manage and empower energy communities",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-20"
+    ]
+  },
+  {
+    "subject": "Integrated Approaches for Retrofitting Infrastructures with Innovative Energy Storage Technologies",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-27"
+    ]
+  },
+  {
+    "subject": "Integrated Production and Product Development for Next-Generation Lithium-based Batteries for Mobility (BATT4EU and Made in Europe Partnerships)",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D2-03"
+    ]
+  },
+  {
+    "subject": "Integrating advanced materials, cell design and manufacturing development for high-performance batteries aimed at mobility (Batt4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D2-04"
+    ]
+  },
+  {
+    "subject": "Integrating circularity in LCA-based modelling frameworks for renovation of buildings (Built4People Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-05-D4-07"
+    ]
+  },
+  {
+    "subject": "Integrating inland waterway transport in smart shipping and multimodal logistics chains",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-10"
+    ]
+  },
+  {
+    "subject": "Integration of human driving behaviour in the validation of CCAM systems (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-04"
+    ]
+  },
+  {
+    "subject": "Large scale operational validation and upscaling of state-of-the-art (Generative) AI tools and models powering a next generation digital energy system",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-24"
+    ]
+  },
+  {
+    "subject": "Large-scale demonstration of Heavy-Duty Battery Electric Vehicles (HD BEV) towards long-haul logistics operations (2ZERO Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-05-D5-01"
+    ]
+  },
+  {
+    "subject": "Large-scale production of liquid advanced biofuels and renewable fuels of non-biological origin",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-01"
+    ]
+  },
+  {
+    "subject": "Long-lifetime and optimised use of materials in recyclable Ag and In-free Si PV modules (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-12"
+    ]
+  },
+  {
+    "subject": "Low disturbance prefabrication approaches for deep renovation of multi-storey buildings (Built4People Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D4-02"
+    ]
+  },
+  {
+    "subject": "Monitoring and Evaluation of the Societal Readiness Pilot",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D2-09"
+    ]
+  },
+  {
+    "subject": "New CO2 capture technologies",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-24"
+    ]
+  },
+  {
+    "subject": "Next generation climate monitoring and related capabilities",
+    "call_ids": [
+      "HORIZON-CL5-2026-07-D1-01"
+    ]
+  },
+  {
+    "subject": "Next generation distribution substation for increasing the system resilience",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-18"
+    ]
+  },
+  {
+    "subject": "Next generation of renewable energy technologies",
+    "call_ids": [
+      "HORIZON-CL5-2026-04-Two-Stage",
+      "HORIZON-CL5-2026-04-Two-Stage-D3-02"
+    ]
+  },
+  {
+    "subject": "Next-generation environment perception for real world CCAM operations: Error-free and secure technologies to improve energy-efficiency, cost-effectiveness, and circularity (CCAM Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-03"
+    ]
+  },
+  {
+    "subject": "Noise reduction breakthroughs for new ultraefficient aircraft",
+    "call_ids": [
+      "HORIZON-CL5-2027-04-Two-Stage",
+      "HORIZON-CL5-2027-04-Two-Stage-D5-09"
+    ]
+  },
+  {
+    "subject": "Non-exhaust emissions in road and railway transport",
+    "call_ids": [
+      "HORIZON-CL5-2026-06-Two-Stage-D5-19"
+    ]
+  },
+  {
+    "subject": "Novel approaches towards next-generation battery concepts, leveraging the enabling role of innovative advanced materials (BATT4EU and IAM4EU Partnerships)",
+    "call_ids": [
+      "HORIZON-CL5-2027-04-Two-Stage-D2-07"
+    ]
+  },
+  {
+    "subject": "Novel solutions for off-grid storage of renewable energy for critical infrastructures",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-21"
+    ]
+  },
+  {
+    "subject": "On-site innovative robotic and automated solutions and techniques for more sustainable and less disruptive building renovation and construction",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D4-01"
+    ]
+  },
+  {
+    "subject": "On-site robotic and automated techniques for building renovation and new construction",
+    "call_ids": [
+      "HORIZON-CL5-2027-05-D4-05"
+    ]
+  },
+  {
+    "subject": "Onboard renewable energy solutions and energy saving measures to reduce the fuel consumption of ships by at least 55% (ZEWT Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-14"
+    ]
+  },
+  {
+    "subject": "Optimal combination of low embodied carbon construction products, technical building systems and circularity principles for climate neutral buildings (Built4People Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D4-05"
+    ]
+  },
+  {
+    "subject": "PV based electrification of the economy: Designing & optimising PV systems supporting industrial electrification and promoting participation in electricity markets (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-07-D3-17"
+    ]
+  },
+  {
+    "subject": "Phase out fossil fuel in energy intensive industries through the efficient integration of renewable energy sources",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D4-06"
+    ]
+  },
+  {
+    "subject": "Ports of the future (ZEWT Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-05-D5-11"
+    ]
+  },
+  {
+    "subject": "Pre-commercial appraisal for CO2 aquifer storage",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-29"
+    ]
+  },
+  {
+    "subject": "Predicting and avoiding road crashes based on Artificial Intelligence (AI) and big data",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-14"
+    ]
+  },
+  {
+    "subject": "Producing battery-grade materials for electrodes through sustainable processing and refining of raw materials or developing bio-based materials (BATT4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D2-01"
+    ]
+  },
+  {
+    "subject": "Production technologies for solar photovoltaics beyond the state-of-the-art (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-15"
+    ]
+  },
+  {
+    "subject": "Prospective evaluation of nuclear power potential for shipping (ZEWT Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-15"
+    ]
+  },
+  {
+    "subject": "Real time monitoring of regulated and non-regulated emissions from all types of vessels and other port activities in order to enforce emission limits in waterfront cities",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D5-17"
+    ]
+  },
+  {
+    "subject": "Reliable data and practices to measure and calculate transport emissions in multimodal transport chains",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-09"
+    ]
+  },
+  {
+    "subject": "Renewable Energy Valleys in Africa to increase energy security and energy access in Africa",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-10"
+    ]
+  },
+  {
+    "subject": "Researching the technical, social & economic factors impacting the energy performance of Smart Buildings (Built4People Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D4-01"
+    ]
+  },
+  {
+    "subject": "Resource assessment for deep sedimentary and basement reservoirs",
+    "call_ids": [
+      "HORIZON-CL5-2026-11-D3-06"
+    ]
+  },
+  {
+    "subject": "Road Safety and resilience of rural areas",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D6-09"
+    ]
+  },
+  {
+    "subject": "Safety of Cyclists, Pedestrians and Users of Micromobility Devices",
+    "call_ids": [
+      "HORIZON-CL5-2026-01-D6-13"
+    ]
+  },
+  {
+    "subject": "Safety of renewable low and zero-carbon waterborne fuels in port areas: risk assessment, regulatory framework, and guidelines for safe bunkering, handling and storage (ZEWT partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-05-D5-13"
+    ]
+  },
+  {
+    "subject": "Shipyards of the future (ZEWT Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-05-D5-12"
+    ]
+  },
+  {
+    "subject": "Smarter buildings as part of the energy system for increased efficiency and flexibility – Societal Readiness Pilot",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D4-02"
+    ]
+  },
+  {
+    "subject": "Support for dissemination events in the field of Transport Research",
+    "call_ids": [
+      "HORIZON-CL5-2027-06-D6-12"
+    ]
+  },
+  {
+    "subject": "Support to the implementation of an EU policy framework for CO2 transport and storage infrastructure",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D3-31"
+    ]
+  },
+  {
+    "subject": "Supporting sustainable and smart urban mobility in Europe (CIVITAS)",
+    "call_ids": [
+      "HORIZON-CL5-2026-10-D6-07"
+    ]
+  },
+  {
+    "subject": "Sustainable aircraft circular design and additive manufacturing, towards a climate neutral aviation",
+    "call_ids": [
+      "HORIZON-CL5-2027-03-D5-08"
+    ]
+  },
+  {
+    "subject": "Sustainable and Competitive Cell Production Techniques for Lithium-ion And Sodium-ion Batteries (BATT4EU Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2027-02-D2-06"
+    ]
+  },
+  {
+    "subject": "Targeting key value chain components for increasing the competitiveness of renewable energy technologies in Europe",
+    "call_ids": [
+      "HORIZON-CL5-2026-03-D3-01"
+    ]
+  },
+  {
+    "subject": "Thermal energy optimisation and waste heat recovery of high energy demand IT rooms in buildings or small edge data centres",
+    "call_ids": [
+      "HORIZON-CL5-2027-05-D4-06"
+    ]
+  },
+  {
+    "subject": "Towards commercialisation of Perovskite PV and development of dedicated manufacturing equipment (EUPI-PV Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-10"
+    ]
+  },
+  {
+    "subject": "Underground Thermal Energy Storage in dense urban areas",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-22"
+    ]
+  },
+  {
+    "subject": "Understand and minimise the environmental impacts of offshore wind energy",
+    "call_ids": [
+      "HORIZON-CL5-2026-02-D3-08"
+    ]
+  },
+  {
+    "subject": "Validating policies and business models for affordable and sustainable housing (Built4People Partnership)",
+    "call_ids": [
+      "HORIZON-CL5-2026-09-D4-04"
+    ]
+  }
+]

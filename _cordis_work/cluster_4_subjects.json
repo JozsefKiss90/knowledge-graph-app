@@ -1,0 +1,356 @@
+[
+  {
+    "subject": "AI improved advanced manufacturing and production processes in factories (RIA) (Made in Europe and AI, Data and Robotics partnerships)",
+    "call_ids": [
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-51-two-stage"
+    ]
+  },
+  {
+    "subject": "Accelerating the discovery and development of chemicals and innovative advanced materials through digitalisation and artificial intelligence (IA) (Innovative Advanced Materials for the EU partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-23"
+    ]
+  },
+  {
+    "subject": "Advanced Local Digital Twins using AI for Early Warning and Preparedness (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-09"
+    ]
+  },
+  {
+    "subject": "Advanced and Innovative hardware components for Virtual Worlds (RIA) (Virtual Worlds Partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-HUMAN-01"
+    ]
+  },
+  {
+    "subject": "Advanced integrated photonic devices for extended features and ultra-low power consumption (RIA) (Photonics Partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2027-05-DIGITAL-EMERGING-03"
+    ]
+  },
+  {
+    "subject": "Advanced manufacturing for key products (IA) (Made in Europe partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-01",
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-02"
+    ]
+  },
+  {
+    "subject": "Apply AI: AI-Driven Robotics for Industry: Enabling System Integration and Adoption (IA) (Partnership in AI, Data and Robotics)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-05"
+    ]
+  },
+  {
+    "subject": "Apply AI: Challenge-Driven AI Innovation Booster in Apply AI prioritised sectors (RIA) (Partnership in AI, Data and Robotics)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-04"
+    ]
+  },
+  {
+    "subject": "Apply AI: Next-Generation Agile and Intelligent Robotics Platforms for Industrial and Service Applications (Partnership in AI, Data and Robotics) (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-03"
+    ]
+  },
+  {
+    "subject": "Apply AI: Pilot of the “Science for AI” Pillar of RAISE (“Resource for AI science in Europe”) (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-01"
+    ]
+  },
+  {
+    "subject": "Apply AI: Robotics for Manufacturing: Advancing Core Skills through Technical Challenges (RIA) (Partnership in AI, Data and Robotics)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-08"
+    ]
+  },
+  {
+    "subject": "Attracting management talent for capacity building for Technology Infrastructures staff members (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-44"
+    ]
+  },
+  {
+    "subject": "Challenge-Driven GenAI4EU Booster in Apply AI prioritised sectors (RIA) (AI/Data/Robotics Partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-19"
+    ]
+  },
+  {
+    "subject": "Circular innovative advanced materials: facilitating the transition from design to markets (RIA) (Innovative Advanced Materials for the EU and Made in Europe partnerships)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-05",
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-06"
+    ]
+  },
+  {
+    "subject": "Cooperation on innovative advanced materials with Japan (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-24"
+    ]
+  },
+  {
+    "subject": "Create a thriving and competitive Virtual Worlds and Web 4.0 ecosystem (CSA) (Virtual Worlds Partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-HUMAN-02"
+    ]
+  },
+  {
+    "subject": "Demand-side 3C pilot demonstrators on converged Telco Edge Cloud Infrastructure (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DATA-08"
+    ]
+  },
+  {
+    "subject": "Developing and demonstrating core technologies for Virtual Worlds and Web 4.0 (IA) (Virtual worlds Partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-HUMAN-01"
+    ]
+  },
+  {
+    "subject": "Development of safe and sustainable alternatives to substances of concern (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-02-MATERIALS-PRODUCTION-21-two-stage",
+      "HORIZON-CL4-2026-02-two-stage"
+    ]
+  },
+  {
+    "subject": "EU Frontier AI Initiative:  Developing frontier AI solutions that are safe and computationally efficient within Apply AI (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-11"
+    ]
+  },
+  {
+    "subject": "Efficient and compliant access to and use of data (IA) (AI, Data and Robotics partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DATA-06"
+    ]
+  },
+  {
+    "subject": "Efficient capture / purification / utilisation of CO2 for the production of competitive products (RIA) (Processes4Planet partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-31"
+    ]
+  },
+  {
+    "subject": "Efficient energy input from renewable sources and energy management in the process industries (IA) (Processes4Planet and Innovative Advanced Materials for the EU partnerships)",
+    "call_ids": [
+      "HORIZON-CL4-2027-02-MATERIALS-PRODUCTION-32-two-stage",
+      "HORIZON-CL4-2027-02-two-stage"
+    ]
+  },
+  {
+    "subject": "Energy efficiency and sustainability of AI data processing in Data Centres (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DATA-09"
+    ]
+  },
+  {
+    "subject": "Enhancing industry-academia knowledge exchange in Social Sciences and Humanities (SSH) (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-41"
+    ]
+  },
+  {
+    "subject": "Expert network on Critical raw materials (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-17"
+    ]
+  },
+  {
+    "subject": "Facilitate the engagement of European stakeholders in international digital standardisation (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-HUMAN-07"
+    ]
+  },
+  {
+    "subject": "Factory processes and automation for de- and re-manufacturing (RIA) (Made in Europe partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-03"
+    ]
+  },
+  {
+    "subject": "Fast Track to Innovation for breakthroughs in the Chemical Industry Action Plan  (Research and Innovation Action)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-62"
+    ]
+  },
+  {
+    "subject": "Fast Track to Research and Innovation for breakthroughs in industrial technologies (Research and Innovation Action)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-61"
+    ]
+  },
+  {
+    "subject": "Fostering 2-Dimensional Materials (2DM) based emerging and enabling technologies (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-17"
+    ]
+  },
+  {
+    "subject": "Grand Challenge on Quantum Sensors for Inertial Navigation",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-11"
+    ]
+  },
+  {
+    "subject": "Horizon scanning and foresight in future enabling digital technologies (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-10"
+    ]
+  },
+  {
+    "subject": "Improving availability of secondary raw materials through recycling (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-14"
+    ]
+  },
+  {
+    "subject": "Innovative AI methods and technologies for the process industries (RIA) (Processes4Planet and AI, Data and Robotics partnerships)",
+    "call_ids": [
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-53-two-stage"
+    ]
+  },
+  {
+    "subject": "Innovative advanced materials and new production processes – reducing dependencies on Critical and Strategic Raw Materials (IA) (Innovative Advanced Materials for the EU and Processes4Planet partnerships)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-22"
+    ]
+  },
+  {
+    "subject": "Innovative technologies and tools for exploration and data modelling of raw materials (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-11"
+    ]
+  },
+  {
+    "subject": "International cooperation in AI (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-06"
+    ]
+  },
+  {
+    "subject": "Large-Scale Photonic Quantum Computing Platform Technologies (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-18"
+    ]
+  },
+  {
+    "subject": "Mapping and service finder for Technology Infrastructures (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-46"
+    ]
+  },
+  {
+    "subject": "Monitoring of secondary raw materials (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-13"
+    ]
+  },
+  {
+    "subject": "Networking and Future Photonics Strategy  (CSA) (Photonics Partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-14"
+    ]
+  },
+  {
+    "subject": "New approaches for Human/AI collaboration for the workforce of the future (RIA) (Made in Europe and AI, Data and Robotics partnerships)",
+    "call_ids": [
+      "HORIZON-CL4-2027-02-DIGITAL-EMERGING-52-two-stage"
+    ]
+  },
+  {
+    "subject": "New approaches for decentralized, federated and sustainable AI data processing (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-04-DATA-03"
+    ]
+  },
+  {
+    "subject": "New or enhanced Innovative Advanced Materials (IAM) enabled sensing functionality (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-05-MATERIALS-PRODUCTION-25"
+    ]
+  },
+  {
+    "subject": "Next-Generation AI Agents for Real-World Applications in the Apply AI sectors (RIA) (Partnership in AI, Data and Robotics)",
+    "call_ids": [
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-02"
+    ]
+  },
+  {
+    "subject": "Open Internet Stack Sovereign Solutions (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DATA-02"
+    ]
+  },
+  {
+    "subject": "Open Internet Stack Support for Scale (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DATA-03"
+    ]
+  },
+  {
+    "subject": "Optimise the usage of resources in a circular economy (RIA) (Processes4Planet and Clean Steel partnerships)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-04"
+    ]
+  },
+  {
+    "subject": "Pilot access schemes to Technology Infrastructures for European startups, scaleups and innovative SMEs (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-45",
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-47"
+    ]
+  },
+  {
+    "subject": "Standards for Quantum Technologies – Coordination and Support Action (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-12"
+    ]
+  },
+  {
+    "subject": "Strengthening the cooperation of semiconductor-intensive EU regions (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-15"
+    ]
+  },
+  {
+    "subject": "Technologies for innovative extraction of critical raw materials (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-12"
+    ]
+  },
+  {
+    "subject": "Technologies for innovative processing of raw materials (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-16"
+    ]
+  },
+  {
+    "subject": "Textile circularity through advanced processing and manufacturing technologies and system approaches (IA) (Textiles for the Future partnership)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-08"
+    ]
+  },
+  {
+    "subject": "Unlocking the potential of academic intellectual assets for industry, SMEs and startups (CSA)",
+    "call_ids": [
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-42"
+    ]
+  },
+  {
+    "subject": "Web 4.0 architectural framework and Open Internet Stack applications for virtual worlds (RIA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-04-HUMAN-02"
+    ]
+  },
+  {
+    "subject": "‘Proof of market’ to improve valorisation and commercialisation of Horizon generated R&I results (IA)",
+    "call_ids": [
+      "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-48",
+      "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-49"
+    ]
+  }
+]

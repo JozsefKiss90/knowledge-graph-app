@@ -12,6 +12,7 @@ import TimelineScrubber from "../TimelineScrubber/TimelineScrubber";
 import ChatBot from "../../ChatBot/ChatBot";
 import { parseCallDate } from "../TimelineScrubber/utils";
 import CompareDrawer from "../CompareDrawer/CompareDrawer";
+import CordisFieldExplorerDrawer from "../CordisFields/CordisFieldExplorerDrawer";
 import PortfolioDashboard from "../Dashboard/PortfolioDashboard";
 
 export default function GraphMainColumn({
@@ -44,6 +45,8 @@ export default function GraphMainColumn({
   setCompareOpen,
   compareNodes,
   setCompareNodes,
+  fieldsOpen,
+  setFieldsOpen,
   assistantMatchIds,
   assistantMatchDestIds,
   assistantFocus,
@@ -405,6 +408,11 @@ export default function GraphMainColumn({
               onClearNode={(index) => {
                 setCompareNodes((prev) => prev.filter((_, i) => i !== index));
               }}
+            />
+
+            <CordisFieldExplorerDrawer
+              open={!!fieldsOpen && !isHEWiki}
+              onClose={() => setFieldsOpen(false)}
             />
           </div>
 

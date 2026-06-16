@@ -1,0 +1,640 @@
+[
+  {
+    "subject": "A services and business incubator for geospatial open-source developments",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-06"
+    ]
+  },
+  {
+    "subject": "AI supporting informed advice for farmers and foresters to improve competitiveness and sustainability",
+    "call_ids": [
+      "HORIZON-CL6-2027-03-GOVERNANCE-04"
+    ]
+  },
+  {
+    "subject": "AI-powered foodome characterization",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-08"
+    ]
+  },
+  {
+    "subject": "Accelerating the development of breeding tools for perennial crops, specifically fruits and nuts",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-04"
+    ]
+  },
+  {
+    "subject": "Accelerating the transition to a nature positive economy: Integrating biodiversity into the private sector",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-05"
+    ]
+  },
+  {
+    "subject": "Additional activities for the European Partnership of Agriculture of Data",
+    "call_ids": [
+      "HORIZON-CL6-2026-04-GOVERNANCE-01"
+    ]
+  },
+  {
+    "subject": "Additional activities for the Sustainable Blue Economy Partnership (SBEP)",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-01"
+    ]
+  },
+  {
+    "subject": "Advanced innovative solutions for improved competitiveness and sustainability in controlled environment agriculture (CEA)",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-06"
+    ]
+  },
+  {
+    "subject": "Advanced recovery of critical raw materials from Waste from Electrical and Electronic Equipment (WEEE)",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-03"
+    ]
+  },
+  {
+    "subject": "Advancing basic knowledge and developing tools for sustainable management of key migratory fish species",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-08"
+    ]
+  },
+  {
+    "subject": "Advancing integrated scenarios and prediction models for informing transition to a nature positive society",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-05"
+    ]
+  },
+  {
+    "subject": "Advancing recycling technologies for mixed post-consumer textiles waste from blended products",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-02"
+    ]
+  },
+  {
+    "subject": "Advancing the European bio-based innovation enabled by biotechnology and biomanufacturing concepts",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-07"
+    ]
+  },
+  {
+    "subject": "African Union – European Union Partnership on Food and Nutrition Security and Sustainable Agriculture (FNSSA)",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-09"
+    ]
+  },
+  {
+    "subject": "Balancing food security, bioeconomy, climate and biodiversity objectives to unlock sustainable value chains",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-09"
+    ]
+  },
+  {
+    "subject": "Bio-based innovation in society: supporting the sustainable way of living",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-10"
+    ]
+  },
+  {
+    "subject": "Bioeconomy policy support hub for Member States, regions and sectors",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-06"
+    ]
+  },
+  {
+    "subject": "Bioremediation of Ukraine’s ecosystems contaminated by conflicts",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-02"
+    ]
+  },
+  {
+    "subject": "Biotechnology application for CCU",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-08"
+    ]
+  },
+  {
+    "subject": "Boosting agrobiodiversity for food security and sustainable competitiveness",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-06"
+    ]
+  },
+  {
+    "subject": "Boosting circularity and diversification strategies of terrestrial livestock production systems",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-05"
+    ]
+  },
+  {
+    "subject": "Boosting data availability and AI solutions in food for consumers and food service professionals",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-08"
+    ]
+  },
+  {
+    "subject": "Boosting plant health and reducing losses on farm and during storage for sustainable growth in Africa (FNSSA)",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-13"
+    ]
+  },
+  {
+    "subject": "Boosting sustainable competitiveness in rural areas through innovation",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-COMMUNITIES-01"
+    ]
+  },
+  {
+    "subject": "Boosting the competitiveness of protein crops in Europe",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-03"
+    ]
+  },
+  {
+    "subject": "Capacity building for extending product lifecycles through repair and refurbishment",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-04"
+    ]
+  },
+  {
+    "subject": "Carbon farming innovation and scale-up",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-CLIMATE-03"
+    ]
+  },
+  {
+    "subject": "Coordinated European contribution to the WMO Global Greenhouse Gas Watch and its international governance",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-05"
+    ]
+  },
+  {
+    "subject": "Decontaminate and bioremediate aquatic pollution",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-01-two-stage"
+    ]
+  },
+  {
+    "subject": "Demonstrating and deploying innovative collection, sorting-for-reuse and repair systems for textiles at city/region level (Circular Cities and Regions Initiative topic)",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-04"
+    ]
+  },
+  {
+    "subject": "Deploying circular systemic solutions through living labs in cities and regions (Circular Cities and Regions Initiative topic)",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-01-two-stage",
+      "HORIZON-CL6-2027-01-CIRCBIO-01-two-stage"
+    ]
+  },
+  {
+    "subject": "Developing effective air quality planning strategies through innovative multi-scale modelling",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-02"
+    ]
+  },
+  {
+    "subject": "Developing innovative phytosanitary treatments for regulated plant pests to support safe international trade",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-01"
+    ]
+  },
+  {
+    "subject": "Developing managed aquifer recharge techniques (MAR) in a rural context",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-03"
+    ]
+  },
+  {
+    "subject": "Developing methods to assess the presence, functions and sensitivity of groundwater ecosystems",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-02"
+    ]
+  },
+  {
+    "subject": "Developing novel recycling technologies for complex plastic materials applying biotech solutions",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-03"
+    ]
+  },
+  {
+    "subject": "Embracing innovation in agriculture by peer-to-peer learning via on farm-demonstrations and cost-benefit analysis",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-10"
+    ]
+  },
+  {
+    "subject": "Empowering local urban food systems entrepreneurship and innovation",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-COMMUNITIES-02"
+    ]
+  },
+  {
+    "subject": "Empowering the UN Decade of Ocean Science for Sustainable Development",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-03"
+    ]
+  },
+  {
+    "subject": "Enhancing ecodesign and circularity of construction products",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-02"
+    ]
+  },
+  {
+    "subject": "Enhancing ecodesign and circularity of consumer electronics",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-01"
+    ]
+  },
+  {
+    "subject": "Enhancing farmer's profitability and resilience through innovations for diversified crops and value chains",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-05"
+    ]
+  },
+  {
+    "subject": "Enhancing the competitiveness of organic crop breeding: focus on intercropping adapted varieties",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-09"
+    ]
+  },
+  {
+    "subject": "Ensuring continuous effectiveness of protected areas in conserving habitats and species while facing intensifying drivers of biodiversity loss",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-04"
+    ]
+  },
+  {
+    "subject": "Europe-wide environmental benchmarking system of the industrial bioeconomy sectors",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-04"
+    ]
+  },
+  {
+    "subject": "Fostering common farmland birds and mammals for resilient food production systems",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-08"
+    ]
+  },
+  {
+    "subject": "Fostering generational renewal in agriculture via EU advisory network",
+    "call_ids": [
+      "HORIZON-CL6-2027-03-GOVERNANCE-06"
+    ]
+  },
+  {
+    "subject": "Governance, sustainable development and international politics of a future ice-free Arctic",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-CLIMATE-01"
+    ]
+  },
+  {
+    "subject": "Green Transition Food Processing Africa",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-14"
+    ]
+  },
+  {
+    "subject": "Harnessing the unique properties of marine organisms to deliver sustainable blue bio-based products",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-11"
+    ]
+  },
+  {
+    "subject": "Health of ecosystems and wild species, predictions and impacts on human health, in the face of existing and emerging stressors, from a One Health approach",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-07"
+    ]
+  },
+  {
+    "subject": "Improve the capacity to monitor and reduce air pollution from agriculture",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-03"
+    ]
+  },
+  {
+    "subject": "Improving analytical capacity and understanding of social drivers in agriculture to better assess social sustainability in the sector",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-02"
+    ]
+  },
+  {
+    "subject": "Improving analytical capacity for sustainable competitiveness of the agricultural sector",
+    "call_ids": [
+      "HORIZON-CL6-2027-03-GOVERNANCE-02"
+    ]
+  },
+  {
+    "subject": "Improving biomass flows for a sustainable and circular bioeconomy",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-07"
+    ]
+  },
+  {
+    "subject": "Improving circularity of multilayer flexible plastic food contact packaging",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-01"
+    ]
+  },
+  {
+    "subject": "Improving understanding of the contribution of the organic farming sector to sustainability",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-04"
+    ]
+  },
+  {
+    "subject": "Increasing knowledge flows to practice within AKIS via EU thematic knowledge hubs",
+    "call_ids": [
+      "HORIZON-CL6-2027-03-GOVERNANCE-05",
+      "HORIZON-CL6-2026-03-GOVERNANCE-09"
+    ]
+  },
+  {
+    "subject": "Increasing mitigation of GHG emissions and feed efficiency through feed additives",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-02"
+    ]
+  },
+  {
+    "subject": "Increasing the circularity of bio-based sector: upcycling and recycling for higher value and environmental benefits",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-09"
+    ]
+  },
+  {
+    "subject": "Increasing the resilience of agriculture in water and nutrient-scarce environments through digital innovations",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-01"
+    ]
+  },
+  {
+    "subject": "Innovative circular solutions for end-of-life footwear through collection, sorting and recycling",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-05"
+    ]
+  },
+  {
+    "subject": "Integrating Remote Sensing and in-situ observations of Biodiversity, towards a fully interoperable observation and data framework",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-01"
+    ]
+  },
+  {
+    "subject": "Integrating a holistic perspective in microbiome research for resilient, competitive and sustainable food systems",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-11"
+    ]
+  },
+  {
+    "subject": "Interconnect Earth Observation research for addressing environmental policies",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-07"
+    ]
+  },
+  {
+    "subject": "International dimension of the circular bio-based economy: seeking win-win opportunities",
+    "call_ids": [
+      "HORIZON-CL6-2027-03-GOVERNANCE-03"
+    ]
+  },
+  {
+    "subject": "Leveraging R&I knowledge on microbiome",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-12"
+    ]
+  },
+  {
+    "subject": "Living Labs for the eradication and/or management of invasive alien species",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-04"
+    ]
+  },
+  {
+    "subject": "Living labs driving transformative change via knowledge integration and inclusive governance",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-06"
+    ]
+  },
+  {
+    "subject": "Living labs for co-creating solutions for the restoration of ecosystems",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-01-two-stage"
+    ]
+  },
+  {
+    "subject": "Mainstreaming and scaling-up evidence-based Nature-Based Solutions towards a nature positive and climate-resilient economy",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-04-two-stage"
+    ]
+  },
+  {
+    "subject": "Microbiome for terrestrial livestock sustainability and health within a One Health approach",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-03"
+    ]
+  },
+  {
+    "subject": "Open topic: Boosting organic farming for a competitive, sustainable and resilient farming sector",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-02-two-stage",
+      "HORIZON-CL6-2026-02-two-stage"
+    ]
+  },
+  {
+    "subject": "Open topic: Develop Earth Intelligence solutions using environmental observations and state-of-the-art AI for sustainable competitiveness and policy making",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-01-two-stage",
+      "HORIZON-CL6-2026-03-two-stage"
+    ]
+  },
+  {
+    "subject": "Open topic: Improving the competitiveness of the agricultural sector by enhancing the efficient and sustainable use of agricultural production factors",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-01-two-stage"
+    ]
+  },
+  {
+    "subject": "Open topic: Innovative solutions for the European Water Resilience Strategy",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-CLIMATE-01-two-stage"
+    ]
+  },
+  {
+    "subject": "Open topic: Uncovering the causes of specific species’ rapid decline and exploring actionable solutions",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-02-two-stage"
+    ]
+  },
+  {
+    "subject": "Open topic: Using the Circular Cities and Regions Initiative to strengthen urban manufacturing in support of the Clean Industrial Deal",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-02-two-stage",
+      "HORIZON-CL6-2026-01-two-stage",
+      "HORIZON-CL6-2027-01-CIRCBIO-02-two-stage",
+      "HORIZON-CL6-2027-01-two-stage"
+    ]
+  },
+  {
+    "subject": "Optimising the water-nutrient-energy nexus for sustainable and climate smart agriculture in Africa (FNSSA)",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-02-two-stage",
+      "HORIZON-CL6-2027-02-two-stage"
+    ]
+  },
+  {
+    "subject": "Pushing the frontier of knowledge and conservation action for deep sea ecosystems",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-03"
+    ]
+  },
+  {
+    "subject": "Replacing hazardous substances in biocidal products",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-01"
+    ]
+  },
+  {
+    "subject": "Science-policy support to the implementation of EU and global biodiversity policies and strategies",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-02"
+    ]
+  },
+  {
+    "subject": "Strengthening evidence-based policies for the resilience of European agriculture and forestry and related supply chains against crises and systemic risks",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-CLIMATE-02"
+    ]
+  },
+  {
+    "subject": "Strengthening forest research for the support of Ukraine",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-10"
+    ]
+  },
+  {
+    "subject": "Strengthening plant health: addressing emerging plant pest risks",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-01-two-stage"
+    ]
+  },
+  {
+    "subject": "Strengthening rural communities' resilience to shocks",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-COMMUNITIES-01"
+    ]
+  },
+  {
+    "subject": "Strengthening strategic advice and synergies between EU and national Research and Innovation agendas and investments",
+    "call_ids": [
+      "HORIZON-CL6-2027-03-GOVERNANCE-07"
+    ]
+  },
+  {
+    "subject": "Strengthening the EU plant protection ecosystem for a future-proof agriculture",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-07"
+    ]
+  },
+  {
+    "subject": "Strengthening the resilience of European farmers through improved capacity in coping with risks and crises",
+    "call_ids": [
+      "HORIZON-CL6-2027-03-GOVERNANCE-01"
+    ]
+  },
+  {
+    "subject": "Supporting All-Atlantic Ocean Research and Innovation Alliance",
+    "call_ids": [
+      "HORIZON-CL6-2026-03-GOVERNANCE-04"
+    ]
+  },
+  {
+    "subject": "Supporting pre-normative research for standardization of the bio-based products",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-08"
+    ]
+  },
+  {
+    "subject": "Sustainable and healthy diets based on health status and socio-economic risk factors of ageing population",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-10"
+    ]
+  },
+  {
+    "subject": "Sustainable and healthy diets for cardiovascular diseases prevention with the support of digital applications",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-09"
+    ]
+  },
+  {
+    "subject": "Tackling pesticide resistance: early detection, management strategies, and foresight",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-FARM2FORK-02"
+    ]
+  },
+  {
+    "subject": "Technical innovation to protect ecosystems and to scale up their restoration",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-BIODIV-03"
+    ]
+  },
+  {
+    "subject": "Toward a comprehensive assessment of the disturbance of marine ecosystems by anthropogenic underwater noise",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-01"
+    ]
+  },
+  {
+    "subject": "Towards a Europe of Bioeconomy Places",
+    "call_ids": [
+      "HORIZON-CL6-2027-01-CIRCBIO-06"
+    ]
+  },
+  {
+    "subject": "Towards commercialization of food systems microbiome solutions",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-07"
+    ]
+  },
+  {
+    "subject": "Towards more effective, fair and coherent policies for climate change mitigation and adaptation in agriculture and forestry",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-CLIMATE-01"
+    ]
+  },
+  {
+    "subject": "Towards the water infrastructures of the future",
+    "call_ids": [
+      "HORIZON-CL6-2026-02-CLIMATE-02"
+    ]
+  },
+  {
+    "subject": "Understanding and tackling the decline of insects",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-01"
+    ]
+  },
+  {
+    "subject": "Understanding biomass flows in Europe",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-CIRCBIO-05"
+    ]
+  },
+  {
+    "subject": "Unleashing the potential of sustainable small-scale aquatic food production and recreational fisheries for prosperous local communities",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-FARM2FORK-06"
+    ]
+  },
+  {
+    "subject": "Unlocking a safe operating space for Antarctica and the Southern Ocean",
+    "call_ids": [
+      "HORIZON-CL6-2027-02-CLIMATE-04"
+    ]
+  },
+  {
+    "subject": "Unlocking the potential of citizen action for nature protection and restoration",
+    "call_ids": [
+      "HORIZON-CL6-2026-01-BIODIV-03-two-stage"
+    ]
+  }
+]

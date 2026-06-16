@@ -408,6 +408,233 @@ def related_calls(call_id: str, top_n: int = 6):
         raise HTTPException(status_code=500, detail=f"CORDIS related-calls failed: {str(e)}")
 
 
+FIELD_TREE_PROVENANCE = ("EuroSciVoc research fields of CORDIS-funded projects linked to Horizon Europe "
+                         "calls (CORDIS, FP7-Horizon Europe). A project can sit in several fields, so "
+                         "counts overlap across branches.")
+FIELD_CALLS_PROVENANCE = ("Horizon Europe calls whose CORDIS-funded projects are classified in this "
+                          "research field (CORDIS, FP7-Horizon Europe)")
+FIELD_CALLS_CAP = 100   # bound the per-field call set; disclosed via relevantCallCount/cap/capped
+# A call is RELEVANT to a field when at least this share of its classified funded projects fall in the
+# field (projectsInField / classifiedProjects). EuroSciVoc tags every project with several broad labels, so
+# a single broad call (e.g. a quantum-networks or AI-security call) otherwise leaks into many unrelated
+# fields via a single tangential project. Calls below the floor are disclosed as "loosely related, hidden",
+# never silently dropped, and the per-call share is shown so the user can judge.
+FIELD_CALLS_RELEVANCE_FLOOR = 0.2
+
+
+def _field_segments(code):
+    """EuroSciVoc code -> its non-empty path segments. '/23/47' -> ['23','47']; a non-path code -> [code]."""
+    return [s for s in (code or "").split("/") if s]
+
+
+def _build_field_tree(rows):
+    """Build the EuroSciVoc hierarchy with rolled-up funded-project/call counts from per-field rows. Pure
+    (no DB) -> unit-testable offline against real parsed data, mirroring ``_aggregate_call_trend`` /
+    ``_rank_related_calls``.
+
+    ``rows`` are dicts ``{code, title, projectIds, callIds}`` exactly as the /field-tree Cypher returns
+    them (one per ResearchField on the Call->project->field path). The hierarchy is the slash-path ``code``
+    (a code is a child of its prefix path). A field's rolled count = the number of DISTINCT project/call ids
+    at that code OR any descendant (union, not sum — a project classified at several nested codes counts
+    once per field). Counts overlap across BRANCHES by design (a project has several classifications, often
+    in different domains). Ancestor codes referenced by a descendant but never classified directly are
+    SYNTHESISED (``synthetic=True``, code used as the label) so the tree stays connected without inventing an
+    EuroSciVoc name."""
+    nodes = {}   # code -> node dict
+
+    def ensure(code, title=None, synthetic=False):
+        n = nodes.get(code)
+        if n is None:
+            n = nodes[code] = {"code": code, "title": title, "synthetic": synthetic,
+                               "_proj": set(), "_call": set(), "children": []}
+        if title and not n.get("title"):
+            n["title"], n["synthetic"] = title, False
+        return n
+
+    for r in rows:
+        code = r.get("code")
+        if not code:
+            continue
+        n = ensure(code, r.get("title"))
+        n["_proj"].update(r.get("projectIds") or [])
+        n["_call"].update(r.get("callIds") or [])
+        segs = _field_segments(code)
+        # synthesise every missing ancestor on the path so the tree is connected
+        for i in range(1, len(segs)):
+            ensure("/" + "/".join(segs[:i]), synthetic=True)
+
+    roots = []
+    for code, n in nodes.items():
+        segs = _field_segments(code)
+        parent = ("/" + "/".join(segs[:-1])) if len(segs) > 1 else None
+        if parent and parent in nodes:
+            nodes[parent]["children"].append(n)
+        else:
+            roots.append(n)
+
+    def rollup(n):
+        proj, call = set(n["_proj"]), set(n["_call"])
+        for ch in n["children"]:
+            cp, cc = rollup(ch)
+            proj |= cp
+            call |= cc
+        n["projectCount"], n["callCount"] = len(proj), len(call)
+        n["directProjectCount"], n["directCallCount"] = len(n["_proj"]), len(n["_call"])
+        return proj, call
+
+    for r in roots:
+        rollup(r)
+
+    def shape(n):
+        kids = sorted((shape(c) for c in n["children"]),
+                      key=lambda x: (-x["projectCount"], (x["title"] or x["code"] or "").lower()))
+        raw_title = (n["title"] or "").strip()
+        # A node with no usable title — a synthesised ancestor OR a field that was classified but carries a
+        # blank EuroSciVoc title — is shown as a muted "field group {code}", never as a bare code
+        # masquerading as a real field name (honesty: no invented names, no raw codes surfaced as titles).
+        return {
+            "code": n["code"],
+            "title": raw_title or n["code"],
+            "synthetic": bool(n["synthetic"]) or not raw_title,
+            "depth": len(_field_segments(n["code"])),
+            "projectCount": n["projectCount"],
+            "callCount": n["callCount"],
+            "directProjectCount": n["directProjectCount"],
+            "directCallCount": n["directCallCount"],
+            "children": kids,
+        }
+
+    return sorted((shape(r) for r in roots),
+                  key=lambda x: (-x["projectCount"], (x["title"] or x["code"] or "").lower()))
+
+
+def _rank_field_calls(rows, floor=FIELD_CALLS_RELEVANCE_FLOOR, cap=FIELD_CALLS_CAP):
+    """Rank a field's candidate calls by RELEVANCE and trim the ones only incidentally related. Pure (no DB)
+    -> unit-testable offline, like ``_build_field_tree`` / ``_aggregate_call_trend``.
+
+    Each ``rows`` item is a dict ``{id, name, callId, identifier, subject, projectCount, callProjectCount}``
+    where ``projectCount`` = the call's distinct funded projects classified in this field (or its subtree)
+    and ``callProjectCount`` = the call's distinct funded projects that carry ANY EuroSciVoc classification.
+    Relevance is the SHARE ``projectCount / callProjectCount`` — what fraction of the call's classified
+    research actually sits in this field. EuroSciVoc tags each project with several broad labels, so ranking
+    by absolute ``projectCount`` lets a broad call surface in every field a single tangential project
+    touches; ranking by share keeps the calls a field is genuinely about on top.
+
+    Calls below ``floor`` are dropped as incidental (disclosed to the user via the returned hidden count, not
+    silently); the rest are sorted by share desc (then in-field count, then name) and capped at ``cap``.
+    Returns ``(calls, relevant_count, hidden_incidental)`` where ``calls`` carry an added ``share`` float.
+    """
+    enriched = []
+    for r in rows:
+        total = r.get("callProjectCount") or 0
+        in_field = r.get("projectCount") or 0
+        share = (in_field / total) if total > 0 else 0.0
+        enriched.append({**r, "share": share})
+    relevant = [r for r in enriched if r["share"] >= floor]
+    hidden_incidental = len(enriched) - len(relevant)
+    relevant.sort(key=lambda r: (-r["share"], -(r.get("projectCount") or 0), (r.get("name") or "").lower()))
+    return relevant[:cap], len(relevant), hidden_incidental
+
+
+@router.get("/field-tree")
+def field_tree():
+    """B5 research-field explorer: the EuroSciVoc field hierarchy with rolled-up funded-project and call
+    counts, reconstructed from the existing CLASSIFIED_AS/HAS_FUNDED_PROJECT edges (no new ingestion).
+    Returns an empty ``tree`` when no CORDIS field data is linked to calls (drives the drawer empty state).
+
+    Honest framing: counts are EU-funded participation, NOT scientific quality or impact; a project carries
+    several EuroSciVoc classifications, so counts overlap across branches.
+    """
+    try:
+        s = SOURCE_TAG
+        rows = db.query(
+            "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s})"
+            "-[:CLASSIFIED_AS]->(rf:ResearchField {source:$s}) "
+            "WITH rf, collect(DISTINCT pr.id) AS projectIds, collect(DISTINCT c.id) AS callIds "
+            "RETURN rf.code AS code, rf.title AS title, projectIds, callIds",
+            {"s": s},
+        )
+        totals = db.query(
+            "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "RETURN count(DISTINCT pr) AS projects, count(DISTINCT c) AS calls",
+            {"s": s},
+        )
+        t = totals[0] if totals else {}
+        return {
+            "tree": _build_field_tree(rows),
+            "totalProjects": (t.get("projects") or 0),
+            "totalCalls": (t.get("calls") or 0),
+            "fieldCount": len(rows),
+            "provenance": FIELD_TREE_PROVENANCE,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS field-tree failed: {str(e)}")
+
+
+@router.get("/field-calls")
+def field_calls(code: str):
+    """B5: Horizon Europe calls funded in a selected EuroSciVoc research field, rolled up over the field's
+    subtree by code prefix (exact code OR ``code + '/'`` prefix — the trailing slash excludes
+    sibling-prefix codes such as /23/47/2970 when the field is /23/47/297).
+
+    Calls are ranked by RELEVANCE, not raw count: each call carries ``projectCount`` (its distinct funded
+    projects classified in the field) and ``callProjectCount`` (its distinct funded projects with ANY
+    EuroSciVoc classification); the share between them drives the ranking (see ``_rank_field_calls``). Calls
+    whose share is below ``FIELD_CALLS_RELEVANCE_FLOOR`` are only incidentally related and are trimmed —
+    disclosed via ``hiddenIncidental`` (never silently dropped). The remaining list is capped at
+    ``FIELD_CALLS_CAP``; ``capped`` is true only when the relevant-call count exceeds what was returned.
+    """
+    try:
+        s = SOURCE_TAG
+        prefix = (code or "").rstrip("/") + "/"
+        title_row = db.query(
+            "MATCH (rf:ResearchField {code:$code, source:$s}) RETURN rf.title AS title",
+            {"code": code, "s": s},
+        )
+        head = db.query(
+            "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s})"
+            "-[:CLASSIFIED_AS]->(rf:ResearchField {source:$s}) "
+            "WHERE rf.code = $code OR rf.code STARTS WITH $prefix "
+            "RETURN count(DISTINCT pr) AS projects",
+            {"code": code, "prefix": prefix, "s": s},
+        )
+        # One row per call that touches the field, carrying both the in-field project count and the call's
+        # total classified-project count (the relevance denominator). Ranking/trimming is done in the pure
+        # _rank_field_calls helper so it stays offline-testable; only the candidate set (one small row per
+        # touching call, bounded by the ingested call set) crosses the DB boundary.
+        rows = db.query(
+            "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s})"
+            "-[:CLASSIFIED_AS]->(rf:ResearchField {source:$s}) "
+            "WHERE rf.code = $code OR rf.code STARTS WITH $prefix "
+            "WITH c, count(DISTINCT pr) AS inField "
+            "MATCH (c)-[:HAS_FUNDED_PROJECT]->(pr2:CordisProject {source:$s})"
+            "-[:CLASSIFIED_AS]->(:ResearchField {source:$s}) "
+            "WITH c, inField, count(DISTINCT pr2) AS total "
+            "RETURN c.id AS id, c.name AS name, c.call_id AS callId, c.identifier AS identifier, "
+            "       c.cordis_area_query AS subject, inField AS projectCount, total AS callProjectCount",
+            {"code": code, "prefix": prefix, "s": s},
+        )
+        h = head[0] if head else {}
+        calls, relevant_count, hidden_incidental = _rank_field_calls(rows)
+        return {
+            "code": code,
+            "title": (title_row[0]["title"] if title_row else None),
+            "fieldProjectCount": (h.get("projects") or 0),
+            "fieldCallCount": len(rows),            # all calls that touch the field
+            "relevantCallCount": relevant_count,    # calls meeting the relevance floor
+            "calls": calls,
+            "returnedCount": len(calls),
+            "hiddenIncidental": hidden_incidental,  # touching but below the floor (disclosed, not silent)
+            "relevanceFloor": FIELD_CALLS_RELEVANCE_FLOOR,
+            "cap": FIELD_CALLS_CAP,
+            # capped iff the cap (not the floor) hides relevant calls — keeps the two disclosures distinct.
+            "capped": relevant_count > len(calls),
+            "provenance": FIELD_CALLS_PROVENANCE,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS field-calls failed: {str(e)}")
+
+
 @router.delete("/area-links")
 def delete_area_links(source: str = None):
     """A2: remove subject-area evidence links (HAS_FUNDED_PROJECT) + area provenance; keep projects/tags."""

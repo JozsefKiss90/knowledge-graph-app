@@ -17,6 +17,8 @@ export default function RightControlsColumn({
   setTimelineOpen,
   compareOpen,
   setCompareOpen,
+  fieldsOpen,
+  setFieldsOpen,
   graphName,
 }) {
   return (
@@ -36,6 +38,8 @@ export default function RightControlsColumn({
         setTimelineOpen={setTimelineOpen}
         compareOpen={compareOpen}
         setCompareOpen={setCompareOpen}
+        fieldsOpen={fieldsOpen}
+        setFieldsOpen={setFieldsOpen}
         graphName={graphName}
       />
     </Col>

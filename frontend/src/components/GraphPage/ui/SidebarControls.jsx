@@ -8,6 +8,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import EmailIcon from "@mui/icons-material/Email";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import MessageDrawer from "../../LegendParts/MessageDrawer";
 import CustomDrawer from "../../LegendParts/CustomDrawer";
 import LayoutControls from "./LayoutControls";
@@ -28,6 +29,8 @@ const SidebarControls = ({
   setTimelineOpen,
   compareOpen,
   setCompareOpen,
+  fieldsOpen,
+  setFieldsOpen,
   graphName,
 }) => {
   const navigate = useNavigate();
@@ -105,6 +108,15 @@ const SidebarControls = ({
               onClick={() => setCompareOpen((prev) => !prev)}
             >
               <CompareArrowsIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip {...tooltipProps} title="Browse research fields">
+            <IconButton
+              className={`sidebar-controls-button${fieldsOpen ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => setFieldsOpen((prev) => !prev)}
+            >
+              <AccountTreeIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </>
