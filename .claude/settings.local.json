@@ -69,7 +69,10 @@
       "Read(//tmp/**)",
       "Bash(curl -s \"http://localhost:8000/cordis/call-evidence?call_id=HORIZON-CL3-2026-01-FCT-01\" -w \"\\\\nHTTP %{http_code}\\\\n\")",
       "PowerShell(Get-NetTCPConnection *)",
-      "PowerShell(docker exec kg-dev-frontend-1 *)"
+      "PowerShell(docker exec kg-dev-frontend-1 *)",
+      "Bash(python -c ')",
+      "Bash(python -c ' *)",
+      "Bash(python -c \"import glob; print\\([p for p in glob.glob\\('backend/**/database.py', recursive=True\\)][:5]\\)\")"
     ]
   }
 }

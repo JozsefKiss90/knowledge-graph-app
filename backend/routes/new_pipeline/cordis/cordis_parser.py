@@ -57,6 +57,34 @@ def _addr_field(org: Dict[str, Any], key: str) -> str:
     return ""
 
 
+def _relations(item: Dict[str, Any]) -> Dict[str, Any]:
+    """An association's nested ``relations`` block, parsing the stringified-dict case (B2)."""
+    rel = item.get("relations")
+    if isinstance(rel, dict):
+        return rel
+    if isinstance(rel, str):
+        try:
+            v = ast.literal_eval(rel)
+            return v if isinstance(v, dict) else {}
+        except Exception:
+            return {}
+    return {}
+
+
+def _activity_type(org: Dict[str, Any]) -> str:
+    """The organisation's EU activity-type code (B2): HES/PRC/REC/PUB/OTH, or '' if absent.
+
+    CORDIS carries it as a nested category whose ``attributes.classification`` is
+    ``organizationActivityType`` and whose ``code`` is like ``/REC``; the leading slash is stripped.
+    """
+    for c in _relations(org).get("categories") or []:
+        if not isinstance(c, dict):
+            continue
+        if _attrs(c).get("classification") == "organizationActivityType":
+            return (c.get("code") or "").strip().lstrip("/")
+    return ""
+
+
 def normalise_project(rec: Dict[str, Any]) -> Dict[str, Any]:
     """One raw CORDIS project record -> one flat normalised dict."""
     relations = rec.get("relations") or {}
@@ -78,6 +106,7 @@ def normalise_project(rec: Dict[str, Any]) -> Dict[str, Any]:
                 "shortName": (a.get("shortName") or "").strip(),
                 "country": _addr_field(a, "country"),
                 "city": _addr_field(a, "city"),
+                "orgType": _activity_type(a),
                 "role": t,
                 "ecContribution": _num(at.get("ecContribution")),
                 "order": at.get("order"),

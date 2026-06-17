@@ -635,6 +635,152 @@ def field_calls(code: str):
         raise HTTPException(status_code=500, detail=f"CORDIS field-calls failed: {str(e)}")
 
 
+ORG_TYPE_LABELS = {
+    "HES": "University / education",
+    "PRC": "Company",
+    "REC": "Research organisation",
+    "PUB": "Public body",
+    "IND": "Individual",
+    "OTH": "Other",
+}
+PARTNERS_PROVENANCE = ("Organisations participating in this call's CORDIS-funded projects, by role "
+                       "(CORDIS, FP7-Horizon Europe). EU-funded participation, not scientific quality.")
+PARTNERS_CAP = 200   # bound the ranked org list; disclosed via filteredCount/cap/capped
+
+
+def _rank_area_organisations(rows, top_n, cap=PARTNERS_CAP):
+    """Shape + rank the organisations active in a call's CORDIS-funded area. Pure — no DB — so it is
+    unit-testable offline against real participation data (mirrors ``_rank_related_calls`` /
+    ``_aggregate_call_trend``). ``rows`` are dicts
+    ``{id, name, country, orgType, coordinatedCount, partneredCount}`` exactly as the Cypher returns them
+    (one per organisation, already filtered by country/type in Cypher).
+
+    ``projectCount`` = coordinated + partnered (an organisation's role on a given project is single, so the
+    two role buckets are disjoint and never double-count). Coordinated and partnered are kept as **separate**
+    measures — never blended into a merit/quality score. Ranked by total projects desc, then coordinated
+    desc, then name; sliced to ``min(top_n, cap)`` (the caller discloses the cap)."""
+    out = []
+    for r in rows:
+        coord = r.get("coordinatedCount") or 0
+        partner = r.get("partneredCount") or 0
+        code = (r.get("orgType") or "").strip()
+        out.append({
+            "id": r.get("id"),
+            "name": r.get("name") or r.get("id"),
+            "country": r.get("country") or "",
+            "orgType": code,
+            "orgTypeLabel": ORG_TYPE_LABELS.get(code, "Unknown"),
+            "coordinatedCount": coord,
+            "partneredCount": partner,
+            "projectCount": coord + partner,
+        })
+    out.sort(key=lambda x: (-x["projectCount"], -x["coordinatedCount"], (x["name"] or "").lower()))
+    return out[:min(top_n, cap)]
+
+
+@router.get("/area-organisations")
+def area_organisations(call_id: str, country: str = None, org_type: str = None, top_n: int = 15):
+    """B2 partner finder: organisations active in a call's CORDIS-funded research area (HAS_FUNDED_PROJECT),
+    ranked by participation, with their coordinate-vs-partner role split, country, and organisation type.
+    Filterable by ``country`` and ``org_type`` (server-side, so the cap can't silently hide filtered-out
+    matches). Facets (all countries / types present in the area, with org counts) are computed over the
+    UNFILTERED area so the dropdowns stay stable. Returns an empty ``organisations`` list when the call has
+    no CORDIS participation (drives the frontend hide-when-empty).
+
+    Honest framing: this is EU-funded participation, NOT scientific quality or impact; 'most active' is not
+    'best', and organisations funded nationally/privately don't appear.
+    """
+    try:
+        s = SOURCE_TAG
+        country = (country or "").strip() or None
+        org_type = (org_type or "").strip() or None
+
+        # Facets + headline counts over the UNFILTERED area (stable dropdowns regardless of active filter).
+        head = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
+            "RETURN count(DISTINCT pr) AS projectCount, head(collect(c.cordis_area_query)) AS subject",
+            {"cid": call_id, "s": s},
+        )
+        org_count = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+            "<-[:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
+            "RETURN count(DISTINCT og) AS n",
+            {"cid": call_id, "s": s},
+        )
+        country_facets = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+            "<-[:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
+            "WHERE og.country IS NOT NULL AND og.country <> '' "
+            "WITH og.country AS code, count(DISTINCT og) AS orgs "
+            "RETURN code, orgs ORDER BY orgs DESC, code",
+            {"cid": call_id, "s": s},
+        )
+        type_facets = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+            "<-[:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
+            "WITH coalesce(og.orgType,'') AS code, count(DISTINCT og) AS orgs "
+            "RETURN code, orgs ORDER BY orgs DESC, code",
+            {"cid": call_id, "s": s},
+        )
+
+        # Ranked organisations over the FILTERED set. Coordinated vs partnered counted independently so the
+        # two role measures never double-count a project (an org's role on a project is single).
+        clauses = ""
+        params = {"cid": call_id, "s": s, "cap": PARTNERS_CAP}
+        if country:
+            clauses += " AND og.country = $country"
+            params["country"] = country
+        if org_type:
+            clauses += " AND coalesce(og.orgType,'') = $orgType"
+            params["orgType"] = org_type
+        rows = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s})"
+            "<-[r:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
+            "WHERE true" + clauses + " "
+            "WITH og, "
+            "     count(DISTINCT CASE WHEN r.role='coordinator' THEN pr END) AS coordinatedCount, "
+            "     count(DISTINCT CASE WHEN r.role<>'coordinator' THEN pr END) AS partneredCount "
+            "WITH og, coordinatedCount, partneredCount, (coordinatedCount + partneredCount) AS total "
+            "ORDER BY total DESC LIMIT $cap "
+            "RETURN og.id AS id, og.name AS name, og.country AS country, og.orgType AS orgType, "
+            "       coordinatedCount, partneredCount",
+            params,
+        )
+        # filteredCount = distinct orgs matching the filters (for honest cap disclosure, computed exactly).
+        fc = db.query(
+            "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+            "<-[:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
+            "WHERE true" + clauses + " "
+            "RETURN count(DISTINCT og) AS n",
+            {k: v for k, v in params.items() if k != "cap"},
+        )
+
+        organisations = _rank_area_organisations(rows, top_n)
+        filtered_count = (fc[0]["n"] if fc else 0) or 0
+        h = head[0] if head else {}
+        return {
+            "call_id": call_id,
+            "subject": h.get("subject"),
+            "projectCount": (h.get("projectCount") or 0),
+            "organisationCount": (org_count[0]["n"] if org_count else 0) or 0,
+            "filteredCount": filtered_count,
+            "returnedCount": len(organisations),
+            "cap": PARTNERS_CAP,
+            "capped": filtered_count > len(organisations),
+            "filters": {"country": country, "orgType": org_type},
+            "facets": {
+                "countries": [{"code": r["code"], "orgs": r["orgs"]} for r in country_facets],
+                "orgTypes": [{"code": r["code"],
+                              "label": ORG_TYPE_LABELS.get(r["code"], "Unknown"),
+                              "orgs": r["orgs"]} for r in type_facets],
+            },
+            "organisations": organisations,
+            "provenance": PARTNERS_PROVENANCE,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS area-organisations failed: {str(e)}")
+
+
 @router.delete("/area-links")
 def delete_area_links(source: str = None):
     """A2: remove subject-area evidence links (HAS_FUNDED_PROJECT) + area provenance; keep projects/tags."""

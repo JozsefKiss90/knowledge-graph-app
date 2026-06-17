@@ -93,7 +93,8 @@ class CordisGraphBuilder:
                         "MERGE (og:CordisOrganisation {id:$id}) SET og += $props",
                         {"id": oid, "props": _props({
                             "id": oid, "name": o.get("name"), "shortName": o.get("shortName"),
-                            "country": o.get("country"), "city": o.get("city"), "source": SOURCE_TAG,
+                            "country": o.get("country"), "city": o.get("city"),
+                            "orgType": o.get("orgType"), "source": SOURCE_TAG,
                         })},
                     )
                     seen_orgs.add(oid)
