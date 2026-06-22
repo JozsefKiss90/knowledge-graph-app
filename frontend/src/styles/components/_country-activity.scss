@@ -1,0 +1,213 @@
+/* B4 — CORDIS country-activity overlay drawer.
+   Reuses the research-field drawer geometry (fixed, right-anchored, createPortal) and CSS vars for
+   dark/light. Holds the country picker, the green/light-green/dim legend (matching the graph paint), and a
+   ranked list of the areas the country is most active in, each row carrying a led/joined split. */
+
+.country-activity-drawer {
+  position: fixed;
+  z-index: 1200;
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+  width: 440px;
+  max-width: calc(100vw - 100px);
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: 18px;
+
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 44px rgba(2, 6, 23, 0.18),
+              0 6px 16px rgba(2, 6, 23, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.country-activity-drawer__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.country-activity__hint {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+  margin-bottom: 12px;
+}
+
+.country-activity__empty {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+  padding: 14px 4px;
+
+  code {
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 5px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+  }
+}
+
+/* Country picker -------------------------------------------------------- */
+.country-activity__picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+
+  select {
+    width: 100%;
+    font-size: 12.5px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--card-foreground);
+  }
+}
+
+.country-activity__picker-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--foreground-muted);
+}
+
+/* Legend (mirrors the graph paint) -------------------------------------- */
+.country-activity__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 10.5px;
+  color: var(--foreground-muted);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+.country-activity__swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  flex: 0 0 auto;
+
+  &--coord { background: #10b981; }
+  &--part { background: #6ee7b7; }
+  &--dim {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    opacity: 0.6;
+  }
+}
+
+.country-activity__headline {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--card-foreground);
+  margin-bottom: 8px;
+}
+
+/* Ranked areas list ----------------------------------------------------- */
+.country-activity__calls-empty {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+  padding: 8px 2px;
+}
+
+.country-activity__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  max-height: 46vh;
+}
+
+.country-activity__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+
+  &:last-child { border-bottom: none; }
+}
+
+.country-activity__main {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.country-activity__name {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--card-foreground);
+}
+
+.country-activity__subject {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--foreground-muted);
+  margin-top: 2px;
+}
+
+.country-activity__counts {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.country-activity__count-total {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--card-foreground);
+}
+
+.country-activity__count-split {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--foreground-muted);
+  margin-top: 1px;
+}
+
+.country-activity__capped {
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: var(--foreground-muted);
+}
+
+.country-activity__prov {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+}
+
+/* Responsive: fill the screen edge-to-edge on small viewports */
+@media (max-width: 560px) {
+  .country-activity-drawer {
+    right: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
+  }
+}

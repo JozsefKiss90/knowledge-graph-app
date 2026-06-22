@@ -52,13 +52,16 @@ def load_curated_queries(source: str) -> Optional[Dict[str, str]]:
     return data.get("queries", data if isinstance(data, dict) else None)
 
 
-def _calls_in_scope(source: str) -> List[Dict[str, str]]:
+def _calls_in_scope(source: str, only_untagged: bool = False) -> List[Dict[str, str]]:
     # The subject is the call's topic title where present, else its name (clusters populate `name`
     # from the call title, e.g. CL3 has no `topic_title`). Both are stored on the Call node.
+    # When ``only_untagged`` (resume mode), skip calls already tagged so an interrupted run can be
+    # finished without re-fetching the subjects already done.
+    untagged_clause = "AND (c.related_topics IS NULL OR size(c.related_topics) = 0) " if only_untagged else ""
     rows = db.query(
         "MATCH (c:Call {source:$s}) "
         "WITH c, CASE WHEN c.topic_title IS NULL OR c.topic_title = '' THEN c.name ELSE c.topic_title END AS subject "
-        "WHERE subject IS NOT NULL AND subject <> '' "
+        "WHERE subject IS NOT NULL AND subject <> '' " + untagged_clause +
         "RETURN c.id AS id, subject AS subject",
         {"s": source},
     )
@@ -85,6 +88,7 @@ def tag_calls(
     preview: bool = False,
     query_map: Optional[Dict[str, str]] = None,
     ingest_projects: bool = True,
+    only_untagged: bool = False,
 ) -> Dict[str, Any]:
     """Tag the calls in ``source`` (a cluster source tag) — or an explicit ``calls`` list — grouping by
     distinct subject so each subject is fetched once. When ``query_map`` is supplied, each subject is
@@ -96,7 +100,7 @@ def tag_calls(
     if calls is None:
         if not source:
             raise ValueError("tag_calls needs either `source` (cluster tag) or an explicit `calls` list.")
-        calls = _calls_in_scope(source)
+        calls = _calls_in_scope(source, only_untagged=only_untagged)
 
     by_subject: Dict[str, List[str]] = defaultdict(list)
     for c in calls:
@@ -176,6 +180,7 @@ def tag_calls(
         "subjects": subjects_done,
         "calls_tagged": calls_tagged,
         "empty_subjects": len(empty_subjects),
+        "empty_detail": empty_subjects,
         "failed_subjects": len(failed_subjects),
         "failed_detail": failed_subjects[:10],
         "ingested": ingest_totals,

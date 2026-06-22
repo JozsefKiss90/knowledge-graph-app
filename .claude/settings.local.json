@@ -72,7 +72,31 @@
       "PowerShell(docker exec kg-dev-frontend-1 *)",
       "Bash(python -c ')",
       "Bash(python -c ' *)",
-      "Bash(python -c \"import glob; print\\([p for p in glob.glob\\('backend/**/database.py', recursive=True\\)][:5]\\)\")"
+      "Bash(python -c \"import glob; print\\([p for p in glob.glob\\('backend/**/database.py', recursive=True\\)][:5]\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('routes/new_pipeline/cordis/cordis_routes.py'\\).read\\(\\)\\); print\\('cordis_routes.py: syntax OK'\\)\")",
+      "Bash(python -c \"import ast,io; ast.parse\\(io.open\\('routes/new_pipeline/cordis/cordis_routes.py',encoding='utf-8'\\).read\\(\\)\\); print\\('cordis_routes.py: syntax OK'\\)\")",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "Bash(python -c \"import json;d=json.load\\(open\\('curated_queries/cluster_1.json',encoding='utf-8'\\)\\);q=d.get\\('queries',d\\);print\\('count:',len\\(q\\)\\);[print\\(' -',k[:90]\\) for k in q]\")",
+      "Bash(python -m py_compile cordis_tagger.py cordis_routes.py)",
+      "PowerShell(python -m py_compile \"C:\\\\Code\\\\knowledge-graph-app\\\\backend\\\\routes\\\\new_pipeline\\\\cordis\\\\cordis_tagger.py\" \"C:\\\\Code\\\\knowledge-graph-app\\\\backend\\\\routes\\\\new_pipeline\\\\cordis\\\\cordis_routes.py\"; if \\($?\\) { \"OK both compile\" })",
+      "Bash(echo \"exit-grep:$?\")",
+      "Bash(netstat -ano)",
+      "Bash(curl -s -o - -w \"\\\\nHTTP %{http_code}\\\\n\" http://localhost:8000/cordis/portfolio-summary)",
+      "Bash(curl -s -o - -w \"\\\\nHTTP %{http_code}\\\\n\" http://localhost:8000/cordis/stats)",
+      "WebSearch",
+      "Bash(python _diag_hopon.py)",
+      "Bash(export NEO4J_URI=\"bolt://localhost:7687\")",
+      "Bash(python _verify_hopon.py)",
+      "Bash(python *)",
+      "Bash(export NEO4J_URI=\"bolt://localhost:7687\" PYTHONIOENCODING=utf-8)",
+      "WebFetch(domain:ffg.at)",
+      "WebFetch(domain:www.ffg.at)",
+      "WebFetch(domain:rea.ec.europa.eu)",
+      "Bash(curl.exe *)",
+      "Bash(powershell -Command \"Start-Sleep -Seconds 20\")",
+      "PowerShell(python -m py_compile backend\\\\routes\\\\new_pipeline\\\\cordis\\\\cordis_builder.py; if \\($?\\) { \"compile OK\" })",
+      "PowerShell($env:PYTHONIOENCODING='utf-8'; python backend\\\\_verify_cordis_batch.py)"
     ]
   }
 }

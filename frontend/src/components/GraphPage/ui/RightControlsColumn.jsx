@@ -19,6 +19,10 @@ export default function RightControlsColumn({
   setCompareOpen,
   fieldsOpen,
   setFieldsOpen,
+  countryOverlayOpen,
+  setCountryOverlayOpen,
+  hopOnOpen,
+  setHopOnOpen,
   graphName,
 }) {
   return (
@@ -40,6 +44,10 @@ export default function RightControlsColumn({
         setCompareOpen={setCompareOpen}
         fieldsOpen={fieldsOpen}
         setFieldsOpen={setFieldsOpen}
+        countryOverlayOpen={countryOverlayOpen}
+        setCountryOverlayOpen={setCountryOverlayOpen}
+        hopOnOpen={hopOnOpen}
+        setHopOnOpen={setHopOnOpen}
         graphName={graphName}
       />
     </Col>

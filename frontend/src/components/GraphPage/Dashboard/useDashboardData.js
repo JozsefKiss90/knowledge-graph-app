@@ -58,6 +58,7 @@ export function useDashboardData(loadFromStore) {
         totalCommitted: 0,
         topicsTracked: 0,
         callsByProgramme: [],
+        plannedByProgrammeKey: {},
         monthlyBuckets: [],
         topicDistribution: [],
         upcomingCalls: [],
@@ -71,6 +72,10 @@ export function useDashboardData(loadFromStore) {
     const callMap = new Map(); // dedup by id
     const budgetByTopProgramme = {};
     const callCountByTopProgramme = {};
+    // Per programme KEY (Cluster_1…, ERC, MSCA, …) — the granularity F2 (Planned vs Awarded) compares
+    // against the per-programme CORDIS awarded totals. The top-level maps above collapse the HE clusters
+    // into one "HE" bucket, which would bury the per-cluster contrast F2 is about.
+    const plannedByProgrammeKey = {};
 
     for (const progKey of ALL_PROGRAMME_KEYS) {
       const raw = loadFromStore(progKey);
@@ -137,6 +142,11 @@ export function useDashboardData(loadFromStore) {
 
         if (!callCountByTopProgramme[topProg]) callCountByTopProgramme[topProg] = 0;
         callCountByTopProgramme[topProg]++;
+
+        // Same accumulation, keyed by the sub-programme key (the loop's progKey) for F2.
+        if (!plannedByProgrammeKey[progKey]) plannedByProgrammeKey[progKey] = { budget: 0, callCount: 0 };
+        plannedByProgrammeKey[progKey].budget += budget;
+        plannedByProgrammeKey[progKey].callCount += 1;
       }
     }
 
@@ -214,6 +224,7 @@ export function useDashboardData(loadFromStore) {
       totalCommitted,
       topicsTracked: allTopics.size,
       callsByProgramme,
+      plannedByProgrammeKey,
       monthlyBuckets,
       topicDistribution,
       upcomingCalls,

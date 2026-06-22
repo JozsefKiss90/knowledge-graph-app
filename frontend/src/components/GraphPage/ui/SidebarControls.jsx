@@ -9,6 +9,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import PublicIcon from "@mui/icons-material/Public";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import MessageDrawer from "../../LegendParts/MessageDrawer";
 import CustomDrawer from "../../LegendParts/CustomDrawer";
 import LayoutControls from "./LayoutControls";
@@ -31,6 +33,10 @@ const SidebarControls = ({
   setCompareOpen,
   fieldsOpen,
   setFieldsOpen,
+  countryOverlayOpen,
+  setCountryOverlayOpen,
+  hopOnOpen,
+  setHopOnOpen,
   graphName,
 }) => {
   const navigate = useNavigate();
@@ -117,6 +123,24 @@ const SidebarControls = ({
               onClick={() => setFieldsOpen((prev) => !prev)}
             >
               <AccountTreeIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip {...tooltipProps} title="Country activity overlay">
+            <IconButton
+              className={`sidebar-controls-button${countryOverlayOpen ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => setCountryOverlayOpen((prev) => !prev)}
+            >
+              <PublicIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip {...tooltipProps} title="Hop-on opportunities">
+            <IconButton
+              className={`sidebar-controls-button${hopOnOpen ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => setHopOnOpen((prev) => !prev)}
+            >
+              <GroupAddIcon fontSize="small" />
             </IconButton>
           </Tooltip>
         </>

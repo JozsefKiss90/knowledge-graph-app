@@ -1,0 +1,224 @@
+/* B6 — CORDIS hop-on host finder drawer.
+   Reuses the country-activity drawer geometry (fixed, right-anchored, createPortal) and CSS vars for
+   dark/light. Holds the filter row (programme / field / missing widening country / min months) and a ranked
+   list of eligible host projects, each row carrying the consortium's present countries and its widening gap. */
+
+.hop-on-drawer {
+  position: fixed;
+  z-index: 1200;
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+  width: 460px;
+  max-width: calc(100vw - 100px);
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: 18px;
+
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 44px rgba(2, 6, 23, 0.18),
+              0 6px 16px rgba(2, 6, 23, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hop-on-drawer__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.hop-on__hint {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+  margin-bottom: 12px;
+}
+
+.hop-on__empty {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+  padding: 14px 4px;
+
+  code {
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 5px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+  }
+}
+
+/* Filters -------------------------------------------------------------- */
+.hop-on__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.hop-on__filter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  select {
+    width: 100%;
+    font-size: 12.5px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--card-foreground);
+  }
+}
+
+.hop-on__filter-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--foreground-muted);
+}
+
+.hop-on__headline {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--card-foreground);
+  margin-bottom: 8px;
+}
+
+/* Ranked host list ----------------------------------------------------- */
+.hop-on__list-empty {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+  padding: 8px 2px;
+}
+
+.hop-on__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  max-height: 44vh;
+}
+
+.hop-on__row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+
+  &:last-child { border-bottom: none; }
+}
+
+.hop-on__row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.hop-on__acronym {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--card-foreground);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hop-on__link {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.hop-on__meta {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--foreground-muted);
+  margin-top: 2px;
+}
+
+.hop-on__prog {
+  font-weight: 600;
+  color: var(--card-foreground);
+}
+
+.hop-on__scheme {
+  color: var(--foreground-muted);
+}
+
+/* Country chips -------------------------------------------------------- */
+.hop-on__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.hop-on__chips-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--foreground-muted);
+  margin-right: 2px;
+}
+
+.hop-on__chip {
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+
+  &--present {
+    background: var(--muted);
+    color: var(--card-foreground);
+  }
+
+  /* The opportunity: widening countries not yet on the project — muted/dashed so it reads as "absent". */
+  &--gap {
+    background: transparent;
+    color: var(--foreground-muted);
+    border-style: dashed;
+  }
+}
+
+.hop-on__capped {
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: var(--foreground-muted);
+}
+
+.hop-on__prov {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+}
+
+/* Responsive: fill the screen edge-to-edge on small viewports */
+@media (max-width: 560px) {
+  .hop-on-drawer {
+    right: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
+  }
+}

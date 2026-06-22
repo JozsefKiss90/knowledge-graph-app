@@ -48,6 +48,13 @@ function GraphPage() {
   // B5: research-field explorer drawer (subject-first browse of EuroSciVoc fields -> calls)
   const [fieldsOpen, setFieldsOpen] = useState(false);
 
+  // B4: country-activity overlay — toggle + the selected country whose CORDIS activity paints the call nodes
+  const [countryOverlayOpen, setCountryOverlayOpen] = useState(false);
+  const [countryOverlayCode, setCountryOverlayCode] = useState("");
+
+  // B6: hop-on host finder drawer (eligible Pillar II / EIC Pathfinder projects a widening partner can join)
+  const [hopOnOpen, setHopOnOpen] = useState(false);
+
   const [graphStats, setGraphStats] = useState({ nodes: 0, edges: 0 });
 
   const [viewMode, setViewMode] = useState("graph"); // "graph" | "dashboard"
@@ -159,6 +166,8 @@ function GraphPage() {
     if (graphName === "HE_2025") {
       setCompareOpen(false);
       setFieldsOpen(false); // research-field explorer is cluster-oriented, like Compare
+      setCountryOverlayOpen(false); // country overlay paints Call nodes, absent from the flat HE Wiki graph
+      setHopOnOpen(false); // hop-on finder is cluster/Call-oriented, like Compare/Fields
     }
   }, [graphName]);
 
@@ -352,6 +361,12 @@ useEffect(() => {
               setCompareNodes={setCompareNodes}
               fieldsOpen={fieldsOpen}
               setFieldsOpen={setFieldsOpen}
+              countryOverlayOpen={countryOverlayOpen}
+              setCountryOverlayOpen={setCountryOverlayOpen}
+              countryOverlayCode={countryOverlayCode}
+              setCountryOverlayCode={setCountryOverlayCode}
+              hopOnOpen={hopOnOpen}
+              setHopOnOpen={setHopOnOpen}
               assistantMatchIds={assistantMatchIds}
               assistantMatchDestIds={assistantMatchDestIds}
               assistantFocus={assistantFocus}
@@ -378,6 +393,10 @@ useEffect(() => {
               setCompareOpen={setCompareOpen}
               fieldsOpen={fieldsOpen}
               setFieldsOpen={setFieldsOpen}
+              countryOverlayOpen={countryOverlayOpen}
+              setCountryOverlayOpen={setCountryOverlayOpen}
+              hopOnOpen={hopOnOpen}
+              setHopOnOpen={setHopOnOpen}
               graphName={graphName}
             />
           </Row>

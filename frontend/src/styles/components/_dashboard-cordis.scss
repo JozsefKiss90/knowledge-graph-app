@@ -1,0 +1,155 @@
+/* ===================================================================
+   Dashboard — Funded reality (CORDIS) section (F1)
+   Portfolio-wide awarded counterpart to the planned KPI band.
+   =================================================================== */
+
+.dash-grid__cordis {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+}
+
+.dash-cordis-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dash-cordis-section__title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--foreground, #f3f6ff);
+  margin: 0;
+}
+
+.dash-cordis-section__caption {
+  font-size: 0.76rem;
+  color: var(--muted-foreground, #94a3b8);
+  line-height: 1.5;
+  max-width: 720px;
+  margin: 0;
+}
+
+/* Five funded-reality KPIs (vs. the planned row's four). */
+.dash-kpi-row--cordis {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1100px) {
+  .dash-kpi-row--cordis {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .dash-kpi-row--cordis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.dash-cordis-section__note {
+  font-size: 0.72rem;
+  color: var(--muted-foreground, #64748b);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ===================================================================
+   F2 — Planned vs Awarded (inside the existing "Funding by programme" card)
+   =================================================================== */
+
+/* Awarded/Both tabs are disabled until CORDIS funded-project data is ingested. */
+.dash-card__tab--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+
+  &:hover {
+    color: var(--muted-foreground, #94a3b8);
+  }
+}
+
+/* A measure with no funded-project evidence (e.g. a programme absent from CORDIS) — shown as a muted
+   "no data" marker in the bar column, never a zero-length bar. */
+.dash-funding__nodata {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--muted-foreground, #64748b);
+  align-self: center;
+}
+
+/* Awarded bars are visually distinguished from planned (hatched overlay) so the two measures never read
+   as a single comparable axis. */
+.dash-funding__bar-fill--awarded {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.22) 0 4px,
+      transparent 4px 8px
+    );
+  }
+}
+
+.dash-funding__note {
+  font-size: 0.72rem;
+  color: var(--muted-foreground, #64748b);
+  line-height: 1.5;
+  margin: 10px 0 0;
+}
+
+/* "Both" mode: planned + awarded as two stacked sub-rows per programme. */
+.dash-funding__row--both {
+  grid-template-columns: 140px 1fr;
+  align-items: start;
+}
+
+.dash-funding__measures {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dash-funding__measure {
+  display: grid;
+  grid-template-columns: 64px 1fr 70px;
+  align-items: center;
+  gap: 8px;
+}
+
+.dash-funding__measure-tag {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground, #94a3b8);
+}
+
+/* ===================================================================
+   F4 — Funded-field portfolio mix (reuses the .dash-funding bar idiom)
+   =================================================================== */
+
+/* Domain names are longer than programme labels, and the value shows "NN% · N,NNN proj". */
+.dash-field-mix__bars .dash-funding__row {
+  grid-template-columns: 180px 1fr 116px;
+}
+
+.dash-field-mix__others {
+  font-size: 0.74rem;
+  font-style: italic;
+  color: var(--muted-foreground, #64748b);
+  padding-top: 2px;
+}
+
+/* ===================================================================
+   F5 — Top countries leaderboard (reuses the F2 two-measure bar idiom)
+   =================================================================== */
+
+/* Country names are a touch wider than programme labels. */
+.dash-country-board__bars .dash-funding__row--both {
+  grid-template-columns: 150px 1fr;
+}

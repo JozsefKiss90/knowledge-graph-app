@@ -199,6 +199,32 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
       },
     },
     { selector: "node.assistant-dim", style: { opacity: 0.22 } },
+    // B4: country-activity overlay. Green accent (distinct from compare blue, assistant violet, the amber
+    // Call fill). Two honest levels — coordinated (led) vs participated (joined) — plus a meaningful-absence
+    // dim applied ONLY to CORDIS-covered calls the chosen country isn't active in (calls with no CORDIS data
+    // stay neutral). Persists across layers until the overlay is closed / the country is cleared.
+    {
+      selector: "node.country-coord",
+      style: {
+        "border-width": 5,
+        "border-color": "#10b981",
+        "border-opacity": 1,
+        "overlay-color": "#10b981",
+        "overlay-opacity": 0.18,
+        "z-index": 9998,
+      },
+    },
+    {
+      selector: "node.country-part",
+      style: {
+        "border-width": 4,
+        "border-color": "#6ee7b7",
+        "border-opacity": 1,
+        "overlay-color": "#34d399",
+        "overlay-opacity": 0.10,
+      },
+    },
+    { selector: "node.country-dim", style: { opacity: 0.2 } },
     {
       selector: "node.assistant-focus",
       style: {
