@@ -1,0 +1,11 @@
+{
+  "_about": "Curated CORDIS DET queries for Euratom Research and Training Programme (EURATOM) call subjects, keyed by the subject the tagger looks up (Call.topic_title where present, else the call title / Call.name). Subjects auto-extracted verbatim from the work-programme JSON, queries AI-authored + adversarially verified in the contenttype=project phrase-quoted style of cluster_1.json/cluster_3.json. CORDIS indexes EU RESEARCH projects (FP1-Horizon Europe); for non-research calls (and broad funding instruments such as ERC/MSCA) these find thematically related research, so a call's tags are the research fields of related funded projects, NOT its official scope. Re-run POST /cordis/tag-calls {\"source\":\"euratom\"} to apply.",
+  "queries": {
+    "FuseNet Call for the Organisation of Mini-Workshops in Fusion": "contenttype=project AND (\"nuclear fusion\" OR \"fusion energy\" OR \"magnetic confinement\" OR \"plasma physics\") AND (\"education\" OR \"training\" OR \"workshop\" OR \"summer school\")",
+    "FuseNet Support of Master Students  in attending Educational Events": "contenttype=project AND (\"nuclear fusion\" OR \"fusion energy\" OR \"fusion technology\" OR \"plasma physics\") AND (\"master students\" OR \"education\" OR \"training\" OR \"skills\")",
+    "FuseNet Support of Master Students going on an internship abroad": "contenttype=project AND (\"nuclear fusion\" OR \"fusion energy\" OR \"fusion technology\" OR \"plasma physics\") AND (\"internship\" OR \"researcher mobility\" OR \"training\" OR \"education\")",
+    "New actions for skills and competences for safe use of current and future nuclear technologies": "contenttype=project AND (\"nuclear safety\" OR \"nuclear technology\" OR \"radiation protection\" OR \"reactor safety\") AND (\"skills\" OR \"competences\" OR \"education and training\" OR \"nuclear education\")",
+    "OFFERR Call": "contenttype=project AND (\"research reactor\" OR \"research reactors\" OR \"nuclear fission\" OR \"reactor safety\") AND (\"transnational access\" OR \"research infrastructure\" OR \"open access\" OR \"access\")",
+    "SOFT Innovation Prize 2026": "contenttype=project AND (\"nuclear fusion\" OR \"fusion technology\" OR \"fusion energy\" OR \"plasma physics\") AND (\"innovation\" OR \"technology transfer\" OR \"fusion device\" OR \"commercialisation\")"
+  }
+}

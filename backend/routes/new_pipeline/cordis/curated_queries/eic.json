@@ -1,0 +1,10 @@
+{
+  "_about": "Curated CORDIS DET queries for European Innovation Council (EIC) call subjects, keyed by the subject the tagger looks up (Call.topic_title where present, else the call title / Call.name). Subjects auto-extracted verbatim from the work-programme JSON, queries AI-authored + adversarially verified in the contenttype=project phrase-quoted style of cluster_1.json/cluster_3.json. CORDIS indexes EU RESEARCH projects (FP1-Horizon Europe); for non-research calls (and broad funding instruments such as ERC/MSCA) these find thematically related research, so a call's tags are the research fields of related funded projects, NOT its official scope. Re-run POST /cordis/tag-calls {\"source\":\"eic\"} to apply.",
+  "queries": {
+    "Accelerating Physical AI: Embodied Intelligence for the Next Frontier of AI-Powered Robotics": "contenttype=project AND (\"physical AI\" OR \"embodied intelligence\" OR \"embodied AI\" OR \"artificial intelligence\") AND (\"robotics\" OR \"autonomous robots\" OR \"intelligent robots\" OR \"human-robot interaction\")",
+    "EIC Accelerator 2026 - Short proposal": "contenttype=project AND (\"deep tech\" OR \"breakthrough innovation\" OR \"disruptive innovation\") AND (\"startups\" OR \"SMEs\" OR \"scale-up\" OR \"commercialisation\")",
+    "EIC STEP Scale Up": "contenttype=project AND (\"strategic technologies\" OR \"critical technologies\" OR \"deep tech\") AND (\"scale-up\" OR \"industrial scale-up\" OR \"technology sovereignty\" OR \"manufacturing\")",
+    "HORIZON-EIC-2026-BAS-01-ECOSYSTEM": "contenttype=project AND (\"innovation ecosystem\" OR \"innovation ecosystems\" OR \"startup ecosystem\") AND (\"deep tech\" OR \"entrepreneurship\" OR \"technology transfer\" OR \"capacity building\")",
+    "Translating Disruptive New Approach Methodologies (NAMs) into Practice": "contenttype=project AND (\"new approach methodologies\" OR \"NAMs\" OR \"non-animal methods\" OR \"alternatives to animal testing\") AND (\"toxicology\" OR \"in vitro\" OR \"organ-on-chip\" OR \"predictive toxicology\")"
+  }
+}

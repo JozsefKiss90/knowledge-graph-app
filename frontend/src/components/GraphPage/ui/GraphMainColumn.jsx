@@ -12,10 +12,8 @@ import TimelineScrubber from "../TimelineScrubber/TimelineScrubber";
 import ChatBot from "../../ChatBot/ChatBot";
 import { parseCallDate } from "../TimelineScrubber/utils";
 import CompareDrawer from "../CompareDrawer/CompareDrawer";
-import CordisFieldExplorerDrawer from "../CordisFields/CordisFieldExplorerDrawer";
-import CountryActivityDrawer from "../CountryActivity/CountryActivityDrawer";
 import useCountryActivity from "../CountryActivity/useCountryActivity";
-import HopOnHostsDrawer from "../HopOn/HopOnHostsDrawer";
+import CountryOverlayBadge from "../CountryActivity/CountryOverlayBadge";
 import PortfolioDashboard from "../Dashboard/PortfolioDashboard";
 
 export default function GraphMainColumn({
@@ -48,14 +46,10 @@ export default function GraphMainColumn({
   setCompareOpen,
   compareNodes,
   setCompareNodes,
-  fieldsOpen,
-  setFieldsOpen,
-  countryOverlayOpen,
-  setCountryOverlayOpen,
+  dashboardPanel,
+  setDashboardPanel,
   countryOverlayCode,
   setCountryOverlayCode,
-  hopOnOpen,
-  setHopOnOpen,
   assistantMatchIds,
   assistantMatchDestIds,
   assistantFocus,
@@ -72,10 +66,12 @@ export default function GraphMainColumn({
   const isHEWiki = graphName === "HE_2025";
   const heWikiMissing = isHEWiki && !loadFromStore?.("HE_2025");
 
-  // B4: country-activity overlay data (single fetch — feeds both the graph paint and the drawer list).
-  const { loading: countryLoading, data: countryData } = useCountryActivity(
+  // B4: country-activity overlay data for the graph paint. The picker now lives in the dashboard tool panel,
+  // so the paint is driven by the selected country itself (not a drawer-open flag); this fetch shares the
+  // module cache with the panel's own fetch, so selecting a country costs a single request.
+  const { data: countryData } = useCountryActivity(
     countryOverlayCode,
-    countryOverlayOpen && !isHEWiki
+    !!countryOverlayCode && !isHEWiki
   );
 
   // Compare selection handler: adds a node to compareNodes (max 2)
@@ -210,14 +206,15 @@ export default function GraphMainColumn({
   // (coordinated) a funded project in the area, lighter green if it JOINED (partnered), dimmed if the area
   // is EU-funded but the country has no recorded activity there. Calls with NO CORDIS data are left neutral
   // (we never imply "inactive" where we have no data). Re-applies on every layer change so the paint follows
-  // the country wherever call nodes appear; clearing the country / closing the drawer wipes all four classes.
+  // the country wherever call nodes appear; clearing the country (picking "Select a country…" in the
+  // dashboard panel) wipes the classes.
   useEffect(() => {
     const cy = cyInstance;
     if (!cy || cy.destroyed?.()) return;
     const calls = cy.nodes("[type = 'Call'], [category = 'Call']");
     cy.batch(() => {
       calls.removeClass("country-coord country-part country-dim");
-      if (!countryOverlayOpen || !countryOverlayCode || !countryData) return;
+      if (!countryOverlayCode || !countryData) return;
       const coord = new Set((countryData.coordinatedCallIds || []).map(String));
       const active = new Set((countryData.activeCallIds || []).map(String));
       const covered = new Set((countryData.coveredCallIds || []).map(String));
@@ -229,7 +226,7 @@ export default function GraphMainColumn({
         // else: no CORDIS data for this call → leave neutral
       });
     });
-  }, [cyInstance, graphName, countryOverlayOpen, countryOverlayCode, countryData]);
+  }, [cyInstance, graphName, countryOverlayCode, countryData]);
 
   // A3: once navigation has reached the layer where the focused call is visible,
   // center it and add a brief focus ring. Fires once per focus token (seq) per
@@ -311,6 +308,10 @@ export default function GraphMainColumn({
             loadFromStore={loadFromStore}
             graphStats={graphStats}
             setViewMode={setViewMode}
+            dashboardPanel={dashboardPanel}
+            setDashboardPanel={setDashboardPanel}
+            countryOverlayCode={countryOverlayCode}
+            setCountryOverlayCode={setCountryOverlayCode}
           />
           <GraphStatusBar
             nodes={graphStats.nodes}
@@ -417,6 +418,14 @@ export default function GraphMainColumn({
           )}
 
           <div className="graph-main">
+            {/* B4: while a country overlay is painting the call nodes, surface a legend + clear control on the
+                graph itself — the picker lives in the dashboard panel, so this is the only place the paint is
+                actually visible. */}
+            <CountryOverlayBadge
+              country={!isHEWiki ? countryOverlayCode : ""}
+              onClear={() => setCountryOverlayCode("")}
+            />
+
             <HoveredNodeInfo
               node={hoveredNode}
               cyInstance={cyInstance}
@@ -448,25 +457,6 @@ export default function GraphMainColumn({
               onClearNode={(index) => {
                 setCompareNodes((prev) => prev.filter((_, i) => i !== index));
               }}
-            />
-
-            <CordisFieldExplorerDrawer
-              open={!!fieldsOpen && !isHEWiki}
-              onClose={() => setFieldsOpen(false)}
-            />
-
-            <CountryActivityDrawer
-              open={!!countryOverlayOpen && !isHEWiki}
-              onClose={() => setCountryOverlayOpen(false)}
-              country={countryOverlayCode}
-              setCountry={setCountryOverlayCode}
-              data={countryData}
-              loading={countryLoading}
-            />
-
-            <HopOnHostsDrawer
-              open={!!hopOnOpen && !isHEWiki}
-              onClose={() => setHopOnOpen(false)}
             />
           </div>
 

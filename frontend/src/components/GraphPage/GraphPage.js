@@ -45,19 +45,33 @@ function GraphPage() {
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareNodes, setCompareNodes] = useState([]);
 
-  // B5: research-field explorer drawer (subject-first browse of EuroSciVoc fields -> calls)
-  const [fieldsOpen, setFieldsOpen] = useState(false);
+  // The three CORDIS exploration tools (B5 research fields, B4 country activity, B6 hop-on) are now hosted in
+  // a single distinct dashboard panel instead of pop-up drawers. `dashboardPanel` is the active tool key
+  // ("fields" | "country" | "hopOn") or null; clicking the matching sidebar button selects it and navigates
+  // to the dashboard.
+  const [dashboardPanel, setDashboardPanel] = useState(null);
 
-  // B4: country-activity overlay — toggle + the selected country whose CORDIS activity paints the call nodes
-  const [countryOverlayOpen, setCountryOverlayOpen] = useState(false);
+  // B4: the selected country whose CORDIS activity paints the call nodes. Lifted here (rather than living in
+  // the panel) so the graph paint follows the choice when the user switches back to the graph view.
   const [countryOverlayCode, setCountryOverlayCode] = useState("");
-
-  // B6: hop-on host finder drawer (eligible Pillar II / EIC Pathfinder projects a widening partner can join)
-  const [hopOnOpen, setHopOnOpen] = useState(false);
 
   const [graphStats, setGraphStats] = useState({ nodes: 0, edges: 0 });
 
   const [viewMode, setViewMode] = useState("graph"); // "graph" | "dashboard"
+
+  // Sidebar buttons for the three CORDIS tools: navigate to the dashboard and activate the matching panel
+  // tab. Clicking the already-active tool while on the dashboard closes the panel (toggle), mirroring the old
+  // drawer toggle behaviour. Also dismiss any inline node-detail overlay, which otherwise renders on top of
+  // the dashboard (the click would be a no-op) and would leave the detail's "Back to Graph" button stranding
+  // the user on the dashboard.
+  const handleSelectDashboardPanel = useCallback(
+    (key) => {
+      setDashboardPanel((prev) => (prev === key && viewMode === "dashboard" ? null : key));
+      setViewMode("dashboard");
+      setDetailNode(null);
+    },
+    [viewMode]
+  );
 
   const [timelineOpen, setTimelineOpen] = useState(true);
   const [timelineSelection, setTimelineSelection] = useState(null);
@@ -165,9 +179,10 @@ function GraphPage() {
     // Compare doesn't apply to the flat HE Wiki graph — make sure it isn't left open.
     if (graphName === "HE_2025") {
       setCompareOpen(false);
-      setFieldsOpen(false); // research-field explorer is cluster-oriented, like Compare
-      setCountryOverlayOpen(false); // country overlay paints Call nodes, absent from the flat HE Wiki graph
-      setHopOnOpen(false); // hop-on finder is cluster/Call-oriented, like Compare/Fields
+      // The CORDIS tool panel is cluster/Call-oriented (research fields, country paint, hop-on hosts) — none
+      // apply to the flat HE Wiki graph, so close it and clear any country paint.
+      setDashboardPanel(null);
+      setCountryOverlayCode("");
     }
   }, [graphName]);
 
@@ -359,14 +374,10 @@ useEffect(() => {
               setCompareOpen={setCompareOpen}
               compareNodes={compareNodes}
               setCompareNodes={setCompareNodes}
-              fieldsOpen={fieldsOpen}
-              setFieldsOpen={setFieldsOpen}
-              countryOverlayOpen={countryOverlayOpen}
-              setCountryOverlayOpen={setCountryOverlayOpen}
+              dashboardPanel={dashboardPanel}
+              setDashboardPanel={setDashboardPanel}
               countryOverlayCode={countryOverlayCode}
               setCountryOverlayCode={setCountryOverlayCode}
-              hopOnOpen={hopOnOpen}
-              setHopOnOpen={setHopOnOpen}
               assistantMatchIds={assistantMatchIds}
               assistantMatchDestIds={assistantMatchDestIds}
               assistantFocus={assistantFocus}
@@ -391,12 +402,9 @@ useEffect(() => {
               setTimelineOpen={setTimelineOpen}
               compareOpen={compareOpen}
               setCompareOpen={setCompareOpen}
-              fieldsOpen={fieldsOpen}
-              setFieldsOpen={setFieldsOpen}
-              countryOverlayOpen={countryOverlayOpen}
-              setCountryOverlayOpen={setCountryOverlayOpen}
-              hopOnOpen={hopOnOpen}
-              setHopOnOpen={setHopOnOpen}
+              viewMode={viewMode}
+              dashboardPanel={dashboardPanel}
+              onSelectDashboardPanel={handleSelectDashboardPanel}
               graphName={graphName}
             />
           </Row>

@@ -96,7 +96,13 @@
       "Bash(curl.exe *)",
       "Bash(powershell -Command \"Start-Sleep -Seconds 20\")",
       "PowerShell(python -m py_compile backend\\\\routes\\\\new_pipeline\\\\cordis\\\\cordis_builder.py; if \\($?\\) { \"compile OK\" })",
-      "PowerShell($env:PYTHONIOENCODING='utf-8'; python backend\\\\_verify_cordis_batch.py)"
+      "PowerShell($env:PYTHONIOENCODING='utf-8'; python backend\\\\_verify_cordis_batch.py)",
+      "Bash(git --no-pager diff backend/routes/new_pipeline/cordis/cordis_routes.py)",
+      "Bash(ls -1 *.grouped.json)",
+      "Bash(ls -1 destination_summaries_*.json)",
+      "Bash(ls -1 *.json)",
+      "Bash(py --version)",
+      "Bash(git rm *)"
     ]
   }
 }

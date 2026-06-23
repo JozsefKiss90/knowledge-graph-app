@@ -35,7 +35,8 @@ class IngestLocalPayload(BaseModel):
 
 
 class TagCallsPayload(BaseModel):
-    source: str          # cluster source tag whose Call nodes to tag, e.g. "cluster_3"
+    source: str          # Call.source tag whose Call nodes to tag — a cluster ("cluster_1".."cluster_6")
+                         # or a non-cluster programme ("dep","crea","widera","erasmus")
     top_n: int = 6
     preview: bool = False
     ingest_projects: bool = True   # A2: also ingest projects + create subject-area evidence links
@@ -80,9 +81,14 @@ def ingest_local(payload: IngestLocalPayload):
 
 @router.post("/tag-calls")
 def tag_calls_endpoint(payload: TagCallsPayload, background_tasks: BackgroundTasks):
-    """Start the CORDIS tag/ingest job for a cluster **in the background** and return immediately.
+    """Start the CORDIS tag/ingest job for a programme **in the background** and return immediately.
 
-    Each distinct call subject is a CORDIS extraction (minutes each), so running the whole cluster
+    ``source`` is any Call.source tag: a cluster ("cluster_1".."cluster_6") or a non-cluster programme
+    ("dep" Digital Europe, "crea" Creative Europe, "widera", "erasmus"). Curated queries live in
+    curated_queries/<source>.json (one per programme); when that file is present, subjects without a
+    curated entry are skipped, so the curated file must cover every subject you want tagged.
+
+    Each distinct call subject is a CORDIS extraction (minutes each), so running the whole programme
     inline would make this HTTP request hang and time out. So this endpoint validates the API key,
     kicks off the job in the background, and returns right away. Poll GET /cordis/stats and
     GET /cordis/call-evidence for progress. Needs CORDIS_API_KEY + Neo4j.

@@ -11,6 +11,7 @@ import CordisCountryLeaderboard from "./CordisCountryLeaderboard";
 import useTopOrganisations from "./useTopOrganisations";
 import CordisTopOrgs from "./CordisTopOrgs";
 import DashboardHero from "./DashboardHero";
+import DashboardToolPanel from "./DashboardToolPanel";
 import KpiCardsRow from "./KpiCardsRow";
 import CordisKpiRow from "./CordisKpiRow";
 import FundingByProgramme from "./FundingByProgramme";
@@ -20,7 +21,15 @@ import OpenCallsTable from "./OpenCallsTable";
 import RecentActivity from "./RecentActivity";
 import SavedSearches from "./SavedSearches";
 
-export default function PortfolioDashboard({ loadFromStore, graphStats, setViewMode }) {
+export default function PortfolioDashboard({
+  loadFromStore,
+  graphStats,
+  setViewMode,
+  dashboardPanel,
+  setDashboardPanel,
+  countryOverlayCode,
+  setCountryOverlayCode,
+}) {
   const data = useDashboardData(loadFromStore);
   const cordis = useCordisPortfolio();
   // Gate the whole CORDIS section on real data: an empty graph yields an all-zero summary, so we hide
@@ -52,6 +61,20 @@ export default function PortfolioDashboard({ loadFromStore, graphStats, setViewM
   return (
     <div className="dash-shell">
       <div className="dash-grid">
+        {/* Research tools – a distinct panel hosting the field explorer, country activity and hop-on
+            finder. Hidden until a sidebar button activates it; rendered at the top so it's visible on
+            arrival. */}
+        {dashboardPanel && (
+          <div className="dash-grid__tool-panel">
+            <DashboardToolPanel
+              panel={dashboardPanel}
+              setPanel={setDashboardPanel}
+              country={countryOverlayCode}
+              setCountry={setCountryOverlayCode}
+            />
+          </div>
+        )}
+
         {/* Hero – full width */}
         <div className="dash-grid__hero">
           <DashboardHero

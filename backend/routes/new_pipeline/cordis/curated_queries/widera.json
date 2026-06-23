@@ -1,0 +1,18 @@
+{
+  "_about": "Curated CORDIS DET queries for Horizon Europe – WIDERA (Widening & ERA) call subjects, keyed by the subject the tagger looks up (Call.topic_title where present, else the call title / Call.name). Subjects auto-extracted verbatim from the grouped work-programme JSON, queries hand/AI-authored in the contenttype=project phrase-quoted style of cluster_1.json/cluster_3.json. CORDIS indexes EU RESEARCH projects (FP1-Horizon Europe); for non-research calls these find thematically related research, so a call's tags are the research fields of related funded projects, NOT its official scope. Re-run POST /cordis/tag-calls {\"source\":\"widera\"} to apply.",
+  "queries": {
+    "Teaming Synergies": "contenttype=project AND (\"Teaming\" OR \"centres of excellence\" OR \"centre of excellence\") AND (\"widening\" OR \"low R&I performing\" OR \"research excellence\")",
+    "Twinning": "contenttype=project AND (\"Twinning\" OR \"institutional networking\" OR \"scientific excellence\") AND (\"widening\" OR \"low R&I performing\" OR \"capacity building\")",
+    "Hop-On Facility": "contenttype=project AND (\"Hop On\" OR \"Hop-On Facility\" OR \"widening countries\") AND (\"consortium\" OR \"research and innovation\" OR \"participation\")",
+    "Research Management Facility": "contenttype=project AND (\"research management\" OR \"research managers\" OR \"research support\") AND (\"capacity building\" OR \"widening\" OR \"professional development\")",
+    "ERA Fellowships": "contenttype=project AND (\"postdoctoral fellowship\" OR \"postdoctoral fellowships\" OR \"researcher mobility\") AND (\"widening\" OR \"career development\" OR \"researchers\")",
+    "Pillar I: Accelerating open access and research assessment reforms in ERA": "contenttype=project AND (\"open access\" OR \"open science\") AND (\"research assessment\" OR \"reform of research assessment\" OR \"researcher assessment\")",
+    "Pillar I: Building institutional capacities for ethical, equitable, open, and inclusive ERA": "contenttype=project AND (\"research integrity\" OR \"research ethics\" OR \"open science\") AND (\"institutional change\" OR \"inclusiveness\" OR \"equity\")",
+    "Pillar II: Strengthening ecosystems for open, ethical, and sustainable ERA": "contenttype=project AND (\"research and innovation ecosystem\" OR \"innovation ecosystem\" OR \"knowledge valorisation\") AND (\"open science\" OR \"sustainable\" OR \"European Research Area\")",
+    "Pillar II: Piloting innovative approaches to support academic startups and spinoffs": "contenttype=project AND (\"academic spin-off\" OR \"spin-offs\" OR \"university spin-out\" OR \"deep tech startups\") AND (\"technology transfer\" OR \"knowledge valorisation\" OR \"entrepreneurship\")",
+    "Pillar III: Fostering citizen engagement for more responsible and democratic R&I": "contenttype=project AND (\"citizen engagement\" OR \"public engagement\" OR \"citizen science\") AND (\"responsible research and innovation\" OR \"science and society\" OR \"participatory\")",
+    "Pillar III: European Citizens' Hackathon Championship": "contenttype=project AND (\"hackathon\" OR \"citizen science\" OR \"open innovation\") AND (\"citizen engagement\" OR \"public participation\" OR \"science and society\")",
+    "Pillar III: Science comes to town 2028": "contenttype=project AND (\"science communication\" OR \"public engagement with science\" OR \"researchers' night\") AND (\"citizens\" OR \"outreach\" OR \"science education\")",
+    "Pillar IV: Advancing Knowledge for ERA": "contenttype=project AND (\"European Research Area\" OR \"research and innovation policy\" OR \"science policy\") AND (\"evidence-based\" OR \"indicators\" OR \"monitoring\")"
+  }
+}

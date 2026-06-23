@@ -31,18 +31,19 @@ const SidebarControls = ({
   setTimelineOpen,
   compareOpen,
   setCompareOpen,
-  fieldsOpen,
-  setFieldsOpen,
-  countryOverlayOpen,
-  setCountryOverlayOpen,
-  hopOnOpen,
-  setHopOnOpen,
+  viewMode,
+  dashboardPanel,
+  onSelectDashboardPanel,
   graphName,
 }) => {
   const navigate = useNavigate();
 
   // Compare & Timeline are cluster/Call-oriented; they don't apply to the flat HE Wiki graph.
   const isHEWiki = graphName === "HE_2025";
+
+  // The three CORDIS tools now live in the dashboard tool panel: a button is "active" when the dashboard is
+  // showing its tab. Clicking navigates to the dashboard and activates the panel (handled in GraphPage).
+  const isPanelActive = (key) => viewMode === "dashboard" && dashboardPanel === key;
 
   // Re-usable tooltip props so all tooltips look/animate the same
   const tooltipProps = {
@@ -119,8 +120,8 @@ const SidebarControls = ({
 
           <Tooltip {...tooltipProps} title="Browse research fields">
             <IconButton
-              className={`sidebar-controls-button${fieldsOpen ? " sidebar-controls-button--active" : ""}`}
-              onClick={() => setFieldsOpen((prev) => !prev)}
+              className={`sidebar-controls-button${isPanelActive("fields") ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => onSelectDashboardPanel("fields")}
             >
               <AccountTreeIcon fontSize="small" />
             </IconButton>
@@ -128,8 +129,8 @@ const SidebarControls = ({
 
           <Tooltip {...tooltipProps} title="Country activity overlay">
             <IconButton
-              className={`sidebar-controls-button${countryOverlayOpen ? " sidebar-controls-button--active" : ""}`}
-              onClick={() => setCountryOverlayOpen((prev) => !prev)}
+              className={`sidebar-controls-button${isPanelActive("country") ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => onSelectDashboardPanel("country")}
             >
               <PublicIcon fontSize="small" />
             </IconButton>
@@ -137,8 +138,8 @@ const SidebarControls = ({
 
           <Tooltip {...tooltipProps} title="Hop-on opportunities">
             <IconButton
-              className={`sidebar-controls-button${hopOnOpen ? " sidebar-controls-button--active" : ""}`}
-              onClick={() => setHopOnOpen((prev) => !prev)}
+              className={`sidebar-controls-button${isPanelActive("hopOn") ? " sidebar-controls-button--active" : ""}`}
+              onClick={() => onSelectDashboardPanel("hopOn")}
             >
               <GroupAddIcon fontSize="small" />
             </IconButton>

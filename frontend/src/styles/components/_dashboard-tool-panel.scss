@@ -1,0 +1,119 @@
+/* ===================================================================
+   Dashboard tool panel
+   -------------------------------------------------------------------
+   The distinct dashboard panel that hosts the three CORDIS exploration
+   tools (research-field explorer, country activity, hop-on host finder)
+   that used to be right-anchored pop-up drawers. It reuses the generic
+   `.dash-card` chrome and adds a tab strip + close header. The tools'
+   own inner class names (`.cordis-fields__*`, `.country-activity__*`,
+   `.hop-on__*`) are unchanged; here we only relax the viewport-based
+   scroll heights they used as floating drawers so they sit naturally
+   inside the (already scrollable) dashboard.
+   =================================================================== */
+
+.dash-grid__tool-panel {
+  /* Full-width row at the top of the dashboard grid. */
+  width: 100%;
+}
+
+.dash-tool-panel {
+  /* A subtle accent so the activated tool reads as a distinct panel, not just another card. */
+  border-color: var(--primary, #3d8fff);
+  box-shadow: 0 0 0 1px rgba(61, 143, 255, 0.18),
+              0 10px 30px rgba(2, 6, 23, 0.18);
+  scroll-margin-top: 12px;
+}
+
+.dash-tool-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* Tab strip — mirrors `.dash-card__tabs` but a touch larger, since it's the panel's primary navigation. */
+.dash-tool-panel__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  background: var(--btn-default-bg, rgba(255, 255, 255, 0.06));
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.dash-tool-panel__tab {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: var(--muted-foreground, #94a3b8);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    color: var(--foreground, #f3f6ff);
+  }
+
+  &--active {
+    background: var(--primary, #3d8fff);
+    color: #fff;
+  }
+}
+
+/* Light theme's --primary (#bed5ff) is too pale for white text — fall back to --primary-dark (navy) so the
+   active tab stays legible, mirroring the hover-card / timeline workarounds. (Dark theme keeps --primary.) */
+.light-theme .dash-tool-panel__tab--active {
+  background: var(--primary-dark);
+}
+
+.dash-tool-panel__tab-icon {
+  font-size: 1rem !important;
+}
+
+.dash-tool-panel__close {
+  flex: 0 0 auto;
+  color: var(--muted-foreground, #94a3b8) !important;
+
+  &:hover {
+    color: var(--foreground, #f3f6ff) !important;
+  }
+}
+
+/* Tool body — the extracted drawer content. The tools render their own hint / list / provenance. */
+.dash-tool-panel__tool {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Relax the drawers' viewport-based scroll caps now that they live inside the dashboard column. The dashboard
+   shell already scrolls, so let the lists grow to a comfortable fixed height instead of a slice of the
+   viewport (which, nested, produced awkward double scrollbars). */
+.dash-tool-panel {
+  .cordis-fields__tree {
+    max-height: 320px;
+  }
+
+  .cordis-fields__calls {
+    max-height: none;
+  }
+
+  .country-activity__list {
+    max-height: 420px;
+  }
+
+  .hop-on__list {
+    max-height: 460px;
+  }
+}
+
+@media (max-width: 560px) {
+  .dash-tool-panel__tab span {
+    display: none; /* icon-only tabs when the panel gets narrow */
+  }
+}

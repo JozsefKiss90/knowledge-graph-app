@@ -1,0 +1,9 @@
+{
+  "_about": "Curated CORDIS DET queries for European Research Council (ERC) call subjects, keyed by the subject the tagger looks up (Call.topic_title where present, else the call title / Call.name). Subjects auto-extracted verbatim from the work-programme JSON, queries AI-authored + adversarially verified in the contenttype=project phrase-quoted style of cluster_1.json/cluster_3.json. CORDIS indexes EU RESEARCH projects (FP1-Horizon Europe); for non-research calls (and broad funding instruments such as ERC/MSCA) these find thematically related research, so a call's tags are the research fields of related funded projects, NOT its official scope. Re-run POST /cordis/tag-calls {\"source\":\"erc\"} to apply.",
+  "queries": {
+    "ERC 2026 PERA": "contenttype=project AND (\"European Research Council\" OR \"ERC\" OR \"frontier research\") AND (\"curiosity-driven research\" OR \"scientific excellence\" OR \"excellent science\" OR \"principal investigator\")",
+    "ERC CONSOLIDATOR GRANTS": "contenttype=project AND (\"European Research Council\" OR \"ERC\" OR \"frontier research\") AND (\"Consolidator Grant\" OR \"established researcher\" OR \"independent research team\" OR \"scientific excellence\")",
+    "ERC STARTING GRANTS": "contenttype=project AND (\"European Research Council\" OR \"ERC\" OR \"frontier research\") AND (\"Starting Grant\" OR \"early-career researcher\" OR \"early career\" OR \"independent research career\")",
+    "ERC SYNERGY GRANTS": "contenttype=project AND (\"European Research Council\" OR \"ERC\" OR \"frontier research\") AND (\"Synergy Grant\" OR \"collaborative research\" OR \"interdisciplinary research\" OR \"principal investigators\")"
+  }
+}

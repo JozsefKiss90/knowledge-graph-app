@@ -17,12 +17,9 @@ export default function RightControlsColumn({
   setTimelineOpen,
   compareOpen,
   setCompareOpen,
-  fieldsOpen,
-  setFieldsOpen,
-  countryOverlayOpen,
-  setCountryOverlayOpen,
-  hopOnOpen,
-  setHopOnOpen,
+  viewMode,
+  dashboardPanel,
+  onSelectDashboardPanel,
   graphName,
 }) {
   return (
@@ -42,12 +39,9 @@ export default function RightControlsColumn({
         setTimelineOpen={setTimelineOpen}
         compareOpen={compareOpen}
         setCompareOpen={setCompareOpen}
-        fieldsOpen={fieldsOpen}
-        setFieldsOpen={setFieldsOpen}
-        countryOverlayOpen={countryOverlayOpen}
-        setCountryOverlayOpen={setCountryOverlayOpen}
-        hopOnOpen={hopOnOpen}
-        setHopOnOpen={setHopOnOpen}
+        viewMode={viewMode}
+        dashboardPanel={dashboardPanel}
+        onSelectDashboardPanel={onSelectDashboardPanel}
         graphName={graphName}
       />
     </Col>

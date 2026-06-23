@@ -1,0 +1,9 @@
+{
+  "_about": "Curated CORDIS DET queries for Connecting Europe Facility (CEF) call subjects, keyed by the subject the tagger looks up (Call.topic_title where present, else the call title / Call.name). Subjects auto-extracted verbatim from the work-programme JSON, queries AI-authored + adversarially verified in the contenttype=project phrase-quoted style of cluster_1.json/cluster_3.json. CORDIS indexes EU RESEARCH projects (FP1-Horizon Europe); for non-research calls (and broad funding instruments such as ERC/MSCA) these find thematically related research, so a call's tags are the research fields of related funded projects, NOT its official scope. Re-run POST /cordis/tag-calls {\"source\":\"cef\"} to apply.",
+  "queries": {
+    "Cross-border renewables": "contenttype=project AND (\"cross-border renewable energy\" OR \"offshore wind\" OR \"offshore renewable energy\" OR \"renewable energy\") AND (\"grid integration\" OR \"transmission grid\" OR \"electricity interconnector\" OR \"cross-border interconnection\")",
+    "Cross-border renewables - Studies": "contenttype=project AND (\"cross-border renewable energy\" OR \"renewable energy\" OR \"offshore wind\" OR \"offshore renewable energy\") AND (\"grid integration\" OR \"feasibility study\" OR \"cross-border interconnection\" OR \"energy system planning\")",
+    "Cross-border renewables - Works": "contenttype=project AND (\"cross-border renewable energy\" OR \"offshore wind\" OR \"offshore renewable energy\" OR \"renewable energy\") AND (\"power grid\" OR \"transmission grid\" OR \"electricity interconnector\" OR \"grid infrastructure\")",
+    "Submarine Cable Repair Capacities-Pilot Works": "contenttype=project AND (\"submarine cable\" OR \"subsea cable\" OR \"undersea cable\" OR \"submarine telecommunications cable\") AND (\"cable repair\" OR \"subsea infrastructure\" OR \"cable resilience\" OR \"critical infrastructure protection\")"
+  }
+}

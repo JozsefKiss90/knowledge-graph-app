@@ -1,0 +1,24 @@
+{
+  "_about": "Curated CORDIS DET queries for Creative Europe (CREA) call subjects, keyed by the subject the tagger looks up (Call.topic_title where present, else the call title / Call.name). Subjects auto-extracted verbatim from the grouped work-programme JSON, queries hand/AI-authored in the contenttype=project phrase-quoted style of cluster_1.json/cluster_3.json. CORDIS indexes EU RESEARCH projects (FP1-Horizon Europe); for non-research calls these find thematically related research, so a call's tags are the research fields of related funded projects, NOT its official scope. Re-run POST /cordis/tag-calls {\"source\":\"crea\"} to apply.",
+  "queries": {
+    "Creative Innovation Lab": "contenttype=project AND (\"creative industries\" OR \"cultural and creative sectors\" OR \"creative content\") AND (\"innovation\" OR \"digital technologies\" OR \"emerging technologies\")",
+    "Culture Helps Solidarity - First call for proposals for collaboration grants": "contenttype=project AND (\"cultural sector\" OR \"arts\" OR \"culture\") AND (\"social inclusion\" OR \"social integration\" OR \"solidarity\")",
+    "Culture Helps Solidarity - First Call for Proposals for Individual Grants": "contenttype=project AND (\"cultural sector\" OR \"artists\" OR \"culture\") AND (\"social inclusion\" OR \"social integration\" OR \"solidarity\")",
+    "European co-development": "contenttype=project AND (\"audiovisual\" OR \"film production\" OR \"film industry\") AND (\"co-production\" OR \"co-development\" OR \"European films\")",
+    "European Film Distribution": "contenttype=project AND (\"film distribution\" OR \"audiovisual\" OR \"European films\") AND (\"cinema\" OR \"theatrical\" OR \"distribution\")",
+    "European Film Sales": "contenttype=project AND (\"film\" OR \"audiovisual\" OR \"European films\") AND (\"sales\" OR \"distribution\" OR \"international markets\")",
+    "European mini-slate development": "contenttype=project AND (\"audiovisual works\" OR \"film development\" OR \"European films\") AND (\"animation\" OR \"documentary\" OR \"fiction\" OR \"TV series\")",
+    "European VOD Networks and Operators": "contenttype=project AND (\"video on demand\" OR \"VOD\" OR \"online distribution\") AND (\"audiovisual\" OR \"streaming\" OR \"European films\")",
+    "Films on the Move": "contenttype=project AND (\"film distribution\" OR \"film sales\" OR \"audiovisual\") AND (\"cinema\" OR \"European films\" OR \"theatrical release\")",
+    "Networks of European Cinemas": "contenttype=project AND (\"cinema\" OR \"film exhibition\" OR \"audiovisual\") AND (\"network\" OR \"European films\" OR \"audience development\")",
+    "Networks of European Festivals": "contenttype=project AND (\"film festivals\" OR \"audiovisual festivals\" OR \"cultural festivals\") AND (\"network\" OR \"European films\" OR \"audience\")",
+    "NEWS - Media Literacy": "contenttype=project AND (\"media literacy\" OR \"digital literacy\" OR \"news literacy\") AND (\"disinformation\" OR \"critical thinking\" OR \"media education\")",
+    "SKILLS AND TALENT DEVELOPMENT": "contenttype=project AND (\"cultural and creative sectors\" OR \"creative industries\" OR \"audiovisual\") AND (\"skills development\" OR \"talent\" OR \"training\" OR \"capacity building\")",
+    "Support for the implementation of the European Heritage Label": "contenttype=project AND (\"cultural heritage\" OR \"European heritage\" OR \"heritage sites\") AND (\"heritage interpretation\" OR \"cultural identity\" OR \"valorisation\")",
+    "THE HUBS": "contenttype=project AND (\"cultural and creative industries\" OR \"creative hubs\" OR \"creative ecosystems\") AND (\"innovation\" OR \"networking\" OR \"capacity building\")",
+    "TV and online content": "contenttype=project AND (\"television production\" OR \"audiovisual content\" OR \"online content\") AND (\"animation\" OR \"documentary\" OR \"fiction\" OR \"TV series\")",
+    "Video games and immersive content development": "contenttype=project AND (\"video games\" OR \"serious games\" OR \"game development\") AND (\"immersive content\" OR \"virtual reality\" OR \"augmented reality\" OR \"extended reality\")",
+    "ZMINA:Resilience Seed Funding": "contenttype=project AND (\"cultural sector\" OR \"artists\" OR \"creative sector\") AND (\"resilience\" OR \"displaced\" OR \"crisis\" OR \"Ukraine\")",
+    "“Culture Helps / Культура допомагає”. Project grants for integration through culture up to 5000 EUR (fourth round)": "contenttype=project AND (\"culture\" OR \"arts\" OR \"cultural sector\") AND (\"social integration\" OR \"social inclusion\" OR \"refugees\" OR \"displaced\")"
+  }
+}

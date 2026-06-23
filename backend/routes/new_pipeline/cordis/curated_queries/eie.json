@@ -1,0 +1,10 @@
+{
+  "_about": "Curated CORDIS DET queries for European Innovation Ecosystems (EIE) call subjects, keyed by the subject the tagger looks up (Call.topic_title where present, else the call title / Call.name). Subjects auto-extracted verbatim from the work-programme JSON, queries AI-authored + adversarially verified in the contenttype=project phrase-quoted style of cluster_1.json/cluster_3.json. CORDIS indexes EU RESEARCH projects (FP1-Horizon Europe); for non-research calls (and broad funding instruments such as ERC/MSCA) these find thematically related research, so a call's tags are the research fields of related funded projects, NOT its official scope. Re-run POST /cordis/tag-calls {\"source\":\"eie\"} to apply.",
+  "queries": {
+    "European Startup and Scaleup Hubs pilot": "contenttype=project AND (\"startup\" OR \"start-up\" OR \"scaleup\" OR \"scale-up\") AND (\"innovation ecosystem\" OR \"innovation hub\" OR \"entrepreneurship\" OR \"high-growth firms\")",
+    "European network of national competence centers for innovation procurement": "contenttype=project AND (\"innovation procurement\" OR \"public procurement of innovation\" OR \"pre-commercial procurement\") AND (\"competence centre\" OR \"competence centres\" OR \"capacity building\" OR \"public administration\")",
+    "Expanding Investment Ecosystems": "contenttype=project AND (\"venture capital\" OR \"access to finance\" OR \"risk finance\" OR \"investment\") AND (\"innovation ecosystem\" OR \"deep tech\" OR \"scale-up\" OR \"startup\")",
+    "From lab to market: Strengthening the role of Technology Transfer Offices in bringing knowledge to the market": "contenttype=project AND (\"technology transfer\" OR \"technology transfer office\" OR \"knowledge transfer\" OR \"knowledge valorisation\") AND (\"research commercialisation\" OR \"academic spin-off\" OR \"university-industry\" OR \"market uptake\")",
+    "Scaling up deep tech ecosystems": "contenttype=project AND (\"deep tech\" OR \"deep technology\" OR \"breakthrough innovation\") AND (\"innovation ecosystem\" OR \"scaling up\" OR \"startup\" OR \"technology commercialisation\")"
+  }
+}
