@@ -24,6 +24,12 @@ def normalise(a):
 source = normalise(sys.argv[1]) if len(sys.argv) > 1 else "cluster_1"
 n = source.split("_")[-1]
 
+# Node-endpoint prefix differs by programme: clusters are mounted at /cluster<n>, while every
+# non-cluster programme is mounted at /<source> (e.g. dep, crea, widera, erasmus, cef, euratom,
+# eic, eie, erc, infra, msca — see *_routes.py). The Call.source tag is the same value passed to
+# /cordis/tag-calls.
+nodes_route = f"/cluster{n}" if source.startswith("cluster_") else f"/{source}"
+
 st = get("/cordis/stats")
 print(f"GLOBAL /cordis/stats: projects={st.get('projects')} orgs={st.get('organisations')} "
       f"countries={st.get('countries')} fields={st.get('fields')}")
@@ -34,7 +40,7 @@ subj_file = os.path.join(WORK, f"{source}_subjects.json")
 if os.path.isfile(subj_file):
     expected = len(json.load(open(subj_file, encoding="utf-8")))
 
-data = get(f"/cluster{n}/nodes")["data"]
+data = get(f"{nodes_route}/nodes")["data"]
 calls = [x["n"] for x in data if isinstance(x.get("n"), dict) and x["n"].get("type") == "Call"]
 def subj(c): return (c.get("topic_title") or c.get("name") or "").strip()
 tagged = [c for c in calls if c.get("related_topics")]
