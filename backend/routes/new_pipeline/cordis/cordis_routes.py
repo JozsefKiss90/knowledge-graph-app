@@ -16,6 +16,7 @@ from pydantic import BaseModel
 from database import db
 from .cordis_parser import parse_extraction
 from .cordis_builder import CordisGraphBuilder, SOURCE_TAG
+from . import cordis_cache
 
 router = APIRouter(prefix="/cordis", tags=["CORDIS funded projects"])
 
@@ -57,6 +58,8 @@ def fetch(payload: FetchPayload):
         json_zip = client.run_extraction(payload.query, dest_dir=dest)
         projects = parse_extraction(json_zip)
         stats = CordisGraphBuilder(preview=payload.preview).ingest(projects)
+        if not payload.preview:           # A3: new data landed -> drop stale dashboard aggregates
+            cordis_cache.invalidate()
         return {"status": "success", "query": payload.query, "parsed_projects": len(projects), **stats}
     except HTTPException:
         raise
@@ -72,6 +75,8 @@ def ingest_local(payload: IngestLocalPayload):
             raise HTTPException(status_code=404, detail=f"Path not found: {payload.path}")
         projects = parse_extraction(payload.path)
         stats = CordisGraphBuilder(preview=payload.preview).ingest(projects)
+        if not payload.preview:           # A3: new data landed -> drop stale dashboard aggregates
+            cordis_cache.invalidate()
         return {"status": "success", "path": payload.path, "parsed_projects": len(projects), **stats}
     except HTTPException:
         raise
@@ -115,6 +120,15 @@ def tag_calls_endpoint(payload: TagCallsPayload, background_tasks: BackgroundTas
                 import traceback
                 _last_tag_run = {"status": "error", "source": payload.source,
                                  "error": str(e), "traceback": traceback.format_exc()}
+            finally:
+                # A3 (critical): /tag-calls returns to the client BEFORE this background job runs, so the cache
+                # must be invalidated HERE — after the data has actually landed — not in the handler (which
+                # would clear it before the new data exists and immediately re-warm it with stale results).
+                # Use finally because tag_calls() writes incrementally per subject: even a mid-run failure may
+                # have landed real new data for the earlier subjects, so the cache must be dropped on the
+                # failure path too. Preview writes nothing, so skip it then.
+                if not payload.preview:
+                    cordis_cache.invalidate()
 
         background_tasks.add_task(_run)
         return {
@@ -143,14 +157,16 @@ def clear_tags_endpoint(source: str):
     """Remove A1's CORDIS tags (related_topics/keywords/provenance) from a cluster's Call nodes."""
     try:
         from .cordis_tagger import clear_tags
-        return clear_tags(source)
+        result = clear_tags(source)
+        cordis_cache.invalidate()         # A3: tags removed -> drop stale dashboard aggregates
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS clear-tags failed: {str(e)}")
 
 
 @router.get("/stats")
 def stats():
-    try:
+    def _compute():
         rows = db.query(
             "MATCH (pr:CordisProject {source:$s}) WITH count(pr) AS projects "
             "OPTIONAL MATCH (og:CordisOrganisation {source:$s}) WITH projects, count(og) AS organisations "
@@ -160,6 +176,8 @@ def stats():
             {"s": SOURCE_TAG},
         )
         return rows[0] if rows else {"projects": 0, "organisations": 0, "countries": 0, "fields": 0}
+    try:
+        return cordis_cache.get_or_compute("stats", None, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS stats failed: {str(e)}")
 
@@ -201,45 +219,34 @@ def portfolio_summary():
     portfolio the dashboard is about and reconciles with the per-call A2 panels. Counts and euros are reported
     as separate measures. Returns all-zero before any ingest (drives the frontend hide-when-empty gate).
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
-        # Distinct call-linked projects → project count + awarded euros (DISTINCT collapses the multi-call
-        # links so a project linked to several calls is counted/summed once).
-        proj = db.query(
-            "MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
-            "WITH DISTINCT pr "
-            "RETURN count(pr) AS projectCount, sum(pr.ecContribution) AS totalEcContribution",
+        # B3: collapse the four separate full traversals into ONE round-trip via independent CALL {} subqueries
+        # (Neo4j 5). Each subquery ends in an aggregation, so each yields exactly one row and the uncorrelated
+        # blocks combine to a single result row carrying every measure. Cypher is otherwise identical to the
+        # old four queries (distinct call-linked projects; null/blank country ignored by the CASE), so
+        # _shape_portfolio_summary's contract is unchanged — the single row is fed to all four slots, each of
+        # which reads only its own keys.
+        rows = db.query(
+            "CALL { MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) WITH DISTINCT pr "
+            "       RETURN count(pr) AS projectCount, sum(pr.ecContribution) AS totalEcContribution } "
+            "CALL { MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s}) "
+            "       RETURN count(DISTINCT c) AS callCount } "
+            "CALL { MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) WITH DISTINCT pr "
+            "       MATCH (og:CordisOrganisation {source:$s})-[:PARTICIPATED_IN]->(pr) "
+            "       RETURN count(DISTINCT og) AS organisationCount, "
+            "              count(DISTINCT CASE WHEN og.country IS NOT NULL AND og.country <> '' "
+            "                                  THEN og.country END) AS countryCount } "
+            "CALL { MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) WITH DISTINCT pr "
+            "       MATCH (pr)-[:CLASSIFIED_AS]->(rf:ResearchField {source:$s}) "
+            "       RETURN count(DISTINCT rf) AS fieldCount } "
+            "RETURN projectCount, totalEcContribution, callCount, organisationCount, countryCount, fieldCount",
             {"s": s},
         )
-        call = db.query(
-            "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s}) "
-            "RETURN count(DISTINCT c) AS callCount",
-            {"s": s},
-        )
-        # Organisations + countries over the distinct linked projects (null/blank country ignored by the
-        # CASE so it never inflates the country count).
-        org = db.query(
-            "MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
-            "WITH DISTINCT pr "
-            "MATCH (og:CordisOrganisation {source:$s})-[:PARTICIPATED_IN]->(pr) "
-            "RETURN count(DISTINCT og) AS organisationCount, "
-            "       count(DISTINCT CASE WHEN og.country IS NOT NULL AND og.country <> '' "
-            "                           THEN og.country END) AS countryCount",
-            {"s": s},
-        )
-        field = db.query(
-            "MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
-            "WITH DISTINCT pr "
-            "MATCH (pr)-[:CLASSIFIED_AS]->(rf:ResearchField {source:$s}) "
-            "RETURN count(DISTINCT rf) AS fieldCount",
-            {"s": s},
-        )
-        return _shape_portfolio_summary(
-            proj[0] if proj else None,
-            call[0] if call else None,
-            org[0] if org else None,
-            field[0] if field else None,
-        )
+        row = rows[0] if rows else None
+        return _shape_portfolio_summary(row, row, row, row)
+    try:
+        return cordis_cache.get_or_compute("portfolio-summary", None, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS portfolio-summary failed: {str(e)}")
 
@@ -290,7 +297,7 @@ def funding_by_programme():
     so the awarded total is distinct-project-safe). Raw ``Call.source`` codes are returned as-is — the
     frontend maps them to programme keys/labels. Returns an empty ``programmes`` list before any ingest.
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
         rows = db.query(
             "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
@@ -301,6 +308,8 @@ def funding_by_programme():
             {"s": s},
         )
         return _aggregate_funding_by_programme(rows)
+    try:
+        return cordis_cache.get_or_compute("funding-by-programme", None, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS funding-by-programme failed: {str(e)}")
 
@@ -308,7 +317,7 @@ def funding_by_programme():
 @router.get("/area")
 def area(call_code: str):
     """Funded projects linked to a given call/topic code (the app's Call.call_id / topic code)."""
-    try:
+    def _compute():
         rows = db.query(
             "MATCH (pr:CordisProject {source:$s}) WHERE pr.masterCall=$code OR pr.topicCode=$code "
             "OPTIONAL MATCH (og:CordisOrganisation)-[r:PARTICIPATED_IN]->(pr) "
@@ -317,6 +326,8 @@ def area(call_code: str):
             {"s": SOURCE_TAG, "code": call_code},
         )
         return {"call_code": call_code, "count": len(rows), "projects": rows}
+    try:
+        return cordis_cache.get_or_compute("area", {"call_code": call_code}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS area query failed: {str(e)}")
 
@@ -325,7 +336,7 @@ def area(call_code: str):
 def call_evidence(call_id: str, top_n: int = 5):
     """A2 funded-projects panel: aggregate the CORDIS projects linked to a call's subject AREA
     (HAS_FUNDED_PROJECT), independent of exact call-code matching. Counts and euros are kept separate."""
-    try:
+    def _compute():
         s = SOURCE_TAG
         summary = db.query(
             "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
@@ -368,6 +379,8 @@ def call_evidence(call_id: str, top_n: int = 5):
             "topCountries": top_countries,
             "provenance": "Funded projects matching this call's subject (CORDIS, FP7-Horizon Europe)",
         }
+    try:
+        return cordis_cache.get_or_compute("call-evidence", {"call_id": call_id, "top_n": top_n}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS call-evidence failed: {str(e)}")
 
@@ -435,7 +448,7 @@ def call_trend(call_id: str):
     every raw ``frameworkProgramme`` code as-is and orders eras chronologically — presentation choices
     (labels, colours, bucketing of minor programmes) are the frontend's, so the data stays honest.
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
         # Headline totals over ALL linked projects (matches A2 /call-evidence so the two cards agree).
         head = db.query(
@@ -464,6 +477,8 @@ def call_trend(call_id: str):
             subject=h.get("subject"),
             call_id=call_id,
         )
+    try:
+        return cordis_cache.get_or_compute("call-trend", {"call_id": call_id}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS call-trend failed: {str(e)}")
 
@@ -488,7 +503,7 @@ def portfolio_trend():
     ``frameworkProgramme`` codes are returned as-is, eras ordered chronologically — labels/colours/bucketing
     are the frontend's. Returns all-zero/empty before any ingest.
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
         # Headline totals over ALL distinct call-linked projects (reconciles with the F1 KPI band).
         head = db.query(
@@ -523,6 +538,8 @@ def portfolio_trend():
         result.pop("call_id", None)
         result.pop("subject", None)
         return result
+    try:
+        return cordis_cache.get_or_compute("portfolio-trend", None, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS portfolio-trend failed: {str(e)}")
 
@@ -569,7 +586,7 @@ def related_calls(call_id: str, top_n: int = 6):
 
     Honest framing: this is research-field overlap of funded projects, NOT call similarity or quality.
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
         tgt = db.query(
             "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
@@ -628,6 +645,8 @@ def related_calls(call_id: str, top_n: int = 6):
             "related": related,
             "provenance": RELATED_PROVENANCE,
         }
+    try:
+        return cordis_cache.get_or_compute("related-calls", {"call_id": call_id, "top_n": top_n}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS related-calls failed: {str(e)}")
 
@@ -769,7 +788,7 @@ def field_tree():
     Honest framing: counts are EU-funded participation, NOT scientific quality or impact; a project carries
     several EuroSciVoc classifications, so counts overlap across branches.
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
         rows = db.query(
             "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s})"
@@ -791,6 +810,8 @@ def field_tree():
             "fieldCount": len(rows),
             "provenance": FIELD_TREE_PROVENANCE,
         }
+    try:
+        return cordis_cache.get_or_compute("field-tree", None, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS field-tree failed: {str(e)}")
 
@@ -808,7 +829,7 @@ def field_calls(code: str):
     disclosed via ``hiddenIncidental`` (never silently dropped). The remaining list is capped at
     ``FIELD_CALLS_CAP``; ``capped`` is true only when the relevant-call count exceeds what was returned.
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
         prefix = (code or "").rstrip("/") + "/"
         title_row = db.query(
@@ -855,6 +876,8 @@ def field_calls(code: str):
             "capped": relevant_count > len(calls),
             "provenance": FIELD_CALLS_PROVENANCE,
         }
+    try:
+        return cordis_cache.get_or_compute("field-calls", {"code": code}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS field-calls failed: {str(e)}")
 
@@ -914,11 +937,11 @@ def area_organisations(call_id: str, country: str = None, org_type: str = None, 
     Honest framing: this is EU-funded participation, NOT scientific quality or impact; 'most active' is not
     'best', and organisations funded nationally/privately don't appear.
     """
-    try:
-        s = SOURCE_TAG
-        country = (country or "").strip() or None
-        org_type = (org_type or "").strip() or None
+    country = (country or "").strip() or None
+    org_type = (org_type or "").strip() or None
 
+    def _compute():
+        s = SOURCE_TAG
         # Facets + headline counts over the UNFILTERED area (stable dropdowns regardless of active filter).
         head = db.query(
             "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
@@ -1001,6 +1024,12 @@ def area_organisations(call_id: str, country: str = None, org_type: str = None, 
             "organisations": organisations,
             "provenance": PARTNERS_PROVENANCE,
         }
+    try:
+        return cordis_cache.get_or_compute(
+            "area-organisations",
+            {"call_id": call_id, "country": country, "org_type": org_type, "top_n": top_n},
+            _compute,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS area-organisations failed: {str(e)}")
 
@@ -1055,31 +1084,33 @@ def top_organisations(top_n: int = 15):
     Honest framing: EU-funded participation, NOT scientific quality or impact; 'most active' is not 'best',
     and organisations funded nationally/privately don't appear.
     """
-    try:
+    def _compute():
         s = SOURCE_TAG
-        # Ranked organisations over ALL call-linked funded projects (no per-call filter). Coordinated vs
-        # partnered counted as distinct projects so the two role measures never double-count.
+        # B4: single pass — collect every org with its role-split counts, read the distinct-org TOTAL from the
+        # collected size, then UNWIND + rank + LIMIT to the cap. Replaces the old second full traversal that
+        # existed only to count distinct organisations. Coordinated vs partnered are counted as distinct
+        # projects (an org's role on a project is single) so the two role measures never double-count.
         rows = db.query(
             "MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s})"
             "<-[r:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
             "WITH og, "
             "     count(DISTINCT CASE WHEN r.role='coordinator' THEN pr END) AS coordinatedCount, "
             "     count(DISTINCT CASE WHEN r.role<>'coordinator' THEN pr END) AS partneredCount "
-            "WITH og, coordinatedCount, partneredCount, (coordinatedCount + partneredCount) AS total "
-            "ORDER BY total DESC LIMIT $cap "
-            "RETURN og.id AS id, og.name AS name, og.country AS country, og.orgType AS orgType, "
-            "       coordinatedCount, partneredCount",
+            "WITH collect({id: og.id, name: og.name, country: og.country, orgType: og.orgType, "
+            "              coordinatedCount: coordinatedCount, partneredCount: partneredCount, "
+            "              total: coordinatedCount + partneredCount}) AS orgs "
+            "WITH orgs, size(orgs) AS organisationCount "
+            "UNWIND orgs AS o "
+            "WITH organisationCount, o ORDER BY o.total DESC LIMIT $cap "
+            "RETURN organisationCount, o.id AS id, o.name AS name, o.country AS country, "
+            "       o.orgType AS orgType, o.coordinatedCount AS coordinatedCount, "
+            "       o.partneredCount AS partneredCount",
             {"s": s, "cap": TOP_ORGS_CAP},
         )
-        # Total distinct organisations with any participation — the honest 'top N of M' denominator.
-        total = db.query(
-            "MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
-            "<-[:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
-            "RETURN count(DISTINCT og) AS n",
-            {"s": s},
-        )
         organisations = _rank_top_organisations(rows, top_n)
-        total_count = (total[0]["n"] if total else 0) or 0
+        # The distinct-org total rides on every row (same value); take it from the first, defaulting to 0 when
+        # the graph has no participation (UNWIND of an empty collect yields no rows).
+        total_count = (rows[0]["organisationCount"] if rows else 0) or 0
         return {
             "organisations": organisations,
             "returnedCount": len(organisations),
@@ -1088,6 +1119,8 @@ def top_organisations(top_n: int = 15):
             "capped": total_count > len(organisations),
             "provenance": TOP_ORGS_PROVENANCE,
         }
+    try:
+        return cordis_cache.get_or_compute("top-organisations", {"top_n": top_n}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS top-organisations failed: {str(e)}")
 
@@ -1138,10 +1171,10 @@ def country_activity(country: str = None, top_n: int = 15):
     Calls with no CORDIS data are reported in neither set, so the overlay leaves them neutral (never dimmed
     as if 'inactive').
     """
-    try:
-        s = SOURCE_TAG
-        country = (country or "").strip() or None
+    country = (country or "").strip() or None
 
+    def _compute():
+        s = SOURCE_TAG
         # Facets over ALL CORDIS-linked calls — stable dropdown regardless of the active selection.
         facet_rows = db.query(
             "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
@@ -1151,18 +1184,23 @@ def country_activity(country: str = None, top_n: int = 15):
             "RETURN code, orgs, areas ORDER BY areas DESC, orgs DESC, code",
             {"s": s},
         )
-        # Covered set: every call with ANY CORDIS participation (drives the honest 'meaningful-absence' dim).
-        covered = db.query(
-            "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
-            "<-[:PARTICIPATED_IN]-(:CordisOrganisation {source:$s}) "
-            "RETURN collect(DISTINCT c.id) AS ids",
-            {"s": s},
-        )
-        covered_ids = (covered[0]["ids"] if covered else []) or []
 
+        covered_ids = []
         areas, active_ids, coordinated_ids = [], [], []
         area_count = total_coord = total_partner = 0
         if country:
+            # B2: the covered/active/coordinated id sets feed ONLY the graph overlay, which paints only when a
+            # country is selected; the param-free dashboard call (country="") never reads them. So compute the
+            # 'covered' traversal HERE, inside the country branch, instead of on every call — the dashboard's
+            # country="" call now runs a single facets traversal instead of two.
+            covered = db.query(
+                "MATCH (c:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+                "<-[:PARTICIPATED_IN]-(:CordisOrganisation {source:$s}) "
+                "RETURN collect(DISTINCT c.id) AS ids",
+                {"s": s},
+            )
+            covered_ids = (covered[0]["ids"] if covered else []) or []
+
             # Per-CALL role counts → the graph-overlay id sets. The overlay paints the call nodes drawn on the
             # graph, so the active/coordinated sets are keyed by call id (one lightweight row per active call).
             call_rows = db.query(
@@ -1228,6 +1266,8 @@ def country_activity(country: str = None, top_n: int = 15):
             "coveredCallIds": covered_ids,
             "provenance": COUNTRY_ACTIVITY_PROVENANCE,
         }
+    try:
+        return cordis_cache.get_or_compute("country-activity", {"country": country, "top_n": top_n}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS country-activity failed: {str(e)}")
 
@@ -1428,10 +1468,19 @@ def hop_on_hosts(field: str = None, programme: str = None, missing_country: str 
     consent decide); EU-funded participation, not quality. The widening-country list is a disclosed EU
     reference constant; the per-host gap is that list minus the consortium's own countries (not a measure of
     any country's CORDIS activity). Returns empty before any ingest (drives the frontend hide/empty state)."""
-    try:
+    max_age_months = max(int(max_age_months or 0), 0)
+    top_n = max(int(top_n or 0), 0)
+    field = (field or "").strip() or None
+    programme = (programme or "").strip() or None
+    missing_country = (missing_country or "").strip().upper() or None
+
+    def _scan():
+        # B5/B6: cache the heavy eligible-host scan (full CordisProject scan + per-project shaping) keyed
+        # ONLY by max_age_months, so every field/programme/missing_country filter combination shares ONE
+        # cached scan instead of one cache entry per filter combo. The cheap filters/ranking/facets below run
+        # per request on the shaped result. B1's frameworkProgramme/status composite index lets the WHERE
+        # narrow to HORIZON+SIGNED before the per-node regex/date work runs on the survivors.
         s = SOURCE_TAG
-        max_age_months = max(int(max_age_months or 0), 0)
-        top_n = max(int(top_n or 0), 0)
         rows = db.query(
             "MATCH (pr:CordisProject {source:$s}) "
             "WHERE pr.frameworkProgramme = 'HORIZON' AND pr.status = 'SIGNED' "
@@ -1460,12 +1509,11 @@ def hop_on_hosts(field: str = None, programme: str = None, missing_country: str 
 
         import datetime
         today = datetime.date.today().isoformat()
-        shaped = [h for r in rows if (h := _shape_hop_on_host(r, today))]
-        facets = _hop_on_facets(shaped)
+        return [h for r in rows if (h := _shape_hop_on_host(r, today))]
 
-        field = (field or "").strip() or None
-        programme = (programme or "").strip() or None
-        missing_country = (missing_country or "").strip().upper() or None
+    try:
+        shaped = cordis_cache.get_or_compute("hop-on-hosts-scan", {"max_age_months": max_age_months}, _scan)
+        facets = _hop_on_facets(shaped)
         filtered = shaped
         if programme:
             filtered = [h for h in filtered if h["programme"] == programme]
@@ -1496,7 +1544,9 @@ def delete_area_links(source: str = None):
     """A2: remove subject-area evidence links (HAS_FUNDED_PROJECT) + area provenance; keep projects/tags."""
     try:
         from .cordis_tagger import clear_area_links
-        return clear_area_links(source)
+        result = clear_area_links(source)
+        cordis_cache.invalidate()         # A3: evidence links removed -> drop stale dashboard aggregates
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS area-links delete failed: {str(e)}")
 
@@ -1505,6 +1555,7 @@ def delete_area_links(source: str = None):
 def delete_all():
     try:
         CordisGraphBuilder().delete_all()
+        cordis_cache.invalidate()         # A3: everything deleted -> drop stale dashboard aggregates
         return {"status": "success", "message": "Deleted all CORDIS-sourced nodes & relationships."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS delete failed: {str(e)}")

@@ -20,6 +20,8 @@ import TopicDistribution from "./TopicDistribution";
 import OpenCallsTable from "./OpenCallsTable";
 import RecentActivity from "./RecentActivity";
 import SavedSearches from "./SavedSearches";
+import useInView from "./useInView";
+import DashCardSkeleton from "./DashCardSkeleton";
 
 export default function PortfolioDashboard({
   loadFromStore,
@@ -36,27 +38,40 @@ export default function PortfolioDashboard({
   // the section entirely rather than showing a row of zeros (hide-when-empty, like the CORDIS drawers).
   const cordisActive = !!cordis.data && (cordis.data.projectCount || 0) > 0;
 
-  // F2: per-programme awarded totals (fetched only once the CORDIS section is gated on). Mapped from raw
-  // Call.source codes to the dashboard's programme keys so FundingByProgramme can merge them with planned.
+  // Part C (plan 12): lazy-load the below-the-fold CORDIS widgets. Each card gets its own in-view sentinel,
+  // and its data hook only fires when the card scrolls near the viewport (AND the F1 summary confirms CORDIS
+  // data), instead of all of them firing at once when `cordisActive` flips true. A skeleton reserves each
+  // card's space until it's in view and loaded, so the cards below stay off-screen and the layout is stable.
+  const [trendRef, trendInView] = useInView();
+  const [fieldRef, fieldInView] = useInView();
+  const [countryRef, countryInView] = useInView();
+  const [orgsRef, orgsInView] = useInView();
+
+  // F2: per-programme awarded totals. Mapped from raw Call.source codes to the dashboard's programme keys so
+  // FundingByProgramme can merge them with planned. Kept EAGER (gated only on cordisActive, NOT on in-view):
+  // FundingByProgramme always paints its planned bars immediately and derives its Awarded/Both tab state from
+  // whether awarded data is present, so deferring this fetch would leave those tabs showing a misleading "no
+  // CORDIS data ingested" tooltip until the charts row scrolled into view. The endpoint is server-cached
+  // (plan A2), so eager-fetching it is cheap.
   const funding = useFundingByProgramme(cordisActive);
   const awardedByProgrammeKey = useMemo(
     () => mapAwardedToProgrammeKeys(funding.data),
     [funding.data]
   );
 
-  // F3: whole-portfolio funded-activity trend (fetched only once the CORDIS section is gated on).
-  const trend = useCordisPortfolioTrend(cordisActive);
+  // F3: whole-portfolio funded-activity trend.
+  const trend = useCordisPortfolioTrend(cordisActive && trendInView);
 
   // F4: funded-field portfolio mix — reuses the B5 /field-tree endpoint (shares its module cache with the
-  // field-explorer drawer). Gated on the F1 summary like the rest of the section.
-  const fieldTree = useCordisFieldTree("default", cordisActive);
+  // field-explorer drawer).
+  const fieldTree = useCordisFieldTree("default", cordisActive && fieldInView);
 
   // F5: top-countries leaderboard — reuses the B4 /country-activity facets (country="" returns the facet
-  // list; shares its module cache with the country-activity drawer). Gated on the F1 summary.
-  const countryActivity = useCountryActivity("", cordisActive);
+  // list; shares its module cache with the country-activity drawer).
+  const countryActivity = useCountryActivity("", cordisActive && countryInView);
 
-  // F6: top funded organisations leaderboard — one new read endpoint, gated on the F1 summary.
-  const topOrgs = useTopOrganisations(cordisActive);
+  // F6: top funded organisations leaderboard — one new read endpoint.
+  const topOrgs = useTopOrganisations(cordisActive && orgsInView);
 
   return (
     <div className="dash-shell">
@@ -108,10 +123,29 @@ export default function PortfolioDashboard({
               Across {cordis.data.callCount.toLocaleString()} tracked calls with CORDIS evidence.
               Counts and euros are separate measures; "most funded" is not "best".
             </p>
-            <CordisActivityTrend data={trend.data} loading={trend.loading} />
-            <CordisFieldMix data={fieldTree.data} loading={fieldTree.loading} />
-            <CordisCountryLeaderboard data={countryActivity.data} loading={countryActivity.loading} />
-            <CordisTopOrgs data={topOrgs.data} loading={topOrgs.loading} />
+            {/* Each below-the-fold card is wrapped in an in-view sentinel: a skeleton holds its space until
+                the card scrolls near the viewport and its (lazily-fetched) data lands, then the real widget
+                swaps in. */}
+            <div ref={trendRef}>
+              {!trendInView || trend.loading
+                ? <DashCardSkeleton />
+                : <CordisActivityTrend data={trend.data} loading={false} />}
+            </div>
+            <div ref={fieldRef}>
+              {!fieldInView || fieldTree.loading
+                ? <DashCardSkeleton />
+                : <CordisFieldMix data={fieldTree.data} loading={false} />}
+            </div>
+            <div ref={countryRef}>
+              {!countryInView || countryActivity.loading
+                ? <DashCardSkeleton />
+                : <CordisCountryLeaderboard data={countryActivity.data} loading={false} />}
+            </div>
+            <div ref={orgsRef}>
+              {!orgsInView || topOrgs.loading
+                ? <DashCardSkeleton />
+                : <CordisTopOrgs data={topOrgs.data} loading={false} />}
+            </div>
           </div>
         )}
 

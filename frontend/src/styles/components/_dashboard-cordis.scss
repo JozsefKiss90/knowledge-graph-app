@@ -57,6 +57,46 @@
 }
 
 /* ===================================================================
+   Part C (plan 12) — lazy-load skeleton for below-the-fold CORDIS cards.
+   Reserves the card's vertical space until it scrolls into view and its
+   data arrives, so the cards below stay off-screen (keeping the lazy
+   fetch meaningful) and the layout doesn't jump when the card swaps in.
+   =================================================================== */
+.dash-card-skeleton {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dash-card-skeleton__line,
+.dash-card-skeleton__body {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--card-muted, rgba(148, 163, 184, 0.10)) 25%,
+    var(--card-muted-strong, rgba(148, 163, 184, 0.20)) 37%,
+    var(--card-muted, rgba(148, 163, 184, 0.10)) 63%
+  );
+  background-size: 400% 100%;
+  animation: dash-skeleton-shimmer 1.4s ease infinite;
+}
+
+.dash-card-skeleton__line--title { height: 16px; width: 42%; }
+.dash-card-skeleton__line--sub { height: 12px; width: 26%; }
+.dash-card-skeleton__body { flex: 1; min-height: 120px; }
+
+@keyframes dash-skeleton-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-card-skeleton__line,
+  .dash-card-skeleton__body { animation: none; }
+}
+
+/* ===================================================================
    F2 — Planned vs Awarded (inside the existing "Funding by programme" card)
    =================================================================== */
 

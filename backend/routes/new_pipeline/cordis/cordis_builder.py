@@ -31,6 +31,15 @@ _INDEX_STATEMENTS = (
     "CREATE INDEX cordis_field_code IF NOT EXISTS FOR (n:ResearchField) ON (n.code)",
     "CREATE INDEX cordis_country_code IF NOT EXISTS FOR (n:Country) ON (n.code)",
     "CREATE INDEX app_call_id IF NOT EXISTS FOR (n:Call) ON (n.id)",
+    # plan 12 §B1: the /hop-on-hosts finder starts from a full CordisProject scan filtered by
+    # frameworkProgramme + status. These let the planner narrow to HORIZON/SIGNED *before* the per-node
+    # regex/date work runs on the survivors; the composite index (Neo4j 5+) covers the combined predicate.
+    "CREATE INDEX cordis_project_fp IF NOT EXISTS FOR (n:CordisProject) ON (n.frameworkProgramme)",
+    "CREATE INDEX cordis_project_status IF NOT EXISTS FOR (n:CordisProject) ON (n.status)",
+    "CREATE INDEX cordis_project_fp_status IF NOT EXISTS FOR (n:CordisProject) ON (n.frameworkProgramme, n.status)",
+    # NB: `source` is deliberately NOT indexed. It is the single constant "cordis" on every CORDIS node, so
+    # an index on it has zero selectivity (it matches every node) — it would never prune a scan and only adds
+    # write/storage overhead. The selective filters are the traversal anchors and the properties above.
 )
 _indexes_ensured = False
 
