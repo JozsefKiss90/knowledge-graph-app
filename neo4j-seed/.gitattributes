@@ -1,0 +1,2 @@
+# The entrypoint runs in a Linux container — force LF so CRLF never breaks it.
+*.sh text eol=lf

@@ -1,0 +1,2 @@
+# Data artifact produced at migration time — never commit (large, contains the graph).
+*.dump

@@ -26,7 +26,7 @@ This keeps the two datasets in **one graph** (which the dashboard's cross-datase
 | Edition | **Community** (free) | No code uses Enterprise features. |
 | Pinned version | One **exact** tag, identical on local-dump-source and Railway target | Never `:latest` for a stateful DB — a pull can trigger an irreversible on-disk store upgrade. |
 | Railway plan | **Hobby ($5)** to start; Pro ($20) if you want headroom/seats | DB is always-on, so usage is billed on top. |
-| Container RAM | Size after measuring store size (Phase 0) | Start ~**4 GB** (heap 2G + pagecache 1.5G + ~1G OS); drop to ~2–3 GB if the graph is small. |
+| Container RAM | **3–4 GB** (measured: heap 2g + pagecache 512m + ~1.5g OS) | Store is only ~0.5 GB, so a 512m page cache holds the whole working set. |
 | Seeding method | **Seed image** (bake `neo4j.dump`, load on first boot) | Cleanest Railway-native load; fits our existing Docker Hub push flow. |
 | Internal networking | Private (`*.railway.internal`), Bolt **not** public | `bolt://` (unencrypted) is correct inside Railway's private net. |
 
@@ -34,11 +34,18 @@ This keeps the two datasets in **one graph** (which the dashboard's cross-datase
 
 ## Phase 0 — Measure & pin the version (local)
 
+> **Measured 2026-06-24** (container `kg-dev-neo4j-1`, dev volume `kg-dev_neo4j_data`):
+> - **Neo4j `2026.02.2`** (the dev `neo4j:latest`; CalVer, not 5.x) → use as `NEO4J_TAG` on both the dump source and Railway.
+> - **Store `/data/databases/neo4j` = 481 MB** (data + native indexes ≈ 493 MB; Lucene 0). `/data/transactions/neo4j` = 2.1 GB of tx logs — **excluded** from a dump, so the seed stays ~0.5 GB.
+> - **≈341k nodes:** CordisOrganisation 238,099 · CordisProject 101,457 · ResearchField 1,060 · Call 645 · Country 217 · Destination 156 · Document 59 · HEWikiNode 54 · Cluster 18 · Topic 11.
+> - **`(:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject)` = 595,994 edges** → the datasets are one tightly-joined graph (far over Aura Free's ~200k node cap; a physical split would sever ~600k edges).
+> - **Memory (4 GB container):** heap 2g, pagecache 512m, ~1.5g OS, + crash-on-OOM. Store is small → a 3–4 GB instance is ample.
+
 1. **Find the current local Neo4j version** (so dump source and target match exactly):
    ```powershell
    docker compose -f docker-compose.dev.yml exec neo4j neo4j --version
    ```
-   Record it, e.g. `5.26.0`. Use **that exact tag** everywhere below (referred to as `NEO4J_TAG`). If you prefer to move to an LTS, upgrade local first, confirm the app still works, then proceed — do **not** dump from one major and load into another.
+   Measured: **`2026.02.2`**. Use **that exact tag** everywhere below (`NEO4J_TAG`). If you prefer to move to an LTS, upgrade local first, confirm the app still works, then proceed — do **not** dump from one major and load into another.
 
 2. **Measure the store size** (drives RAM sizing):
    ```powershell
@@ -59,14 +66,14 @@ This keeps the two datasets in **one graph** (which the dashboard's cross-datase
 
 ## Phase 1 — Secret hygiene (do immediately; independent of migration)
 
-`backend/.env.backend.production` is **committed** with live secrets (Aura password, OpenAI/OpenRouter keys, `SECRET_KEY`, admin bcrypt hash, SMTP). Two divergent `AURA_DB_PASSWORD` values also exist (root `.env` vs this file).
+**Verified scope (`git ls-files`):** the **only** secret-bearing file tracked in git is the **root `.env`**, which holds `AURA_DB_PASSWORD` and the live `CORDIS_API_KEY`. The `backend/.env.backend.production`, `backend/.env*`, and `frontend/.env*` files exist on disk but are **already untracked** (ignored) — no git action needed; just keep them ignored. (An earlier review over-stated this; corrected here.)
 
-1. Move the **current** values into the Railway **backend service → Variables** tab (so prod keeps working while still on Aura).
-2. `git rm --cached backend/.env.backend.production` and add it to `.gitignore`; commit. (History scrub — `git filter-repo` / BFG — is optional but recommended; at minimum rotate everything below.)
-3. **Rotate** the exposed credentials: OpenAI key, OpenRouter key, `SECRET_KEY`, SMTP. Rotate the **Aura** password too and update the Railway backend var — prod still runs on Aura at this point, so this is safe and proves the var-based config path works before cutover.
-4. Reconcile the two `AURA_DB_PASSWORD` values; delete the stale one.
+`.env` is itself already matched by `.gitignore` (`.env` / `.env.*`), so it was force-added or predates the rule — the fix is untrack + rotate. Full step-by-step: **`CORDIS_PLANS/13a-secrets-removal-runbook.md`**. In short:
+1. Ensure the values live where they're consumed (Railway backend var + local `backend/.env` for dev), then `git rm --cached .env` and commit (file stays on disk).
+2. **Rotate** both exposed secrets — they're in git history, so untracking alone is not remediation: regenerate the `CORDIS_API_KEY` (CORDIS portal) and the Aura password.
+3. Optionally purge `.env` from history (`git filter-repo` / BFG) and force-push.
 
-> This phase has standalone value and de-risks everything after it (we'll be setting Railway vars, not editing committed files).
+> Standalone value; de-risks the rest (we set Railway vars, not committed files).
 
 ---
 
@@ -139,9 +146,10 @@ In the **same Railway project** as backend/frontend:
    ```
    NEO4J_AUTH=neo4j/<strong-password>
    NEO4J_PLUGINS=["apoc"]
-   NEO4J_server_memory_heap_initial__size=2G
-   NEO4J_server_memory_heap_max__size=2G
-   NEO4J_server_memory_pagecache_size=1536m
+   NEO4J_server_memory_heap_initial__size=2g
+   NEO4J_server_memory_heap_max__size=2g
+   NEO4J_server_memory_pagecache_size=512m
+   NEO4J_server_jvm_additional=-XX:+ExitOnOutOfMemoryError
    NEO4J_server_default__listen__address=0.0.0.0
    NEO4J_dbms_security_procedures_unrestricted=apoc.*
    ```
