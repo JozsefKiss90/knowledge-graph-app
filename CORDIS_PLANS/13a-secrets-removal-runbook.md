@@ -17,6 +17,8 @@ The **only** secret-bearing file tracked in git is the **root `.env`**. It conta
 
 ## Why untracking is not enough
 
+**⚠️ Verified 2026-06-24: the GitHub repo `JozsefKiss90/knowledge-graph-app` is PUBLIC** — both secrets are in public history, so assume they are already compromised/scraped. **Rotating them (step 3) is mandatory and urgent;** untracking and history rewrite cannot un-publish what was already public.
+
 Both values are already in the repo's **history**, so anyone with repo access (or a clone/fork) can recover them. **Untracking stops future leakage but does not remediate the past** — rotation (step 3) is the only real fix. History rewrite (step 4) reduces exposure but can't recall what's already been cloned.
 
 ---
