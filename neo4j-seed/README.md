@@ -13,6 +13,8 @@ marker so it runs exactly once per volume.
 
 ## Order of operations
 
+> **Automated:** from the repo root run **`build_push_seed.bat`** — it runs the dump → build → push in one shot (briefly stopping the dev DB), same as `build_push_prod.bat` does for the app images. The manual steps below are the equivalent if you'd rather run them by hand or tweak a step.
+
 1. **Pin the version** (must match the dump source — plan Phase 0):
    ```
    docker exec kg-dev-neo4j-1 neo4j --version   # -> 2026.02.2
