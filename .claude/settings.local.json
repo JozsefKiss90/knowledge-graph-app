@@ -102,7 +102,8 @@
       "Bash(ls -1 destination_summaries_*.json)",
       "Bash(ls -1 *.json)",
       "Bash(py --version)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "PowerShell(Push-Location frontend; node node_modules/react-scripts/bin/react-scripts.js build; $code = $LASTEXITCODE; Pop-Location; Write-Output \"EXIT_CODE=$code\")"
     ]
   }
 }
