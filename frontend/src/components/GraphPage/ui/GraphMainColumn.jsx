@@ -59,6 +59,13 @@ export default function GraphMainColumn({
   locateCall,
   onResetFilters,
   assistantQuery,
+  onCopyLink,
+  onSaveView,
+  levelNavRef,
+  navToken,
+  savedViews,
+  onApplySavedView,
+  onDeleteSavedView,
 }) {
   const isDetailMode = !!detailNode;
   const levelsRef = useRef([]);
@@ -309,6 +316,8 @@ export default function GraphMainColumn({
             viewMode={viewMode}
             setViewMode={setViewMode}
             onLayoutModeChange={() => {}}
+            onCopyLink={onCopyLink}
+            onSaveView={onSaveView}
           />
           <PortfolioDashboard
             loadFromStore={loadFromStore}
@@ -320,6 +329,9 @@ export default function GraphMainColumn({
             setCountryOverlayCode={setCountryOverlayCode}
             onLocateCall={onLocateCall}
             locateCall={locateCall}
+            savedViews={savedViews}
+            onApplySavedView={onApplySavedView}
+            onDeleteSavedView={onDeleteSavedView}
           />
           <GraphStatusBar
             nodes={graphStats.nodes}
@@ -334,6 +346,7 @@ export default function GraphMainColumn({
             initialGraphName="ROOT"
             layoutOptions={effectiveLayout}
             loadFromStore={loadFromStore}
+            navToken={navToken}
             onGraphStats={onGraphStats}
             onCyReady={(cy) => onCyReady?.(cy)}
             onNodeHover={onNodeHover}
@@ -352,6 +365,8 @@ export default function GraphMainColumn({
               onBack,
             }) => {
                levelsRef.current = levels;
+               // Lift the layer back-nav so GraphPage's Backspace / ← shortcut can drill out.
+               if (levelNavRef) levelNavRef.current = { canGoBack, onBack };
                const layoutSwitchVisible = currentKey !== "HE_2025";
 
               const layoutMode =
@@ -375,6 +390,8 @@ export default function GraphMainColumn({
                     compareNodes={compareNodes}
                     viewMode={viewMode}
                     setViewMode={setViewMode}
+                    onCopyLink={onCopyLink}
+                    onSaveView={onSaveView}
                     onLayoutModeChange={(nextName) => {
                       if (currentKey === "HE_2025") return;
 

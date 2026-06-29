@@ -173,6 +173,7 @@ export default function NestedGraphController({
   loadFromStore,
   onLevelChange,
   targetGraphName,
+  navToken,
   renderLevelBar,
   onOpenDetail,
   onCompareSelect,
@@ -185,6 +186,7 @@ export default function NestedGraphController({
 
   const current = levels[levels.length - 1];
   const lastAppliedTargetRef = useRef(initialGraphName);
+  const lastNavTokenRef = useRef(navToken);
 
   const availableDatasetKeys = useMemo(() => {
     const keys = loadFromStore?.("__keys__") || [];
@@ -398,11 +400,18 @@ export default function NestedGraphController({
     if (String(target).startsWith("DEST_")) {
       return;
     }
+
+    // A bumped navToken (Saved-View / command-palette "Go to programme" apply) forces
+    // navigation even when the target key is unchanged, so jumping to the programme
+    // you're already drilled inside still rebuilds to its overview.
+    const forced = navToken !== lastNavTokenRef.current;
+    lastNavTokenRef.current = navToken;
+
     if (target === current?.key) {
       lastAppliedTargetRef.current = target;
       return;
     }
-    if (target === lastAppliedTargetRef.current) return;
+    if (!forced && target === lastAppliedTargetRef.current) return;
 
     lastAppliedTargetRef.current = target;
 
@@ -438,7 +447,7 @@ export default function NestedGraphController({
     setLevels((prev) => [{ ...prev[0] }]);
     openProgramme(target);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetGraphName, current?.key, availableDatasetKeys.size, onLevelChange, openHERoot, openHE, openProgramme, openPillar]);
+  }, [targetGraphName, current?.key, navToken, availableDatasetKeys.size, onLevelChange, openHERoot, openHE, openProgramme, openPillar]);
 
   const levelBar =
     typeof renderLevelBar === "function"

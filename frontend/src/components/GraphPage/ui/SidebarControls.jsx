@@ -15,6 +15,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import MessageDrawer from "../../LegendParts/MessageDrawer";
 import CustomDrawer from "../../LegendParts/CustomDrawer";
 import LayoutControls from "./LayoutControls";
@@ -39,6 +40,7 @@ const SidebarControls = ({
   dashboardPanel,
   onSelectDashboardPanel,
   graphName,
+  onOpenCommandPalette,
 }) => {
   const navigate = useNavigate();
 
@@ -76,6 +78,17 @@ const SidebarControls = ({
       <Tooltip {...tooltipProps} title={isExpanded ? "Collapse" : "Expand"}>
         <IconButton className="sidebar-controls-button sidebar-controls-toggle" onClick={() => setIsExpanded((p) => !p)}>
           {isExpanded ? <KeyboardDoubleArrowRightIcon fontSize="small" /> : <KeyboardDoubleArrowLeftIcon fontSize="small" />}
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip {...tooltipProps} title={isExpanded ? "" : "Command palette (Ctrl / ⌘ K)"}>
+        <IconButton
+          className="sidebar-controls-button"
+          onClick={() => onOpenCommandPalette?.()}
+          aria-label="Open command palette"
+        >
+          <KeyboardCommandKeyIcon fontSize="small" />
+          <span className="sidebar-controls-button__label">Commands</span>
         </IconButton>
       </Tooltip>
 

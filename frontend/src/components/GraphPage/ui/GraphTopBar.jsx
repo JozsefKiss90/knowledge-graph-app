@@ -19,6 +19,8 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import LinkIcon from "@mui/icons-material/Link";
+import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 
 function formatLevelTitle(title) {
   if (!title) return "";
@@ -41,6 +43,8 @@ const GraphTopBar = ({
   compareNodes,
   viewMode,
   setViewMode,
+  onCopyLink,
+  onSaveView,
 }) => {
   const currentIndex = Math.max(
     0,
@@ -170,6 +174,32 @@ const GraphTopBar = ({
               <OpenInFullIcon fontSize="small" style={{ marginRight: 10 }} />
               Fit to screen
             </MenuItem>
+
+            {(onCopyLink || onSaveView) && <Divider />}
+
+            {onCopyLink && (
+              <MenuItem
+                onClick={() => {
+                  onCopyLink();
+                  closeMenu();
+                }}
+              >
+                <LinkIcon fontSize="small" style={{ marginRight: 10 }} />
+                Copy link to view
+              </MenuItem>
+            )}
+
+            {onSaveView && (
+              <MenuItem
+                onClick={() => {
+                  onSaveView();
+                  closeMenu();
+                }}
+              >
+                <BookmarkAddOutlinedIcon fontSize="small" style={{ marginRight: 10 }} />
+                Save this view…
+              </MenuItem>
+            )}
           </Menu>
 
           <Tooltip title={viewMode === "dashboard" ? "Back to Graph" : "Open Dashboard"}>
@@ -298,6 +328,32 @@ const GraphTopBar = ({
             <OpenInFullIcon fontSize="small" />
           </IconButton>
         </Tooltip>
+
+        {onCopyLink && (
+          <Tooltip title="Copy link to this view">
+            <IconButton
+              size="small"
+              className="graph-topbar-icon"
+              onClick={onCopyLink}
+              aria-label="Copy link to this view"
+            >
+              <LinkIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        )}
+
+        {onSaveView && (
+          <Tooltip title="Save this view">
+            <IconButton
+              size="small"
+              className="graph-topbar-icon"
+              onClick={onSaveView}
+              aria-label="Save this view"
+            >
+              <BookmarkAddOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        )}
       </Box>
     </Box>
   );

@@ -23,6 +23,7 @@ import TopicDistribution from "./TopicDistribution";
 import OpenCallsTable from "./OpenCallsTable";
 import RecentActivity from "./RecentActivity";
 import SavedSearches from "./SavedSearches";
+import SavedViews from "./SavedViews";
 import useInView from "./useInView";
 import DashCardSkeleton from "./DashCardSkeleton";
 
@@ -36,6 +37,9 @@ export default function PortfolioDashboard({
   setCountryOverlayCode,
   onLocateCall,
   locateCall,
+  savedViews,
+  onApplySavedView,
+  onDeleteSavedView,
 }) {
   const data = useDashboardData(loadFromStore);
   const cordis = useCordisPortfolio();
@@ -212,6 +216,11 @@ export default function PortfolioDashboard({
               closingIn30d={data.closingIn30d}
               activeFilter={callFilter}
               onSelectFilter={setCallFilter}
+            />
+            <SavedViews
+              views={savedViews}
+              onApply={onApplySavedView}
+              onDelete={onDeleteSavedView}
             />
           </div>
         </div>

@@ -21,6 +21,7 @@ export default function RightControlsColumn({
   dashboardPanel,
   onSelectDashboardPanel,
   graphName,
+  onOpenCommandPalette,
 }) {
   return (
     <Col xs="auto">
@@ -43,6 +44,7 @@ export default function RightControlsColumn({
         dashboardPanel={dashboardPanel}
         onSelectDashboardPanel={onSelectDashboardPanel}
         graphName={graphName}
+        onOpenCommandPalette={onOpenCommandPalette}
       />
     </Col>
   );

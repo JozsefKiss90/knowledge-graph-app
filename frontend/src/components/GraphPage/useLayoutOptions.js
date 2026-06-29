@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export function useLayoutOptions() {
   const [layoutOptions, setLayoutOptions] = useState({
@@ -11,9 +11,9 @@ export function useLayoutOptions() {
     numIter: 12500
   });
 
-  const updateOption = (key, value) => {
+  const updateOption = useCallback((key, value) => {
     setLayoutOptions((prev) => ({ ...prev, [key]: value }));
-  };
+  }, []);
 
   return {
     layoutOptions,

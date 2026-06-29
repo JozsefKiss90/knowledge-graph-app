@@ -1,9 +1,17 @@
 // src/components/GraphPage/GraphPage.js
 import { useRef, useState, useEffect, useMemo, useCallback  } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
+import Snackbar from "@mui/material/Snackbar";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 import { CyContext } from "../context/CyContext";
 import { useDarkMode } from "../context/DarkModeContext";
@@ -27,12 +35,41 @@ import LeftLegendColumn from "./ui/LeftLegendColumn";
 import GraphMainColumn from "./ui/GraphMainColumn";
 import RightControlsColumn from "./ui/RightControlsColumn";
 import GuidedTour from "./GuidedTour";
+import CommandPalette from "./CommandPalette/CommandPalette";
+import { buildCommands } from "./CommandPalette/buildCommands";
+import { useGlobalShortcuts } from "./hooks/useGlobalShortcuts";
+import {
+  serializeView,
+  deserializeView,
+  buildShareUrl,
+  viewFromUrl,
+  readCurrentDestinationId,
+} from "./utils/viewUrlState";
+import { readSavedViews, addSavedView, removeSavedView } from "./utils/savedViews";
 
 function GraphPage() {
   const { ready, progress, graphName, setGraphName, loadFromStore } = useGraphData();
 
   const [pendingNav, setPendingNav] = useState(null);
   const [cyInstance, setCyInstance] = useState(null);
+
+  // Tier 3.1 / 3.2 — deep-link URL sync, named saved views, command palette.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [savedViews, setSavedViews] = useState(() => readSavedViews());
+  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
+  const [saveDialog, setSaveDialog] = useState({ open: false, name: "" });
+
+  // Lifted from NestedGraphController's renderLevelBar so the Backspace / ← shortcut
+  // can drill out a layer even though `onBack` lives inside that render prop.
+  const levelNavRef = useRef({ canGoBack: false, onBack: () => {} });
+
+  // Deep-link hydration bookkeeping (see applyView + the two hydration effects).
+  const hydratedRef = useRef(false);
+  const hydrationTargetRef = useRef(null);
+  const filtersAppliedRef = useRef(false);
+  const [applyTick, setApplyTick] = useState(0);
 
   const hoveredNodeRef = useRef(null);
 
@@ -213,16 +250,9 @@ function GraphPage() {
     }
   }, [graphName]);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("pendingNav");
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      if (parsed && (parsed.clusterKey || parsed.destinationId || parsed.callId)) {
-        setPendingNav(parsed);
-      }
-    } catch {}
-  }, []);
+  // (deep-link + pendingNav restore is handled by the mount-hydration effect below,
+  // declared after createViewControls so its filter pass runs *after* the
+  // reset-on-layer-change effect above.)
 
   // Compute effective layout (memoized)
   const effectiveLayout = useMemo(() => {
@@ -306,6 +336,239 @@ useEffect(() => {
       cyInstance,
       effectiveLayout,
     });
+
+  // ── Tier 3.1 — deep-link URL sync + named saved views ────────────────────────
+
+  // Apply a serialized view: the location-defining state immediately, then the
+  // filter layers once the target programme is the active graph (the second pass
+  // below). Shared by mount hydration and "apply saved view".
+  const applyView = useCallback(
+    (view) => {
+      if (!view || typeof view !== "object") return;
+      hydrationTargetRef.current = view;
+      filtersAppliedRef.current = false;
+
+      setGraphName(view.graphName || "ROOT");
+      setViewMode(view.viewMode === "dashboard" ? "dashboard" : "graph");
+      setDashboardPanel(view.dashboardPanel || null);
+      // Layout isn't subject to the reset-on-layer-change effect, so set it here
+      // (default to the force layout when the view omits it) to fully define the view.
+      updateOption("name", view.layoutName || "cose-bilkent");
+
+      // Compare isn't part of a serialized view — applying one always clears it.
+      setCompareNodes([]);
+      setCompareOpen(false);
+
+      if (view.graphName && (view.destinationId || view.callId)) {
+        setPendingNav({
+          clusterKey: view.graphName,
+          ...(view.destinationId ? { destinationId: view.destinationId } : {}),
+          ...(view.callId ? { callId: view.callId } : {}),
+        });
+      }
+
+      // Re-arm the filter pass even when graphName doesn't change.
+      setApplyTick((t) => t + 1);
+    },
+    [setGraphName, updateOption]
+  );
+
+  // Snapshot the current view as URL params. Reads the live destination layer from
+  // Cytoscape scratch, falling back to a still-pending nav target while drilling.
+  const captureCurrentViewParams = useCallback(() => {
+    const destFromLayer = readCurrentDestinationId(cyInstance);
+    const destinationId = destFromLayer || pendingNav?.destinationId || null;
+    return serializeView({
+      graphName,
+      destinationId,
+      viewMode,
+      dashboardPanel,
+      countryOverlayCode,
+      timelineSelection,
+      layoutName: userLayout?.name,
+    });
+  }, [
+    cyInstance,
+    pendingNav,
+    graphName,
+    viewMode,
+    dashboardPanel,
+    countryOverlayCode,
+    timelineSelection,
+    userLayout?.name,
+  ]);
+
+  // Mount: a deep link defines the whole view; otherwise restore the last pendingNav.
+  useEffect(() => {
+    const view = deserializeView(searchParams);
+    if (Object.keys(view).length > 0) {
+      applyView(view);
+      // Safety net: re-enable URL writes even if the target layer never settles.
+      const t = setTimeout(() => {
+        hydratedRef.current = true;
+      }, 1500);
+      return () => clearTimeout(t);
+    }
+    try {
+      const raw = localStorage.getItem("pendingNav");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && (parsed.clusterKey || parsed.destinationId || parsed.callId)) {
+          setPendingNav(parsed);
+        }
+      }
+    } catch {}
+    hydratedRef.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Second hydration pass: paint the filter layers once the target programme is
+  // active. Declared after the reset-on-layer-change effect so its writes win
+  // within the same commit.
+  useEffect(() => {
+    const target = hydrationTargetRef.current;
+    if (!target || filtersAppliedRef.current) return;
+    const wantsProgramme = target.graphName && target.graphName !== "ROOT";
+    if (wantsProgramme ? graphName !== target.graphName : graphName !== "ROOT") return;
+    filtersAppliedRef.current = true;
+    // Authoritative: set OR clear every filter the view (de)serialises, so applying
+    // a view that omits a filter wipes any currently-active one. Declared after the
+    // reset-on-layer-change effect, so these writes win within the same commit.
+    setCountryOverlayCode(target.countryOverlayCode || "");
+    setTimelineSelection(target.timelineSelection || null);
+    hydratedRef.current = true;
+  }, [graphName, applyTick]);
+
+  // Mirror the view into the URL (debounced, replace-history) once hydration settles.
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const handle = setTimeout(() => {
+      setSearchParams(captureCurrentViewParams(), { replace: true });
+    }, 400);
+    return () => clearTimeout(handle);
+  }, [captureCurrentViewParams, setSearchParams]);
+
+  const handleCopyLink = useCallback(() => {
+    const url = buildShareUrl(captureCurrentViewParams());
+    const ok = () => setSnackbar({ open: true, message: "Link to this view copied" });
+    const fallback = () => setSnackbar({ open: true, message: url });
+    try {
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(url).then(ok).catch(fallback);
+      } else {
+        fallback();
+      }
+    } catch {
+      fallback();
+    }
+  }, [captureCurrentViewParams]);
+
+  const handleOpenSaveDialog = useCallback(() => {
+    setSaveDialog({ open: true, name: "" });
+  }, []);
+
+  const handleConfirmSaveView = useCallback(() => {
+    const url = buildShareUrl(captureCurrentViewParams());
+    setSavedViews(addSavedView({ name: saveDialog.name, url }));
+    setSaveDialog({ open: false, name: "" });
+    setSnackbar({ open: true, message: "View saved" });
+  }, [captureCurrentViewParams, saveDialog.name]);
+
+  const handleApplySavedView = useCallback(
+    (view) => {
+      if (!view?.url) return;
+      applyView(viewFromUrl(view.url));
+    },
+    [applyView]
+  );
+
+  const handleDeleteSavedView = useCallback((id) => {
+    setSavedViews(removeSavedView(id));
+  }, []);
+
+  // ── Tier 3.2 — command palette + global keyboard shortcuts ───────────────────
+  const openPalette = useCallback(() => setPaletteOpen(true), []);
+  const closePalette = useCallback(() => setPaletteOpen(false), []);
+
+  const handleEscapeDismiss = useCallback(() => {
+    handleClearAssistant();
+    setDrawerOpen(false);
+    setIsMessageDrawerOpen(false);
+    setCompareOpen(false);
+  }, [handleClearAssistant]);
+
+  const toggleDashboard = useCallback(
+    () => setViewMode((v) => (v === "dashboard" ? "graph" : "dashboard")),
+    []
+  );
+  const toggleCompare = useCallback(() => setCompareOpen((p) => !p), []);
+  const toggleTimeline = useCallback(() => setTimelineOpen((p) => !p), []);
+
+  useGlobalShortcuts({
+    paletteOpen,
+    openPalette,
+    closePalette,
+    onEscape: handleEscapeDismiss,
+    levelNavRef,
+    onToggleDashboard: toggleDashboard,
+    onToggleCompare: toggleCompare,
+    onToggleTimeline: toggleTimeline,
+    toolsEnabled: graphName !== "HE_2025",
+    inGraphMode: viewMode === "graph" && !detailNode,
+  });
+
+  const paletteCommands = useMemo(
+    () =>
+      buildCommands({
+        viewMode,
+        isHEWiki: graphName === "HE_2025",
+        assistantActive: assistantMatchIds.size > 0,
+        countryActive: !!countryOverlayCode,
+        timelineActive: !!timelineSelection,
+        timelineOpen,
+        compareOpen,
+        darkMode,
+        setViewMode,
+        updateOption,
+        onResetView: handleResetView,
+        onFitView: handleFitView,
+        setCompareOpen,
+        setTimelineOpen,
+        onSelectDashboardPanel: handleSelectDashboardPanel,
+        onResetFilters: handleResetFilters,
+        onClearAssistant: handleClearAssistant,
+        setCountryOverlayCode,
+        setTimelineSelection,
+        setDarkMode,
+        setDrawerOpen,
+        setIsMessageDrawerOpen,
+        onCopyLink: handleCopyLink,
+        onSaveView: handleOpenSaveDialog,
+        onGoToProgramme: (key) => applyView({ graphName: key === "ROOT" ? undefined : key }),
+        navigate,
+      }),
+    [
+      viewMode,
+      graphName,
+      assistantMatchIds,
+      countryOverlayCode,
+      timelineSelection,
+      timelineOpen,
+      compareOpen,
+      darkMode,
+      updateOption,
+      applyView,
+      handleResetView,
+      handleFitView,
+      handleSelectDashboardPanel,
+      handleResetFilters,
+      handleClearAssistant,
+      setDarkMode,
+      handleCopyLink,
+      handleOpenSaveDialog,
+      navigate,
+    ]
+  );
 
     if (!ready) {
       return (
@@ -415,6 +678,13 @@ useEffect(() => {
               locateCall={callLocator.locate}
               onResetFilters={handleResetFilters}
               assistantQuery={assistantQuery}
+              onCopyLink={handleCopyLink}
+              onSaveView={handleOpenSaveDialog}
+              levelNavRef={levelNavRef}
+              navToken={applyTick}
+              savedViews={savedViews}
+              onApplySavedView={handleApplySavedView}
+              onDeleteSavedView={handleDeleteSavedView}
             />
 
             <RightControlsColumn
@@ -436,6 +706,7 @@ useEffect(() => {
               dashboardPanel={dashboardPanel}
               onSelectDashboardPanel={handleSelectDashboardPanel}
               graphName={graphName}
+              onOpenCommandPalette={openPalette}
             />
           </Row>
         </Container>
@@ -445,6 +716,52 @@ useEffect(() => {
           setDashboardPanel={setDashboardPanel}
           setIsLegendCollapsed={setIsLegendCollapsed}
         />
+
+        <CommandPalette
+          open={paletteOpen}
+          onClose={closePalette}
+          commands={paletteCommands}
+        />
+
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={3000}
+          onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+          message={snackbar.message}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        />
+
+        <Dialog
+          open={saveDialog.open}
+          onClose={() => setSaveDialog({ open: false, name: "" })}
+          maxWidth="xs"
+          fullWidth
+        >
+          <DialogTitle>Save current view</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              fullWidth
+              margin="dense"
+              label="View name"
+              placeholder="e.g. CL5 climate calls, autumn 2026"
+              value={saveDialog.name}
+              onChange={(e) => setSaveDialog((s) => ({ ...s, name: e.target.value }))}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleConfirmSaveView();
+                }
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setSaveDialog({ open: false, name: "" })}>Cancel</Button>
+            <Button variant="contained" onClick={handleConfirmSaveView}>
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </CyContext.Provider>
   );
