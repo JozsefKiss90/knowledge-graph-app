@@ -98,6 +98,7 @@ function GraphPage() {
   const [assistantMatchDestIds, setAssistantMatchDestIds] = useState(() => new Set());
   const [assistantFocus, setAssistantFocus] = useState(null);
   const assistantFocusSeqRef = useRef(0);
+  const [assistantQuery, setAssistantQuery] = useState("");
 
   // Memoised call -> graph-location index over the preloaded store. The store is
   // empty until the preload finishes, so build only once `ready` is true.
@@ -108,7 +109,7 @@ function GraphPage() {
 
   // Chatbot returned results: highlight every matched call (and its destination).
   const handleAssistantResults = useCallback(
-    (matchedCalls) => {
+    (matchedCalls, query) => {
       const ids = new Set();
       const destIds = new Set();
       (matchedCalls || []).forEach((c) => {
@@ -121,6 +122,7 @@ function GraphPage() {
       setAssistantMatchIds(ids);
       setAssistantMatchDestIds(destIds);
       setAssistantFocus(null);
+      setAssistantQuery(query || "");
     },
     [callLocator]
   );
@@ -150,6 +152,7 @@ function GraphPage() {
     setAssistantMatchIds(new Set());
     setAssistantMatchDestIds(new Set());
     setAssistantFocus(null);
+    setAssistantQuery("");
   }, []);
 
   // 1.2: "Reset All Filters" must clear EVERY filter layer, not just the cy-level
@@ -162,6 +165,7 @@ function GraphPage() {
     setTimelineSelection(null); // timeline window
     setCountryOverlayCode(""); // CORDIS country paint
     handleClearAssistant(); // assistant "act on the graph" highlight
+    setCompareNodes([]); // compare selection (2.1: Clear all clears every layer)
     const cy = cyInstance;
     if (cy && !cy.destroyed?.()) {
       try {
@@ -172,7 +176,7 @@ function GraphPage() {
         cy.edges().removeClass("faded");
       } catch {}
     }
-  }, [cyInstance, handleClearAssistant]);
+  }, [cyInstance, handleClearAssistant, setCompareNodes]);
 
     const handleOpenDetail = useCallback((payload) => {
     // Clear any hover card when opening details
@@ -409,6 +413,8 @@ useEffect(() => {
               onLocateCall={handleLocateCall}
               onClearAssistant={handleClearAssistant}
               locateCall={callLocator.locate}
+              onResetFilters={handleResetFilters}
+              assistantQuery={assistantQuery}
             />
 
             <RightControlsColumn

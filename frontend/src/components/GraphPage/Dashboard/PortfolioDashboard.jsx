@@ -1,5 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useDashboardData } from "./useDashboardData";
+import CordisEmptyState from "../CordisEvidence/CordisEmptyState";
 import useCordisPortfolio from "./useCordisPortfolio";
 import useFundingByProgramme, { mapAwardedToProgrammeKeys } from "./useFundingByProgramme";
 import useCordisPortfolioTrend from "./useCordisPortfolioTrend";
@@ -32,12 +34,30 @@ export default function PortfolioDashboard({
   setDashboardPanel,
   countryOverlayCode,
   setCountryOverlayCode,
+  onLocateCall,
+  locateCall,
 }) {
   const data = useDashboardData(loadFromStore);
   const cordis = useCordisPortfolio();
   // Gate the whole CORDIS section on real data: an empty graph yields an all-zero summary, so we hide
   // the section entirely rather than showing a row of zeros (hide-when-empty, like the CORDIS drawers).
   const cordisActive = !!cordis.data && (cordis.data.projectCount || 0) > 0;
+
+  // 2.3: the calls table doubles as a filter target for the "Quick filters" card. `callFilter` is null
+  // (default upcoming slice), "open" (all open calls), or "closing30" (calls closing in 30 days).
+  const [callFilter, setCallFilter] = useState(null);
+  const tableRows = useMemo(() => {
+    const byDeadline = (a, b) => (a.closeDate || Infinity) - (b.closeDate || Infinity);
+    if (callFilter === "open") return [...(data.openCallsList || [])].sort(byDeadline);
+    if (callFilter === "closing30") return [...(data.closingIn30dList || [])].sort(byDeadline);
+    return data.upcomingCalls;
+  }, [callFilter, data.openCallsList, data.closingIn30dList, data.upcomingCalls]);
+
+  // 2.3: a country-leaderboard row composes the overlay selection with a jump to the country tool.
+  const handleSelectCountry = useCallback((code) => {
+    setCountryOverlayCode(code);
+    setDashboardPanel("country");
+  }, [setCountryOverlayCode, setDashboardPanel]);
 
   // Part C (plan 12): lazy-load the below-the-fold CORDIS widgets. Each card gets its own in-view sentinel,
   // and its data hook only fires when the card scrolls near the viewport (AND the F1 summary confirms CORDIS
@@ -80,16 +100,14 @@ export default function PortfolioDashboard({
         {/* Research tools – a distinct panel hosting the field explorer, country activity and hop-on
             finder. Hidden until a sidebar button activates it; rendered at the top so it's visible on
             arrival. */}
-        {dashboardPanel && (
-          <div className="dash-grid__tool-panel">
-            <DashboardToolPanel
-              panel={dashboardPanel}
-              setPanel={setDashboardPanel}
-              country={countryOverlayCode}
-              setCountry={setCountryOverlayCode}
-            />
-          </div>
-        )}
+        <div className="dash-grid__tool-panel">
+          <DashboardToolPanel
+            panel={dashboardPanel}
+            setPanel={setDashboardPanel}
+            country={countryOverlayCode}
+            setCountry={setCountryOverlayCode}
+          />
+        </div>
 
         {/* Hero – full width */}
         <div className="dash-grid__hero">
@@ -118,7 +136,7 @@ export default function PortfolioDashboard({
 
         {/* Funded reality (CORDIS) – portfolio-wide awarded counterpart to the planned KPIs.
             Hidden entirely when no CORDIS data is ingested. */}
-        {cordisActive && (
+        {cordisActive ? (
           <div className="dash-grid__cordis">
             <div className="dash-cordis-section__header">
               <h2 className="dash-cordis-section__title">What's actually been funded (CORDIS)</h2>
@@ -140,18 +158,28 @@ export default function PortfolioDashboard({
             <div ref={fieldRef}>
               {!fieldInView || fieldTree.loading
                 ? <DashCardSkeleton />
-                : <CordisFieldMix data={fieldTree.data} loading={false} />}
+                : <CordisFieldMix data={fieldTree.data} loading={false} onShowFields={() => setDashboardPanel("fields")} />}
             </div>
             <div ref={countryRef}>
               {!countryInView || countryActivity.loading
                 ? <DashCardSkeleton />
-                : <CordisCountryLeaderboard data={countryActivity.data} loading={false} />}
+                : <CordisCountryLeaderboard data={countryActivity.data} loading={false} onSelectCountry={handleSelectCountry} />}
             </div>
             <div ref={orgsRef}>
               {!orgsInView || topOrgs.loading
                 ? <DashCardSkeleton />
                 : <CordisTopOrgs data={topOrgs.data} loading={false} />}
             </div>
+          </div>
+        ) : (
+          <div className="dash-grid__cordis dash-grid__cordis--teaser">
+            <div className="dash-cordis-section__header">
+              <h2 className="dash-cordis-section__title">What's actually been funded (CORDIS)</h2>
+            </div>
+            <CordisEmptyState className="dash-cordis-teaser">
+              Real awarded projects, organisations and countries appear here once EU funded-project data (CORDIS) is ingested. We only ever show real funded-project figures — never estimates.{" "}
+              <Link to="/about" className="dash-cordis-teaser__help">Learn how this works</Link>
+            </CordisEmptyState>
           </div>
         )}
 
@@ -170,8 +198,11 @@ export default function PortfolioDashboard({
           <div className="dash-grid__bottom-left">
             <TopicDistribution topicDistribution={data.topicDistribution} />
             <OpenCallsTable
-              upcomingCalls={data.upcomingCalls}
+              rows={tableRows}
               setViewMode={setViewMode}
+              onLocateCall={onLocateCall}
+              locateCall={locateCall}
+              filterLabel={callFilter === "open" ? "All open calls" : callFilter === "closing30" ? "Calls closing in 30 days" : null}
             />
           </div>
           <div className="dash-grid__bottom-right">
@@ -179,6 +210,8 @@ export default function PortfolioDashboard({
             <SavedSearches
               openCalls={data.openCalls}
               closingIn30d={data.closingIn30d}
+              activeFilter={callFilter}
+              onSelectFilter={setCallFilter}
             />
           </div>
         </div>

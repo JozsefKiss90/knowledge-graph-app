@@ -18,11 +18,8 @@ import { useDarkMode } from "./context/DarkModeContext";
 import "../styles/nodedetails.scss";
 import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
-import CordisEvidencePanel from "./GraphPage/CordisEvidence/CordisEvidencePanel";
-import CordisTrendPanel from "./GraphPage/CordisEvidence/CordisTrendPanel";
-import CordisRelatedPanel from "./GraphPage/CordisEvidence/CordisRelatedPanel";
-import CordisPartnersPanel from "./GraphPage/CordisEvidence/CordisPartnersPanel";
-import FundingFrameLegend from "./GraphPage/Dashboard/FundingFrameLegend";
+import CordisBand from "./GraphPage/CordisEvidence/CordisBand";
+import useCordisEvidence from "./GraphPage/CordisEvidence/useCordisEvidence";
 
 // --- lightweight markdown-to-JSX renderer for wiki body text ---------------
 
@@ -581,6 +578,53 @@ function inferCallStatus(nodeData, deadlines) {
   return "";
 }
 
+// --- Call brief band (Tier 2.2): fused "Planned vs Funded" framing rows -----
+
+// Same € formatter as the CORDIS panels — counts and euros are never mixed.
+function formatBudget(val) {
+  if (val >= 1e9) return `€${(val / 1e9).toFixed(1)}B`;
+  if (val >= 1e6) return `€${(val / 1e6).toFixed(1)}M`;
+  if (val >= 1e3) return `€${(val / 1e3).toFixed(0)}K`;
+  if (val > 0) return `€${val.toLocaleString()}`;
+  return "—";
+}
+
+function CallBriefBand({ viewModel, statusClass, evidence }) {
+  const { status, typeOfAction, typeShort, deadlines } = viewModel;
+  const ev = evidence?.data;
+  const hasCordis = !!ev && (ev.projectCount || 0) > 0;
+  const lastDeadline = deadlines && deadlines.length ? deadlines[deadlines.length - 1] : null;
+  return (
+    <Box className="nd-card nd-brief-band">
+      <div className="nd-brief-band__row nd-brief-band__row--planned">
+        <span className="nd-brief-band__row-label">Planned — on offer (work programme)</span>
+        <div className="nd-brief-band__facts">
+          {status && <Chip label={status} size="small" className={`nd-chip nd-chip--status ${statusClass}`} />}
+          {typeShort && <Chip label={typeShort} size="small" className="nd-chip nd-chip--kind" />}
+          {typeOfAction && <span className="nd-brief-band__fact">{typeOfAction}</span>}
+          {lastDeadline && <span className="nd-brief-band__fact">Deadline {formatDateShort(lastDeadline)}</span>}
+        </div>
+      </div>
+      <div className="nd-brief-band__row nd-brief-band__row--funded">
+        <span className="nd-brief-band__row-label">Funded — awarded (CORDIS)</span>
+        {evidence?.loading ? (
+          <span className="nd-brief-band__muted">Checking CORDIS…</span>
+        ) : hasCordis ? (
+          <div className="nd-brief-band__facts">
+            <span className="nd-brief-band__fact"><strong>{ev.projectCount.toLocaleString()}</strong> funded projects</span>
+            <span className="nd-brief-band__fact"><strong>{formatBudget(ev.totalEcContribution)}</strong> EU contribution</span>
+            {ev.topOrganisations?.length > 0 && (
+              <span className="nd-brief-band__fact">Most active: {ev.topOrganisations[0].name}</span>
+            )}
+          </div>
+        ) : (
+          <span className="nd-brief-band__muted">No awarded-project data for this research area yet.</span>
+        )}
+      </div>
+    </Box>
+  );
+}
+
 // --- main component ---------------------------------------------------------
 
 function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields }) {
@@ -764,6 +808,8 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
       fundingLink,
     };
   }, [nodeData]);
+
+  const cordisEvidence = useCordisEvidence(viewModel?.kind === "call" ? (nodeData?.id || id) : null);
 
   // Resolve [[wikilinks]] in the body against this node's fetched neighbors,
   // so curated/contextual links navigate to the target entity's detail page.
@@ -1173,6 +1219,8 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
             </Box>
           )}
 
+          <CallBriefBand viewModel={viewModel} statusClass={statusClass} evidence={cordisEvidence} />
+
           <div className="nd-grid">
             <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
               <Box className="nd-card">
@@ -1271,13 +1319,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               )}
 
               {viewModel.kind === "call" && (
-                <>
-                  <FundingFrameLegend className="nd-funding-frame-legend" />
-                  <CordisEvidencePanel callId={nodeData.id || id} />
-                  <CordisTrendPanel callId={nodeData.id || id} />
-                  <CordisRelatedPanel callId={nodeData.id || id} />
-                  <CordisPartnersPanel callId={nodeData.id || id} />
-                </>
+                <CordisBand callId={nodeData.id || id} evidence={cordisEvidence} />
               )}
 
               {textFieldConfig.map(({ key, label }) => (

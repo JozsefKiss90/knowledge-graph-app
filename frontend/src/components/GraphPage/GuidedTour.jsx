@@ -159,10 +159,10 @@ export default function GuidedTour({
   // Start the tour — forced via ?tour=1 (the Help-page button) or automatically on a
   // first visit (unless previously dismissed).
   useEffect(() => {
-    if (startedRef.current) return;
-
     const params = new URLSearchParams(location.search);
     const forced = params.get("tour") === "1";
+
+    if (startedRef.current && !forced) return;
 
     let dismissed = false;
     try {

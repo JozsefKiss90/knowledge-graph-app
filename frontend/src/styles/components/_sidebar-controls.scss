@@ -59,3 +59,14 @@
   margin: 8px 0;
   background-color: var(--sidebar-border);
 }
+
+/* === Expandable rail (labels + section headers) === */
+.sidebar-controls-button__label { display: none; }
+.sidebar-controls-section-label { display: none; }
+.sidebar-controls--expanded { width: 200px; align-items: stretch; padding: 0.75rem 0.5rem 0; }
+.sidebar-controls--expanded .sidebar-controls-row { width: 100%; }
+.sidebar-controls--expanded .sidebar-controls-button { width: 100%; justify-content: flex-start; gap: 0.6rem; padding-left: 0.5rem; border-radius: 10px !important; }
+.sidebar-controls--expanded .sidebar-controls-button__label { display: inline; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
+.sidebar-controls--expanded .sidebar-controls-divider { width: 100%; height: auto; background: transparent; display: flex; align-items: center; margin: 12px 0 4px; }
+.sidebar-controls--expanded .sidebar-controls-section-label { display: inline; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground, var(--sidebar-border)); padding: 0 0.4rem; }
+.sidebar-controls-button.Mui-disabled { opacity: 0.4; }

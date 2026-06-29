@@ -13,8 +13,8 @@ export default function TopicDistribution({ topicDistribution }) {
     <div className="dash-card dash-topics">
       <div className="dash-card__header">
         <div>
-          <h3 className="dash-card__title">Topic distribution</h3>
-          <span className="dash-card__subtitle">Across all calls</span>
+          <h3 className="dash-card__title">Topic distribution (estimated)</h3>
+          <span className="dash-card__subtitle">Estimated from call IDs — not curated topic tags</span>
         </div>
         <span className="dash-topics__total">
           Total <strong>{total}</strong>

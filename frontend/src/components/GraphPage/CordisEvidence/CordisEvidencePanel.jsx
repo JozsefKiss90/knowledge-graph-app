@@ -32,31 +32,33 @@ function Card({ children }) {
  * Honest framing: this is funded activity on the research area, NOT the call's official budget/scope.
  * Renders an empty state where CORDIS has no data; never fabricates figures.
  */
-export default function CordisEvidencePanel({ callId }) {
-  const { loading, data } = useCordisEvidence(callId);
+export default function CordisEvidencePanel({ callId, bare = false, evidence }) {
+  const own = useCordisEvidence(evidence ? null : callId);
+  const { loading, data } = evidence || own;
 
   // Render only when there's real CORDIS evidence — no empty/loading cards on every call.
   if (!callId || loading) return null;
   const count = data?.projectCount || 0;
   if (!data || count === 0) {
-    return (
-      <Card>
-        <CordisEmptyState
-          compact
-          message="Awarded EU project data (CORDIS) for this research area will appear here once it has been added. We only ever show real funded-project figures — never estimates."
-        />
-      </Card>
+    const empty = (
+      <CordisEmptyState
+        compact
+        message="Awarded EU project data (CORDIS) for this research area will appear here once it has been added. We only ever show real funded-project figures — never estimates."
+      />
     );
+    return bare ? <div className="cordis-ev">{empty}</div> : <Card>{empty}</Card>;
   }
 
   const fp = (data.frameworkBreakdown || []).filter((f) => f.n > 0);
   const fpMax = Math.max(...fp.map((f) => f.n), 1);
 
-  return (
-    <Card>
-      <div className="cordis-ev__hint">
-        What has been funded in this research area across framework programmes — not this call's budget or scope.
-      </div>
+  const body = (
+    <>
+      {!bare && (
+        <div className="cordis-ev__hint">
+          What has been funded in this research area across framework programmes — not this call's budget or scope.
+        </div>
+      )}
 
       <div className="nd-metrics-grid">
         <div className="nd-metric">
@@ -119,10 +121,14 @@ export default function CordisEvidencePanel({ callId }) {
         </>
       )}
 
-      <div className="cordis-ev__prov">
-        {data.provenance}
-        {data.subject ? ` — “${data.subject}”` : ""}
-      </div>
-    </Card>
+      {!bare && (
+        <div className="cordis-ev__prov">
+          {data.provenance}
+          {data.subject ? ` — “${data.subject}”` : ""}
+        </div>
+      )}
+    </>
   );
+
+  return bare ? <div className="cordis-ev">{body}</div> : <Card>{body}</Card>;
 }

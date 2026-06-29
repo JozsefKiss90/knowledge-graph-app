@@ -1,0 +1,80 @@
+/* Active-constraints bar (Tier 2.1): one dismissible chip per active filter
+   layer (timeline / country / AI / compare). Sits in normal flow between the
+   graph topbar and the canvas. Renders nothing when no layer is active. */
+.graph-constraint-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.graph-constraint-bar__lead {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+.graph-constraint-bar__chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.graph-constraint-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px 2px 12px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.graph-constraint-chip__label {
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.graph-constraint-chip__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+.graph-constraint-bar__clear-all {
+  margin-left: auto;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover {
+    background: var(--muted);
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import useCordisTrend from "./useCordisTrend";
+import CordisEmptyState from "./CordisEmptyState";
 
 // Same € formatter as A2 (CordisEvidencePanel / the dashboard) — counts and euros are never mixed.
 function formatBudget(val) {
@@ -65,16 +66,21 @@ function Card({ children }) {
  * start year across framework-programme eras. Honest framing: this is the research area over time, NOT
  * the call's own budget or timeline. Hidden when CORDIS has no linked projects (same gate as A2).
  */
-export default function CordisTrendPanel({ callId }) {
+export default function CordisTrendPanel({ callId, bare = false }) {
   const { loading, data } = useCordisTrend(callId);
   const [measure, setMeasure] = useState("projects"); // "projects" | "funding"
 
   if (!callId || loading) return null;
+  const emptyNote = bare ? (
+    <div className="cordis-trend">
+      <CordisEmptyState compact message="Not enough dated projects to chart a trend." />
+    </div>
+  ) : null;
   const count = data?.projectCount || 0;
-  if (!data || count === 0) return null;
+  if (!data || count === 0) return emptyNote;
 
   const buckets = data.yearBuckets || [];
-  if (buckets.length === 0) return null;
+  if (buckets.length === 0) return emptyNote;
 
   // Only offer the EU-funding measure when there is funding to show; otherwise stay on Projects so we
   // never render an empty, unexplained funding chart (some CORDIS projects carry no EU contribution).
@@ -129,12 +135,14 @@ export default function CordisTrendPanel({ callId }) {
     ? `across ${eraBuckets.length} EU programmes (${eraBuckets[0].meta.label} to ${eraBuckets[eraBuckets.length - 1].meta.label})`
     : `all under ${eraBuckets[0]?.meta.label || "one EU programme"}`;
 
-  return (
-    <Card>
-      <div className="cordis-trend__hint">
-        How EU-funded activity on this research area has evolved by project start year, across framework
-        programmes — not this call's budget or timeline.
-      </div>
+  const body = (
+    <>
+      {!bare && (
+        <div className="cordis-trend__hint">
+          How EU-funded activity on this research area has evolved by project start year, across framework
+          programmes — not this call's budget or timeline.
+        </div>
+      )}
 
       {hasFunding && (
         <div className="cordis-trend__toggle" role="group" aria-label="Measure">
@@ -220,10 +228,14 @@ export default function CordisTrendPanel({ callId }) {
         {data.undatedCount > 0 ? ` (+${data.undatedCount.toLocaleString()} projects with no start date.)` : ""}
       </div>
 
-      <div className="cordis-trend__prov">
-        {data.provenance}
-        {data.subject ? ` — “${data.subject}”` : ""}
-      </div>
-    </Card>
+      {!bare && (
+        <div className="cordis-trend__prov">
+          {data.provenance}
+          {data.subject ? ` — “${data.subject}”` : ""}
+        </div>
+      )}
+    </>
   );
+
+  return bare ? <div className="cordis-trend">{body}</div> : <Card>{body}</Card>;
 }

@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { getDatasetConfigForId } from "../../NodeDetalParts/useNodeDetail";
 
 function formatDate(d) {
   if (!d) return "—";
@@ -18,14 +20,14 @@ function formatBudget(val) {
   return `€${val.toLocaleString()}`;
 }
 
-export default function OpenCallsTable({ upcomingCalls, setViewMode }) {
+export default function OpenCallsTable({ rows, setViewMode, onLocateCall, locateCall, filterLabel }) {
   return (
     <div className="dash-card dash-table-card">
       <div className="dash-card__header">
         <div>
           <h3 className="dash-card__title">Open calls closing soon</h3>
           <span className="dash-card__subtitle">
-            Sorted by deadline
+            {filterLabel || "Sorted by deadline"}
           </span>
         </div>
         {setViewMode && (
@@ -47,31 +49,52 @@ export default function OpenCallsTable({ upcomingCalls, setViewMode }) {
               <th>Stage</th>
               <th>Budget</th>
               <th>Deadline</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {upcomingCalls.length === 0 && (
+            {rows.length === 0 && (
               <tr>
-                <td colSpan={5} className="dash-table__empty">
+                <td colSpan={6} className="dash-table__empty">
                   No upcoming calls
                 </td>
               </tr>
             )}
-            {upcomingCalls.map((c) => (
-              <tr key={c.id}>
-                <td>
-                  <span
-                    className="dash-table__dot"
-                    style={{ backgroundColor: c.programmeColor }}
-                  />
-                  <span className="dash-table__call-id">{c.id}</span>
-                </td>
-                <td>{c.programmeLabel}</td>
-                <td>{c.stage || "—"}</td>
-                <td>{formatBudget(c.budget)}</td>
-                <td>{formatDate(c.closeDate)}</td>
-              </tr>
-            ))}
+            {rows.map((c) => {
+              const graphName = getDatasetConfigForId(c.id).graphName;
+              const onGraph = !!(locateCall && locateCall(c.id));
+              return (
+                <tr key={c.id}>
+                  <td>
+                    <span className="dash-table__dot" style={{ backgroundColor: c.programmeColor }} />
+                    <Link
+                      to={`/node/${encodeURIComponent(c.id)}`}
+                      state={{ graphName, returnGraphName: graphName }}
+                      onClick={() => localStorage.setItem("graphName", graphName)}
+                      className="dash-table__call-id dash-table__call-id-link"
+                      title={c.label}
+                    >
+                      {c.id}
+                    </Link>
+                  </td>
+                  <td>{c.programmeLabel}</td>
+                  <td>{c.stage || "—"}</td>
+                  <td>{formatBudget(c.budget)}</td>
+                  <td>{formatDate(c.closeDate)}</td>
+                  <td className="dash-table__action">
+                    {onGraph && (
+                      <button
+                        type="button"
+                        className="dash-table__row-link"
+                        onClick={() => { if (onLocateCall && onLocateCall(c.id)) setViewMode("graph"); }}
+                      >
+                        Show in graph
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

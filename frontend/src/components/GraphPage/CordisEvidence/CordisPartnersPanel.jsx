@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import useCordisOrganisations from "./useCordisOrganisations";
+import CordisEmptyState from "./CordisEmptyState";
 
 /**
  * B2 — "Who works in this area" / partner finder: the organisations most active in a call's CORDIS-funded
@@ -22,7 +23,7 @@ function Card({ children }) {
   );
 }
 
-export default function CordisPartnersPanel({ callId }) {
+export default function CordisPartnersPanel({ callId, bare = false }) {
   const [country, setCountry] = useState("");
   const [orgType, setOrgType] = useState("");
   const { loading, data } = useCordisOrganisations(callId, { country, orgType });
@@ -36,9 +37,22 @@ export default function CordisPartnersPanel({ callId }) {
 
   if (!callId) return null;
   if (!view && loading) return null;
-  if (!view) return null;
+
+  // In the consolidated band (bare), the Organisations sub-tab must never render blank — e.g. on a
+  // fetch error, or a truly-empty area — so it stays consistent with the sibling bare panels. Standalone,
+  // keep hiding the card entirely (return null).
+  const emptyState = bare ? (
+    <div className="cordis-partners">
+      <CordisEmptyState
+        compact
+        message="Organisation activity for this research area will appear here once it's available."
+      />
+    </div>
+  ) : null;
+
+  if (!view) return emptyState;
   // Truly empty area (no CORDIS participation at all) → hide the card entirely, like the sibling panels.
-  if ((view.organisationCount || 0) === 0) return null;
+  if ((view.organisationCount || 0) === 0) return emptyState;
 
   const orgs = view.organisations || [];
   const countryFacets = view.facets?.countries || [];
@@ -47,13 +61,15 @@ export default function CordisPartnersPanel({ callId }) {
   const typeFacets = (view.facets?.orgTypes || []).filter((t) => t.code);
   const topTotal = Math.max(...orgs.map((o) => o.projectCount || 0), 1);
 
-  return (
-    <Card>
-      <div className="cordis-partners__hint">
-        Organisations funded to work on this research area, and how often they lead (coordinate) vs. join
-        (partner) projects. EU-funded participation only — not a measure of quality or impact, and
-        organisations funded nationally or privately won&rsquo;t appear.
-      </div>
+  const body = (
+    <>
+      {!bare && (
+        <div className="cordis-partners__hint">
+          Organisations funded to work on this research area, and how often they lead (coordinate) vs. join
+          (partner) projects. EU-funded participation only — not a measure of quality or impact, and
+          organisations funded nationally or privately won&rsquo;t appear.
+        </div>
+      )}
 
       <div className="cordis-partners__filters">
         <label className="cordis-partners__filter">
@@ -142,10 +158,14 @@ export default function CordisPartnersPanel({ callId }) {
         </div>
       )}
 
-      <div className="cordis-partners__prov">
-        {view.provenance}
-        {view.subject ? ` — “${view.subject}”` : ""}
-      </div>
-    </Card>
+      {!bare && (
+        <div className="cordis-partners__prov">
+          {view.provenance}
+          {view.subject ? ` — “${view.subject}”` : ""}
+        </div>
+      )}
+    </>
   );
+
+  return bare ? <div className="cordis-partners">{body}</div> : <Card>{body}</Card>;
 }

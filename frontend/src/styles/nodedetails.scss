@@ -943,3 +943,14 @@ h5.nd-md-heading { font-size: 14px; }
     font-size: 0.84rem;
   }
 }
+
+/* ================================================================
+   Call brief band (Tier 2.2): fused "Planned vs Funded" framing
+   ================================================================ */
+.nd-brief-band { display: flex; flex-direction: column; gap: 14px; padding: 18px 24px; }
+.nd-brief-band__row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.nd-brief-band__row-label { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--nd-text-muted); font-weight: 600; flex: 0 0 100%; }
+.nd-brief-band__facts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.nd-brief-band__fact { font-size: 13px; color: var(--nd-text); }
+.nd-brief-band__fact strong { font-weight: 700; }
+.nd-brief-band__muted { font-size: 13px; color: var(--nd-text-muted); font-style: italic; }

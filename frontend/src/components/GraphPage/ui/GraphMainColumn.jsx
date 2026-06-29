@@ -6,6 +6,7 @@ import NestedGraphController from "../../NestedGraphController";
 import HoveredNodeInfo from "../HoveredNodeInfo/HoveredNodeInfo";
 import GraphStatusBar from "./GraphStatusBar";
 import GraphTopBar from "./GraphTopBar";
+import GraphConstraintBar from "./GraphConstraintBar";
 import NodeDetail from "../../NodeDetail";
 import TimelineScrubber from "../TimelineScrubber/TimelineScrubber";
 // Adjust this import if your ChatBot lives elsewhere
@@ -56,6 +57,8 @@ export default function GraphMainColumn({
   onLocateCall,
   onClearAssistant,
   locateCall,
+  onResetFilters,
+  assistantQuery,
 }) {
   const isDetailMode = !!detailNode;
   const levelsRef = useRef([]);
@@ -315,6 +318,8 @@ export default function GraphMainColumn({
             setDashboardPanel={setDashboardPanel}
             countryOverlayCode={countryOverlayCode}
             setCountryOverlayCode={setCountryOverlayCode}
+            onLocateCall={onLocateCall}
+            locateCall={locateCall}
           />
           <GraphStatusBar
             nodes={graphStats.nodes}
@@ -355,32 +360,46 @@ export default function GraphMainColumn({
                   : "cose-bilkent";
 
               return (
-                <GraphTopBar
-                  levels={levels}
-                  currentKey={currentKey}
-                  onLevelClick={onLevelClick}
-                  canGoBack={canGoBack}
-                  onBack={onBack}
-                  onResetView={onResetView}
-                  onFitView={onFitView}
-                  layoutMode={layoutMode}
-                  layoutSwitchVisible={layoutSwitchVisible}
-                  compareOpen={compareOpen}
-                  compareNodes={compareNodes}
-                  viewMode={viewMode}
-                  setViewMode={setViewMode}
-                  onLayoutModeChange={(nextName) => {
-                    if (currentKey === "HE_2025") return;
+                <>
+                  <GraphTopBar
+                    levels={levels}
+                    currentKey={currentKey}
+                    onLevelClick={onLevelClick}
+                    canGoBack={canGoBack}
+                    onBack={onBack}
+                    onResetView={onResetView}
+                    onFitView={onFitView}
+                    layoutMode={layoutMode}
+                    layoutSwitchVisible={layoutSwitchVisible}
+                    compareOpen={compareOpen}
+                    compareNodes={compareNodes}
+                    viewMode={viewMode}
+                    setViewMode={setViewMode}
+                    onLayoutModeChange={(nextName) => {
+                      if (currentKey === "HE_2025") return;
 
-                    // The name change flows into NestedGraphController, whose
-                    // [layoutOptions?.name] effect already reruns the layout with the
-                    // correct breadthfirst / cluster tree->force re-seeding. Running the
-                    // layout again here would be a second, un-special-cased pass that
-                    // races the first (jitter on the cluster layer), so the toggle relies
-                    // solely on the rerunLayout path.
-                    updateOption("name", nextName);
-                  }}
-                />
+                      // The name change flows into NestedGraphController, whose
+                      // [layoutOptions?.name] effect already reruns the layout with the
+                      // correct breadthfirst / cluster tree->force re-seeding. Running the
+                      // layout again here would be a second, un-special-cased pass that
+                      // races the first (jitter on the cluster layer), so the toggle relies
+                      // solely on the rerunLayout path.
+                      updateOption("name", nextName);
+                    }}
+                  />
+                  <GraphConstraintBar
+                    timelineSelection={timelineSelection}
+                    onClearTimeline={() => setTimelineSelection(null)}
+                    countryCode={!isHEWiki ? countryOverlayCode : ""}
+                    onClearCountry={() => setCountryOverlayCode("")}
+                    assistantCount={assistantMatchIds?.size || 0}
+                    assistantQuery={assistantQuery}
+                    onClearAssistant={onClearAssistant}
+                    compareCount={compareNodes?.length || 0}
+                    onClearCompare={() => setCompareNodes([])}
+                    onResetFilters={onResetFilters}
+                  />
+                </>
               );
             }}
             // for clicks in GraphView/setupEvents

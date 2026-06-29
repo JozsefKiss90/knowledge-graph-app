@@ -180,6 +180,7 @@ const ChatBot = ({
   const [answer, setAnswer] = useState("");
   const [matchedCalls, setMatchedCalls] = useState([]);
   const [filters, setFilters] = useState([]);
+  const [lastQuery, setLastQuery] = useState("");
   const [activeChips, setActiveChips] = useState(() => new Set()); // `${type}::${label}`
   const [totalMatches, setTotalMatches] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
@@ -221,8 +222,8 @@ const ChatBot = ({
   // Keep the graph highlight in sync with whatever the chips currently show.
   useEffect(() => {
     if (!hasSearched) return;
-    onAssistantResults?.(displayedCalls);
-  }, [displayedCalls, hasSearched, onAssistantResults]);
+    onAssistantResults?.(displayedCalls, lastQuery);
+  }, [displayedCalls, hasSearched, onAssistantResults, lastQuery]);
 
   const toggleChip = (f) => {
     const key = chipKey(f);
@@ -238,6 +239,7 @@ const ChatBot = ({
     const trimmed = input.trim();
     if (!trimmed || loading) return;
 
+    setLastQuery(trimmed);
     setLoading(true);
     setHasSearched(true);
     setAnswer("");
@@ -337,6 +339,7 @@ const ChatBot = ({
     setActiveChips(new Set());
     setTotalMatches(0);
     setHasSearched(false);
+    setLastQuery("");
     onClearAssistant?.();
   };
 

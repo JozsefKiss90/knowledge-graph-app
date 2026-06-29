@@ -117,3 +117,51 @@
     display: none; /* icon-only tabs when the panel gets narrow */
   }
 }
+
+/* ===================================================================
+   2.4 — idle state (no tool selected): the strip always renders, so
+   tone down the accent chrome and show a teaching intro list instead
+   of a tool body.
+   =================================================================== */
+
+.dash-tool-panel--idle {
+  border-color: var(--border, rgba(255,255,255,0.08));
+  box-shadow: none;
+}
+
+.dash-tool-panel__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dash-tool-panel__intro-lead {
+  font-size: 0.82rem;
+  color: var(--muted-foreground, #94a3b8);
+  margin: 0;
+}
+
+.dash-tool-panel__intro-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dash-tool-panel__intro-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--foreground, #f3f6ff);
+}
+
+.dash-tool-panel__intro-icon {
+  font-size: 1.1rem !important;
+  color: var(--primary, #3d8fff);
+  flex: 0 0 auto;
+  margin-top: 1px;
+}

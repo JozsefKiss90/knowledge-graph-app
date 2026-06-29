@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import useCordisRelated from "./useCordisRelated";
+import CordisEmptyState from "./CordisEmptyState";
 import { getDatasetConfigForId } from "../../NodeDetalParts/useNodeDetail";
 
 const MAX_CHIPS = 5;
@@ -25,23 +26,31 @@ function Card({ children }) {
  * Honest framing: this is research-field overlap of funded projects, NOT call similarity, quality, or
  * substitutability. Hidden when there are no related calls (same gate as A2/A6).
  */
-export default function CordisRelatedPanel({ callId }) {
+export default function CordisRelatedPanel({ callId, bare = false }) {
   const { loading, data } = useCordisRelated(callId);
 
   if (!callId || loading) return null;
   const related = data?.related || [];
-  if (!data || related.length === 0) return null;
+  if (!data || related.length === 0) {
+    return bare ? (
+      <div className="cordis-related">
+        <CordisEmptyState compact message="No related calls share this area's research fields." />
+      </div>
+    ) : null;
+  }
 
   // Size each overlap bar against the strongest match (the first row, already sorted by score desc).
   const topScore = related[0]?.score || 0;
 
-  return (
-    <Card>
-      <div className="cordis-related__hint">
-        Other calls whose EU-funded projects sit in the same research fields (EuroSciVoc) as this one — a
-        path to adjacent areas. This is field overlap of funded projects, not a measure of similarity,
-        quality, or substitutability.
-      </div>
+  const body = (
+    <>
+      {!bare && (
+        <div className="cordis-related__hint">
+          Other calls whose EU-funded projects sit in the same research fields (EuroSciVoc) as this one — a
+          path to adjacent areas. This is field overlap of funded projects, not a measure of similarity,
+          quality, or substitutability.
+        </div>
+      )}
 
       <ul className="cordis-related__list">
         {related.map((c) => {
@@ -91,10 +100,14 @@ export default function CordisRelatedPanel({ callId }) {
         })}
       </ul>
 
-      <div className="cordis-related__prov">
-        {data.provenance}
-        {data.subject ? ` — “${data.subject}”` : ""}
-      </div>
-    </Card>
+      {!bare && (
+        <div className="cordis-related__prov">
+          {data.provenance}
+          {data.subject ? ` — “${data.subject}”` : ""}
+        </div>
+      )}
+    </>
   );
+
+  return bare ? <div className="cordis-related">{body}</div> : <Card>{body}</Card>;
 }

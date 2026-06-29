@@ -19,7 +19,7 @@ const fmt = (n) => (n || 0).toLocaleString();
  * EU-funded participation counts, not scientific quality. Read-only (the B5 drawer is the drill-down path).
  * Rendered only when CORDIS field data exists (gated by the parent on the F1 summary).
  */
-export default function CordisFieldMix({ data, loading }) {
+export default function CordisFieldMix({ data, loading, onShowFields }) {
   if (loading) return null;
   const total = data?.totalProjects || 0;
   // Top-level domains only (depth-1 roots). No classified projects → nothing to show (the F1 gate already
@@ -47,7 +47,12 @@ export default function CordisFieldMix({ data, loading }) {
           const share = total > 0 ? (n.projectCount || 0) / total : 0;
           const label = n.synthetic ? `field group ${n.code}` : (n.title || n.code);
           return (
-            <div key={n.code} className="dash-funding__row">
+            <button
+              key={n.code}
+              type="button"
+              className="dash-funding__row dash-field-mix__row"
+              onClick={() => onShowFields?.()}
+            >
               <span className="dash-funding__label" title={label}>{label}</span>
               <div className="dash-funding__bar-track">
                 <div
@@ -64,7 +69,7 @@ export default function CordisFieldMix({ data, loading }) {
               >
                 {Math.round(share * 100)}% · {fmt(n.projectCount)} proj
               </span>
-            </div>
+            </button>
           );
         })}
         {othersCount > 0 && (

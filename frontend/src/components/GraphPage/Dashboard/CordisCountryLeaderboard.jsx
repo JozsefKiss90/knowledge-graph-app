@@ -45,7 +45,7 @@ function Bar({ value, max, color }) {
  * work funded nationally/privately isn't in CORDIS, so absence is not absence of activity. Rendered only when
  * CORDIS participation data exists (gated by the parent on the F1 summary).
  */
-export default function CordisCountryLeaderboard({ data, loading }) {
+export default function CordisCountryLeaderboard({ data, loading, onSelectCountry }) {
   if (loading) return null;
   const countries = data?.facets?.countries || [];
   if (!countries.length) return null;
@@ -75,7 +75,13 @@ export default function CordisCountryLeaderboard({ data, loading }) {
 
       <div className="dash-funding__bars dash-country-board__bars">
         {top.map((c) => (
-          <div key={c.code} className="dash-funding__row dash-funding__row--both">
+          <button
+            key={c.code}
+            type="button"
+            className="dash-funding__row dash-funding__row--both dash-country-board__row"
+            onClick={() => onSelectCountry?.(c.code)}
+            title={`Show ${countryName(c.code)} on the country-activity overlay`}
+          >
             <span className="dash-funding__label" title={`${countryName(c.code)} (${c.code})`}>
               {countryName(c.code)}
             </span>
@@ -91,7 +97,7 @@ export default function CordisCountryLeaderboard({ data, loading }) {
                 <span className="dash-funding__value">{fmt(c.areas)}</span>
               </div>
             </div>
-          </div>
+          </button>
         ))}
         {othersCount > 0 && (
           <div className="dash-field-mix__others">

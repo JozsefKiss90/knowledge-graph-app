@@ -193,3 +193,47 @@
 .dash-country-board__bars .dash-funding__row--both {
   grid-template-columns: 150px 1fr;
 }
+
+/* ===================================================================
+   2.3/2.4 — clickable CORDIS rows + funded-section teaser link
+   =================================================================== */
+
+.dash-cordis-teaser__help {
+  color: var(--primary, #3d8fff);
+  font-weight: 600;
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--primary-dark, #2563eb);
+  }
+}
+
+/* The field-mix and country-leaderboard rows become <button>s so they're clickable. `all: unset` strips the
+   native button chrome but also resets the grid the rows depend on, so re-assert the grid layout (these rows
+   are CSS grids, NOT flex — `display: flex` would collapse the fixed-width bar-track and break the bars). The
+   per-card `grid-template-columns` overrides (180px/150px) keep their own higher-specificity selectors. */
+.dash-country-board__row,
+.dash-field-mix__row {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary, #3d8fff);
+    outline-offset: 1px;
+  }
+}
+
+/* Country rows stack two measures; align the label to the top like the original .dash-funding__row--both. */
+.dash-country-board__row {
+  align-items: start;
+}
