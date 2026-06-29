@@ -158,7 +158,7 @@ const GraphTopBar = ({
               }}
             >
               <UndoIcon fontSize="small" style={{ marginRight: 10 }} />
-              Reset view
+              Reset camera
             </MenuItem>
 
             <MenuItem
@@ -287,7 +287,7 @@ const GraphTopBar = ({
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Reset view">
+        <Tooltip title="Reset camera">
           <IconButton size="small" className="graph-topbar-icon" onClick={onResetView}>
             <UndoIcon fontSize="small" />
           </IconButton>

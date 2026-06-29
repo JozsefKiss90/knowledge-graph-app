@@ -129,6 +129,8 @@ export default function CompareDrawer({
           <CompareTopicOverlap
             sharedTopics={sharedTopics}
             topOverlap={topOverlap}
+            topicCountA={metricsA?.topicCount || 0}
+            topicCountB={metricsB?.topicCount || 0}
           />
         </>
       )}

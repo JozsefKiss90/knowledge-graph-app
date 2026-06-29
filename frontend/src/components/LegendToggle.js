@@ -11,7 +11,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchBox from "./LegendParts/SearchBox";
 import ScoreFilter from "./LegendParts/ScoreFilter";
 import GraphSelector from "./LegendParts/GraphSelector";
-import LayoutSwitcher from "./LegendParts/LayoutSwitcher";
 import EdgeTypeToggle from "./LegendParts/EdgeTypeToggle";
 import NodeTypeToggle from "./LegendParts/NodeTypeToggle";
 
@@ -163,6 +162,7 @@ const LegendToggle = ({
   onRequestNavigate,
   selectedNodeId,
   setSelectedNodeId,
+  onResetFilters,
 }) => {
   const cy = useCy();
   const scrollRef = useRef(null);
@@ -368,16 +368,6 @@ const nodeTypeList = useMemo(() => {
     setVisibleEdgeTypes(new Set(edgeTypeList.map((x) => x.type)));
   };
 
-  const layoutSupported = [
-    "HE_2025",
-    "Cluster_1",
-    "Cluster_2",
-    "Cluster_3",
-    "Cluster_4",
-    "Cluster_5",
-    "Cluster_6",
-  ].includes(cleanGraphName);
-
   const nodeTogglesVisible = !!cy && nodeTypeList.length > 0;
 
   return (
@@ -492,7 +482,7 @@ const nodeTypeList = useMemo(() => {
           <SearchBox cy={cy} showTitle={false} graphName={graphName} />
         </LegendSection>
 
-        {isHE2025 && (
+        {isHE2025 && layerEdgeTypesSet.has("CROSS_TOPIC_SIMILARITY") && (
           <LegendSection
             title="Min Similarity"
             isOpen={sectionsOpen.similarity}
@@ -502,17 +492,17 @@ const nodeTypeList = useMemo(() => {
           </LegendSection>
         )}
 
-        <LegendSection
-          title="Layout Mode"
-          isOpen={sectionsOpen.layout}
-          onToggle={() => toggleSection("layout")}
-        >
-          <LayoutSwitcher graphName={graphName} setGraphName={setGraphName} />
-        </LegendSection>
       </Box>
 
       <Box className="legend-footer">
-        <button type="button" className="legend-reset-button" onClick={resetView}>
+        <button
+          type="button"
+          className="legend-reset-button"
+          onClick={() => {
+            resetView();
+            onResetFilters?.();
+          }}
+        >
           <span className="legend-reset-icon">⟳</span>
           Reset All Filters
         </button>

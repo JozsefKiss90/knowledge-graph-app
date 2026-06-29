@@ -11,6 +11,7 @@ import CordisCountryLeaderboard from "./CordisCountryLeaderboard";
 import useTopOrganisations from "./useTopOrganisations";
 import CordisTopOrgs from "./CordisTopOrgs";
 import DashboardHero from "./DashboardHero";
+import FundingFrameLegend from "./FundingFrameLegend";
 import DashboardToolPanel from "./DashboardToolPanel";
 import KpiCardsRow from "./KpiCardsRow";
 import CordisKpiRow from "./CordisKpiRow";
@@ -98,6 +99,11 @@ export default function PortfolioDashboard({
             openCalls={data.openCalls}
             topicsTracked={data.topicsTracked}
           />
+        </div>
+
+        {/* Funding frame legend - clarifies planned (work programme) vs funded (CORDIS) */}
+        <div className="dash-grid__funding-frame">
+          <FundingFrameLegend />
         </div>
 
         {/* KPI cards – full width */}

@@ -22,6 +22,7 @@ import CordisEvidencePanel from "./GraphPage/CordisEvidence/CordisEvidencePanel"
 import CordisTrendPanel from "./GraphPage/CordisEvidence/CordisTrendPanel";
 import CordisRelatedPanel from "./GraphPage/CordisEvidence/CordisRelatedPanel";
 import CordisPartnersPanel from "./GraphPage/CordisEvidence/CordisPartnersPanel";
+import FundingFrameLegend from "./GraphPage/Dashboard/FundingFrameLegend";
 
 // --- lightweight markdown-to-JSX renderer for wiki body text ---------------
 
@@ -298,6 +299,9 @@ function getDynamicDescriptionSectionConfig(nodeData) {
     : [];
 
   const existingKeys = new Set(baseTextFieldConfig.map((f) => f.key));
+  // tags_from_description is now surfaced (provenance-aware) by the top chip row;
+  // never re-render it as a dynamic description section (would duplicate the chips).
+  existingKeys.add("tags_from_description");
   const dynamic = [];
 
   for (const key of advertised) {
@@ -392,23 +396,37 @@ function computeIndicativeNumberOfProjects(nodeData) {
 }
 
 function extractTags(nodeData) {
-  const candidates =
-    nodeData.related_topics ||
-    nodeData.tags ||
-    nodeData.tags_from_description ||
-    nodeData.themes;
+  // Provenance-aware and NON-merging. CORDIS-tagged calls carry EuroSciVoc
+  // research fields (the tagger overwrites related_topics/keywords and stamps
+  // cordis_tag_source); everything else is native work-programme keyword data
+  // (tags_from_description / keywords). Pick ONE source so the chip row can be
+  // labelled accurately and is no longer duplicated by the tags_from_description card.
+  const isCordisFields =
+    hasRenderableValue(nodeData.cordis_tag_source) ||
+    hasRenderableValue(nodeData.related_topics);
 
+  const candidates = isCordisFields
+    ? nodeData.related_topics || nodeData.keywords
+    : nodeData.tags_from_description ||
+      nodeData.keywords ||
+      nodeData.tags ||
+      nodeData.themes;
+
+  let list = [];
   if (Array.isArray(candidates)) {
-    return candidates.map((t) => String(t)).filter(Boolean).slice(0, 6);
-  }
-  if (typeof candidates === "string") {
-    return candidates
+    list = candidates.map((t) => String(t)).filter(Boolean).slice(0, 6);
+  } else if (typeof candidates === "string") {
+    list = candidates
       .split(/[;,]/)
       .map((t) => t.trim())
       .filter(Boolean)
       .slice(0, 6);
   }
-  return [];
+
+  return {
+    tags: list,
+    provenance: list.length ? (isCordisFields ? "fields" : "keywords") : null,
+  };
 }
 
 function computeTypeShort(typeOfAction) {
@@ -565,7 +583,7 @@ function inferCallStatus(nodeData, deadlines) {
 
 // --- main component ---------------------------------------------------------
 
-function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
+function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields }) {
   const { darkMode } = useDarkMode();
   const navigate = useNavigate();
   const location = useLocation();
@@ -706,7 +724,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     const typeOfAction = nodeData.type_of_action || "";
     const typeShort = computeTypeShort(typeOfAction);
     const status = inferCallStatus(nodeData, deadlines);
-    const tags = extractTags(nodeData);
+    const { tags, provenance: tagsProvenance } = extractTags(nodeData);
 
     const minContribution = formatValue("min_contribution", nodeData.min_contribution);
     const maxContribution = formatValue("max_contribution", nodeData.max_contribution);
@@ -732,6 +750,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
       typeShort,
       status,
       tags,
+      tagsProvenance,
       minContribution,
       maxContribution,
       totalBudget,
@@ -936,21 +955,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     const summaryText = viewModel.summary || "—";
     const sourceText = formatValue("source", nodeData.source || "");
 
-    const handleBookmarkDestination = () => {
-      if (!nodeData.id) return;
-      const stored = JSON.parse(localStorage.getItem("bookmarkedDestinations") || "[]");
-      const exists = stored.find((item) => item.id === nodeData.id);
-      if (!exists) {
-        stored.push({ id: nodeData.id, name: nodeData.name });
-        localStorage.setItem("bookmarkedDestinations", JSON.stringify(stored));
-        // eslint-disable-next-line no-alert
-        alert("Destination bookmarked!");
-      } else {
-        // eslint-disable-next-line no-alert
-        alert("Already bookmarked.");
-      }
-    };
-
     return (
       <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
         <header className="nd-header">
@@ -1032,24 +1036,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                     </Box>
                   </Box>
                 )}
-
-                <Box className="nd-card">
-                  <Box className="nd-card-header">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
-                      Actions
-                    </Typography>
-                  </Box>
-                  <Box className="nd-card-body nd-actions">
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      className="nd-primary-button nd-primary-button--bookmark"
-                      onClick={handleBookmarkDestination}
-                    >
-                      Bookmark this Destination
-                    </Button>
-                  </Box>
-                </Box>
               </aside>
             </div>
           </div>
@@ -1064,6 +1050,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
     typeShort,
     status,
     tags,
+    tagsProvenance,
     minContribution,
     maxContribution,
     totalBudget,
@@ -1157,7 +1144,16 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
           </Box>
 
           {tags.length > 0 && (
-            <Box className="nd-tags-row">
+            <Box className="nd-tags-section">
+              <Typography
+                variant="caption"
+                className="nd-muted-label nd-tags-label"
+              >
+                {tagsProvenance === "fields"
+                  ? "Research fields (CORDIS · EuroSciVoc)"
+                  : "Keywords (work programme)"}
+              </Typography>
+              <Box className="nd-tags-row">
               {tags.map((tag) => (
                 <Chip
                   key={tag}
@@ -1165,8 +1161,15 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                   size="small"
                   className="nd-tag-chip"
                   variant="filled"
-                />              
+                  onClick={
+                    tagsProvenance === "fields" && typeof onOpenResearchFields === "function"
+                      ? () => onOpenResearchFields(tag)
+                      : undefined
+                  }
+                  clickable={tagsProvenance === "fields" && typeof onOpenResearchFields === "function"}
+                />
                 ))}
+              </Box>
             </Box>
           )}
 
@@ -1269,6 +1272,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
 
               {viewModel.kind === "call" && (
                 <>
+                  <FundingFrameLegend className="nd-funding-frame-legend" />
                   <CordisEvidencePanel callId={nodeData.id || id} />
                   <CordisTrendPanel callId={nodeData.id || id} />
                   <CordisRelatedPanel callId={nodeData.id || id} />
@@ -1289,15 +1293,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack }) {
                   }
                 />
               ))}
-
-              {hasRenderableValue(nodeData.tags_from_description) && (
-                <TextSectionFromField
-                  nodeData={nodeData}
-                  fieldKey="tags_from_description"
-                  label="Tags From Description"
-                  defaultOpen={false}
-                />
-              )}
             </div>
 
             <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>

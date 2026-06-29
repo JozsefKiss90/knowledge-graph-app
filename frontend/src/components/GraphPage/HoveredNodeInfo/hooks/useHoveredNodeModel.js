@@ -198,6 +198,11 @@ export function useHoveredNodeModel({
 
     const tags = isClusterNode ? [] : extractTags(raw);
 
+    // Provenance of the tag chips so the hover card can label them honestly:
+    // CORDIS research fields (EuroSciVoc) vs work-programme keywords. Only
+    // CORDIS-tagged calls carry `cordis_tag_source` (set by cordis_tagger.py).
+    const tagsSource = raw?.cordis_tag_source ? "cordis" : "work-programme";
+
     const clusterDestinationCount = isClusterNode
       ? extractClusterDestinationCount(raw)
       : null;
@@ -336,6 +341,7 @@ export function useHoveredNodeModel({
       callStatus,
       nodeCount,
       tags,
+      tagsSource,
 
       metricCards,
       clusterSummary,

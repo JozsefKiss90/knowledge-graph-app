@@ -24,7 +24,6 @@ export default function GraphMainColumn({
   loadFromStore,
   effectiveLayout,
   updateOption,
-  onApplyLayout,
   onGraphStats,
   onCyReady,
   onNodeHover,
@@ -284,6 +283,10 @@ export default function GraphMainColumn({
             embeddedId={detailNode.id}
             embeddedNodeData={detailNode.nodeData || detailNode.data || null}
             onBack={onCloseDetail}
+            onOpenResearchFields={() => {
+              setViewMode("dashboard");
+              setDashboardPanel("fields");
+            }}
           />
         </div>
       ) : viewMode === "dashboard" ? (
@@ -369,11 +372,13 @@ export default function GraphMainColumn({
                   onLayoutModeChange={(nextName) => {
                     if (currentKey === "HE_2025") return;
 
+                    // The name change flows into NestedGraphController, whose
+                    // [layoutOptions?.name] effect already reruns the layout with the
+                    // correct breadthfirst / cluster tree->force re-seeding. Running the
+                    // layout again here would be a second, un-special-cased pass that
+                    // races the first (jitter on the cluster layer), so the toggle relies
+                    // solely on the rerunLayout path.
                     updateOption("name", nextName);
-                    onApplyLayout?.({
-                      ...effectiveLayout,
-                      name: nextName,
-                    });
                   }}
                 />
               );

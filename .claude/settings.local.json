@@ -103,7 +103,13 @@
       "Bash(ls -1 *.json)",
       "Bash(py --version)",
       "Bash(git rm *)",
-      "PowerShell(Push-Location frontend; node node_modules/react-scripts/bin/react-scripts.js build; $code = $LASTEXITCODE; Pop-Location; Write-Output \"EXIT_CODE=$code\")"
+      "PowerShell(Push-Location frontend; node node_modules/react-scripts/bin/react-scripts.js build; $code = $LASTEXITCODE; Pop-Location; Write-Output \"EXIT_CODE=$code\")",
+      "PowerShell(npm view *)",
+      "PowerShell(npm install *)",
+      "PowerShell($pkg = Get-Content frontend/node_modules/react-joyride/package.json | ConvertFrom-Json; Write-Output \"version=$\\($pkg.version\\)\"; Write-Output \"module=$\\($pkg.module\\)\"; Write-Output \"main=$\\($pkg.main\\)\"; Write-Output \"types=$\\($pkg.types\\)\")",
+      "PowerShell(docker compose *)",
+      "PowerShell($lines = Get-Content 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\NodeDetail.js'; 1158..1171 | ForEach-Object { '{0}|{1}|' -f \\($_+1\\), $lines[$_] })",
+      "PowerShell($lines = Get-Content 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\NodeDetail.js'; $l = $lines[1167]; \"len=$\\($l.Length\\)\"; \"trailingSpaces=$\\($l.Length - $l.TrimEnd\\(\\).Length\\)\"; \"trimmed='$\\($l.TrimEnd\\(\\)\\)'\")"
     ]
   }
 }

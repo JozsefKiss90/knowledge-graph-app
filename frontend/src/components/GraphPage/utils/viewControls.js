@@ -29,13 +29,13 @@ export function createViewControls({ cyInstance, effectiveLayout }) {
     }
   };
 
-  const handleApplyLayout = () => {
+  const handleApplyLayout = (override) => {
     if (!cyInstance || cyInstance.destroyed?.()) return;
+    const opts = override && override.name ? override : effectiveLayout;
     try {
-      cyInstance.animate({
-        fit: { eles: cyInstance.elements(":visible"), padding: 60 },
-        duration: 300,
-      });
+      const l = cyInstance.layout(opts);
+      l.one("layoutstop", () => cyInstance.fit({ padding: 60 }));
+      l.run();
     } catch {}
   };
 

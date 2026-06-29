@@ -19,6 +19,8 @@ export default function CordisKpiRow({ data }) {
         value={data.totalEcContribution}
         unit="currency"
         subtitle="EU contribution (historical)"
+        badge="funded"
+        badgeVariant="filled"
       />
       <KpiCard
         title="Organisations"

@@ -74,6 +74,10 @@ const ScoreFilter = ({ cy, showTitle = true }) => {
     },
   });
 
+  if (!cy || cy.edges('[type = "CROSS_TOPIC_SIMILARITY"]').length === 0) {
+    return null;
+  }
+
   return (
     <Box sx={{mt:1}}>
     {showTitle && (

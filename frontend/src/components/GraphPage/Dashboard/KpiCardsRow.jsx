@@ -10,10 +10,12 @@ export default function KpiCardsRow({
   return (
     <div className="dash-kpi-row">
       <KpiCard
-        title="Total committed"
+        title="Planned (on offer)"
         value={totalCommitted}
         unit="currency"
         subtitle="across all programmes"
+        badge="offer"
+        badgeVariant="outline"
       />
       <KpiCard
         title="Open calls"

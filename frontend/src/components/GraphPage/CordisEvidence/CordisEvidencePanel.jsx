@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import useCordisEvidence from "./useCordisEvidence";
+import CordisEmptyState from "./CordisEmptyState";
 
 // Same € formatter as the dashboard (FundingByProgramme.jsx) — counts and euros are never mixed.
 function formatBudget(val) {
@@ -37,7 +38,16 @@ export default function CordisEvidencePanel({ callId }) {
   // Render only when there's real CORDIS evidence — no empty/loading cards on every call.
   if (!callId || loading) return null;
   const count = data?.projectCount || 0;
-  if (!data || count === 0) return null;
+  if (!data || count === 0) {
+    return (
+      <Card>
+        <CordisEmptyState
+          compact
+          message="Awarded EU project data (CORDIS) for this research area will appear here once it has been added. We only ever show real funded-project figures — never estimates."
+        />
+      </Card>
+    );
+  }
 
   const fp = (data.frameworkBreakdown || []).filter((f) => f.n > 0);
   const fpMax = Math.max(...fp.map((f) => f.n), 1);

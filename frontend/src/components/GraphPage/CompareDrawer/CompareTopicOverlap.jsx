@@ -1,18 +1,29 @@
 import React, { useState } from "react";
 import { Box, Chip, Typography } from "@mui/material";
 
-export default function CompareTopicOverlap({ sharedTopics = [], topOverlap = [] }) {
+export default function CompareTopicOverlap({
+  sharedTopics = [],
+  topOverlap = [],
+  topicCountA = 0,
+  topicCountB = 0,
+}) {
   const [showAll, setShowAll] = useState(false);
 
   const displayedTopics = showAll ? sharedTopics : topOverlap;
   const hasMore = sharedTopics.length > topOverlap.length;
 
   if (!sharedTopics.length && !topOverlap.length) {
+    // Distinguish a real "both sides have topics but none overlap" from a
+    // data-availability gap where at least one side has no topic data loaded.
+    const bothHaveTopics = topicCountA > 0 && topicCountB > 0;
+    const emptyMessage = bothHaveTopics
+      ? "No topics in common"
+      : "Topic data not loaded yet";
     return (
       <Box sx={{ mt: 1.5 }}>
         <Typography className="compare-drawer__metric-label">SHARED TOPICS</Typography>
         <Typography sx={{ fontSize: 12, color: "var(--foreground-muted)", mt: 0.5 }}>
-          No shared topics found
+          {emptyMessage}
         </Typography>
       </Box>
     );

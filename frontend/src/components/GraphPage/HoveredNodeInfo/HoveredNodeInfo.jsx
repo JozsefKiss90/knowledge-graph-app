@@ -421,6 +421,11 @@ const filteredMetricCards = useMemo(() => {
       ]
     : [];
 
+  const tagsTitle =
+    model.tagsSource === "cordis"
+      ? "Research fields (CORDIS)"
+      : "Keywords (work programme)";
+
   const tagsBlock =
     visibleTags?.length > 0 ? (
       <Box sx={{ mt: 1 }}>
@@ -432,7 +437,7 @@ const filteredMetricCards = useMemo(() => {
             overscrollBehavior: "contain",
           }}
         >
-          <TagChips title="Related Topics" tags={visibleTags} />
+          <TagChips title={tagsTitle} tags={visibleTags} />
         </Box>
       </Box>
     ) : null;

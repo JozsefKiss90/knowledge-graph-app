@@ -15,6 +15,7 @@ export default function LeftLegendColumn({
   setGraphName,
   selectedNodeId,
   setSelectedNodeId,
+  onResetFilters,
 }) {
   return (
     <Col
@@ -53,6 +54,7 @@ export default function LeftLegendColumn({
           setGraphName={setGraphName}
           selectedNodeId={selectedNodeId}
           setSelectedNodeId={setSelectedNodeId}
+          onResetFilters={onResetFilters}
           onCollapse={() => setIsLegendCollapsed(true)}
         />
       )}

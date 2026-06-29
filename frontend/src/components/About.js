@@ -20,6 +20,7 @@ import TravelExploreOutlinedIcon from "@mui/icons-material/TravelExploreOutlined
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 /**
  * Reusable documentation card matching the NodeDetail card design.
@@ -156,7 +157,7 @@ export default function About() {
                   <li>
                     <strong>Top bar.</strong> Breadcrumbs with a &ldquo;Level N&rdquo; indicator, Home and
                     &ldquo;Level up&rdquo;, the <strong>Open Dashboard / Back to Graph</strong> toggle, the layout
-                    switch (Force-Directed / Hierarchical), and Reset view / Fit to screen.
+                    switch (Force-Directed / Hierarchical), and Reset camera / Fit to screen.
                   </li>
                   <li>
                     <strong>Right — icon rail.</strong> Quick tools: Help, light/dark mode, Bookmarks, Send a
@@ -186,7 +187,7 @@ export default function About() {
                 </P>
                 <P>
                   Switch how nodes are arranged with the layout icons in the top bar: <strong>Force-Directed</strong>{" "}
-                  (organic) or <strong>Hierarchical</strong> (top-down tree). &ldquo;Reset view&rdquo; re-shows
+                  (organic) or <strong>Hierarchical</strong> (top-down tree). &ldquo;Reset camera&rdquo; re-shows
                   everything and re-fits the graph; &ldquo;Fit to screen&rdquo; zooms it to fit the window.
                 </P>
               </Section>
@@ -449,6 +450,16 @@ export default function About() {
                   <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
                 </Box>
                 <Box className="nd-card-body nd-card-body--text">
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    className="nd-primary-button nd-primary-button--official"
+                    startIcon={<PlayCircleOutlineIcon fontSize="small" />}
+                    onClick={() => navigate("/?tour=1")}
+                    sx={{ mb: 1.75 }}
+                  >
+                    Take the guided tour
+                  </Button>
                   <ul className="nd-md-list">
                     <li>
                       The app opens on the <strong>EU Funding Programmes</strong> graph — click a node such as

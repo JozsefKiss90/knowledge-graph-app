@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import CloseIcon from '@mui/icons-material/Close';
 import { useDarkMode } from '../context/DarkModeContext';
 
 
@@ -14,6 +18,9 @@ const asText = (v) => {
 
 const SearchBox = ({ cy, showTitle = true, graphName }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [matchIds, setMatchIds] = useState([]);
+  const [matchIndex, setMatchIndex] = useState(0);
+  const [hasSearched, setHasSearched] = useState(false);
   const { darkMode } = useDarkMode();
   const isHEWiki = graphName === 'HE_2025';
   const handleSearch = () => {
@@ -39,11 +46,45 @@ const SearchBox = ({ cy, showTitle = true, graphName }) => {
     });
     cy.nodes().removeClass('faded highlighted');
     cy.edges().removeClass('faded');
+    setHasSearched(true);
     if (matched.length > 0) {
       cy.nodes().difference(matched).addClass('faded');
       cy.edges().addClass('faded');
       matched.addClass('highlighted');
       matched.connectedEdges().removeClass('faded');
+      const ids = matched.map((n) => n.id());
+      setMatchIds(ids);
+      setMatchIndex(0);
+      try {
+        cy.animate({ fit: { eles: matched, padding: 80 }, duration: 350 });
+      } catch {}
+    } else {
+      setMatchIds([]);
+      setMatchIndex(0);
+    }
+  };
+
+  const goToMatch = (nextIndex) => {
+    if (!cy || matchIds.length === 0) return;
+    const count = matchIds.length;
+    const wrapped = ((nextIndex % count) + count) % count;
+    setMatchIndex(wrapped);
+    const node = cy.getElementById(matchIds[wrapped]);
+    if (node.length > 0) {
+      try {
+        cy.animate({ fit: { eles: node, padding: 160 }, duration: 300 });
+      } catch {}
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
+    setMatchIds([]);
+    setMatchIndex(0);
+    setHasSearched(false);
+    if (cy) {
+      cy.nodes().removeClass('faded highlighted');
+      cy.edges().removeClass('faded');
     }
   };
 
@@ -123,6 +164,22 @@ const SearchBox = ({ cy, showTitle = true, graphName }) => {
         >
           Search &amp; Highlight
         </Button>
+
+        {hasSearched && matchIds.length > 0 && (
+          <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 0.5, color: darkMode ? 'white' : 'black' }}>
+            <Typography variant="caption" sx={{ flexGrow: 1 }}>{matchIndex + 1} of {matchIds.length}</Typography>
+            <IconButton size="small" aria-label="Previous match" onClick={() => goToMatch(matchIndex - 1)} sx={{ color: 'inherit' }}><ChevronLeftIcon fontSize="small" /></IconButton>
+            <IconButton size="small" aria-label="Next match" onClick={() => goToMatch(matchIndex + 1)} sx={{ color: 'inherit' }}><ChevronRightIcon fontSize="small" /></IconButton>
+            <IconButton size="small" aria-label="Clear search" onClick={clearSearch} sx={{ color: 'inherit' }}><CloseIcon fontSize="small" /></IconButton>
+          </Box>
+        )}
+
+        {hasSearched && matchIds.length === 0 && (
+          <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="caption" sx={{ color: darkMode ? 'rgb(172, 206, 231)' : 'rgb(136, 136, 136)' }}>No matches found</Typography>
+            <Button size="small" onClick={clearSearch} sx={{ textTransform: 'none', minWidth: 'auto', color: darkMode ? 'white' : 'black' }}>Clear</Button>
+          </Box>
+        )}
     </Box>
   );
 };

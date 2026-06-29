@@ -26,6 +26,7 @@ import GraphAppHeader from "./ui/GraphAppHeader";
 import LeftLegendColumn from "./ui/LeftLegendColumn";
 import GraphMainColumn from "./ui/GraphMainColumn";
 import RightControlsColumn from "./ui/RightControlsColumn";
+import GuidedTour from "./GuidedTour";
 
 function GraphPage() {
   const { ready, progress, graphName, setGraphName, loadFromStore } = useGraphData();
@@ -150,6 +151,28 @@ function GraphPage() {
     setAssistantMatchDestIds(new Set());
     setAssistantFocus(null);
   }, []);
+
+  // 1.2: "Reset All Filters" must clear EVERY filter layer, not just the cy-level
+  // node/edge toggles that LegendToggle.resetView() handles. The timeline window and
+  // CORDIS country overlay live here in GraphPage, as does the assistant highlight.
+  // Clearing each state value lets the declarative paint effects in GraphMainColumn
+  // strip their own classes (timeline-hidden / country-* / assistant-*). The score/
+  // search ".faded" class has no backing state, so strip it directly as a safety net.
+  const handleResetFilters = useCallback(() => {
+    setTimelineSelection(null); // timeline window
+    setCountryOverlayCode(""); // CORDIS country paint
+    handleClearAssistant(); // assistant "act on the graph" highlight
+    const cy = cyInstance;
+    if (cy && !cy.destroyed?.()) {
+      try {
+        // ".faded" has no backing state; also strip the cosmetic "assistant-focus"
+        // ring directly, because clearing assistantFocus cancels the focus effect's
+        // pending removal timer without removing the class.
+        cy.nodes().removeClass("faded assistant-focus");
+        cy.edges().removeClass("faded");
+      } catch {}
+    }
+  }, [cyInstance, handleClearAssistant]);
 
     const handleOpenDetail = useCallback((payload) => {
     // Clear any hover card when opening details
@@ -340,6 +363,7 @@ useEffect(() => {
               setGraphName={setGraphName}
               selectedNodeId={selectedNodeId}
               setSelectedNodeId={setSelectedNodeId}
+              onResetFilters={handleResetFilters}
             />
 
             <GraphMainColumn
@@ -409,6 +433,12 @@ useEffect(() => {
             />
           </Row>
         </Container>
+
+        <GuidedTour
+          setViewMode={setViewMode}
+          setDashboardPanel={setDashboardPanel}
+          setIsLegendCollapsed={setIsLegendCollapsed}
+        />
       </div>
     </CyContext.Provider>
   );
