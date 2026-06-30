@@ -636,6 +636,154 @@
   color: #999;
 }
 
+/* ── Top action: New chat (Tier 3.5 multi-turn) ────────────────── */
+.chatbot-panel__newchat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 12px 0 -6px 14px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+
+  .MuiSvgIcon-root { font-size: 0.95rem; }
+}
+.chatbot--dark .chatbot-panel__newchat {
+  color: rgba(160, 190, 240, 0.75);
+  border: 1px solid rgba(80, 130, 220, 0.3);
+  &:hover { color: #fff; border-color: rgba(167, 139, 250, 0.6); background: rgba(40, 65, 120, 0.4); }
+}
+.chatbot--light .chatbot-panel__newchat {
+  color: #666;
+  border: 1px solid #ccc;
+  &:hover { color: #4005ad; border-color: #a78bfa; background: #f2eefc; }
+}
+
+/* ── Conversation transcript (Tier 3.5) ────────────────────────── */
+.chatbot-msg {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.chatbot-msg--user {
+  align-items: flex-end;
+}
+.chatbot-msg__bubble {
+  max-width: 85%;
+  padding: 7px 12px;
+  border-radius: 12px 12px 2px 12px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.chatbot--dark .chatbot-msg__bubble {
+  background: rgba(139, 92, 246, 0.28);
+  color: #e9defb;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+}
+.chatbot--light .chatbot-msg__bubble {
+  background: rgba(139, 92, 246, 0.14);
+  color: #3a2a6a;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+.chatbot-msg--assistant {
+  align-items: stretch;
+}
+.chatbot-msg--error .chatbot-panel__answer {
+  border-color: rgba(220, 90, 90, 0.5);
+}
+
+/* ── CORDIS funded-evidence block (Tier 3.5) ───────────────────── */
+.chatbot-cordis {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+.chatbot--dark .chatbot-cordis {
+  background: rgba(20, 40, 75, 0.5);
+  border: 1px solid rgba(80, 130, 220, 0.2);
+}
+.chatbot--light .chatbot-cordis {
+  background: #f3f6fb;
+  border: 1px solid #e0e6f0;
+}
+
+.chatbot-cordis__head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+
+  .MuiSvgIcon-root { font-size: 0.95rem; }
+}
+.chatbot--dark .chatbot-cordis__head { color: rgba(160, 195, 255, 0.85); }
+.chatbot--light .chatbot-cordis__head { color: #4a6ec9; }
+
+.chatbot-cordis__note {
+  font-size: 0.7rem;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.chatbot--dark .chatbot-cordis__note { color: rgba(150, 175, 215, 0.7); }
+.chatbot--light .chatbot-cordis__note { color: #888; }
+
+.chatbot-cordis__item {
+  margin-bottom: 8px;
+  &:last-child { margin-bottom: 0; }
+}
+
+.chatbot-cordis__subj {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.76rem;
+  margin-bottom: 4px;
+}
+.chatbot-cordis__subj-text { font-weight: 600; }
+.chatbot--dark .chatbot-cordis__subj-text { color: #cfe0f7; }
+.chatbot--light .chatbot-cordis__subj-text { color: #2a3a5a; }
+
+.chatbot-cordis__nums { font-size: 0.7rem; opacity: 0.85; }
+.chatbot--dark .chatbot-cordis__nums { color: rgba(150, 175, 215, 0.85); }
+.chatbot--light .chatbot-cordis__nums { color: #777; }
+
+.chatbot-cordis__orgs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.chatbot-cordis__org {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.chatbot--dark .chatbot-cordis__org {
+  background: rgba(40, 65, 120, 0.5);
+  color: #b8d0f5;
+  border: 1px solid rgba(80, 130, 220, 0.3);
+  &:hover { border-color: rgba(167, 139, 250, 0.7); color: #e0e8fb; }
+}
+.chatbot--light .chatbot-cordis__org {
+  background: #e8edf5;
+  color: #3a4a7a;
+  border: 1px solid #d0d8e8;
+  &:hover { border-color: #a78bfa; color: #4005ad; }
+}
+
 /* ── Mobile ────────────────────────────────────────────────────── */
 @media (max-width: 620px) {
   .chatbot-overlay {

@@ -109,7 +109,9 @@
       "PowerShell($pkg = Get-Content frontend/node_modules/react-joyride/package.json | ConvertFrom-Json; Write-Output \"version=$\\($pkg.version\\)\"; Write-Output \"module=$\\($pkg.module\\)\"; Write-Output \"main=$\\($pkg.main\\)\"; Write-Output \"types=$\\($pkg.types\\)\")",
       "PowerShell(docker compose *)",
       "PowerShell($lines = Get-Content 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\NodeDetail.js'; 1158..1171 | ForEach-Object { '{0}|{1}|' -f \\($_+1\\), $lines[$_] })",
-      "PowerShell($lines = Get-Content 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\NodeDetail.js'; $l = $lines[1167]; \"len=$\\($l.Length\\)\"; \"trailingSpaces=$\\($l.Length - $l.TrimEnd\\(\\).Length\\)\"; \"trimmed='$\\($l.TrimEnd\\(\\)\\)'\")"
+      "PowerShell($lines = Get-Content 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\NodeDetail.js'; $l = $lines[1167]; \"len=$\\($l.Length\\)\"; \"trailingSpaces=$\\($l.Length - $l.TrimEnd\\(\\).Length\\)\"; \"trimmed='$\\($l.TrimEnd\\(\\)\\)'\")",
+      "PowerShell(try { Invoke-RestMethod -Uri \"http://localhost:8000/cordis/call-evidence?call_id=HORIZON-CL2-2026-01-DEMOCRACY-01&top_n=5\" -TimeoutSec 30 | ConvertTo-Json -Depth 5 } catch { \"ERR: $\\($_.Exception.Message\\)\"; $_.ErrorDetails.Message })",
+      "Bash(echo \"RC=$?\")"
     ]
   }
 }

@@ -1,8 +1,9 @@
 # Tier 3.5 — Multi-turn, CORDIS-aware assistant (design & plan)
 
-> **Status:** Deferred (2026-06-29). Tiers 3.1, 3.2, 3.3, 3.4 shipped; 3.5 held pending a faster chatbot model.
-> **Decision locked:** conversation state is **client-held** (frontend sends the transcript each turn; backend stays stateless).
-> **Why deferred:** `/chatbot/query` timed out at 60 s against the configured OpenRouter model while `/chatbot/models` responded fine — the LLM is wired up but the completion is too slow for a pleasant multi-turn loop. Revisit once the model is faster (or add streaming). The implementation below is independent of model speed and can be built/verified in parts without a fast LLM.
+> **Status:** SHIPPED 2026-06-30 (built per this plan, adversarially reviewed + fixed + build-green). This doc is now the as-built design; the implementation notes live in the `tier1-ux-refactor-status` memory.
+> **Decision locked (as built):** conversation state is **client-held** (frontend sends the transcript each turn; backend stays stateless). One LLM call per turn; CORDIS evidence injected from cached Neo4j (no 2nd LLM round-trip).
+> **Model caveat (unchanged):** `/chatbot/query` (model `openrouter/free`) was slow (timed out at 60 s in earlier testing). The shipped UX is resilient to this (loading "Thinking…" + an error turn on non-ok/timeout), but a faster model / streaming remains the obvious next improvement. The model id was NOT changed in this work.
+> **Built beyond the original plan:** the structured side (cards/highlight/CORDIS) is made history-aware via `context_call_ids` + `_resolve_matches` (a conservative anaphora heuristic), because a fresh per-turn search on a bare follow-up wiped the prior view and gathered CORDIS for the wrong calls (review-caught). Full LLM query-rewrite is still the deferred ideal.
 
 This item from `FRONTEND_UX_REFACTOR_PLAN.md` (3.5) converts the single-turn ChatBot into a conversation that (a) refines prior results and (b) answers "who's been funded for X" from CORDIS, citing locatable call ids.
 

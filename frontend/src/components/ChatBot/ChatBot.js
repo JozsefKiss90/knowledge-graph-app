@@ -16,7 +16,20 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import CenterFocusStrongIcon from "@mui/icons-material/CenterFocusStrong";
+import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useDarkMode } from "../context/DarkModeContext";
+import OrgLink from "../GraphPage/CordisEvidence/OrgLink";
+
+/* Compact euro label for the funded-evidence block (mirrors OrgDossier.fmtEuro). */
+function fmtEuro(n) {
+  const v = Number(n) || 0;
+  if (v <= 0) return "—";
+  if (v >= 1e9) return `€${(v / 1e9).toFixed(2)}B`;
+  if (v >= 1e6) return `€${(v / 1e6).toFixed(1)}M`;
+  if (v >= 1e3) return `€${Math.round(v / 1e3)}k`;
+  return `€${Math.round(v)}`;
+}
 
 /* ── Lightweight markdown-to-JSX renderer (no external deps) ──── */
 function renderInline(text) {
@@ -167,6 +180,17 @@ function chipMatchesCall(chip, call) {
   return true;
 }
 
+// The "active result" turn that owns the cards / CORDIS block / graph highlight: the
+// newest assistant turn that actually produced calls and did NOT error. A failed or
+// purely-conversational follow-up therefore never collapses or wipes the prior view.
+function pickResultTurn(messages) {
+  for (let k = messages.length - 1; k >= 0; k--) {
+    const m = messages[k];
+    if (m.role === "assistant" && !m.error && (m.matchedCalls || []).length > 0) return m;
+  }
+  return null;
+}
+
 const ChatBot = ({
   onOpenDetail,
   onAssistantResults,
@@ -177,18 +201,18 @@ const ChatBot = ({
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [answer, setAnswer] = useState("");
-  const [matchedCalls, setMatchedCalls] = useState([]);
-  const [filters, setFilters] = useState([]);
-  const [lastQuery, setLastQuery] = useState("");
-  const [activeChips, setActiveChips] = useState(() => new Set()); // `${type}::${label}`
-  const [totalMatches, setTotalMatches] = useState(0);
-  const [hasSearched, setHasSearched] = useState(false);
+  // Multi-turn (Tier 3.5): the whole conversation is held client-side. Each entry is
+  // either { role:'user', content } or { role:'assistant', answer, matchedCalls,
+  // filters, totalMatches, cordis, query, error? }. The backend stays stateless — we
+  // send the prior turns as `history` on every request.
+  const [messages, setMessages] = useState([]);
+  const [activeChips, setActiveChips] = useState(() => new Set()); // `${type}::${label}` — narrows the LATEST turn
   const [bookmarkedIds, setBookmarkedIds] = useState(() => {
     const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
     return new Set(stored.map((b) => b.id));
   });
   const inputRef = useRef(null);
+  const scrollRef = useRef(null);
 
   const { darkMode } = useDarkMode();
 
@@ -204,26 +228,40 @@ const ChatBot = ({
     }
   }, [open]);
 
-  // ── "FILTER RESULTS" chips: filter the result set + graph highlight ───────
-  // Apply active chips: chips of the same type are OR'd, different types AND'd.
+  // The active-result turn owns the cards / CORDIS block / graph highlight.
+  const resultTurn = useMemo(() => pickResultTurn(messages), [messages]);
+
+  // ── "FILTER RESULTS" chips: narrow the active turn's calls + graph highlight ──
+  // Same-type chips are OR'd, different types AND'd. Chips apply to the active turn.
   const displayedCalls = useMemo(() => {
-    if (!activeChips.size) return matchedCalls;
-    const active = filters.filter((f) => activeChips.has(chipKey(f)));
-    if (!active.length) return matchedCalls;
+    const mc = resultTurn?.matchedCalls || [];
+    if (!activeChips.size) return mc;
+    const active = (resultTurn?.filters || []).filter((f) => activeChips.has(chipKey(f)));
+    if (!active.length) return mc;
     const byType = {};
     active.forEach((f) => {
       (byType[f.type] = byType[f.type] || []).push(f);
     });
-    return matchedCalls.filter((call) =>
+    return mc.filter((call) =>
       Object.values(byType).every((group) => group.some((chip) => chipMatchesCall(chip, call)))
     );
-  }, [matchedCalls, filters, activeChips]);
+  }, [resultTurn, activeChips]);
 
-  // Keep the graph highlight in sync with whatever the chips currently show.
+  // Keep the graph highlight in sync with the active turn (source "ai"), refining as
+  // chips toggle. A new answer with matches REPLACES the prior highlight; an empty/
+  // errored/conversational turn leaves the prior highlight intact (never wiped to []).
   useEffect(() => {
-    if (!hasSearched) return;
-    onAssistantResults?.(displayedCalls, lastQuery);
-  }, [displayedCalls, hasSearched, onAssistantResults, lastQuery]);
+    if (!resultTurn || !displayedCalls.length) return;
+    onAssistantResults?.(displayedCalls, resultTurn.query, "ai");
+  }, [displayedCalls, resultTurn, onAssistantResults]);
+
+  // Auto-scroll the transcript to the newest message / the loading row. `open` is a
+  // dep so reopening a tall conversation lands on the latest answer, not the top.
+  useEffect(() => {
+    if (open && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, loading, open]);
 
   const toggleChip = (f) => {
     const key = chipKey(f);
@@ -239,37 +277,93 @@ const ChatBot = ({
     const trimmed = input.trim();
     if (!trimmed || loading) return;
 
-    setLastQuery(trimmed);
+    // Build history from COMPLETE user→assistant pairs (before appending this
+    // question), so a turn whose answer errored is dropped WITH its user turn — this
+    // keeps strict role alternation (some providers reject consecutive user turns).
+    const history = [];
+    for (let i = 0; i < messages.length; i++) {
+      const m = messages[i];
+      if (m.role !== "user") continue;
+      const next = messages[i + 1];
+      if (next && next.role === "assistant" && !next.error && (next.answer || "").trim()) {
+        if (m.content && m.content.trim()) {
+          history.push({ role: "user", content: m.content });
+          history.push({ role: "assistant", content: next.answer });
+        }
+        i++; // consume the paired assistant turn
+      }
+    }
+
+    // Anchor a contextual follow-up to the calls currently in context, so the
+    // structured side (cards / highlight / CORDIS) stays on the right calls.
+    const contextCallIds = (pickResultTurn(messages)?.matchedCalls || [])
+      .map((c) => c.identifier)
+      .filter(Boolean);
+
+    setMessages((prev) => [...prev, { role: "user", content: trimmed }]);
+    setInput("");
     setLoading(true);
-    setHasSearched(true);
-    setAnswer("");
-    setMatchedCalls([]);
-    setFilters([]);
-    setActiveChips(new Set()); // a new search clears any chip filters
-    setTotalMatches(0);
+
+    const pushAssistant = (turn) =>
+      setMessages((prev) => [...prev, { role: "assistant", query: trimmed, ...turn }]);
 
     try {
       const res = await fetch(`${API_BASE}/chatbot/query`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: trimmed }),
+        body: JSON.stringify({ question: trimmed, history, context_call_ids: contextCallIds }),
       });
 
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const j = await res.json();
+          detail = j?.detail || "";
+        } catch {}
+        pushAssistant({
+          answer: `Sorry — the assistant couldn't answer (${detail || res.status}). The model may be slow right now; try again or simplify your question.`,
+          matchedCalls: [],
+          filters: [],
+          totalMatches: 0,
+          cordis: [],
+          error: true,
+        });
+        return;
+      }
+
       const data = await res.json();
-      const calls = data?.matched_calls ?? [];
-      setAnswer(data?.answer ?? "");
-      setMatchedCalls(calls);
-      setFilters(data?.filters ?? []);
-      setTotalMatches(data?.total_matches ?? 0);
-      // The graph highlight is driven by `displayedCalls` via an effect, so it
-      // stays in sync as chip filters are toggled.
+      // A successful new turn supersedes the prior turn's chip narrowing. (Done here,
+      // not at submit, so a failed follow-up leaves the prior turn's chips/highlight intact.)
+      setActiveChips(new Set());
+      pushAssistant({
+        answer: data?.answer ?? "",
+        matchedCalls: data?.matched_calls ?? [],
+        filters: data?.filters ?? [],
+        totalMatches: data?.total_matches ?? 0,
+        cordis: data?.cordis ?? [],
+      });
     } catch {
-      setAnswer("Error contacting the AI search service.");
-      setMatchedCalls([]);
-      setFilters([]);
+      pushAssistant({
+        answer: "Error contacting the AI search service.",
+        matchedCalls: [],
+        filters: [],
+        totalMatches: 0,
+        cordis: [],
+        error: true,
+      });
     } finally {
       setLoading(false);
     }
+  };
+
+  // Reset the whole conversation and drop the graph highlight. Sourced "ai" so it only
+  // clears a highlight the chat owns — a live Find-panel highlight is left untouched.
+  const handleNewConversation = () => {
+    setMessages([]);
+    setInput("");
+    setActiveChips(new Set());
+    onClearAssistant?.("ai");
+    setTimeout(() => inputRef.current?.focus(), 50);
   };
 
   const handleKeyDown = (e) => {
@@ -331,19 +425,178 @@ const ChatBot = ({
     window.dispatchEvent(new Event("bookmarksChanged"));
   };
 
-  const handleReset = () => {
-    setInput("");
-    setAnswer("");
-    setMatchedCalls([]);
-    setFilters([]);
-    setActiveChips(new Set());
-    setTotalMatches(0);
-    setHasSearched(false);
-    setLastQuery("");
-    onClearAssistant?.();
-  };
-
   const themeClass = darkMode ? "chatbot--dark" : "chatbot--light";
+  const hasConversation = messages.length > 0;
+  const placeholder = hasConversation
+    ? "Ask a follow-up — refine, or ask who's been funded"
+    : "Ask about Horizon Europe calls — e.g. climate calls in cluster 5";
+
+  // The chips / match-row / call cards / CORDIS evidence for the active result turn
+  // (the set that drives the highlight). Other turns keep just their answer text.
+  const renderLatestInteractive = () => {
+    if (!resultTurn) return null;
+    const turnFilters = resultTurn.filters || [];
+    const totalMatches = resultTurn.totalMatches || 0;
+    const cordis = resultTurn.cordis || [];
+    const hasCalls = (resultTurn.matchedCalls || []).length > 0;
+
+    return (
+      <>
+        {turnFilters.length > 0 && (
+          <div className="chatbot-panel__filters">
+            <Typography variant="caption" className="chatbot-panel__filters-label">
+              FILTER RESULTS
+            </Typography>
+            <div className="chatbot-panel__chips">
+              {turnFilters.map((f, i) => {
+                const active = activeChips.has(chipKey(f));
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`chatbot-chip${active ? " chatbot-chip--active" : ""}`}
+                    aria-pressed={active}
+                    onClick={() => toggleChip(f)}
+                  >
+                    <span className="chatbot-chip__dot" data-type={f.type} />
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {hasCalls && (
+          <>
+            <div className="chatbot-panel__match-row">
+              <Typography variant="caption" className="chatbot-panel__match-count">
+                MATCHING CALLS :{" "}
+                {activeChips.size > 0 && displayedCalls.length !== totalMatches
+                  ? `${displayedCalls.length} of ${totalMatches}`
+                  : totalMatches}
+              </Typography>
+              <button
+                type="button"
+                className="chatbot-panel__clear"
+                onClick={() => onClearAssistant?.("ai")}
+              >
+                Clear highlight
+              </button>
+            </div>
+
+            <div className="chatbot-panel__cards">
+              {displayedCalls.map((call, i) => {
+                const onGraph = !!(locateCall && call.identifier && locateCall(call.identifier));
+                return (
+                  <div
+                    key={call.identifier || i}
+                    className="chatbot-call-card"
+                    onClick={() => handleLocate(call)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === "Enter" && handleLocate(call)}
+                  >
+                    <div className="chatbot-call-card__header">
+                      <Typography variant="caption" className="chatbot-call-card__id">
+                        {call.identifier}
+                      </Typography>
+                      <div className="chatbot-call-card__actions">
+                        <Tooltip title="Open details" placement="top" arrow>
+                          <IconButton
+                            size="small"
+                            className="chatbot-call-card__details"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCardClick(call);
+                            }}
+                          >
+                            <ArticleOutlinedIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                          title={bookmarkedIds.has(call.identifier) ? "Remove bookmark" : "Bookmark call"}
+                          placement="top"
+                          arrow
+                        >
+                          <IconButton
+                            size="small"
+                            className="chatbot-call-card__bookmark"
+                            onClick={(e) => toggleBookmark(call, e)}
+                          >
+                            {bookmarkedIds.has(call.identifier)
+                              ? <BookmarkIcon fontSize="small" />
+                              : <BookmarkBorderIcon fontSize="small" />}
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </div>
+                    <Typography variant="body2" className="chatbot-call-card__title">
+                      {call.title}
+                    </Typography>
+                    <div className="chatbot-call-card__meta">
+                      <span>&gt; {call.deadline}</span>
+                      {call.budget_label && call.budget_label !== "Not available" && (
+                        <span className="chatbot-call-card__budget">{call.budget_label}</span>
+                      )}
+                      {onGraph ? (
+                        <span className="chatbot-call-card__locate">
+                          <CenterFocusStrongIcon fontSize="inherit" />
+                          Show in graph
+                        </span>
+                      ) : (
+                        <span className="chatbot-call-card__locate chatbot-call-card__locate--off">
+                          not on graph
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {cordis.length > 0 && (
+          <div className="chatbot-cordis">
+            <div className="chatbot-cordis__head">
+              <BusinessOutlinedIcon fontSize="inherit" /> Funded evidence (CORDIS)
+            </div>
+            <div className="chatbot-cordis__note">
+              Past EU-funded projects matching these calls' subjects — not 2026–27 awards.
+              Click an organisation to open its dossier in a new tab.
+            </div>
+            {cordis.map((ev) => (
+              <div key={ev.call_id} className="chatbot-cordis__item">
+                <div className="chatbot-cordis__subj">
+                  <span className="chatbot-cordis__subj-text">
+                    {ev.subject || ev.call_title || ev.call_id}
+                  </span>
+                  <span className="chatbot-cordis__nums">
+                    {ev.projectCount} funded {ev.projectCount === 1 ? "project" : "projects"} ·{" "}
+                    {fmtEuro(ev.totalEcContribution)}
+                  </span>
+                </div>
+                {ev.topOrganisations?.length > 0 && (
+                  <div className="chatbot-cordis__orgs">
+                    {ev.topOrganisations.map((o, oi) => (
+                      <OrgLink
+                        key={o.id || o.name || oi}
+                        id={o.id}
+                        name={o.name}
+                        className="chatbot-cordis__org"
+                        newTab
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </>
+    );
+  };
 
   // FAB trigger button
   if (!open) {
@@ -367,7 +620,17 @@ const ChatBot = ({
         className="chatbot-panel"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
+        {/* Top actions: New chat (when a conversation exists) + Close */}
+        {hasConversation && (
+          <button
+            type="button"
+            className="chatbot-panel__newchat"
+            onClick={handleNewConversation}
+          >
+            <RestartAltIcon fontSize="inherit" />
+            New chat
+          </button>
+        )}
         <IconButton
           className="chatbot-panel__close"
           onClick={handleClose}
@@ -383,7 +646,7 @@ const ChatBot = ({
             fullWidth
             size="small"
             variant="outlined"
-            placeholder="climate calls in cluster 5 with deadlines after Sept 2026"
+            placeholder={placeholder}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -410,153 +673,53 @@ const ChatBot = ({
           />
         </div>
 
-        {/* Results area */}
-        {loading && (
-          <div className="chatbot-panel__loading">
-            <CircularProgress size={22} />
-            <Typography variant="body2">Searching calls...</Typography>
-          </div>
-        )}
-
-        {!loading && hasSearched && (
-          <div className="chatbot-panel__results">
-            {/* Filter chips — click to narrow the results + graph highlight */}
-            {filters.length > 0 && (
-              <div className="chatbot-panel__filters">
-                <Typography variant="caption" className="chatbot-panel__filters-label">
-                  FILTER RESULTS
-                </Typography>
-                <div className="chatbot-panel__chips">
-                  {filters.map((f, i) => {
-                    const active = activeChips.has(chipKey(f));
-                    return (
-                      <button
-                        key={i}
-                        type="button"
-                        className={`chatbot-chip${active ? " chatbot-chip--active" : ""}`}
-                        aria-pressed={active}
-                        onClick={() => toggleChip(f)}
-                      >
-                        <span className="chatbot-chip__dot" data-type={f.type} />
-                        {f.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Matching calls count + clear-highlight */}
-            <div className="chatbot-panel__match-row">
-              <Typography variant="caption" className="chatbot-panel__match-count">
-                MATCHING CALLS :{" "}
-                {activeChips.size > 0 && displayedCalls.length !== totalMatches
-                  ? `${displayedCalls.length} of ${totalMatches}`
-                  : totalMatches}
-              </Typography>
-              {matchedCalls.length > 0 && (
-                <button
-                  type="button"
-                  className="chatbot-panel__clear"
-                  onClick={() => onClearAssistant?.()}
-                >
-                  Clear highlight
-                </button>
-              )}
-            </div>
-
-            {/* Call cards */}
-            <div className="chatbot-panel__cards">
-              {displayedCalls.map((call, i) => {
-                const onGraph = !!(locateCall && call.identifier && locateCall(call.identifier));
-                return (
-                <div
-                  key={call.identifier || i}
-                  className="chatbot-call-card"
-                  onClick={() => handleLocate(call)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && handleLocate(call)}
-                >
-                  <div className="chatbot-call-card__header">
-                    <Typography variant="caption" className="chatbot-call-card__id">
-                      {call.identifier}
-                    </Typography>
-                    <div className="chatbot-call-card__actions">
-                      <Tooltip title="Open details" placement="top" arrow>
-                        <IconButton
-                          size="small"
-                          className="chatbot-call-card__details"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleCardClick(call);
-                          }}
-                        >
-                          <ArticleOutlinedIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip
-                        title={bookmarkedIds.has(call.identifier) ? "Remove bookmark" : "Bookmark call"}
-                        placement="top"
-                        arrow
-                      >
-                        <IconButton
-                          size="small"
-                          className="chatbot-call-card__bookmark"
-                          onClick={(e) => toggleBookmark(call, e)}
-                        >
-                          {bookmarkedIds.has(call.identifier)
-                            ? <BookmarkIcon fontSize="small" />
-                            : <BookmarkBorderIcon fontSize="small" />}
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  </div>
-                  <Typography variant="body2" className="chatbot-call-card__title">
-                    {call.title}
-                  </Typography>
-                  <div className="chatbot-call-card__meta">
-                    <span>&gt; {call.deadline}</span>
-                    {call.budget_label && call.budget_label !== "Not available" && (
-                      <span className="chatbot-call-card__budget">
-                        {call.budget_label}
-                      </span>
-                    )}
-                    {onGraph ? (
-                      <span className="chatbot-call-card__locate">
-                        <CenterFocusStrongIcon fontSize="inherit" />
-                        Show in graph
-                      </span>
-                    ) : (
-                      <span className="chatbot-call-card__locate chatbot-call-card__locate--off">
-                        not on graph
-                      </span>
-                    )}
-                  </div>
-                </div>
-                );
-              })}
-            </div>
-
-            {/* AI answer */}
-            {answer && (
-              <div className="chatbot-panel__answer">
-                <AutoAwesomeIcon className="chatbot-panel__answer-icon" />
-                <div className="chatbot-panel__answer-text">
-                  <MarkdownContent text={answer} />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
         {/* Empty state */}
-        {!loading && !hasSearched && (
+        {!hasConversation && !loading && (
           <div className="chatbot-panel__empty">
             <AutoAwesomeIcon className="chatbot-panel__empty-icon" />
             <Typography variant="body2">
-              Ask in plain language to search Horizon Europe calls
+              Ask in plain language — search Horizon Europe calls, refine across turns,
+              and see who's been funded in related areas.
             </Typography>
+          </div>
+        )}
+
+        {/* Conversation transcript */}
+        {(hasConversation || loading) && (
+          <div className="chatbot-panel__results chatbot-panel__transcript" ref={scrollRef}>
+            {messages.map((msg, idx) => {
+              if (msg.role === "user") {
+                return (
+                  <div key={idx} className="chatbot-msg chatbot-msg--user">
+                    <div className="chatbot-msg__bubble">{msg.content}</div>
+                  </div>
+                );
+              }
+              const isResultTurn = msg === resultTurn;
+              return (
+                <div
+                  key={idx}
+                  className={`chatbot-msg chatbot-msg--assistant${msg.error ? " chatbot-msg--error" : ""}`}
+                >
+                  {msg.answer && (
+                    <div className="chatbot-panel__answer">
+                      <AutoAwesomeIcon className="chatbot-panel__answer-icon" />
+                      <div className="chatbot-panel__answer-text">
+                        <MarkdownContent text={msg.answer} />
+                      </div>
+                    </div>
+                  )}
+                  {isResultTurn && renderLatestInteractive()}
+                </div>
+              );
+            })}
+
+            {loading && (
+              <div className="chatbot-panel__loading">
+                <CircularProgress size={20} />
+                <Typography variant="body2">Thinking…</Typography>
+              </div>
+            )}
           </div>
         )}
       </div>

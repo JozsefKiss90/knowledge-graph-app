@@ -79,11 +79,63 @@ def _format_budget(budget: Optional[dict]) -> str:
     return ", ".join(parts)
 
 
+# ── CORDIS funded-evidence formatter ──────────────────────────
+
+def _format_eur_compact(value) -> str:
+    """Compact euro label for the funded-evidence block (awarded EU contribution)."""
+    v = value or 0
+    if v >= 1e9:
+        return f"EUR {v / 1e9:.2f}B"
+    if v >= 1e6:
+        return f"EUR {v / 1e6:.1f}M"
+    if v >= 1e3:
+        return f"EUR {v / 1e3:.0f}k"
+    return f"EUR {v:.0f}"
+
+
+def _build_cordis_section(cordis_evidence: Optional[List[dict]]) -> str:
+    """Format the CORDIS funded-projects evidence for the matched calls.
+
+    Subject-area evidence (HAS_FUNDED_PROJECT), NOT awards for the 2026-2027 calls
+    themselves. Project COUNTS and awarded EUROS are kept as separate measures and
+    must never be merged — the prompt enforces the same distinction.
+    """
+    if not cordis_evidence:
+        return ""
+
+    lines = [
+        "=== FUNDED EVIDENCE (CORDIS, past projects) ===",
+        "Past EU-funded projects whose research SUBJECT matches the calls above "
+        "(HAS_FUNDED_PROJECT, FP7-Horizon Europe). This is subject-area evidence, "
+        "NOT funding awarded for the 2026-2027 calls. Project counts and awarded "
+        "euros are separate measures; never merge them or present past funding as a "
+        "2026-2027 award.",
+    ]
+    for ev in cordis_evidence:
+        lines.append(f"\n--- Funded evidence for call {ev.get('call_id', '')} ---")
+        if ev.get("subject"):
+            lines.append(f"Subject area: {ev['subject']}")
+        lines.append(f"Funded projects in this area: {ev.get('projectCount', 0) or 0}")
+        lines.append(
+            f"EU contribution awarded (total): {_format_eur_compact(ev.get('totalEcContribution'))}"
+        )
+        orgs = ev.get("topOrganisations") or []
+        if orgs:
+            lines.append("Most active organisations (by funded-project count):")
+            for o in orgs:
+                name = o.get("name") or o.get("id") or "?"
+                country = f" [{o['country']}]" if o.get("country") else ""
+                lines.append(f"  - {name}{country}: {o.get('projectCount', 0) or 0} funded project(s)")
+    return "\n".join(lines)
+
+
 # ── Main context builder ─────────────────────────────────────
 
-def build_context(matches: List[dict], question: str) -> str:
+def build_context(matches: List[dict], question: str, cordis_evidence: Optional[List[dict]] = None) -> str:
     """
     Format matched call records into a compact context string for the LLM.
+    Optionally appends a CORDIS funded-evidence section (kept distinct from the
+    PLANNED calls so the model never conflates "on offer" with "already funded").
     """
     if not matches:
         return (
@@ -129,5 +181,13 @@ def build_context(matches: List[dict], question: str) -> str:
 
         parts.append("\n".join(block_lines))
 
-    header = f"Found {total_in_db} matching call(s).\n"
-    return header + "\n\n".join(parts)
+    header = (
+        "=== PLANNED CALLS (Horizon Europe 2026-2027, on offer) ===\n"
+        f"Found {total_in_db} matching call(s).\n"
+    )
+    result = header + "\n\n".join(parts)
+
+    cordis_section = _build_cordis_section(cordis_evidence)
+    if cordis_section:
+        result += "\n\n" + cordis_section
+    return result
