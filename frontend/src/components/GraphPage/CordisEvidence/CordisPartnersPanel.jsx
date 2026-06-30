@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import useCordisOrganisations from "./useCordisOrganisations";
 import CordisEmptyState from "./CordisEmptyState";
+import OrgLink from "./OrgLink";
 
 /**
  * B2 — "Who works in this area" / partner finder: the organisations most active in a call's CORDIS-funded
@@ -120,7 +121,7 @@ export default function CordisPartnersPanel({ callId, bare = false }) {
             return (
               <li key={o.id} className="cordis-partners__row">
                 <div className="cordis-partners__main">
-                  <span className="cordis-partners__name" title={o.name}>{o.name}</span>
+                  <OrgLink id={o.id} name={o.name} className="cordis-partners__name" />
                   <div className="cordis-partners__meta">
                     {o.country ? <span>{o.country}</span> : null}
                     {o.country ? <span aria-hidden> · </span> : null}

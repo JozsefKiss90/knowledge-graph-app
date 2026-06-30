@@ -1,4 +1,5 @@
 import React from "react";
+import OrgLink from "../CordisEvidence/OrgLink";
 
 const fmt = (n) => (n || 0).toLocaleString();
 
@@ -44,7 +45,7 @@ export default function CordisTopOrgs({ data, loading }) {
             return (
               <li key={o.id} className="cordis-partners__row">
                 <div className="cordis-partners__main">
-                  <span className="cordis-partners__name" title={o.name}>{o.name}</span>
+                  <OrgLink id={o.id} name={o.name} className="cordis-partners__name" />
                   <div className="cordis-partners__meta">
                     {o.country ? <span>{o.country}</span> : null}
                     {o.country ? <span aria-hidden> · </span> : null}

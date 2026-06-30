@@ -16,6 +16,7 @@ import CompareDrawer from "../CompareDrawer/CompareDrawer";
 import useCountryActivity from "../CountryActivity/useCountryActivity";
 import CountryOverlayBadge from "../CountryActivity/CountryOverlayBadge";
 import PortfolioDashboard from "../Dashboard/PortfolioDashboard";
+import FindCallsPanel from "../FindCalls/FindCallsPanel";
 
 export default function GraphMainColumn({
   viewMode,
@@ -46,6 +47,8 @@ export default function GraphMainColumn({
   setCompareOpen,
   compareNodes,
   setCompareNodes,
+  findOpen,
+  setFindOpen,
   dashboardPanel,
   setDashboardPanel,
   countryOverlayCode,
@@ -53,6 +56,7 @@ export default function GraphMainColumn({
   assistantMatchIds,
   assistantMatchDestIds,
   assistantFocus,
+  assistantSource,
   onAssistantResults,
   onLocateCall,
   onClearAssistant,
@@ -411,6 +415,7 @@ export default function GraphMainColumn({
                     onClearCountry={() => setCountryOverlayCode("")}
                     assistantCount={assistantMatchIds?.size || 0}
                     assistantQuery={assistantQuery}
+                    assistantSource={assistantSource}
                     onClearAssistant={onClearAssistant}
                     compareCount={compareNodes?.length || 0}
                     onClearCompare={() => setCompareNodes([])}
@@ -500,6 +505,17 @@ export default function GraphMainColumn({
               }}
             />
           </div>
+
+          <FindCallsPanel
+            open={findOpen && !isHEWiki}
+            onClose={() => setFindOpen(false)}
+            loadFromStore={loadFromStore}
+            onAssistantResults={onAssistantResults}
+            onLocateCall={onLocateCall}
+            onClearAssistant={onClearAssistant}
+            locateCall={locateCall}
+            onOpenDetail={onOpenDetail}
+          />
 
           <TimelineScrubber
             loadFromStore={loadFromStore}

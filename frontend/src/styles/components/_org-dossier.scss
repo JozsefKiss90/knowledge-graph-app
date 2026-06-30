@@ -1,0 +1,248 @@
+// Tier 3.4 — organisation dossier route page + the shared org-pivot link
+
+// Org-name pivot link (used inside CORDIS partner / leaderboard / evidence lists)
+.org-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border);
+  transition: color 0.12s ease, border-color 0.12s ease;
+
+  &:hover {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+  }
+}
+
+.org-dossier {
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+  }
+
+  &__metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 18px 0 12px;
+  }
+
+  &__metric {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+  }
+
+  &__metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  &__metric-label {
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: var(--muted-foreground);
+  }
+
+  &__metric-sub {
+    margin-top: 4px;
+    font-size: 0.74rem;
+    color: var(--muted-foreground);
+  }
+
+  &__prov {
+    margin: 0 0 8px;
+    font-size: 0.76rem;
+    line-height: 1.45;
+    color: var(--muted-foreground);
+    font-style: italic;
+  }
+
+  &__section {
+    margin-top: 22px;
+  }
+
+  &__section-title {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  &__section-sub {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  // research fields
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  &__field-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 9px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    background: var(--card);
+  }
+
+  &__field-count {
+    font-size: 0.68rem;
+    color: var(--muted-foreground);
+  }
+
+  // tracked calls
+  &__calls,
+  &__projects,
+  &__shortlist-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__call-row,
+  &__project-row {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+  }
+
+  &__call-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--foreground);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.86rem;
+
+    &:hover {
+      color: var(--primary);
+    }
+  }
+
+  &__call-open {
+    font-size: 0.85rem;
+    color: var(--muted-foreground);
+  }
+
+  &__call-meta,
+  &__project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 0.74rem;
+    color: var(--muted-foreground);
+  }
+
+  &__project-main {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  &__project-name {
+    font-weight: 600;
+    font-size: 0.86rem;
+  }
+
+  &__project-full {
+    font-size: 0.76rem;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__role {
+    font-weight: 600;
+
+    &--coord {
+      color: #16a34a;
+    }
+    &--partner {
+      color: var(--muted-foreground);
+    }
+  }
+
+  // shortlist
+  &__shortlist {
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+
+  &__shortlist-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__shortlist-empty {
+    margin: 4px 0 0;
+    font-size: 0.82rem;
+    color: var(--muted-foreground);
+  }
+
+  &__shortlist-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+  }
+
+  &__shortlist-link {
+    flex: 0 0 auto;
+    max-width: 50%;
+    color: var(--foreground);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      color: var(--primary);
+    }
+  }
+
+  &__shortlist-meta {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.74rem;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__shortlist-remove {
+    flex: 0 0 auto;
+    border: none;
+    background: transparent;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    font-size: 0.76rem;
+
+    &:hover {
+      color: #ef4444;
+    }
+  }
+}

@@ -7,6 +7,7 @@ import theme from "./themes/theme";
 import { DarkModeProvider, useDarkMode } from "./components/context/DarkModeContext";
 import './styles/main/main.scss';
 import BookmarkedCalls from "./components/BookmarkedCalls";
+import OrgDossier from "./components/OrgDossier";
 import About from "./components/About";
 
 function RequireLandscape({ children }) {
@@ -82,6 +83,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<GraphPage />} />
           <Route path="/node/:id" element={<NodeDetail />} />
+          <Route path="/org/:orgId" element={<OrgDossier />} />
           <Route path="/bookmarks" element={<BookmarkedCalls />} />
           <Route path="/about" element={<About />} />
         </Routes>

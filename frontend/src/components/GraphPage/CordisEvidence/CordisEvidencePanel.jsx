@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import useCordisEvidence from "./useCordisEvidence";
 import CordisEmptyState from "./CordisEmptyState";
+import OrgLink from "./OrgLink";
 
 // Same € formatter as the dashboard (FundingByProgramme.jsx) — counts and euros are never mixed.
 function formatBudget(val) {
@@ -99,9 +100,9 @@ export default function CordisEvidencePanel({ callId, bare = false, evidence }) 
           <div className="cordis-ev__section-label">Top organisations (by projects)</div>
           <ul className="cordis-ev__list">
             {data.topOrganisations.map((o, i) => (
-              <li key={i} className="cordis-ev__list-row">
+              <li key={o.id || i} className="cordis-ev__list-row">
                 <span className="cordis-ev__list-name">
-                  {o.name}{o.country ? ` · ${o.country}` : ""}
+                  <OrgLink id={o.id} name={o.name} />{o.country ? ` · ${o.country}` : ""}
                 </span>
                 <span className="cordis-ev__list-count">{o.n} projects</span>
               </li>

@@ -38,11 +38,13 @@ export default function GraphConstraintBar({
   onClearCountry,
   assistantCount = 0,
   assistantQuery = "",
+  assistantSource = "ai",
   onClearAssistant,
   compareCount = 0,
   onClearCompare,
   onResetFilters,
 }) {
+  const highlightLabel = assistantSource === "find" ? "Find" : "AI";
   const hasTimeline = !!(timelineSelection?.start && timelineSelection?.end);
   const hasCountry = !!countryCode;
   const hasAssistant = assistantCount > 0;
@@ -69,9 +71,13 @@ export default function GraphConstraintBar({
         )}
         {hasAssistant && (
           <Chip
-            label={assistantQuery ? `AI: “${assistantQuery}”` : `AI highlight (${assistantCount})`}
+            label={
+              assistantQuery
+                ? `${highlightLabel}: “${assistantQuery}”`
+                : `${highlightLabel} highlight (${assistantCount})`
+            }
             onClear={onClearAssistant}
-            clearLabel="Clear AI highlight"
+            clearLabel={`Clear ${highlightLabel} highlight`}
           />
         )}
         {hasCompare && (

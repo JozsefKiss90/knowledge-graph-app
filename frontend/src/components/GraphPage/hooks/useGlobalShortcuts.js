@@ -48,6 +48,7 @@ export function useGlobalShortcuts({
   onToggleDashboard,
   onToggleCompare,
   onToggleTimeline,
+  onToggleFind,
   toolsEnabled,
   inGraphMode,
 }) {
@@ -118,6 +119,13 @@ export function useGlobalShortcuts({
         }
         return;
       }
+      if (k === "f" || k === "F") {
+        if (toolsEnabled && inGraphMode) {
+          e.preventDefault();
+          onToggleFind?.();
+        }
+        return;
+      }
     };
 
     window.addEventListener("keydown", handler);
@@ -131,6 +139,7 @@ export function useGlobalShortcuts({
     onToggleDashboard,
     onToggleCompare,
     onToggleTimeline,
+    onToggleFind,
     toolsEnabled,
     inGraphMode,
   ]);

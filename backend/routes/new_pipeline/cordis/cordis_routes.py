@@ -356,7 +356,7 @@ def call_evidence(call_id: str, top_n: int = 5):
             "MATCH (c:Call {id:$cid})-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s}) "
             "MATCH (og:CordisOrganisation)-[:PARTICIPATED_IN]->(pr) "
             "WITH og, count(DISTINCT pr) AS n "
-            "RETURN og.name AS name, og.country AS country, n "
+            "RETURN og.id AS id, og.name AS name, og.country AS country, n "  # id: enables the 3.4 org pivot
             "ORDER BY n DESC LIMIT $k",
             {"cid": call_id, "s": s, "k": top_n},
         )
@@ -1123,6 +1123,159 @@ def top_organisations(top_n: int = 15):
         return cordis_cache.get_or_compute("top-organisations", {"top_n": top_n}, _compute)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"CORDIS top-organisations failed: {str(e)}")
+
+
+ORG_DOSSIER_PROVENANCE = (
+    "One organisation across all the CORDIS-funded projects it participated in (CORDIS, FP7-Horizon "
+    "Europe): awarded EU contribution (its share), coordinate-vs-partner role split, research fields, and "
+    "the tracked Horizon Europe calls whose funded areas it covers. EU-funded participation, NOT scientific "
+    "quality or impact; coordinated/partnered and counts/euros are separate measures, never a merit score."
+)
+ORG_FIELDS_CAP = 25
+ORG_CALLS_CAP = 100
+ORG_PROJECTS_CAP = 100
+
+
+@router.get("/organisation")
+def organisation(org_id: str):
+    """Tier 3.4 org dossier: one organisation aggregated across all CORDIS-funded projects it participated in —
+    awarded EU contribution (sum of its PARTICIPATED_IN ecContribution), coordinate-vs-partner role split,
+    top research fields (via the projects' CLASSIFIED_AS), the tracked Horizon Europe calls whose funded
+    area it took part in (HAS_FUNDED_PROJECT), and a capped recent-project list.
+
+    Anchored on the indexed CordisOrganisation.id, so it is an index seek + bounded single-org expansion
+    (NOT the full-graph traversal the F6 leaderboard does, which is why this stays fast). 404 when the id is
+    unknown — the miss is NOT cached. Honest framing: EU-funded participation, not scientific quality;
+    'most funded' is not 'best'.
+    """
+    org_id = (org_id or "").strip()
+    if not org_id:
+        raise HTTPException(status_code=400, detail="org_id is required")
+
+    s = SOURCE_TAG
+    exists = db.query(
+        "MATCH (og:CordisOrganisation {id:$org_id, source:$s}) RETURN og.id AS id LIMIT 1",
+        {"org_id": org_id, "s": s},
+    )
+    if not exists:
+        raise HTTPException(status_code=404, detail="Organisation not found")
+
+    def _compute():
+        params = {"org_id": org_id, "s": s}
+
+        # Header + headline measures. Coordinated vs partnered counted independently (an org's role on a
+        # project is single, so the two buckets are disjoint); euros summed over the same edges (sum() skips
+        # null contributions). All anchored on the indexed id.
+        head = db.query(
+            "MATCH (og:CordisOrganisation {id:$org_id, source:$s}) "
+            "OPTIONAL MATCH (og)-[r:PARTICIPATED_IN]->(pr:CordisProject {source:$s}) "
+            "RETURN og.id AS id, og.name AS name, og.shortName AS shortName, og.country AS country, "
+            "       og.city AS city, og.orgType AS orgType, "
+            "       count(DISTINCT pr) AS projectCount, "
+            "       coalesce(sum(r.ecContribution), 0) AS totalEcContribution, "
+            "       count(DISTINCT CASE WHEN r.role = 'coordinator' THEN pr END) AS coordinatedCount, "
+            "       count(DISTINCT CASE WHEN r.role <> 'coordinator' THEN pr END) AS partneredCount",
+            params,
+        )
+        h = head[0] if head else {}
+        code = (h.get("orgType") or "").strip()
+        project_count = (h.get("projectCount") or 0)
+
+        # Top research fields (via the org's projects' CLASSIFIED_AS) — list + true total in one pass.
+        field_rows = db.query(
+            "MATCH (og:CordisOrganisation {id:$org_id, source:$s})-[:PARTICIPATED_IN]->"
+            "(pr:CordisProject {source:$s})-[:CLASSIFIED_AS]->(rf:ResearchField) "
+            "WITH rf, count(DISTINCT pr) AS projectCount "
+            "WITH collect({code: rf.code, title: rf.title, projectCount: projectCount}) AS fields "
+            "WITH fields, size(fields) AS total UNWIND fields AS f "
+            "WITH total, f ORDER BY f.projectCount DESC, f.title LIMIT $cap "
+            "RETURN total, f.code AS code, f.title AS title, f.projectCount AS projectCount",
+            {**params, "cap": ORG_FIELDS_CAP},
+        )
+        field_total = (field_rows[0]["total"] if field_rows else 0) or 0
+        research_fields = [
+            {"code": r.get("code"), "title": r.get("title"), "projectCount": r.get("projectCount") or 0}
+            for r in field_rows
+        ]
+
+        # Tracked Horizon Europe calls whose funded area this org took part in — list + true total.
+        call_rows = db.query(
+            "MATCH (og:CordisOrganisation {id:$org_id, source:$s})-[:PARTICIPATED_IN]->"
+            "(pr:CordisProject {source:$s})<-[:HAS_FUNDED_PROJECT]-(c:Call) "
+            "WITH c, count(DISTINCT pr) AS projectCount "
+            "WITH collect({id: c.id, title: c.name, subject: c.cordis_area_query, "  # Call nodes use c.name, not c.title
+            "              projectCount: projectCount}) AS calls "
+            "WITH calls, size(calls) AS total UNWIND calls AS x "
+            "WITH total, x ORDER BY x.projectCount DESC, x.title LIMIT $cap "
+            "RETURN total, x.id AS id, x.title AS title, x.subject AS subject, x.projectCount AS projectCount",
+            {**params, "cap": ORG_CALLS_CAP},
+        )
+        call_total = (call_rows[0]["total"] if call_rows else 0) or 0
+        tracked_calls = [
+            {
+                "id": r.get("id"),
+                "title": r.get("title"),
+                "subject": r.get("subject"),
+                "projectCount": r.get("projectCount") or 0,
+            }
+            for r in call_rows
+        ]
+
+        # Recent project list (capped; projectCount above is the true total).
+        proj_rows = db.query(
+            "MATCH (og:CordisOrganisation {id:$org_id, source:$s})-[r:PARTICIPATED_IN]->"
+            "(pr:CordisProject {source:$s}) "
+            "RETURN pr.id AS id, pr.acronym AS acronym, pr.title AS title, pr.status AS status, "
+            "       pr.startDate AS startDate, pr.endDate AS endDate, "
+            "       pr.frameworkProgramme AS frameworkProgramme, r.role AS role, "
+            "       r.ecContribution AS ecContribution "
+            "ORDER BY pr.startDate IS NULL, pr.startDate DESC LIMIT $cap",  # undated projects last, not first
+            {**params, "cap": ORG_PROJECTS_CAP},
+        )
+        projects = [
+            {
+                "id": r.get("id"),
+                "acronym": r.get("acronym"),
+                "title": r.get("title"),
+                "status": r.get("status"),
+                "startDate": r.get("startDate"),
+                "endDate": r.get("endDate"),
+                "frameworkProgramme": r.get("frameworkProgramme"),
+                "role": r.get("role"),
+                "ecContribution": r.get("ecContribution"),
+            }
+            for r in proj_rows
+        ]
+
+        return {
+            "id": h.get("id") or org_id,
+            "name": h.get("name") or org_id,
+            "shortName": h.get("shortName"),
+            "country": h.get("country") or "",
+            "city": h.get("city"),
+            "orgType": code,
+            "orgTypeLabel": ORG_TYPE_LABELS.get(code, "Unknown"),
+            "projectCount": project_count,
+            "totalEcContribution": (h.get("totalEcContribution") or 0),
+            "coordinatedCount": (h.get("coordinatedCount") or 0),
+            "partneredCount": (h.get("partneredCount") or 0),
+            "researchFields": research_fields,
+            "researchFieldCount": field_total,
+            "researchFieldsCapped": field_total > len(research_fields),
+            "trackedCalls": tracked_calls,
+            "trackedCallCount": call_total,
+            "trackedCallsCapped": call_total > len(tracked_calls),
+            "projects": projects,
+            "projectsCapped": project_count > len(projects),
+            "provenance": ORG_DOSSIER_PROVENANCE,
+        }
+
+    try:
+        return cordis_cache.get_or_compute("organisation", {"org_id": org_id}, _compute)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CORDIS organisation failed: {str(e)}")
 
 
 COUNTRY_ACTIVITY_PROVENANCE = ("Organisations from the chosen country participating in CORDIS-funded "

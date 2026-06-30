@@ -8,6 +8,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import EmailIcon from "@mui/icons-material/Email";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import PublicIcon from "@mui/icons-material/Public";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
@@ -36,6 +37,8 @@ const SidebarControls = ({
   setTimelineOpen,
   compareOpen,
   setCompareOpen,
+  findOpen,
+  setFindOpen,
   viewMode,
   dashboardPanel,
   onSelectDashboardPanel,
@@ -119,6 +122,30 @@ const SidebarControls = ({
       </Menu>
 
       <SectionHeader label="Explore" />
+
+      <Tooltip
+        {...tooltipProps}
+        title={
+          isHEWiki
+            ? "Find calls — not available for this dataset"
+            : viewMode !== "graph"
+            ? "Find calls — switch to the graph first"
+            : isExpanded
+            ? ""
+            : "Find calls"
+        }
+      >
+        <span className="sidebar-controls-row">
+          <IconButton
+            className={`sidebar-controls-button${findOpen ? " sidebar-controls-button--active" : ""}`}
+            disabled={isHEWiki || viewMode !== "graph"}
+            onClick={() => setFindOpen((prev) => !prev)}
+          >
+            <ManageSearchIcon fontSize="small" />
+            <span className="sidebar-controls-button__label">Find calls</span>
+          </IconButton>
+        </span>
+      </Tooltip>
 
       <Tooltip {...tooltipProps} title={isExpanded ? "" : "View bookmarks"}>
         <div style={{ position: "relative" }}>

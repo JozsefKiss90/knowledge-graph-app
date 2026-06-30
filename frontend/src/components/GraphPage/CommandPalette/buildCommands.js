@@ -31,10 +31,12 @@ export function buildCommands(ctx) {
     timelineActive,
     timelineOpen,
     compareOpen,
+    findOpen,
     darkMode,
     // handlers
     setViewMode,
     onGoToProgramme,
+    onToggleFind,
     updateOption,
     onResetView,
     onFitView,
@@ -100,6 +102,15 @@ export function buildCommands(ctx) {
   });
 
   // ── Tools ─────────────────────────────────────────────────────────────────
+  add({
+    id: "tool-find",
+    group: "Tools",
+    label: findOpen ? "Close Find calls" : "Find calls",
+    keywords: "find calls search filter facets workspace status programme action budget",
+    disabled: isHEWiki || viewMode !== "graph",
+    disabledReason: isHEWiki ? HE_WIKI_REASON : "Switch to the graph first",
+    perform: () => onToggleFind?.(),
+  });
   add({
     id: "tool-compare",
     group: "Tools",

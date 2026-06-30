@@ -83,6 +83,9 @@ function GraphPage() {
   const [compareOpen, setCompareOpen] = useState(false);
   const [compareNodes, setCompareNodes] = useState([]);
 
+  // Tier 3.3 — the unified Find-calls workspace (graph-mode docked panel).
+  const [findOpen, setFindOpen] = useState(false);
+
   // The three CORDIS exploration tools (B5 research fields, B4 country activity, B6 hop-on) are now hosted in
   // a single distinct dashboard panel instead of pop-up drawers. `dashboardPanel` is the active tool key
   // ("fields" | "country" | "hopOn") or null; clicking the matching sidebar button selects it and navigates
@@ -136,6 +139,11 @@ function GraphPage() {
   const [assistantFocus, setAssistantFocus] = useState(null);
   const assistantFocusSeqRef = useRef(0);
   const [assistantQuery, setAssistantQuery] = useState("");
+  // Who owns the current graph-highlight ("ai" = chat, "find" = Find-calls panel).
+  // The highlight is a single shared channel; the owner lets a sourced clear avoid
+  // wiping a highlight another producer set, and the constraint pill label it honestly.
+  const [assistantSource, setAssistantSource] = useState("ai");
+  const highlightSourceRef = useRef("ai");
 
   // Memoised call -> graph-location index over the preloaded store. The store is
   // empty until the preload finishes, so build only once `ready` is true.
@@ -146,7 +154,7 @@ function GraphPage() {
 
   // Chatbot returned results: highlight every matched call (and its destination).
   const handleAssistantResults = useCallback(
-    (matchedCalls, query) => {
+    (matchedCalls, query, source = "ai") => {
       const ids = new Set();
       const destIds = new Set();
       (matchedCalls || []).forEach((c) => {
@@ -158,8 +166,12 @@ function GraphPage() {
       });
       setAssistantMatchIds(ids);
       setAssistantMatchDestIds(destIds);
-      setAssistantFocus(null);
+      // Keep a just-located focus ring if its call is still in the match set, so
+      // live Find re-filtering doesn't cancel a row's center/ring animation.
+      setAssistantFocus((prev) => (prev && ids.has(String(prev.id)) ? prev : null));
       setAssistantQuery(query || "");
+      setAssistantSource(source);
+      highlightSourceRef.current = source;
     },
     [callLocator]
   );
@@ -185,11 +197,17 @@ function GraphPage() {
     [callLocator]
   );
 
-  const handleClearAssistant = useCallback(() => {
+  const handleClearAssistant = useCallback((source = null) => {
+    // A sourced clear (e.g. the Find panel closing) only clears a highlight it
+    // OWNS — so it can't wipe a chat highlight (or vice-versa). Unsourced clears
+    // (Reset all, Escape, the chat's own Clear button) are unconditional.
+    if (source && highlightSourceRef.current !== source) return;
     setAssistantMatchIds(new Set());
     setAssistantMatchDestIds(new Set());
     setAssistantFocus(null);
     setAssistantQuery("");
+    setAssistantSource("ai");
+    highlightSourceRef.current = "ai";
   }, []);
 
   // 1.2: "Reset All Filters" must clear EVERY filter layer, not just the cy-level
@@ -243,6 +261,7 @@ function GraphPage() {
     // Compare doesn't apply to the flat HE Wiki graph — make sure it isn't left open.
     if (graphName === "HE_2025") {
       setCompareOpen(false);
+      setFindOpen(false); // Find calls is cluster/Call-oriented — N/A for the flat HE Wiki graph
       // The CORDIS tool panel is cluster/Call-oriented (research fields, country paint, hop-on hosts) — none
       // apply to the flat HE Wiki graph, so close it and clear any country paint.
       setDashboardPanel(null);
@@ -495,6 +514,7 @@ useEffect(() => {
     setDrawerOpen(false);
     setIsMessageDrawerOpen(false);
     setCompareOpen(false);
+    setFindOpen(false);
   }, [handleClearAssistant]);
 
   const toggleDashboard = useCallback(
@@ -503,6 +523,7 @@ useEffect(() => {
   );
   const toggleCompare = useCallback(() => setCompareOpen((p) => !p), []);
   const toggleTimeline = useCallback(() => setTimelineOpen((p) => !p), []);
+  const toggleFind = useCallback(() => setFindOpen((p) => !p), []);
 
   useGlobalShortcuts({
     paletteOpen,
@@ -513,6 +534,7 @@ useEffect(() => {
     onToggleDashboard: toggleDashboard,
     onToggleCompare: toggleCompare,
     onToggleTimeline: toggleTimeline,
+    onToggleFind: toggleFind,
     toolsEnabled: graphName !== "HE_2025",
     inGraphMode: viewMode === "graph" && !detailNode,
   });
@@ -527,6 +549,8 @@ useEffect(() => {
         timelineActive: !!timelineSelection,
         timelineOpen,
         compareOpen,
+        findOpen,
+        onToggleFind: toggleFind,
         darkMode,
         setViewMode,
         updateOption,
@@ -555,6 +579,8 @@ useEffect(() => {
       timelineSelection,
       timelineOpen,
       compareOpen,
+      findOpen,
+      toggleFind,
       darkMode,
       updateOption,
       applyView,
@@ -665,6 +691,8 @@ useEffect(() => {
               setCompareOpen={setCompareOpen}
               compareNodes={compareNodes}
               setCompareNodes={setCompareNodes}
+              findOpen={findOpen}
+              setFindOpen={setFindOpen}
               dashboardPanel={dashboardPanel}
               setDashboardPanel={setDashboardPanel}
               countryOverlayCode={countryOverlayCode}
@@ -672,6 +700,7 @@ useEffect(() => {
               assistantMatchIds={assistantMatchIds}
               assistantMatchDestIds={assistantMatchDestIds}
               assistantFocus={assistantFocus}
+              assistantSource={assistantSource}
               onAssistantResults={handleAssistantResults}
               onLocateCall={handleLocateCall}
               onClearAssistant={handleClearAssistant}
@@ -702,6 +731,8 @@ useEffect(() => {
               setTimelineOpen={setTimelineOpen}
               compareOpen={compareOpen}
               setCompareOpen={setCompareOpen}
+              findOpen={findOpen}
+              setFindOpen={setFindOpen}
               viewMode={viewMode}
               dashboardPanel={dashboardPanel}
               onSelectDashboardPanel={handleSelectDashboardPanel}

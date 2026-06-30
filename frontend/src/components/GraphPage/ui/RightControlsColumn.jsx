@@ -17,6 +17,8 @@ export default function RightControlsColumn({
   setTimelineOpen,
   compareOpen,
   setCompareOpen,
+  findOpen,
+  setFindOpen,
   viewMode,
   dashboardPanel,
   onSelectDashboardPanel,
@@ -40,6 +42,8 @@ export default function RightControlsColumn({
         setTimelineOpen={setTimelineOpen}
         compareOpen={compareOpen}
         setCompareOpen={setCompareOpen}
+        findOpen={findOpen}
+        setFindOpen={setFindOpen}
         viewMode={viewMode}
         dashboardPanel={dashboardPanel}
         onSelectDashboardPanel={onSelectDashboardPanel}
