@@ -1,6 +1,9 @@
 import React from "react";
 
-function formatValue(value, unit) {
+// Shared KPI value/unit formatters. Exported so the redesigned KpiTileRow can reuse the
+// exact same number formatting as the original KpiCard (currency scaled to B/M/K, counts
+// via toLocaleString) instead of re-deriving numbers in JSX.
+export function formatValue(value, unit) {
   if (unit === "currency") {
     if (value >= 1e9) return `${(value / 1e9).toFixed(1)}`;
     if (value >= 1e6) return `${(value / 1e6).toFixed(1)}`;
@@ -10,7 +13,7 @@ function formatValue(value, unit) {
   return value.toLocaleString();
 }
 
-function formatUnit(value) {
+export function formatUnit(value) {
   if (value >= 1e9) return "€B";
   if (value >= 1e6) return "€M";
   if (value >= 1e3) return "€K";

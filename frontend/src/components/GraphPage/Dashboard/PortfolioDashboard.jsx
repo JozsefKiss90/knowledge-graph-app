@@ -1,22 +1,35 @@
 import React, { useMemo, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
+
+import HubIcon from "@mui/icons-material/Hub";
+import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
+import PublicIcon from "@mui/icons-material/Public";
+import GroupsIcon from "@mui/icons-material/Groups";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import BubbleChartIcon from "@mui/icons-material/BubbleChart";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import AddIcon from "@mui/icons-material/Add";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import { useDashboardData } from "./useDashboardData";
-import CordisEmptyState from "../CordisEvidence/CordisEmptyState";
 import useCordisPortfolio from "./useCordisPortfolio";
 import useFundingByProgramme, { mapAwardedToProgrammeKeys } from "./useFundingByProgramme";
 import useCordisPortfolioTrend from "./useCordisPortfolioTrend";
-import CordisActivityTrend from "./CordisActivityTrend";
 import useCordisFieldTree from "../CordisFields/useCordisFieldTree";
-import CordisFieldMix from "./CordisFieldMix";
 import useCountryActivity from "../CountryActivity/useCountryActivity";
-import CordisCountryLeaderboard from "./CordisCountryLeaderboard";
 import useTopOrganisations from "./useTopOrganisations";
+import useDraggableWindows from "./useDraggableWindows";
+
+import CordisEmptyState from "../CordisEvidence/CordisEmptyState";
+import CordisActivityTrend from "./CordisActivityTrend";
+import CordisFieldMix from "./CordisFieldMix";
+import CordisCountryLeaderboard from "./CordisCountryLeaderboard";
 import CordisTopOrgs from "./CordisTopOrgs";
-import DashboardHero from "./DashboardHero";
 import FundingFrameLegend from "./FundingFrameLegend";
 import DashboardToolPanel from "./DashboardToolPanel";
-import KpiCardsRow from "./KpiCardsRow";
-import CordisKpiRow from "./CordisKpiRow";
 import FundingByProgramme from "./FundingByProgramme";
 import CallsOverTime from "./CallsOverTime";
 import TopicDistribution from "./TopicDistribution";
@@ -24,8 +37,83 @@ import OpenCallsTable from "./OpenCallsTable";
 import RecentActivity from "./RecentActivity";
 import SavedSearches from "./SavedSearches";
 import SavedViews from "./SavedViews";
-import useInView from "./useInView";
 import DashCardSkeleton from "./DashCardSkeleton";
+import KpiTileRow from "./KpiTileRow";
+import DashWindow from "./DashWindow";
+
+// rgba tint of a hex accent — used for the active theme-pill border/shadow.
+function tint(hex, a) {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+// The seven "Explore by theme" windows. Each opens a draggable DashWindow holding a reused
+// dashboard component. Accent colours match the mockup's per-window tints.
+const THEMES = [
+  { key: "funding", label: "Funding", icon: BarChartIcon, accent: "#7551FF", width: 480 },
+  { key: "funded", label: "Funded activity", icon: StackedBarChartIcon, accent: "#34d399", width: 540 },
+  { key: "geography", label: "Geography", icon: PublicIcon, accent: "#60A5FA", width: 480 },
+  { key: "orgs", label: "Organisations", icon: GroupsIcon, accent: "#F472B6", width: 460 },
+  { key: "fields", label: "Fields & topics", icon: AccountTreeIcon, accent: "#22C55E", width: 460 },
+  { key: "topics", label: "Topics", icon: BubbleChartIcon, accent: "#22D3EE", width: 460 },
+  { key: "saved", label: "Saved", icon: BookmarkIcon, accent: "#FBBF24", width: 440 },
+];
+
+const WIN_KEYS = THEMES.map((t) => t.key);
+const INITIAL_POS = {
+  funding: { x: 470, y: 150 },
+  funded: { x: 360, y: 120 },
+  geography: { x: 380, y: 160 },
+  orgs: { x: 430, y: 175 },
+  fields: { x: 360, y: 150 },
+  topics: { x: 300, y: 140 },
+  saved: { x: 520, y: 190 },
+};
+
+/**
+ * Gate for a CORDIS window body, honouring the hide-when-empty guardrail in every state:
+ *  - no CORDIS ingested at all → the honest "what's been funded" teaser,
+ *  - fetch failed → an honest "couldn't load" empty-state (not a perpetual skeleton),
+ *  - fetch in flight → skeleton,
+ *  - ingested but this view has no rows yet (e.g. projects present but not yet EuroSciVoc
+ *    classified) → an honest empty-state, NEVER a window with blank chrome,
+ *  - otherwise the real widget.
+ * `hasRows` is the per-window non-empty predicate (a truthy-but-empty payload must not slip
+ * through as renderable, since the reused widgets self-return null on empty data).
+ */
+function CordisGate({ active, loading, error, data, hasRows, children }) {
+  if (!active) {
+    return (
+      <CordisEmptyState>
+        Real awarded projects, organisations and countries appear here once EU funded-project
+        data (CORDIS) is ingested. We only ever show real funded-project figures — never
+        estimates.{" "}
+        <Link to="/about" className="dash-cordis-teaser__help">
+          Learn how this works
+        </Link>
+      </CordisEmptyState>
+    );
+  }
+  if (error) {
+    return (
+      <CordisEmptyState compact>
+        We couldn't load this CORDIS data right now. Try reopening the window.
+      </CordisEmptyState>
+    );
+  }
+  if (loading || !data) return <DashCardSkeleton />;
+  if (hasRows === false) {
+    return (
+      <CordisEmptyState compact>
+        No funded-project rows for this view yet.
+      </CordisEmptyState>
+    );
+  }
+  return children;
+}
 
 export default function PortfolioDashboard({
   loadFromStore,
@@ -43,12 +131,16 @@ export default function PortfolioDashboard({
 }) {
   const data = useDashboardData(loadFromStore);
   const cordis = useCordisPortfolio();
-  // Gate the whole CORDIS section on real data: an empty graph yields an all-zero summary, so we hide
-  // the section entirely rather than showing a row of zeros (hide-when-empty, like the CORDIS drawers).
+  // Gate the whole CORDIS layer on real data: an empty graph yields an all-zero summary, so we
+  // fall back to planned-only KPIs and show the honest empty-state in windows rather than zeros.
   const cordisActive = !!cordis.data && (cordis.data.projectCount || 0) > 0;
 
-  // 2.3: the calls table doubles as a filter target for the "Quick filters" card. `callFilter` is null
-  // (default upcoming slice), "open" (all open calls), or "closing30" (calls closing in 30 days).
+  // Floating-window manager — drives which theme windows are open (and therefore which CORDIS
+  // fetches fire, see below).
+  const { open, toggle, mkWin } = useDraggableWindows(WIN_KEYS, INITIAL_POS);
+
+  // The calls list doubles as a filter target. `callFilter` is null (default upcoming slice),
+  // "open" (all open calls) or "closing30" (calls closing within 30 days).
   const [callFilter, setCallFilter] = useState(null);
   const tableRows = useMemo(() => {
     const byDeadline = (a, b) => (a.closeDate || Infinity) - (b.closeDate || Infinity);
@@ -57,160 +149,284 @@ export default function PortfolioDashboard({
     return data.upcomingCalls;
   }, [callFilter, data.openCallsList, data.closingIn30dList, data.upcomingCalls]);
 
-  // 2.3: a country-leaderboard row composes the overlay selection with a jump to the country tool.
-  const handleSelectCountry = useCallback((code) => {
-    setCountryOverlayCode(code);
-    setDashboardPanel("country");
-  }, [setCountryOverlayCode, setDashboardPanel]);
+  // A country-leaderboard row composes the overlay selection with a jump to the country tool.
+  const handleSelectCountry = useCallback(
+    (code) => {
+      setCountryOverlayCode(code);
+      setDashboardPanel("country");
+    },
+    [setCountryOverlayCode, setDashboardPanel]
+  );
 
-  // Part C (plan 12): lazy-load the below-the-fold CORDIS widgets. Each card gets its own in-view sentinel,
-  // and its data hook only fires when the card scrolls near the viewport (AND the F1 summary confirms CORDIS
-  // data), instead of all of them firing at once when `cordisActive` flips true. A skeleton reserves each
-  // card's space until it's in view and loaded, so the cards below stay off-screen and the layout is stable.
-  const [trendRef, trendInView] = useInView();
-  const [fieldRef, fieldInView] = useInView();
-  const [countryRef, countryInView] = useInView();
-  const [orgsRef, orgsInView] = useInView();
-
-  // F2: per-programme awarded totals. Mapped from raw Call.source codes to the dashboard's programme keys so
-  // FundingByProgramme can merge them with planned. Kept EAGER (gated only on cordisActive, NOT on in-view):
-  // FundingByProgramme always paints its planned bars immediately and derives its Awarded/Both tab state from
-  // whether awarded data is present, so deferring this fetch would leave those tabs showing a misleading "no
-  // CORDIS data ingested" tooltip until the charts row scrolled into view. The endpoint is server-cached
-  // (plan A2), so eager-fetching it is cheap.
+  // F2: per-programme awarded totals. Kept EAGER (gated only on cordisActive, not on a window
+  // being open): FundingByProgramme paints planned bars immediately and derives its Awarded/Both
+  // tab state from whether awarded data exists, so deferring it would mislead. Endpoint is
+  // server-cached, so eager-fetching is cheap.
   const funding = useFundingByProgramme(cordisActive);
   const awardedByProgrammeKey = useMemo(
     () => mapAwardedToProgrammeKeys(funding.data),
     [funding.data]
   );
 
-  // F3: whole-portfolio funded-activity trend.
-  const trend = useCordisPortfolioTrend(cordisActive && trendInView);
-
-  // F4: funded-field portfolio mix — reuses the B5 /field-tree endpoint (shares its module cache with the
-  // field-explorer drawer).
-  const fieldTree = useCordisFieldTree("default", cordisActive && fieldInView);
-
-  // F5: top-countries leaderboard — reuses the B4 /country-activity facets (country="" returns the facet
-  // list; shares its module cache with the country-activity drawer).
-  const countryActivity = useCountryActivity("", cordisActive && countryInView);
-
-  // F6: top funded organisations leaderboard — one new read endpoint.
-  const topOrgs = useTopOrganisations(cordisActive && orgsInView);
+  // Open-gated CORDIS fetches: each window's data loads when it is first opened (and only if
+  // CORDIS is active), replacing the old in-view sentinels.
+  const trend = useCordisPortfolioTrend(cordisActive && open.funded);
+  const fieldTree = useCordisFieldTree("default", cordisActive && open.fields);
+  const countryActivity = useCountryActivity("", cordisActive && open.geography);
+  const topOrgs = useTopOrganisations(cordisActive && open.orgs);
 
   return (
     <div className="dash-shell">
-      <div className="dash-grid">
-        {/* Research tools – a distinct panel hosting the field explorer, country activity and hop-on
-            finder. Hidden until a sidebar button activates it; rendered at the top so it's visible on
-            arrival. */}
-        <div className="dash-grid__tool-panel">
-          <DashboardToolPanel
-            panel={dashboardPanel}
-            setPanel={setDashboardPanel}
-            country={countryOverlayCode}
-            setCountry={setCountryOverlayCode}
-          />
-        </div>
-
-        {/* Hero – full width */}
-        <div className="dash-grid__hero">
-          <DashboardHero
-            totalCalls={data.totalCalls}
-            programmeCount={data.programmeCount}
-            openCalls={data.openCalls}
-            topicsTracked={data.topicsTracked}
-          />
-        </div>
-
-        {/* Funding frame legend - clarifies planned (work programme) vs funded (CORDIS) */}
-        <div className="dash-grid__funding-frame">
-          <FundingFrameLegend />
-        </div>
-
-        {/* KPI cards – full width */}
-        <div className="dash-grid__kpis">
-          <KpiCardsRow
-            totalCommitted={data.totalCommitted}
-            openCalls={data.openCalls}
-            closingIn30d={data.closingIn30d}
-            topicsTracked={data.topicsTracked}
-          />
-        </div>
-
-        {/* Funded reality (CORDIS) – portfolio-wide awarded counterpart to the planned KPIs.
-            Hidden entirely when no CORDIS data is ingested. */}
-        {cordisActive ? (
-          <div className="dash-grid__cordis">
-            <div className="dash-cordis-section__header">
-              <h2 className="dash-cordis-section__title">What's actually been funded (CORDIS)</h2>
-              <p className="dash-cordis-section__caption">{cordis.data.provenance}</p>
+      <div className="dash-canvas">
+        {/* ── Title block ── (the search field / notifications / avatar in the mockup are
+            demonstrative chrome — the real view toggle, Save view and Copy link live in the
+            GraphTopBar mounted above this dashboard, so we don't duplicate them.) */}
+        <header className="dash-topbar">
+          <div className="dash-topbar__logo">
+            <HubIcon fontSize="inherit" />
+          </div>
+          <div className="dash-topbar__head">
+            <div className="dash-topbar__eyebrow">
+              EU Knowledge Graph&nbsp;&nbsp;/&nbsp;&nbsp;Dashboard
             </div>
-            <CordisKpiRow data={cordis.data} />
-            <p className="dash-cordis-section__note">
-              Across {cordis.data.callCount.toLocaleString()} tracked calls with CORDIS evidence.
-              Counts and euros are separate measures; "most funded" is not "best".
+            <div className="dash-topbar__title">Portfolio Dashboard</div>
+          </div>
+          <div className="dash-topbar__spacer" />
+          <p className="dash-topbar__caption">
+            A live view of the funding landscape you saved — numbers update from the graph data.
+          </p>
+        </header>
+
+        {/* ── KPI tiles ── */}
+        <KpiTileRow
+          totalCommitted={data.totalCommitted}
+          openCalls={data.openCalls}
+          closingIn30d={data.closingIn30d}
+          topicsTracked={data.topicsTracked}
+          programmeCount={data.programmeCount}
+          cordis={cordis.data}
+          cordisActive={cordisActive}
+        />
+
+        {/* ── Planned-vs-funded framing (always visible) + CORDIS provenance note ── */}
+        <div className="dash-frame">
+          <FundingFrameLegend className="dash-frame__legend" />
+          {cordisActive && (
+            <p className="dash-kpinote">
+              {cordis.data.provenance} · Across{" "}
+              {cordis.data.callCount.toLocaleString()} tracked calls with CORDIS evidence.
+              Counts and euros are separate measures; “most funded” is not “best”.
             </p>
-            {/* Each below-the-fold card is wrapped in an in-view sentinel: a skeleton holds its space until
-                the card scrolls near the viewport and its (lazily-fetched) data lands, then the real widget
-                swaps in. */}
-            <div ref={trendRef}>
-              {!trendInView || trend.loading
-                ? <DashCardSkeleton />
-                : <CordisActivityTrend data={trend.data} loading={false} />}
-            </div>
-            <div ref={fieldRef}>
-              {!fieldInView || fieldTree.loading
-                ? <DashCardSkeleton />
-                : <CordisFieldMix data={fieldTree.data} loading={false} onShowFields={() => setDashboardPanel("fields")} />}
-            </div>
-            <div ref={countryRef}>
-              {!countryInView || countryActivity.loading
-                ? <DashCardSkeleton />
-                : <CordisCountryLeaderboard data={countryActivity.data} loading={false} onSelectCountry={handleSelectCountry} />}
-            </div>
-            <div ref={orgsRef}>
-              {!orgsInView || topOrgs.loading
-                ? <DashCardSkeleton />
-                : <CordisTopOrgs data={topOrgs.data} loading={false} />}
-            </div>
-          </div>
-        ) : (
-          <div className="dash-grid__cordis dash-grid__cordis--teaser">
-            <div className="dash-cordis-section__header">
-              <h2 className="dash-cordis-section__title">What's actually been funded (CORDIS)</h2>
-            </div>
-            <CordisEmptyState className="dash-cordis-teaser">
-              Real awarded projects, organisations and countries appear here once EU funded-project data (CORDIS) is ingested. We only ever show real funded-project figures — never estimates.{" "}
-              <Link to="/about" className="dash-cordis-teaser__help">Learn how this works</Link>
-            </CordisEmptyState>
-          </div>
-        )}
-
-        {/* Charts row: Funding (left) + Calls over time (right) */}
-        <div className="dash-grid__charts">
-          <FundingByProgramme
-            callsByProgramme={data.callsByProgramme}
-            plannedByProgrammeKey={data.plannedByProgrammeKey}
-            awardedByProgrammeKey={awardedByProgrammeKey}
-          />
-          <CallsOverTime monthlyBuckets={data.monthlyBuckets} />
+          )}
         </div>
 
-        {/* Bottom row: Table + Topics (left) + Activity + Searches (right) */}
-        <div className="dash-grid__bottom">
-          <div className="dash-grid__bottom-left">
-            <TopicDistribution topicDistribution={data.topicDistribution} />
+        {/* ── Explore by theme ── */}
+        <div className="dash-themebar">
+          <div className="dash-themebar__label">
+            <DashboardCustomizeIcon fontSize="inherit" />
+            <span>Explore by theme</span>
+          </div>
+          <div className="dash-themebar__pills">
+            {THEMES.map((t) => {
+              const on = !!open[t.key];
+              const Icon = t.icon;
+              return (
+                <button
+                  key={t.key}
+                  type="button"
+                  className={`dash-pill${on ? " is-active" : ""}`}
+                  style={
+                    on
+                      ? {
+                          background: `linear-gradient(135deg, ${t.accent}, #4318FF)`,
+                          borderColor: tint(t.accent, 0.5),
+                          boxShadow: `0 8px 20px ${tint(t.accent, 0.35)}`,
+                        }
+                      : undefined
+                  }
+                  aria-pressed={on}
+                  onClick={() => toggle(t.key)}
+                >
+                  <Icon className="dash-pill__icon" fontSize="inherit" />
+                  <span>{t.label}</span>
+                  {on ? (
+                    <CheckCircleIcon className="dash-pill__state" fontSize="inherit" />
+                  ) : (
+                    <AddIcon className="dash-pill__state" fontSize="inherit" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Main area: calls list (left) + research tools & calls-over-time (right) ── */}
+        <div className="dash-main">
+          <div className="dash-main__left">
             <OpenCallsTable
               rows={tableRows}
               setViewMode={setViewMode}
               onLocateCall={onLocateCall}
               locateCall={locateCall}
-              filterLabel={callFilter === "open" ? "All open calls" : callFilter === "closing30" ? "Calls closing in 30 days" : null}
+              filterLabel={
+                callFilter === "open"
+                  ? "All open calls"
+                  : callFilter === "closing30"
+                  ? "Calls closing in 30 days"
+                  : null
+              }
+              callFilter={callFilter}
+              onSetFilter={setCallFilter}
             />
           </div>
-          <div className="dash-grid__bottom-right">
-            <RecentActivity />
+          <div className="dash-main__right">
+            {/* Research tools — the real panel (field explorer / country activity / hop-on),
+                still driven by the sidebar via dashboardPanel + the lifted country overlay. */}
+            <DashboardToolPanel
+              panel={dashboardPanel}
+              setPanel={setDashboardPanel}
+              country={countryOverlayCode}
+              setCountry={setCountryOverlayCode}
+            />
+            <CallsOverTime monthlyBuckets={data.monthlyBuckets} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Floating window layer ──
+          Portaled to <body> for z-index safety. It carries the navy dashboard token block so
+          the reused components inside still read the Vision-UI palette; light-mode degradation
+          keys off the `light-theme` class App.js sets on <body> (an ancestor of this portal),
+          so we don't reuse the theme-wrapper class names here (those paint an opaque fill). The
+          layer is transparent + click-through; only the windows capture pointer events. */}
+      {createPortal(
+        <div className="dash-windows-layer">
+          <DashWindow
+            win={mkWin("funding")}
+            title="Funding"
+            icon={BarChartIcon}
+            accent="#7551FF"
+            width={480}
+          >
+            <FundingByProgramme
+              callsByProgramme={data.callsByProgramme}
+              plannedByProgrammeKey={data.plannedByProgrammeKey}
+              awardedByProgrammeKey={awardedByProgrammeKey}
+            />
+          </DashWindow>
+
+          <DashWindow
+            win={mkWin("funded")}
+            title="Funded activity"
+            icon={StackedBarChartIcon}
+            accent="#34d399"
+            width={540}
+          >
+            <CordisGate
+              active={cordisActive}
+              loading={trend.loading}
+              error={trend.error}
+              data={trend.data}
+              hasRows={
+                !!trend.data &&
+                (trend.data.projectCount || 0) > 0 &&
+                (trend.data.yearBuckets || []).length > 0
+              }
+            >
+              <CordisActivityTrend data={trend.data} loading={false} />
+            </CordisGate>
+          </DashWindow>
+
+          <DashWindow
+            win={mkWin("geography")}
+            title="Geography"
+            icon={PublicIcon}
+            accent="#60A5FA"
+            width={480}
+          >
+            <CordisGate
+              active={cordisActive}
+              loading={countryActivity.loading}
+              error={countryActivity.error}
+              data={countryActivity.data}
+              hasRows={
+                !!countryActivity.data &&
+                (countryActivity.data.facets?.countries || []).length > 0
+              }
+            >
+              <CordisCountryLeaderboard
+                data={countryActivity.data}
+                loading={false}
+                onSelectCountry={handleSelectCountry}
+              />
+            </CordisGate>
+          </DashWindow>
+
+          <DashWindow
+            win={mkWin("orgs")}
+            title="Organisations"
+            icon={GroupsIcon}
+            accent="#F472B6"
+            width={460}
+          >
+            <CordisGate
+              active={cordisActive}
+              loading={topOrgs.loading}
+              error={topOrgs.error}
+              data={topOrgs.data}
+              hasRows={!!topOrgs.data && (topOrgs.data.organisations || []).length > 0}
+            >
+              <CordisTopOrgs data={topOrgs.data} loading={false} />
+            </CordisGate>
+          </DashWindow>
+
+          <DashWindow
+            win={mkWin("fields")}
+            title="Fields & topics"
+            icon={AccountTreeIcon}
+            accent="#22C55E"
+            width={460}
+          >
+            <CordisGate
+              active={cordisActive}
+              loading={fieldTree.loading}
+              error={fieldTree.error}
+              data={fieldTree.data}
+              hasRows={
+                !!fieldTree.data &&
+                (fieldTree.data.tree || []).some((n) => n.depth === 1) &&
+                (fieldTree.data.totalProjects || 0) > 0
+              }
+            >
+              <CordisFieldMix
+                data={fieldTree.data}
+                loading={false}
+                onShowFields={() => setDashboardPanel("fields")}
+              />
+            </CordisGate>
+          </DashWindow>
+
+          {/* Topics: planned/estimated topic distribution — distinct from the CORDIS
+              "Fields & topics" window; keeps its "estimated from call IDs" disclaimer. */}
+          <DashWindow
+            win={mkWin("topics")}
+            title="Topics"
+            icon={BubbleChartIcon}
+            accent="#22D3EE"
+            width={460}
+          >
+            <TopicDistribution topicDistribution={data.topicDistribution} />
+          </DashWindow>
+
+          {/* Saved: quick filters (the real callFilter mechanism), saved views and recent
+              activity folded into one window. */}
+          <DashWindow
+            win={mkWin("saved")}
+            title="Saved"
+            icon={BookmarkIcon}
+            accent="#FBBF24"
+            width={440}
+          >
             <SavedSearches
               openCalls={data.openCalls}
               closingIn30d={data.closingIn30d}
@@ -222,9 +438,11 @@ export default function PortfolioDashboard({
               onApply={onApplySavedView}
               onDelete={onDeleteSavedView}
             />
-          </div>
-        </div>
-      </div>
+            <RecentActivity />
+          </DashWindow>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

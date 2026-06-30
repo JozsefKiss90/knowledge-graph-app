@@ -20,83 +20,168 @@ function formatBudget(val) {
   return `€${val.toLocaleString()}`;
 }
 
-export default function OpenCallsTable({ rows, setViewMode, onLocateCall, locateCall, filterLabel }) {
+// Days from now until the deadline (rounded). null when there's no parseable date.
+function daysUntil(d) {
+  if (!d) return null;
+  const date = d instanceof Date ? d : new Date(d);
+  if (Number.isNaN(date.getTime())) return null;
+  return Math.round((date.getTime() - Date.now()) / 86400000);
+}
+
+// Human-friendly relative deadline ("in 6 days"); falls back to the absolute date when far out.
+function relDeadline(days, d) {
+  if (days == null) return "—";
+  if (days < 0) return "closed";
+  if (days === 0) return "today";
+  if (days === 1) return "tomorrow";
+  if (days <= 60) return `in ${days} days`;
+  return formatDate(d);
+}
+
+// rgba glow tint for the programme dot (skips non-hex colours gracefully).
+function glow(hex) {
+  if (typeof hex !== "string" || hex[0] !== "#" || hex.length < 7) {
+    return "rgba(117,81,255,0.18)";
+  }
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},0.18)`;
+}
+
+/**
+ * Open / upcoming calls list — restyled to the redesign mockup's row layout
+ * (status dot · title+id · budget · deadline+programme · status pill) while preserving all
+ * original behaviour: node-detail Link (with router state + localStorage graphName write +
+ * encodeURIComponent), the "show in graph" locate action, and the empty state.
+ *
+ * The "All / Closing 30d" filter chips drive `callFilter` via `onSetFilter`
+ * (null → default upcoming slice, "closing30" → calls closing within 30 days). The wider
+ * "all open calls" filter ("open") stays reachable from the Saved window's quick filters.
+ */
+export default function OpenCallsTable({
+  rows,
+  setViewMode,
+  onLocateCall,
+  locateCall,
+  filterLabel,
+  callFilter,
+  onSetFilter,
+}) {
+  const list = rows || [];
+  const hasFilterChips = typeof onSetFilter === "function";
+
   return (
-    <div className="dash-card dash-table-card">
-      <div className="dash-card__header">
-        <div>
-          <h3 className="dash-card__title">Open calls closing soon</h3>
-          <span className="dash-card__subtitle">
-            {filterLabel || "Sorted by deadline"}
+    <div className="dash-card dash-calls">
+      <div className="dash-calls__head">
+        <div className="dash-calls__headings">
+          <h3 className="dash-calls__title">Open &amp; upcoming calls</h3>
+          <span className="dash-calls__sub">
+            {filterLabel || `Sorted by deadline · ${list.length} shown`}
           </span>
         </div>
-        {setViewMode && (
-          <button
-            type="button"
-            className="dash-table__graph-link"
-            onClick={() => setViewMode("graph")}
-          >
-            View on graph
-          </button>
-        )}
+        <div className="dash-calls__filters">
+          {hasFilterChips && (
+            <>
+              <button
+                type="button"
+                className={`dash-calls__chip${!callFilter ? " is-active" : ""}`}
+                onClick={() => onSetFilter(null)}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                className={`dash-calls__chip${callFilter === "closing30" ? " is-active" : ""}`}
+                onClick={() => onSetFilter("closing30")}
+              >
+                Closing 30d
+              </button>
+            </>
+          )}
+          {setViewMode && (
+            <button
+              type="button"
+              className="dash-calls__chip dash-calls__chip--ghost"
+              onClick={() => setViewMode("graph")}
+            >
+              View on graph
+            </button>
+          )}
+        </div>
       </div>
-      <div className="dash-table__wrap">
-        <table className="dash-table">
-          <thead>
-            <tr>
-              <th>Call ID</th>
-              <th>Programme</th>
-              <th>Stage</th>
-              <th>Budget</th>
-              <th>Deadline</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.length === 0 && (
-              <tr>
-                <td colSpan={6} className="dash-table__empty">
-                  No upcoming calls
-                </td>
-              </tr>
-            )}
-            {rows.map((c) => {
-              const graphName = getDatasetConfigForId(c.id).graphName;
-              const onGraph = !!(locateCall && locateCall(c.id));
-              return (
-                <tr key={c.id}>
-                  <td>
-                    <span className="dash-table__dot" style={{ backgroundColor: c.programmeColor }} />
-                    <Link
-                      to={`/node/${encodeURIComponent(c.id)}`}
-                      state={{ graphName, returnGraphName: graphName }}
-                      onClick={() => localStorage.setItem("graphName", graphName)}
-                      className="dash-table__call-id dash-table__call-id-link"
-                      title={c.label}
-                    >
-                      {c.id}
-                    </Link>
-                  </td>
-                  <td>{c.programmeLabel}</td>
-                  <td>{c.stage || "—"}</td>
-                  <td>{formatBudget(c.budget)}</td>
-                  <td>{formatDate(c.closeDate)}</td>
-                  <td className="dash-table__action">
-                    {onGraph && (
-                      <button
-                        type="button"
-                        className="dash-table__row-link"
-                        onClick={() => { if (onLocateCall && onLocateCall(c.id)) setViewMode("graph"); }}
-                      >
-                        Show in graph
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+
+      <div className="dash-calls__colhead">
+        <span>Call</span>
+        <span className="dash-calls__colhead--budget">Budget</span>
+        <span className="dash-calls__colhead--deadline">Deadline</span>
+        <span className="dash-calls__colhead--status">Status</span>
+      </div>
+
+      <div className="dash-calls__rows">
+        {list.length === 0 && (
+          <div className="dash-calls__empty">No upcoming calls</div>
+        )}
+        {list.map((c) => {
+          const graphName = getDatasetConfigForId(c.id).graphName;
+          const onGraph = !!(locateCall && locateCall(c.id));
+          const days = daysUntil(c.closeDate);
+          const closing = days != null && days >= 0 && days <= 10;
+          return (
+            <div className="dash-calls__row" key={c.id}>
+              <div className="dash-calls__call">
+                <span
+                  className="dash-calls__dot"
+                  style={{
+                    backgroundColor: c.programmeColor,
+                    boxShadow: `0 0 0 3px ${glow(c.programmeColor)}`,
+                  }}
+                />
+                <div className="dash-calls__call-text">
+                  <Link
+                    to={`/node/${encodeURIComponent(c.id)}`}
+                    state={{ graphName, returnGraphName: graphName }}
+                    onClick={() => localStorage.setItem("graphName", graphName)}
+                    className="dash-calls__name"
+                    title={c.label}
+                  >
+                    {c.label || c.id}
+                  </Link>
+                  <div className="dash-calls__id">{c.id}</div>
+                </div>
+              </div>
+
+              <div className="dash-calls__budget">{formatBudget(c.budget)}</div>
+
+              <div className="dash-calls__deadline">
+                <div className="dash-calls__deadline-rel">
+                  {relDeadline(days, c.closeDate)}
+                </div>
+                <div className="dash-calls__prog">{c.programmeLabel}</div>
+              </div>
+
+              <div className="dash-calls__status">
+                <span
+                  className={`dash-calls__pill ${closing ? "is-closing" : "is-open"}`}
+                >
+                  <span className="dash-calls__pill-dot" />
+                  {closing ? "Closing" : "Open"}
+                </span>
+                {onGraph && (
+                  <button
+                    type="button"
+                    className="dash-calls__action"
+                    onClick={() => {
+                      if (onLocateCall && onLocateCall(c.id)) setViewMode("graph");
+                    }}
+                  >
+                    Show in graph
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

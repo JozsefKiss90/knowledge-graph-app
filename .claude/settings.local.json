@@ -111,7 +111,12 @@
       "PowerShell($lines = Get-Content 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\NodeDetail.js'; 1158..1171 | ForEach-Object { '{0}|{1}|' -f \\($_+1\\), $lines[$_] })",
       "PowerShell($lines = Get-Content 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\NodeDetail.js'; $l = $lines[1167]; \"len=$\\($l.Length\\)\"; \"trailingSpaces=$\\($l.Length - $l.TrimEnd\\(\\).Length\\)\"; \"trimmed='$\\($l.TrimEnd\\(\\)\\)'\")",
       "PowerShell(try { Invoke-RestMethod -Uri \"http://localhost:8000/cordis/call-evidence?call_id=HORIZON-CL2-2026-01-DEMOCRACY-01&top_n=5\" -TimeoutSec 30 | ConvertTo-Json -Depth 5 } catch { \"ERR: $\\($_.Exception.Message\\)\"; $_.ErrorDetails.Message })",
-      "Bash(echo \"RC=$?\")"
+      "Bash(echo \"RC=$?\")",
+      "Bash(mkdir -p /tmp/dchandoff)",
+      "Bash(unzip -o \"Dashboard UI and UX upgrade-handoff.zip\" -d /tmp/dchandoff)",
+      "Bash(echo \"unzip exit: $?\")",
+      "Bash(cp \"/tmp/dchandoff/dashboard-ui-and-ux-upgrade/project/Portfolio Dashboard.dc.html\" \"C:/Code/knowledge-graph-app/_mockup_dc.html\")",
+      "Bash(cp \"/tmp/dchandoff/dashboard-ui-and-ux-upgrade/project/Portfolio Dashboard.source.html\" \"C:/Code/knowledge-graph-app/_mockup_source.html\")"
     ]
   }
 }
