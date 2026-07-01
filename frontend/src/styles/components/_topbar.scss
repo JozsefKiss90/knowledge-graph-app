@@ -91,7 +91,7 @@
 
 /* Hover */
 .graph-topbar-breadcrumb:hover {
-  background: rgba(61, 143, 255, 0.08);
+  background: rgba(var(--primary-rgb), 0.08);
 }
 
 .graph-topbar-breadcrumb:hover .graph-topbar-breadcrumb-label {
@@ -653,16 +653,16 @@ body.light-theme {
 body.light-theme .graph-topbar-dash-btn {
   color: var(--primary);
   border-color: var(--primary);
-  background: rgba(61, 143, 255, 0.08);
+  background: rgba(var(--primary-rgb), 0.08);
   box-shadow: none;
 }
 
 body.light-theme .graph-topbar-dash-btn:hover {
-  background: rgba(61, 143, 255, 0.14);
+  background: rgba(var(--primary-rgb), 0.14);
 }
 
 body.light-theme .graph-topbar-dash-btn--active {
-  background: rgba(61, 143, 255, 0.18);
+  background: rgba(var(--primary-rgb), 0.18);
   color: var(--primary);
 }
 

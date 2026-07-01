@@ -19,7 +19,7 @@
 .dash-tool-panel {
   /* A subtle accent so the activated tool reads as a distinct panel, not just another card. */
   border-color: var(--primary, #3d8fff);
-  box-shadow: 0 0 0 1px rgba(61, 143, 255, 0.18),
+  box-shadow: 0 0 0 1px rgba(var(--primary-rgb), 0.18),
               0 10px 30px rgba(2, 6, 23, 0.18);
   scroll-margin-top: 12px;
 }

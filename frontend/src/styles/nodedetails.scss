@@ -10,11 +10,11 @@
   --nd-text-soft: #dbe6f6;
   --nd-text-muted: #9aacc9;
   --nd-text-dim: #7f95b8;
-  --nd-accent: #25cfff;
-  --nd-accent-2: #3d8fff;
-  --nd-accent-3: #43a8ff;
-  --nd-chip-blue-1: #3ea1ff;
-  --nd-chip-blue-2: #2b87eb;
+  --nd-accent: #9c83ff;
+  --nd-accent-2: #7551ff;
+  --nd-accent-3: #8b6cff;
+  --nd-chip-blue-1: #8b6cff;
+  --nd-chip-blue-2: #6a3df0;
   --nd-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
   --nd-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
@@ -125,7 +125,7 @@
   margin-top: 14px;
   flex: 0 0 auto;
   border-radius: 999px;
-  background: linear-gradient(180deg, #19d4ff 0%, #1695ff 100%);
+  background: linear-gradient(180deg, var(--nd-accent) 0%, var(--nd-accent-2) 100%);
   box-shadow: 0 0 0 4px rgba(22, 168, 255, 0.08);
 }
 
@@ -529,7 +529,7 @@ h5.nd-md-heading { font-size: 14px; }
 
 .nd-primary-button--official {
   justify-content: center !important;
-  background: linear-gradient(180deg, #47a9ff 0%, #398df0 100%) !important;
+  background: linear-gradient(180deg, var(--nd-accent-3) 0%, var(--nd-accent-2) 100%) !important;
   color: #ffffff !important;
 }
 
@@ -671,7 +671,7 @@ h5.nd-md-heading { font-size: 14px; }
 
 .nd-shell .MuiButton-outlined:hover {
   border-color: rgba(95, 140, 220, 0.52);
-  background: rgba(61, 143, 255, 0.08);
+  background: rgba(var(--primary-rgb), 0.08);
 }
 
 .nd-shell--light .MuiButton-outlined {
@@ -904,7 +904,7 @@ h5.nd-md-heading { font-size: 14px; }
 
 .bm-card__action-btn:hover {
   color: var(--nd-accent-2) !important;
-  background: rgba(61, 143, 255, 0.08) !important;
+  background: rgba(var(--primary-rgb), 0.08) !important;
 }
 
 .bm-card__action-btn--remove:hover {

@@ -25,6 +25,9 @@
   --primary-foreground: #FFFFFF;
   --primary-light: #E6F0F9;
   --primary-dark: #003D7A;
+  /* Accent base as RGB triplet so component tints (rgba(var(--primary-rgb), a))
+     follow the theme per-mode. Light keeps the existing EU-blue tint. */
+  --primary-rgb: 61, 143, 255;
   
   /* Secondary: Professional Slate */
   --secondary: #F1F3F6;
@@ -115,56 +118,57 @@
 
 .dark,
 body.dark-theme {
-  /* Graph surface */
-  --graph-surface: #07111f;
-  --graph-grid-line: rgba(120, 156, 214, 0.045);
-  --graph-grid-line-strong: rgba(120, 156, 214, 0.07);
+  /* Graph surface — navy "Vision UI" canvas (dashboard vibe, dark mode only) */
+  --graph-surface: #0a1336;
+  --graph-grid-line: rgba(163, 174, 208, 0.045);
+  --graph-grid-line-strong: rgba(163, 174, 208, 0.07);
   --graph-vignette:
     radial-gradient(
       ellipse at center,
-      rgba(18, 46, 88, 0.04) 0%,
-      rgba(8, 18, 34, 0.18) 58%,
-      rgba(2, 7, 15, 0.34) 100%
+      rgba(67, 24, 255, 0.05) 0%,
+      rgba(11, 20, 55, 0.16) 58%,
+      rgba(6, 10, 28, 0.32) 100%
     );
 
-  /* Core surfaces */
-  --background: #040b16;
-  --foreground: #f5f9ff;
-  --card: #0d1930;
-  --card-foreground: #f5f9ff;
-  --popover: #0f1d36;
-  --popover-foreground: #f5f9ff;
+  /* Core surfaces — deep navy panels */
+  --background: #0b1437;
+  --foreground: #ffffff;
+  --card: #111c44;
+  --card-foreground: #e6e9f5;
+  --popover: #0f1c47;
+  --popover-foreground: #e6e9f5;
 
-  /* Brand / accent */
-  --primary: #3d8fff;
+  /* Brand / accent — purple (#7551FF -> #4318FF) */
+  --primary: #7551ff;
   --primary-foreground: #ffffff;
-  --primary-light: #12284a;
-  --primary-dark: #25cfff;
+  --primary-light: #1d1f52;
+  --primary-dark: #8b6cff;
+  --primary-rgb: 117, 81, 255; /* purple tint base for dark-mode component tints */
 
   /* Secondary surfaces */
-  --secondary: #10203b;
+  --secondary: #131f49;
   --secondary-foreground: #e7f0fb;
 
   /* Muted / accent */
-  --muted: #12213b;
-  --muted-foreground: #9aacc9;
-  --accent: #163055;
+  --muted: #0d1a40;
+  --muted-foreground: #a3aed0;
+  --accent: #1b2a5c;
   --accent-foreground: #eef6ff;
 
   /* Status */
   --destructive: #ff6b7a;
   --destructive-foreground: #ffffff;
-  --success: #35d07f;
+  --success: #22c55e;
   --success-foreground: #ffffff;
-  --warning: #f3b84b;
+  --warning: #fbbf24;
   --warning-foreground: #08111f;
 
-  /* Borders & inputs */
-  --border: rgba(82, 111, 160, 0.34);
+  /* Borders & inputs — soft lavender lines */
+  --border: rgba(163, 174, 208, 0.16);
   --input: transparent;
-  --input-background: #0c172c;
-  --switch-background: #31486c;
-  --ring: #47a9ff;
+  --input-background: #0c1740;
+  --switch-background: #2b3a72;
+  --ring: #8b6cff;
 
   /* Node type colors */
   --node-policy: #43a8ff;
@@ -187,20 +191,20 @@ body.dark-theme {
   --chart-5: #9c8cff;
 
   /* Sidebar */
-  --sidebar: #0b1628;
+  --sidebar: #0d1840;
   --sidebar-foreground: #f5f9ff;
-  --sidebar-primary: #47a9ff;
+  --sidebar-primary: #7551ff;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #12213b;
+  --sidebar-accent: #131f49;
   --sidebar-accent-foreground: #eef6ff;
-  --sidebar-border: rgba(82, 111, 160, 0.28);
-  --sidebar-ring: #47a9ff;
+  --sidebar-border: rgba(163, 174, 208, 0.14);
+  --sidebar-ring: #7551ff;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.28);
-  --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.26);
-  --shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 22px 46px rgba(0, 0, 0, 0.38);
+  /* Shadows — deep navy drop */
+  --shadow-sm: 0 1px 2px 0 rgba(3, 8, 28, 0.32);
+  --shadow-md: 0 8px 18px rgba(3, 8, 28, 0.3);
+  --shadow-lg: 0 14px 34px rgba(3, 8, 28, 0.34);
+  --shadow-xl: 0 22px 46px rgba(3, 8, 28, 0.42);
 
   --foreground-muted: var(--muted-foreground);
 }

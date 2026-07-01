@@ -532,7 +532,7 @@
 }
 
 .dash-searches__btn--active {
-  background: rgba(61,143,255,0.12);
+  background: rgba(var(--primary-rgb),0.12);
   box-shadow: inset 0 0 0 1px var(--primary, #3d8fff);
 }
 
@@ -545,7 +545,7 @@
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--primary, #3d8fff);
-  background: rgba(61,143,255,0.12);
+  background: rgba(var(--primary-rgb),0.12);
   padding: 2px 8px;
   border-radius: 999px;
 }
