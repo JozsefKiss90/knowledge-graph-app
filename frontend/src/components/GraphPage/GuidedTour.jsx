@@ -51,11 +51,11 @@ const STEPS = [
     view: { mode: "graph" },
   },
   {
-    target: ".graph-topbar",
+    target: ".kg-commandbar",
     placement: "bottom",
     title: "3 · Find your way around",
     content:
-      "Up here are your breadcrumbs and a Level indicator — click a breadcrumb or “Level up” to step back out. You can also switch between Force-Directed and Hierarchical layouts, and open the Portfolio Dashboard.",
+      "The command bar holds your breadcrumbs and a Level indicator — click a breadcrumb to step back out. From here you can also search (⌘K), switch between Force-Directed and Hierarchical layouts, and open the Portfolio Dashboard.",
     view: { mode: "graph" },
   },
   {

@@ -24,14 +24,13 @@ import { layoutConfig } from "../utils/layoutConfig";
 import { useBookmarksCount } from "./hooks/useBookmarksCount";
 import { usePendingNav } from "./hooks/usePendingNav";
 import { useHoverHydration } from "./hooks/useHoverHydration";
-import { useLegendFit } from "./hooks/useLegendFit";
 
 import { computeEffectiveLayout } from "./utils/computeEffectiveLayout";
 import { createViewControls } from "./utils/viewControls";
 import { buildCallLocator } from "./utils/buildCallLocator";
 
-import GraphAppHeader from "./ui/GraphAppHeader";
-import LeftLegendColumn from "./ui/LeftLegendColumn";
+import CommandBar from "./ui/CommandBar";
+import LeftRail from "./ui/LeftRail";
 import GraphMainColumn from "./ui/GraphMainColumn";
 import RightControlsColumn from "./ui/RightControlsColumn";
 import GuidedTour from "./GuidedTour";
@@ -64,6 +63,18 @@ function GraphPage() {
   // Lifted from NestedGraphController's renderLevelBar so the Backspace / ← shortcut
   // can drill out a layer even though `onBack` lives inside that render prop.
   const levelNavRef = useRef({ canGoBack: false, onBack: () => {} });
+
+  // Landing redesign: breadcrumb/level DATA lifted out of the nested controller
+  // (via GraphMainColumn's LevelBarSync) so the global CommandBar can render it.
+  // Click/back callbacks stay out of state (they change identity every controller
+  // render) and are read from levelNavRef instead. Survives the controller
+  // unmounting (dashboard / detail modes) as a last-known view.
+  const [levelBar, setLevelBar] = useState({
+    levels: [{ key: "ROOT", title: "EU Funding Programmes" }],
+    currentKey: "ROOT",
+    canGoBack: false,
+  });
+  const handleLevelBarChange = useCallback((next) => setLevelBar(next), []);
 
   // Deep-link hydration bookkeeping (see applyView + the two hydration effects).
   const hydratedRef = useRef(false);
@@ -117,6 +128,11 @@ function GraphPage() {
   const [timelineOpen, setTimelineOpen] = useState(true);
   const [timelineSelection, setTimelineSelection] = useState(null);
   // timelineSelection: { start: Date, end: Date } | null (null = show all)
+
+  // Landing redesign: bumping this token pops the AI assistant open (the left
+  // rail's sparkle button); the ChatBot otherwise keeps owning its open state.
+  const [assistantOpenSignal, setAssistantOpenSignal] = useState(0);
+  const handleOpenAssistant = useCallback(() => setAssistantOpenSignal((t) => t + 1), []);
 
   const { layoutOptions: userLayout, updateOption } = useLayoutOptions();
 
@@ -347,14 +363,59 @@ useEffect(() => {
     callDetailCacheRef,
   });
 
-  // Smooth fit when legend collapses/expands
-  useLegendFit({ cyInstance, isLegendCollapsed });
+  // (The legend is a floating popover now — toggling it no longer resizes the
+  // canvas, so the old collapse-refit pass is gone.)
 
   const { layoutLabel, handleResetView, handleFitView, handleApplyLayout } =
     createViewControls({
       cyInstance,
       effectiveLayout,
     });
+
+  // ── Landing chrome (command bar + left rail) wiring ──────────────────────────
+
+  const inGraphView = viewMode === "graph" && !detailNode;
+
+  // Breadcrumb clicks: in graph view, delegate to the controller's own
+  // level-stack slice. From the dashboard or an open node detail the controller
+  // is unmounted, so instead leave that mode and re-target the clicked layer —
+  // the controller rebuilds to it on remount (same jump the saved-view path uses).
+  const handleCrumbClick = useCallback(
+    (index) => {
+      const onLevelClick = levelNavRef.current?.onLevelClick;
+      if (inGraphView && typeof onLevelClick === "function") {
+        onLevelClick(index);
+        return;
+      }
+      setDetailNode(null);
+      setViewMode("graph");
+      const lvl = levelBar.levels?.[index];
+      if (!lvl) return;
+      const key = String(lvl.key || "");
+      const target = key.startsWith("DEST_") ? lvl.graphName : key;
+      if (target && target !== graphName) setGraphName(String(target).replace(/_cose$/i, ""));
+    },
+    [inGraphView, levelBar, graphName, setGraphName]
+  );
+
+  const commandBarLayoutMode =
+    userLayout?.name === "breadthfirst" ? "breadthfirst" : "cose-bilkent";
+
+  const handleCommandBarLayoutChange = useCallback(
+    (nextName) => {
+      if (graphName === "HE_2025") return;
+      updateOption("name", nextName);
+    },
+    [graphName, updateOption]
+  );
+
+  // Badge on the left rail's filter button = number of active filter layers
+  // (mirrors the constraint bar's chips).
+  const activeFilterCount =
+    (timelineSelection ? 1 : 0) +
+    (countryOverlayCode ? 1 : 0) +
+    (assistantMatchIds.size > 0 ? 1 : 0) +
+    (compareNodes.length > 0 ? 1 : 0);
 
   // ── Tier 3.1 — deep-link URL sync + named saved views ────────────────────────
 
@@ -634,7 +695,24 @@ useEffect(() => {
   return (
     <CyContext.Provider value={cyInstance}>
       <div className="graph-shell">
-        <GraphAppHeader />
+        <CommandBar
+          levels={levelBar.levels}
+          currentKey={levelBar.currentKey}
+          onLevelClick={handleCrumbClick}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          layoutMode={commandBarLayoutMode}
+          layoutSwitchVisible={graphName !== "HE_2025"}
+          onLayoutModeChange={handleCommandBarLayoutChange}
+          onResetView={handleResetView}
+          onFitView={handleFitView}
+          onCopyLink={handleCopyLink}
+          onSaveView={handleOpenSaveDialog}
+          onOpenPalette={openPalette}
+          compareOpen={compareOpen}
+          compareNodes={compareNodes}
+          graphActionsVisible={inGraphView}
+        />
 
         {/* IMPORTANT: keep Bootstrap Container/Row so Col sizing works correctly on mobile */}
         <Container
@@ -642,13 +720,18 @@ useEffect(() => {
           className="flex-grow-1 d-flex flex-column p-0 graph-container"
           style={{ flexWrap: "nowrap", minWidth: 0, minHeight: 0 }}
         >
-          <Row
-            className="flex-grow-1 w-100 g-0"
-            style={{ flexWrap: "nowrap", minWidth: 0, minHeight: 0 }}
-          >
-            <LeftLegendColumn
-              isLegendCollapsed={isLegendCollapsed}
-              setIsLegendCollapsed={setIsLegendCollapsed}
+          {inGraphView && (
+            <LeftRail
+              legendOpen={!isLegendCollapsed}
+              onToggleLegend={() => setIsLegendCollapsed((p) => !p)}
+              filterCount={activeFilterCount}
+              compareOpen={compareOpen}
+              onToggleCompare={toggleCompare}
+              compareDisabled={graphName === "HE_2025"}
+              findOpen={findOpen}
+              onToggleFind={toggleFind}
+              findDisabled={graphName === "HE_2025"}
+              onOpenAssistant={handleOpenAssistant}
               hoveredNodeRef={hoveredNodeRef}
               graphName={graphName}
               loadFromStore={loadFromStore}
@@ -658,7 +741,12 @@ useEffect(() => {
               setSelectedNodeId={setSelectedNodeId}
               onResetFilters={handleResetFilters}
             />
+          )}
 
+          <Row
+            className="flex-grow-1 w-100 g-0"
+            style={{ flexWrap: "nowrap", minWidth: 0, minHeight: 0 }}
+          >
             <GraphMainColumn
               viewMode={viewMode}
               setViewMode={setViewMode}
@@ -714,6 +802,8 @@ useEffect(() => {
               savedViews={savedViews}
               onApplySavedView={handleApplySavedView}
               onDeleteSavedView={handleDeleteSavedView}
+              onLevelBarChange={handleLevelBarChange}
+              assistantOpenSignal={assistantOpenSignal}
             />
 
             <RightControlsColumn

@@ -5,7 +5,6 @@ import { Col } from "react-bootstrap";
 import NestedGraphController from "../../NestedGraphController";
 import HoveredNodeInfo from "../HoveredNodeInfo/HoveredNodeInfo";
 import GraphStatusBar from "./GraphStatusBar";
-import GraphTopBar from "./GraphTopBar";
 import GraphConstraintBar from "./GraphConstraintBar";
 import NodeDetail from "../../NodeDetail";
 import TimelineScrubber from "../TimelineScrubber/TimelineScrubber";
@@ -17,6 +16,18 @@ import useCountryActivity from "../CountryActivity/useCountryActivity";
 import CountryOverlayBadge from "../CountryActivity/CountryOverlayBadge";
 import PortfolioDashboard from "../Dashboard/PortfolioDashboard";
 import FindCallsPanel from "../FindCalls/FindCallsPanel";
+
+// Lifts the nested controller's level-bar DATA (breadcrumbs) up to GraphPage
+// after commit, where the global CommandBar renders it. Data only — the click
+// callbacks are recreated on every controller render, so putting them in state
+// would re-render GraphPage each pass (an update loop); they travel through
+// levelNavRef instead.
+function LevelBarSync({ levels, currentKey, canGoBack, onChange }) {
+  useEffect(() => {
+    onChange?.({ levels, currentKey, canGoBack });
+  }, [levels, currentKey, canGoBack, onChange]);
+  return null;
+}
 
 export default function GraphMainColumn({
   viewMode,
@@ -70,6 +81,8 @@ export default function GraphMainColumn({
   savedViews,
   onApplySavedView,
   onDeleteSavedView,
+  onLevelBarChange,
+  assistantOpenSignal,
 }) {
   const isDetailMode = !!detailNode;
   const levelsRef = useRef([]);
@@ -78,6 +91,22 @@ export default function GraphMainColumn({
   // The HE Wiki graph is a flat entity network — Compare/Timeline (cluster/Call tools) don't apply.
   const isHEWiki = graphName === "HE_2025";
   const heWikiMissing = isHEWiki && !loadFromStore?.("HE_2025");
+
+  const layoutMode =
+    effectiveLayout?.name === "breadthfirst" ? "breadthfirst" : "cose-bilkent";
+
+  const handleLayoutModeChange = useCallback(
+    (nextName) => {
+      if (isHEWiki) return;
+      // The name change flows into NestedGraphController, whose
+      // [layoutOptions?.name] effect already reruns the layout with the correct
+      // breadthfirst / cluster tree->force re-seeding. Running the layout again
+      // here would be a second, un-special-cased pass that races the first, so
+      // the toggle relies solely on the rerunLayout path.
+      updateOption("name", nextName);
+    },
+    [isHEWiki, updateOption]
+  );
 
   // B4: country-activity overlay data for the graph paint. The picker now lives in the dashboard tool panel,
   // so the paint is driven by the selected country itself (not a drawer-open flag); this fetch shares the
@@ -304,45 +333,21 @@ export default function GraphMainColumn({
           />
         </div>
       ) : viewMode === "dashboard" ? (
-        // DASHBOARD MODE
-        <>
-          <GraphTopBar
-            levels={levelsRef.current}
-            currentKey={graphName}
-            onLevelClick={() => {}}
-            canGoBack={false}
-            onBack={() => {}}
-            onResetView={onResetView}
-            onFitView={onFitView}
-            layoutMode="cose-bilkent"
-            compareOpen={false}
-            compareNodes={[]}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-            onLayoutModeChange={() => {}}
-            onCopyLink={onCopyLink}
-            onSaveView={onSaveView}
-          />
-          <PortfolioDashboard
-            loadFromStore={loadFromStore}
-            graphStats={graphStats}
-            setViewMode={setViewMode}
-            dashboardPanel={dashboardPanel}
-            setDashboardPanel={setDashboardPanel}
-            countryOverlayCode={countryOverlayCode}
-            setCountryOverlayCode={setCountryOverlayCode}
-            onLocateCall={onLocateCall}
-            locateCall={locateCall}
-            savedViews={savedViews}
-            onApplySavedView={onApplySavedView}
-            onDeleteSavedView={onDeleteSavedView}
-          />
-          <GraphStatusBar
-            nodes={graphStats.nodes}
-            edges={graphStats.edges}
-            layoutLabel="Dashboard view"
-          />
-        </>
+        // DASHBOARD MODE — the global CommandBar carries breadcrumbs/actions now.
+        <PortfolioDashboard
+          loadFromStore={loadFromStore}
+          graphStats={graphStats}
+          setViewMode={setViewMode}
+          dashboardPanel={dashboardPanel}
+          setDashboardPanel={setDashboardPanel}
+          countryOverlayCode={countryOverlayCode}
+          setCountryOverlayCode={setCountryOverlayCode}
+          onLocateCall={onLocateCall}
+          locateCall={locateCall}
+          savedViews={savedViews}
+          onApplySavedView={onApplySavedView}
+          onDeleteSavedView={onDeleteSavedView}
+        />
       ) : (
         // GRAPH MODE: original graph layout (top bar + canvas + status bar + chatbot)
         <>
@@ -368,45 +373,18 @@ export default function GraphMainColumn({
               canGoBack,
               onBack,
             }) => {
-               levelsRef.current = levels;
-               // Lift the layer back-nav so GraphPage's Backspace / ← shortcut can drill out.
-               if (levelNavRef) levelNavRef.current = { canGoBack, onBack };
-               const layoutSwitchVisible = currentKey !== "HE_2025";
-
-              const layoutMode =
-                effectiveLayout.name === "breadthfirst"
-                  ? "breadthfirst"
-                  : "cose-bilkent";
+              levelsRef.current = levels;
+              // Lift the layer nav callbacks so GraphPage's Backspace / ← shortcut
+              // and the CommandBar breadcrumbs can drive the level stack.
+              if (levelNavRef) levelNavRef.current = { canGoBack, onBack, onLevelClick };
 
               return (
                 <>
-                  <GraphTopBar
+                  <LevelBarSync
                     levels={levels}
                     currentKey={currentKey}
-                    onLevelClick={onLevelClick}
                     canGoBack={canGoBack}
-                    onBack={onBack}
-                    onResetView={onResetView}
-                    onFitView={onFitView}
-                    layoutMode={layoutMode}
-                    layoutSwitchVisible={layoutSwitchVisible}
-                    compareOpen={compareOpen}
-                    compareNodes={compareNodes}
-                    viewMode={viewMode}
-                    setViewMode={setViewMode}
-                    onCopyLink={onCopyLink}
-                    onSaveView={onSaveView}
-                    onLayoutModeChange={(nextName) => {
-                      if (currentKey === "HE_2025") return;
-
-                      // The name change flows into NestedGraphController, whose
-                      // [layoutOptions?.name] effect already reruns the layout with the
-                      // correct breadthfirst / cluster tree->force re-seeding. Running the
-                      // layout again here would be a second, un-special-cased pass that
-                      // races the first (jitter on the cluster layer), so the toggle relies
-                      // solely on the rerunLayout path.
-                      updateOption("name", nextName);
-                    }}
+                    onChange={onLevelBarChange}
                   />
                   <GraphConstraintBar
                     timelineSelection={timelineSelection}
@@ -490,6 +468,7 @@ export default function GraphMainColumn({
               onLocateCall={onLocateCall}
               onClearAssistant={onClearAssistant}
               locateCall={locateCall}
+              openSignal={assistantOpenSignal}
             />
 
             <CompareDrawer
@@ -529,6 +508,9 @@ export default function GraphMainColumn({
             nodes={graphStats.nodes}
             edges={graphStats.edges}
             layoutLabel={layoutLabel}
+            layoutMode={layoutMode}
+            onLayoutModeChange={handleLayoutModeChange}
+            layoutSwitchVisible={!isHEWiki}
           />
         </>
       )}

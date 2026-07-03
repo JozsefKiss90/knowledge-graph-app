@@ -116,7 +116,14 @@
       "Bash(unzip -o \"Dashboard UI and UX upgrade-handoff.zip\" -d /tmp/dchandoff)",
       "Bash(echo \"unzip exit: $?\")",
       "Bash(cp \"/tmp/dchandoff/dashboard-ui-and-ux-upgrade/project/Portfolio Dashboard.dc.html\" \"C:/Code/knowledge-graph-app/_mockup_dc.html\")",
-      "Bash(cp \"/tmp/dchandoff/dashboard-ui-and-ux-upgrade/project/Portfolio Dashboard.source.html\" \"C:/Code/knowledge-graph-app/_mockup_source.html\")"
+      "Bash(cp \"/tmp/dchandoff/dashboard-ui-and-ux-upgrade/project/Portfolio Dashboard.source.html\" \"C:/Code/knowledge-graph-app/_mockup_source.html\")",
+      "Bash(awk '{ if \\(length\\($0\\) > 500\\) printf \"line %d: %d chars\\\\n\", NR, length\\($0\\); }' \"Landing Redesign v3 \\(standalone\\).html\")",
+      "Bash(cat .env)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 3 http://localhost:8000/docs)",
+      "Bash(REACT_APP_API_URL=http://localhost:8000 node node_modules/react-scripts/bin/react-scripts.js build)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 2 http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 3 http://localhost:3000/)",
+      "Bash(curl -s http://127.0.0.1:9222/json/list)"
     ]
   }
 }

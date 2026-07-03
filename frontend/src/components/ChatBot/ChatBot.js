@@ -197,8 +197,15 @@ const ChatBot = ({
   onLocateCall,
   onClearAssistant,
   locateCall,
+  openSignal,
 }) => {
   const [open, setOpen] = useState(false);
+
+  // The left rail's sparkle button pops the assistant open by bumping this
+  // token; the panel otherwise keeps owning its open/close state.
+  useEffect(() => {
+    if (openSignal) setOpen(true);
+  }, [openSignal]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   // Multi-turn (Tier 3.5): the whole conversation is held client-side. Each entry is

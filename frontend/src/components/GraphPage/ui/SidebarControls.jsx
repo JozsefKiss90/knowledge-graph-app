@@ -1,26 +1,37 @@
-// src/components/GraphPage/SidebarControls.js
+// src/components/GraphPage/ui/SidebarControls.jsx
+//
+// Docked right toolbar (landing redesign): a full-height rail flush with the
+// right edge, running from the command bar to the bottom of the viewport.
+// Tool icons sit at the top, utilities are pinned at the foot. Every tool the
+// app has stays here (the reference mock omitted some icons — functionality
+// wins): command palette, help, find calls, bookmarks, timeline, compare, the
+// three CORDIS tools, theme, contact and layout settings.
+
 import React, { useState, useEffect } from "react";
 import { IconButton, Tooltip, Menu, MenuItem, ListItemIcon } from "@mui/material";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import SettingsIcon from "@mui/icons-material/Settings";
-import EmailIcon from "@mui/icons-material/Email";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import PublicIcon from "@mui/icons-material/Public";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import MessageDrawer from "../../LegendParts/MessageDrawer";
 import CustomDrawer from "../../LegendParts/CustomDrawer";
 import LayoutControls from "./LayoutControls";
 import { useNavigate } from "react-router-dom";
+
+import {
+  ChevronsLeftIcon,
+  ChevronsRightIcon,
+  CommandIcon,
+  InfoIcon,
+  FindCallsIcon,
+  BookmarkIcon,
+  TimelineIcon,
+  ColumnsIcon,
+  TreeIcon,
+  GlobeIcon,
+  PathIcon,
+  MoonIcon,
+  MailIcon,
+  GearIcon,
+} from "./railIcons";
 
 const SidebarControls = ({
   darkMode,
@@ -58,11 +69,10 @@ const SidebarControls = ({
   // Compare & Timeline are cluster/Call-oriented; they don't apply to the flat HE Wiki graph.
   const isHEWiki = graphName === "HE_2025";
 
-  // The three CORDIS tools now live in the dashboard tool panel: a button is "active" when the dashboard is
+  // The three CORDIS tools live in the dashboard tool panel: a button is "active" when the dashboard is
   // showing its tab. Clicking navigates to the dashboard and activates the panel (handled in GraphPage).
   const isPanelActive = (key) => viewMode === "dashboard" && dashboardPanel === key;
 
-  // Re-usable tooltip props so all tooltips look/animate the same
   const tooltipProps = {
     placement: "left",
     arrow: true,
@@ -72,38 +82,53 @@ const SidebarControls = ({
     },
   };
 
-  const SectionHeader = ({ label }) => (
-    <div className="sidebar-controls-divider"><span className="sidebar-controls-section-label">{label}</span></div>
+  const SectionDivider = ({ label }) => (
+    <div className="sidebar-controls-divider">
+      <span className="sidebar-controls-section-label">{label}</span>
+    </div>
+  );
+
+  const RailButton = ({ title, active, disabled, onClick, label, badge, children }) => (
+    <Tooltip {...tooltipProps} title={isExpanded && !disabled ? "" : title}>
+      <span className="sidebar-controls-row">
+        <IconButton
+          className={`sidebar-controls-button${active ? " sidebar-controls-button--active" : ""}`}
+          disabled={disabled}
+          onClick={onClick}
+          aria-label={title}
+        >
+          {children}
+          {badge > 0 && <span className="bookmark-badge">{badge}</span>}
+          <span className="sidebar-controls-button__label">{label}</span>
+        </IconButton>
+      </span>
+    </Tooltip>
   );
 
   return (
     <div className={`sidebar-controls${isExpanded ? " sidebar-controls--expanded" : ""}`}>
       <Tooltip {...tooltipProps} title={isExpanded ? "Collapse" : "Expand"}>
-        <IconButton className="sidebar-controls-button sidebar-controls-toggle" onClick={() => setIsExpanded((p) => !p)}>
-          {isExpanded ? <KeyboardDoubleArrowRightIcon fontSize="small" /> : <KeyboardDoubleArrowLeftIcon fontSize="small" />}
+        <IconButton
+          className="sidebar-controls-button sidebar-controls-toggle"
+          onClick={() => setIsExpanded((p) => !p)}
+        >
+          {isExpanded ? <ChevronsRightIcon size={15} /> : <ChevronsLeftIcon size={15} />}
         </IconButton>
       </Tooltip>
 
-      <Tooltip {...tooltipProps} title={isExpanded ? "" : "Command palette (Ctrl / ⌘ K)"}>
-        <IconButton
-          className="sidebar-controls-button"
-          onClick={() => onOpenCommandPalette?.()}
-          aria-label="Open command palette"
-        >
-          <KeyboardCommandKeyIcon fontSize="small" />
-          <span className="sidebar-controls-button__label">Commands</span>
-        </IconButton>
-      </Tooltip>
+      <SectionDivider label="General" />
 
-      <Tooltip {...tooltipProps} title={isExpanded ? "" : "Help"}>
-        <IconButton
-          className="sidebar-controls-button"
-          onClick={(e) => setHelpAnchor(e.currentTarget)}
-        >
-          <InfoOutlinedIcon fontSize="small" />
-          <span className="sidebar-controls-button__label">Help</span>
-        </IconButton>
-      </Tooltip>
+      <RailButton
+        title="Command palette (Ctrl / ⌘ K)"
+        label="Commands"
+        onClick={() => onOpenCommandPalette?.()}
+      >
+        <CommandIcon size={16} />
+      </RailButton>
+
+      <RailButton title="Help" label="Help" onClick={(e) => setHelpAnchor(e.currentTarget)}>
+        <InfoIcon size={17} />
+      </RailButton>
       <Menu
         anchorEl={helpAnchor}
         open={Boolean(helpAnchor)}
@@ -121,145 +146,104 @@ const SidebarControls = ({
         </MenuItem>
       </Menu>
 
-      <SectionHeader label="Explore" />
+      <SectionDivider label="Explore" />
 
-      <Tooltip
-        {...tooltipProps}
+      <RailButton
         title={
           isHEWiki
             ? "Find calls — not available for this dataset"
             : viewMode !== "graph"
             ? "Find calls — switch to the graph first"
-            : isExpanded
-            ? ""
             : "Find calls"
         }
+        label="Find calls"
+        active={findOpen}
+        disabled={isHEWiki || viewMode !== "graph"}
+        onClick={() => setFindOpen((prev) => !prev)}
       >
-        <span className="sidebar-controls-row">
-          <IconButton
-            className={`sidebar-controls-button${findOpen ? " sidebar-controls-button--active" : ""}`}
-            disabled={isHEWiki || viewMode !== "graph"}
-            onClick={() => setFindOpen((prev) => !prev)}
-          >
-            <ManageSearchIcon fontSize="small" />
-            <span className="sidebar-controls-button__label">Find calls</span>
-          </IconButton>
-        </span>
-      </Tooltip>
+        <FindCallsIcon size={17} />
+      </RailButton>
 
-      <Tooltip {...tooltipProps} title={isExpanded ? "" : "View bookmarks"}>
-        <div style={{ position: "relative" }}>
-          <IconButton
-            className="sidebar-controls-button"
-            onClick={() => navigate("/bookmarks")}
-          >
-            <BookmarkIcon fontSize="small" />
-            {bookmarksCount > 0 && (
-              <span className="bookmark-badge">{bookmarksCount}</span>
-            )}
-            <span className="sidebar-controls-button__label">Bookmarks</span>
-          </IconButton>
-        </div>
-      </Tooltip>
+      <RailButton
+        title="View bookmarks"
+        label="Bookmarks"
+        badge={bookmarksCount}
+        onClick={() => navigate("/bookmarks")}
+      >
+        <BookmarkIcon size={16} />
+      </RailButton>
 
-      <Tooltip {...tooltipProps} title={isHEWiki ? "Timeline — not available for this dataset" : (isExpanded ? "" : "Timeline scrubber")}>
-        <span className="sidebar-controls-row">
-          <IconButton
-            className={`sidebar-controls-button${timelineOpen ? " sidebar-controls-button--active" : ""}`}
-            disabled={isHEWiki}
-            onClick={() => setTimelineOpen((prev) => !prev)}
-          >
-            <BarChartOutlinedIcon fontSize="small" />
-            <span className="sidebar-controls-button__label">Timeline</span>
-          </IconButton>
-        </span>
-      </Tooltip>
+      <RailButton
+        title={isHEWiki ? "Timeline — not available for this dataset" : "Timeline scrubber"}
+        label="Timeline"
+        active={timelineOpen}
+        disabled={isHEWiki}
+        onClick={() => setTimelineOpen((prev) => !prev)}
+      >
+        <TimelineIcon size={17} />
+      </RailButton>
 
-      <Tooltip {...tooltipProps} title={isHEWiki ? "Compare — not available for this dataset" : (isExpanded ? "" : "Compare programmes")}>
-        <span className="sidebar-controls-row">
-          <IconButton
-            className={`sidebar-controls-button${compareOpen ? " sidebar-controls-button--active" : ""}`}
-            disabled={isHEWiki}
-            onClick={() => setCompareOpen((prev) => !prev)}
-          >
-            <CompareArrowsIcon fontSize="small" />
-            <span className="sidebar-controls-button__label">Compare</span>
-          </IconButton>
-        </span>
-      </Tooltip>
+      <RailButton
+        title={isHEWiki ? "Compare — not available for this dataset" : "Compare programmes"}
+        label="Compare"
+        active={compareOpen}
+        disabled={isHEWiki}
+        onClick={() => setCompareOpen((prev) => !prev)}
+      >
+        <ColumnsIcon size={16} />
+      </RailButton>
 
-      <SectionHeader label="CORDIS tools" />
+      <SectionDivider label="CORDIS tools" />
 
-      <Tooltip {...tooltipProps} title={isHEWiki ? "Research fields — not available for this dataset" : (isExpanded ? "" : "Browse research fields")}>
-        <span className="sidebar-controls-row">
-          <IconButton
-            className={`sidebar-controls-button${isPanelActive("fields") ? " sidebar-controls-button--active" : ""}`}
-            disabled={isHEWiki}
-            onClick={() => onSelectDashboardPanel("fields")}
-          >
-            <AccountTreeIcon fontSize="small" />
-            <span className="sidebar-controls-button__label">Research fields</span>
-          </IconButton>
-        </span>
-      </Tooltip>
+      <RailButton
+        title={isHEWiki ? "Research fields — not available for this dataset" : "Browse research fields"}
+        label="Research fields"
+        active={isPanelActive("fields")}
+        disabled={isHEWiki}
+        onClick={() => onSelectDashboardPanel("fields")}
+      >
+        <TreeIcon size={16} />
+      </RailButton>
 
-      <Tooltip {...tooltipProps} title={isHEWiki ? "Country activity — not available for this dataset" : (isExpanded ? "" : "Country activity overlay")}>
-        <span className="sidebar-controls-row">
-          <IconButton
-            className={`sidebar-controls-button${isPanelActive("country") ? " sidebar-controls-button--active" : ""}`}
-            disabled={isHEWiki}
-            onClick={() => onSelectDashboardPanel("country")}
-          >
-            <PublicIcon fontSize="small" />
-            <span className="sidebar-controls-button__label">Country activity</span>
-          </IconButton>
-        </span>
-      </Tooltip>
+      <RailButton
+        title={isHEWiki ? "Country activity — not available for this dataset" : "Country activity overlay"}
+        label="Country activity"
+        active={isPanelActive("country")}
+        disabled={isHEWiki}
+        onClick={() => onSelectDashboardPanel("country")}
+      >
+        <GlobeIcon size={16} />
+      </RailButton>
 
-      <Tooltip {...tooltipProps} title={isHEWiki ? "Hop-on — not available for this dataset" : (isExpanded ? "" : "Hop-on opportunities")}>
-        <span className="sidebar-controls-row">
-          <IconButton
-            className={`sidebar-controls-button${isPanelActive("hopOn") ? " sidebar-controls-button--active" : ""}`}
-            disabled={isHEWiki}
-            onClick={() => onSelectDashboardPanel("hopOn")}
-          >
-            <GroupAddIcon fontSize="small" />
-            <span className="sidebar-controls-button__label">Hop-on</span>
-          </IconButton>
-        </span>
-      </Tooltip>
+      <RailButton
+        title={isHEWiki ? "Hop-on — not available for this dataset" : "Hop-on opportunities"}
+        label="Hop-on"
+        active={isPanelActive("hopOn")}
+        disabled={isHEWiki}
+        onClick={() => onSelectDashboardPanel("hopOn")}
+      >
+        <PathIcon size={16} />
+      </RailButton>
 
-      <SectionHeader label="Settings" />
+      <span className="sidebar-controls-spacer" />
 
-      <Tooltip {...tooltipProps} title={isExpanded ? "" : "Switch light / dark mode"}>
-        <IconButton
-          className="sidebar-controls-button"
-          onClick={() => setDarkMode((prev) => !prev)}
-        >
-          <Brightness4Icon fontSize="small" />
-          <span className="sidebar-controls-button__label">Theme</span>
-        </IconButton>
-      </Tooltip>
+      <SectionDivider label="Settings" />
 
-      <Tooltip {...tooltipProps} title={isExpanded ? "" : "Send a message"}>
-        <IconButton
-          className="sidebar-controls-button"
-          onClick={() => setIsMessageDrawerOpen(true)}
-        >
-          <EmailIcon fontSize="small" />
-          <span className="sidebar-controls-button__label">Contact</span>
-        </IconButton>
-      </Tooltip>
+      <RailButton
+        title="Switch light / dark mode"
+        label="Theme"
+        onClick={() => setDarkMode((prev) => !prev)}
+      >
+        <MoonIcon size={16} />
+      </RailButton>
 
-      <Tooltip {...tooltipProps} title={isExpanded ? "" : "Graph layout & settings"}>
-        <IconButton
-          className="sidebar-controls-button"
-          onClick={() => setDrawerOpen(true)}
-        >
-          <SettingsIcon fontSize="small" />
-          <span className="sidebar-controls-button__label">Layout &amp; settings</span>
-        </IconButton>
-      </Tooltip>
+      <RailButton title="Send a message" label="Contact" onClick={() => setIsMessageDrawerOpen(true)}>
+        <MailIcon size={16} />
+      </RailButton>
+
+      <RailButton title="Graph layout & settings" label="Layout & settings" onClick={() => setDrawerOpen(true)}>
+        <GearIcon size={16} />
+      </RailButton>
 
       {/* Drawers stay the same */}
       <MessageDrawer

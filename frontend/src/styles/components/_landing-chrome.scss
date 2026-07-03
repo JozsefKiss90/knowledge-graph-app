@@ -1,0 +1,785 @@
+/* src/styles/components/_landing-chrome.scss */
+/* ============================================================================
+   Landing redesign ("Riff on 1a — right toolbar docked edge-to-edge").
+   One slim command bar on top, a floating filter rail + GRAPH DATASET popover
+   on the left, a docked full-height toolbar on the right, and floating
+   capsules (status, layout, calls-over-time, AI fab) over a full-bleed canvas.
+
+   All chrome colors come from the --lc-* tokens below: the dark values ARE the
+   reference design; light mode gets a translucent-white adaptation so the
+   theme toggle keeps working.
+   ========================================================================== */
+
+.graph-shell {
+  /* ---- landing chrome tokens (dark = reference design) ---- */
+  --lc-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --lc-bg: #030813;
+  --lc-bar-bg: rgba(6, 18, 34, 0.82);
+  --lc-bar-border: rgba(82, 111, 160, 0.18);
+
+  --lc-panel-bg: rgba(15, 34, 65, 0.9);
+  --lc-panel-soft: rgba(15, 34, 65, 0.72);
+  --lc-panel-border: rgba(82, 111, 160, 0.34);
+  --lc-panel-border-soft: rgba(82, 111, 160, 0.3);
+  --lc-hairline: rgba(82, 111, 160, 0.22);
+
+  --lc-text-hi: #f5f9ff;
+  --lc-text: #d7e6f7;
+  --lc-text-mid: #a9bdd6;
+  --lc-text-dim: #7e93b3;
+  --lc-text-faint: #5a6e8c;
+
+  --lc-accent: #47a9ff;
+  --lc-accent-ico: #6cb8ff;
+  --lc-accent-text: #9ccafd;
+  --lc-accent-tint: rgba(63, 147, 255, 0.16);
+  --lc-accent-tint-strong: rgba(63, 147, 255, 0.18);
+  --lc-accent-border: rgba(95, 148, 232, 0.55);
+  --lc-accent-border-soft: rgba(95, 148, 232, 0.4);
+  --lc-accent-glow: rgba(63, 147, 255, 0.22);
+
+  --lc-green: #22c55e;
+  --lc-green-text: #a6f5c5;
+  --lc-green-tint: rgba(34, 197, 94, 0.12);
+  --lc-green-border: rgba(34, 197, 94, 0.4);
+
+  --lc-amber: #f3b84b;
+  --lc-open: #35d07f;
+  --lc-closed: #4f7dc9;
+  --lc-pink: #ec6cff;
+  --lc-purple: #b9a5f5;
+
+  --lc-kbd-border: rgba(82, 111, 160, 0.35);
+  --lc-kbd-bg: rgba(82, 111, 160, 0.12);
+
+  --lc-shadow-pop: 0 24px 56px rgba(2, 6, 23, 0.6);
+  --lc-shadow-card: 0 16px 40px rgba(2, 6, 23, 0.55);
+
+  background: var(--lc-bg);
+}
+
+body.light-theme .graph-shell {
+  --lc-bg: #eef2f8;
+  --lc-bar-bg: rgba(255, 255, 255, 0.88);
+  --lc-bar-border: rgba(26, 35, 50, 0.12);
+
+  --lc-panel-bg: rgba(255, 255, 255, 0.94);
+  --lc-panel-soft: rgba(255, 255, 255, 0.85);
+  --lc-panel-border: rgba(26, 35, 50, 0.14);
+  --lc-panel-border-soft: rgba(26, 35, 50, 0.12);
+  --lc-hairline: rgba(26, 35, 50, 0.12);
+
+  --lc-text-hi: #101b2e;
+  --lc-text: #1a2740;
+  --lc-text-mid: #3a4d6e;
+  --lc-text-dim: #62748f;
+  --lc-text-faint: #8b9ab3;
+
+  --lc-accent: #1f6feb;
+  --lc-accent-ico: #1f6feb;
+  --lc-accent-text: #1a5fd0;
+  --lc-accent-tint: rgba(31, 111, 235, 0.1);
+  --lc-accent-tint-strong: rgba(31, 111, 235, 0.13);
+  --lc-accent-border: rgba(31, 111, 235, 0.45);
+  --lc-accent-border-soft: rgba(31, 111, 235, 0.3);
+  --lc-accent-glow: rgba(31, 111, 235, 0.16);
+
+  --lc-green: #178a4c;
+  --lc-green-text: #0f6e3b;
+  --lc-green-tint: rgba(23, 138, 76, 0.1);
+  --lc-green-border: rgba(23, 138, 76, 0.35);
+
+  --lc-kbd-border: rgba(26, 35, 50, 0.18);
+  --lc-kbd-bg: rgba(26, 35, 50, 0.06);
+
+  --lc-shadow-pop: 0 24px 56px rgba(15, 30, 60, 0.18);
+  --lc-shadow-card: 0 16px 40px rgba(15, 30, 60, 0.16);
+}
+
+/* The canvas owns the screen; the shell background only peeks at the edges. */
+.graph-shell .graph-container {
+  background: transparent;
+  position: relative; /* positioning context for the floating left rail */
+}
+
+/* ============================================================================
+   Command bar (52px, full width)
+   ========================================================================== */
+
+.kg-commandbar {
+  flex: 0 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  background: var(--lc-bar-bg);
+  border-bottom: 1px solid var(--lc-bar-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 50;
+  color: var(--lc-text);
+}
+
+.kg-commandbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.kg-commandbar__title {
+  font: 600 12.5px Inter, sans-serif;
+  letter-spacing: 0.01em;
+  color: var(--lc-text);
+  white-space: nowrap;
+}
+
+.kg-commandbar__divider {
+  width: 1px;
+  height: 18px;
+  background: var(--lc-hairline);
+  margin: 0 4px;
+  flex: 0 0 auto;
+}
+
+.kg-commandbar__icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--lc-text-mid);
+  cursor: pointer;
+  padding: 0;
+}
+.kg-commandbar__icon:hover {
+  background: var(--lc-accent-tint);
+  color: var(--lc-accent-ico);
+}
+.kg-commandbar__icon.is-active {
+  background: var(--lc-accent-tint);
+  box-shadow: inset 0 0 0 1px var(--lc-accent-border-soft);
+  color: var(--lc-accent-ico);
+}
+.kg-commandbar__icon:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.kg-commandbar__crumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.kg-commandbar__crumb-sep {
+  color: var(--lc-text-faint);
+  flex: 0 0 auto;
+}
+
+.kg-commandbar__crumb {
+  border: none;
+  background: transparent;
+  padding: 4px 2px;
+  font: 500 12px Inter, sans-serif;
+  color: var(--lc-text-dim);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+.kg-commandbar__crumb:hover {
+  color: var(--lc-text);
+}
+.kg-commandbar__crumb.is-active {
+  color: var(--lc-text);
+}
+
+.kg-commandbar__pill {
+  flex: 0 0 auto;
+  font: 600 9.5px var(--lc-mono);
+  letter-spacing: 0.08em;
+  color: var(--lc-accent-text);
+  background: rgba(63, 147, 255, 0.14);
+  border: 1px solid var(--lc-accent-border-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.kg-commandbar__pill--compare {
+  color: var(--lc-green-text);
+  background: var(--lc-green-tint);
+  border-color: var(--lc-green-border);
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kg-commandbar__spacer {
+  flex: 1 1 auto;
+}
+
+.kg-commandbar__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 360px;
+  height: 32px;
+  padding: 0 11px;
+  flex: 0 1 auto;
+  background: var(--lc-kbd-bg);
+  border: 1px solid var(--lc-panel-border);
+  border-radius: 8px;
+  color: var(--lc-text-dim);
+  cursor: pointer;
+  text-align: left;
+}
+.kg-commandbar__search:hover {
+  border-color: var(--lc-accent-border-soft);
+}
+.kg-commandbar__search-ph {
+  flex: 1;
+  font: 400 12px Inter, sans-serif;
+  color: var(--lc-text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kg-commandbar__kbd {
+  font: 500 9.5px var(--lc-mono);
+  color: var(--lc-text-dim);
+  border: 1px solid var(--lc-kbd-border);
+  border-radius: 5px;
+  padding: 2px 5px;
+  background: var(--lc-kbd-bg);
+}
+
+.kg-commandbar__dash {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 13px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background: var(--lc-accent-tint);
+  border: 1px solid var(--lc-accent-border);
+  color: var(--lc-accent-text);
+  font: 600 12px Inter, sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.kg-commandbar__dash:hover {
+  background: var(--lc-accent-tint-strong);
+}
+.kg-commandbar__dash.is-active {
+  box-shadow: 0 0 14px var(--lc-accent-glow);
+}
+
+.kg-commandbar__cluster {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+/* ============================================================================
+   Left floating rail + GRAPH DATASET popover
+   ========================================================================== */
+
+.kg-leftrail {
+  position: absolute;
+  left: 12px;
+  top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 35;
+}
+
+.kg-leftrail__btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--lc-panel-soft);
+  border: 1px solid var(--lc-panel-border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lc-text-mid);
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 0;
+}
+.kg-leftrail__btn:hover {
+  color: var(--lc-accent-ico);
+  border-color: var(--lc-accent-border-soft);
+}
+.kg-leftrail__btn.is-active {
+  background: var(--lc-accent-tint-strong);
+  border-color: var(--lc-accent-border);
+  color: var(--lc-accent-ico);
+  box-shadow: 0 0 18px var(--lc-accent-glow);
+}
+.kg-leftrail__btn.is-accent {
+  color: var(--lc-purple);
+}
+.kg-leftrail__btn.is-accent:hover {
+  color: var(--lc-purple);
+  border-color: var(--lc-accent-border-soft);
+}
+.kg-leftrail__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.kg-leftrail__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--lc-accent);
+  color: #04101f;
+  font: 600 9px var(--lc-mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #061222;
+}
+body.light-theme .graph-shell .kg-leftrail__badge {
+  color: #fff;
+  border-color: #fff;
+}
+
+/* ---- popover shell ---- */
+.kg-legend-pop {
+  position: absolute;
+  left: 62px;
+  top: 14px;
+  width: 302px;
+  max-height: calc(100% - 28px);
+  display: flex;
+  flex-direction: column;
+  background: var(--lc-panel-bg);
+  border: 1px solid var(--lc-panel-border);
+  border-radius: 14px;
+  box-shadow: var(--lc-shadow-pop);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 40;
+  overflow: hidden;
+}
+
+/* The hosted LegendToggle fills the popover; its own chrome goes flat. */
+.kg-legend-pop .legend-sidebar,
+.kg-legend-pop .legend-filters-panel {
+  background: transparent;
+  border: none;
+  height: auto;
+  min-height: 0;
+}
+
+.kg-legend-pop .legend-header {
+  height: 40px;
+  min-height: 40px;
+  padding: 0 13px;
+  background: transparent;
+  border-bottom: 1px solid var(--lc-hairline);
+  box-shadow: none;
+}
+
+.kg-legend-pop .legend-header-title {
+  font: 600 9.5px var(--lc-mono) !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lc-text-dim);
+}
+
+.kg-legend-pop .legend-filter-icon {
+  color: var(--lc-accent-ico);
+  font-size: 15px !important;
+}
+
+.kg-legend-pop .legend-brand-badge {
+  display: none !important;
+}
+
+.graph-shell .kg-legend-pop .legend-collapse-button {
+  width: 24px;
+  height: 24px;
+  background: transparent !important;
+  color: var(--lc-text-faint);
+}
+.graph-shell .kg-legend-pop .legend-collapse-button:hover {
+  color: var(--lc-text);
+  background: var(--lc-accent-tint) !important;
+}
+.kg-legend-pop .legend-collapse-button svg {
+  font-size: 16px;
+}
+
+.kg-legend-pop .legend-content {
+  padding: 10px 13px 8px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Sections: flat, hairline-separated (the popover is the only card) */
+.kg-legend-pop .legend-section {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0 0 4px;
+}
+.kg-legend-pop .legend-section + .legend-section {
+  border-top: 1px solid var(--lc-hairline);
+  margin-top: 6px;
+  padding-top: 8px;
+}
+.kg-legend-pop .legend-section-header {
+  background: transparent;
+  padding: 2px 0;
+}
+.kg-legend-pop .legend-section-title {
+  font: 600 9.5px var(--lc-mono) !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lc-text-dim);
+}
+.kg-legend-pop .legend-section-toggle {
+  color: var(--lc-text-faint);
+}
+.kg-legend-pop .legend-section-toggle svg {
+  font-size: 15px;
+  color: var(--lc-text-faint);
+}
+.kg-legend-pop .legend-section-body {
+  background: transparent;
+  padding: 4px 0 6px;
+}
+
+/* Dataset tree — reference row styling */
+.kg-legend-pop .graph-selector-list {
+  max-height: min(340px, 38vh);
+  padding: 2px;
+  border: none;
+  background: transparent;
+}
+.kg-legend-pop .graph-selector-list::-webkit-scrollbar {
+  width: 5px;
+}
+.kg-legend-pop .graph-selector-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.kg-legend-pop .graph-selector-list::-webkit-scrollbar-thumb {
+  background: var(--lc-hairline);
+  border-radius: 4px;
+}
+.kg-legend-pop .graph-selector-group-title {
+  font: 600 9px var(--lc-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lc-text-faint);
+}
+.kg-legend-pop .graph-tree-item {
+  gap: 7px;
+  min-height: 26px;
+  padding: 3px 7px;
+  border-radius: 7px;
+  border: none;
+  color: var(--lc-text-mid);
+  font: 400 11.5px Inter, sans-serif;
+}
+.kg-legend-pop .graph-tree-item:hover {
+  background: var(--lc-accent-tint);
+}
+.kg-legend-pop .graph-tree-label {
+  font-size: 11.5px;
+  line-height: 1.25;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.kg-legend-pop .graph-tree-item {
+  min-width: 0;
+}
+.kg-legend-pop .graph-tree-row.is-selected .graph-tree-item {
+  background: var(--lc-accent-tint);
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--lc-accent-border-soft);
+  color: var(--lc-text-hi);
+  font-weight: 600;
+}
+.kg-legend-pop .graph-tree-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+}
+.kg-legend-pop .graph-tree-toggle {
+  color: var(--lc-text-dim);
+}
+
+/* Node/edge type chips — rounded capsules */
+.graph-shell .kg-legend-pop .node-toggle-button {
+  border-radius: 999px;
+  padding: 3px 10px;
+  min-width: 0;
+  font: 500 11px Inter, sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+/* Node search inside the popover (SearchBox hardcodes inline sx — override) */
+.kg-legend-pop .search-button input {
+  background: var(--lc-kbd-bg) !important;
+  border: 1px solid var(--lc-panel-border-soft) !important;
+  border-radius: 8px;
+  color: var(--lc-text) !important;
+  font-size: 12px;
+  padding: 7px 10px;
+}
+.kg-legend-pop .search-button input::placeholder {
+  color: var(--lc-text-faint) !important;
+}
+.kg-legend-pop .MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+.graph-shell .kg-legend-pop button.search-button {
+  min-height: 30px !important;
+  padding: 2px 12px !important;
+  border-radius: 8px !important;
+  background: var(--lc-accent-tint) !important;
+  border: 1px solid var(--lc-accent-border-soft) !important;
+  color: var(--lc-accent-text) !important;
+  font: 600 11.5px Inter, sans-serif !important;
+  letter-spacing: 0 !important;
+  box-shadow: none !important;
+}
+.graph-shell .kg-legend-pop button.search-button:hover {
+  background: var(--lc-accent-tint-strong) !important;
+}
+
+/* Legend footer / reset */
+.kg-legend-pop .legend-footer {
+  background: transparent;
+  border-top: 1px solid var(--lc-hairline);
+  padding: 9px 13px 11px;
+}
+.graph-shell .kg-legend-pop .legend-reset-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--lc-panel-border-soft);
+  background: transparent;
+  color: var(--lc-text-mid);
+  font: 500 11.5px Inter, sans-serif;
+}
+.graph-shell .kg-legend-pop .legend-reset-button:hover {
+  background: var(--lc-accent-tint);
+  color: var(--lc-text);
+}
+
+/* ============================================================================
+   Constraint bar → floating chip row under the command bar
+   ========================================================================== */
+
+.graph-shell .graph-constraint-bar {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(760px, calc(100% - 140px));
+  z-index: 22;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px 5px 12px;
+  background: var(--lc-panel-soft);
+  border: 1px solid var(--lc-panel-border-soft);
+  border-radius: 999px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: none;
+}
+
+.graph-shell .graph-constraint-bar__lead {
+  font: 600 9.5px var(--lc-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lc-text-dim);
+  white-space: nowrap;
+}
+
+.graph-shell .graph-constraint-chip {
+  background: var(--lc-accent-tint);
+  border: 1px solid var(--lc-accent-border-soft);
+  color: var(--lc-accent-text);
+  border-radius: 999px;
+  font-size: 11px;
+}
+
+.graph-shell .graph-constraint-bar__clear-all {
+  font: 500 11px Inter, sans-serif;
+  color: var(--lc-text-dim);
+  background: transparent;
+  border: none;
+}
+.graph-shell .graph-constraint-bar__clear-all:hover {
+  color: var(--lc-text);
+}
+
+/* ============================================================================
+   Calls-over-time (timeline scrubber) reskin
+   ========================================================================== */
+
+.graph-shell .timeline-scrubber {
+  bottom: 16px;
+  width: min(620px, 58%);
+  border-radius: 14px;
+  background: var(--lc-panel-soft);
+  border: 1px solid var(--lc-panel-border-soft);
+  box-shadow: 0 18px 44px rgba(2, 6, 23, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.graph-shell .timeline-scrubber::before {
+  display: none; /* the old notch — the capsule now floats free */
+}
+
+.graph-shell .timeline-scrubber__title {
+  font: 600 12.5px Inter, sans-serif;
+  color: var(--lc-text);
+}
+.graph-shell .timeline-scrubber__title::before {
+  display: none; /* the old bullet — the reference header starts with the title */
+}
+.graph-shell .timeline-scrubber__count {
+  font: 600 9.5px var(--lc-mono);
+  letter-spacing: 0.08em;
+  color: var(--lc-accent-text);
+  background: rgba(63, 147, 255, 0.14);
+  border: 1px solid var(--lc-accent-border-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.graph-shell .timeline-scrubber__legend-item {
+  font: 500 10.5px Inter, sans-serif;
+  color: var(--lc-text-dim);
+}
+.graph-shell .timeline-scrubber__range {
+  font: 500 9.5px var(--lc-mono);
+  color: var(--lc-text-mid);
+}
+
+/* ============================================================================
+   Hover node card
+   ========================================================================== */
+
+.graph-shell .hovered-node-card {
+  background: var(--lc-panel-bg);
+  border: 1px solid var(--lc-panel-border);
+  border-radius: 12px;
+  box-shadow: var(--lc-shadow-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ============================================================================
+   AI fab (ChatBot)
+   ========================================================================== */
+
+.graph-shell .chatbot-fab-wrap {
+  right: 12px;
+  bottom: 16px;
+}
+
+.graph-shell .chatbot__fab {
+  width: 44px;
+  height: 44px;
+  background: var(--lc-panel-bg);
+  border: 1px solid var(--lc-accent-border);
+  color: var(--lc-accent-ico);
+  box-shadow: 0 0 0 1px rgba(76, 145, 255, 0.12), 0 0 22px var(--lc-accent-glow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.graph-shell .chatbot__fab:hover {
+  background: var(--lc-panel-bg);
+  transform: scale(1.06);
+}
+.graph-shell .chatbot__fabIcon {
+  font-size: 19px;
+}
+
+/* ============================================================================
+   Find-calls panel: the in-column top bar is gone; slide over the full height
+   but keep clear of the floating rail so its toggle stays reachable.
+   ========================================================================== */
+
+.graph-shell .find-calls {
+  top: 0;
+  z-index: 45;
+}
+
+/* ============================================================================
+   Compact screens
+   ========================================================================== */
+
+@media (max-width: 1280px) {
+  .kg-commandbar__search {
+    width: 240px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .kg-commandbar {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .kg-commandbar__title {
+    display: none;
+  }
+  .kg-commandbar__search {
+    width: 40px;
+    padding: 0 12px;
+    justify-content: center;
+  }
+  .kg-commandbar__search-ph,
+  .kg-commandbar__kbd {
+    display: none;
+  }
+  .kg-commandbar__dash-label {
+    display: none;
+  }
+  .kg-commandbar__pill--compare {
+    display: none;
+  }
+}
+
+@media (max-height: 520px) {
+  .kg-commandbar {
+    height: 44px;
+  }
+}

@@ -1,72 +1,125 @@
 /* src/styles/components/_sidebar-controls.scss */
-/* === Right sidebar icon rail === */
+/* === Docked right toolbar (landing redesign) ===
+   Full-height rail flush with the right edge: tools at the top, utilities
+   pinned at the foot via .sidebar-controls-spacer. Tokens (--lc-*) come from
+   _landing-chrome.scss. */
 
 .sidebar-controls {
-  width: 60px;
+  width: 48px;
   height: 100%;
-  background-color: var(--sidebar);
-  border-left: 1px solid var(--sidebar-border);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 0.75rem;
-  gap: 0.5rem;
+  gap: 2px;
+  padding: 8px 0 10px;
+  background: var(--lc-bar-bg);
+  border-left: 1px solid var(--lc-bar-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-/* Base button: small rounded square, icon color inherits from theme */
-.sidebar-controls-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px !important;
-  margin: 2px 0;
-  box-shadow: var(--shadow-sm);
-  /* let theme variants below set bg + color */
+.graph-shell .sidebar-controls-button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 9px;
+  color: var(--lc-text-mid);
+  box-shadow: none;
+  position: relative;
 }
 
-.sidebar-controls-button svg {
-  color: inherit; /* icon uses button’s text color */
+.graph-shell .sidebar-controls-button svg {
+  color: inherit;
+  display: block;
 }
 
-/* Default colors per theme */
-.dark-theme .sidebar-controls-button {
-  background-color: var(--sidebar); /* same tone as rail */
-  color: var(--primary-foreground); /* white */
+.graph-shell .sidebar-controls-button:hover {
+  background: var(--lc-accent-tint);
+  color: var(--lc-accent-ico);
 }
 
-.light-theme .sidebar-controls-button {
-  background-color: var(--sidebar); /* light sidebar tone */
-  color: var(--foreground); /* black / dark text */
+.graph-shell .sidebar-controls-button--active {
+  background: var(--lc-accent-tint);
+  box-shadow: inset 0 0 0 1px var(--lc-accent-border);
+  color: var(--lc-accent-ico);
 }
 
-/* Hover state: light grey background + blue icon */
-.dark-theme .sidebar-controls-button:hover,
-.light-theme .sidebar-controls-button:hover {
-  background-color: var(--card); /* lighter than sidebar */
-  color: var(--primary); /* blue icon */
+.graph-shell .sidebar-controls-toggle {
+  color: var(--lc-text-dim);
 }
 
-/* Active state for toggle buttons (e.g. timeline scrubber) */
-.dark-theme .sidebar-controls-button--active,
-.light-theme .sidebar-controls-button--active {
-  background-color: var(--card);
-  color: var(--primary);
+.graph-shell .sidebar-controls-button.Mui-disabled {
+  opacity: 0.35;
+  color: var(--lc-text-dim);
 }
 
-/* Divider line between main tools and settings */
+/* Counter badge (bookmarks) — magenta per the reference */
+.graph-shell .sidebar-controls .bookmark-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--lc-pink);
+  color: #04101f;
+  font: 600 8.5px var(--lc-mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hairline separators between tool groups */
 .sidebar-controls-divider {
-  width: 28px;
+  width: 22px;
   height: 1px;
-  margin: 8px 0;
-  background-color: var(--sidebar-border);
+  flex: 0 0 auto;
+  margin: 4px 0;
+  background-color: var(--lc-hairline);
 }
 
-/* === Expandable rail (labels + section headers) === */
+/* Pushes the settings group to the foot of the rail */
+.sidebar-controls-spacer {
+  flex: 1 1 auto;
+  min-height: 8px;
+}
+
+/* === Expanded rail (labels + section headers) === */
 .sidebar-controls-button__label { display: none; }
 .sidebar-controls-section-label { display: none; }
-.sidebar-controls--expanded { width: 200px; align-items: stretch; padding: 0.75rem 0.5rem 0; }
-.sidebar-controls--expanded .sidebar-controls-row { width: 100%; }
-.sidebar-controls--expanded .sidebar-controls-button { width: 100%; justify-content: flex-start; gap: 0.6rem; padding-left: 0.5rem; border-radius: 10px !important; }
-.sidebar-controls--expanded .sidebar-controls-button__label { display: inline; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
-.sidebar-controls--expanded .sidebar-controls-divider { width: 100%; height: auto; background: transparent; display: flex; align-items: center; margin: 12px 0 4px; }
-.sidebar-controls--expanded .sidebar-controls-section-label { display: inline; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground, var(--sidebar-border)); padding: 0 0.4rem; }
-.sidebar-controls-button.Mui-disabled { opacity: 0.4; }
+
+.sidebar-controls--expanded {
+  width: 208px;
+  align-items: stretch;
+  padding: 8px 8px 10px;
+}
+.sidebar-controls--expanded .sidebar-controls-row { width: 100%; display: block; }
+.graph-shell .sidebar-controls--expanded .sidebar-controls-button {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 0.6rem;
+  padding-left: 0.55rem;
+  border-radius: 8px;
+}
+.sidebar-controls--expanded .sidebar-controls-button__label {
+  display: inline;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.sidebar-controls--expanded .sidebar-controls-divider {
+  width: 100%;
+  height: auto;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  margin: 10px 0 4px;
+}
+.sidebar-controls--expanded .sidebar-controls-section-label {
+  display: inline;
+  font: 600 9.5px var(--lc-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lc-text-dim);
+  padding: 0 0.3rem;
+}

@@ -43,6 +43,7 @@
 @import "../components/country-activity";
 @import "../components/hop-on";
 @import "../components/dashboard-redesign";
+@import "../components/landing-chrome"; // landing redesign — keep last so its overrides win
 /* Landscape-only overlay (global) */
 .orientation-overlay {
   position: fixed;

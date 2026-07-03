@@ -1,95 +1,89 @@
 /* src/styles/components/_statusbar.scss */
-/* Bottom status bar inside the central graph column */
+/* Landing redesign: the status strip became two floating capsules over the
+   canvas — node/edge counts bottom-left, current layout bottom-right (the gap
+   on the far right is reserved for the AI fab). */
 
-.graph-status-bar {
-  flex-shrink: 0;
-  height: 32px;
-  padding: 0 16px;
+.graph-status-overlay {
+  position: absolute;
+  left: 16px;
+  right: 68px; /* clear the 44px AI fab + gaps */
+  bottom: 16px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  font-size: var(--text-xs);
-  background-color: var(--secondary);
-  color: var(--muted-foreground);
-  border-top: 1px solid var(--border);
+  pointer-events: none;
+  z-index: 20;
 }
 
-/* Dark theme adjustment uses the same tokens, which already change with theme */
-.dark-theme .graph-status-bar {
-  background-color: var(--sidebar);
-  color: var(--muted-foreground);
+.graph-status-overlay > * {
+  pointer-events: auto;
 }
 
-.graph-status-left,
-.graph-status-right {
-  display: flex;
+.graph-status-pill,
+.graph-layout-pill {
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 7px;
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 999px;
+  background: var(--lc-panel-soft);
+  border: 1px solid var(--lc-panel-border-soft);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font: 500 10.5px var(--lc-mono);
+  letter-spacing: 0.04em;
+  color: var(--lc-text-mid);
+  white-space: nowrap;
+}
+
+.graph-status-pill {
+  gap: 8px;
 }
 
 .graph-status-label {
-  opacity: 0.8;
+  color: var(--lc-text-mid);
 }
 
 .graph-status-value {
-  font-weight: var(--font-weight-medium);
+  font-weight: 600;
+  color: var(--lc-text);
 }
 
-/* small coloured dots before Nodes / Edges */
 .graph-status-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 999px;
   display: inline-block;
 }
 
-.graph-status-dot-nodes {
-  background-color: var(--primary);
-}
-
-.graph-status-dot-edges {
-  background-color: var(--node-policy); /* contrast colour for edges */
-}
+.graph-status-dot-nodes { background-color: var(--lc-accent); }
+.graph-status-dot-edges { background-color: var(--lc-green); }
 
 .graph-status-separator {
-  margin: 0 4px;
-  opacity: 0.5;
+  color: var(--lc-text-faint);
 }
 
-/* ===============================
-   Responsive fixes (append-only)
-   Keeps desktop unchanged
-   =============================== */
-
-.graph-status-bar,
-.graph-status-left,
-.graph-status-right {
-  min-width: 0;
+.graph-layout-pill {
+  cursor: pointer;
 }
-
-@media (max-width: 900px) {
-  .graph-status-bar {
-    height: auto;        /* allow wrap */
-    min-height: 32px;    /* preserve baseline */
-    padding: 6px 12px;
-    flex-wrap: wrap;
-    row-gap: 4px;
-    column-gap: 12px;
-  }
-
-  .graph-status-right {
-    margin-left: auto;
-  }
+.graph-layout-pill svg {
+  color: var(--lc-text-dim);
+}
+.graph-layout-pill:hover:not(:disabled) {
+  border-color: var(--lc-accent-border);
+  color: var(--lc-text);
+}
+.graph-layout-pill:disabled {
+  cursor: default;
+  opacity: 0.7;
 }
 
 @media (max-width: 740px) {
-  .graph-status-bar {
-    font-size: 12px;
+  .graph-status-overlay {
+    left: 10px;
+    right: 62px;
+    bottom: 10px;
   }
-
-  /* Remove “label noise” so values fit */
-  .graph-status-label,
-  .graph-status-separator {
-    display: none;
-  }
+  .graph-status-label { display: none; }
 }
