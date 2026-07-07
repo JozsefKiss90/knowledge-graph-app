@@ -14,8 +14,10 @@
   /* ---- landing chrome tokens (dark = reference design) ---- */
   --lc-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --lc-bg: #030813;
-  --lc-bar-bg: rgba(6, 18, 34, 0.82);
+  /* Navy synced with the Vision UI canvas (--graph-surface #0a1336) and the
+     dashboard background (#0b1437) so the chrome doesn't read darker. */
+  --lc-bg: #0b1437;
+  --lc-bar-bg: rgba(11, 20, 55, 0.82);
   --lc-bar-border: rgba(82, 111, 160, 0.18);
 
   --lc-panel-bg: rgba(15, 34, 65, 0.9);

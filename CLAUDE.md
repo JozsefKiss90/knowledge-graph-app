@@ -53,6 +53,63 @@ a real "worth it" read but rides as *supporting*, not headline. Honesty: CORDIS 
 applications — so the app shows who won and how much, never a funded-rate or odds (consequence of
 ADR-0002 #4).
 
+**Launch surface (evidence half).** Every CORDIS sub-feature is built and offline-verified, so launch
+is **curation, not construction**. The evidence half headlines with its two surfaces — the
+funded-projects panel (A2) and the organisations/partner view (B2) — and **B5**, the EuroSciVoc
+research-field explorer, ships at launch billed as the **field-first way in** (the monitoring lens of
+pain 1), never as a third evidence surface. Second wave — built, deliberately staged to keep first-run
+uncluttered: A6 funding trend, B3 related calls, B4 country overlay, B6 hop-on.
+
+**Alternatives (the competitive frame).** What the primary user uses today: (1) the **official EU
+Funding & Tenders portal** — authoritative on offers, flat; where every application ends up anyway (we
+link out, never impersonate — ADR-0002 #1); (2) **raw CORDIS** dashboards — the awards evidence,
+disconnected from open calls; (3) the advisor's **homegrown apparatus** — Excel watchlist +
+NCP/newsletter digests + forwarded emails — the actual Tuesday incumbent our monitoring home must
+beat; (4) **generic grant-alert databases** — breadth across many funders, no Horizon structure, no
+track record. External consultancies are a PI/SME-side pressure, not a frame-definer (the advisor
+partly IS the in-house consultant).
+
+**Edge (unfair advantage).** We make the **join** the official sources keep apart — the calls open
+now and the funded track record behind them — in one place, linked by **curated subject-area tagging**
+and governed by an **honesty contract** (real awarded euros only, honest empty states, counts never
+dressed as impact, no verdicts — ADR-0006, ADR-0002 #4). The sources are
+public, so the moat is **not data exclusivity**: it is the join, the accumulated curation that makes
+it trustworthy, and the trust discipline on top. User-facing wording stays mechanism-free ("in one
+place," never "in one graph").
+
+**Positioning statement.** *"For research-office professionals and the PIs they support, who must
+decide where to spend scarce proposal effort, [App] is European research-funding intelligence that
+shows open calls and the real funded track record behind them in one place — unlike the official
+sources, which keep those two halves apart."* ("[App]" = user-facing name, deferred to the brand
+phase; see brand constraints below.)
+
+**Brand constraints (wording deferred).** Decided: the product **will be renamed** for users;
+"knowledge-graph-app" stays the repo/internal codename. The eventual name/tagline must carry (a) the
+**domain** — European research funding — and (b) the **join promise** — what's on offer ↔ who's
+really funded. Tone: trustworthy, official-adjacent, **never impersonating the EU**. "Map/navigate"
+is optional imagery (the one-liner's metaphor); mechanism words ("graph") are banned user-facing.
+Only the wording itself remains for the brand phase.
+
+**Current phase (as of 2026-07).** **Light up CORDIS** is the phase headline: run the ingest locally →
+dump → seed the Railway Neo4j (`CORDIS_PLANS/13`) → surface A2/B2/B5. UX work this phase is
+subordinated to what the 30-second demo needs (evidence band, honest empty states, truthful KPI
+labels); the deeper UX spine (unified filter model) is scoped separately. Rationale: every CORDIS
+feature is built and offline-verified but renders nothing — one ingest lights up all of them and
+un-gates the "intelligence" claim. A phase with two headlines has none.
+
+**Core features & buckets.** **Core 1 (entry): find open calls fast** — the Pillar → Programme →
+Destination → Call drill-down, search, call detail. **Core 2 (differentiator): the funding
+landscape** — the evidence surfaces (A2, B2) with B5 as the field-first way in. **One workflow, not
+two modes**: evidence is a reveal *on* calls/areas (ADR-0001); there is no top-level "CORDIS"
+section. Supporting: the **dashboard re-cast as the monitoring home/hub** (what's new/closing in your
+fields + shortlist; hosts B5; its inert tabs die until A4 revives them honestly), the **assistant as
+grounded interface** (cites + acts on the graph; never a third core — ADR-0005), **compare**
+(structure-level today; **call-level compare is this phase's one UX scope add** — shortlisted calls
+side by side with their evidence, sequenced after ingest), and the **timeline** (a Core-1 filter;
+must join the unified filter model). Deferred: HE-Wiki / CROSS_TOPIC_SIMILARITY features — that data
+isn't in the loaded graph, B3's real EuroSciVoc relatedness likely supersedes it, and dependent dead
+controls (Min-Similarity slider) are removed, not advertised.
+
 <!-- Filled progressively by the product-vision grilling session (.scratch/product-vision/). -->
 
 ## Agent skills

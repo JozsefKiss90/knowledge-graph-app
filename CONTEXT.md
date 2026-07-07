@@ -20,8 +20,10 @@ _Avoid_: committed (for advertised money), disbursed
 The Awarded half — the CORDIS evidence (funded projects, organisations, countries, research fields)
 navigable per call or research area. Shown against a call as *the funded track record in that
 subject area*, never as "the projects this call funded": for an open call, exact funding is
-definitionally empty, so the evidence is thematic (subject-area) adjacency by design.
-_Avoid_: CORDIS view, evidence graph
+definitionally empty, so the evidence is thematic (subject-area) adjacency by design. This is the
+user-facing label ("Funding landscape"); the per-call band is titled "Funded track record in this
+area"; "CORDIS" appears user-facing only as source attribution.
+_Avoid_: CORDIS view, evidence graph, "behind this call" (ownership wording)
 
 **Research-office professional**:
 The primary user — a grant advisor / research manager at a university or research organisation who
@@ -48,5 +50,11 @@ A participant on a Funded Project, with a country, a type (company / university 
 role — **coordinator** or **partner**. The same organisation list is read two ways: diagnostically
 ("who wins this kind of work") and as a directory ("who could I team up with").
 _Avoid_: partner (except as the specific non-coordinator role), institution
+
+**Research Field**:
+An EuroSciVoc classification — the EU's standard hierarchical vocabulary of research fields — used to
+link Funded Projects and Calls by subject. The lens the research-office professional monitors in, and
+the subject-first way into the app (complementing the programme-first drill-down).
+_Avoid_: topic, tag, keyword, cluster (reserve "Cluster" for the Horizon Europe programme sense)
 
 <!-- More terms added as they are resolved during the product-vision grilling session. -->
