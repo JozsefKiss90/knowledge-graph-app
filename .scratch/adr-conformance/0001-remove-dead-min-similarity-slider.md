@@ -1,6 +1,6 @@
 # Remove the deferred HE-Wiki "Min Similarity" slider
 
-**Labels:** ready-for-agent · **Relates to:** CLAUDE.md §Product (HE-Wiki / `CROSS_TOPIC_SIMILARITY` deferred — "dependent dead controls (Min-Similarity slider) are removed, not advertised"), ADR-0006 #2, ADR-0007 · **Source:** ADR-conformance audit
+**Labels:** ready-for-human · **Relates to:** CLAUDE.md §Product (HE-Wiki / `CROSS_TOPIC_SIMILARITY` deferred — "dependent dead controls (Min-Similarity slider) are removed, not advertised"), ADR-0006 #2, ADR-0007 · **Source:** ADR-conformance audit
 
 ## What to build
 
@@ -29,13 +29,22 @@ a broader HE-Wiki removal is agreed in its own issue.
 
 ## Acceptance criteria
 
-- [ ] The "Min Similarity" slider/section no longer renders in any graph, including `HE_2025`.
-- [ ] `ScoreFilter` is deleted (or its sole mount removed) with no dangling import or empty `LegendSection`.
-- [ ] The main work-programme graph is unchanged — no regression (the slider was already gated out of it).
-- [ ] No new direct `faded`/edge-visibility writes are introduced; if a similarity filter returns later
+- [x] The "Min Similarity" slider/section no longer renders in any graph, including `HE_2025`.
+- [x] `ScoreFilter` is deleted (or its sole mount removed) with no dangling import or empty `LegendSection`.
+- [x] The main work-programme graph is unchanged — no regression (the slider was already gated out of it).
+- [x] No new direct `faded`/edge-visibility writes are introduced; if a similarity filter returns later
       (with real B3 EuroSciVoc relatedness), it writes through the ADR-0007 constraint store.
-- [ ] The wider HE-Wiki `CROSS_TOPIC_SIMILARITY` readers are left intact (unless a separate issue removes them).
+- [x] The wider HE-Wiki `CROSS_TOPIC_SIMILARITY` readers are left intact (unless a separate issue removes them).
 
 ## Blocked by
 
 None — can start immediately.
+
+## Comments
+
+**2026-07-07 (agent):** Done. Removed the `Min Similarity` `LegendSection` mount and the
+`ScoreFilter` import from `LegendToggle.js` (plus the now-unused `similarity` key in its
+`sectionsOpen` state) and deleted `LegendParts/ScoreFilter.js`. Grep confirms zero remaining
+`ScoreFilter` / "Min Similarity" references; the other `CROSS_TOPIC_SIMILARITY` readers
+(`graphStyles.js`, `EdgeTypeToggle.js`, `palette.js`, `nodeExtractors.js`) are untouched.
+Production build compiles (only pre-existing warnings).

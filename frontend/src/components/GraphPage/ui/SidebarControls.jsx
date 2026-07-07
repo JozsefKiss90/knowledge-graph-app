@@ -262,7 +262,8 @@ const SidebarControls = ({
         <LayoutControls
           layoutOptions={layoutOptions}
           updateOption={updateOption}
-          handleApplyLayout={handleApplyLayout}
+          onApply={handleApplyLayout}
+          onClose={() => setDrawerOpen(false)}
         />
       </CustomDrawer>
     </div>

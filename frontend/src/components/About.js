@@ -330,7 +330,7 @@ export default function About() {
                 </P>
                 <ul className="nd-md-list">
                   <li>
-                    A headline banner and KPI cards — total committed budget on offer, open calls, calls closing
+                    A headline banner and KPI cards — total planned budget on offer, open calls, calls closing
                     within 30 days, and topics tracked. These are <strong>planned</strong> figures (money on offer),
                     not money awarded.
                   </li>

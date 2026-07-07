@@ -512,7 +512,7 @@ export default function GraphSelector({ cy, graphName, setGraphName, loadFromSto
                 isSelected={false}
                 showToggle
                 onToggle={() => toggleExpanded("EU_PROGRAMMES")}
-                onClick={() => {}}
+                onClick={() => toggleExpanded("EU_PROGRAMMES")}
               />
 
               {expanded.has("EU_PROGRAMMES") && (

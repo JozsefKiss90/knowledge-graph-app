@@ -1,6 +1,6 @@
 # Reword "total committed" tour copy
 
-**Labels:** ready-for-agent · **Relates to:** ADR-0006 #5 (Advertised never wears an Awarded label), CONTEXT.md (_Avoid_: "committed") · **Source:** ADR-conformance audit
+**Labels:** ready-for-human · **Relates to:** ADR-0006 #5 (Advertised never wears an Awarded label), CONTEXT.md (_Avoid_: "committed") · **Source:** ADR-conformance audit
 
 ## What to build
 
@@ -17,11 +17,19 @@ may remain — this is about *user-facing copy only*.
 
 ## Acceptance criteria
 
-- [ ] No user-facing string labels advertised / on-offer / work-programme budget as "committed"
+- [x] No user-facing string labels advertised / on-offer / work-programme budget as "committed"
       (or "awarded" / "spent").
-- [ ] The About/tour KPI description matches the shipped KPI label family ("Planned (on offer)").
-- [ ] A grep for "committed" in user-facing strings returns only internal identifiers, not display copy.
+- [x] The About/tour KPI description matches the shipped KPI label family ("Planned (on offer)").
+- [x] A grep for "committed" in user-facing strings returns only internal identifiers, not display copy.
 
 ## Blocked by
 
 None — can start immediately.
+
+## Comments
+
+**2026-07-07 (agent):** Done. `About.js` dashboard section now reads "total planned budget on
+offer" (was "total committed …"); the sentence's existing clarifier ("These are **planned**
+figures (money on offer), not money awarded") stands. `GuidedTour.jsx` checked — no "committed"
+phrasing there. Grep for "committed" across `frontend/src` now matches only the internal
+`totalCommitted` identifiers, no display copy.

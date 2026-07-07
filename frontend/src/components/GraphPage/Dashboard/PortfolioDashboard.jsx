@@ -33,7 +33,6 @@ import DeadlineRunway from "./DeadlineRunway";
 import OfferFundedStrip from "./OfferFundedStrip";
 import TopicDistribution from "./TopicDistribution";
 import OpenCallsTable from "./OpenCallsTable";
-import RecentActivity from "./RecentActivity";
 import SavedSearches from "./SavedSearches";
 import SavedViews from "./SavedViews";
 import DashCardSkeleton from "./DashCardSkeleton";
@@ -387,8 +386,8 @@ export default function PortfolioDashboard({
             <TopicDistribution topicDistribution={data.topicDistribution} />
           </DashWindow>
 
-          {/* Saved: quick filters (the real callFilter mechanism), saved views and recent
-              activity folded into one window. */}
+          {/* Saved: quick filters (the real callFilter mechanism) and saved views folded
+              into one window. */}
           <DashWindow
             win={mkWin("saved")}
             title="Saved"
@@ -407,7 +406,6 @@ export default function PortfolioDashboard({
               onApply={onApplySavedView}
               onDelete={onDeleteSavedView}
             />
-            <RecentActivity />
           </DashWindow>
         </div>,
         document.body

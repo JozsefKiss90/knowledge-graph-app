@@ -9,7 +9,6 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import SearchBox from "./LegendParts/SearchBox";
-import ScoreFilter from "./LegendParts/ScoreFilter";
 import GraphSelector from "./LegendParts/GraphSelector";
 import EdgeTypeToggle from "./LegendParts/EdgeTypeToggle";
 import NodeTypeToggle from "./LegendParts/NodeTypeToggle";
@@ -251,7 +250,6 @@ const nodeTypeList = useMemo(() => {
     edgeTypes: true,
     nodeTypes: true,
     search: true,
-    similarity: true,
   });
 
   const toggleSection = (key) =>
@@ -481,16 +479,6 @@ const nodeTypeList = useMemo(() => {
         >
           <SearchBox cy={cy} showTitle={false} graphName={graphName} />
         </LegendSection>
-
-        {isHE2025 && layerEdgeTypesSet.has("CROSS_TOPIC_SIMILARITY") && (
-          <LegendSection
-            title="Min Similarity"
-            isOpen={sectionsOpen.similarity}
-            onToggle={() => toggleSection("similarity")}
-          >
-            <ScoreFilter cy={cy} showTitle={false} />
-          </LegendSection>
-        )}
 
       </Box>
 

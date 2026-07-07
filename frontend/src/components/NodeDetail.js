@@ -1125,6 +1125,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
     if (!exists) {
       stored.push({ id: nodeData.id, name: nodeData.name });
       localStorage.setItem("bookmarkedCalls", JSON.stringify(stored));
+      window.dispatchEvent(new Event("bookmarksChanged"));
       // eslint-disable-next-line no-alert
       alert("Call bookmarked!");
     } else {
