@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { getDatasetConfigForId } from "../../NodeDetalParts/useNodeDetail";
 
 function formatDate(d) {
@@ -67,48 +68,54 @@ export default function OpenCallsTable({
   filterLabel,
   callFilter,
   onSetFilter,
+  openCount,
+  closingCount,
 }) {
   const list = rows || [];
   const hasFilterChips = typeof onSetFilter === "function";
+
+  const subtitle =
+    filterLabel ||
+    (openCount != null
+      ? `Sorted by deadline · ${openCount.toLocaleString()} open · ${(closingCount || 0).toLocaleString()} closing in 30d`
+      : `Sorted by deadline · ${list.length} shown`);
 
   return (
     <div className="dash-card dash-calls">
       <div className="dash-calls__head">
         <div className="dash-calls__headings">
           <h3 className="dash-calls__title">Open &amp; upcoming calls</h3>
-          <span className="dash-calls__sub">
-            {filterLabel || `Sorted by deadline · ${list.length} shown`}
-          </span>
+          <span className="dash-calls__sub">{subtitle}</span>
         </div>
-        <div className="dash-calls__filters">
-          {hasFilterChips && (
-            <>
-              <button
-                type="button"
-                className={`dash-calls__chip${!callFilter ? " is-active" : ""}`}
-                onClick={() => onSetFilter(null)}
-              >
-                All
-              </button>
-              <button
-                type="button"
-                className={`dash-calls__chip${callFilter === "closing30" ? " is-active" : ""}`}
-                onClick={() => onSetFilter("closing30")}
-              >
-                Closing 30d
-              </button>
-            </>
-          )}
-          {setViewMode && (
+        <span className="dash-calls__grow" />
+        {hasFilterChips && (
+          <div className="dash-calls__toggle" role="group" aria-label="Filter calls">
             <button
               type="button"
-              className="dash-calls__chip dash-calls__chip--ghost"
-              onClick={() => setViewMode("graph")}
+              className={`dash-calls__seg${!callFilter ? " is-active" : ""}`}
+              onClick={() => onSetFilter(null)}
             >
-              View on graph
+              All
             </button>
-          )}
-        </div>
+            <button
+              type="button"
+              className={`dash-calls__seg${callFilter === "closing30" ? " is-active" : ""}`}
+              onClick={() => onSetFilter("closing30")}
+            >
+              Closing 30d
+            </button>
+          </div>
+        )}
+        {setViewMode && (
+          <button
+            type="button"
+            className="dash-calls__viewgraph"
+            onClick={() => setViewMode("graph")}
+          >
+            View on graph
+            <ArrowOutwardIcon fontSize="inherit" className="dash-calls__viewgraph-icon" />
+          </button>
+        )}
       </div>
 
       <div className="dash-calls__colhead">

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import PublicIcon from "@mui/icons-material/Public";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
@@ -11,11 +12,12 @@ import HopOnHosts from "../HopOn/HopOnHosts";
 
 // The three CORDIS exploration tools that used to be right-anchored pop-up drawers. They now live in a single
 // distinct dashboard panel; clicking the matching sidebar button navigates to the dashboard and activates the
-// corresponding tab here (driven by GraphPage's `dashboardPanel` state).
+// corresponding tab here (driven by GraphPage's `dashboardPanel` state). `short` is the compact tab label
+// (redesign's 3-segment control); `label` is the fuller name used in the idle teaching intro.
 const TABS = [
-  { key: "fields", label: "Research fields", Icon: AccountTreeIcon, desc: "Browse EU-funded research fields (EuroSciVoc) and the calls funded in each." },
-  { key: "country", label: "Country activity", Icon: PublicIcon, desc: "Pick a country to see where its organisations have been funded across the graph." },
-  { key: "hopOn", label: "Hop-on", Icon: GroupAddIcon, desc: "Recently-started Horizon Europe projects a widening-country partner may still be able to join." },
+  { key: "fields", label: "Research fields", short: "Fields", Icon: AccountTreeIcon, desc: "Browse EU-funded research fields (EuroSciVoc) and the calls funded in each." },
+  { key: "country", label: "Country activity", short: "Country", Icon: PublicIcon, desc: "Pick a country to see where its organisations have been funded across the graph." },
+  { key: "hopOn", label: "Hop-on", short: "Hop-on", Icon: GroupAddIcon, desc: "Recently-started Horizon Europe projects a widening-country partner may still be able to join." },
 ];
 
 /**
@@ -41,9 +43,16 @@ export default function DashboardToolPanel({ panel, setPanel, country, setCountr
 
   return (
     <div className={`dash-card dash-tool-panel${panel ? "" : " dash-tool-panel--idle"}`} ref={shellRef}>
+      <div className="dash-tool-panel__title">
+        <BuildOutlinedIcon className="dash-tool-panel__title-icon" />
+        <span className="dash-tool-panel__title-text">Research tools</span>
+        <span className="dash-tool-panel__title-grow" />
+        <span className="dash-tool-panel__evidence">CORDIS EVIDENCE</span>
+      </div>
+
       <div className="dash-tool-panel__header">
         <div className="dash-tool-panel__tabs" role="tablist" aria-label="Research tools">
-          {TABS.map(({ key, label, Icon }) => (
+          {TABS.map(({ key, short, Icon }) => (
             <button
               key={key}
               type="button"
@@ -53,7 +62,7 @@ export default function DashboardToolPanel({ panel, setPanel, country, setCountr
               onClick={() => setPanel(key)}
             >
               <Icon className="dash-tool-panel__tab-icon" />
-              <span>{label}</span>
+              <span>{short}</span>
             </button>
           ))}
         </div>

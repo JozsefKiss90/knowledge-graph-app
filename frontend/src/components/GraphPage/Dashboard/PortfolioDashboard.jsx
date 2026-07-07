@@ -2,7 +2,6 @@ import React, { useMemo, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 
-import HubIcon from "@mui/icons-material/Hub";
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import StackedBarChartIcon from "@mui/icons-material/StackedBarChart";
@@ -11,7 +10,6 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import AddIcon from "@mui/icons-material/Add";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { useDashboardData } from "./useDashboardData";
@@ -28,32 +26,24 @@ import CordisActivityTrend from "./CordisActivityTrend";
 import CordisFieldMix from "./CordisFieldMix";
 import CordisCountryLeaderboard from "./CordisCountryLeaderboard";
 import CordisTopOrgs from "./CordisTopOrgs";
-import FundingFrameLegend from "./FundingFrameLegend";
 import DashboardToolPanel from "./DashboardToolPanel";
 import FundingByProgramme from "./FundingByProgramme";
 import CallsOverTime from "./CallsOverTime";
+import DeadlineRunway from "./DeadlineRunway";
+import OfferFundedStrip from "./OfferFundedStrip";
 import TopicDistribution from "./TopicDistribution";
 import OpenCallsTable from "./OpenCallsTable";
 import RecentActivity from "./RecentActivity";
 import SavedSearches from "./SavedSearches";
 import SavedViews from "./SavedViews";
 import DashCardSkeleton from "./DashCardSkeleton";
-import KpiTileRow from "./KpiTileRow";
 import DashWindow from "./DashWindow";
 
-// rgba tint of a hex accent — used for the active theme-pill border/shadow.
-function tint(hex, a) {
-  const h = hex.replace("#", "");
-  const r = parseInt(h.slice(0, 2), 16);
-  const g = parseInt(h.slice(2, 4), 16);
-  const b = parseInt(h.slice(4, 6), 16);
-  return `rgba(${r},${g},${b},${a})`;
-}
-
-// The seven "Explore by theme" windows. Each opens a draggable DashWindow holding a reused
-// dashboard component. Accent colours match the mockup's per-window tints.
+// The "Explore by theme" windows. Each opens a draggable DashWindow holding a reused dashboard
+// component. `accent` colours the window header; the pills themselves share one blue-glass active
+// style (the redesign is single-accent). `saved` is pulled out and right-aligned in the bar.
 const THEMES = [
-  { key: "funding", label: "Funding", icon: BarChartIcon, accent: "#7551FF", width: 480 },
+  { key: "funding", label: "Funding", icon: BarChartIcon, accent: "#47a9ff", width: 480 },
   { key: "funded", label: "Funded activity", icon: StackedBarChartIcon, accent: "#34d399", width: 540 },
   { key: "geography", label: "Geography", icon: PublicIcon, accent: "#60A5FA", width: 480 },
   { key: "orgs", label: "Organisations", icon: GroupsIcon, accent: "#F472B6", width: 460 },
@@ -175,59 +165,21 @@ export default function PortfolioDashboard({
   const countryActivity = useCountryActivity("", cordisActive && open.geography);
   const topOrgs = useTopOrganisations(cordisActive && open.orgs);
 
+  const savedCount = savedViews?.length || 0;
+
   return (
     <div className="dash-shell">
       <div className="dash-canvas">
-        {/* ── Title block ── (the search field / notifications / avatar in the mockup are
-            demonstrative chrome — the real view toggle, Save view and Copy link live in the
-            GraphTopBar mounted above this dashboard, so we don't duplicate them.) */}
-        <header className="dash-topbar">
-          <div className="dash-topbar__logo">
-            <HubIcon fontSize="inherit" />
-          </div>
-          <div className="dash-topbar__head">
-            <div className="dash-topbar__eyebrow">
-              EU Knowledge Graph&nbsp;&nbsp;/&nbsp;&nbsp;Dashboard
-            </div>
-            <div className="dash-topbar__title">Portfolio Dashboard</div>
-          </div>
-          <div className="dash-topbar__spacer" />
-          <p className="dash-topbar__caption">
-            A live view of the funding landscape you saved — numbers update from the graph data.
-          </p>
-        </header>
-
-        {/* ── KPI tiles ── */}
-        <KpiTileRow
-          totalCommitted={data.totalCommitted}
-          openCalls={data.openCalls}
-          closingIn30d={data.closingIn30d}
-          topicsTracked={data.topicsTracked}
-          programmeCount={data.programmeCount}
-          cordis={cordis.data}
-          cordisActive={cordisActive}
-        />
-
-        {/* ── Planned-vs-funded framing (always visible) + CORDIS provenance note ── */}
-        <div className="dash-frame">
-          <FundingFrameLegend className="dash-frame__legend" />
-          {cordisActive && (
-            <p className="dash-kpinote">
-              {cordis.data.provenance} · Across{" "}
-              {cordis.data.callCount.toLocaleString()} tracked calls with CORDIS evidence.
-              Counts and euros are separate measures; “most funded” is not “best”.
-            </p>
-          )}
-        </div>
-
-        {/* ── Explore by theme ── */}
+        {/* ── Explore by theme ──
+            The page title / breadcrumb and global actions live in the CommandBar mounted above
+            this dashboard, so we don't repeat a title block here. */}
         <div className="dash-themebar">
           <div className="dash-themebar__label">
             <DashboardCustomizeIcon fontSize="inherit" />
             <span>Explore by theme</span>
           </div>
           <div className="dash-themebar__pills">
-            {THEMES.map((t) => {
+            {THEMES.filter((t) => t.key !== "saved").map((t) => {
               const on = !!open[t.key];
               const Icon = t.icon;
               return (
@@ -235,15 +187,6 @@ export default function PortfolioDashboard({
                   key={t.key}
                   type="button"
                   className={`dash-pill${on ? " is-active" : ""}`}
-                  style={
-                    on
-                      ? {
-                          background: `linear-gradient(135deg, ${t.accent}, #4318FF)`,
-                          borderColor: tint(t.accent, 0.5),
-                          boxShadow: `0 8px 20px ${tint(t.accent, 0.35)}`,
-                        }
-                      : undefined
-                  }
                   aria-pressed={on}
                   onClick={() => toggle(t.key)}
                 >
@@ -252,15 +195,27 @@ export default function PortfolioDashboard({
                   {on ? (
                     <CheckCircleIcon className="dash-pill__state" fontSize="inherit" />
                   ) : (
-                    <AddIcon className="dash-pill__state" fontSize="inherit" />
+                    <span className="dash-pill__plus" aria-hidden="true">+</span>
                   )}
                 </button>
               );
             })}
           </div>
+          <span className="dash-themebar__grow" />
+          {/* Saved is pulled out and right-aligned, carrying a live count of saved views. */}
+          <button
+            type="button"
+            className={`dash-pill dash-pill--saved${open.saved ? " is-active" : ""}`}
+            aria-pressed={open.saved}
+            onClick={() => toggle("saved")}
+          >
+            <BookmarkIcon className="dash-pill__icon" fontSize="inherit" />
+            <span>Saved</span>
+            {savedCount > 0 && <span className="dash-pill__count">{savedCount}</span>}
+          </button>
         </div>
 
-        {/* ── Main area: calls list (left) + research tools & calls-over-time (right) ── */}
+        {/* ── Main area: calls list + deadline runway (left) · research tools + calls-over-time (right) ── */}
         <div className="dash-main">
           <div className="dash-main__left">
             <OpenCallsTable
@@ -277,7 +232,11 @@ export default function PortfolioDashboard({
               }
               callFilter={callFilter}
               onSetFilter={setCallFilter}
+              openCount={data.openCalls}
+              closingCount={data.closingIn30d}
             />
+            {/* Deadline runway — plots the very calls above by close date. */}
+            <DeadlineRunway calls={tableRows} />
           </div>
           <div className="dash-main__right">
             {/* Research tools — the real panel (field explorer / country activity / hop-on),
@@ -291,6 +250,16 @@ export default function PortfolioDashboard({
             <CallsOverTime monthlyBuckets={data.monthlyBuckets} />
           </div>
         </div>
+
+        {/* ── On offer / funded summary strip (planned vs CORDIS-funded, kept as separate
+            measures; the funded half only appears once real CORDIS data is ingested) ── */}
+        <OfferFundedStrip
+          totalCommitted={data.totalCommitted}
+          programmeCount={data.programmeCount}
+          openCalls={data.openCalls}
+          cordis={cordis.data}
+          cordisActive={cordisActive}
+        />
       </div>
 
       {/* ── Floating window layer ──

@@ -17,7 +17,14 @@ Since the positioning decision (Q3.2), this curation is also the moat: the under
 public, so what compounds and is hard to copy is precisely the reviewed subject→query map. Deleting
 the curation "to simplify," or replacing it with auto-queries "for coverage," would delete the edge.
 
-**Known trap:** `load_curated_queries` returns `None` for a source with *no curated file at all*, and
-`tag_calls` then falls back to raw-subject queries — the exact failure mode this decision exists to
-prevent. Until that fallback is removed from the live path, the rule is operational: **a source gets
-its curated query file before it gets tag-calls.**
+**Enforced in code** (was a known trap). Previously `load_curated_queries` returned `None` for a source
+with *no curated file at all*, and `tag_calls` then silently fell back to raw-subject queries — the exact
+failure mode this decision exists to prevent. That fallback is now closed on the live path:
+
+- `tag_calls` raises `ValueError` when `query_map is None` unless an explicit `allow_raw=True` is passed
+  (offline experiments only, where noisy tags are acceptable) — `cordis_tagger.py`.
+- `POST /cordis/tag-calls` rejects a source with no `curated_queries/<source>.json` up front with HTTP 400,
+  so an uncovered source can't even start a run — `cordis_routes.py`.
+
+The operational rule — **a source gets its curated query file before it gets tag-calls** — is now
+guaranteed by the code, not merely documented.

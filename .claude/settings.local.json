@@ -123,7 +123,12 @@
       "Bash(REACT_APP_API_URL=http://localhost:8000 node node_modules/react-scripts/bin/react-scripts.js build)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 2 http://localhost:3000/)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" --max-time 3 http://localhost:3000/)",
-      "Bash(curl -s http://127.0.0.1:9222/json/list)"
+      "Bash(curl -s http://127.0.0.1:9222/json/list)",
+      "Bash(awk '{ print NR\": \"length\\($0\\) }' \"Portfolio Dashboard \\(standalone\\)2.html\")",
+      "Bash(sort -t: -k2 -n -r)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1480,1050 --screenshot=C:/Users/jozse/AppData/Local/Temp/claude/C--Code-knowledge-graph-app/87da64c9-23d3-48b0-8f05-e8137bb47ae8/scratchpad/mock.png --virtual-time-budget=8000 C:/Users/jozse/AppData/Local/Temp/claude/C--Code-knowledge-graph-app/87da64c9-23d3-48b0-8f05-e8137bb47ae8/scratchpad/mock.html)",
+      "Bash(C:/Code/knowledge-graph-app/frontend/node_modules/.bin/sass --no-source-map --load-path=C:/Code/knowledge-graph-app/frontend/src/styles/components C:/Users/jozse/AppData/Local/Temp/claude/C--Code-knowledge-graph-app/87da64c9-23d3-48b0-8f05-e8137bb47ae8/scratchpad/harness.scss C:/Users/jozse/AppData/Local/Temp/claude/C--Code-knowledge-graph-app/87da64c9-23d3-48b0-8f05-e8137bb47ae8/scratchpad/harness.css)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1360,1000 --default-background-color=00000000 --screenshot=C:/Users/jozse/AppData/Local/Temp/claude/C--Code-knowledge-graph-app/87da64c9-23d3-48b0-8f05-e8137bb47ae8/scratchpad/harness.png --virtual-time-budget=3000 C:/Users/jozse/AppData/Local/Temp/claude/C--Code-knowledge-graph-app/87da64c9-23d3-48b0-8f05-e8137bb47ae8/scratchpad/harness.html)"
     ]
   }
 }

@@ -102,6 +102,14 @@ def tag_calls_endpoint(payload: TagCallsPayload, background_tasks: BackgroundTas
         from .cordis_client import CordisClient, CordisError
         from .cordis_tagger import tag_calls, load_curated_queries
         query_map = load_curated_queries(payload.source)
+        # ADR-0004: the live path is curated-only. Refuse a source with no curated file up front
+        # (rather than silently tagging by raw subject, which fabricates noisy evidence).
+        if query_map is None:
+            raise HTTPException(
+                status_code=400,
+                detail=(f"No curated_queries/{payload.source}.json — refusing to tag "
+                        f"{payload.source!r} by raw subject (ADR-0004). Add the curated query file first."),
+            )
         try:
             CordisClient()  # fail fast with 503 if the key is missing
         except CordisError as e:

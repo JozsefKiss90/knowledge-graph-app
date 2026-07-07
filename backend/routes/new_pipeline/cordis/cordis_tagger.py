@@ -89,10 +89,15 @@ def tag_calls(
     query_map: Optional[Dict[str, str]] = None,
     ingest_projects: bool = True,
     only_untagged: bool = False,
+    allow_raw: bool = False,
 ) -> Dict[str, Any]:
     """Tag the calls in ``source`` (a cluster source tag) — or an explicit ``calls`` list — grouping by
     distinct subject so each subject is fetched once. When ``query_map`` is supplied, each subject is
     fetched with its **curated** query and subjects without one are skipped (no unreliable auto-query).
+
+    A missing curated map (``query_map is None``) raises by default (ADR-0004) rather than silently
+    querying by raw subject — wrong evidence is worse than none. Pass ``allow_raw=True`` only for
+    offline experiments where noisy tags are acceptable.
 
     When ``ingest_projects`` (default True, idea A2), the same per-subject fetch ALSO ingests the full
     projects and links every call on that subject to them via (:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject),
@@ -101,6 +106,15 @@ def tag_calls(
         if not source:
             raise ValueError("tag_calls needs either `source` (cluster tag) or an explicit `calls` list.")
         calls = _calls_in_scope(source, only_untagged=only_untagged)
+
+    # ADR-0004: curated queries only. A missing curated map must NOT silently fall back to raw-subject
+    # queries (they mis-tag ambiguous subjects, and wrong evidence under a call is worse than none —
+    # the honesty contract, ADR-0006). Fail loud unless a caller explicitly opts into raw querying.
+    if query_map is None and not allow_raw:
+        raise ValueError(
+            f"No curated query map for source={source!r} — refusing to tag by raw subject (ADR-0004). "
+            f"Add curated_queries/<source>.json, or pass allow_raw=True for an offline experiment."
+        )
 
     by_subject: Dict[str, List[str]] = defaultdict(list)
     for c in calls:
@@ -129,6 +143,7 @@ def tag_calls(
                 failed_subjects.append({"subject": subject, "error": "no curated query"})
                 continue
         else:
+            # Only reachable when allow_raw=True (explicit opt-in for offline experiments) — ADR-0004.
             query = subject
         # One failing subject (e.g. a query over the 25 000-result cap, a timeout) must not abort the
         # whole run — record it and continue.
