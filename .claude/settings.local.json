@@ -134,7 +134,16 @@
       "PowerShell(Remove-Item *)",
       "PowerShell(Out-Null *)",
       "PowerShell(Select-String *)",
-      "PowerShell(\\(Get-Item \"C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\LegendToggle.js\"\\).LastWriteTime = Get-Date; \"touched: \" + \\(Get-Item \"C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\LegendToggle.js\"\\).LastWriteTime)"
+      "PowerShell(\\(Get-Item \"C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\LegendToggle.js\"\\).LastWriteTime = Get-Date; \"touched: \" + \\(Get-Item \"C:\\\\Code\\\\knowledge-graph-app\\\\frontend\\\\src\\\\components\\\\LegendToggle.js\"\\).LastWriteTime)",
+      "Bash(iconv -f UTF-16 -t UTF-8 \"C:/Code/knowledge-graph-app/backend/requirements.txt\")",
+      "PowerShell(curl.exe -s http://localhost:8000/cordis/tag-status; echo \"---\"; curl.exe -s http://localhost:8000/cordis/stats)",
+      "Bash(docker exec *)",
+      "Bash(MSYS_NO_PATHCONV=1 docker exec kg-dev-backend-1 python /app/routes/new_pipeline/cordis/preflight_curated_coverage.py)",
+      "Bash(MSYS_NO_PATHCONV=1 docker exec kg-dev-backend-1 python /app/routes/new_pipeline/cordis/test_cordis_tagger.py)",
+      "Bash(MSYS_NO_PATHCONV=1 docker exec kg-dev-backend-1 python /app/routes/new_pipeline/cordis/test_cordis_cache.py)",
+      "PowerShell(docker exec kg-dev-neo4j-1 *)",
+      "Bash(MSYS_NO_PATHCONV=1 docker exec kg-dev-backend-1 python -c ' *)",
+      "Bash(MSYS_NO_PATHCONV=1 docker exec kg-dev-backend-1 python -m py_compile /app/routes/new_pipeline/cordis/cordis_tagger.py /app/routes/new_pipeline/cordis/cordis_routes.py /app/routes/new_pipeline/cordis/test_cordis_tagger.py /app/routes/new_pipeline/cordis/preflight_curated_coverage.py)"
     ]
   }
 }
