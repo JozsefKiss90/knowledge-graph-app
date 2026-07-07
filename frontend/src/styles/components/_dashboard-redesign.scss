@@ -25,7 +25,7 @@
 @mixin dash2-tokens-dark {
   --d2-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --d2-shell-bg: #030813;
+  --d2-shell-bg: #0b1437; /* = landing chrome --lc-bg, so the dashboard reads continuous with the navbar */
   --d2-card-bg: rgba(16, 36, 70, 0.85);
   --d2-card-border: rgba(99, 136, 196, 0.45);
   --d2-card-shadow: 0 18px 44px rgba(2, 6, 23, 0.5), 0 0 26px rgba(47, 98, 180, 0.1);
@@ -148,9 +148,11 @@
 /* ── Shell ─────────────────────────────────────────────────────────── */
 .dash-shell {
   @include dash2-tokens-dark;
-  padding: 16px 20px 26px;
+  /* left 16px aligns with the command bar's brand; content runs full width up to the docked
+     right rail (a flex sibling), so the dashboard lines up with the navbar edge-to-edge. */
+  padding: 12px 18px 14px 16px;
   background:
-    radial-gradient(1100px 520px at 82% -6%, rgba(47, 98, 180, 0.16), transparent 62%),
+    radial-gradient(1100px 520px at 82% -6%, rgba(47, 98, 180, 0.10), transparent 62%),
     var(--d2-shell-bg);
   color: var(--d2-text);
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
@@ -180,11 +182,12 @@
 }
 
 .dash-canvas {
-  max-width: 1460px;
-  margin: 0 auto;
+  /* full width so the content aligns with the full-width command bar (no centered cap that would
+     leave it squeezed/misaligned on wide screens). */
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 /* ── Explore-by-theme bar ─────────────────────────────────────────── */
@@ -291,14 +294,14 @@
 .dash-main {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 430px;
-  gap: 12px;
+  gap: 10px;
   align-items: start;
 }
 .dash-main__left,
 .dash-main__right {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
 }
 @media (max-width: 1180px) {
@@ -306,12 +309,12 @@
 }
 
 /* ── Open & upcoming calls list ───────────────────────────────────── */
-.dash-calls { padding: 14px 18px 8px; }
+.dash-calls { padding: 12px 16px 6px; }
 .dash-calls__head {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 .dash-calls__headings { min-width: 0; }
 .dash-calls__grow { flex: 1 1 auto; }
@@ -382,7 +385,7 @@
   text-transform: uppercase;
   color: var(--d2-faint);
   font-weight: 600;
-  padding: 8px 8px 7px;
+  padding: 6px 8px 6px;
   border-bottom: 1px solid var(--d2-hairline);
   .dash-calls__colhead--budget { text-align: right; }
   .dash-calls__colhead--deadline { text-align: right; }
@@ -394,7 +397,7 @@
   grid-template-columns: minmax(0, 1fr) 88px 132px 92px;
   gap: 0 14px;
   align-items: center;
-  padding: 9px 8px;
+  padding: 7px 8px;
   border-radius: 8px;
   border-bottom: 1px solid rgba(82, 111, 160, 0.13);
   &:last-child { border-bottom: 0; }
@@ -507,12 +510,12 @@
 }
 
 /* ── Deadline runway ──────────────────────────────────────────────── */
-.dash-runway { padding: 14px 18px 16px; }
+.dash-runway { padding: 12px 16px 12px; }
 .dash-runway__head {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 .dash-runway__headings { min-width: 0; }
 .dash-runway__title {
@@ -547,8 +550,8 @@
 }
 .dash-runway__track {
   position: relative;
-  height: 74px;
-  margin: 8px 2px 0;
+  height: 64px;
+  margin: 6px 2px 0;
 }
 .dash-runway__axis {
   position: absolute;
@@ -616,13 +619,13 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 .dash-runway__stat {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 9px 13px;
+  padding: 8px 12px;
   background: var(--d2-inner-bg);
   border: 1px solid var(--d2-inner-border);
   border-radius: 10px;
@@ -651,7 +654,7 @@
 /* ── Research-tools panel (mockup "Research tools" card) ───────────── */
 .dash-shell {
   .dash-tool-panel {
-    padding: 14px 16px 15px;
+    padding: 12px 16px 12px;
     border-color: var(--d2-card-border);
     box-shadow: var(--d2-card-shadow);
   }
@@ -663,7 +666,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 11px;
+    margin-bottom: 9px;
   }
   .dash-tool-panel__title-icon { font-size: 18px !important; color: var(--d2-accent-ico); }
   .dash-tool-panel__title-text { font-size: 14.5px; font-weight: 600; color: var(--d2-title); }
@@ -675,7 +678,7 @@
     color: var(--d2-dim);
   }
 
-  .dash-tool-panel__header { margin-bottom: 13px; }
+  .dash-tool-panel__header { margin-bottom: 10px; }
   .dash-tool-panel__tabs {
     flex: 1 1 auto;
     background: var(--d2-seg-bg);
@@ -708,12 +711,12 @@
 }
 
 /* ── Calls over time (kept area chart, aligned chrome) ────────────── */
-.dash-calls-time { padding: 14px 16px 13px; }
+.dash-calls-time { padding: 12px 16px 12px; }
 .dash-calls-time__head {
   display: flex;
   align-items: center;
   gap: 9px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .dash-calls-time__year {
   font-family: var(--d2-mono);
@@ -748,7 +751,7 @@
     box-shadow: inset 0 0 0 1px var(--d2-accent-border);
   }
 }
-.dash-calls-time__svg { height: 92px; }
+.dash-calls-time__svg { height: 78px; }
 .dash-calls-time__labels {
   margin-top: 6px;
   font-family: var(--d2-mono);
@@ -762,7 +765,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 11px 18px;
+  padding: 10px 16px;
   background: var(--d2-strip-bg);
   border: 1px solid var(--d2-bar-border);
   border-radius: 12px;
