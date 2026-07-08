@@ -16,6 +16,7 @@ import useCountryActivity from "../CountryActivity/useCountryActivity";
 import CountryOverlayBadge from "../CountryActivity/CountryOverlayBadge";
 import PortfolioDashboard from "../Dashboard/PortfolioDashboard";
 import FindCallsPanel from "../FindCalls/FindCallsPanel";
+import LandingHome from "../Home/LandingHome";
 
 // Lifts the nested controller's level-bar DATA (breadcrumbs) up to GraphPage
 // after commit, where the global CommandBar renders it. Data only — the click
@@ -406,6 +407,21 @@ export default function GraphMainColumn({
             onOpenDetail={onOpenDetail}
             onCompareSelect={compareSelectCallback}
           />
+
+          {/* Home v1 (Step 5): the orientation + monitoring card, shown only on
+              the ROOT landing (it unmounts the moment the user drills into a
+              programme). Anchors to .graph-main-column (position: relative). */}
+          {graphName === "ROOT" && (
+            <LandingHome
+              loadFromStore={loadFromStore}
+              onFindCalls={() => setFindOpen(true)}
+              onOpenLandscape={() => {
+                setViewMode("dashboard");
+                setDashboardPanel("fields");
+              }}
+              onLocateCall={onLocateCall}
+            />
+          )}
 
           {heWikiMissing && (
             <div

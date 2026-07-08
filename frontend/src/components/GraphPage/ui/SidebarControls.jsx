@@ -25,9 +25,7 @@ import {
   BookmarkIcon,
   TimelineIcon,
   ColumnsIcon,
-  TreeIcon,
-  GlobeIcon,
-  PathIcon,
+  LayersIcon,
   MoonIcon,
   MailIcon,
   GearIcon,
@@ -69,9 +67,12 @@ const SidebarControls = ({
   // Compare & Timeline are cluster/Call-oriented; they don't apply to the flat HE Wiki graph.
   const isHEWiki = graphName === "HE_2025";
 
-  // The three CORDIS tools live in the dashboard tool panel: a button is "active" when the dashboard is
-  // showing its tab. Clicking navigates to the dashboard and activates the panel (handled in GraphPage).
-  const isPanelActive = (key) => viewMode === "dashboard" && dashboardPanel === key;
+  // The funded-landscape tools (research fields, country activity, hop-on) live in the dashboard tool
+  // panel. Q5.2 collapses the rail's three glyphs into ONE labelled shortcut to that landscape section
+  // (a labelled shortcut to a canonical place, never a third entry pattern); the individual tools stay
+  // reachable as tabs on the panel. It reads "active" whenever any of those tabs is showing.
+  const landscapeActive =
+    viewMode === "dashboard" && ["fields", "country", "hopOn"].includes(dashboardPanel);
 
   const tooltipProps = {
     placement: "left",
@@ -193,36 +194,23 @@ const SidebarControls = ({
         <ColumnsIcon size={16} />
       </RailButton>
 
-      <SectionDivider label="CORDIS tools" />
+      <SectionDivider label="Landscape" />
 
+      {/* Q5.2: one labelled shortcut to the funded-landscape section (research fields, country
+          activity and hop-on live as tabs on the dashboard tool panel). Defaults to the field
+          explorer — the field-first way in (B5). */}
       <RailButton
-        title={isHEWiki ? "Research fields — not available for this dataset" : "Browse research fields"}
-        label="Research fields"
-        active={isPanelActive("fields")}
+        title={
+          isHEWiki
+            ? "Funded landscape — not available for this dataset"
+            : "Funded landscape — explore by research field"
+        }
+        label="Funded landscape"
+        active={landscapeActive}
         disabled={isHEWiki}
         onClick={() => onSelectDashboardPanel("fields")}
       >
-        <TreeIcon size={16} />
-      </RailButton>
-
-      <RailButton
-        title={isHEWiki ? "Country activity — not available for this dataset" : "Country activity overlay"}
-        label="Country activity"
-        active={isPanelActive("country")}
-        disabled={isHEWiki}
-        onClick={() => onSelectDashboardPanel("country")}
-      >
-        <GlobeIcon size={16} />
-      </RailButton>
-
-      <RailButton
-        title={isHEWiki ? "Hop-on — not available for this dataset" : "Hop-on opportunities"}
-        label="Hop-on"
-        active={isPanelActive("hopOn")}
-        disabled={isHEWiki}
-        onClick={() => onSelectDashboardPanel("hopOn")}
-      >
-        <PathIcon size={16} />
+        <LayersIcon size={16} />
       </RailButton>
 
       <span className="sidebar-controls-spacer" />

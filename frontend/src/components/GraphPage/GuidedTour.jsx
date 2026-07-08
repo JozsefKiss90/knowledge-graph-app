@@ -71,15 +71,15 @@ const STEPS = [
     placement: "left",
     title: "5 · Quick tools",
     content:
-      "This icon rail holds your tools: the Timeline scrubber, Compare programmes, the CORDIS research tools (research fields, country activity, hop-on), your Bookmarks, and light/dark mode.",
+      "This icon rail holds your tools: the Timeline scrubber, Compare programmes, a Funded landscape shortcut (research fields, country activity and hop-on, all in one place), your Bookmarks, and light/dark mode.",
     view: { mode: "graph" },
   },
   {
-    target: ".dash-grid__hero",
-    placement: "bottom",
+    target: ".dash-offerstrip",
+    placement: "top",
     title: "6 · The Portfolio Dashboard",
     content:
-      "The dashboard summarises everything at a glance — headline KPIs, funding by programme (planned vs awarded), and calls over time. Where CORDIS data is available, a “What’s actually been funded” section adds real awarded euros, organisations and countries.",
+      "The dashboard is your monitoring hub — open & upcoming calls, a deadline runway, funding by programme, and this on-offer vs funded summary. Where CORDIS data is available, the funded side shows real awarded euros, organisations and countries — never estimates.",
     view: { mode: "dashboard", panel: null },
   },
   {

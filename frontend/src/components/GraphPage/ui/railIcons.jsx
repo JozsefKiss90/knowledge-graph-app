@@ -153,6 +153,13 @@ export const TreeIcon = (p) => (
     <path d="M12 8v4M12 12H6v4M12 12h6v4" />
   </Icon>
 );
+/* Funded landscape — stacked layers ("map" of the funded terrain). */
+export const LayersIcon = (p) => (
+  <Icon {...p}>
+    <path d="M12 3l9 5-9 5-9-5 9-5z" />
+    <path d="M3 13l9 5 9-5" />
+  </Icon>
+);
 export const GlobeIcon = (p) => (
   <Icon {...p}>
     <circle cx="12" cy="12" r="9" /><path d="M3 12h18" />

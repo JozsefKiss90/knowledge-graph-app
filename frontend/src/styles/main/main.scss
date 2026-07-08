@@ -45,6 +45,7 @@
 @import "../components/dashboard-redesign";
 @import "../components/money-badge"; // two-halves money badge — shared vocabulary (Q6.2)
 @import "../components/landing-chrome"; // landing redesign — keep last so its overrides win
+@import "../components/landing-home"; // Home v1 (Step 5) — uses --lc-* tokens from landing-chrome
 /* Landscape-only overlay (global) */
 .orientation-overlay {
   position: fixed;
