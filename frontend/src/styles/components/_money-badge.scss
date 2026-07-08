@@ -1,0 +1,71 @@
+/* src/styles/components/_money-badge.scss
+   The two-halves money badge (UX-DECISIONS Q6.2 · ADR-0006 #5). ONE vocabulary, used wherever a
+   euro figure needs to say which half it belongs to: Advertised (indicative, on offer) vs Awarded
+   (real CORDIS euros). Self-contained + theme-aware: the text is legible on both the light surface
+   and the navy dark surface, so the same pill drops into the call detail, the dashboard, the tables,
+   the compare drawer and the hover card unchanged. */
+
+.money-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  vertical-align: middle;
+  cursor: help;
+  user-select: none;
+
+  /* Neutral fallback — a real variant class always overrides these. */
+  --mb-color: #4a5a74;
+  --mb-bg: rgba(120, 140, 170, 0.14);
+  --mb-border: rgba(120, 140, 170, 0.4);
+
+  color: var(--mb-color);
+  background: var(--mb-bg);
+  border-color: var(--mb-border);
+}
+
+/* Compact variant for tight rows (metric labels, hover card, compare rows, facet headers). */
+.money-badge--sm {
+  font-size: 9px;
+  padding: 0 6px;
+  letter-spacing: 0.01em;
+}
+
+/* Advertised — work-programme money on offer. Blue = the "on offer" half (matches the offer strip). */
+.money-badge--advertised {
+  --mb-color: #1f6fd6;
+  --mb-bg: rgba(63, 139, 255, 0.12);
+  --mb-border: rgba(63, 139, 255, 0.42);
+}
+
+/* Awarded — real euros already awarded to CORDIS-funded projects. Green = realized funding. */
+.money-badge--awarded {
+  --mb-color: #1a8a52;
+  --mb-bg: rgba(34, 178, 94, 0.13);
+  --mb-border: rgba(34, 178, 94, 0.44);
+}
+
+/* Dark surfaces brighten the text so it reads on navy. The two dark ancestors are
+   body.dark-theme (global: dashboard, hover card, tables, compare drawer) and .nd-shell (the call
+   detail, which flips to its own light palette via .nd-shell--light). */
+body.dark-theme,
+.nd-shell {
+  .money-badge--advertised { --mb-color: #7bb4ff; }
+  .money-badge--awarded { --mb-color: #57d98a; }
+}
+
+/* Call detail light mode re-darkens the text (it carries .nd-shell--light rather than toggling the
+   body class off, so it must win back over the .nd-shell brighten above). */
+.nd-shell--light {
+  .money-badge--advertised { --mb-color: #1f6fd6; }
+  .money-badge--awarded { --mb-color: #1a8a52; }
+}

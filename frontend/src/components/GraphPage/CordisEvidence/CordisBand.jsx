@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import CordisEvidencePanel from "./CordisEvidencePanel";
 import CordisPartnersPanel from "./CordisPartnersPanel";
+import MoneyBadge from "../../common/MoneyBadge";
 
 // Launch surface only (UX-DECISIONS Q2.3 / Q6.5): A2 funded projects + B2 organisations.
 // A6 trend and B3 related calls are second-wave — deliberately not tabs here yet.
@@ -68,9 +69,14 @@ export default function CordisBand({ callId, evidence }) {
         onClick={expandable ? () => setOpen((o) => !o) : undefined}
       >
         <Box className="nd-cordis-band__head-main">
-          <Typography variant="body2" className="nd-card-title nd-muted-label">
-            Funded track record in this area
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            <Typography variant="body2" className="nd-card-title nd-muted-label">
+              Funded track record in this area
+            </Typography>
+            {/* Only stamp the awarded badge when there is a real € in the summary — pre-ingest the
+                line is an honest empty state with no figure to label (ADR-0006 #2/#5). */}
+            {hasEvidence && <MoneyBadge kind="awarded" size="sm" />}
+          </Box>
           <div
             className={`nd-cordis-band__summary${
               hasEvidence ? "" : " nd-cordis-band__summary--muted"

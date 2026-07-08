@@ -20,6 +20,7 @@ import { useNodeDetail } from "./NodeDetalParts/useNodeDetail";
 import NodeConnections from "./NodeDetalParts/NodeConnections";
 import CordisBand from "./GraphPage/CordisEvidence/CordisBand";
 import useCordisEvidence from "./GraphPage/CordisEvidence/useCordisEvidence";
+import MoneyBadge from "./common/MoneyBadge";
 
 // --- lightweight markdown-to-JSX renderer for wiki body text ---------------
 
@@ -1225,10 +1226,18 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
           <div className="nd-grid">
             <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
               <Box className="nd-card">
-                <Box className="nd-card-header">
+                <Box
+                  className="nd-card-header"
+                  sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}
+                >
                   <Typography variant="body2" className="nd-card-title nd-muted-label">
                     Key Information
                   </Typography>
+                  {/* The budget figures below (contributions, total budget, expected EU
+                      contribution) are the work programme's indicative amounts on offer — never
+                      awarded euros (ADR-0006 #5). Stamp the group so no figure is mistaken for
+                      the CORDIS awarded half. */}
+                  <MoneyBadge kind="advertised" size="sm" />
                 </Box>
 
                 <Box className="nd-card-body">

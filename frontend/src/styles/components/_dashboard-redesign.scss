@@ -823,6 +823,15 @@
   flex: 0 0 auto;
 }
 .dash-offerstrip__grow { flex: 1 1 auto; }
+.dash-offerstrip__src {
+  align-self: center;
+  font-family: var(--d2-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--d2-faint);
+  white-space: nowrap;
+}
 .dash-offerstrip__pending {
   font-size: 11px;
   color: var(--d2-dim);

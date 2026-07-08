@@ -17,6 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 
+import MoneyBadge from "../../common/MoneyBadge";
 import { useAllCalls } from "./useAllCalls";
 import {
   FACET_GROUPS,
@@ -242,6 +243,9 @@ export default function FindCallsPanel({
               >
                 <ExpandMoreIcon fontSize="small" className="find-calls__group-caret" />
                 <span className="find-calls__group-label">{g.label}</span>
+                {/* Call budgets are the work programme's indicative amounts on offer, never awarded
+                    euros — stamp the Budget dimension once (ADR-0006 #5). */}
+                {g.key === "budgetBucket" && <MoneyBadge kind="advertised" size="sm" />}
                 {n > 0 && <span className="find-calls__group-badge">{n}</span>}
               </button>
               {isOpen && (

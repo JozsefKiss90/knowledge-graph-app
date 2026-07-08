@@ -100,6 +100,7 @@ export default function CompareDrawer({
           <Box className="compare-drawer__metrics">
             <CompareMetricRow
               label="TOTAL BUDGET"
+              badge="advertised"
               valueA={formatBudget(metricsA?.totalBudget)}
               valueB={formatBudget(metricsB?.totalBudget)}
             />
@@ -115,6 +116,7 @@ export default function CompareDrawer({
             />
             <CompareMetricRow
               label="AVG CALL SIZE"
+              badge="advertised"
               valueA={formatBudget(metricsA?.avgCallSize)}
               valueB={formatBudget(metricsB?.avgCallSize)}
             />

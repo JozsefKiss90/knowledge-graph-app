@@ -12,6 +12,7 @@ import HoverCardHeader from "./ui/HoverCardHeader";
 import MetricCards from "./ui/MetricCards";
 import TagChips from "./ui/TagChips";
 import ViewDetailsButton from "./ui/ViewDetailsButton";
+import MoneyBadge from "../../common/MoneyBadge";
 
 import NODE_SUMMARIES from "../../utils/nodeSummaries.json";
 
@@ -500,6 +501,13 @@ const filteredMetricCards = useMemo(() => {
         <>
           {filteredMetricCards.length > 0 && (
             <MetricCards items={filteredMetricCards} />
+          )}
+          {/* A call's Min/Max Contribution + Indicative Budget cards are work-programme money on
+              offer, never awarded euros — stamp the group once (ADR-0006 #5). */}
+          {model.isCallNode && (
+            <Box sx={{ mt: 0.75 }}>
+              <MoneyBadge kind="advertised" size="sm" />
+            </Box>
           )}
           {summaryCardItems.length > 0 && <MetricCards items={summaryCardItems} />}
           {tagsBlock}

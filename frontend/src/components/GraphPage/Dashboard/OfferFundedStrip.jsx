@@ -66,6 +66,9 @@ export default function OfferFundedStrip({
               <span className="dash-offerstrip__label">{s.l}</span>
             </div>
           ))}
+          {/* The awarded half is a real, sourced figure (ADR-0006 #7) — name the source on-screen,
+              not only in the tooltip. The full provenance still rides the info note at the end. */}
+          <span className="dash-offerstrip__src">Source: EU CORDIS</span>
         </>
       ) : (
         <span className="dash-offerstrip__pending">

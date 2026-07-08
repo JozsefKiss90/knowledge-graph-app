@@ -150,7 +150,9 @@
       "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:8000/msca/nodes\" -UseBasicParsing -TimeoutSec 30; $j = $r.Content | ConvertFrom-Json; $call = $j | Where-Object { $_.type -eq \"call\" -or $_.labels -contains \"Call\" } | Select-Object -First 1; if \\(-not $call\\) { $call = $j[0] }; $call | ConvertTo-Json -Depth 3 | Out-String | ForEach-Object { $_.Substring\\(0, [Math]::Min\\(600, $_.Length\\)\\) })",
       "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:8000/msca/nodes\" -UseBasicParsing -TimeoutSec 30; $j = \\($r.Content | ConvertFrom-Json\\).data; $ids = $j | ForEach-Object { $_.n.id } | Where-Object { $_ } | Select-Object -First 6; $ids)",
       "PowerShell(Set-Location C:\\\\Code\\\\knowledge-graph-app\\\\frontend; $env:CI = \"true\"; node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false CordisBand)",
-      "PowerShell(Set-Location C:\\\\Code\\\\knowledge-graph-app\\\\frontend; $env:CI = \"true\"; node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false CordisBand 2>$null; \"EXIT: $LASTEXITCODE\")"
+      "PowerShell(Set-Location C:\\\\Code\\\\knowledge-graph-app\\\\frontend; $env:CI = \"true\"; node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false CordisBand 2>$null; \"EXIT: $LASTEXITCODE\")",
+      "PowerShell($env:CI='false'; Set-Location 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend'; node node_modules/react-scripts/bin/react-scripts.js build 2>&1 | Select-String -Pattern 'Compiled|Failed to compile|Error|Module not found|MoneyBadge|money-badge|Syntax' -Context 0,2)",
+      "PowerShell($env:CI='true'; Set-Location 'C:\\\\Code\\\\knowledge-graph-app\\\\frontend'; node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false --testPathPattern=\"CordisBand\" 2>&1 | Select-String -Pattern 'Tests:|Test Suites:|✓|✗|✕|PASS|FAIL|●')"
     ]
   }
 }

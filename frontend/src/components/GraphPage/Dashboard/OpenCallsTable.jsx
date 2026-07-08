@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { getDatasetConfigForId } from "../../NodeDetalParts/useNodeDetail";
+import MoneyBadge from "../../common/MoneyBadge";
 
 function formatDate(d) {
   if (!d) return "—";
@@ -87,6 +88,10 @@ export default function OpenCallsTable({
           <h3 className="dash-calls__title">Open &amp; upcoming calls</h3>
           <span className="dash-calls__sub">{subtitle}</span>
         </div>
+        {/* The Budget column holds the work programme's indicative amounts on offer, never awarded
+            euros (ADR-0006 #5). The column cell is too narrow for the pill, so frame the whole table
+            here. */}
+        <MoneyBadge kind="advertised" size="sm" className="dash-calls__moneynote" />
         <span className="dash-calls__grow" />
         {hasFilterChips && (
           <div className="dash-calls__toggle" role="group" aria-label="Filter calls">
