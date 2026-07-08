@@ -97,6 +97,29 @@ function GraphPage() {
   // Tier 3.3 — the unified Find-calls workspace (graph-mode docked panel).
   const [findOpen, setFindOpen] = useState(false);
 
+  // Home v1 (Step 5): the orientation card is hidden by default and toggled from
+  // the left rail's Home button. It is left-docked like the filters popover
+  // (.kg-legend-pop, left:62) and the Find panel (left:0), so it must never sit
+  // under them — enforce single-panel-at-a-time in both directions:
+  //   - opening Home closes filters + Find (in toggleHome, below),
+  //   - opening filters or Find closes Home (the effect below covers every path
+  //     that opens them: rails, command palette, shortcuts, guided tour).
+  const [homeOpen, setHomeOpen] = useState(false);
+  const closeHome = useCallback(() => setHomeOpen(false), []);
+  const toggleHome = useCallback(() => {
+    setHomeOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        setIsLegendCollapsed(true); // retract the left filters popover
+        setFindOpen(false); // retract the left Find panel
+      }
+      return next;
+    });
+  }, []);
+  useEffect(() => {
+    if (!isLegendCollapsed || findOpen) setHomeOpen(false);
+  }, [isLegendCollapsed, findOpen]);
+
   // The three CORDIS exploration tools (B5 research fields, B4 country activity, B6 hop-on) are now hosted in
   // a single distinct dashboard panel instead of pop-up drawers. `dashboardPanel` is the active tool key
   // ("fields" | "country" | "hopOn") or null; clicking the matching sidebar button selects it and navigates
@@ -722,6 +745,8 @@ useEffect(() => {
         >
           {inGraphView && (
             <LeftRail
+              homeOpen={homeOpen}
+              onToggleHome={toggleHome}
               legendOpen={!isLegendCollapsed}
               onToggleLegend={() => setIsLegendCollapsed((p) => !p)}
               filterCount={activeFilterCount}
@@ -804,6 +829,8 @@ useEffect(() => {
               onDeleteSavedView={handleDeleteSavedView}
               onLevelBarChange={handleLevelBarChange}
               assistantOpenSignal={assistantOpenSignal}
+              homeOpen={homeOpen}
+              onCloseHome={closeHome}
             />
 
             <RightControlsColumn

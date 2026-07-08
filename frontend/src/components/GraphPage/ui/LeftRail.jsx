@@ -10,7 +10,7 @@ import React from "react";
 import { Tooltip } from "@mui/material";
 
 import LegendToggle from "../../LegendToggle";
-import { FilterIcon, ColumnsIcon, FindCallsIcon, SparklesIcon } from "./railIcons";
+import { CompassIcon, FilterIcon, ColumnsIcon, FindCallsIcon, SparklesIcon } from "./railIcons";
 
 const RailButton = ({ title, active, disabled, accent, badge, onClick, children }) => (
   <Tooltip title={title} placement="right">
@@ -30,6 +30,8 @@ const RailButton = ({ title, active, disabled, accent, badge, onClick, children 
 );
 
 export default function LeftRail({
+  homeOpen,
+  onToggleHome,
   legendOpen,
   onToggleLegend,
   filterCount = 0,
@@ -54,6 +56,14 @@ export default function LeftRail({
   return (
     <>
       <div className="kg-leftrail">
+        <RailButton
+          title={homeOpen ? "Hide home" : "Home — overview & what's closing soon"}
+          active={homeOpen}
+          onClick={onToggleHome}
+        >
+          <CompassIcon size={17} />
+        </RailButton>
+
         <RailButton
           title={legendOpen ? "Hide filters" : "Filters & controls"}
           active={legendOpen}

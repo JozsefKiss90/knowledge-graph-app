@@ -47,6 +47,13 @@ export const HomeIcon = (p) => (
   <Icon {...p}><path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /></Icon>
 );
 export const ChevronRightIcon = (p) => <Icon {...p}><path d="M9 6l6 6-6 6" /></Icon>;
+/* Compass — the Home/orientation panel (distinct from the navbar's house icon). */
+export const CompassIcon = (p) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M15 9l-2 4-4 2 2-4z" />
+  </Icon>
+);
 export const ChevronDownIcon = (p) => <Icon {...p}><path d="M6 9l6 6 6-6" /></Icon>;
 export const ChevronsLeftIcon = (p) => (
   <Icon {...p}><path d="M11 17l-5-5 5-5" /><path d="M18 17l-5-5 5-5" /></Icon>

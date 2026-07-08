@@ -1,9 +1,12 @@
 /* src/styles/components/_landing-home.scss */
 /* ============================================================================
-   Home v1 (PHASE-PLAN Step 5) — the left-docked orientation + monitoring card
-   that floats over the ROOT graph. Blue-glass to match the landing chrome; all
-   colours come from the --lc-* tokens (defined on .graph-shell, so they cascade
-   here and adapt for light mode automatically).
+   Home v1 (PHASE-PLAN Step 5) — the left-docked orientation + monitoring panel.
+   Deliberately built in the SAME design language as the Filters & Controls
+   popover (.kg-legend-pop): a header bar with an accent icon + a JetBrains-Mono
+   uppercase title, a scrolling body of hairline-separated FLAT sections whose
+   titles reuse the legend's mono/tracking treatment, and the deeper --lc-shadow-pop.
+   All colours come from the --lc-* tokens (defined on .graph-shell), so it adapts
+   to light mode for free.
    ========================================================================== */
 
 .kg-home {
@@ -12,51 +15,128 @@
   top: 14px;
   z-index: 30;
 
-  width: min(356px, calc(100% - 84px));
-  max-height: calc(100% - 74px); /* leave room for the bottom status pills */
+  width: min(322px, calc(100% - 84px));
+  max-height: calc(100% - 28px);
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  overflow: hidden;
 
-  padding: 16px 16px 12px;
-  border-radius: 16px;
   background: var(--lc-panel-bg);
   border: 1px solid var(--lc-panel-border);
-  box-shadow: var(--lc-shadow-card);
+  border-radius: 14px;
+  box-shadow: var(--lc-shadow-pop);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   color: var(--lc-text);
 }
 
-/* ── Thesis + primary path ── */
-.kg-home__eyebrow {
-  margin: 0 0 6px;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
+/* ── Header bar (mirrors .legend-header) ── */
+.kg-home__header {
+  flex: 0 0 auto;
+  height: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px 0 13px;
+  border-bottom: 1px solid var(--lc-hairline);
+}
+.kg-home__header-icon {
+  color: var(--lc-accent-ico);
+}
+.kg-home__header-title {
+  font: 600 9.5px var(--lc-mono);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--lc-accent-text);
+  color: var(--lc-text-dim);
+}
+.kg-home__header-grow {
+  flex: 1 1 auto;
+}
+.kg-home__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--lc-text-faint);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.kg-home__close:hover {
+  background: var(--lc-accent-tint);
+  color: var(--lc-text);
 }
 
+/* ── Body (mirrors .legend-content) ── */
+.kg-home__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px 13px 11px;
+  display: flex;
+  flex-direction: column;
+}
+.kg-home__body::-webkit-scrollbar {
+  width: 5px;
+}
+.kg-home__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.kg-home__body::-webkit-scrollbar-thumb {
+  background: var(--lc-hairline);
+  border-radius: 4px;
+}
+
+/* ── Sections: flat, hairline-separated (mirrors .legend-section) ── */
+.kg-home__section {
+  padding: 0;
+}
+.kg-home__section + .kg-home__section {
+  border-top: 1px solid var(--lc-hairline);
+  margin-top: 12px;
+  padding-top: 12px;
+}
+.kg-home__section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font: 600 9.5px var(--lc-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lc-text-dim);
+}
+.kg-home__section-chev {
+  color: var(--lc-text-faint);
+  transition: color 0.12s ease;
+}
+
+/* ── Intro (thesis + primary path) ── */
+.kg-home__intro {
+  display: flex;
+  flex-direction: column;
+}
 .kg-home__headline {
   margin: 0 0 8px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.28;
   letter-spacing: -0.01em;
   color: var(--lc-text-hi);
 }
 .kg-home__headline-accent {
   color: var(--lc-accent-text);
 }
-
 .kg-home__sub {
-  margin: 0 0 14px;
-  font-size: 12.5px;
+  margin: 0 0 13px;
+  font-size: 12px;
   line-height: 1.5;
   color: var(--lc-text-mid);
 }
-
 .kg-home__cta {
   display: inline-flex;
   align-items: center;
@@ -64,18 +144,18 @@
   width: 100%;
   padding: 9px 12px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--lc-accent);
   color: #fff;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 650;
   cursor: pointer;
   transition: filter 0.14s ease, box-shadow 0.14s ease;
-  box-shadow: 0 6px 18px var(--lc-accent-glow);
+  box-shadow: 0 6px 16px var(--lc-accent-glow);
 }
 .kg-home__cta:hover {
   filter: brightness(1.06);
-  box-shadow: 0 8px 22px var(--lc-accent-glow);
+  box-shadow: 0 8px 20px var(--lc-accent-glow);
 }
 .kg-home__cta:active {
   transform: translateY(1px);
@@ -89,50 +169,27 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.18);
   color: #fff;
-  font-family: var(--lc-mono);
-  font-size: 10.5px;
-  font-weight: 600;
+  font: 600 10px var(--lc-mono);
   white-space: nowrap;
 }
 
-/* ── Shared section labels ── */
-.kg-home__section-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--lc-text-dim);
-}
-.kg-home__section-chev {
-  color: var(--lc-text-faint);
-}
-
-/* ── Funding landscape entry (live CORDIS example) ── */
+/* ── Funding landscape: a clickable flat section (button reset) ── */
 .kg-home__landscape {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  margin-top: 14px;
-  padding: 12px;
   text-align: left;
-  border-radius: 12px;
-  background: var(--lc-panel-soft);
-  border: 1px solid var(--lc-panel-border-soft);
+  background: transparent;
+  border: 0; /* the .kg-home__section+ rule supplies the top hairline */
   cursor: pointer;
-  transition: border-color 0.14s ease, background 0.14s ease;
+  font: inherit;
+  color: inherit;
 }
-.kg-home__landscape:hover {
-  border-color: var(--lc-accent-border-soft);
-  background: var(--lc-accent-tint);
-}
-.kg-home__landscape:hover .kg-home__section-chev {
+.kg-home__landscape:hover .kg-home__section-chev,
+.kg-home__landscape:hover .kg-home__landscape-go {
   color: var(--lc-accent-ico);
 }
-
 .kg-home__stats {
   display: flex;
   gap: 14px;
@@ -144,19 +201,16 @@
   min-width: 0;
 }
 .kg-home__stat b {
-  font-family: var(--lc-mono);
-  font-size: 16px;
-  font-weight: 600;
+  font: 600 15px var(--lc-mono);
   line-height: 1.1;
   color: var(--lc-text-hi);
 }
 .kg-home__stat small {
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--lc-text-dim);
 }
-
 .kg-home__landscape-foot {
   display: flex;
   align-items: center;
@@ -164,14 +218,15 @@
   gap: 8px;
 }
 .kg-home__src {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--lc-text-faint);
 }
 .kg-home__landscape-go {
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--lc-accent-text);
   white-space: nowrap;
+  transition: color 0.12s ease;
 }
 .kg-home__landscape-empty {
   font-size: 12px;
@@ -183,33 +238,27 @@
 .kg-home__closing {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-top: 16px;
-  min-height: 0; /* let the list scroll instead of pushing the card taller */
-}
-.kg-home__section-label--static {
-  flex: 0 0 auto;
+  gap: 8px;
 }
 .kg-home__closing-list {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  overflow-y: auto;
-  min-height: 0;
-  margin: 0 -6px; /* let row hover bleed to the card padding edge */
+  margin: 0 -7px; /* let row hover bleed toward the body padding edge */
 }
-
 .kg-home__call {
   display: flex;
   align-items: center;
   gap: 9px;
   width: 100%;
-  padding: 6px;
-  border: none;
+  padding: 6px 7px;
+  border: 0;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 7px;
   text-align: left;
   cursor: pointer;
+  font: inherit;
+  color: inherit;
   transition: background 0.12s ease;
 }
 .kg-home__call:hover {
@@ -217,8 +266,8 @@
 }
 .kg-home__call-dot {
   flex: 0 0 auto;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
 }
 .kg-home__call-main {
@@ -229,14 +278,14 @@
   flex: 1 1 auto;
 }
 .kg-home__call-name {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--lc-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .kg-home__call-prog {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--lc-text-dim);
   white-space: nowrap;
   overflow: hidden;
@@ -244,8 +293,7 @@
 }
 .kg-home__call-when {
   flex: 0 0 auto;
-  font-family: var(--lc-mono);
-  font-size: 11px;
+  font: 500 10.5px var(--lc-mono);
   color: var(--lc-text-mid);
   white-space: nowrap;
 }
@@ -253,14 +301,13 @@
   color: var(--lc-amber);
   font-weight: 600;
 }
-
 .kg-home__empty {
-  padding: 6px;
+  padding: 6px 7px;
   font-size: 12px;
   color: var(--lc-text-dim);
 }
 
-/* Fold the card away on very short viewports so it can't swallow the canvas. */
+/* Fold the panel away on very short viewports so it can't swallow the canvas. */
 @media (max-height: 520px) {
   .kg-home {
     display: none;

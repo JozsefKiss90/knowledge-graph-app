@@ -1,15 +1,19 @@
 // src/components/GraphPage/Home/LandingHome.jsx
 //
 // Home v1 (PHASE-PLAN Step 5 · UX-DECISIONS Q6.3) — the orientation +
-// monitoring-lite layer that turns the raw ROOT graph into the product's thesis.
-// A left-docked glass card that floats over the canvas at the ROOT level only
-// (it unmounts the moment the user drills into a programme), carrying:
+// monitoring-lite panel. Hidden by default, toggled from the left rail's Home
+// (compass) button, and mutually exclusive with the other left-docked panels
+// (filters popover, Find panel) — see GraphPage. It carries:
 //
 //   1. the one-liner + a primary "Find open calls" path,
 //   2. a "Funding landscape" entry teased with one LIVE example (real CORDIS
 //      funded totals) that links to the landscape section (B5 field explorer),
 //   3. a global "Closing soon" list computed from the loaded call deadlines —
 //      real monitoring value with ZERO user state.
+//
+// Styling deliberately mirrors the Filters & Controls popover (a header bar +
+// hairline-separated flat sections with JetBrains-Mono uppercase titles) so the
+// two read as siblings in the same design system, not a generic card.
 //
 // Honesty contract (ADR-0006): the funded figures only appear once real CORDIS
 // data is ingested; before that the landscape entry shows an honest empty line,
@@ -20,7 +24,7 @@ import React from "react";
 
 import { useDashboardData } from "../Dashboard/useDashboardData";
 import useCordisPortfolio from "../Dashboard/useCordisPortfolio";
-import { FindCallsIcon, ChevronRightIcon } from "../ui/railIcons";
+import { CompassIcon, FindCallsIcon, ChevronRightIcon, CloseIcon } from "../ui/railIcons";
 
 // ── Small, self-contained formatters (kept local so the card owns its display) ──
 function euro(v) {
@@ -54,6 +58,7 @@ export default function LandingHome({
   onFindCalls,
   onOpenLandscape,
   onLocateCall,
+  onClose,
 }) {
   const data = useDashboardData(loadFromStore);
   const cordis = useCordisPortfolio();
@@ -63,109 +68,122 @@ export default function LandingHome({
   const cordisActive = !!cordis.data && (cordis.data.projectCount || 0) > 0;
 
   // "Closing soon" — the soonest-closing open/upcoming calls (already sorted by
-  // deadline in useDashboardData). Zero user state: it's a pure read of the
-  // loaded deadlines.
+  // deadline in useDashboardData). Zero user state: a pure read of the deadlines.
   const closingSoon = (data.upcomingCalls || []).slice(0, 5);
 
   return (
     <aside className="kg-home" aria-label="Home — orientation and what's closing soon">
-      {/* ── Thesis + primary path ── */}
-      <div className="kg-home__intro">
-        <p className="kg-home__eyebrow">European research funding</p>
-        <h1 className="kg-home__headline">
-          Open calls, and the real record of who&rsquo;s been funded
-          <span className="kg-home__headline-accent"> — in one place.</span>
-        </h1>
-        <p className="kg-home__sub">
-          Find the Horizon Europe call worth committing to, then see the funded
-          track record in that area before you spend a season on a bid.
-        </p>
-        <button type="button" className="kg-home__cta" onClick={onFindCalls}>
-          <FindCallsIcon size={16} />
-          <span className="kg-home__cta-label">Find open calls</span>
-          {data.openCalls > 0 && (
-            <span className="kg-home__cta-count">{count(data.openCalls)} open now</span>
-          )}
-        </button>
+      <div className="kg-home__header">
+        <CompassIcon size={15} className="kg-home__header-icon" />
+        <span className="kg-home__header-title">Home</span>
+        <span className="kg-home__header-grow" />
+        {onClose && (
+          <button
+            type="button"
+            className="kg-home__close"
+            onClick={onClose}
+            aria-label="Hide home"
+            title="Hide home"
+          >
+            <CloseIcon size={16} />
+          </button>
+        )}
       </div>
 
-      {/* ── Funding landscape entry (teased with one live CORDIS example) ── */}
-      <button
-        type="button"
-        className="kg-home__landscape"
-        onClick={onOpenLandscape}
-        aria-label="Explore the funding landscape by research field"
-      >
-        <span className="kg-home__section-label">
-          <span>Funding landscape</span>
-          <ChevronRightIcon size={13} className="kg-home__section-chev" />
-        </span>
-
-        {cordisActive ? (
-          <>
-            <span className="kg-home__stats">
-              <span className="kg-home__stat">
-                <b>{count(cordis.data.projectCount)}</b>
-                <small>funded projects</small>
-              </span>
-              <span className="kg-home__stat">
-                <b>{euro(cordis.data.totalEcContribution)}</b>
-                <small>EU awarded</small>
-              </span>
-              <span className="kg-home__stat">
-                <b>{count(cordis.data.organisationCount)}</b>
-                <small>organisations</small>
-              </span>
-            </span>
-            <span className="kg-home__landscape-foot">
-              <span className="kg-home__src">Source: EU CORDIS</span>
-              <span className="kg-home__landscape-go">Explore by research field →</span>
-            </span>
-          </>
-        ) : (
-          <span className="kg-home__landscape-empty">
-            The funded track record appears here once EU CORDIS data is ingested —
-            real awarded euros and organisations, never estimates.
-          </span>
-        )}
-      </button>
-
-      {/* ── Closing soon (real deadlines, zero user state) ── */}
-      <div className="kg-home__closing">
-        <div className="kg-home__section-label kg-home__section-label--static">
-          Closing soon
+      <div className="kg-home__body">
+        {/* ── Thesis + primary path ── */}
+        <div className="kg-home__section kg-home__intro">
+          <h1 className="kg-home__headline">
+            Open calls, and the real record of who&rsquo;s been funded
+            <span className="kg-home__headline-accent"> — in one place.</span>
+          </h1>
+          <p className="kg-home__sub">
+            Find the Horizon Europe call worth committing to, then see the funded
+            track record in that area before you spend a season on a bid.
+          </p>
+          <button type="button" className="kg-home__cta" onClick={onFindCalls}>
+            <FindCallsIcon size={16} />
+            <span className="kg-home__cta-label">Find open calls</span>
+            {data.openCalls > 0 && (
+              <span className="kg-home__cta-count">{count(data.openCalls)} open now</span>
+            )}
+          </button>
         </div>
-        <div className="kg-home__closing-list">
-          {closingSoon.length === 0 && (
-            <div className="kg-home__empty">No open calls with upcoming deadlines.</div>
+
+        {/* ── Funding landscape entry (teased with one live CORDIS example) ── */}
+        <button
+          type="button"
+          className="kg-home__section kg-home__landscape"
+          onClick={onOpenLandscape}
+          aria-label="Explore the funding landscape by research field"
+        >
+          <span className="kg-home__section-title">
+            <span>Funding landscape</span>
+            <ChevronRightIcon size={13} className="kg-home__section-chev" />
+          </span>
+
+          {cordisActive ? (
+            <>
+              <span className="kg-home__stats">
+                <span className="kg-home__stat">
+                  <b>{count(cordis.data.projectCount)}</b>
+                  <small>funded projects</small>
+                </span>
+                <span className="kg-home__stat">
+                  <b>{euro(cordis.data.totalEcContribution)}</b>
+                  <small>EU awarded</small>
+                </span>
+                <span className="kg-home__stat">
+                  <b>{count(cordis.data.organisationCount)}</b>
+                  <small>organisations</small>
+                </span>
+              </span>
+              <span className="kg-home__landscape-foot">
+                <span className="kg-home__src">Source: EU CORDIS</span>
+                <span className="kg-home__landscape-go">Explore by research field →</span>
+              </span>
+            </>
+          ) : (
+            <span className="kg-home__landscape-empty">
+              The funded track record appears here once EU CORDIS data is ingested —
+              real awarded euros and organisations, never estimates.
+            </span>
           )}
-          {closingSoon.map((c) => {
-            const days = daysUntil(c.closeDate);
-            const urgent = days != null && days >= 0 && days <= 10;
-            return (
-              <button
-                type="button"
-                className="kg-home__call"
-                key={c.id}
-                onClick={() => onLocateCall?.(c.id)}
-                title={c.label || c.id}
-              >
-                <span
-                  className="kg-home__call-dot"
-                  style={{ backgroundColor: c.programmeColor }}
-                />
-                <span className="kg-home__call-main">
-                  <span className="kg-home__call-name">{c.label || c.id}</span>
-                  <span className="kg-home__call-prog">{c.programmeLabel}</span>
-                </span>
-                <span
-                  className={`kg-home__call-when${urgent ? " is-urgent" : ""}`}
+        </button>
+
+        {/* ── Closing soon (real deadlines, zero user state) ── */}
+        <div className="kg-home__section kg-home__closing">
+          <div className="kg-home__section-title">Closing soon</div>
+          <div className="kg-home__closing-list">
+            {closingSoon.length === 0 && (
+              <div className="kg-home__empty">No open calls with upcoming deadlines.</div>
+            )}
+            {closingSoon.map((c) => {
+              const days = daysUntil(c.closeDate);
+              const urgent = days != null && days >= 0 && days <= 10;
+              return (
+                <button
+                  type="button"
+                  className="kg-home__call"
+                  key={c.id}
+                  onClick={() => onLocateCall?.(c.id)}
+                  title={c.label || c.id}
                 >
-                  {relDeadline(days, c.closeDate)}
-                </span>
-              </button>
-            );
-          })}
+                  <span
+                    className="kg-home__call-dot"
+                    style={{ backgroundColor: c.programmeColor }}
+                  />
+                  <span className="kg-home__call-main">
+                    <span className="kg-home__call-name">{c.label || c.id}</span>
+                    <span className="kg-home__call-prog">{c.programmeLabel}</span>
+                  </span>
+                  <span className={`kg-home__call-when${urgent ? " is-urgent" : ""}`}>
+                    {relDeadline(days, c.closeDate)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </aside>

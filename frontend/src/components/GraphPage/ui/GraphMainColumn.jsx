@@ -84,6 +84,8 @@ export default function GraphMainColumn({
   onDeleteSavedView,
   onLevelBarChange,
   assistantOpenSignal,
+  homeOpen,
+  onCloseHome,
 }) {
   const isDetailMode = !!detailNode;
   const levelsRef = useRef([]);
@@ -408,18 +410,29 @@ export default function GraphMainColumn({
             onCompareSelect={compareSelectCallback}
           />
 
-          {/* Home v1 (Step 5): the orientation + monitoring card, shown only on
-              the ROOT landing (it unmounts the moment the user drills into a
-              programme). Anchors to .graph-main-column (position: relative). */}
-          {graphName === "ROOT" && (
+          {/* Home v1 (Step 5): the orientation + monitoring card. Hidden by
+              default and toggled from the left rail's Home button; mutually
+              exclusive with the filters popover and Find panel (both left-docked
+              — enforced in GraphPage) so only one shows at a time. Anchors to
+              .graph-main-column (position: relative). Launching any action
+              closes it. */}
+          {homeOpen && (
             <LandingHome
               loadFromStore={loadFromStore}
-              onFindCalls={() => setFindOpen(true)}
+              onFindCalls={() => {
+                setFindOpen(true);
+                onCloseHome?.();
+              }}
               onOpenLandscape={() => {
                 setViewMode("dashboard");
                 setDashboardPanel("fields");
+                onCloseHome?.();
               }}
-              onLocateCall={onLocateCall}
+              onLocateCall={(id) => {
+                onLocateCall?.(id);
+                onCloseHome?.();
+              }}
+              onClose={onCloseHome}
             />
           )}
 
