@@ -74,14 +74,15 @@ export function setupEvents(cy, navigate, onHoverNodeIdChange, onNodeHover, opts
     const node = evt.target;
     const data = node.data();
 
-    // Compare mode intercept: if active, add non-call nodes to compare selection
+    // Compare-mode intercept: while the compare drawer is armed, taps SELECT nodes for
+    // comparison instead of navigating / opening detail. Calls are included now (phase-plan
+    // Step 6 — call-level compare); structure nodes were already selectable. This reuses the
+    // existing compareNodes state + `compare-selected` paint, so it adds no new Cytoscape
+    // visibility layer (ADR-0007).
     const compareSelect = typeof getCompareSelect === "function" ? getCompareSelect() : null;
     if (typeof compareSelect === "function") {
-      const t = String(data?.type || data?.category || "").toLowerCase();
-      if (t !== "call") {
-        compareSelect(data, node);
-        return;
-      }
+      compareSelect(data, node);
+      return;
     }
 
     if (data?.type === "root" || data?.type === "pillar" || data?.type === "programme") {

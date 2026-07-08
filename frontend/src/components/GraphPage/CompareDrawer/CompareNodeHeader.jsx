@@ -2,7 +2,10 @@ import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function CompareNodeHeader({ node, onClear }) {
+// `subtitle` is the meta line after the type label. Structure nodes default to the Horizon
+// programming period ("2021-27"); call-level compare passes the call's status instead (an empty
+// string renders no meta line rather than a period label that would read oddly on a single call).
+export default function CompareNodeHeader({ node, onClear, subtitle = "2021-27" }) {
   if (!node) return null;
 
   const label = node.label || node.name || node.title || node.id || "Unknown";
@@ -50,7 +53,8 @@ export default function CompareNodeHeader({ node, onClear }) {
               mt: 0.2,
             }}
           >
-            {typeLabel} &middot; 2021-27
+            {typeLabel}
+            {subtitle ? <> &middot; {subtitle}</> : null}
           </Typography>
         </Box>
         {onClear && (

@@ -75,6 +75,28 @@
   text-align: right !important;
 }
 
+/* Call-level compare (phase-plan Step 6): the A2 funded-track-record evidence, set off from the
+   advertised facts above it. The section label carries the ADR-0001 thematic wording verbatim. */
+.compare-drawer__evidence {
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.compare-drawer__section-label {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: var(--foreground) !important;
+  margin-bottom: 6px !important;
+}
+
+.compare-drawer__prov {
+  margin-top: 8px;
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--foreground-muted);
+}
+
 /* Responsive: stack on small screens */
 @media (max-width: 560px) {
   .compare-drawer {
