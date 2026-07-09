@@ -536,7 +536,7 @@
       "destination_title": "Achieving technological leadership for Europe’s open strategic autonomy in raw materials, chemicals and innovative materials (2026-27)",
       "calls": [
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-01",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-01",
           "call_title": "Advanced manufacturing for key products (IA) (Made in Europe partnership)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -574,7 +574,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-04",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-04",
           "call_title": "Optimise the usage of resources in a circular economy (RIA) (Processes4Planet and Clean Steel partnerships)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY",
@@ -612,7 +612,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-05",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-05",
           "call_title": "Circular innovative advanced materials: facilitating the transition from design to markets (RIA) (Innovative Advanced Materials for the EU and Made in Europe partnerships)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY",
@@ -650,7 +650,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-11",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-11",
           "call_title": "Innovative technologies and tools for exploration and data modelling of raw materials (RIA)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY",
@@ -688,7 +688,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-12",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-12",
           "call_title": "Technologies for innovative extraction of critical raw materials (RIA)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY",
@@ -726,7 +726,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-13",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-13",
           "call_title": "Monitoring of secondary raw materials (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -763,7 +763,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-14",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-14",
           "call_title": "Improving availability of secondary raw materials through recycling (IA)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -801,7 +801,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-23",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-23",
           "call_title": "Accelerating the discovery and development of chemicals and innovative advanced materials through digitalisation and artificial intelligence (IA) (Innovative Advanced Materials for the EU partnership)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -839,7 +839,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-24",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-24",
           "call_title": "Cooperation on innovative advanced materials with Japan (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -876,7 +876,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-31",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-31",
           "call_title": "Efficient capture / purification / utilisation of CO2 for the production of competitive products (RIA) (Processes4Planet partnership)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY",
@@ -914,7 +914,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-41",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-41",
           "call_title": "Enhancing industry-academia knowledge exchange in Social Sciences and Humanities (SSH) (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -951,7 +951,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-44",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-44",
           "call_title": "Attracting management talent for capacity building for Technology Infrastructures staff members (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -988,7 +988,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-45",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-45",
           "call_title": "Pilot access schemes to Technology Infrastructures for European startups, scaleups and innovative SMEs (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -1025,7 +1025,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-46",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-46",
           "call_title": "Mapping and service finder for Technology Infrastructures (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -1062,7 +1062,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-01-MATERIALS-PRODUCTION-48",
+          "call_id": "HORIZON-CL4-2026-01-MAT-PROD-48",
           "call_title": "‘Proof of market’ to improve valorisation and commercialisation of Horizon generated R&I results (IA)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1099,7 +1099,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-02-MATERIALS-PRODUCTION-21-two-stage",
+          "call_id": "HORIZON-CL4-2026-02-MAT-PROD-21-two-stage",
           "call_title": "Development of safe and sustainable alternatives to substances of concern (IA)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY-two-stage",
@@ -1172,7 +1172,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2026-05-MATERIALS-PRODUCTION-25",
+          "call_id": "HORIZON-CL4-2026-05-MAT-PROD-25",
           "call_title": "New or enhanced Innovative Advanced Materials (IAM) enabled sensing functionality (RIA)",
           "call_type": "Research and Innovation Actions",
           "call_section": "DIGITAL",
@@ -1210,7 +1210,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-02",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-02",
           "call_title": "Advanced manufacturing for key products (IA) (Made in Europe partnership)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1248,7 +1248,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-03",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-03",
           "call_title": "Factory processes and automation for de- and re-manufacturing (RIA) (Made in Europe partnership)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1286,7 +1286,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-06",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-06",
           "call_title": "Circular innovative advanced materials: facilitating the transition from design to markets (RIA) (Innovative Advanced Materials for the EU and Made in Europe partnerships)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1324,7 +1324,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-08",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-08",
           "call_title": "Textile circularity through advanced processing and manufacturing technologies and system approaches (IA) (Textiles for the Future partnership)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1362,7 +1362,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-16",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-16",
           "call_title": "Technologies for innovative processing of raw materials (IA)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1400,7 +1400,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-17",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-17",
           "call_title": "Expert network on Critical raw materials (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -1437,7 +1437,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-22",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-22",
           "call_title": "Innovative advanced materials and new production processes – reducing dependencies on Critical and Strategic Raw Materials (IA) (Innovative Advanced Materials for the EU and Processes4Planet partnerships)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1475,7 +1475,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-42",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-42",
           "call_title": "Unlocking the potential of academic intellectual assets for industry, SMEs and startups (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -1512,7 +1512,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-47",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-47",
           "call_title": "Pilot access schemes to Technology Infrastructures for European startups, scaleups and innovative SMEs (CSA)",
           "call_type": "Coordination and Support Actions",
           "call_section": "INDUSTRY",
@@ -1549,7 +1549,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-49",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-49",
           "call_title": "‘Proof of market’ to improve valorisation and commercialisation of Horizon generated R&I results (IA)",
           "call_type": "Innovation Actions",
           "call_section": "INDUSTRY",
@@ -1787,7 +1787,7 @@
       "destination_title": "Leadership in materials and production for Europe",
       "calls": [
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-61",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-61",
           "call_title": "Fast Track to Research and Innovation for breakthroughs in industrial technologies (Research and Innovation Action)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY-FTRI",
@@ -1824,7 +1824,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-01-MATERIALS-PRODUCTION-62",
+          "call_id": "HORIZON-CL4-2027-01-MAT-PROD-62",
           "call_title": "Fast Track to Innovation for breakthroughs in the Chemical Industry Action Plan  (Research and Innovation Action)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY-FTRI",
@@ -1899,7 +1899,7 @@
           ]
         },
         {
-          "call_id": "HORIZON-CL4-2027-02-MATERIALS-PRODUCTION-32-two-stage",
+          "call_id": "HORIZON-CL4-2027-02-MAT-PROD-32-two-stage",
           "call_title": "Efficient energy input from renewable sources and energy management in the process industries (IA) (Processes4Planet and Innovative Advanced Materials for the EU partnerships)",
           "call_type": "Research and Innovation Actions",
           "call_section": "INDUSTRY-two-stage",
@@ -2360,10 +2360,10 @@
           "indicative_budget": 7000000,
           "type_of_action": "Coordination and Support Actions",
           "admissibility_conditions": ",",
-          "eligibility_conditions": "established for this Framework Partnership Agreement in WP2021-22. Prior to the adoption of the latter, questionnaires were sent to non-EEA associated countries and countries in the process of association in order to assess their eligibility to participate. 208 The guarantees shall in particular substantiate that, for the purpose of the action, measures are in place to ensure that: a) control over the applicant legal entity is not exercised in a manner that retrains or restricts its ability to carry out the action and to deliver results, that imposes restrictions concerning its infrastructure, Form of Funding: Grants not subject to calls for proposals",
-          "technology_readiness_level": "Activities are expected to achieve TRL 7-9 by the end of the project. The reference TRL definition is the ISO 16290:2013 applicable to the space sector. Activities may start at any TRL.",
+          "eligibility_conditions": ", award criteria, evaluation and award",
+          "technology_readiness_level": ") definition is the ISO 16290:2013 applicable to the space sector. FSTP proposals under this topic should explore synergies and be complementary to already funded actions in the context of technology development at component level. In particular, it is expected that FSTP proposals make use of existing European technologies and/or building blocks at component level contributing to European non-dependence and strengthen competitiveness. Furthermore, proposed activities should be complementary to national activities and activities funded by the European Space Agency (ESA).",
           "procedure": "General Annexes",
-          "legal_and_financial_setup": "Eligible costs will take the form of a lump sum as defined in the Decision of 7 July 2021 authorising the use of lump sum contributions under the Horizon Europe Programme – the Framework Programme for Research and Innovation (2021-2027) – and in actions under the Research and Training Programme of the European Atomic Energy Community (2021-2025) 191.",
+          "legal_and_financial_setup": "The granting authority may, up to 4 years after the end of the action, object to a transfer of ownership or to the exclusive licensing of results, as set out in the specific provision of Annex 5. Beneficiaries may provide financial support to third parties (FSTP). The support to third parties can only be provided in the form of grants. The maximum amount to be granted to each third party is EUR 60 000. As the primary purpose of the action is to support European experts in the global ICT standardisation scene, a minimum of 75% of the total requested EU contribution should be allocated to FSTP selected through open calls. Beneficiaries will define the process for the selection of specialists through open calls. They will also define the process that will lead to a selection of a pool of evaluators that will evaluate the applications received in the open calls. Eligible costs will take the form of a lump sum as defined in the Decision of 7 July 2021 authorising the use of lump sum contributions under the Horizon Europe Programme – the Framework Programme for Research and Innovation (2021-2027) – and in actions under the Research and Training Programme of the European Atomic Energy Community (2021-2025) 177.",
           "exceptional_page_limits": "",
           "expected_outcome": "Proposals are expected to contribute to the following outcomes:\n- Increasing the participation and influence of European experts in digital standardisation to promote EU values and strategic interests, contributing to strengthen EU competitiveness in the digital field.\n- Improvement of the skills of European experts, especially from SMEs, R&I institutions, Open-Source community, academia and societal stakeholders, to successfully contribute and lead in the development of digital standards.\n- Development and update of standardisation landscapes and gap analyses of key digital technologies as outlined in the Rolling Plan for ICT Standardisation.\n- Provision of foresight analyses regarding standardisation in new emerging technologies to identify short and medium-term digital standardisation needs to support EU policies and anticipate appropriate participation by EU stakeholders.\n- More awareness of the benefits and competitive advantages of standardisation, in particular for SMEs and researchers, and more visibility of the European digital standardisation ecosystem.",
           "scope": "Contribute to the implementation of the EU Standardisation Strategy and other policy initiatives such as Europe’s Digital Decade, Apply AI Strategy or the Competitiveness Compass, with an emphasis on supporting the EU’s leading position in global standards-setting of key digital technologies.\nThe goals are inter alia to 1) strengthen the EU competitiveness in the digital domain; 2) contribute to EU tech sovereignty and 3) promote EU values and interests internationally, by empowering and financially supporting the active participation of European stakeholders in the development of digital international standards.\nThe objective is to reinforce the presence of experts from the EU and associated Horizon Europe countries in global digital standards setting, especially those coming from SMEs, R&I institutions, Open-Source community, academia and societal stakeholders.\nTo achieve this objective, proposals under this topic should provide for:\n- Setting up of a management facility to support contributions and leadership (e.g. chairing of technical committees, convenor positions) of European specialists in activities in relation to global digital standardisation\n- When relevant, support financially the hosting of international standardisation meetings (e.g. 3GPP, ISO/IEC JTC1) and workshops in Europe to ease the participation of European experts\n- Landscape and gap analysis of standardisation activities in key digital priority areas, as outlined in the Annual Union Work Programme and the Rolling Plan for ICT standardisation, including identification of new emerging technology areas.\n- Promotion of the relevance and benefits of digital standardisation, especially for strengthening the competitiveness of EU industry, driving sustainability, achieving tech sovereignty, and promoting EU values. The proposal shall build synergies with other similar EU- and national-funded initiatives. It shall also include actions, including development of tools and materials, to promote education and skills on standardisation.\nBeneficiaries that intend to transfer ownership or grant an exclusive licence must formally notify the granting authority (i.e. DG-CNECT and HaDEA) before the intended transfer or licensing takes place and the granting authority may up to four years after the end of the action object to a transfer of ownership or the exclusive licensing of results.\nThe proposal should take into account the previous activities carried out at least in terms of educational material and facilities for funding experts within the topics ICT-40-2017 (implemented by the StandICT.eu project), ICT-45-2020 (implemented under StandICT.eu2023 project), HORIZON-CL4-2022-RESILIENCE-01-21 (implemented under StandICT.eu 2026) and HORIZON-CL4-2024-HUMAN-03-04 (implemented under StandICT.eu 2029).\nSee website: http://www.standict.eu .",
@@ -3125,6 +3125,53 @@
           "schedule_source": "document",
           "wp_edition": "HORIZON 2026-2027 / Part 7 – Digital, Industry and Space",
           "field_provenance": "{\"eligibility_conditions\": \"document\", \"expected_eu_contribution\": \"document\", \"expected_outcome\": \"document\", \"procedure\": \"document\", \"scope\": \"document\", \"status\": \"document-indicative\", \"technology_readiness_level\": \"document\"}",
+          "provenance_note": "In the work programme but not yet in the portal API — dates/status indicative.",
+          "_description_section_keys": [
+            "technology_readiness_level",
+            "content_source",
+            "schedule_source",
+            "wp_edition",
+            "field_provenance",
+            "provenance_note"
+          ]
+        },
+        {
+          "call_id": "HORIZON-2027-EUSPA-SPACE-51",
+          "original_call_id": "HORIZON-2027-EUSPA-SPACE-51",
+          "topic_id": "HORIZON-2027-EUSPA-SPACE-51",
+          "topic_title": "Galileo and Copernicus contribution to the EU Preparedness Union Strategy",
+          "call_title": "Galileo and Copernicus contribution to the EU Preparedness Union Strategy",
+          "name": "Galileo and Copernicus contribution to the EU Preparedness Union Strategy",
+          "type_of_action": "IA",
+          "call_type": "IA",
+          "technology_readiness_level": "Activities are expected to achieve TRL 7-9 by the end of the project. The reference TRL definition is the ISO 16290:2013 applicable to the space sector. Activities may start at any TRL.",
+          "expected_outcome": "This topic aims to support activities that contribute to one or more key objectives and actions set by the EU Preparedness Union Strategy, leveraging the European GNSS services and differentiators (e.g., OSNMA192, EWSS193, SAS194, HAS195, etc.) and/or Copernicus data and services. To that end, proposals under this topic should aim to deliver results that are tailored towards and contributing to fostering the development and preparing for the commercialization of innovative space-based solutions that enhance EU preparedness with respect to threats and crises, such as the ones caused by natural hazards, man-made or technological disasters (e.g., pandemics, technological failures, mass service blackouts, etc.) and hybrid threats, like cyber- attacks and sabotage of critical infrastructure. The proposals shall aim at enhancing the interoperability among practitioners in EU Member States and improve the capability of the Crisis Response Coordination bodies, to anticipate, prevent, prepare for, respond to, and recover from a variety of risks and threats. 190 Crisis or security practitioners has the meaning of organisations or agencies actively engaged in crisis or security operations, involved in e.g., law enforcement, customs, environmental crime management, smuggling and trafficking fighting and counter-terrorism, border and maritime surveillance, critical infrastructure operators, public safety, fundamental rights, disaster first/second responders, civil protection authorities, humanitarian aid etc. 191 This decision is available on the Funding and Tenders Portal, in the reference documents section for Horizon Europe, under ‘Simplified costs decisions’ or through this link: https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/ls- decision_he_en.pdf 192 Galileo Open Service Navigation Message Authentication (OSNMA) 193 Galileo Emergency Warning Satellite Service (EWSS) 194 Galileo Signal Authentication Service (SAS, http://spcomnav.uab.es/docs/conferences/Terris_ION- GNSS_2024.pdf) 195 Galileo High Accuracy Service (HAS) Projects’ results are expected to create new EU Space-based commercial opportunities for innovative businesses serving practitioner organisations, while contributing to at least one of the following outcomes: • Foster the development and validation of innovative space-based capabilities to assess risks and threats, helping the prevention of crises events and the protection of essential services, such as hospitals, schools, transport, and telecommunications. • Operationalize next-generation systems for monitoring and early warning, providing vital information by combining observations with models to offer increasingly accurate predictions. • Improve the capability of crisis and security practitioners to respond in a timely and effective manner to crises; ensuring also more efficient recovery interventions. • Develop processes, models and capabilities, which safeguard robust and reliable management of critical equipment, infrastructure, and materials.",
+          "scope": "Proposals shall be built on the exploitation of the distinguishing features of Galileo and Copernicus (including its Contributing Missions) and seeking to deliver innovative and commercial space downstream capabilities to underpin the implementation of the European Preparedness Union Strategy. Specific focus shall be given to one or more of the following key objectives and actions of the aforementioned strategy, based on technologies and solutions that: • [Foresight and anticipation:] Exploit Galileo and/or Copernicus data and services to strengthen the EU’s comprehensive risks and threats assessment, contribute to and advance “crisis dashboards” for decision makers, improve capabilities aiming to establish an EU Earth Observation Governmental Service (EOGS); • [Resilience of vital societal functions:] Explore the use of Galileo and/or Copernicus to manage EU stockpiling, and equip and support the Union Civil Protection Mechanism and the Climate Adaptation Plan; • [Population preparedness:] Improve the link between early warning systems and derived guidelines to be developed by the Commission with Member States, based on Copernicus Emergency Management Service and/or the upcoming Galileo EWSS; Explore ways to integrate EWSS into existing national alert systems; Seek to increase awareness about risks and threats at EU, MS, and regional level. • [Crisis response coordination:] Improve central and cross-sectoral crisis response coordination. In all cases, the proposals are expected to address cybersecurity threats in the description of the solution(s). The proposals shall seek to engage and validate such technologies with crisis and security practitioners, through the realisation of large-scale demonstration and implementation activities. Developed applications should have a clearly defined commercial potential and should respond to user needs. The solution(s) developed is/are expected to achieve TRL 7-9 by the end of the project. Proposals shall leverage Galileo European GNSS differentiators, such as Galileo OSNMA and/or SAS, to improve preparedness against spoofing threats to strategic sectors and applications for the EU Preparedness Union Strategy, such as transport, telecommunications or critical infrastructure. Proposals should deliver new innovative applications, identifying and addressing existing gaps, leveraging the existing relevant sectorial regulations and policies and exploring how the solutions implemented using space data and services can address these regulations and be commercialised. Proposals should also highlight the expected impact and define a clear market uptake strategy, presenting a credible post-project pathway to operations. The developed solutions may integrate other non-space technologies like IoT, big data, artificial intelligence and machine learning (AI/ML), smart autonomous drones, augmented/mixed reality, 5G, etc. For proposals under this topic: • A Business Plan should be provided as part of the proposal, to evidence the user requirements, the sustainability of the project, and opportunities for wide adoption in Europe according to standards and operational needs; • Participation of industry, in particular SMEs and midcaps, is encouraged; Proposals addressing Galileo PRS (Public Regulated Service) related applications are not in the scope of this action. Proposals should seek to leverage and/or create synergies with relevant projects and activities funded under Horizon Europe Cluster 3: Civil security for society, reinforcing the cross- fertilization of research and innovation in this domain. In this topic, the integration of the gender dimension (sex and gender analysis) in research and innovation content should be addressed only if relevant in relation to the objectives of the research effort. 5. Quantum Top-Up to InvestEU: Grand Challenge Phase 2 These activities will be implemented by the European Investment Bank (EIB) in accordance with the Quantum Top-Up Agreement to InvestEU between the Commission and the EIB: 1. The InvestEU Programme provides for a guarantee granted by the EU separately to the European Investment Bank (EIB) and to the European Investment Fund (EIF) for financing and investment operations to support the policy objectives of the Union laid down in the InvestEU Regulation. 2. In order to ensure coherent and effective support for EU policies, the InvestEU Regulation establishes a framework for Top-Up Operations to complement financing activities and reinforce the impact of EU interventions This action introduces a dedicated Horizon Europe top-up (venture debt type of support) to InvestEU in support of Phase 2 of the Grand Challenges in the quantum technology sector. Accordingly, final recipients must also be successful applicants to the ‘Phase 1’ actions (resulting in the award of a Horizon Europe grant). The objective is to accelerate the transition of advanced quantum technology solutions from prototypes to scalable, market-ready platforms. The top-up is necessary to improve bankability of quantum technology projects, ensuring technological maturity, financial viability, and alignment with market and end-user requirements. This action intends to support European quantum technology start-ups and SMEs to advance solutions with clear market perspectives. Proposals should demonstrate tangible applications capable of integration into existing industrial and societal infrastructures.196 Submission is directly to the EIB via its venture-debt webpage and is subject to separate application and due diligence under EIB/InvestEU procedures (indicatively 3 - 4 months, depending on the project). Proposals for financing in Phase 2 must be submitted to the EIB via its venture debt webpage (https://www.eib.org/en/products/equity/venture-debt/index). Selected entities may receive up to EUR 30 million per project, typically provided in two tranches of about EUR 15 million each, provided as venture debt financing by the EIB: an initial high-risk tranche under the InvestEU Thematic Innovation Product (with the Horizon Europe top-up) and may also include a subsequent lower-risk tranche under the InvestEU General Debt Product. 196 Operational scope and implementation (EIB-managed): Investment projects will be led by start- ups/SMEs selected by the EIB as final recipients and are expected to actively involve end-users to ensure relevance, early validation and commercialisation. To ensure alignment with concrete use-cases, applicants should work closely with at least two of the following: one lead user, one system provider, optionally a system integrator. The investment stage will focus on development up to TRL 8. For example, for Quantum sensing it should include: 1. Development and ruggedisation of Q-INS hardware meeting operational platform constraints. 2.Full-system integration and environmental testing under simulated conditions and prototype demonstration in operational environment. 3.Deployment of a complete and qualified system on platforms such as UAVs, ships, planes or underground vehicles with extensive KPI-based validation. 4.Co-design with end-users to ensure functional relevance and scalability. 5.Engagement with certification, standardisation, and potential commercial pathways. 6.Plans leveraging public-private financing for industrial scale-up. 7.Establishment of a resilient European supply chain from component manufacturing to system integration. 8.Promotion of European technological sovereignty and broader industrial adoption. This initiative will reinforce Europe’s technological sovereignty and strengthen its position as a global leader in quantum technologies, it will enhance the bankability of European quantum technology projects and accelerate the development of innovative solutions, by bridging the gap between research excellence and their large-scale industrial and societal deployment. Form of Funding: Indirectly managed actions Type of Action: Indirectly managed action Indicative budget: EUR 100.00 million from the 2026 budget and EUR 28.00 million from the 2027 budge Form of Funding: Indirectly managed actions Type of Action: Indirectly managed action Indicative budget: EUR 100.00 million from the 2026 budget and EUR 28.00 million from the 2027 budget 6. Support to implementation of Strategic Projects under the Critical Raw Materials Act To support the Commission in implementing activities of projects recognised as Strategic Projects under the Critical Raw Materials Act, particularly on technological developments such as supporting pilot demonstrators development and market implementation of R&I solutions. This support will include organising advisory support for project finance, organising matchmaking and pitching possibilities with offtakers and financial institutions. Legal entities: European Institute of Innovation and Technology, Infopark 1 Building E, Neumann Janos utca, 1117 Budapest, Hungary Form of Funding: Indirectly managed actions Type of Action: Indirectly managed action Indicative budget: EUR 2.00 million from the 2026 budget Specific Grant Agreements 1. Quantum Computing – Call for the 2nd SGA for the Millenion FPA (trapped-ions) Within the Framework Partnership Agreement (FPA) awarded under topic HORIZON-CL4- 2021-DIGITAL-EMERGING-02-15: Framework Partnership Agreement for developing the first large -scale quantum computers (FPA), the selected consortium will be invited to submit a proposal for a Specific Grant Agreement Research and Innovation Action that will implement the second 3.5 years of the action plan defined in the above FPA. Expected outcomes This action will advance Europe’s leadership in trapped-ion quantum computing by achieving the following key outcomes: • Establishment of a full-stack ion-trap quantum computer aiming at more than 1.000 qubits, fully integrated into high-performance computing (HPC) systems, and accessible via the cloud. • Demonstration of quantum advantage for selected real-world applications, validated against benchmarks. • Strengthened European capabilities to develop modular, interoperable, and scalable quantum computing architectures. • Implementation and demonstration of advanced error correction and fault-tolerant quantum computing techniques. • Integration of full-stack hardware-software systems with standardised and certified interfaces. • Engagement with industry and academia through open access to quantum computing resources and co-design of applications.",
+          "admissibility_conditions": ",",
+          "eligibility_conditions": "established for this Framework Partnership Agreement in WP2021-22. Prior to the adoption of the latter, questionnaires were sent to non-EEA associated countries and countries in the process of association in order to assess their eligibility to participate. 208 The guarantees shall in particular substantiate that, for the purpose of the action, measures are in place to ensure that: a) control over the applicant legal entity is not exercised in a manner that retrains or restricts its ability to carry out the action and to deliver results, that imposes restrictions concerning its infrastructure, Form of Funding: Grants not subject to calls for proposals",
+          "procedure": "General Annexes",
+          "legal_and_financial_setup": "Eligible costs will take the form of a lump sum as defined in the Decision of 7 July 2021 authorising the use of lump sum contributions under the Horizon Europe Programme – the Framework Programme for Research and Innovation (2021-2027) – and in actions under the Research and Training Programme of the European Atomic Energy Community (2021-2025) 191.",
+          "exceptional_page_limits": "",
+          "expected_eu_contribution": "800000 - 1000000",
+          "min_contribution": 800000,
+          "max_contribution": 1000000,
+          "indicative_budget": 980000,
+          "opening_date": "",
+          "deadline": "",
+          "deadlines": [],
+          "deadline_model": "",
+          "status": "Forthcoming",
+          "funding_link": "",
+          "url": "",
+          "callIdentifier": "HORIZON-2027-EUSPA-SPACE",
+          "callccm2Id": "",
+          "keywords": [],
+          "tags": [],
+          "destination": "Space",
+          "content_source": "document",
+          "schedule_source": "document",
+          "wp_edition": "HORIZON 2026-2027 / Part 7 – Digital, Industry and Space",
+          "field_provenance": "{\"admissibility_conditions\": \"document\", \"eligibility_conditions\": \"document\", \"expected_eu_contribution\": \"document\", \"expected_outcome\": \"document\", \"legal_and_financial_setup\": \"document\", \"procedure\": \"document\", \"scope\": \"document\", \"status\": \"document-indicative\", \"technology_readiness_level\": \"document\"}",
           "provenance_note": "In the work programme but not yet in the portal API — dates/status indicative.",
           "_description_section_keys": [
             "technology_readiness_level",

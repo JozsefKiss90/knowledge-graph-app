@@ -4,6 +4,10 @@
 `.scratch/wp-doc-ingest/PRD.md` Step 1 (audit gate), ADR-0008 · **Tool:** `reconcile_health_2026.py`
 (read-only, per-cluster) · supersedes the Health-only `reconciliation-health-2026.md`.
 
+> **▶ To reproduce the CL4 document+API merge on another cluster/programme, follow `RUNBOOK.md`**
+> (this dir) — the step-by-step recipe, per-cluster inputs, cluster-specific variations, and gotchas.
+> This report tells you *which* clusters are worth doing (bucket B/C); the runbook tells you *how*.
+
 ## Verdict (TL;DR)
 
 With the **matching 2026-2027 editions** now on disk, the earlier Health-only conclusion is overturned:

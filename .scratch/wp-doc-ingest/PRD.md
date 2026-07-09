@@ -74,12 +74,19 @@ Steps 2–5 executed and **verified through the real builder** (`_build_call_pro
 `cluster_CL4.merged.json`. Result: **79/79 calls build clean, 0 errors; TRL now 53 node props (was 0/64);
 15 Space topics surfaced (additive, 64 API + 15 doc); provenance + wp_edition flow via
 `_description_section_keys` (zero builder change); status recomputed from dates (37 Closed / 42 Forthcoming).**
-Finding: the ingested grouped file is a stale Jan vintage (`MATERIALS-PRODUCTION` vs the current dump/PDF
-`MAT-PROD`) — pilot canonicalises the alias; productionisation should rebuild from the current dump.
+Finding: 30 of 64 CL4 topics carry the stale `MATERIALS-PRODUCTION` id spelling (vs the canonical
+`MAT-PROD` in the dump/PDF); pilot canonicalises the alias in the join.
 **PROMOTED LIVE + UI-verified 2026-07-09**: copied over `cluster_CL4.grouped.json` (backup `.PREPILOT.bak`),
 ingested via `POST /cluster4/populate` into the running `kg-dev` stack → graph has 53 TRL + 15 Space; drove
 the UI (headless Chrome) to a Space topic card showing TRL + indicative labels (`cl4-pilot-ui-space-topic.png`).
-Nothing committed (working-tree change). Remaining: rebuild-from-current-dump + tighten parser to full ~89.
+Nothing committed (working-tree change). **Scope correction:** state is NOT stale (verified: 64/64 topics
+match the current dump, 0/64 date diffs) — a rebuild-from-dump is NOT warranted. **ID canonicalisation DONE
+2026-07-09** (`canonicalize_cl4_ids.py`: 30 `call_id`s `MATERIALS-PRODUCTION`→`MAT-PROD`, all verified in the
+dump; `DELETE /cluster4/all`→`populate` re-ingest → graph: 0 stale, 30 canonical, 79 calls, 0 dups, TRL 53 +
+Space 15 preserved). **Parser coverage DONE 2026-07-09**: the "~89" was a miscount (89 `Specific conditions`
+occurrences = 78 topics + 12 non-topic tables/boilerplate); parser missed exactly 1 real topic, the
+EUSPA-namespaced Space call `HORIZON-2027-EUSPA-SPACE-51` — broadened namespace + relaxed `Call:`-only rule
++ backfilled its title/action/budget → parser 78/78, graph now **80 calls / TRL 54**, EUSPA-51 live. CL4 pilot complete.
 
 ## Decision (recap — see ADR-0008)
 

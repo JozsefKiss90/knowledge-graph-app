@@ -34,24 +34,39 @@ the builder falls back to a `_DummyDB` without Neo4j):
 ## Notable finding — the ingested grouped file is a stale vintage (ID alias)
 
 The PDF and the **current** raw API dump both use the abbreviated destination token `MAT-PROD`
-(e.g. `HORIZON-CL4-2026-01-MAT-PROD-01`), but the ingested `cluster_CL4.grouped.json` is an **older
-(Jan) vintage** spelling it `MATERIALS-PRODUCTION` — so 30 topics failed to join until canonicalised
-(`api∩grouped` was only 34 vs `pdf∩api` 62). For the pilot this is handled with a single alias in
-`norm_key`. **Productionisation should instead rebuild from the current dump** (whose IDs already match
-the PDF), which also refreshes state and removes the alias hack. This is the same stale-vintage issue
-the bucket-A audit surfaced (Jan grouped files vs May dump).
+(e.g. `HORIZON-CL4-2026-01-MAT-PROD-01`), but the ingested `cluster_CL4.grouped.json` spells it
+`MATERIALS-PRODUCTION` on 30 of 64 topics — so those failed to join until canonicalised in `norm_key`.
+
+**Scope correction (verified 2026-07-09):** an earlier draft called for "rebuild from the current dump"
+to also refresh stale state. Diffing the promoted grouped file against the current dump shows the state is
+**not** stale: **64/64 topics match (0 missing / 0 withdrawn), and 0/64 differ on opening_date or
+deadline.** So a rebuild refreshes nothing. The **only** real residue is the 30 stale `MATERIALS-PRODUCTION`
+IDs, and the right-sized fix is a targeted id-canonicalisation (rename those 30 → `MAT-PROD`), **not** a
+rebuild. It is only worth doing if a consumer joins to a call by its portal id — the assistant's
+locate/highlight and deep-links (id-keyed, so they miss those 30), or a MERGE-without-delete re-ingest
+(would duplicate those 30). Outbound portal links are unaffected (`funding_link` is stored per-call).
 
 ## Productionisation checklist (not done in the pilot)
 
-- **Rebuild the API side from the current dump** (`fetched_call_metadata_2026_2027.json`, MAT-PROD IDs)
-  rather than alias-patching the stale grouped file — fixes IDs + refreshes state in one move.
+- **Canonicalise the 30 stale IDs** (`MATERIALS-PRODUCTION` → `MAT-PROD`) — **DONE 2026-07-09**
+  (`canonicalize_cl4_ids.py`, `call_id` only; all 30 targets verified present in the current dump).
+  Re-ingested cleanly (`DELETE /cluster4/all` → `POST /cluster4/populate`); graph verified: **0 stale ids,
+  30 canonical MAT-PROD, 79 calls, 0 duplicates, TRL 53 + Space 15 preserved.** (No rebuild-from-dump —
+  state was already fresh.)
 - **Promote TRL to a first-class builder prop** (`_build_call_props`) instead of riding
   `_description_section_keys` — it's a core field, not a description section.
 - **Fix the pre-existing `min__contribution` typo** in CL4 grouped (double underscore → builder reads
   `min_contribution` → drops it; sample showed `min_contribution=None` while `expected_eu_contribution`
   was correct).
-- **Parser coverage:** 77 of ~89 "Specific conditions" blocks resolved — the remaining ~12 need the
-  parser's destination/two-stage edge-cases tightened for full extraction.
+- **Parser coverage — DONE 2026-07-09 (full).** The earlier "77 of ~89" was a miscount: `Specific
+  conditions` occurs 89× but 12 are **non-topic** (duplicate condition tables + General-Annexes
+  boilerplate), so the real topic count is **78**. Classifying all 89 against the canonical
+  `Proposals are invited against the following topic(s):` marker showed the parser missed exactly **one**
+  real topic — the EUSPA-namespaced Space call `HORIZON-2027-EUSPA-SPACE-51` (`Call:`-less, non-`CL4` id).
+  Fixed in `cl4_wp_parser.py`: broadened the namespace to include EUSPA Space topics (still excluding
+  cross-cluster refs), relaxed the `Call:`-only confirmation, and backfilled title/action/budget for the
+  non-standard id shape. Parser now **78/78**; re-ingested → graph = **80 calls, TRL on 54**, EUSPA-51 live
+  (`Galileo and Copernicus…`, Forthcoming, IA, TRL 7-9), 0 stale ids, 0 dups.
 - **Honesty (ADR-0006):** Space topics render dates/status as **indicative (work programme)**;
   `field_provenance` already marks document-sourced fields.
 

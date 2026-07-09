@@ -17,8 +17,10 @@ import he_wp_parser_merged_patched_with_dates as pa  # prior-art engine (import-
 import fitz
 
 PDF = Path(__file__).resolve().parents[2] / "pdf_files/HORIZON_2026/wp-7-digital-industry-and-space_horizon-2026-2027_en.pdf"
-EDITION_RE = re.compile(r'HORIZON-CL4-20(?:26|27)-')
-HDR = re.compile(r'(HORIZON-CL4-20\d\d-[0-9A-Za-z\-]+?)\s*:\s*(.+?)\n', re.S)
+# CL4 topics + EUSPA-namespaced Space topics published in this WP (e.g. HORIZON-2027-EUSPA-SPACE-51).
+# Excludes cross-references to other clusters (CL1/2/3/5/6), which are not CL4 calls.
+EDITION_RE = re.compile(r'HORIZON-(?:CL4-20(?:26|27)|20(?:26|27)-EUSPA)-')
+HDR = re.compile(r'(HORIZON-(?:CL4-20\d\d|20\d\d-EUSPA)-[0-9A-Za-z\-]+?)\s*:\s*(.+?)\n', re.S)
 
 def _clean_text(doc):
     """Full text with running headers/footers stripped page-by-page (reuse prior-art geometry strip)."""
@@ -38,7 +40,11 @@ def parse(pdf_path=PDF):
     starts = []
     for m in HDR.finditer(text):
         window = text[m.end(): m.end() + 500]
-        if 'Call:' in window and re.search(r'Specific\s+conditions', window):
+        # real definition = the Specific-conditions table follows. Confirm via any table anchor:
+        # standard topics have "Call:"; EUSPA topics lack a per-topic Call line, so accept the
+        # conditions-table markers (Expected EU contribution / Type of Action) too.
+        if re.search(r'Specific\s+conditions', window) and \
+           re.search(r'Call:|Expected\s+EU\s+contribution|Type\s+of\s+Action', window):
             starts.append((m.start(), m.group(1)))
     # dedup by call_id, keep first real definition
     seen_ids, defs = set(), []
@@ -60,6 +66,23 @@ def parse(pdf_path=PDF):
         if "min__contribution" in rec:
             rec["min_contribution"] = rec.pop("min__contribution")
         rec["call_id"] = rec.get("call_id") or cid
+        # The prior-art engine assumes a HORIZON-CLx-YYYY id; it can't parse other shapes
+        # (e.g. EUSPA's HORIZON-YYYY-EUSPA-…) and leaves title/action empty + a bad budget.
+        # Backfill those fields directly from the block ONLY in that case (standard topics untouched).
+        if not rec.get("call_title"):
+            mt = re.search(re.escape(cid) + r'\s*:\s*(.+?)(?=\s*Specific\s+conditions|\s*Call\s*[-:])', block, re.S)
+            if mt:
+                rec["call_title"] = re.sub(r'\s+', ' ', mt.group(1)).strip()
+            mta = re.search(r'Type\s+of\s+Action\s+(.+?)(?=Eligibility|Admissibility|Technology|Procedure|Deadline|Award|Legal|Expected\s+Outcome|Scope)', block, re.S)
+            if mta:
+                v = re.sub(r'\s+', ' ', mta.group(1))
+                rec["type_of_action"] = ("RIA" if "Research and Innovation" in v else
+                                         "IA" if "Innovation Action" in v else
+                                         "CSA" if "Coordination and Support" in v else v.strip()[:50])
+            mb = re.search(r'total\s+indicative\s+budget\s+for\s+the\s+topic\s+is\s+EUR\s+([\d.,]+)\s*million', block, re.I)
+            if mb:
+                try: rec["indicative_budget"] = float(mb.group(1).replace(',', '.'))
+                except ValueError: pass
         out.setdefault(rec["call_id"], rec)
     return out
 
