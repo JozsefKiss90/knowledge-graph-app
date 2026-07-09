@@ -3,7 +3,7 @@
     {
       "destination_title": "WIDERA",
       "calls": [
-        { 
+        {
           "identifier": "HORIZON-WIDERA-2026-01-WIDENING-01",
           "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-WIDERA-2026-01-WIDENING-01",
           "topic_title": "Teaming Synergies",
@@ -40,7 +40,8 @@
           "budget_year_map": {
             "2026": "7000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-01-WIDENING-01"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-01-WIDENING-01",
+          "expected_eu_contribution": "7000000 - 7000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-02-WIDENING-01",
@@ -80,7 +81,8 @@
             "2026": "223000000",
             "2027": "41500000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-02-WIDENING-01"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-02-WIDENING-01",
+          "expected_eu_contribution": "800000 - 1500000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-03-WIDENING-01",
@@ -119,7 +121,8 @@
           "budget_year_map": {
             "2026": "30000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-03-WIDENING-01"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-03-WIDENING-01",
+          "expected_eu_contribution": "200000 - 600000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-04-WIDENING-01",
@@ -158,7 +161,8 @@
           "budget_year_map": {
             "2026": "7000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-04-WIDENING-01"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-04-WIDENING-01",
+          "expected_eu_contribution": "7000000 - 7000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-05-WIDENING-01",
@@ -197,7 +201,8 @@
           "budget_year_map": {
             "2026": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-05-WIDENING-01"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-05-WIDENING-01",
+          "expected_eu_contribution": "100000 - 500000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-01",
@@ -235,7 +240,8 @@
           "budget_year_map": {
             "2026": "6000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-01"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-01",
+          "expected_eu_contribution": "2000000 - 3000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-02",
@@ -273,7 +279,8 @@
           "budget_year_map": {
             "2026": "9000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-02"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-02",
+          "expected_eu_contribution": "1500000 - 2000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-03",
@@ -311,7 +318,8 @@
           "budget_year_map": {
             "2026": "6000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-03"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-03",
+          "expected_eu_contribution": "2000000 - 2000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-04",
@@ -350,7 +358,8 @@
           "budget_year_map": {
             "2026": "4000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-04"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-04",
+          "expected_eu_contribution": "2000000 - 2000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-05",
@@ -388,7 +397,8 @@
           "budget_year_map": {
             "2026": "2000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-05"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-05",
+          "expected_eu_contribution": "1000000 - 1000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-06",
@@ -427,7 +437,8 @@
           "budget_year_map": {
             "2026": "3000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-06"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-06",
+          "expected_eu_contribution": "3000000 - 3000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-07",
@@ -466,7 +477,8 @@
           "budget_year_map": {
             "2026": "6000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-07"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-07",
+          "expected_eu_contribution": "6000000 - 6000000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-08",
@@ -504,7 +516,8 @@
           "budget_year_map": {
             "2026": "16000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-08"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-08",
+          "expected_eu_contribution": "1500000 - 2500000"
         },
         {
           "identifier": "HORIZON-WIDERA-2026-06-ERA-08",
@@ -542,7 +555,8 @@
           "budget_year_map": {
             "2026": "16000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-08"
+          "topic_id_from_budget": "HORIZON-WIDERA-2026-06-ERA-08",
+          "expected_eu_contribution": "1500000 - 2500000"
         },
         {
           "identifier": "HORIZON-WIDERA-2027-03-WIDENING-01",
@@ -581,7 +595,8 @@
           "budget_year_map": {
             "2027": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-WIDERA-2027-03-WIDENING-01"
+          "topic_id_from_budget": "HORIZON-WIDERA-2027-03-WIDENING-01",
+          "expected_eu_contribution": "100000 - 500000"
         }
       ]
     }

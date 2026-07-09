@@ -1,0 +1,549 @@
+{
+  "pages": 356,
+  "counts": {
+    "pdf": 110,
+    "api": 113,
+    "grouped": 113,
+    "both": 107,
+    "pdf_only": 3,
+    "api_only": 6,
+    "pdf_only_current": 1,
+    "pdf_only_xref": 2
+  },
+  "pdf_only": [
+    "HORIZON-CL6-2024-GOVERNANCE-02-01",
+    "HORIZON-CL6-2025-02-FARM2FORK-08",
+    "HORIZON-CL6-2026-CIRCBIO-10"
+  ],
+  "pdf_only_current": [
+    "HORIZON-CL6-2026-CIRCBIO-10"
+  ],
+  "pdf_only_xref": [
+    "HORIZON-CL6-2024-GOVERNANCE-02-01",
+    "HORIZON-CL6-2025-02-FARM2FORK-08"
+  ],
+  "api_only": [
+    "HORIZON-CL6-2026-01-two-stage",
+    "HORIZON-CL6-2026-02-two-stage",
+    "HORIZON-CL6-2026-03-GOVERNANCE-04",
+    "HORIZON-CL6-2026-03-two-stage",
+    "HORIZON-CL6-2027-01-two-stage",
+    "HORIZON-CL6-2027-02-two-stage"
+  ],
+  "bucketA": {
+    "status": {
+      "grouped_blank": 0,
+      "api_has": 0
+    },
+    "expected_eu_contribution": {
+      "grouped_blank": 0,
+      "api_has": 0
+    },
+    "technology_readiness_level": {
+      "grouped_blank": 107,
+      "api_has": 5
+    }
+  },
+  "bucketB": {
+    "technology_readiness_level": 39,
+    "expected_impact": 7,
+    "expected_eu_contribution_phrase": 97
+  },
+  "b_detail": {
+    "technology_readiness_level": [
+      "HORIZON-CL6-2026-01-CIRCBIO-01",
+      "HORIZON-CL6-2026-01-CIRCBIO-01-two-stage",
+      "HORIZON-CL6-2026-01-CIRCBIO-02",
+      "HORIZON-CL6-2026-01-CIRCBIO-03",
+      "HORIZON-CL6-2026-01-CIRCBIO-04",
+      "HORIZON-CL6-2026-01-CIRCBIO-07",
+      "HORIZON-CL6-2026-01-CIRCBIO-08",
+      "HORIZON-CL6-2026-01-CIRCBIO-10",
+      "HORIZON-CL6-2026-01-CIRCBIO-11",
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-01-two-stage",
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-02",
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-03",
+      "HORIZON-CL6-2026-02-FARM2FORK-01",
+      "HORIZON-CL6-2026-02-FARM2FORK-01-two-stage",
+      "HORIZON-CL6-2026-02-FARM2FORK-02-two-stage",
+      "HORIZON-CL6-2026-02-FARM2FORK-03",
+      "HORIZON-CL6-2026-02-FARM2FORK-08",
+      "HORIZON-CL6-2026-02-FARM2FORK-09",
+      "HORIZON-CL6-2026-02-FARM2FORK-11",
+      "HORIZON-CL6-2027-01-BIODIV-03",
+      "HORIZON-CL6-2027-01-BIODIV-09",
+      "HORIZON-CL6-2027-01-CIRCBIO-01",
+      "HORIZON-CL6-2027-01-CIRCBIO-02",
+      "HORIZON-CL6-2027-01-CIRCBIO-02-two-stage",
+      "HORIZON-CL6-2027-01-CIRCBIO-03",
+      "HORIZON-CL6-2027-01-CIRCBIO-05",
+      "HORIZON-CL6-2027-01-CIRCBIO-06",
+      "HORIZON-CL6-2027-01-CIRCBIO-07",
+      "HORIZON-CL6-2027-01-CIRCBIO-08",
+      "HORIZON-CL6-2027-01-CIRCBIO-09",
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-01",
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-03",
+      "HORIZON-CL6-2027-02-CLIMATE-03",
+      "HORIZON-CL6-2027-02-COMMUNITIES-02",
+      "HORIZON-CL6-2027-02-FARM2FORK-01",
+      "HORIZON-CL6-2027-02-FARM2FORK-06",
+      "HORIZON-CL6-2027-02-FARM2FORK-07",
+      "HORIZON-CL6-2027-02-FARM2FORK-08",
+      "HORIZON-CL6-2027-03-GOVERNANCE-04"
+    ],
+    "expected_impact": [
+      "HORIZON-CL6-2027-01-BIODIV-09",
+      "HORIZON-CL6-2027-01-CIRCBIO-02-two-stage",
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-04",
+      "HORIZON-CL6-2027-02-CLIMATE-01-two-stage",
+      "HORIZON-CL6-2027-02-COMMUNITIES-02",
+      "HORIZON-CL6-2027-02-FARM2FORK-02-two-stage",
+      "HORIZON-CL6-2027-03-GOVERNANCE-07"
+    ],
+    "expected_eu_contribution_phrase": [
+      "HORIZON-CL6-2026-01-BIODIV-01",
+      "HORIZON-CL6-2026-01-BIODIV-01-two-stage",
+      "HORIZON-CL6-2026-01-BIODIV-02",
+      "HORIZON-CL6-2026-01-BIODIV-02-two-stage",
+      "HORIZON-CL6-2026-01-BIODIV-03",
+      "HORIZON-CL6-2026-01-BIODIV-03-two-stage",
+      "HORIZON-CL6-2026-01-BIODIV-04",
+      "HORIZON-CL6-2026-01-BIODIV-04-two-stage",
+      "HORIZON-CL6-2026-01-BIODIV-05",
+      "HORIZON-CL6-2026-01-BIODIV-06",
+      "HORIZON-CL6-2026-01-CIRCBIO-02",
+      "HORIZON-CL6-2026-01-CIRCBIO-02-two-stage",
+      "HORIZON-CL6-2026-01-CIRCBIO-03",
+      "HORIZON-CL6-2026-01-CIRCBIO-04",
+      "HORIZON-CL6-2026-01-CIRCBIO-05",
+      "HORIZON-CL6-2026-01-CIRCBIO-06",
+      "HORIZON-CL6-2026-01-CIRCBIO-07",
+      "HORIZON-CL6-2026-01-CIRCBIO-08",
+      "HORIZON-CL6-2026-01-CIRCBIO-09",
+      "HORIZON-CL6-2026-01-CIRCBIO-10",
+      "HORIZON-CL6-2026-01-CIRCBIO-11",
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-01",
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-01-two-stage",
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-02",
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-03",
+      "HORIZON-CL6-2026-02-CLIMATE-01",
+      "HORIZON-CL6-2026-02-CLIMATE-02",
+      "HORIZON-CL6-2026-02-COMMUNITIES-01",
+      "HORIZON-CL6-2026-02-FARM2FORK-01",
+      "HORIZON-CL6-2026-02-FARM2FORK-01-two-stage",
+      "HORIZON-CL6-2026-02-FARM2FORK-02",
+      "HORIZON-CL6-2026-02-FARM2FORK-02-two-stage",
+      "HORIZON-CL6-2026-02-FARM2FORK-03",
+      "HORIZON-CL6-2026-02-FARM2FORK-04",
+      "HORIZON-CL6-2026-02-FARM2FORK-05",
+      "HORIZON-CL6-2026-02-FARM2FORK-06",
+      "HORIZON-CL6-2026-02-FARM2FORK-07",
+      "HORIZON-CL6-2026-02-FARM2FORK-08",
+      "HORIZON-CL6-2026-02-FARM2FORK-09",
+      "HORIZON-CL6-2026-02-FARM2FORK-11",
+      "HORIZON-CL6-2026-02-FARM2FORK-12",
+      "HORIZON-CL6-2026-02-FARM2FORK-14",
+      "HORIZON-CL6-2026-03-GOVERNANCE-01",
+      "HORIZON-CL6-2026-03-GOVERNANCE-01-two-stage",
+      "HORIZON-CL6-2026-03-GOVERNANCE-02",
+      "HORIZON-CL6-2026-03-GOVERNANCE-03",
+      "HORIZON-CL6-2026-03-GOVERNANCE-05",
+      "HORIZON-CL6-2026-03-GOVERNANCE-06",
+      "HORIZON-CL6-2026-03-GOVERNANCE-07",
+      "HORIZON-CL6-2026-03-GOVERNANCE-08",
+      "HORIZON-CL6-2026-03-GOVERNANCE-09",
+      "HORIZON-CL6-2026-04-GOVERNANCE-01",
+      "HORIZON-CL6-2027-01-BIODIV-01",
+      "HORIZON-CL6-2027-01-BIODIV-02",
+      "HORIZON-CL6-2027-01-BIODIV-03",
+      "HORIZON-CL6-2027-01-BIODIV-04",
+      "HORIZON-CL6-2027-01-BIODIV-05",
+      "HORIZON-CL6-2027-01-BIODIV-06",
+      "HORIZON-CL6-2027-01-BIODIV-07",
+      "HORIZON-CL6-2027-01-BIODIV-08",
+      "HORIZON-CL6-2027-01-BIODIV-09",
+      "HORIZON-CL6-2027-01-CIRCBIO-01",
+      "HORIZON-CL6-2027-01-CIRCBIO-01-two-stage",
+      "HORIZON-CL6-2027-01-CIRCBIO-02",
+      "HORIZON-CL6-2027-01-CIRCBIO-02-two-stage",
+      "HORIZON-CL6-2027-01-CIRCBIO-03",
+      "HORIZON-CL6-2027-01-CIRCBIO-04",
+      "HORIZON-CL6-2027-01-CIRCBIO-05",
+      "HORIZON-CL6-2027-01-CIRCBIO-06",
+      "HORIZON-CL6-2027-01-CIRCBIO-07",
+      "HORIZON-CL6-2027-01-CIRCBIO-08",
+      "HORIZON-CL6-2027-01-CIRCBIO-09",
+      "HORIZON-CL6-2027-01-CIRCBIO-10",
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-01",
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-02",
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-03",
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-04",
+      "HORIZON-CL6-2027-02-CLIMATE-01",
+      "HORIZON-CL6-2027-02-CLIMATE-01-two-stage",
+      "HORIZON-CL6-2027-02-CLIMATE-02",
+      "HORIZON-CL6-2027-02-CLIMATE-03",
+      "HORIZON-CL6-2027-02-CLIMATE-04",
+      "HORIZON-CL6-2027-02-COMMUNITIES-01",
+      "HORIZON-CL6-2027-02-FARM2FORK-01",
+      "HORIZON-CL6-2027-02-FARM2FORK-01-two-stage",
+      "HORIZON-CL6-2027-02-FARM2FORK-02",
+      "HORIZON-CL6-2027-02-FARM2FORK-03",
+      "HORIZON-CL6-2027-02-FARM2FORK-04",
+      "HORIZON-CL6-2027-02-FARM2FORK-05",
+      "HORIZON-CL6-2027-02-FARM2FORK-06",
+      "HORIZON-CL6-2027-02-FARM2FORK-07",
+      "HORIZON-CL6-2027-02-FARM2FORK-09",
+      "HORIZON-CL6-2027-03-GOVERNANCE-01",
+      "HORIZON-CL6-2027-03-GOVERNANCE-03",
+      "HORIZON-CL6-2027-03-GOVERNANCE-05",
+      "HORIZON-CL6-2027-03-GOVERNANCE-06",
+      "HORIZON-CL6-2027-03-GOVERNANCE-07"
+    ]
+  },
+  "title_mismatches": [
+    [
+      "HORIZON-CL6-2026-01-BIODIV-01-two-stage",
+      "living labs for co-creating solutions",
+      "living labs for co-creating solutions for the restoration of ecosystems"
+    ],
+    [
+      "HORIZON-CL6-2026-01-BIODIV-02-two-stage",
+      "open topic: uncovering the causes of",
+      "open topic: uncovering the causes of specific species’ rapid decline and exploring actionable solutions"
+    ],
+    [
+      "HORIZON-CL6-2026-01-BIODIV-03",
+      "pushing the frontier of",
+      "pushing the frontier of knowledge and conservation action for deep sea ecosystems"
+    ],
+    [
+      "HORIZON-CL6-2026-01-BIODIV-03-two-stage",
+      "unlocking the potential of citizen",
+      "unlocking the potential of citizen action for nature protection and restoration"
+    ],
+    [
+      "HORIZON-CL6-2026-01-BIODIV-04-two-stage",
+      "mainstreaming",
+      "mainstreaming and scaling-up evidence-based nature-based solutions towards a nature positive and climate-resilient economy"
+    ],
+    [
+      "HORIZON-CL6-2026-01-CIRCBIO-01-two-stage",
+      "deploying circular systemic solutions",
+      "deploying circular systemic solutions through living labs in cities and regions (circular cities and regions initiative topic)"
+    ],
+    [
+      "HORIZON-CL6-2026-01-CIRCBIO-02-two-stage",
+      "open topic: using the circular cities",
+      "open topic: using the circular cities and regions initiative to strengthen urban manufacturing in support of the clean industrial deal"
+    ],
+    [
+      "HORIZON-CL6-2026-01-CIRCBIO-04",
+      "demonstrating and deploying innovative",
+      "demonstrating and deploying innovative collection, sorting-for-reuse and repair systems for textiles at city/region level (circular cities and regions initiative topic)"
+    ],
+    [
+      "HORIZON-CL6-2026-01-CIRCBIO-08",
+      "supporting",
+      "supporting pre-normative research for standardization of the bio-based products"
+    ],
+    [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-01",
+      "toward a comprehensive assessment",
+      "toward a comprehensive assessment of the disturbance of marine ecosystems by anthropogenic underwater noise"
+    ],
+    [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-01-two-stage",
+      "decontaminate",
+      "decontaminate and bioremediate aquatic pollution"
+    ],
+    [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-02",
+      "bioremediation",
+      "bioremediation of ukraine’s ecosystems contaminated by conflicts"
+    ],
+    [
+      "HORIZON-CL6-2026-01-ZEROPOLLUTION-03",
+      "developing",
+      "developing managed aquifer recharge techniques (mar) in a rural context"
+    ],
+    [
+      "HORIZON-CL6-2026-02-COMMUNITIES-01",
+      "boosting sustainable competitiveness in",
+      "boosting sustainable competitiveness in rural areas through innovation"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-01",
+      "developing",
+      "developing innovative phytosanitary treatments for regulated plant pests to support safe international trade"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-01-two-stage",
+      "open topic: improving the",
+      "open topic: improving the competitiveness of the agricultural sector by enhancing the efficient and sustainable use of agricultural production factors"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-02",
+      "tackling",
+      "tackling pesticide resistance: early detection, management strategies, and foresight"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-02-two-stage",
+      "open topic: boosting organic",
+      "open topic: boosting organic farming for a competitive, sustainable and resilient farming sector"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-03",
+      "boosting the competitiveness of protein",
+      "boosting the competitiveness of protein crops in europe"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-06",
+      "advanced",
+      "advanced innovative solutions for improved competitiveness and sustainability in controlled environment agriculture (cea)"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-07",
+      "strengthening the eu plant protection",
+      "strengthening the eu plant protection ecosystem for a future-proof agriculture"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-08",
+      "advancing",
+      "advancing basic knowledge and developing tools for sustainable management of key migratory fish species"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-09",
+      "sustainable",
+      "sustainable and healthy diets for cardiovascular diseases prevention with the support of digital applications"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-10",
+      "sustainable and healthy diets based on",
+      "sustainable and healthy diets based on health status and socio-economic risk factors of ageing population"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-11",
+      "integrating a holistic perspective in",
+      "integrating a holistic perspective in microbiome research for resilient, competitive and sustainable food systems"
+    ],
+    [
+      "HORIZON-CL6-2026-02-FARM2FORK-12",
+      "leveraging",
+      "leveraging r&i knowledge on microbiome"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-01-two-stage",
+      "open topic: develop earth",
+      "open topic: develop earth intelligence solutions using environmental observations and state-of-the-art ai for sustainable competitiveness and policy making"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-02",
+      "improving analytical capacity and",
+      "improving analytical capacity and understanding of social drivers in agriculture to better assess social sustainability in the sector"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-03",
+      "empowering the un decade of ocean",
+      "empowering the un decade of ocean science for sustainable development"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-05",
+      "coordinated european contribution to",
+      "coordinated european contribution to the wmo global greenhouse gas watch and its international governance"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-06",
+      "a services and business incubator for",
+      "a services and business incubator for geospatial open-source developments"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-07",
+      "interconnect",
+      "interconnect earth observation research for addressing environmental policies"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-08",
+      "boosting data availability and ai",
+      "boosting data availability and ai solutions in food for consumers and food service professionals"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-09",
+      "increasing knowledge flows to practice",
+      "increasing knowledge flows to practice within akis via eu thematic knowledge hubs"
+    ],
+    [
+      "HORIZON-CL6-2026-03-GOVERNANCE-10",
+      "embracing innovation in agriculture by",
+      "embracing innovation in agriculture by peer-to-peer learning via on farm-demonstrations and cost-benefit analysis"
+    ],
+    [
+      "HORIZON-CL6-2026-04-GOVERNANCE-01",
+      "additional activities for the european",
+      "additional activities for the european partnership of agriculture of data"
+    ],
+    [
+      "HORIZON-CL6-2027-01-BIODIV-01",
+      "integrating",
+      "integrating remote sensing and in-situ observations of biodiversity, towards a fully interoperable observation and data framework"
+    ],
+    [
+      "HORIZON-CL6-2027-01-BIODIV-04",
+      "living labs for the eradication and/or",
+      "living labs for the eradication and/or management of invasive alien species"
+    ],
+    [
+      "HORIZON-CL6-2027-01-BIODIV-07",
+      "health",
+      "health of ecosystems and wild species, predictions and impacts on human health, in the face of existing and emerging stressors, from a one health approach"
+    ],
+    [
+      "HORIZON-CL6-2027-01-CIRCBIO-01",
+      "enhancing ecodesign and circularity of",
+      "enhancing ecodesign and circularity of consumer electronics"
+    ],
+    [
+      "HORIZON-CL6-2027-01-CIRCBIO-01-two-stage",
+      "deploying circular systemic solutions",
+      "deploying circular systemic solutions through living labs in cities and regions (circular cities and regions initiative topic)"
+    ],
+    [
+      "HORIZON-CL6-2027-01-CIRCBIO-02",
+      "enhancing ecodesign and circularity of",
+      "enhancing ecodesign and circularity of construction products"
+    ],
+    [
+      "HORIZON-CL6-2027-01-CIRCBIO-02-two-stage",
+      "open topic: using the circular cities",
+      "open topic: using the circular cities and regions initiative to strengthen urban manufacturing in support of the clean industrial deal"
+    ],
+    [
+      "HORIZON-CL6-2027-01-CIRCBIO-04",
+      "capacity building for extending product",
+      "capacity building for extending product lifecycles through repair and refurbishment"
+    ],
+    [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-01",
+      "replacing hazardous substances in",
+      "replacing hazardous substances in biocidal products"
+    ],
+    [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-02",
+      "developing effective air quality",
+      "developing effective air quality planning strategies through innovative multi-scale modelling"
+    ],
+    [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-03",
+      "improve the capacity to monitor and",
+      "improve the capacity to monitor and reduce air pollution from agriculture"
+    ],
+    [
+      "HORIZON-CL6-2027-01-ZEROPOLLUTION-04",
+      "europe-wide",
+      "europe-wide environmental benchmarking system of the industrial bioeconomy sectors"
+    ],
+    [
+      "HORIZON-CL6-2027-02-CLIMATE-01",
+      "governance, sustainable development and",
+      "governance, sustainable development and international politics of a future ice-free arctic"
+    ],
+    [
+      "HORIZON-CL6-2027-02-CLIMATE-01-two-stage",
+      "open topic: innovative solutions for",
+      "open topic: innovative solutions for the european water resilience strategy"
+    ],
+    [
+      "HORIZON-CL6-2027-02-CLIMATE-04",
+      "unlocking a safe operating space for",
+      "unlocking a safe operating space for antarctica and the southern ocean"
+    ],
+    [
+      "HORIZON-CL6-2027-02-COMMUNITIES-01",
+      "strengthening",
+      "strengthening rural communities' resilience to shocks"
+    ],
+    [
+      "HORIZON-CL6-2027-02-COMMUNITIES-02",
+      "empowering local urban food systems",
+      "empowering local urban food systems entrepreneurship and innovation"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-01-two-stage",
+      "strengthening plant health:",
+      "strengthening plant health: addressing emerging plant pest risks"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-02",
+      "increasing mitigation of ghg emissions",
+      "increasing mitigation of ghg emissions and feed efficiency through feed additives"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-02-two-stage",
+      "optimising the water-nutrient-",
+      "optimising the water-nutrient-energy nexus for sustainable and climate smart agriculture in africa (fnssa)"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-03",
+      "microbiome for terrestrial livestock",
+      "microbiome for terrestrial livestock sustainability and health within a one health approach"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-04",
+      "improving",
+      "improving understanding of the contribution of the organic farming sector to sustainability"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-05",
+      "enhancing farmer's profitability and",
+      "enhancing farmer's profitability and resilience through innovations for diversified crops and value chains"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-06",
+      "unleashing the potential of sustainable",
+      "unleashing the potential of sustainable small-scale aquatic food production and recreational fisheries for prosperous local communities"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-07",
+      "towards",
+      "towards commercialization of food systems microbiome solutions"
+    ],
+    [
+      "HORIZON-CL6-2027-02-FARM2FORK-09",
+      "african",
+      "african union – european union partnership on food and nutrition security and sustainable agriculture (fnssa)"
+    ],
+    [
+      "HORIZON-CL6-2027-03-GOVERNANCE-02",
+      "improving",
+      "improving analytical capacity for sustainable competitiveness of the agricultural sector"
+    ],
+    [
+      "HORIZON-CL6-2027-03-GOVERNANCE-03",
+      "international dimension of the circular",
+      "international dimension of the circular bio-based economy: seeking win-win opportunities"
+    ],
+    [
+      "HORIZON-CL6-2027-03-GOVERNANCE-04",
+      "ai supporting informed advice for",
+      "ai supporting informed advice for farmers and foresters to improve competitiveness and sustainability"
+    ],
+    [
+      "HORIZON-CL6-2027-03-GOVERNANCE-05",
+      "increasing knowledge flows to practice",
+      "increasing knowledge flows to practice within akis via eu thematic knowledge hubs"
+    ],
+    [
+      "HORIZON-CL6-2027-03-GOVERNANCE-06",
+      "fostering",
+      "fostering generational renewal in agriculture via eu advisory network"
+    ],
+    [
+      "HORIZON-CL6-2027-03-GOVERNANCE-07",
+      "strengthening strategic advice and",
+      "strengthening strategic advice and synergies between eu and national research and innovation agendas and investments"
+    ]
+  ],
+  "api_narr": 107,
+  "grp_narr": 107,
+  "pdf_trl": 43,
+  "pdf_impact": 7
+}

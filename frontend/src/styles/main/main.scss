@@ -47,6 +47,7 @@
 @import "../components/money-badge"; // two-halves money badge — shared vocabulary (Q6.2)
 @import "../components/landing-chrome"; // landing redesign — keep last so its overrides win
 @import "../components/landing-home"; // Home v1 (Step 5) — uses --lc-* tokens from landing-chrome
+@import "../components/guided-tour"; // react-joyride custom tooltip — self-contained palette (portaled outside .graph-shell)
 /* Orientation nudge (soft, dismissible) — replaces the old hard landscape gate.
    React (RequireLandscape in App.js) owns visibility: shown only on small
    portrait phones, dismissible via "Continue anyway". A bottom sheet, never a

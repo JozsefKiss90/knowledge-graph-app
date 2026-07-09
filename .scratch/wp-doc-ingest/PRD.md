@@ -1,4 +1,4 @@
-# Work-programme document ingest — hybrid content+state call sourcing (Health 2026 pilot)
+# Work-programme document ingest — hybrid content+state call sourcing (CL4 pilot)
 
 **Status:** ready-for-human (spec drafted 2026-07-09) · **Relates to:** ADR-0008 (this feature's
 decision record), ADR-0006 (honesty/provenance), ADR-0003 (grouped-JSON ingest seam), PHASE-PLAN
@@ -22,22 +22,64 @@ second source (full analysis in ADR-0008):
    topics aren't indexed yet and closed topics disappear; the PDF is the full, permanent, citeable
    two-year programme, available months before calls open.
 
-## Step 1 result — audit gate run 2026-07-09 (full report: `reconciliation-health-2026.md`)
+## Step 1 result — audit gate, matching editions run 2026-07-09 (full report: `reconciliation-report.md`)
 
-Ran the three-way diff on Health + a CL3 control. **The document's value is cluster-dependent:**
-- **Health: low ROI.** All 38 topics already in API+grouped with full narrative/conditions/budget/dates;
-  Health WP uses **no TRL and no per-topic Expected Impact** rows, so bucket B ≈ 0. Only real gap = a
-  bucket-A extractor blank (`status` empty on 38/38 while API returns "Forthcoming").
-- **CL3: real ROI.** TRL and Expected Impact are genuine **bucket B** — API carries TRL for only 4/47
-  topics and Impact for 0/47, while the document has TRL ~14/26 and Impact ~7. Only the PDF can supply them.
-- **Edition management is mandatory:** `pdf_files/HORIZON_2026/` mixes editions (the CL3 PDF is 2025 while
-  its calls are 2026-2027 — zero overlap). A merge must parse the edition matching the call year.
-- **Cheap bucket-A cleanup exists** independent of the PDF: grouped files are inconsistently populated
-  (Health blanks `status`; CL3 blanks `min_contribution`) — the two extraction paths disagree.
+Ran the three-way diff across **Health, CL2, CL3, CL4, CL6** on the matching 2026-2027 WP editions.
+**The document's value is strongly cluster-dependent** (per-cluster numbers in the report):
 
-**Consequence for this PRD:** the pilot cluster is **re-scoped away from Health** (kept only as parser
-smoke-test) toward a TRL/Impact-heavy cluster (CL3/CL4) **once its matching 2026-2027 WP PDF is added** to
-`pdf_files/`. Do the `status`/`expected_eu_contribution` extractor fix first regardless — it's near-free.
+- **CL3 / CL4 / CL6 (tech/science): build the pipeline.** Each carries per-topic **TRL that the API
+  structurally lacks** — bucket B = 30 / 38 / 39 topics; TRL is blank in **100% of grouped topics across
+  every cluster** and present for only 2–5 topics in the API, so it is unrecoverable without the document.
+- **CL4 is the pilot.** Biggest TRL gap (38) **plus** the only real coverage gap: **15 `SPACE-03-*`
+  topics that are genuine WP calls but entirely absent from the API** (bucket C, verified real + API-absent).
+- **Health / CL2 (social/health): don't build.** No TRL/Impact used, API already has full content; the
+  only gap is a **bucket-A blank** (`status` empty on Health 38/38 and CL2 52/52 — the two extraction paths
+  disagree; CL3/CL4/CL6 fill it). Cheap pipeline fix, no PDF needed.
+- **Merge stays additive:** CL3 has 9 `CS-ECCC` topics in the API but not the PDF — API-only topics are
+  kept, never dropped.
+
+**Consequences for this PRD:** (1) pilot re-scoped to **CL4** (Space bucket-C is the headline demo);
+(2) ship the `status`/`expected_eu_contribution` extractor fix separately and first (near-free);
+(3) **edition management is mandatory** — the folder still mixes editions (WIDERA `wp-11` is 2025; CL5
+`wp-8` absent). Caveat: CL4 parser is audit-grade (78 of 89 "Specific conditions" resolved) so bucket-B
+TRL is a floor — the production parser (resurrected prior art) is needed for complete extraction.
+
+## Bucket-A extractor-blank fix — SHIPPED 2026-07-09 (in-repo data correction)
+
+Split the two blank fields by their nature:
+
+- **`expected_eu_contribution` (static WP figure) — FIXED.** Backfilled on the 9 old-schema grouped
+  files (`cluster_CL1/CL2` + `HORIZON-ERC/MSCA/INFRA/EIC/EIE/MISS/WIDERA`), **183 records**, formatted
+  `"{min} - {max}"` from the min/max already present (matching the old CL3–CL6 format; zero treated as
+  absent so no `"0 - 0"`). Tool: `backfill_expected_eu_contribution.py` (idempotent; git-tracked files =
+  undo). Verified: all 9 valid JSON, reconcile bucket-A `expected_eu_contribution` now **0 blank**,
+  builder reads it at `base_cluster_builder.py:244`.
+- **`status` (dynamic) — DELIBERATELY NOT backfilled.** The only in-repo source
+  (`fetched_call_metadata_2026_2027.json`) is a **stale pre-close snapshot**: 160/444 calls have
+  deadlines before today yet are still "Forthcoming"/"Open", and **0** are "Closed". Importing it would
+  assert wrong current state (ADR-0006 #7). Finding: the existing CL3–CL6 `status` values are equally
+  stale → **status honesty depends on the ADR-0008 live state-join**, not a backfill. Left blank.
+
+**Not fixed in-repo:** `status` for the 7 non-cluster programmes (their raw data lives only in the
+extractor). **Root cause (for durability, apply when the extractor repo is clean — it is currently
+mid-refactor on `eu-funding-pipeline-refactor`, so NOT applied here):**
+`proposal-monitoring-app/app/infrastructure/parsers/programme_groupers.py:241` (`status = ""` → resolve
+from `actions[0].status.description`) and `split_calls_by_cluster.py:~358` (add
+`expected_eu_contribution = f"{int(mn)} - {int(mx)}"` in `normalize_budget_fields`).
+
+## CL4 pilot — DONE 2026-07-09 (full report: `cl4-pilot-report.md`)
+
+Steps 2–5 executed and **verified through the real builder** (`_build_call_props`, offline via `_DummyDB`):
+`cl4_wp_parser.py` (77 topics, TRL 53/77, reuses recovered prior-art engine) + `cl4_merge.py` →
+`cluster_CL4.merged.json`. Result: **79/79 calls build clean, 0 errors; TRL now 53 node props (was 0/64);
+15 Space topics surfaced (additive, 64 API + 15 doc); provenance + wp_edition flow via
+`_description_section_keys` (zero builder change); status recomputed from dates (37 Closed / 42 Forthcoming).**
+Finding: the ingested grouped file is a stale Jan vintage (`MATERIALS-PRODUCTION` vs the current dump/PDF
+`MAT-PROD`) — pilot canonicalises the alias; productionisation should rebuild from the current dump.
+**PROMOTED LIVE + UI-verified 2026-07-09**: copied over `cluster_CL4.grouped.json` (backup `.PREPILOT.bak`),
+ingested via `POST /cluster4/populate` into the running `kg-dev` stack → graph has 53 TRL + 15 Space; drove
+the UI (headless Chrome) to a Space topic card showing TRL + indicative labels (`cl4-pilot-ui-space-topic.png`).
+Nothing committed (working-tree change). Remaining: rebuild-from-current-dump + tighten parser to full ~89.
 
 ## Decision (recap — see ADR-0008)
 
@@ -72,15 +114,17 @@ Today there is **no field-level provenance** — only a node-level `source` pipe
 - a `field_provenance` map (or `_src` suffixes) on the fields that can diverge, so the UI can render a
   document-only date as **"indicative (work programme)"** and never as a portal deadline.
 
-## Scope — Health 2026 pilot only
+## Scope — CL4 (Digital, Industry & Space) pilot
 
-**In:** `pdf_files/HORIZON_2026/wp-4-health_horizon-2026-2027_en.pdf` (211 pp., ~43–49 topics, verified
-templated + topic IDs present in the text layer). Full loop: parse → API state pull → merge → grouped
-JSON with provenance → ingest → verify honest labels in the graph.
+**Re-scoped from Health after the Step-1 audit** — CL4 maximises demonstrable value (38 TRL topics the
+API lacks + 15 Space calls the API omits). **In:** `pdf_files/HORIZON_2026/wp-7-digital-industry-and-space_horizon-2026-2027_en.pdf`
+(314 pp., ~78–89 topics). Full loop: parse (production parser — resurrect prior art) → API state pull →
+merge → grouped JSON with provenance → ingest → verify honest labels + the 15 Space topics surfacing.
+Health/CL2 stay API-only (kept as parser smoke-tests).
 
-**Out (pilot):** all other clusters/programmes; the `proposal-monitoring-app` extractor blank-field
-fixes (bucket 1 — separate, upstream); DEP/Creative-Europe document *context* extraction (they have no
-topic-ID calls — stay API-only per ADR-0008); any UI copy work beyond confirming labels render honestly.
+**Out (pilot):** other clusters/programmes; the `proposal-monitoring-app` extractor blank-field fixes
+(ship separately & first, upstream in `proposal-monitoring-app`); DEP/Creative-Europe document *context* extraction
+(no topic-ID calls — stay API-only per ADR-0008); UI copy beyond confirming labels render honestly.
 
 ## Grain & join key
 
@@ -93,9 +137,9 @@ exact-match on the full code for content.
 ## Work breakdown
 
 1. **Reconciliation diff (audit gate). — DONE 2026-07-09** (`reconcile_health_2026.py`,
-   `reconciliation-health-2026.md`). Result above: Health low-ROI, CL3 real bucket-B, edition management
-   required. Gate outcome: fix extractor blanks first; re-scope pilot to a TRL/Impact cluster with its
-   matching-edition PDF. Diff is parameterised (`… <cluster>`) as the standing per-cluster QA check.
+   `reconciliation-report.md`, 5 clusters). Result above: CL3/CL4/CL6 real bucket-B (TRL); CL4 also 15
+   Space bucket-C; Health/CL2 low-ROI (status blank only); merge additive. Gate outcome: pilot on CL4;
+   ship the extractor-blank fix first. Diff is parameterised (`… <cluster>`) as the standing QA check.
 2. **Resurrect + adapt the parser.** Restore the deleted chain from git
    (`git show HEAD:backend/routes/new_pipeline/parsers/he_wp_parser_merged_patched_with_dates.py`, etc.),
    point it at `wp-4-health…pdf`. Health uses `-CARE-/-DISEASE-/-TOOL-/-STAYHLTH-/-ENVHLTH-` codes, not
@@ -119,13 +163,14 @@ exact-match on the full code for content.
 
 ## Acceptance criteria
 
-- Reconciliation diff produced; three gap buckets quantified for Health 2026.
-- `cluster_HLTH.grouped.json` validates against the current call schema (`base_cluster_builder.py:205-286`)
+- Reconciliation diff produced; three gap buckets quantified across Health/CL2/CL3/CL4/CL6. **(DONE)**
+- Merged `cluster_CL4.grouped.json` validates against the current call schema (`base_cluster_builder.py:205-286`)
   and ingests with **zero** builder changes.
 - Every call has `content_source`/`schedule_source`; document-sourced dates carry indicative provenance.
-- No topic present in today's API Health data is missing after the merge (additive proof).
-- At least the *Specific conditions* fields (TRL, EU-contribution-per-project) are populated for pilot
-  topics where the API had boilerplate — the concrete demonstration of the document's added value.
+- No topic present in today's API CL4 data is missing after the merge (additive proof).
+- **TRL is populated for the ~53 CL4 topics the document states it** (0 today) and **the 15 Space
+  (`SPACE-03-*`) topics missing from the API are surfaced** — the concrete demonstration of the document's
+  added value.
 
 ## Risks / watch-outs
 
@@ -150,8 +195,8 @@ exact-match on the full code for content.
 
 Not go-live-blocking: every programme already has calls from the API, so this is content-depth +
 earlier-coverage *enrichment*. Per PHASE-PLAN / CLAUDE.md ("a phase with two headlines has none"), this
-runs as a **fast-follow after the CORDIS Railway seed**, piloted on Health 2026 first to measure
-parser-maintenance cost before scaling to other clusters/programmes.
+runs as a **fast-follow after the CORDIS Railway seed**, piloted on **CL4** first to measure
+parser-maintenance cost before scaling to CL3/CL6 and the other programmes.
 
 ## Key references
 

@@ -128,7 +128,8 @@
           "budget_year_map": {
             "2027": "15707365"
           },
-          "topic_id_from_budget": "HORIZON-MSCA-2027-CITIZENS-01-01"
+          "topic_id_from_budget": "HORIZON-MSCA-2027-CITIZENS-01-01",
+          "expected_eu_contribution": "100000 - 350000"
         }
       ]
     },

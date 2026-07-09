@@ -27,8 +27,14 @@ OUT  = Path(__file__).resolve().parent
 CLUSTERS = {
     "health": dict(token="HLTH", pdf="pdf_files/HORIZON_2026/wp-4-health_horizon-2026-2027_en.pdf",
                    grouped="backend/routes/new_pipeline/output_files/cluster_CL1.grouped.json"),
-    "cl3":    dict(token="CL3",  pdf="pdf_files/HORIZON_2026/wp-6-civil-security-for-society_horizon-2025_en.pdf",
+    "cl2":    dict(token="CL2",  pdf="pdf_files/HORIZON_2026/wp-5-culture-creativity-and-inclusive-society_horizon-2026-2027_en.pdf",
+                   grouped="backend/routes/new_pipeline/output_files/cluster_CL2.grouped.json"),
+    "cl3":    dict(token="CL3",  pdf="pdf_files/HORIZON_2026/wp-6-civil-security-for-society_horizon-2026-2027_en.pdf",
                    grouped="backend/routes/new_pipeline/output_files/cluster_CL3.grouped.json"),
+    "cl4":    dict(token="CL4",  pdf="pdf_files/HORIZON_2026/wp-7-digital-industry-and-space_horizon-2026-2027_en.pdf",
+                   grouped="backend/routes/new_pipeline/output_files/cluster_CL4.grouped.json"),
+    "cl6":    dict(token="CL6",  pdf="pdf_files/HORIZON_2026/wp-9-food-bioeconomy-natural-resources-agriculture-and-environment_horizon-2026-2027_en.pdf",
+                   grouped="backend/routes/new_pipeline/output_files/cluster_CL6.grouped.json"),
 }
 SEL   = sys.argv[1] if len(sys.argv) > 1 else "health"
 CFG   = CLUSTERS[SEL]
@@ -49,6 +55,11 @@ def nonempty(v):
 def clean_id(tid):
     # trailing punctuation / stage suffix normalisation for set comparison
     return re.sub(r'[^A-Z0-9\-]+$', '', tid).rstrip('-')
+
+def norm_key(tid):
+    # robust join key: drop stage suffixes + trailing junk so call_id/identifier variants unify
+    t = re.sub(r'(?i)-(two|single)-stages?$', '', tid or '')
+    return re.sub(r'[^A-Za-z0-9\-]+$', '', t).rstrip('-')
 
 # ---------------------------------------------------------------- 1. PDF
 import fitz
@@ -150,13 +161,18 @@ def parse_api():
 
 # ---------------------------------------------------------------- 3. GROUPED
 def parse_grouped():
+    """Index every call under ALL its id variants (normalised), so the API identifier
+    resolves regardless of whether the grouped file keys on identifier/topic_id/call_id/
+    original_call_id or carries a -two-stage suffix."""
     g = json.load(open(GRP, encoding="utf-8"))
     out = {}
+    ncalls = 0
     for d in g["destinations"]:
         for c in d.get("calls", []):
-            tid = c.get("identifier") or c.get("topic_id") or c.get("call_id")
-            if not tid: continue
-            out.setdefault(tid, c)  # first wins (drops the 1 duplicate)
+            ncalls += 1
+            for key in (c.get("identifier"), c.get("topic_id"), c.get("call_id"), c.get("original_call_id")):
+                if key: out.setdefault(norm_key(key), c)
+    out["__count__"] = ncalls
     return out
 
 # ---------------------------------------------------------------- diff
@@ -165,18 +181,22 @@ def run():
     api = parse_api()
     grp = parse_grouped()
 
-    P, A, G = set(pdf), set(api), set(grp)
-    Pc = {clean_id(x) for x in P}; Ac = {clean_id(x) for x in A}
-    both = sorted(x for x in A if x in P or clean_id(x) in Pc)
-    pdf_only = sorted(x for x in P if x not in A and clean_id(x) not in Ac)
-    api_only = sorted(x for x in A if x not in P and clean_id(x) not in Pc)
+    P, A = set(pdf), set(api)
+    gcount = grp.pop("__count__", 0)
+    Pc = {norm_key(x) for x in P}; Ac = {norm_key(x) for x in A}
+    both = sorted(x for x in A if norm_key(x) in Pc)
+    pdf_only = sorted(x for x in P if norm_key(x) not in Ac)
+    api_only = sorted(x for x in A if norm_key(x) not in Pc)
+    # edition-aware bucket C: current-edition PDF-only topics vs old-year cross-ref false-positives
+    pdf_only_cur  = [x for x in pdf_only if re.search(r'-202[67]-', x)]
+    pdf_only_xref = [x for x in pdf_only if x not in pdf_only_cur]
 
     # bucket A: fields blank in grouped but present in api-raw
     A_fields = {
-        'status':      lambda k: (not nonempty(grp.get(k, {}).get('status')), api[k]['status'] if k in api else None),
-        'expected_eu_contribution': lambda k: (not nonempty(grp.get(k, {}).get('expected_eu_contribution')),
+        'status':      lambda k: (not nonempty(grp.get(norm_key(k), {}).get('status')), api[k]['status'] if k in api else None),
+        'expected_eu_contribution': lambda k: (not nonempty(grp.get(norm_key(k), {}).get('expected_eu_contribution')),
                                                 api.get(k, {}).get('has_eu_contribution_phrase')),
-        'technology_readiness_level': lambda k: (not nonempty(grp.get(k, {}).get('technology_readiness_level')),
+        'technology_readiness_level': lambda k: (not nonempty(grp.get(norm_key(k), {}).get('technology_readiness_level')),
                                                   api.get(k, {}).get('has_trl')),
     }
     bucketA = {f: {'grouped_blank': 0, 'api_has': 0} for f in A_fields}
@@ -209,13 +229,15 @@ def run():
 
     # narrative parity (both loaded topics)
     api_narr = sum(1 for k in both if api[k]['has_expected_outcome'] and api[k]['has_scope'])
-    grp_narr = sum(1 for k in both if nonempty(grp.get(k, {}).get('expected_outcome')) and nonempty(grp.get(k, {}).get('scope')))
+    grp_narr = sum(1 for k in both if nonempty(grp.get(norm_key(k), {}).get('expected_outcome')) and nonempty(grp.get(norm_key(k), {}).get('scope')))
     pdf_trl  = sum(1 for k in P if nonempty(pdf[k].get('technology_readiness_level')))
     pdf_impact = sum(1 for k in P if nonempty(pdf[k].get('expected_impact')))
 
-    data = dict(pages=pages, counts=dict(pdf=len(P), api=len(A), grouped=len(G),
-                both=len(both), pdf_only=len(pdf_only), api_only=len(api_only)),
-                pdf_only=pdf_only, api_only=api_only, bucketA=bucketA, bucketB=bucketB,
+    data = dict(pages=pages, counts=dict(pdf=len(P), api=len(A), grouped=gcount,
+                both=len(both), pdf_only=len(pdf_only), api_only=len(api_only),
+                pdf_only_current=len(pdf_only_cur), pdf_only_xref=len(pdf_only_xref)),
+                pdf_only=pdf_only, pdf_only_current=pdf_only_cur, pdf_only_xref=pdf_only_xref,
+                api_only=api_only, bucketA=bucketA, bucketB=bucketB,
                 b_detail=b_detail, title_mismatches=mism,
                 api_narr=api_narr, grp_narr=grp_narr, pdf_trl=pdf_trl, pdf_impact=pdf_impact)
     json.dump(data, open(OUT / f"reconciliation-{SEL}.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
@@ -223,9 +245,10 @@ def run():
     # ---- console
     print(f"=== cluster={SEL} (token={TOKEN}) ===")
     print(f"PDF pages: {pages}")
-    print(f"topics  PDF={len(P)}  API={len(A)}  GROUPED={len(G)}  (both={len(both)})")
-    print(f"PDF-only (bucket C): {len(pdf_only)} -> {pdf_only}")
-    print(f"API-only          : {len(api_only)} -> {api_only}")
+    print(f"topics  PDF={len(P)}  API={len(A)}  GROUPED={gcount}  (both={len(both)})")
+    print(f"PDF-only current-edition (bucket C): {len(pdf_only_cur)} -> {pdf_only_cur}")
+    print(f"PDF-only old-year (cross-ref FP)   : {len(pdf_only_xref)} -> {pdf_only_xref}")
+    print(f"API-only                           : {len(api_only)} -> {api_only}")
     print("bucket A (grouped-blank | of which api-has):")
     for f, v in bucketA.items(): print(f"   {f:32s} {v['grouped_blank']:2d} | {v['api_has']:2d}")
     print("bucket B (PDF-has, API-lacks):")

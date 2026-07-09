@@ -40,7 +40,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-01"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-01",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-02",
@@ -79,7 +80,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-02"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-02",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-03",
@@ -118,7 +120,8 @@
           "budget_year_map": {
             "2026": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-03"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-03",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-04",
@@ -157,7 +160,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-04"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-04",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-05",
@@ -196,7 +200,8 @@
           "budget_year_map": {
             "2026": "4500000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-05"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-05",
+          "expected_eu_contribution": "4000000 - 4500000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-06",
@@ -235,7 +240,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-06"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-06",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-07",
@@ -274,7 +280,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-07"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-07",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-08",
@@ -313,7 +320,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-08"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-08",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-09",
@@ -352,7 +360,8 @@
           "budget_year_map": {
             "2026": "16000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-09"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-09",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-10",
@@ -391,7 +400,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-10"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-10",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-01",
@@ -430,7 +440,8 @@
           "budget_year_map": {
             "2027": "3500000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-01"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-01",
+          "expected_eu_contribution": "3000000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-02",
@@ -469,7 +480,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-02"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-02",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-03",
@@ -508,7 +520,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-03"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-03",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-04",
@@ -547,7 +560,8 @@
           "budget_year_map": {
             "2027": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-04"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-04",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-05",
@@ -586,7 +600,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-05"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-05",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-06",
@@ -625,7 +640,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-06"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-06",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-07",
@@ -664,7 +680,8 @@
           "budget_year_map": {
             "2027": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-07"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-07",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-08",
@@ -703,7 +720,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-08"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-08",
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
@@ -743,7 +761,8 @@
           "budget_year_map": {
             "2027": "22000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage"
+          "topic_id_from_budget": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+          "expected_eu_contribution": "2000000 - 3700000"
         },
         {
           "identifier": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
@@ -783,7 +802,8 @@
           "budget_year_map": {
             "2027": "22000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage"
+          "topic_id_from_budget": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+          "expected_eu_contribution": "2000000 - 3700000"
         }
       ]
     },
@@ -827,7 +847,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-01"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-01",
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-02",
@@ -866,7 +887,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-02"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-02",
+          "expected_eu_contribution": "5000000 - 6000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-03",
@@ -905,7 +927,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-03"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-03",
+          "expected_eu_contribution": "4000000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-04",
@@ -944,7 +967,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-04"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-04",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-05",
@@ -983,7 +1007,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-05"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-05",
+          "expected_eu_contribution": "3000000 - 3750000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-06",
@@ -1022,7 +1047,8 @@
           "budget_year_map": {
             "2026": "11500000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-06"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-06",
+          "expected_eu_contribution": "5000000 - 5750000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-07",
@@ -1061,7 +1087,8 @@
           "budget_year_map": {
             "2026": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-07"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-07",
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-01",
@@ -1100,7 +1127,8 @@
           "budget_year_map": {
             "2027": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-01"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-01",
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-02",
@@ -1139,7 +1167,8 @@
           "budget_year_map": {
             "2027": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-02"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-02",
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-03",
@@ -1178,7 +1207,8 @@
           "budget_year_map": {
             "2027": "10500000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-03"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-03",
+          "expected_eu_contribution": "3000000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-04",
@@ -1217,7 +1247,8 @@
           "budget_year_map": {
             "2027": "16000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-04"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-04",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-05",
@@ -1256,7 +1287,8 @@
           "budget_year_map": {
             "2027": "10500000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-05"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-05",
+          "expected_eu_contribution": "3000000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-06",
@@ -1295,7 +1327,8 @@
           "budget_year_map": {
             "2027": "14500000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-06"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-06",
+          "expected_eu_contribution": "4000000 - 4800000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-07",
@@ -1334,7 +1367,8 @@
           "budget_year_map": {
             "2027": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-07"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-07",
+          "expected_eu_contribution": "2500000 - 3000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-08",
@@ -1373,7 +1407,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-08"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-08",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-02-HERITAGE-09-two-stage",
@@ -1413,7 +1448,8 @@
           "budget_year_map": {
             "2027": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-02-HERITAGE-09-two-stage"
+          "topic_id_from_budget": "HORIZON-CL2-2027-02-HERITAGE-09-two-stage",
+          "expected_eu_contribution": "2000000 - 4000000"
         }
       ]
     },
@@ -1457,7 +1493,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-02"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-02",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-03",
@@ -1496,7 +1533,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-03"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-03",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-04",
@@ -1535,7 +1573,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-04"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-04",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-05",
@@ -1574,7 +1613,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-05"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-05",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-06",
@@ -1613,7 +1653,8 @@
           "budget_year_map": {
             "2026": "10000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-06"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-06",
+          "expected_eu_contribution": "3000000 - 3300000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-07",
@@ -1652,7 +1693,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-07"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-07",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-08",
@@ -1691,7 +1733,8 @@
           "budget_year_map": {
             "2026": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-08"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-08",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-09",
@@ -1730,7 +1773,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-09"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-09",
+          "expected_eu_contribution": "3750000 - 3750000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-10",
@@ -1769,7 +1813,8 @@
           "budget_year_map": {
             "2026": "3500000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-10"
+          "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-10",
+          "expected_eu_contribution": "3500000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2026-02-TRANSFO-01",
@@ -1808,7 +1853,8 @@
           "budget_year_map": {
             "2026": "60000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2026-02-TRANSFO-01"
+          "topic_id_from_budget": "HORIZON-CL2-2026-02-TRANSFO-01",
+          "expected_eu_contribution": "60000000 - 60000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-01",
@@ -1847,7 +1893,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-01"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-01",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-02",
@@ -1886,7 +1933,8 @@
           "budget_year_map": {
             "2027": "10000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-02"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-02",
+          "expected_eu_contribution": "3000000 - 3300000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-03",
@@ -1925,7 +1973,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-03"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-03",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-04",
@@ -1964,7 +2013,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-04"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-04",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-05",
@@ -2003,7 +2053,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-05"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-05",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-06",
@@ -2042,7 +2093,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-06"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-06",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-07",
@@ -2081,7 +2133,8 @@
           "budget_year_map": {
             "2027": "12000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-07"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-07",
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-08",
@@ -2120,7 +2173,8 @@
           "budget_year_map": {
             "2027": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-08"
+          "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-08",
+          "expected_eu_contribution": "3000000 - 3750000"
         },
         {
           "identifier": "HORIZON-CL2-2027-02-TRANSFO-09-two-stage",
@@ -2160,7 +2214,8 @@
           "budget_year_map": {
             "2027": "16000000"
           },
-          "topic_id_from_budget": "HORIZON-CL2-2027-02-TRANSFO-09-two-stage"
+          "topic_id_from_budget": "HORIZON-CL2-2027-02-TRANSFO-09-two-stage",
+          "expected_eu_contribution": "3200000 - 3200000"
         }
       ]
     }

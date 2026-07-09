@@ -40,7 +40,8 @@
           "budget_year_map": {
             "2025": "4500000"
           },
-          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-01"
+          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-01",
+          "expected_eu_contribution": "4500000 - 4500000"
         },
         {
           "identifier": "HORIZON-EIE-2026-01-CONNECT-01",
@@ -79,7 +80,8 @@
           "budget_year_map": {
             "2025": "4500000"
           },
-          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-01"
+          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-01",
+          "expected_eu_contribution": "4500000 - 4500000"
         },
         {
           "identifier": "HORIZON-EIE-2026-01-CONNECT-02",
@@ -118,7 +120,8 @@
           "budget_year_map": {
             "2025": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-02"
+          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-02",
+          "expected_eu_contribution": "1000000 - 1000000"
         },
         {
           "identifier": "HORIZON-EIE-2026-01-CONNECT-03",
@@ -157,7 +160,8 @@
           "budget_year_map": {
             "2025": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-03"
+          "topic_id_from_budget": "HORIZON-EIE-2026-01-CONNECT-03",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-EIE-2026-02-CONNECT-01",
@@ -196,7 +200,8 @@
           "budget_year_map": {
             "2026": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-EIE-2026-02-CONNECT-01"
+          "topic_id_from_budget": "HORIZON-EIE-2026-02-CONNECT-01",
+          "expected_eu_contribution": "20000000 - 20000000"
         },
         {
           "identifier": "HORIZON-EIE-2026-03-CONNECT-01",
@@ -235,7 +240,8 @@
           "budget_year_map": {
             "2026": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-EIE-2026-03-CONNECT-01"
+          "topic_id_from_budget": "HORIZON-EIE-2026-03-CONNECT-01",
+          "expected_eu_contribution": "1000000 - 1000000"
         }
       ]
     }

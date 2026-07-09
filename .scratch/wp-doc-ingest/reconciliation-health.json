@@ -3,12 +3,16 @@
   "counts": {
     "pdf": 38,
     "api": 38,
-    "grouped": 38,
+    "grouped": 39,
     "both": 38,
     "pdf_only": 0,
-    "api_only": 0
+    "api_only": 0,
+    "pdf_only_current": 0,
+    "pdf_only_xref": 0
   },
   "pdf_only": [],
+  "pdf_only_current": [],
+  "pdf_only_xref": [],
   "api_only": [],
   "bucketA": {
     "status": {
@@ -16,7 +20,7 @@
       "api_has": 38
     },
     "expected_eu_contribution": {
-      "grouped_blank": 38,
+      "grouped_blank": 0,
       "api_has": 0
     },
     "technology_readiness_level": {

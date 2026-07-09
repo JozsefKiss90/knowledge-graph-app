@@ -1,0 +1,377 @@
+{
+  "pages": 314,
+  "counts": {
+    "pdf": 78,
+    "api": 64,
+    "grouped": 64,
+    "both": 62,
+    "pdf_only": 16,
+    "api_only": 2,
+    "pdf_only_current": 15,
+    "pdf_only_xref": 1
+  },
+  "pdf_only": [
+    "HORIZON-CL4-2025-03-HUMAN-18",
+    "HORIZON-CL4-2026-SPACE-03-11",
+    "HORIZON-CL4-2026-SPACE-03-31",
+    "HORIZON-CL4-2026-SPACE-03-32",
+    "HORIZON-CL4-2026-SPACE-03-61",
+    "HORIZON-CL4-2026-SPACE-03-81",
+    "HORIZON-CL4-2026-SPACE-03-82",
+    "HORIZON-CL4-2026-SPACE-03-85",
+    "HORIZON-CL4-2026-SPACE-03-86",
+    "HORIZON-CL4-2027-SPACE-03-12",
+    "HORIZON-CL4-2027-SPACE-03-21",
+    "HORIZON-CL4-2027-SPACE-03-33",
+    "HORIZON-CL4-2027-SPACE-03-34",
+    "HORIZON-CL4-2027-SPACE-03-71",
+    "HORIZON-CL4-2027-SPACE-03-83",
+    "HORIZON-CL4-2027-SPACE-03-84"
+  ],
+  "pdf_only_current": [
+    "HORIZON-CL4-2026-SPACE-03-11",
+    "HORIZON-CL4-2026-SPACE-03-31",
+    "HORIZON-CL4-2026-SPACE-03-32",
+    "HORIZON-CL4-2026-SPACE-03-61",
+    "HORIZON-CL4-2026-SPACE-03-81",
+    "HORIZON-CL4-2026-SPACE-03-82",
+    "HORIZON-CL4-2026-SPACE-03-85",
+    "HORIZON-CL4-2026-SPACE-03-86",
+    "HORIZON-CL4-2027-SPACE-03-12",
+    "HORIZON-CL4-2027-SPACE-03-21",
+    "HORIZON-CL4-2027-SPACE-03-33",
+    "HORIZON-CL4-2027-SPACE-03-34",
+    "HORIZON-CL4-2027-SPACE-03-71",
+    "HORIZON-CL4-2027-SPACE-03-83",
+    "HORIZON-CL4-2027-SPACE-03-84"
+  ],
+  "pdf_only_xref": [
+    "HORIZON-CL4-2025-03-HUMAN-18"
+  ],
+  "api_only": [
+    "HORIZON-CL4-2026-02-two-stage",
+    "HORIZON-CL4-2027-02-two-stage"
+  ],
+  "bucketA": {
+    "status": {
+      "grouped_blank": 0,
+      "api_has": 0
+    },
+    "expected_eu_contribution": {
+      "grouped_blank": 0,
+      "api_has": 0
+    },
+    "technology_readiness_level": {
+      "grouped_blank": 62,
+      "api_has": 2
+    }
+  },
+  "bucketB": {
+    "technology_readiness_level": 38,
+    "expected_impact": 0,
+    "expected_eu_contribution_phrase": 57
+  },
+  "b_detail": {
+    "technology_readiness_level": [
+      "HORIZON-CL4-2026-01-MAT-PROD-01",
+      "HORIZON-CL4-2026-01-MAT-PROD-04",
+      "HORIZON-CL4-2026-01-MAT-PROD-05",
+      "HORIZON-CL4-2026-01-MAT-PROD-11",
+      "HORIZON-CL4-2026-01-MAT-PROD-12",
+      "HORIZON-CL4-2026-01-MAT-PROD-14",
+      "HORIZON-CL4-2026-01-MAT-PROD-23",
+      "HORIZON-CL4-2026-01-MAT-PROD-31",
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-51-two-stage",
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-53-two-stage",
+      "HORIZON-CL4-2026-02-MAT-PROD-21-two-stage",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-01",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-08",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-09",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-18",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-19",
+      "HORIZON-CL4-2026-04-HUMAN-01",
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-02",
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-03",
+      "HORIZON-CL4-2026-05-MAT-PROD-25",
+      "HORIZON-CL4-2027-01-MAT-PROD-02",
+      "HORIZON-CL4-2027-01-MAT-PROD-03",
+      "HORIZON-CL4-2027-01-MAT-PROD-06",
+      "HORIZON-CL4-2027-01-MAT-PROD-08",
+      "HORIZON-CL4-2027-01-MAT-PROD-16",
+      "HORIZON-CL4-2027-01-MAT-PROD-22",
+      "HORIZON-CL4-2027-02-DIGITAL-EMERGING-52-two-stage",
+      "HORIZON-CL4-2027-02-MAT-PROD-32-two-stage",
+      "HORIZON-CL4-2027-04-DATA-03",
+      "HORIZON-CL4-2027-04-DATA-08",
+      "HORIZON-CL4-2027-04-DATA-09",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-04",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-05",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-06",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-11",
+      "HORIZON-CL4-2027-04-HUMAN-01",
+      "HORIZON-CL4-2027-04-HUMAN-07",
+      "HORIZON-CL4-2027-05-DIGITAL-EMERGING-03"
+    ],
+    "expected_impact": [],
+    "expected_eu_contribution_phrase": [
+      "HORIZON-CL4-2026-01-MAT-PROD-01",
+      "HORIZON-CL4-2026-01-MAT-PROD-04",
+      "HORIZON-CL4-2026-01-MAT-PROD-05",
+      "HORIZON-CL4-2026-01-MAT-PROD-11",
+      "HORIZON-CL4-2026-01-MAT-PROD-12",
+      "HORIZON-CL4-2026-01-MAT-PROD-13",
+      "HORIZON-CL4-2026-01-MAT-PROD-23",
+      "HORIZON-CL4-2026-01-MAT-PROD-24",
+      "HORIZON-CL4-2026-01-MAT-PROD-31",
+      "HORIZON-CL4-2026-01-MAT-PROD-41",
+      "HORIZON-CL4-2026-01-MAT-PROD-44",
+      "HORIZON-CL4-2026-01-MAT-PROD-45",
+      "HORIZON-CL4-2026-01-MAT-PROD-46",
+      "HORIZON-CL4-2026-01-MAT-PROD-48",
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-51-two-stage",
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-53-two-stage",
+      "HORIZON-CL4-2026-04-DATA-02",
+      "HORIZON-CL4-2026-04-DATA-03",
+      "HORIZON-CL4-2026-04-DATA-06",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-01",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-08",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-09",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-11",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-12",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-14",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-15",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-17",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-18",
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-19",
+      "HORIZON-CL4-2026-04-HUMAN-01",
+      "HORIZON-CL4-2026-04-HUMAN-02",
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-02",
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-03",
+      "HORIZON-CL4-2026-05-MAT-PROD-25",
+      "HORIZON-CL4-2027-01-MAT-PROD-02",
+      "HORIZON-CL4-2027-01-MAT-PROD-03",
+      "HORIZON-CL4-2027-01-MAT-PROD-08",
+      "HORIZON-CL4-2027-01-MAT-PROD-16",
+      "HORIZON-CL4-2027-01-MAT-PROD-17",
+      "HORIZON-CL4-2027-01-MAT-PROD-22",
+      "HORIZON-CL4-2027-01-MAT-PROD-42",
+      "HORIZON-CL4-2027-01-MAT-PROD-47",
+      "HORIZON-CL4-2027-01-MAT-PROD-49",
+      "HORIZON-CL4-2027-01-MAT-PROD-62",
+      "HORIZON-CL4-2027-02-DIGITAL-EMERGING-52-two-stage",
+      "HORIZON-CL4-2027-02-MAT-PROD-32-two-stage",
+      "HORIZON-CL4-2027-04-DATA-03",
+      "HORIZON-CL4-2027-04-DATA-08",
+      "HORIZON-CL4-2027-04-DATA-09",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-04",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-05",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-06",
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-10",
+      "HORIZON-CL4-2027-04-HUMAN-01",
+      "HORIZON-CL4-2027-04-HUMAN-02",
+      "HORIZON-CL4-2027-04-HUMAN-07",
+      "HORIZON-CL4-2027-05-DIGITAL-EMERGING-03"
+    ]
+  },
+  "title_mismatches": [
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-01",
+      "advanced manufacturing for key products",
+      "advanced manufacturing for key products (ia) (made in europe partnership)"
+    ],
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-05",
+      "circular innovative advanced materials:",
+      "circular innovative advanced materials: facilitating the transition from design to markets (ria) (innovative advanced materials for the eu and made in europe partnerships)"
+    ],
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-11",
+      "innovative technologies and tools for",
+      "innovative technologies and tools for exploration and data modelling of raw materials (ria)"
+    ],
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-13",
+      "monitoring of secondary raw materials",
+      "monitoring of secondary raw materials (csa)"
+    ],
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-14",
+      "improving availability of secondary raw",
+      "improving availability of secondary raw materials through recycling (ia)"
+    ],
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-24",
+      "cooperation",
+      "cooperation on innovative advanced materials with japan (csa)"
+    ],
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-41",
+      "enhancing industry-academia knowledge",
+      "enhancing industry-academia knowledge exchange in social sciences and humanities (ssh) (csa)"
+    ],
+    [
+      "HORIZON-CL4-2026-01-MAT-PROD-45",
+      "pilot",
+      "pilot access schemes to technology infrastructures for european startups, scaleups and innovative smes (csa)"
+    ],
+    [
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-51-two-stage",
+      "ai improved advanced",
+      "ai improved advanced manufacturing and production processes in factories (ria) (made in europe and ai, data and robotics partnerships)"
+    ],
+    [
+      "HORIZON-CL4-2026-02-DIGITAL-EMERGING-53-two-stage",
+      "innovative ai methods",
+      "innovative ai methods and technologies for the process industries (ria) (processes4planet and ai, data and robotics partnerships)"
+    ],
+    [
+      "HORIZON-CL4-2026-02-MAT-PROD-21-two-stage",
+      "development",
+      "development of safe and sustainable alternatives to substances of concern (ia)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-01",
+      "apply ai: pilot of the “science",
+      "apply ai: pilot of the “science for ai” pillar of raise (“resource for ai science in europe”) (ria)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-08",
+      "apply",
+      "apply ai: robotics for manufacturing: advancing core skills through technical challenges (ria) (partnership in ai, data and robotics)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-09",
+      "advanced local digital twins",
+      "advanced local digital twins using ai for early warning and preparedness (ia)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-11",
+      "grand challenge on quantum",
+      "grand challenge on quantum sensors for inertial navigation"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-12",
+      "standards",
+      "standards for quantum technologies – coordination and support action (csa)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-14",
+      "networking",
+      "networking and future photonics strategy (csa) (photonics partnership)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-15",
+      "strengthening the cooperation of",
+      "strengthening the cooperation of semiconductor-intensive eu regions (csa)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-17",
+      "fostering",
+      "fostering 2-dimensional materials (2dm) based emerging and enabling technologies (csa)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-18",
+      "large-scale photonic quantum",
+      "large-scale photonic quantum computing platform technologies (ria)"
+    ],
+    [
+      "HORIZON-CL4-2026-04-DIGITAL-EMERGING-19",
+      "challenge-driven",
+      "challenge-driven genai4eu booster in apply ai prioritised sectors (ria) (ai/data/robotics partnership)"
+    ],
+    [
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-02",
+      "next-generation ai agents for",
+      "next-generation ai agents for real-world applications in the apply ai sectors (ria) (partnership in ai, data and robotics)"
+    ],
+    [
+      "HORIZON-CL4-2026-05-DIGITAL-EMERGING-03",
+      "apply ai: next-generation agile",
+      "apply ai: next-generation agile and intelligent robotics platforms for industrial and service applications (partnership in ai, data and robotics) (ria)"
+    ],
+    [
+      "HORIZON-CL4-2026-05-MAT-PROD-25",
+      "new or enhanced innovative advanced",
+      "new or enhanced innovative advanced materials (iam) enabled sensing functionality (ria)"
+    ],
+    [
+      "HORIZON-CL4-2027-01-MAT-PROD-02",
+      "advanced manufacturing for key products",
+      "advanced manufacturing for key products (ia) (made in europe partnership)"
+    ],
+    [
+      "HORIZON-CL4-2027-01-MAT-PROD-06",
+      "circular innovative advanced materials:",
+      "circular innovative advanced materials: facilitating the transition from design to markets (ria) (innovative advanced materials for the eu and made in europe partnerships)"
+    ],
+    [
+      "HORIZON-CL4-2027-01-MAT-PROD-08",
+      "textile",
+      "textile circularity through advanced processing and manufacturing technologies and system approaches (ia) (textiles for the future partnership)"
+    ],
+    [
+      "HORIZON-CL4-2027-01-MAT-PROD-22",
+      "innovative advanced materials and new",
+      "innovative advanced materials and new production processes – reducing dependencies on critical and strategic raw materials (ia) (innovative advanced materials for the eu and processes4planet partnerships)"
+    ],
+    [
+      "HORIZON-CL4-2027-01-MAT-PROD-42",
+      "unlocking the potential",
+      "unlocking the potential of academic intellectual assets for industry, smes and startups (csa)"
+    ],
+    [
+      "HORIZON-CL4-2027-01-MAT-PROD-47",
+      "pilot",
+      "pilot access schemes to technology infrastructures for european startups, scaleups and innovative smes (csa)"
+    ],
+    [
+      "HORIZON-CL4-2027-02-DIGITAL-EMERGING-52-two-stage",
+      "new approaches for",
+      "new approaches for human/ai collaboration for the workforce of the future (ria) (made in europe and ai, data and robotics partnerships)"
+    ],
+    [
+      "HORIZON-CL4-2027-02-MAT-PROD-32-two-stage",
+      "efficient",
+      "efficient energy input from renewable sources and energy management in the process industries (ia) (processes4planet and innovative advanced materials for the eu partnerships)"
+    ],
+    [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-04",
+      "apply ai: challenge-driven ai",
+      "apply ai: challenge-driven ai innovation booster in apply ai prioritised sectors (ria) (partnership in ai, data and robotics)"
+    ],
+    [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-05",
+      "apply ai: ai-driven robotics for",
+      "apply ai: ai-driven robotics for industry: enabling system integration and adoption (ia) (partnership in ai, data and robotics)"
+    ],
+    [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-06",
+      "international cooperation in ai",
+      "international cooperation in ai (ia)"
+    ],
+    [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-10",
+      "horizon scanning and foresight",
+      "horizon scanning and foresight in future enabling digital technologies (csa)"
+    ],
+    [
+      "HORIZON-CL4-2027-04-DIGITAL-EMERGING-11",
+      "eu",
+      "eu frontier ai initiative: developing frontier ai solutions that are safe and computationally efficient within apply ai (ria)"
+    ],
+    [
+      "HORIZON-CL4-2027-04-HUMAN-07",
+      "facilitate",
+      "facilitate the engagement of european stakeholders in international digital standardisation (csa)"
+    ],
+    [
+      "HORIZON-CL4-2027-05-DIGITAL-EMERGING-03",
+      "advanced integrated photonic",
+      "advanced integrated photonic devices for extended features and ultra-low power consumption (ria) (photonics partnership)"
+    ]
+  ],
+  "api_narr": 62,
+  "grp_narr": 62,
+  "pdf_trl": 53,
+  "pdf_impact": 0
+}

@@ -130,7 +130,8 @@
           "budget_year_map": {
             "2026": "500000000"
           },
-          "topic_id_from_budget": "ERC-2026-SyG"
+          "topic_id_from_budget": "ERC-2026-SyG",
+          "expected_eu_contribution": "14000000 - 14000000"
         }
       ]
     }

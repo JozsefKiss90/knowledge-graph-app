@@ -6,10 +6,15 @@
 // so each feature is shown live in context.
 //
 // Behaviour:
-//  - Auto-starts once on a user's first visit, unless they've dismissed it.
-//  - "Don't show again" (the Skip button) or finishing the tour sets a localStorage
-//    flag so it never auto-appears again.
+//  - Auto-starts on every visit until the user opts out — enabled by default.
+//  - ONLY "Don't show again" (the Skip button) sets the localStorage flag that
+//    permanently suppresses auto-start. Finishing the tour or closing it (Done /
+//    ESC) just ends it for this visit, so it returns next time.
 //  - Always re-triggerable from the Help page via /?tour=1.
+//
+// Styling: the tooltip is a custom component (GuidedTourTooltip) reskinned to the
+// app's blue-glass landing chrome via _guided-tour.scss. react-joyride still owns
+// the overlay, spotlight and arrow (themed through `options`/`styles`).
 //
 // All step targets are stable CSS classes that already exist in the app, so the tour
 // needs no markup changes elsewhere. Targets that only exist in another view (the
@@ -22,7 +27,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useDarkMode } from "../context/DarkModeContext";
 
-const TOUR_FLAG = "kg_guided_tour_dismissed_v1";
+// v2: the opt-out semantics changed — only "Don't show again" suppresses the tour
+// now (v1 also suppressed on finish). Bumping the key gives everyone a clean slate
+// under the new default so it's genuinely on-by-default until explicitly dismissed.
+const TOUR_FLAG = "kg_guided_tour_dismissed_v2";
 
 // Each step carries a `view` describing the app state to drive into before it shows.
 const STEPS = [
@@ -114,6 +122,62 @@ const joyrideSteps = STEPS.map(({ view, ...step }) => ({
   disableBeacon: true,
 }));
 
+// Custom tooltip so the tour matches the app's blue-glass landing chrome instead
+// of react-joyride's generic white card. react-joyride passes button props
+// (backProps/primaryProps/skipProps — each already carries its label as
+// `children` and its onClick), plus the current step data and index/size.
+// Rendered through a portal, but React context still flows, so useDarkMode() works.
+function GuidedTourTooltip({
+  backProps,
+  primaryProps,
+  skipProps,
+  tooltipProps,
+  index,
+  size,
+  step,
+}) {
+  const { darkMode } = useDarkMode();
+  const pct = size > 0 ? Math.round(((index + 1) / size) * 100) : 0;
+
+  return (
+    <div
+      className={`kg-tour ${darkMode ? "kg-tour--dark" : "kg-tour--light"}`}
+      {...tooltipProps}
+    >
+      <div className="kg-tour__progress" aria-hidden="true">
+        <span className="kg-tour__progress-fill" style={{ width: `${pct}%` }} />
+      </div>
+
+      <div className="kg-tour__body">
+        <div className="kg-tour__eyebrow">
+          Guided tour · {index + 1} of {size}
+        </div>
+        {step.title ? <h2 className="kg-tour__title">{step.title}</h2> : null}
+        <div className="kg-tour__content">{step.content}</div>
+      </div>
+
+      <div className="kg-tour__footer">
+        {/* label comes from locale via `children` on skipProps */}
+        <button type="button" className="kg-tour__skip" {...skipProps} />
+        <div className="kg-tour__actions">
+          {index > 0 ? (
+            <button
+              type="button"
+              className="kg-tour__btn kg-tour__btn--back"
+              {...backProps}
+            />
+          ) : null}
+          <button
+            type="button"
+            className="kg-tour__btn kg-tour__btn--primary"
+            {...primaryProps}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function GuidedTour({
   setViewMode,
   setDashboardPanel,
@@ -145,16 +209,24 @@ export default function GuidedTour({
     setRun(true);
   }, [applyView]);
 
-  const finish = useCallback(() => {
-    setRun(false);
-    setStepIndex(0);
-    try {
-      localStorage.setItem(TOUR_FLAG, "1");
-    } catch {}
-    // Leave the app clean: back on the graph with no tool panel open.
-    setViewMode("graph");
-    setDashboardPanel(null);
-  }, [setViewMode, setDashboardPanel]);
+  // End the tour. `persist` = true writes the opt-out flag so it never
+  // auto-starts again; false just closes it for this visit (it returns next
+  // time). Only the "Don't show again" button persists — see handleEvent.
+  const close = useCallback(
+    (persist) => {
+      setRun(false);
+      setStepIndex(0);
+      if (persist) {
+        try {
+          localStorage.setItem(TOUR_FLAG, "1");
+        } catch {}
+      }
+      // Leave the app clean: back on the graph with no tool panel open.
+      setViewMode("graph");
+      setDashboardPanel(null);
+    },
+    [setViewMode, setDashboardPanel]
+  );
 
   // Start the tour — forced via ?tour=1 (the Help-page button) or automatically on a
   // first visit (unless previously dismissed).
@@ -185,68 +257,61 @@ export default function GuidedTour({
     (data) => {
       const { action, index, status, type } = data;
 
-      // Tour finished (Done on the last step) or skipped ("Don't show again").
-      if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-        finish();
+      // Permanent opt-out — ONLY the "Don't show again" (Skip) button. Checked
+      // first so it wins over the step-advance branch below.
+      if (status === STATUS.SKIPPED || action === ACTIONS.SKIP) {
+        close(true);
         return;
       }
-      // Closed via the X / ESC, or the skip button.
-      if (action === ACTIONS.CLOSE || action === ACTIONS.SKIP) {
-        finish();
+      // Finished the tour (Done on the last step) or closed via ESC — end it for
+      // this visit only, so it auto-starts again next time.
+      if (status === STATUS.FINISHED || action === ACTIONS.CLOSE) {
+        close(false);
         return;
       }
       // Advance (or step back) once a step closes, or if a target couldn't be found.
       if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
         const next = index + (action === ACTIONS.PREV ? -1 : 1);
         if (next < 0 || next >= STEPS.length) {
-          finish();
+          close(false);
           return;
         }
         applyView(STEPS[next].view);
         setStepIndex(next);
       }
     },
-    [applyView, finish]
+    [applyView, close]
   );
 
+  // The tooltip's own look lives in _guided-tour.scss (GuidedTourTooltip). Here we
+  // only theme the parts react-joyride still owns: overlay, spotlight and arrow.
   const options = useMemo(
     () => ({
-      primaryColor: "#2f8dff",
-      backgroundColor: darkMode ? "#0e1c34" : "#ffffff",
-      textColor: darkMode ? "#e8f1ff" : "#10233f",
-      arrowColor: darkMode ? "#0e1c34" : "#ffffff",
-      overlayColor: darkMode ? "rgba(3,8,18,0.62)" : "rgba(16,35,92,0.32)",
+      primaryColor: darkMode ? "#47a9ff" : "#1f6feb", // loader spinner while a target mounts
+      arrowColor: darkMode ? "#12274a" : "#ffffff",
+      overlayColor: darkMode ? "rgba(3,8,18,0.62)" : "rgba(16,35,92,0.3)",
       width: 410,
       zIndex: 13000,
       spotlightPadding: 8,
-      showProgress: true,
+      spotlightRadius: 10,
+      showProgress: false, // progress lives in the tooltip's eyebrow + bar
       skipBeacon: true,
       overlayClickAction: false, // don't dismiss when clicking the backdrop
-      dismissKeyAction: "close", // ESC dismisses the tour
+      dismissKeyAction: "close", // ESC ends the tour (for this visit only)
       targetWaitTimeout: 3500, // wait for a just-switched view's target to mount
-      buttons: ["back", "skip", "primary"],
     }),
     [darkMode]
   );
 
-  const styles = useMemo(
-    () => ({
-      tooltip: { borderRadius: 16 },
-      tooltipTitle: { fontSize: 17, fontWeight: 700 },
-      tooltipContent: { fontSize: 14, lineHeight: 1.6 },
-      buttonPrimary: { borderRadius: 8, fontWeight: 600 },
-      buttonBack: { marginRight: 8 },
-      buttonSkip: { color: darkMode ? "#9fb3d1" : "#5a7198" },
-    }),
-    [darkMode]
-  );
+  // Drop react-floater's default drop-shadow so it doesn't double up with the
+  // card's own shadow.
+  const styles = useMemo(() => ({ floater: { filter: "none" } }), []);
 
   const locale = useMemo(
     () => ({
       back: "Back",
       last: "Done",
       next: "Next",
-      nextWithProgress: "Next ({current}/{total})",
       skip: "Don't show again",
     }),
     []
@@ -262,6 +327,7 @@ export default function GuidedTour({
       options={options}
       styles={styles}
       locale={locale}
+      tooltipComponent={GuidedTourTooltip}
     />
   );
 }

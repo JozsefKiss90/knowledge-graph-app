@@ -1,0 +1,228 @@
+{
+  "pages": 188,
+  "counts": {
+    "pdf": 55,
+    "api": 55,
+    "grouped": 55,
+    "both": 52,
+    "pdf_only": 3,
+    "api_only": 3,
+    "pdf_only_current": 0,
+    "pdf_only_xref": 3
+  },
+  "pdf_only": [
+    "HORIZON-CL2-2024-TRANSFORMATIONS-01-10",
+    "HORIZON-CL2-2025-01-TRANSFO-9",
+    "HORIZON-CL2-2025-HERITAGE-02"
+  ],
+  "pdf_only_current": [],
+  "pdf_only_xref": [
+    "HORIZON-CL2-2024-TRANSFORMATIONS-01-10",
+    "HORIZON-CL2-2025-01-TRANSFO-9",
+    "HORIZON-CL2-2025-HERITAGE-02"
+  ],
+  "api_only": [
+    "HORIZON-CL2-2027-01-DEMOCRACY-01",
+    "HORIZON-CL2-2027-01-TRANSFO-02",
+    "HORIZON-CL2-2027-02-TWO-STAGE"
+  ],
+  "bucketA": {
+    "status": {
+      "grouped_blank": 52,
+      "api_has": 52
+    },
+    "expected_eu_contribution": {
+      "grouped_blank": 52,
+      "api_has": 0
+    },
+    "technology_readiness_level": {
+      "grouped_blank": 52,
+      "api_has": 1
+    }
+  },
+  "bucketB": {
+    "technology_readiness_level": 0,
+    "expected_impact": 2,
+    "expected_eu_contribution_phrase": 50
+  },
+  "b_detail": {
+    "technology_readiness_level": [],
+    "expected_impact": [
+      "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+      "HORIZON-CL2-2027-02-TRANSFO-09-two-stage"
+    ],
+    "expected_eu_contribution_phrase": [
+      "HORIZON-CL2-2026-01-DEMOCRACY-01",
+      "HORIZON-CL2-2026-01-DEMOCRACY-02",
+      "HORIZON-CL2-2026-01-DEMOCRACY-03",
+      "HORIZON-CL2-2026-01-DEMOCRACY-04",
+      "HORIZON-CL2-2026-01-DEMOCRACY-05",
+      "HORIZON-CL2-2026-01-DEMOCRACY-06",
+      "HORIZON-CL2-2026-01-DEMOCRACY-07",
+      "HORIZON-CL2-2026-01-DEMOCRACY-08",
+      "HORIZON-CL2-2026-01-DEMOCRACY-09",
+      "HORIZON-CL2-2026-01-DEMOCRACY-10",
+      "HORIZON-CL2-2026-01-HERITAGE-01",
+      "HORIZON-CL2-2026-01-HERITAGE-02",
+      "HORIZON-CL2-2026-01-HERITAGE-03",
+      "HORIZON-CL2-2026-01-HERITAGE-04",
+      "HORIZON-CL2-2026-01-HERITAGE-05",
+      "HORIZON-CL2-2026-01-HERITAGE-06",
+      "HORIZON-CL2-2026-01-HERITAGE-07",
+      "HORIZON-CL2-2026-01-TRANSFO-02",
+      "HORIZON-CL2-2026-01-TRANSFO-03",
+      "HORIZON-CL2-2026-01-TRANSFO-04",
+      "HORIZON-CL2-2026-01-TRANSFO-05",
+      "HORIZON-CL2-2026-01-TRANSFO-06",
+      "HORIZON-CL2-2026-01-TRANSFO-08",
+      "HORIZON-CL2-2026-01-TRANSFO-09",
+      "HORIZON-CL2-2026-01-TRANSFO-10",
+      "HORIZON-CL2-2026-02-TRANSFO-01",
+      "HORIZON-CL2-2027-01-DEMOCRACY-02",
+      "HORIZON-CL2-2027-01-DEMOCRACY-03",
+      "HORIZON-CL2-2027-01-DEMOCRACY-04",
+      "HORIZON-CL2-2027-01-DEMOCRACY-05",
+      "HORIZON-CL2-2027-01-DEMOCRACY-06",
+      "HORIZON-CL2-2027-01-DEMOCRACY-07",
+      "HORIZON-CL2-2027-01-DEMOCRACY-08",
+      "HORIZON-CL2-2027-01-HERITAGE-01",
+      "HORIZON-CL2-2027-01-HERITAGE-02",
+      "HORIZON-CL2-2027-01-HERITAGE-03",
+      "HORIZON-CL2-2027-01-HERITAGE-04",
+      "HORIZON-CL2-2027-01-HERITAGE-05",
+      "HORIZON-CL2-2027-01-HERITAGE-06",
+      "HORIZON-CL2-2027-01-HERITAGE-07",
+      "HORIZON-CL2-2027-01-HERITAGE-08",
+      "HORIZON-CL2-2027-01-TRANSFO-01",
+      "HORIZON-CL2-2027-01-TRANSFO-03",
+      "HORIZON-CL2-2027-01-TRANSFO-04",
+      "HORIZON-CL2-2027-01-TRANSFO-05",
+      "HORIZON-CL2-2027-01-TRANSFO-06",
+      "HORIZON-CL2-2027-01-TRANSFO-07",
+      "HORIZON-CL2-2027-01-TRANSFO-08",
+      "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+      "HORIZON-CL2-2027-02-HERITAGE-09-two-stage"
+    ]
+  },
+  "title_mismatches": [
+    [
+      "HORIZON-CL2-2026-01-DEMOCRACY-01",
+      "tackling gender-based violence against",
+      "tackling gender-based violence against politically active women and lgbtiq people"
+    ],
+    [
+      "HORIZON-CL2-2026-01-DEMOCRACY-02",
+      "understanding",
+      "understanding the forms of local democracy in low-income and low-middle income countries"
+    ],
+    [
+      "HORIZON-CL2-2026-01-DEMOCRACY-03",
+      "government",
+      "government in transition – how governments change the way they work and prepare the civil service for the future"
+    ],
+    [
+      "HORIZON-CL2-2026-01-DEMOCRACY-05",
+      "research and innovation network for a",
+      "research and innovation network for a union of equality"
+    ],
+    [
+      "HORIZON-CL2-2026-01-DEMOCRACY-07",
+      "supporting post-conflict democracy and",
+      "supporting post-conflict democracy and reconstruction"
+    ],
+    [
+      "HORIZON-CL2-2026-01-HERITAGE-03",
+      "ai integration in ccsi work practice:",
+      "ai integration in ccsi work practice: catalysing innovation and competitiveness"
+    ],
+    [
+      "HORIZON-CL2-2026-01-HERITAGE-05",
+      "creative",
+      "creative alliances: fostering global partnerships in cultural policies and cci innovation"
+    ],
+    [
+      "HORIZON-CL2-2026-01-TRANSFO-03",
+      "tackling",
+      "tackling child poverty and ensuring disadvantaged children's access to early childhood education and care"
+    ],
+    [
+      "HORIZON-CL2-2027-01-DEMOCRACY-02",
+      "women’s, lgbtiq and minority rights",
+      "women’s, lgbtiq and minority rights in a context of autocracy, conflict and geopolitical shifts"
+    ],
+    [
+      "HORIZON-CL2-2027-01-DEMOCRACY-03",
+      "student and family engagement for",
+      "student and family engagement for developing a culture of democratic/civic participation"
+    ],
+    [
+      "HORIZON-CL2-2027-01-DEMOCRACY-04",
+      "addressing the impact of artificial",
+      "addressing the impact of artificial intelligence, cyberviolence, and deepfakes on equality, democracy and inclusive societies"
+    ],
+    [
+      "HORIZON-CL2-2027-01-DEMOCRACY-05",
+      "development",
+      "development aid and democratic governance"
+    ],
+    [
+      "HORIZON-CL2-2027-01-DEMOCRACY-06",
+      "identifying user-focused solutions to",
+      "identifying user-focused solutions to support news media freedom"
+    ],
+    [
+      "HORIZON-CL2-2027-01-DEMOCRACY-07",
+      "the role of private companies in",
+      "the role of private companies in democracy"
+    ],
+    [
+      "HORIZON-CL2-2027-01-HERITAGE-01",
+      "towards",
+      "towards a consolidated culture and creativity driven european innovation ecosystem"
+    ],
+    [
+      "HORIZON-CL2-2027-01-HERITAGE-05",
+      "re-imagining the creative economy: the",
+      "re-imagining the creative economy: the interplay between the cultural and creative sectors and industries and the social economy"
+    ],
+    [
+      "HORIZON-CL2-2027-01-TRANSFO-01",
+      "impact",
+      "impact of access to nature-positive environments in promoting social cohesion and reducing inequalities in urban and peri-urban settings"
+    ],
+    [
+      "HORIZON-CL2-2027-01-TRANSFO-03",
+      "rethinking",
+      "rethinking sustainable competitiveness beyond traditional perspectives: role and contribution of the social economy"
+    ],
+    [
+      "HORIZON-CL2-2027-01-TRANSFO-04",
+      "the impact of eu labour mobility on the",
+      "the impact of eu labour mobility on the member states of the eu"
+    ],
+    [
+      "HORIZON-CL2-2027-01-TRANSFO-08",
+      "scaling",
+      "scaling and deploying innovations in migration management"
+    ],
+    [
+      "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+      "open topic on reinvigorating",
+      "open topic on reinvigorating and shielding european democracy"
+    ],
+    [
+      "HORIZON-CL2-2027-02-HERITAGE-09-two-stage",
+      "open",
+      "open topic: impact-driven research on realising the full potential of cultural heritage, arts and cultural and creative industries"
+    ],
+    [
+      "HORIZON-CL2-2027-02-TRANSFO-09-two-stage",
+      "improving socio-economic outcomes",
+      "improving socio-economic outcomes for persons with dementia and informal caregivers"
+    ]
+  ],
+  "api_narr": 52,
+  "grp_narr": 52,
+  "pdf_trl": 1,
+  "pdf_impact": 2
+}

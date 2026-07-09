@@ -1,6 +1,6 @@
 {
   "destinations": [
-    { 
+    {
       "destination_title": "100 Climate-Neutral and Smart Cities by 2030",
       "calls": [
         {
@@ -40,7 +40,8 @@
           "budget_year_map": {
             "2026": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-01"
+          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-01",
+          "expected_eu_contribution": "10000000 - 10000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-04-CIT-01",
@@ -79,7 +80,8 @@
           "budget_year_map": {
             "2026": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-01"
+          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-01",
+          "expected_eu_contribution": "10000000 - 10000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-04-CIT-02",
@@ -118,7 +120,8 @@
           "budget_year_map": {
             "2026": "18000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-02"
+          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-02",
+          "expected_eu_contribution": "6000000 - 6000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-04-CIT-01",
@@ -157,7 +160,8 @@
           "budget_year_map": {
             "2027": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-01"
+          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-01",
+          "expected_eu_contribution": "7000000 - 7000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-04-CIT-02",
@@ -196,7 +200,8 @@
           "budget_year_map": {
             "2027": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-02"
+          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-02",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-04-CIT-02",
@@ -235,7 +240,8 @@
           "budget_year_map": {
             "2027": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-02"
+          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-02",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-04-CIT-03",
@@ -274,7 +280,8 @@
           "budget_year_map": {
             "2027": "18000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-03"
+          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-03",
+          "expected_eu_contribution": "9000000 - 9000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-04-CIT-05",
@@ -313,7 +320,8 @@
           "budget_year_map": {
             "2027": "26823812"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-05"
+          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-05",
+          "expected_eu_contribution": "7000000 - 12000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-04-CIT-CCRI-04",
@@ -352,7 +360,8 @@
           "budget_year_map": {
             "2027": "22500000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-CCRI-04"
+          "topic_id_from_budget": "HORIZON-MISS-2027-04-CIT-CCRI-04",
+          "expected_eu_contribution": "7500000 - 7500000"
         }
       ]
     },
@@ -396,7 +405,8 @@
           "budget_year_map": {
             "2026": "35000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-01"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-01",
+          "expected_eu_contribution": "8000000 - 9000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-02-CANCER-02",
@@ -435,7 +445,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-02"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-02",
+          "expected_eu_contribution": "15000000 - 15000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-02-CANCER-03",
@@ -474,7 +485,8 @@
           "budget_year_map": {
             "2026": "22186000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-03"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-03",
+          "expected_eu_contribution": "7000000 - 8000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-02-CANCER-04",
@@ -513,7 +525,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-04"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-04",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-02-CANCER-04",
@@ -552,7 +565,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-04"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-04",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-02-CANCER-05",
@@ -591,7 +605,8 @@
           "budget_year_map": {
             "2026": "7000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-05"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-05",
+          "expected_eu_contribution": "7000000 - 7000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-02-CANCER-06",
@@ -630,7 +645,8 @@
           "budget_year_map": {
             "2026": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-06"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-06",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-02-CANCER-07",
@@ -669,7 +685,8 @@
           "budget_year_map": {
             "2026": "25000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-07"
+          "topic_id_from_budget": "HORIZON-MISS-2026-02-CANCER-07",
+          "expected_eu_contribution": "5000000 - 6000000"
         }
       ]
     },
@@ -713,7 +730,8 @@
           "budget_year_map": {
             "2026": "47500000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-NEB-B4P-CCRI-03"
+          "topic_id_from_budget": "HORIZON-MISS-2026-04-CIT-NEB-B4P-CCRI-03",
+          "expected_eu_contribution": "9500000 - 9500000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-01",
@@ -752,7 +770,8 @@
           "budget_year_map": {
             "2026": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-01"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-01",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-01-two-stage",
@@ -792,7 +811,8 @@
           "budget_year_map": {
             "2026": "24000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-01-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-01-two-stage",
+          "expected_eu_contribution": "12000000 - 12000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-02",
@@ -831,7 +851,8 @@
           "budget_year_map": {
             "2026": "14000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-02"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-02",
+          "expected_eu_contribution": "7000000 - 7000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-02-two-stage",
@@ -871,7 +892,8 @@
           "budget_year_map": {
             "2026": "24000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-02-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-02-two-stage",
+          "expected_eu_contribution": "12000000 - 12000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-02-two-stage",
@@ -911,7 +933,8 @@
           "budget_year_map": {
             "2026": "24000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-02-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-02-two-stage",
+          "expected_eu_contribution": "12000000 - 12000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-03",
@@ -950,7 +973,8 @@
           "budget_year_map": {
             "2026": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-03"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-03",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-03",
@@ -989,7 +1013,8 @@
           "budget_year_map": {
             "2026": "5000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-03"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-03",
+          "expected_eu_contribution": "5000000 - 5000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-05-SOIL-04",
@@ -1028,7 +1053,8 @@
           "budget_year_map": {
             "2026": "9000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-04"
+          "topic_id_from_budget": "HORIZON-MISS-2026-05-SOIL-04",
+          "expected_eu_contribution": "9000000 - 9000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-05-SOIL-01-two-stage",
@@ -1068,7 +1094,8 @@
           "budget_year_map": {
             "2027": "24000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-01-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-01-two-stage",
+          "expected_eu_contribution": "12000000 - 12000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-05-SOIL-01-two-stage",
@@ -1108,7 +1135,8 @@
           "budget_year_map": {
             "2027": "24000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-01-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-01-two-stage",
+          "expected_eu_contribution": "12000000 - 12000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-05-SOIL-02-two-stage",
@@ -1148,7 +1176,8 @@
           "budget_year_map": {
             "2027": "24000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-02-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-02-two-stage",
+          "expected_eu_contribution": "12000000 - 12000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-05-SOIL-03-two-stage",
@@ -1188,7 +1217,8 @@
           "budget_year_map": {
             "2027": "16000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-03-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-03-two-stage",
+          "expected_eu_contribution": "8000000 - 8000000"
         },
         {
           "identifier": "HORIZON-MISS-2027-05-SOIL-04-two-stage",
@@ -1228,7 +1258,8 @@
           "budget_year_map": {
             "2027": "11000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-04-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-04-two-stage",
+          "expected_eu_contribution": "5500000 - 5500000"
         },
         {
           "identifier": "HORIZON-MISS-2027-05-SOIL-05-two-stage",
@@ -1268,7 +1299,8 @@
           "budget_year_map": {
             "2027": "12800000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-05-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-05-two-stage",
+          "expected_eu_contribution": "6400000 - 6400000"
         },
         {
           "identifier": "HORIZON-MISS-2027-05-SOIL-06-two-stage",
@@ -1308,11 +1340,12 @@
           "budget_year_map": {
             "2027": "7000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-06-two-stage"
+          "topic_id_from_budget": "HORIZON-MISS-2027-05-SOIL-06-two-stage",
+          "expected_eu_contribution": "7000000 - 7000000"
         }
       ]
     },
-      {
+    {
       "destination_title": "CROSS",
       "calls": [
         {
@@ -1352,7 +1385,8 @@
           "budget_year_map": {
             "2025": "1000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-01"
+          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-01",
+          "expected_eu_contribution": "1000000 - 1000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-07-CROSS-02",
@@ -1391,7 +1425,8 @@
           "budget_year_map": {
             "2025": "2000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-02"
+          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-02",
+          "expected_eu_contribution": "2000000 - 2000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-07-CROSS-02",
@@ -1430,7 +1465,8 @@
           "budget_year_map": {
             "2025": "2000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-02"
+          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-02",
+          "expected_eu_contribution": "2000000 - 2000000"
         },
         {
           "identifier": "HORIZON-MISS-2026-07-CROSS-03",
@@ -1469,7 +1505,8 @@
           "budget_year_map": {
             "2025": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-03"
+          "topic_id_from_budget": "HORIZON-MISS-2026-07-CROSS-03",
+          "expected_eu_contribution": "4000000 - 4000000"
         }
       ]
     },
@@ -1513,7 +1550,8 @@
           "budget_year_map": {
             "2027": "24000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2027-06-SOIL-CANCER"
+          "topic_id_from_budget": "HORIZON-MISS-2027-06-SOIL-CANCER",
+          "expected_eu_contribution": "12000000 - 12000000"
         }
       ]
     },
@@ -1557,7 +1595,8 @@
           "budget_year_map": {
             "2025": "37000000"
           },
-          "topic_id_from_budget": "HORIZON-MISS-2026-04-PCP-CIT-01"
+          "topic_id_from_budget": "HORIZON-MISS-2026-04-PCP-CIT-01",
+          "expected_eu_contribution": "7000000 - 12000000"
         }
       ]
     }

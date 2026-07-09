@@ -4,7 +4,9 @@ export function applyPaletteAndTheme({ cy, darkMode, graphName, layerKey }) {
   const PALETTE = darkMode
     ? {
         root: "#5B7CFF",
-        label: "#F3F6FF",
+        // Navbar body-text tone (--lc-text) rather than pure white: cuts glare
+        // on the navy graph surface and reads as the same type system as the chrome.
+        label: "#d7e6f7",
         border: "rgba(255,255,255,0.22)",
         base: "#6B8AFD",
 

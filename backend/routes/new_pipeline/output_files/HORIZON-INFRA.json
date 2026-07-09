@@ -40,7 +40,8 @@
           "budget_year_map": {
             "2026": "10000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-01",
+          "expected_eu_contribution": "2000000 - 3000000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-DEV-01-02",
@@ -79,7 +80,8 @@
           "budget_year_map": {
             "2026": "40000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-02",
+          "expected_eu_contribution": "4000000 - 8000000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-DEV-01-03",
@@ -118,7 +120,8 @@
           "budget_year_map": {
             "2026": "9900000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-03"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-03",
+          "expected_eu_contribution": "3000000 - 4500000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-DEV-01-03",
@@ -157,7 +160,8 @@
           "budget_year_map": {
             "2026": "9900000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-03"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-03",
+          "expected_eu_contribution": "3000000 - 4500000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-DEV-01-04",
@@ -196,7 +200,8 @@
           "budget_year_map": {
             "2026": "2000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-04"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-04",
+          "expected_eu_contribution": "2000000 - 2000000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-DEV-01-05",
@@ -235,7 +240,8 @@
           "budget_year_map": {
             "2026": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-05"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-05",
+          "expected_eu_contribution": "8000000 - 8000000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-DEV-01-06",
@@ -274,7 +280,8 @@
           "budget_year_map": {
             "2026": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-06"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-06",
+          "expected_eu_contribution": "1000000 - 1500000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-DEV-01-07",
@@ -313,7 +320,8 @@
           "budget_year_map": {
             "2026": "10000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-07"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-DEV-01-07",
+          "expected_eu_contribution": "1000000 - 4000000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-DEV-01-01",
@@ -352,7 +360,8 @@
           "budget_year_map": {
             "2027": "30000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-01",
+          "expected_eu_contribution": "1500000 - 3500000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-DEV-01-02",
@@ -391,7 +400,8 @@
           "budget_year_map": {
             "2027": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-02",
+          "expected_eu_contribution": "2000000 - 5000000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-DEV-01-02",
@@ -430,7 +440,8 @@
           "budget_year_map": {
             "2027": "20000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-02",
+          "expected_eu_contribution": "2000000 - 5000000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-DEV-01-03",
@@ -469,7 +480,8 @@
           "budget_year_map": {
             "2027": "29500000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-03"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-DEV-01-03",
+          "expected_eu_contribution": "3000000 - 4500000"
         }
       ]
     },
@@ -513,7 +525,8 @@
           "budget_year_map": {
             "2026": "40000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-01-EOSC-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-01-EOSC-01",
+          "expected_eu_contribution": "40000000 - 40000000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-01-EOSC-02",
@@ -552,7 +565,8 @@
           "budget_year_map": {
             "2026": "10000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-01-EOSC-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-01-EOSC-02",
+          "expected_eu_contribution": "3000000 - 5000000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-01-EOSC-01",
@@ -591,7 +605,8 @@
           "budget_year_map": {
             "2027": "40000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-01-EOSC-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-01-EOSC-01",
+          "expected_eu_contribution": "40000000 - 40000000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-01-EOSC-02",
@@ -630,7 +645,8 @@
           "budget_year_map": {
             "2027": "8000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-01-EOSC-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-01-EOSC-02",
+          "expected_eu_contribution": "2500000 - 4000000"
         }
       ]
     },
@@ -674,7 +690,8 @@
           "budget_year_map": {
             "2026": "110000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-TECH-01-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-TECH-01-01",
+          "expected_eu_contribution": "5000000 - 10000000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-TECH-01-02",
@@ -713,7 +730,8 @@
           "budget_year_map": {
             "2026": "15000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-TECH-01-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-TECH-01-02",
+          "expected_eu_contribution": "5000000 - 7500000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-TECH-01-01",
@@ -752,7 +770,8 @@
           "budget_year_map": {
             "2027": "30000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-TECH-01-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-TECH-01-01",
+          "expected_eu_contribution": "10000000 - 15000000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-TECH-01-02",
@@ -791,7 +810,8 @@
           "budget_year_map": {
             "2027": "30000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-TECH-01-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-TECH-01-02",
+          "expected_eu_contribution": "7000000 - 12000000"
         }
       ]
     },
@@ -835,7 +855,8 @@
           "budget_year_map": {
             "2026": "32000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2026-SERV-01-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2026-SERV-01-01",
+          "expected_eu_contribution": "32000000 - 32000000"
         },
         {
           "identifier": "HORIZON-INFRA-2026-SERV-01-02",
@@ -881,7 +902,8 @@
           "budget_year_map": {
             "2027": "105000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-SERV-01-01"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-SERV-01-01",
+          "expected_eu_contribution": "35000000 - 35000000"
         },
         {
           "identifier": "HORIZON-INFRA-2027-SERV-01-02",
@@ -920,7 +942,8 @@
           "budget_year_map": {
             "2027": "35000000"
           },
-          "topic_id_from_budget": "HORIZON-INFRA-2027-SERV-01-02"
+          "topic_id_from_budget": "HORIZON-INFRA-2027-SERV-01-02",
+          "expected_eu_contribution": "6000000 - 6000000"
         }
       ]
     }
