@@ -1,0 +1,183 @@
+{
+  "pages": 211,
+  "counts": {
+    "pdf": 38,
+    "api": 38,
+    "grouped": 38,
+    "both": 38,
+    "pdf_only": 0,
+    "api_only": 0
+  },
+  "pdf_only": [],
+  "api_only": [],
+  "bucketA": {
+    "status": {
+      "grouped_blank": 38,
+      "api_has": 38
+    },
+    "expected_eu_contribution": {
+      "grouped_blank": 38,
+      "api_has": 0
+    },
+    "technology_readiness_level": {
+      "grouped_blank": 38,
+      "api_has": 1
+    }
+  },
+  "bucketB": {
+    "technology_readiness_level": 0,
+    "expected_impact": 0,
+    "expected_eu_contribution_phrase": 34
+  },
+  "b_detail": {
+    "technology_readiness_level": [],
+    "expected_impact": [],
+    "expected_eu_contribution_phrase": [
+      "HORIZON-HLTH-2026-01-CARE-01",
+      "HORIZON-HLTH-2026-01-CARE-03",
+      "HORIZON-HLTH-2026-01-DISEASE-02",
+      "HORIZON-HLTH-2026-01-DISEASE-03",
+      "HORIZON-HLTH-2026-01-DISEASE-04",
+      "HORIZON-HLTH-2026-01-DISEASE-09",
+      "HORIZON-HLTH-2026-01-DISEASE-11",
+      "HORIZON-HLTH-2026-01-DISEASE-15",
+      "HORIZON-HLTH-2026-01-ENVHLTH-01",
+      "HORIZON-HLTH-2026-01-ENVHLTH-04",
+      "HORIZON-HLTH-2026-01-ENVHLTH-05",
+      "HORIZON-HLTH-2026-01-IND-03",
+      "HORIZON-HLTH-2026-01-STAYHLTH-03",
+      "HORIZON-HLTH-2026-01-TOOL-03",
+      "HORIZON-HLTH-2026-01-TOOL-05",
+      "HORIZON-HLTH-2026-01-TOOL-06",
+      "HORIZON-HLTH-2026-01-TOOL-07",
+      "HORIZON-HLTH-2026-02-DISEASE-12",
+      "HORIZON-HLTH-2026-03-DISEASE-13",
+      "HORIZON-HLTH-2026-04-CARE-04",
+      "HORIZON-HLTH-2027-01-DISEASE-05",
+      "HORIZON-HLTH-2027-01-DISEASE-06",
+      "HORIZON-HLTH-2027-01-DISEASE-07",
+      "HORIZON-HLTH-2027-01-DISEASE-08",
+      "HORIZON-HLTH-2027-01-DISEASE-10",
+      "HORIZON-HLTH-2027-01-ENVHLTH-02",
+      "HORIZON-HLTH-2027-01-ENVHLTH-MISSCLIMA-03",
+      "HORIZON-HLTH-2027-01-IND-01",
+      "HORIZON-HLTH-2027-01-STAYHLTH-01",
+      "HORIZON-HLTH-2027-02-DISEASE-01-two-stage",
+      "HORIZON-HLTH-2027-02-IND-02-two-stage",
+      "HORIZON-HLTH-2027-02-TOOL-01-two-stage",
+      "HORIZON-HLTH-2027-03-TOOL-02",
+      "HORIZON-HLTH-2027-03-TOOL-08"
+    ]
+  },
+  "title_mismatches": [
+    [
+      "HORIZON-HLTH-2026-01-DISEASE-02",
+      "innovative interventions to prevent the",
+      "innovative interventions to prevent the harmful effects of using digital technologies on the mental health of children and young adults"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-DISEASE-03",
+      "advancing research on the prevention,",
+      "advancing research on the prevention, diagnosis, and management of post-infection long-term conditions"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-DISEASE-04",
+      "development of novel vaccines for viral",
+      "development of novel vaccines for viral pathogens with epidemic potential"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-DISEASE-15",
+      "scaling up innovation in cardiovascular",
+      "scaling up innovation in cardiovascular health"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-ENVHLTH-01",
+      "towards a better understanding and",
+      "towards a better understanding and anticipation of the impacts of climate change on health"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-ENVHLTH-04",
+      "towards climate resilient, prepared and",
+      "towards climate resilient, prepared and carbon neutral populations and healthcare systems"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-STAYHLTH-02",
+      "behavioural interventions as primary",
+      "behavioural interventions as primary prevention for non-communicable diseases (ncds) among young people"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-TOOL-03",
+      "integrating new approach methodologies",
+      "integrating new approach methodologies (nams) to advance biomedical research and regulatory testing"
+    ],
+    [
+      "HORIZON-HLTH-2026-01-TOOL-06",
+      "support to european research area (era)",
+      "support to european research area (era) action on accelerating new approach methodologies (nams) to advance biomedical research and testing of medicinal products and medical devices"
+    ],
+    [
+      "HORIZON-HLTH-2026-02-DISEASE-12",
+      "european partnership on rare diseases",
+      "european partnership on rare diseases (erdera) (phase 2)"
+    ],
+    [
+      "HORIZON-HLTH-2026-03-DISEASE-13",
+      "european",
+      "european partnership for pandemic preparedness (phase 2)"
+    ],
+    [
+      "HORIZON-HLTH-2026-04-CARE-04",
+      "enhancing",
+      "enhancing and enlarging the european partnership on personalised medicine (ep permed) (top-up)"
+    ],
+    [
+      "HORIZON-HLTH-2027-01-DISEASE-05",
+      "development of novel small molecule",
+      "development of novel small molecule antiviral therapeutics for pathogens with epidemic potential"
+    ],
+    [
+      "HORIZON-HLTH-2027-01-DISEASE-06",
+      "development of monoclonal antibodies to",
+      "development of monoclonal antibodies to prevent and treat infections from flaviviruses"
+    ],
+    [
+      "HORIZON-HLTH-2027-01-DISEASE-07",
+      "development of monoclonal antibodies to",
+      "development of monoclonal antibodies to prevent and treat infections from filo-, nairo-, phenui-, picorna- and toga viruses"
+    ],
+    [
+      "HORIZON-HLTH-2027-01-ENVHLTH-MISSCLIMA-03",
+      "tools and technologies to",
+      "tools and technologies to support health adaptation to climate change"
+    ],
+    [
+      "HORIZON-HLTH-2027-01-IND-01",
+      "development",
+      "development of cell-free protein synthesis platforms for discovery and/or production of biologicals"
+    ],
+    [
+      "HORIZON-HLTH-2027-02-DISEASE-01-two-stage",
+      "innovative",
+      "innovative healthcare interventions for non-communicable diseases"
+    ],
+    [
+      "HORIZON-HLTH-2027-02-DISEASE-14-two-stage",
+      "clinical trials",
+      "clinical trials for advancing innovative interventions for neurodegenerative diseases"
+    ],
+    [
+      "HORIZON-HLTH-2027-02-IND-02-two-stage",
+      "portable and versatile point-of-care",
+      "portable and versatile point-of-care diagnostics"
+    ],
+    [
+      "HORIZON-HLTH-2027-02-TOOL-01-two-stage",
+      "development of predictive biomarkers",
+      "development of predictive biomarkers of disease progression and treatment response by using ai methodologies for chronic non-communicable diseases"
+    ]
+  ],
+  "api_narr": 38,
+  "grp_narr": 38,
+  "pdf_trl": 0,
+  "pdf_impact": 0
+}

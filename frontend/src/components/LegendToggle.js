@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCy } from "./context/CyContext";
+import { fitToViewport } from "./GraphView/cy/fitViewport";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { IconButton } from "@mui/material";
@@ -351,7 +352,7 @@ const nodeTypeList = useMemo(() => {
       } catch {}
       window.setTimeout(() => {
         try {
-          cy.fit({ padding: 60 });
+          fitToViewport(cy, { reason: "legend-toggle" });
         } catch {}
       }, 150);
     });

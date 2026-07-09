@@ -880,6 +880,35 @@
 
   .light-theme & { box-shadow: 0 24px 60px rgba(27, 37, 89, 0.18); }
 }
+
+/* ── Stacked (below lg) ──
+   The free-floating windows would fall off-screen on tablets/phones (their px
+   positions + widths assume a wide canvas). Instead the layer becomes a
+   scrolling column of full-width cards, sitting below the 52px command bar so
+   that stays reachable. Toggled by JS (DashWindow / PortfolioDashboard) via the
+   --stacked modifier, matching the lg breakpoint. */
+.dash-windows-layer--stacked {
+  inset: 52px 0 0 0; /* clear the command bar */
+  pointer-events: auto; /* the stack itself scrolls */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: rgba(3, 8, 28, 0.55); /* dim the dashboard behind the stack */
+}
+.light-theme .dash-windows-layer--stacked {
+  background: rgba(20, 30, 70, 0.24);
+}
+.dash-windows-layer--stacked .dash-window {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  max-width: 640px;
+  animation: none;
+}
 .dash-window__header {
   display: flex;
   align-items: center;

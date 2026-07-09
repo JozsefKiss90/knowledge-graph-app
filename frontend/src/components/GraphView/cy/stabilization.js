@@ -1,5 +1,13 @@
 // src/components/GraphView/cy/stabilization.js
 
+import { fitToViewport } from "./fitViewport";
+
+// Re-fit when a container dimension changes by at least this fraction relative
+// to its size at the last fit. Large changes (rotation, window resize, opening
+// a wide in-flow panel) reframe the graph; small nudges (scrollbar, mobile
+// address-bar show/hide) stay resize-only so the user's pan/zoom is preserved.
+const REFIT_RATIO = 0.18;
+
 export function createStabilizer({
   cy,
   wrapperRef,
@@ -17,6 +25,10 @@ export function createStabilizer({
 
   // Ensure a pending "fit" cannot be downgraded by a later "resize-only" schedule call
   let pendingDoFit = false;
+
+  // Container size (from readOrientation) captured at the last fit; future
+  // resizes are measured against this to decide whether to re-fit.
+  let lastFitSize = { w: 0, h: 0 };
 
   const readOrientation = () => {
     const wrap = wrapperRef.current;
@@ -53,40 +65,13 @@ export function createStabilizer({
 
       window.requestAnimationFrame(() => {
         scheduleGlowUpdate();
-        try {
-          const w = cy.width() || 0;
 
-          const pad =
-            w <= 420 ? 14 :
-            w <= 700 ? 18 :
-            w <= 1100 ? 26 :
-            34;
+        // Single framing authority (container-width padding + upper zoom clamp).
+        fitToViewport(cy, { reason: "stabilize" });
 
-          const visible = cy.elements(":visible");
-          const fitTarget = visible.length ? visible : cy.elements();
-          cy.fit(fitTarget, pad);
-
-          // ✅ Clamp zoom for sparse graphs (prevents over-fit magnification)
-          try {
-            const count = cy.nodes(":visible").length;
-
-            // These are the numbers that will actually change what you see.
-            // Start conservative; adjust down if you want more "zoomed out".
-            let maxZoom =
-              count <= 2 ? 1.6 :
-              count <= 3 ? 1.4 :
-              count <= 5 ? 1.2 :
-              1.35;
-
-            const minZoom = 1;
-
-            const z = cy.zoom();
-            if (z > maxZoom) cy.zoom(maxZoom);
-            if (z < minZoom) cy.zoom(minZoom);
-
-            cy.center(fitTarget);
-          } catch {}
-        } catch {}
+        // Remember the size we just fitted to, for future delta comparisons.
+        const o = readOrientation();
+        lastFitSize = { w: o.w, h: o.h };
 
         const wasInitial = !didInitialAutoFitRef.current;
         didInitialAutoFitRef.current = true;
@@ -124,16 +109,30 @@ export function createStabilizer({
 
     lastContainerSizeRef.current = { w, h };
 
-    // Recovery: if we mounted in portrait, then the first time we become landscape,
-    // force a fit so the graph is correctly framed inside the landscape layout.
+    // Until the first auto-fit has run, always fit.
+    if (!didInitialAutoFitRef.current) {
+      schedule(true);
+      return;
+    }
+
+    // Recovery: if we mounted in portrait, the first time we become landscape
+    // force a fit so the graph is correctly framed in the landscape layout.
     if (initialWasPortrait && !didLandscapeRecoveryFit && !isPortrait) {
       didLandscapeRecoveryFit = true;
       schedule(true);
       return;
     }
 
-    // Default behavior: fit only once during initial stabilization
-    schedule(!didInitialAutoFitRef.current);
+    // Re-fit on a *significant* change (orientation flip, or a dimension past
+    // REFIT_RATIO relative to the last fit); otherwise resize only so the
+    // user's manual pan/zoom is preserved.
+    const fw = lastFitSize.w || w;
+    const fh = lastFitSize.h || h;
+    const wDelta = Math.abs(w - fw) / fw;
+    const hDelta = Math.abs(h - fh) / fh;
+    const orientationFlipped = (fw >= fh) !== (w >= h);
+
+    schedule(orientationFlipped || wDelta >= REFIT_RATIO || hDelta >= REFIT_RATIO);
   };
 
   if (window.ResizeObserver && wrapperRef.current) {
@@ -150,9 +149,10 @@ export function createStabilizer({
 
     didInitialAutoFitRef.current = false;
     lastContainerSizeRef.current = { w: 0, h: 0 };
+    lastFitSize = { w: 0, h: 0 };
 
     // local variables reset on next createStabilizer() instantiation
   };
 
-  return { schedule, cleanup };
+  return { schedule, cleanup, handleSizeChange };
 }

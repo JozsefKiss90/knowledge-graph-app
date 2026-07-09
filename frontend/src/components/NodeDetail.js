@@ -633,7 +633,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isMobile = useMediaQuery("(max-width: 900px)");
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const { id, nodeData, relations, connectedNodes, loading } = useNodeDetail({
     idOverride: embeddedId,

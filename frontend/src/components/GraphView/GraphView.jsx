@@ -14,7 +14,8 @@ import { useGlowOverlay } from "./useGlowOverlay";
 import { applyPaletteAndTheme } from "./cy/palette";
 import { tagRootNode } from "./cy/rootTagging";
 import { createStabilizer } from "./cy/stabilization";
-import { createLayoutFactory } from "./cy/createLayout"; 
+import { createLayoutFactory } from "./cy/createLayout";
+import { fitToViewport } from "./cy/fitViewport";
 
 cytoscape.use(coseBilkent);
 
@@ -41,62 +42,11 @@ const GraphView = forwardRef(function GraphView(
   const navigate = useNavigate();
   const { darkMode } = useDarkMode();
   console.log("GRAPHVIEW_RENDERED_2026_03_10");
+// Thin wrapper kept so existing call sites (layoutstop, post-mount timers,
+// rerunLayout) keep working. The framing logic now lives in the single
+// fitToViewport authority (src/components/GraphView/cy/fitViewport.js).
 function applyResponsiveViewport(cy, reason = "unknown") {
-  if (!cy || cy.destroyed()) return;
-
-  const vw = window.innerWidth || 0;
-  const vh = window.innerHeight || 0;
-  const shortestSide = Math.min(vw, vh);
-
-  const isTouchDevice =
-    window.matchMedia?.("(pointer: coarse)")?.matches ||
-    "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0;
-
-  const isMobile = isTouchDevice && shortestSide <= 900;
-
-  const visible = cy.elements(":visible");
-  if (!visible || visible.empty()) return;
-
-  const count = cy.nodes(":visible").length;
-
-  const pad = isMobile ? 180 : 34;
-  let minZoom = isMobile ? 0.8 : 0.25;
-  let maxZoom = isMobile ? 0.7 : 1.4;
-
-  if (!isMobile) {
-    if (count <= 2) minZoom = 0.55;
-    if (count <= 2) minZoom = 0.55;
-    else if (count <= 3) minZoom = 0.7;
-    else if (count <= 5) minZoom = 0.95;
-  }
-
-  console.log("[applyResponsiveViewport]", {
-    reason,
-    vw,
-    vh,
-    shortestSide,
-    isTouchDevice,
-    isMobile,
-    count,
-    pad,
-    minZoom,
-    maxZoom,
-    zoomBefore: cy.zoom(),
-  });
-
-  cy.fit(visible, pad);
-
-  const z = cy.zoom();
-  if (z > maxZoom) cy.zoom(maxZoom);
-  if (z < minZoom) cy.zoom(minZoom);
-
-  cy.center(visible);
-
-  console.log("[applyResponsiveViewport:done]", {
-    reason,
-    zoomAfter: cy.zoom(),
-  });
+  fitToViewport(cy, { reason });
 }
 
   const { nhRef, hoverRef, hoverIdRef, onCyReadyRef, layoutOptionsRef, lastLayoutNameRef } =
@@ -250,8 +200,10 @@ function applyResponsiveViewport(cy, reason = "unknown") {
 
     scheduleGlowUpdate();
 
-    // Window resize: preserve user viewport (no re-fit)
-    const onWindowResize = () => stabilizer.schedule(false);
+    // Window resize: route through the stabilizer's size-change logic, which
+    // re-fits only on a significant change (rotation / large resize) and keeps
+    // small nudges resize-only so the user's manual pan/zoom isn't stolen.
+    const onWindowResize = () => stabilizer.handleSizeChange();
     window.addEventListener("resize", onWindowResize, { passive: true });
 
     return () => {

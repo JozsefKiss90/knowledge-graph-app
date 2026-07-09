@@ -65,7 +65,10 @@ export default function CommandBar({
   compareNodes,
   graphActionsVisible: graphActionsVisibleProp,
 }) {
-  const isCompact = useMediaQuery("(max-width: 1100px), (max-height: 520px)");
+  // Compact chrome: below the $bp-lg chrome-collapse breakpoint, or on very short viewports.
+  const isCompact = useMediaQuery(
+    (theme) => `${theme.breakpoints.down("lg")}, (max-height: 520px)`
+  );
 
   const currentIndex = Math.max(
     0,
@@ -166,6 +169,7 @@ export default function CommandBar({
               title="Force-directed layout"
               active={!isTree}
               onClick={() => onLayoutModeChange?.("cose-bilkent")}
+              className="kg-commandbar__action--secondary"
             >
               <GridIcon size={15} />
             </BarIconButton>
@@ -173,6 +177,7 @@ export default function CommandBar({
               title="Hierarchical layout"
               active={isTree}
               onClick={() => onLayoutModeChange?.("breadthfirst")}
+              className="kg-commandbar__action--secondary"
             >
               <FlowIcon size={15} />
             </BarIconButton>
@@ -189,12 +194,20 @@ export default function CommandBar({
           </>
         )}
         {onCopyLink && (
-          <BarIconButton title="Copy link to this view" onClick={onCopyLink}>
+          <BarIconButton
+            title="Copy link to this view"
+            onClick={onCopyLink}
+            className="kg-commandbar__action--secondary"
+          >
             <ShareIcon size={15} />
           </BarIconButton>
         )}
         {onSaveView && (
-          <BarIconButton title="Save this view" onClick={onSaveView}>
+          <BarIconButton
+            title="Save this view"
+            onClick={onSaveView}
+            className="kg-commandbar__action--secondary"
+          >
             <BookmarkPlusIcon size={15} />
           </BarIconButton>
         )}

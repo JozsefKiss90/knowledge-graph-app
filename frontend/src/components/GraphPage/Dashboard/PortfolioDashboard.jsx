@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
 
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -127,6 +128,10 @@ export default function PortfolioDashboard({
   // Floating-window manager — drives which theme windows are open (and therefore which CORDIS
   // fetches fire, see below).
   const { open, toggle, mkWin } = useDraggableWindows(WIN_KEYS, INITIAL_POS);
+
+  // Below lg the floating windows restack into a scrolling column (see DashWindow +
+  // .dash-windows-layer--stacked) so none of them land off-screen on tablets/phones.
+  const stacked = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
   // The calls list doubles as a filter target. `callFilter` is null (default upcoming slice),
   // "open" (all open calls) or "closing30" (calls closing within 30 days).
@@ -268,7 +273,7 @@ export default function PortfolioDashboard({
           so we don't reuse the theme-wrapper class names here (those paint an opaque fill). The
           layer is transparent + click-through; only the windows capture pointer events. */}
       {createPortal(
-        <div className="dash-windows-layer">
+        <div className={`dash-windows-layer${stacked ? " dash-windows-layer--stacked" : ""}`}>
           <DashWindow
             win={mkWin("funding")}
             title="Funding"

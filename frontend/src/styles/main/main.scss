@@ -1,5 +1,6 @@
 // src/styles/main.scss
 @import "../variables";
+@import "../breakpoints"; // responsive tokens + respond-below/above mixins (must precede any partial that uses them)
 // foundations
 @import "../foundations/reset";
 @import "../foundations/typography";
@@ -46,62 +47,73 @@
 @import "../components/money-badge"; // two-halves money badge — shared vocabulary (Q6.2)
 @import "../components/landing-chrome"; // landing redesign — keep last so its overrides win
 @import "../components/landing-home"; // Home v1 (Step 5) — uses --lc-* tokens from landing-chrome
-/* Landscape-only overlay (global) */
-.orientation-overlay {
+/* Orientation nudge (soft, dismissible) — replaces the old hard landscape gate.
+   React (RequireLandscape in App.js) owns visibility: shown only on small
+   portrait phones, dismissible via "Continue anyway". A bottom sheet, never a
+   full-screen block, so it can't lock anyone out. */
+.orientation-nudge {
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 9999;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 16px;
-
-  background: rgba(10, 15, 25, 0.82);
-  backdrop-filter: blur(6px);
+  padding: 12px;
+  pointer-events: none; /* taps pass through except on the card itself */
 }
 
-.orientation-overlay__card {
-  width: min(520px, 100%);
-  border-radius: 16px;
-  padding: 18px 16px;
+.orientation-nudge__card {
+  pointer-events: auto;
+  width: min(440px, 100%);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
   background: var(--card);
   color: var(--foreground);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-xl);
-  text-align: center;
 }
 
-.orientation-overlay__title {
+.orientation-nudge__title {
   font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
+  font-size: 1rem;
+  margin-bottom: 6px;
 }
 
-.orientation-overlay__body {
-  font-size: 0.95rem;
+.orientation-nudge__body {
+  font-size: 0.85rem;
   color: var(--muted-foreground);
-  line-height: 1.5;
+  line-height: 1.45;
+  margin-bottom: 14px;
 }
 
-.orientation-overlay__button {
-  margin-top: 14px;
+.orientation-nudge__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.orientation-nudge__btn {
+  flex: 1 1 auto;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
   border: 1px solid var(--border);
-  background: var(--primary);
-  color: var(--primary-foreground);
-  padding: 10px 12px;
-  border-radius: 999px;
+  background: transparent;
+  color: inherit;
   font-weight: 600;
+  font-size: 0.85rem;
   cursor: pointer;
 }
 
-.orientation-overlay__button:active {
+.orientation-nudge__btn--primary {
+  background: var(--primary);
+  border-color: transparent;
+  color: var(--primary-foreground);
+}
+
+.orientation-nudge__btn:active {
   transform: translateY(1px);
-}
-@media (orientation: landscape) {
-  .orientation-overlay { display: none; }
-}
-@media (orientation: portrait) {
-  .orientation-overlay { display: flex; }
 }
 
 /* Inline NodeDetail layout inside GraphPage center column */

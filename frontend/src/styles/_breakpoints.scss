@@ -1,0 +1,42 @@
+// src/styles/_breakpoints.scss
+//
+// Single source of truth for responsive breakpoints. Mirrors the values in
+// src/themes/theme.js (MUI `breakpoints.values`) so SCSS media queries and JS
+// `useMediaQuery(theme.breakpoints.*)` agree.
+//
+// These five tokens consolidate the 14 ad-hoc breakpoints that were previously
+// hand-typed across ~17 SCSS files. The two dominant historical values map
+// straight through: 1100 (chrome collapse) -> $bp-lg, 900 (tablet / the graph's
+// isMobile shortest-side cutoff) -> $bp-md.
+//
+// Usage:
+//   @include respond-below($bp-md) { ... }   // narrow screens (< 900px)
+//   @include respond-above($bp-lg) { ... }    // wide screens (>= 1100px)
+
+$bp-xs: 480px; // small phone
+$bp-sm: 600px; // phone / large-phone landscape
+$bp-md: 900px; // tablet portrait
+$bp-lg: 1100px; // chrome collapse (dominant historical breakpoint)
+$bp-xl: 1280px; // small laptop / wide
+
+// max-width query: everything strictly below $bp. The 0.02px shim keeps this
+// from overlapping respond-above($bp) at the exact boundary.
+@mixin respond-below($bp) {
+  @media (max-width: #{$bp - 0.02px}) {
+    @content;
+  }
+}
+
+// min-width query: $bp and wider.
+@mixin respond-above($bp) {
+  @media (min-width: $bp) {
+    @content;
+  }
+}
+
+// Inclusive-low / exclusive-high band: [$min, $max).
+@mixin respond-between($min, $max) {
+  @media (min-width: $min) and (max-width: #{$max - 0.02px}) {
+    @content;
+  }
+}

@@ -43,9 +43,16 @@ export function useHoverCardDrag({ cardRef }) {
       e.preventDefault();
 
       const { dx, dy } = offsetRef.current;
+      // Clamp both edges so the card can't be dragged off-screen (its measured
+      // size gives the upper bound; PADDING is the lower bound).
+      const rect = cardRef?.current?.getBoundingClientRect?.();
+      const cw = rect?.width || 360;
+      const ch = rect?.height || 260;
+      const maxX = Math.max(PADDING, window.innerWidth - cw - PADDING);
+      const maxY = Math.max(PADDING, window.innerHeight - ch - PADDING);
       setDragPos({
-        x: Math.max(PADDING, e.clientX - dx),
-        y: Math.max(PADDING, e.clientY - dy),
+        x: Math.min(maxX, Math.max(PADDING, e.clientX - dx)),
+        y: Math.min(maxY, Math.max(PADDING, e.clientY - dy)),
       });
     };
 

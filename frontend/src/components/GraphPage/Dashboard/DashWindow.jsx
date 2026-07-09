@@ -1,4 +1,5 @@
 import React from "react";
+import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
@@ -19,13 +20,17 @@ function tint(hex, a) {
  * `children` (its own `.dash-card` chrome is collapsed by `.dash-window__body .dash-card`
  * in SCSS so it reads as one panel). Ports the mockup's window markup.
  *
+ * Below the `lg` breakpoint the whole layer restacks into a scrolling column of full-width
+ * cards (see `.dash-windows-layer--stacked`); in that mode we drop the fixed px position/size
+ * so CSS owns layout, and disable dragging (there is nowhere to drag to).
+ *
  * @param {object} win    view-model from useDraggableWindows().mkWin(key):
  *                        { open, left, top, z, onDrag, onClose, onFocus }
  * @param {string} title
  * @param {string} subtitle
  * @param {React.ElementType} icon   MUI icon component (rendered in the grab header)
  * @param {string} accent            hex accent colour for the window
- * @param {number} width             window width in px
+ * @param {number} width             window width in px (ignored when stacked)
  * @param {React.ReactNode} children body content
  */
 export default function DashWindow({
@@ -37,19 +42,20 @@ export default function DashWindow({
   width = 460,
   children,
 }) {
+  const stacked = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+
   if (!win || !win.open) return null;
+
+  // Stacked: let CSS own position + width; floating: place by the drag manager's px.
+  const style = stacked
+    ? { zIndex: win.z, "--win-accent": accent }
+    : { left: win.left, top: win.top, width, zIndex: win.z, "--win-accent": accent };
 
   return (
     <div
-      className="dash-window"
-      style={{
-        left: win.left,
-        top: win.top,
-        width,
-        zIndex: win.z,
-        "--win-accent": accent,
-      }}
-      onPointerDown={win.onFocus}
+      className={`dash-window${stacked ? " dash-window--stacked" : ""}`}
+      style={style}
+      onPointerDown={stacked ? undefined : win.onFocus}
       role="dialog"
       aria-label={title}
     >
@@ -57,9 +63,9 @@ export default function DashWindow({
         className="dash-window__header"
         style={{
           background: `linear-gradient(180deg, ${tint(accent, 0.16)}, transparent)`,
-          cursor: "grab",
+          cursor: stacked ? "default" : "grab",
         }}
-        onPointerDown={win.onDrag}
+        onPointerDown={stacked ? undefined : win.onDrag}
       >
         {Icon && (
           <span className="dash-window__icon" style={{ color: accent }}>
@@ -70,7 +76,9 @@ export default function DashWindow({
           <div className="dash-window__title">{title}</div>
           {subtitle && <div className="dash-window__subtitle">{subtitle}</div>}
         </div>
-        <DragIndicatorIcon className="dash-window__drag" fontSize="inherit" aria-hidden />
+        {!stacked && (
+          <DragIndicatorIcon className="dash-window__drag" fontSize="inherit" aria-hidden />
+        )}
         <IconButton
           className="dash-window__close"
           size="small"

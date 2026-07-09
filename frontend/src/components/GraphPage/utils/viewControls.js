@@ -1,3 +1,5 @@
+import { fitToViewport } from "../../GraphView/cy/fitViewport";
+
 export function createViewControls({ cyInstance, effectiveLayout }) {
   const layoutLabel =
     effectiveLayout?.name === "breadthfirst" ? "Hierarchical Layout" : "Force-Directed Layout";
@@ -10,7 +12,7 @@ export function createViewControls({ cyInstance, effectiveLayout }) {
     cyInstance.nodes().unselect();
 
     try { cyInstance.resize(); } catch {}
-    cyInstance.fit({ padding: 60 });
+    fitToViewport(cyInstance, { reason: "reset" });
 
     if (initial) cyInstance.pan({ x: 0, y: 0 });
   };
@@ -18,15 +20,7 @@ export function createViewControls({ cyInstance, effectiveLayout }) {
   const handleFitView = () => {
     if (!cyInstance || cyInstance.destroyed?.()) return;
     try { cyInstance.resize(); } catch {}
-
-    try {
-      cyInstance.animate({
-        fit: { eles: cyInstance.elements(":visible"), padding: 60 },
-        duration: 300,
-      });
-    } catch {
-      cyInstance.fit({ padding: 60 });
-    }
+    fitToViewport(cyInstance, { reason: "fit-button", animate: true });
   };
 
   const handleApplyLayout = (override) => {
@@ -34,7 +28,7 @@ export function createViewControls({ cyInstance, effectiveLayout }) {
     const opts = override && override.name ? override : effectiveLayout;
     try {
       const l = cyInstance.layout(opts);
-      l.one("layoutstop", () => cyInstance.fit({ padding: 60 }));
+      l.one("layoutstop", () => fitToViewport(cyInstance, { reason: "apply-layout" }));
       l.run();
     } catch {}
   };

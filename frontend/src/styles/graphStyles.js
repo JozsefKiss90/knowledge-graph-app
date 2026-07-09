@@ -101,6 +101,10 @@ export const stylesheet = [
     style: {
       label: "data(label)",
 
+      // Match the UI font (Inter, loaded via Google Fonts in public/index.html)
+      // so node titles read as part of the app, not Cytoscape's generic default.
+      "font-family":
+        "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif",
       "font-size": 10 * FONT_SCALE,
       "font-weight": 400,
 

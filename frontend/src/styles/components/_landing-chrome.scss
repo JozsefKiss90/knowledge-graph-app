@@ -372,7 +372,8 @@ body.light-theme .graph-shell .kg-leftrail__badge {
   position: absolute;
   left: 62px;
   top: 14px;
-  width: 302px;
+  /* Fluid so it never overflows: 62px left offset + 12px right gutter. */
+  width: min(302px, calc(100vw - 74px));
   max-height: calc(100% - 28px);
   display: flex;
   flex-direction: column;
@@ -749,13 +750,13 @@ body.light-theme .graph-shell .kg-leftrail__badge {
    Compact screens
    ========================================================================== */
 
-@media (max-width: 1280px) {
+@include respond-below($bp-xl) {
   .kg-commandbar__search {
     width: 240px;
   }
 }
 
-@media (max-width: 1100px) {
+@include respond-below($bp-lg) {
   .kg-commandbar {
     gap: 8px;
     padding: 0 10px;
@@ -783,5 +784,26 @@ body.light-theme .graph-shell .kg-leftrail__badge {
 @media (max-height: 520px) {
   .kg-commandbar {
     height: 44px;
+  }
+}
+
+/* --- Tablet and below: fold lower-priority command-bar chrome so the fixed
+       52px bar never overflows. Extends the >=1100px compact rules above. --- */
+@include respond-below($bp-md) {
+  /* LEVEL pill is redundant with the breadcrumb at this width. */
+  .kg-commandbar__pill {
+    display: none;
+  }
+}
+
+@include respond-below($bp-sm) {
+  .kg-commandbar {
+    gap: 6px;
+    padding: 0 8px;
+  }
+  /* Secondary graph actions (layout toggles, copy-link, save) fold away.
+     Home, search, dashboard and Reset/Fit stay reachable. */
+  .kg-commandbar__action--secondary {
+    display: none;
   }
 }

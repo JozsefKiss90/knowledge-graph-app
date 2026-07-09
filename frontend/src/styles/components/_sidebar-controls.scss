@@ -16,6 +16,21 @@
   border-left: 1px solid var(--lc-bar-border);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+
+  /* The rail fits the viewport height and scrolls its own tools when a short
+     (landscape) screen can't show them all — so the page itself never scrolls.
+     Thin scrollbar because the rail is only 48px wide. */
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+.sidebar-controls::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-controls::-webkit-scrollbar-thumb {
+  background: var(--lc-hairline);
+  border-radius: 6px;
 }
 
 .graph-shell .sidebar-controls-button {
@@ -122,4 +137,25 @@
   text-transform: uppercase;
   color: var(--lc-text-dim);
   padding: 0 0.3rem;
+}
+
+/* On phones the 208px expanded rail (a desktop affordance) would eat >half the
+   screen — force it back to the compact 48px dock. */
+@include respond-below($bp-sm) {
+  .sidebar-controls--expanded {
+    width: 48px;
+    align-items: center;
+    padding: 8px 0 10px;
+
+    .sidebar-controls-button__label,
+    .sidebar-controls-section-label {
+      display: none;
+    }
+  }
+  .graph-shell .sidebar-controls--expanded .sidebar-controls-button {
+    width: 32px;
+    justify-content: center;
+    gap: 0;
+    padding-left: 0;
+  }
 }

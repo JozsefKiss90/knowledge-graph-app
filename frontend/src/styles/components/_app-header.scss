@@ -2,11 +2,23 @@
 /* App header + logo */
 
 .graph-shell {
-  height: 100vh; /* take exactly the viewport height */
+  height: 100vh; /* fallback: take exactly the viewport height */
   display: flex; /* stack header + main area */
   flex-direction: column;
+  /* Fixed viewport: the shell never scrolls the page. Inner regions (the graph
+     canvas, the sidebar) manage their own overflow. No min-height, so a short
+     (landscape) viewport can't let the shell grow past the screen. */
+  overflow: hidden;
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Use dvh when available so the graph isn't cut off under the mobile browser
+   toolbar (the address bar show/hide changes the usable viewport height). */
+@supports (height: 100dvh) {
+  .graph-shell {
+    height: 100dvh;
+  }
 }
  
 .graph-app-header {

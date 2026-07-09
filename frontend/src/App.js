@@ -10,15 +10,28 @@ import BookmarkedCalls from "./components/BookmarkedCalls";
 import OrgDossier from "./components/OrgDossier";
 import About from "./components/About";
 
+// Soft, dismissible orientation nudge (replaces the old hard landscape gate).
+// The layout is responsive now, so we never block — we only suggest landscape on
+// genuinely small portrait phones, and remember "Continue anyway".
 function RequireLandscape({ children }) {
-  const [isPortrait, setIsPortrait] = useState(false);
+  const [showNudge, setShowNudge] = useState(false);
+  const [dismissed, setDismissed] = useState(() => {
+    try {
+      return localStorage.getItem("kg:orientationNudgeDismissed") === "1";
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
     const compute = () => {
-      // Use both APIs to be resilient across browsers
       const portraitByMQ = window.matchMedia?.("(orientation: portrait)")?.matches;
       const portraitByDims = window.innerHeight > window.innerWidth;
-      setIsPortrait(Boolean(portraitByMQ ?? portraitByDims) || portraitByDims);
+      const isPortrait = Boolean(portraitByMQ ?? portraitByDims) || portraitByDims;
+      // Only nudge on small phones ( < $bp-sm ). Tablets/desktops in portrait are
+      // fine now that the layout adapts.
+      const isNarrow = window.innerWidth < 600;
+      setShowNudge(isPortrait && isNarrow);
     };
 
     compute();
@@ -42,26 +55,39 @@ function RequireLandscape({ children }) {
     }
   };
 
+  const dismiss = () => {
+    setDismissed(true);
+    try {
+      localStorage.setItem("kg:orientationNudgeDismissed", "1");
+    } catch {
+      // ignore storage failures — the nudge just returns next session
+    }
+  };
+
   return (
     <>
       {children}
 
-      {isPortrait && (
-        <div className="orientation-overlay" role="dialog" aria-modal="true">
-          <div className="orientation-overlay__card">
-            <div className="orientation-overlay__title">Rotate your device</div>
-            <div className="orientation-overlay__body">
-              This application is optimized for landscape view on mobile.
-              Please rotate your phone to continue.
+      {showNudge && !dismissed && (
+        <div className="orientation-nudge" role="dialog" aria-label="Rotate for a better view">
+          <div className="orientation-nudge__card">
+            <div className="orientation-nudge__title">Best viewed in landscape</div>
+            <div className="orientation-nudge__body">
+              This is a dense funding map — rotating your phone (or using a larger screen)
+              gives it more room. You can keep going in portrait if you prefer.
             </div>
-
-            <button
-              type="button"
-              className="orientation-overlay__button"
-              onClick={tryLockLandscape}
-            >
-              Switch to landscape
-            </button>
+            <div className="orientation-nudge__actions">
+              <button
+                type="button"
+                className="orientation-nudge__btn orientation-nudge__btn--primary"
+                onClick={tryLockLandscape}
+              >
+                Switch to landscape
+              </button>
+              <button type="button" className="orientation-nudge__btn" onClick={dismiss}>
+                Continue anyway
+              </button>
+            </div>
           </div>
         </div>
       )}

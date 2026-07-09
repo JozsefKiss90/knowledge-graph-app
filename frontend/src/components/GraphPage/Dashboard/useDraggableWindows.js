@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+// Keep at least this many px of a dragged window's top-left corner (its grab
+// header) on-screen, so it can never be dragged fully out of reach.
+const MIN_VISIBLE = 80;
+
 /**
  * Multi-window drag/focus manager for the Portfolio Dashboard's "Explore by theme"
  * floating windows. Ports the mockup's `Component` class (the `Portfolio Dashboard.dc.html`
@@ -47,8 +51,11 @@ export default function useDraggableWindows(keys, initialPos = {}) {
       if (!dragRef.current) return;
       e.preventDefault(); // avoid text selection / scroll while dragging
       const { key, ox, oy } = dragRef.current;
-      const x = Math.max(8, e.clientX - ox);
-      const y = Math.max(8, e.clientY - oy);
+      // Clamp both edges so a window can't be dragged (fully) off any side.
+      const maxX = Math.max(8, window.innerWidth - MIN_VISIBLE);
+      const maxY = Math.max(8, window.innerHeight - MIN_VISIBLE);
+      const x = Math.min(maxX, Math.max(8, e.clientX - ox));
+      const y = Math.min(maxY, Math.max(8, e.clientY - oy));
       setPos((p) => ({ ...p, [key]: { x, y } }));
     };
     const onUp = () => {
