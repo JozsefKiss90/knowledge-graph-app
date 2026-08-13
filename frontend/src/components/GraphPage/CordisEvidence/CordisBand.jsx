@@ -43,7 +43,7 @@ export default function CordisBand({ callId, evidence }) {
   } else if (hasEvidence) {
     const parts = [
       `${count.toLocaleString()} funded project${count === 1 ? "" : "s"}`,
-      formatBudget(ev.totalEcContribution),
+      `${formatBudget(ev.totalEcContribution)} awarded`,
     ];
     const topCountry = ev.topCountries?.[0]?.country;
     if (topCountry) parts.push(`top country ${topCountry}`);
@@ -59,23 +59,46 @@ export default function CordisBand({ callId, evidence }) {
   // nothing would be an inert control (ADR-0006 #2).
   const expandable = hasEvidence;
   const expanded = expandable && open;
+  const toggle = () => setOpen((o) => !o);
+
+  const bodyId = `cordis-band-body-${callId}`;
+  const tabId = (key) => `cordis-band-tab-${key}-${callId}`;
+  const panelId = `cordis-band-panel-${callId}`;
+
+  // Arrow keys move between tabs, as the tablist role promises. Declaring the role without the
+  // keyboard contract is worse than not declaring it.
+  const onTabKeyDown = (e) => {
+    const i = TABS.findIndex((t) => t.key === tab);
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      setTab(TABS[(i + 1) % TABS.length].key);
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      setTab(TABS[(i - 1 + TABS.length) % TABS.length].key);
+    }
+  };
 
   return (
-    <Box className="nd-card nd-cordis-band">
+    <Box className="nd-card nd-cordis-band" component="section" aria-labelledby={`${bodyId}-title`}>
       <Box
         className={`nd-card-header nd-cordis-band__head${
           expandable ? " nd-cordis-band__head--expandable" : ""
         }`}
-        onClick={expandable ? () => setOpen((o) => !o) : undefined}
+        onClick={expandable ? toggle : undefined}
       >
         <Box className="nd-cordis-band__head-main">
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
-            <Typography variant="body2" className="nd-card-title nd-muted-label">
+            <Typography
+              variant="body2"
+              component="h2"
+              id={`${bodyId}-title`}
+              className="nd-card-title nd-muted-label"
+            >
               Funded track record in this area
             </Typography>
             {/* Only stamp the awarded badge when there is a real € in the summary — pre-ingest the
                 line is an honest empty state with no figure to label (ADR-0006 #2/#5). */}
-            {hasEvidence && <MoneyBadge kind="awarded" size="sm" />}
+            {hasEvidence && <MoneyBadge kind="awarded" />}
           </Box>
           <div
             className={`nd-cordis-band__summary${
@@ -84,6 +107,14 @@ export default function CordisBand({ callId, evidence }) {
           >
             {summary}
           </div>
+          {/* The scope qualifier used to live inside the collapsed body, so the default state of
+              the page was the unqualified claim and the correction was opt-in. ADR-0001 requires
+              the "in this area" reading to travel with the figure, so it sits with the summary. */}
+          {hasEvidence && (
+            <div className="nd-cordis-band__scope">
+              In this call’s research area — not funded by this call.
+            </div>
+          )}
         </Box>
         {expandable && (
           <Button
@@ -91,13 +122,20 @@ export default function CordisBand({ callId, evidence }) {
             variant="text"
             className="nd-card-toggle"
             aria-expanded={expanded}
+            aria-controls={bodyId}
+            aria-label={`${expanded ? "Hide" : "Show"} the funded track record in this area`}
+            onClick={(e) => {
+              // The header is also a click target; without this the toggle would fire twice.
+              e.stopPropagation();
+              toggle();
+            }}
           >
             {expanded ? "Hide" : "Show"}
           </Button>
         )}
       </Box>
       {expanded && (
-        <Box className="nd-card-body">
+        <Box className="nd-card-body" id={bodyId}>
           <div className="nd-cordis-band__caveat">
             These figures describe EU-funded activity in this call’s research area — not this call’s own
             budget, scope, or a measure of quality. Organisations funded nationally or privately won’t appear.
@@ -106,17 +144,27 @@ export default function CordisBand({ callId, evidence }) {
             {TABS.map(({ key, label }) => (
               <button
                 key={key}
+                id={tabId(key)}
                 type="button"
                 role="tab"
                 aria-selected={tab === key}
+                aria-controls={panelId}
+                tabIndex={tab === key ? 0 : -1}
                 className={`nd-cordis-band__tab${tab === key ? " nd-cordis-band__tab--active" : ""}`}
                 onClick={() => setTab(key)}
+                onKeyDown={onTabKeyDown}
               >
                 {label}
               </button>
             ))}
           </div>
-          <div className="nd-cordis-band__body">
+          <div
+            className="nd-cordis-band__body"
+            id={panelId}
+            role="tabpanel"
+            tabIndex={0}
+            aria-labelledby={tabId(tab)}
+          >
             {tab === "projects" && <CordisEvidencePanel callId={callId} bare evidence={evidence} />}
             {tab === "orgs" && <CordisPartnersPanel callId={callId} bare />}
           </div>

@@ -259,6 +259,9 @@
   height: 100%;
   border-radius: 4px;
   min-width: 4px;
+  /* Callers set the series colour inline; this fallback exists so a caller that forgets can
+     never again render a chart of invisible rails. */
+  background-color: var(--muted-foreground, #94a3b8);
   transition: width 0.4s ease;
 }
 

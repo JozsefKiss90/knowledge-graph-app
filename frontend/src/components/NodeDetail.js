@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
   Box,
   Button,
@@ -9,10 +9,11 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EuroIcon from "@mui/icons-material/Euro";
 import GroupIcon from "@mui/icons-material/Group";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDarkMode } from "./context/DarkModeContext";
 import "../styles/nodedetails.scss";
@@ -279,14 +280,16 @@ function hasRenderableValue(value) {
   return String(value).trim() !== "";
 }
 
+// Day-month-year: the audience is European and the surface is deadline-critical, so the
+// ambiguous US ordering earns nothing here.
 function formatDateShort(value) {
   if (!value) return "—";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return String(value);
 
-  return d.toLocaleDateString("en-US", {
-    month: "short",
+  return d.toLocaleDateString("en-GB", {
     day: "numeric",
+    month: "short",
     year: "numeric",
   });
 }
@@ -364,33 +367,16 @@ function formatValue(key, value) {
   return value;
 }
 
-function parseMillionFromText(text) {
-  if (!text) return null;
-  const match = String(text).match(/(\d+[.,]?\d*)/);
-  if (!match) return null;
-  const num = parseFloat(match[1].replace(",", "."));
-  return Number.isFinite(num) ? num : null;
-}
-
+// Only ever the figure the work programme actually states. This used to fall back to
+// budget ÷ expected-EU-contribution when the field was absent, which invented a number the
+// work programme never published and presented it as one of its facts — ADR-0006 #1 admits
+// no extrapolation. Absent stays absent.
 function computeIndicativeNumberOfProjects(nodeData) {
-  if (nodeData.indicative_number_of_projects != null) {
-    const val = nodeData.indicative_number_of_projects;
-    const num =
-      typeof val === "number" ? val : parseFloat(String(val).replace(",", "."));
-    if (Number.isFinite(num)) return num;
-  }
+  const val = nodeData.indicative_number_of_projects;
+  if (val == null) return null;
 
-  const totalBudget =
-    typeof nodeData.indicative_budget === "number"
-      ? nodeData.indicative_budget
-      : parseFloat(String(nodeData.indicative_budget || "").replace(",", "."));
-
-  const eu = parseMillionFromText(nodeData.expected_eu_contribution);
-
-  if (!Number.isFinite(totalBudget) || !Number.isFinite(eu) || eu <= 0) return null;
-
-  const projects = Math.round(totalBudget / eu);
-  return Number.isFinite(projects) ? projects : null;
+  const num = typeof val === "number" ? val : parseFloat(String(val).replace(",", "."));
+  return Number.isFinite(num) ? num : null;
 }
 
 function extractTags(nodeData) {
@@ -449,24 +435,48 @@ function getPortalTopicKey(nodeData) {
   );
 }
 
+// `deadlines: ["2026-09-23"]` and `deadline: "2026-09-23T00:00:00+00:00"` are the same day in
+// two encodings, so de-duplicating the raw strings let one deadline render twice — which on a
+// two-stage call is a false signal about the submission model. Key on the calendar day.
 function normalizeDeadlines(nodeData) {
   const arr = Array.isArray(nodeData.deadlines) ? nodeData.deadlines.filter(Boolean) : [];
   const single = nodeData.deadline ? [String(nodeData.deadline)] : [];
   const merged = [...arr, ...single].map((x) => String(x)).filter(Boolean);
-  return Array.from(new Set(merged));
+
+  const seen = new Set();
+  const out = [];
+  for (const raw of merged) {
+    const parsed = parseValidDate(raw);
+    const key = parsed ? parsed.toISOString().slice(0, 10) : raw.trim();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(raw);
+  }
+  return out;
 }
 
 // --- UI helpers -------------------------------------------------------------
 
+let collapsibleSeq = 0;
+
+// Every section used to be a <p> with a "Show" button next to it, which left the page with one
+// heading, no outline, and a run of eleven identical tab stops all announced as "Show". The title
+// is now a real heading, the toggle names the section it governs, and the two are associated.
 const CollapsibleSection = ({ title, defaultOpen = true, children }) => {
   const [open, setOpen] = useState(defaultOpen);
+  const [domId] = useState(() => `nd-sec-${(collapsibleSeq += 1)}`);
 
   if (!children) return null;
 
   return (
-    <Box className="nd-card">
+    <Box className="nd-card" component="section" aria-labelledby={`${domId}-title`}>
       <Box className="nd-card-header nd-card-header--collapsible">
-        <Typography variant="body2" className="nd-card-title nd-muted-label">
+        <Typography
+          variant="body2"
+          component="h2"
+          id={`${domId}-title`}
+          className="nd-card-title nd-muted-label"
+        >
           {title}
         </Typography>
         <Button
@@ -474,11 +484,18 @@ const CollapsibleSection = ({ title, defaultOpen = true, children }) => {
           variant="text"
           className="nd-card-toggle"
           onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          aria-controls={`${domId}-body`}
+          aria-label={`${open ? "Hide" : "Show"} ${title}`}
         >
           {open ? "Hide" : "Show"}
         </Button>
       </Box>
-      {open && <Box className="nd-card-body nd-card-body--text">{children}</Box>}
+      {open && (
+        <Box id={`${domId}-body`} className="nd-card-body nd-card-body--text">
+          {children}
+        </Box>
+      )}
     </Box>
   );
 };
@@ -579,7 +596,7 @@ function inferCallStatus(nodeData, deadlines) {
   return "";
 }
 
-// --- Call brief band (Tier 2.2): fused "Planned vs Funded" framing rows -----
+// --- Call decision header ---------------------------------------------------
 
 // Same € formatter as the CORDIS panels — counts and euros are never mixed.
 function formatBudget(val) {
@@ -590,39 +607,294 @@ function formatBudget(val) {
   return "—";
 }
 
-function CallBriefBand({ viewModel, statusClass, evidence }) {
-  const { status, typeOfAction, typeShort, deadlines } = viewModel;
-  const ev = evidence?.data;
-  const hasCordis = !!ev && (ev.projectCount || 0) > 0;
-  const lastDeadline = deadlines && deadlines.length ? deadlines[deadlines.length - 1] : null;
+function toNumber(value) {
+  if (value == null || value === "") return null;
+  const num = typeof value === "number" ? value : parseFloat(String(value).replace(",", "."));
+  return Number.isFinite(num) ? num : null;
+}
+
+function startOfDay(date) {
+  const d = new Date(date.getTime());
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function daysBetween(from, to) {
+  return Math.round((startOfDay(to) - startOfDay(from)) / 86400000);
+}
+
+function getNextDeadline(deadlines = [], now = new Date()) {
+  return deadlines
+    .map(parseValidDate)
+    .filter(Boolean)
+    .filter((d) => daysBetween(now, d) >= 0)
+    .sort((a, b) => a.getTime() - b.getTime())[0] || null;
+}
+
+/**
+ * The time read the whole decision turns on: not "Sep 23, 2026" but "how long have I got".
+ * Derived only from dates the work programme states — it reports remaining time, it does not
+ * rate the call's chances (ADR-0002 #4: no verdicts).
+ *
+ * `urgent` is a typographic signal for "less than a month left", and is never the only channel:
+ * the sentence itself says how many days.
+ */
+function describeCallTiming(nodeData, deadlines, status, now = new Date()) {
+  const opening = parseValidDate(nodeData?.opening_date);
+  const next = getNextDeadline(deadlines, now);
+
+  if (status === "Forthcoming" && opening) {
+    const days = daysBetween(now, opening);
+    return {
+      text:
+        days === 0
+          ? `Opens today · ${formatDateShort(opening)}`
+          : `Opens in ${days} day${days === 1 ? "" : "s"} · ${formatDateShort(opening)}`,
+      urgent: false,
+    };
+  }
+
+  if (next) {
+    const days = daysBetween(now, next);
+    return {
+      text:
+        days === 0
+          ? `Closes today · ${formatDateShort(next)}`
+          : `Closes in ${days} day${days === 1 ? "" : "s"} · ${formatDateShort(next)}`,
+      urgent: days <= 30,
+    };
+  }
+
+  const last = getLatestDeadline(deadlines);
+  if (last) return { text: `Closed ${formatDateShort(last)}`, urgent: false };
+  return null;
+}
+
+/**
+ * Where this call sits in the work programme — the structure that the flat official portal
+ * cannot show, and which was previously reachable only as a truncated link in a sidebar card.
+ * Every level comes from data already on the node or from the HAS_CALL edge; nothing is inferred.
+ */
+function buildProgrammeTrail({ nodeData, relations, connectedNodes }) {
+  const trail = [];
+  const ownName = String(nodeData?.name || "").trim().toLowerCase();
+  // A step that just repeats the title (some records carry call_title === name) is noise, and
+  // so is a level repeated twice.
+  const push = (value) => {
+    const text = String(value || "").trim();
+    if (!text) return;
+    const key = text.toLowerCase();
+    if (key === ownName) return;
+    if (trail.some((t) => t.toLowerCase() === key)) return;
+    trail.push(text);
+  };
+
+  const source = formatValue("source", nodeData?.source || "");
+  if (source !== "—") push(source);
+
+  const parentId = (Array.isArray(relations) ? relations : []).find(
+    (r) => r?.target === nodeData?.id && String(r?.type || "").toUpperCase() === "HAS_CALL"
+  )?.source;
+  push(
+    (parentId && connectedNodes?.[parentId]?.name) ||
+      (typeof nodeData?.group_value === "string" ? nodeData.group_value : "")
+  );
+
+  const parentCall = [nodeData?.call_identifier, nodeData?.call_title]
+    .map((x) => (typeof x === "string" ? x.trim() : ""))
+    .filter(Boolean)
+    .filter((x) => x.toLowerCase() !== ownName);
+  push(parentCall.join(" · "));
+
+  return trail;
+}
+
+function StatusPill({ status, statusKey }) {
+  if (!status) return null;
+  // The dot's shape (filled / hollow / barred) repeats what the word says, so the state never
+  // rides on hue alone.
   return (
-    <Box className="nd-card nd-brief-band">
-      <div className="nd-brief-band__row nd-brief-band__row--planned">
-        <span className="nd-brief-band__row-label">Planned — on offer (work programme)</span>
-        <div className="nd-brief-band__facts">
-          {status && <Chip label={status} size="small" className={`nd-chip nd-chip--status ${statusClass}`} />}
-          {typeShort && <Chip label={typeShort} size="small" className="nd-chip nd-chip--kind" />}
-          {typeOfAction && <span className="nd-brief-band__fact">{typeOfAction}</span>}
-          {lastDeadline && <span className="nd-brief-band__fact">Deadline {formatDateShort(lastDeadline)}</span>}
-        </div>
+    <span className={`nd-status nd-status--${statusKey || "unknown"}`}>
+      <span className="nd-status__dot" aria-hidden="true" />
+      {status}
+    </span>
+  );
+}
+
+/**
+ * The decision header: everything needed to judge "is this worth committing to" before any
+ * scrolling — where it sits, what it is, how long is left, what is on offer, and the one
+ * primary action. The awarded half is deliberately NOT restated here; it lives in the evidence
+ * band directly below, which owns the "in this area" qualifier (ADR-0001).
+ */
+function CallDecisionHeader({
+  viewModel,
+  nodeData,
+  trail,
+  timing,
+  officialCallPageUrl,
+  bookmarked,
+  onBookmark,
+  announcement,
+}) {
+  const {
+    title,
+    status,
+    statusKey,
+    typeOfAction,
+    portalKey,
+    indicativeProjects,
+    minContributionNum,
+    maxContributionNum,
+    totalBudgetNum,
+    deadlines,
+  } = viewModel;
+
+  const openingDate = nodeData?.opening_date;
+
+  const contributionRange =
+    minContributionNum != null && maxContributionNum != null
+      ? minContributionNum === maxContributionNum
+        ? formatBudget(minContributionNum)
+        : `${formatBudget(minContributionNum)} – ${formatBudget(maxContributionNum)}`
+      : minContributionNum != null
+      ? `From ${formatBudget(minContributionNum)}`
+      : maxContributionNum != null
+      ? `Up to ${formatBudget(maxContributionNum)}`
+      : null;
+
+  return (
+    <section className="nd-callhead" aria-labelledby="nd-call-title">
+      {trail.length > 0 && (
+        <nav className="nd-callhead__trail" aria-label="Work programme location">
+          {trail.map((step, i) => (
+            <React.Fragment key={`${step}-${i}`}>
+              {i > 0 && <span className="nd-callhead__trail-sep" aria-hidden="true">›</span>}
+              <span className="nd-callhead__trail-step">{step}</span>
+            </React.Fragment>
+          ))}
+        </nav>
+      )}
+
+      <h1 id="nd-call-title" className="nd-callhead__title">
+        {title}
+      </h1>
+
+      <div className="nd-callhead__identity">
+        {portalKey && <span className="nd-callhead__topic">{portalKey}</span>}
+        {typeOfAction && <span className="nd-callhead__type">{typeOfAction}</span>}
       </div>
-      <div className="nd-brief-band__row nd-brief-band__row--funded">
-        <span className="nd-brief-band__row-label">Funded — awarded (CORDIS)</span>
-        {evidence?.loading ? (
-          <span className="nd-brief-band__muted">Checking CORDIS…</span>
-        ) : hasCordis ? (
-          <div className="nd-brief-band__facts">
-            <span className="nd-brief-band__fact"><strong>{ev.projectCount.toLocaleString()}</strong> funded projects</span>
-            <span className="nd-brief-band__fact"><strong>{formatBudget(ev.totalEcContribution)}</strong> EU contribution</span>
-            {ev.topOrganisations?.length > 0 && (
-              <span className="nd-brief-band__fact">Most active: {ev.topOrganisations[0].name}</span>
-            )}
-          </div>
-        ) : (
-          <span className="nd-brief-band__muted">No awarded-project data for this research area yet.</span>
+
+      <div className="nd-callhead__state">
+        <StatusPill status={status} statusKey={statusKey} />
+        {timing && (
+          <span
+            className={`nd-callhead__timing${
+              timing.urgent ? " nd-callhead__timing--urgent" : ""
+            }`}
+          >
+            {timing.text}
+          </span>
         )}
       </div>
-    </Box>
+
+      <div className="nd-callhead__halves">
+        <div className="nd-callhead__half nd-callhead__half--offer">
+          <div className="nd-callhead__half-head">
+            <h2 className="nd-callhead__half-title">On offer</h2>
+            <MoneyBadge kind="advertised" />
+          </div>
+          <dl className="nd-callhead__facts">
+            {totalBudgetNum != null && (
+              <div className="nd-callhead__fact">
+                <dt>Indicative budget on offer</dt>
+                <dd>{formatBudget(totalBudgetNum)}</dd>
+              </div>
+            )}
+            {contributionRange && (
+              <div className="nd-callhead__fact">
+                <dt>EU contribution per project</dt>
+                <dd>{contributionRange}</dd>
+              </div>
+            )}
+            {indicativeProjects != null && (
+              <div className="nd-callhead__fact">
+                <dt>Projects expected</dt>
+                <dd>{indicativeProjects.toLocaleString()}</dd>
+              </div>
+            )}
+            {totalBudgetNum == null && !contributionRange && indicativeProjects == null && (
+              <div className="nd-callhead__fact nd-callhead__fact--empty">
+                <dd>The work programme states no budget figures for this call.</dd>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        <div className="nd-callhead__half nd-callhead__half--time">
+          <div className="nd-callhead__half-head">
+            <h2 className="nd-callhead__half-title">Timeline</h2>
+          </div>
+          <dl className="nd-callhead__facts">
+            {openingDate && (
+              <div className="nd-callhead__fact">
+                <dt>Opens</dt>
+                <dd>{formatDateShort(openingDate)}</dd>
+              </div>
+            )}
+            {deadlines.length > 0 ? (
+              <div className="nd-callhead__fact">
+                <dt>{deadlines.length > 1 ? "Deadlines" : "Deadline"}</dt>
+                <dd>
+                  {deadlines.map((dl, idx) => (
+                    <span key={`${dl}-${idx}`} className="nd-callhead__date">
+                      {formatDateShort(dl)}
+                    </span>
+                  ))}
+                </dd>
+              </div>
+            ) : (
+              !openingDate && (
+                <div className="nd-callhead__fact nd-callhead__fact--empty">
+                  <dd>No dates published for this call yet.</dd>
+                </div>
+              )
+            )}
+          </dl>
+        </div>
+      </div>
+
+      <div className="nd-callhead__actions">
+        {officialCallPageUrl && (
+          <Button
+            className="nd-cta nd-cta--primary"
+            startIcon={<OpenInNewIcon fontSize="small" />}
+            aria-label="Open the official call page on the EU Funding & Tenders portal (opens in a new tab)"
+            onClick={() => window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")}
+          >
+            Official call page
+          </Button>
+        )}
+        <Button
+          className="nd-cta nd-cta--secondary"
+          startIcon={
+            bookmarked ? (
+              <BookmarkIcon fontSize="small" />
+            ) : (
+              <BookmarkBorderIcon fontSize="small" />
+            )
+          }
+          aria-pressed={bookmarked}
+          aria-label={bookmarked ? "Bookmarked — already saved" : "Bookmark this call"}
+          onClick={onBookmark}
+        >
+          {bookmarked ? "Bookmarked" : "Bookmark"}
+        </Button>
+        <span className="nd-callhead__announce" role="status">
+          {announcement}
+        </span>
+      </div>
+    </section>
   );
 }
 
@@ -769,12 +1041,19 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
     const typeOfAction = nodeData.type_of_action || "";
     const typeShort = computeTypeShort(typeOfAction);
     const status = inferCallStatus(nodeData, deadlines);
+    const statusKey = String(status || "").toLowerCase() || "unknown";
     const { tags, provenance: tagsProvenance } = extractTags(nodeData);
 
     const minContribution = formatValue("min_contribution", nodeData.min_contribution);
     const maxContribution = formatValue("max_contribution", nodeData.max_contribution);
     const totalBudget = formatValue("indicative_budget", nodeData.indicative_budget);
     const indicativeProjects = computeIndicativeNumberOfProjects(nodeData);
+
+    // Raw numbers for the header's compact reads; the Key Information card keeps the exact,
+    // fully-written figures so precision is never lost, only re-ranked.
+    const minContributionNum = toNumber(nodeData.min_contribution);
+    const maxContributionNum = toNumber(nodeData.max_contribution);
+    const totalBudgetNum = toNumber(nodeData.indicative_budget);
 
     const trlText =
       nodeData.technology_readiness_level ||
@@ -794,11 +1073,15 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
       typeOfAction,
       typeShort,
       status,
+      statusKey,
       tags,
       tagsProvenance,
       minContribution,
       maxContribution,
       totalBudget,
+      minContributionNum,
+      maxContributionNum,
+      totalBudgetNum,
       indicativeProjects,
       trlText,
       expectedEUContribution,
@@ -811,6 +1094,53 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
   }, [nodeData]);
 
   const cordisEvidence = useCordisEvidence(viewModel?.kind === "call" ? (nodeData?.id || id) : null);
+
+  // The bookmark used to be write-only: it wrote to localStorage, announced itself through a
+  // native alert(), and then looked exactly the same on return, so a returning advisor could not
+  // tell whether the call was already saved. Same mechanism, now with state and a quiet
+  // in-place confirmation.
+  const bookmarkId = nodeData?.id || id || null;
+  const [bookmarked, setBookmarked] = useState(false);
+  const [bookmarkNote, setBookmarkNote] = useState("");
+
+  useEffect(() => {
+    if (!bookmarkId) return;
+    const read = () => {
+      try {
+        const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
+        setBookmarked(
+          Array.isArray(stored) && stored.some((item) => item?.id === bookmarkId)
+        );
+      } catch (err) {
+        setBookmarked(false);
+      }
+    };
+    read();
+    window.addEventListener("bookmarksChanged", read);
+    return () => window.removeEventListener("bookmarksChanged", read);
+  }, [bookmarkId]);
+
+  const handleBookmark = useCallback(() => {
+    if (!bookmarkId) return;
+    let stored = [];
+    try {
+      stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
+    } catch (err) {
+      stored = [];
+    }
+    if (!Array.isArray(stored)) stored = [];
+
+    if (stored.some((item) => item?.id === bookmarkId)) {
+      setBookmarkNote("Already bookmarked.");
+      return;
+    }
+
+    stored.push({ id: bookmarkId, name: nodeData?.name });
+    localStorage.setItem("bookmarkedCalls", JSON.stringify(stored));
+    window.dispatchEvent(new Event("bookmarksChanged"));
+    setBookmarked(true);
+    setBookmarkNote("Bookmarked.");
+  }, [bookmarkId, nodeData?.name]);
 
   // Resolve [[wikilinks]] in the body against this node's fetched neighbors,
   // so curated/contextual links navigate to the target entity's detail page.
@@ -834,7 +1164,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               state: { returnGraphName: "HE_2025", graphName: "HE_2025", nodeData: resolved.data },
             });
           }}
-          style={{ color: "#4f9dff", textDecoration: "underline", cursor: "pointer" }}
+          className="nd-wikilink"
         >
           {display}
         </a>
@@ -872,7 +1202,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               onClick={handleBackToGraph}
               className="nd-back-button"
             >
-              Back to Graph
+              Back
             </Button>
             <span className="nd-header-divider" />
             {entityLabel && <Chip label={entityLabel} size="small" className="nd-chip nd-chip--kind" />}
@@ -1013,7 +1343,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               onClick={handleBackToGraph}
               className="nd-back-button"
             >
-              Back to Graph
+              Back
             </Button>
             <span className="nd-header-divider" />
             <Chip label="Destination" size="small" className="nd-chip nd-chip--kind" />
@@ -1092,9 +1422,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
   }
 
   const {
-    title,
     typeOfAction,
-    typeShort,
     status,
     tags,
     tagsProvenance,
@@ -1105,139 +1433,111 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
     trlText,
     expectedEUContribution,
     deadlines,
-    openingDate,
-    source,
     portalKey,
   } = viewModel;
 
   const officialCallPageUrl = buildOfficialCallPageUrl(portalKey);
-  const statusKey = String(status || "").toLowerCase();
-  const statusClass =
-    statusKey === "open"
-      ? "nd-chip--status-open"
-      : statusKey === "forthcoming"
-      ? "nd-chip--status-forthcoming"
-      : "nd-chip--status-closed";
+  const programmeTrail = buildProgrammeTrail({ nodeData, relations, connectedNodes });
+  const timing = describeCallTiming(nodeData, deadlines, status);
 
-  const handleBookmark = () => {
-    if (!nodeData.id) return;
-    const stored = JSON.parse(localStorage.getItem("bookmarkedCalls") || "[]");
-    const exists = stored.find((item) => item.id === nodeData.id);
-    if (!exists) {
-      stored.push({ id: nodeData.id, name: nodeData.name });
-      localStorage.setItem("bookmarkedCalls", JSON.stringify(stored));
-      window.dispatchEvent(new Event("bookmarksChanged"));
-      // eslint-disable-next-line no-alert
-      alert("Call bookmarked!");
-    } else {
-      // eslint-disable-next-line no-alert
-      alert("Already bookmarked.");
-    }
-  };
+  // Field chips are only a control where something is actually wired to them (the embedded view
+  // passes a handler). On the standalone route nothing is, so they render as plain metadata
+  // rather than as the most CTA-shaped object on the page — ADR-0006 #2: an inert control lies
+  // about what interacting will do.
+  const fieldsAreNavigable =
+    tagsProvenance === "fields" && typeof onOpenResearchFields === "function";
 
   return (
     <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
       <header className="nd-header">
         <Box className="nd-header-left">
-          <Button 
+          <Button
             size="small"
-            variant="text" 
+            variant="text"
             startIcon={<ArrowBackIcon fontSize="small" />}
             onClick={handleBackToGraph}
             className="nd-back-button"
+            aria-label="Back to the funding map"
           >
-            Back to Graph
+            Back
           </Button>
-
-          <span className="nd-header-divider" />
-
-          {typeShort && <Chip label={typeShort} size="small" className="nd-chip nd-chip--kind" />}
-
-         {status && (
-            <Chip
-              label={status}
-              size="small"
-              className={`nd-chip nd-chip--status ${statusClass}`}
-            />
-          )}
         </Box>
       </header>
 
       <main className="nd-main">
         <div className="nd-main-inner">
-          <Box className="nd-title-block">
-            <Box className="nd-title-dot" />
-            <Box className="nd-title-text">
-              <Typography
-                variant="h1"
-                className="nd-title"
-                sx={{
-                  fontSize: "var(--text-2xl)",
-                  fontWeight: 600,
-                  lineHeight: 1.4,
-                  letterSpacing: "-0.01em",
-                  wordBreak: "break-word",
-                }}
-              >
-                {title}
-              </Typography>
-
-              {(nodeData.identifier || nodeData.topic_id || nodeData.call_id) && (
-                <Typography variant="body2" className="nd-call-id">
-                  {formatLabel(nodeData.identifier ? "identifier" : nodeData.topic_id ? "topic_id" : "call_id")}:{" "}
-                  {nodeData.identifier || nodeData.topic_id || nodeData.call_id}
-                </Typography>
-              )}
-            </Box>
-          </Box>
-
-          {tags.length > 0 && (
-            <Box className="nd-tags-section">
-              <Typography
-                variant="caption"
-                className="nd-muted-label nd-tags-label"
-              >
-                {tagsProvenance === "fields"
-                  ? "Research fields (CORDIS · EuroSciVoc)"
-                  : "Keywords (work programme)"}
-              </Typography>
-              <Box className="nd-tags-row">
-              {tags.map((tag) => (
-                <Chip
-                  key={tag}
-                  label={tag}
-                  size="small"
-                  className="nd-tag-chip"
-                  variant="filled"
-                  onClick={
-                    tagsProvenance === "fields" && typeof onOpenResearchFields === "function"
-                      ? () => onOpenResearchFields(tag)
-                      : undefined
-                  }
-                  clickable={tagsProvenance === "fields" && typeof onOpenResearchFields === "function"}
-                />
-                ))}
-              </Box>
-            </Box>
-          )}
-
-          <CallBriefBand viewModel={viewModel} statusClass={statusClass} evidence={cordisEvidence} />
+          <CallDecisionHeader
+            viewModel={viewModel}
+            nodeData={nodeData}
+            trail={programmeTrail}
+            timing={timing}
+            officialCallPageUrl={officialCallPageUrl}
+            bookmarked={bookmarked}
+            onBookmark={handleBookmark}
+            announcement={bookmarkNote}
+          />
 
           <div className="nd-grid">
             <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
-              <Box className="nd-card">
+              {/* The awarded half sits first in the column so it is adjacent to the on-offer half
+                  in the decision header — the two halves read together, which is the whole point
+                  of the join (ADR-0001). */}
+              {viewModel.kind === "call" && (
+                <CordisBand callId={nodeData.id || id} evidence={cordisEvidence} />
+              )}
+
+              {tags.length > 0 && (
+                <Box className="nd-tags-section">
+                  <Typography
+                    variant="caption"
+                    className="nd-muted-label nd-tags-label"
+                    component="h2"
+                  >
+                    {tagsProvenance === "fields"
+                      ? "Research fields (CORDIS · EuroSciVoc)"
+                      : "Keywords (work programme)"}
+                  </Typography>
+                  <Box className="nd-tags-row">
+                    {tags.map((tag) =>
+                      fieldsAreNavigable ? (
+                        <Chip
+                          key={tag}
+                          label={tag}
+                          size="small"
+                          className="nd-tag-chip nd-tag-chip--action"
+                          variant="filled"
+                          onClick={() => onOpenResearchFields(tag)}
+                          clickable
+                          aria-label={`Explore the research field ${tag}`}
+                        />
+                      ) : (
+                        <span key={tag} className="nd-tag-chip nd-tag-chip--static">
+                          {tag}
+                        </span>
+                      )
+                    )}
+                  </Box>
+                </Box>
+              )}
+
+              <Box className="nd-card" component="section" aria-labelledby="nd-keyinfo-title">
                 <Box
                   className="nd-card-header"
                   sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}
                 >
-                  <Typography variant="body2" className="nd-card-title nd-muted-label">
-                    Key Information
+                  <Typography
+                    variant="body2"
+                    component="h2"
+                    id="nd-keyinfo-title"
+                    className="nd-card-title nd-muted-label"
+                  >
+                    Key information
                   </Typography>
                   {/* The budget figures below (contributions, total budget, expected EU
                       contribution) are the work programme's indicative amounts on offer — never
                       awarded euros (ADR-0006 #5). Stamp the group so no figure is mistaken for
                       the CORDIS awarded half. */}
-                  <MoneyBadge kind="advertised" size="sm" />
+                  <MoneyBadge kind="advertised" />
                 </Box>
 
                 <Box className="nd-card-body">
@@ -1245,7 +1545,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                     <div className="nd-metric">
                       <div className="nd-metric-label">
                         <EuroIcon fontSize="small" className="nd-metric-icon" />
-                        <span>Min Contribution</span>
+                        <span>Minimum EU contribution per project</span>
                       </div>
                       <div className="nd-metric-value">{minContribution}</div>
                     </div>
@@ -1253,7 +1553,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                     <div className="nd-metric">
                       <div className="nd-metric-label">
                         <EuroIcon fontSize="small" className="nd-metric-icon" />
-                        <span>Max Contribution</span>
+                        <span>Maximum EU contribution per project</span>
                       </div>
                       <div className="nd-metric-value">{maxContribution}</div>
                     </div>
@@ -1261,7 +1561,8 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                     <div className="nd-metric">
                       <div className="nd-metric-label">
                         <EuroIcon fontSize="small" className="nd-metric-icon" />
-                        <span>Total Budget</span>
+                        {/* Q6.2 / ADR-0006 #5: this is money on offer, never money committed. */}
+                        <span>Indicative budget on offer</span>
                       </div>
                       <div className="nd-metric-value">{totalBudget}</div>
                     </div>
@@ -1269,10 +1570,10 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                     <div className="nd-metric">
                       <div className="nd-metric-label">
                         <GroupIcon fontSize="small" className="nd-metric-icon" />
-                        <span>Indicative Projects</span>
+                        <span>Indicative number of projects</span>
                       </div>
                       <div className="nd-metric-value">
-                        {indicativeProjects != null ? indicativeProjects.toLocaleString() : "—"}
+                        {indicativeProjects != null ? indicativeProjects.toLocaleString() : "Not stated"}
                       </div>
                     </div>
 
@@ -1314,10 +1615,15 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               </Box>
 
               {trlText && (
-                <Box className="nd-card">
+                <Box className="nd-card" component="section" aria-labelledby="nd-trl-title">
                   <Box className="nd-card-header">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
-                      Technology Readiness Level
+                    <Typography
+                      variant="body2"
+                      component="h2"
+                      id="nd-trl-title"
+                      className="nd-card-title nd-muted-label"
+                    >
+                      Technology readiness level
                     </Typography>
                   </Box>
                   <Box className="nd-card-body nd-card-body--text">
@@ -1326,10 +1632,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                     </Typography>
                   </Box>
                 </Box>
-              )}
-
-              {viewModel.kind === "call" && (
-                <CordisBand callId={nodeData.id || id} evidence={cordisEvidence} />
               )}
 
               {textFieldConfig.map(({ key, label }) => (
@@ -1347,92 +1649,21 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               ))}
             </div>
 
+            {/* Timeline, the primary action and the bookmark used to live here, which is why at
+                1024px — where this column reflows below a long main column — the apply link
+                landed at 82% page depth. They belong to the decision, so they moved into the
+                header and are not restated. The "Source: Cluster N" card went with them: the
+                same fact now opens the programme trail, and its old label collided with the
+                evidence band's "Source: EU CORDIS". */}
             <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
-              {(openingDate || (deadlines && deadlines.length > 0)) && (
-                <Box className="nd-card">
-                  <Box className="nd-card-header">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
-                      Timeline
-                    </Typography>
-                  </Box>
-
-              <Box className="nd-card-body">
-                {openingDate && (
-                  <Box className="nd-timeline-row">
-                    <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
-                    <Box className="nd-timeline-content">
-                      <Typography variant="body2" className="nd-timeline-label">
-                        Opening Date
-                      </Typography>
-                      <Typography variant="caption" className="nd-timeline-date">
-                        {formatDateShort(openingDate)}
-                      </Typography>
-                    </Box>
-                  </Box>
-                )}
-
-                {deadlines && deadlines.length > 0 && (
-                  <Box className="nd-timeline-row">
-                    <CalendarTodayIcon fontSize="small" className="nd-timeline-icon" />
-                    <Box className="nd-timeline-content">
-                      <Typography variant="body2" className="nd-timeline-label">
-                        Application Deadline{deadlines.length > 1 ? "s" : ""}
-                      </Typography>
-                      {deadlines.map((dl, idx) => (
-                        <Typography
-                          key={`${dl}-${idx}`}
-                          variant="caption"
-                          className="nd-timeline-date"
-                          display="block"
-                        >
-                          {formatDateShort(dl)}
-                        </Typography>
-                      ))}
-                    </Box>
-                  </Box>
-                )}
-
-                {officialCallPageUrl && (
-                  <Box className="nd-card-action">
-                    <Button
-                      fullWidth
-                      size="medium"
-                      variant="contained"
-                      className="nd-primary-button nd-primary-button--official"
-                      startIcon={<OpenInNewIcon fontSize="small" />}
-                      onClick={() =>
-                        window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")
-                      }
-                    >
-                      Official Call Page
-                    </Button>
-                  </Box>
-                )}
-              </Box>
-                </Box>
-              )}
-
-              <Box className="nd-card">
-                <Box className="nd-card-header">
-                  <Typography variant="body2" className="nd-card-title nd-muted-label">
-                    Actions
-                  </Typography>
-                </Box>
-                <Box className="nd-card-body nd-actions">
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    className="nd-secondary-button nd-secondary-button--bookmark"
-                    onClick={handleBookmark}
-                  >
-                    Bookmark this Call
-                  </Button>
-                </Box>
-              </Box>
-
-              <Box className="nd-card">
+              <Box className="nd-card" component="section" aria-labelledby="nd-connections-title">
                 <Box className="nd-card-header nd-card-header--with-icon">
-                  <Typography variant="body2" className="nd-card-title nd-muted-label">
+                  <Typography
+                    variant="body2"
+                    component="h2"
+                    id="nd-connections-title"
+                    className="nd-card-title nd-muted-label"
+                  >
                     Connections
                   </Typography>
                   <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
@@ -1441,20 +1672,6 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                   <NodeConnections id={id} relations={relations} connectedNodes={connectedNodes} bare />
                 </Box>
               </Box>
-
-              {source && source !== "—" && (
-                <Box className="nd-card">
-                  <Box className="nd-card-header">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
-                      Source
-                    </Typography>
-                  </Box>
-                  <Box className="nd-card-body nd-card-body--row">
-                    <InfoOutlinedIcon fontSize="small" className="nd-timeline-icon" />
-                    <Typography variant="body2">{formatValue("source", source)}</Typography>
-                  </Box>
-                </Box>
-              )}
             </aside>
           </div>
         </div>

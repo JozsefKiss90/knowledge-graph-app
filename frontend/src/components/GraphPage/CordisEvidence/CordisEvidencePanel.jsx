@@ -80,9 +80,15 @@ export default function CordisEvidencePanel({ callId, bare = false, evidence }) 
               <div key={f.fp} className="dash-funding__row">
                 <span className="dash-funding__label">{FP_LABEL[f.fp] || f.fp}</span>
                 <div className="dash-funding__bar-track">
+                  {/* Every other caller of this class passes its colour inline and the class
+                      itself has no background, so this chart rendered as empty rails. Awarded
+                      data, awarded green (DESIGN.md, the Two-Halves rule). */}
                   <div
                     className="dash-funding__bar-fill"
-                    style={{ width: `${Math.max((f.n / fpMax) * 100, 2)}%` }}
+                    style={{
+                      width: `${Math.max((f.n / fpMax) * 100, 2)}%`,
+                      backgroundColor: "var(--nd-awarded, #35d07f)",
+                    }}
                   />
                 </div>
                 <span className="dash-funding__value">

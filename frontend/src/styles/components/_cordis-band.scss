@@ -29,6 +29,32 @@
   font-style: italic;
   color: var(--foreground-muted);
 }
+
+/* The ADR-0001 qualifier, travelling with the figure instead of behind the toggle. */
+.nd-cordis-band__scope {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--foreground-muted);
+}
+
+/* The Awarded half is keyed green, mirroring the blue On-offer half in the decision header.
+   Colour is the fourth channel here: the title, the "Awarded · CORDIS" badge and the position
+   already carry the distinction. */
+.nd-cordis-band {
+  border-color: rgba(34, 178, 94, 0.28) !important;
+}
+
+/* These four lines read from the global --foreground-muted, which is tuned for the dark shell.
+   Inside the call detail's own daylight palette they came out near-white on white. */
+.nd-shell--light .nd-cordis-band {
+  .nd-cordis-band__scope,
+  .nd-cordis-band__caveat,
+  .nd-cordis-band__prov,
+  .nd-cordis-band__summary--muted {
+    color: #587097;
+  }
+}
 .nd-cordis-band__caveat {
   font-size: 12px;
   color: var(--foreground-muted);
@@ -55,14 +81,32 @@
   border-radius: 8px;
   color: var(--muted-foreground, #94a3b8);
   cursor: pointer;
+
+  /* Signal Blue, not `var(--primary)`. The global --primary is still the legacy Vision-UI
+     purple (#7551ff), so this - the component DESIGN.md specs as "active = Signal Blue fill" -
+     was the loudest surviving instance of the retired accent. #1f6feb rather than #47a9ff so
+     white text on the fill clears AA (4.6:1 vs 2.5:1). */
   &--active {
-    background: var(--primary, #3d8fff);
+    background: #1f6feb;
     color: #fff;
   }
+
+  &:focus-visible {
+    outline: 2px solid #7bc0ff;
+    outline-offset: 2px;
+  }
 }
-.light-theme .nd-cordis-band__tab--active {
-  background: var(--primary-dark);
+.light-theme .nd-cordis-band__tab--active,
+.nd-shell--light .nd-cordis-band__tab--active {
+  background: #1f6feb;
+  color: #fff;
 }
+/* In the band's narrower column the "329 · €1.0B" readout wrapped onto two lines, which
+   staggered the bar rows out of alignment. */
+.nd-cordis-band .dash-funding__value {
+  white-space: nowrap;
+}
+
 .nd-cordis-band__prov {
   margin-top: 14px;
   padding-top: 10px;

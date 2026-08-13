@@ -1,0 +1,143 @@
+- generic [ref=f16e4]:
+  - banner [ref=f16e8]:
+    - button "Back to the funding map" [ref=f16e10] [cursor=pointer]: Back
+  - main [ref=f16e14]:
+    - generic [ref=f16e15]:
+      - region [ref=f16e16]:
+        - navigation "Work programme location" [ref=f16e17]:
+          - generic [ref=f16e18]: Cluster 2
+          - generic [ref=f16e19]: ›
+          - generic [ref=f16e20]: Innovative Research on European Cultural Heritage and Cultural and
+          - generic [ref=f16e21]: ›
+          - generic [ref=f16e22]: HORIZON-CL2-2026-01 · Culture, Creativity and Inclusive Society 2026
+        - heading "Boosting creative startups for disruptive innovation" [level=1] [ref=f16e23]
+        - generic [ref=f16e24]:
+          - generic [ref=f16e25]: HORIZON-CL2-2026-01-HERITAGE-02
+          - generic [ref=f16e26]: HORIZON-IA HORIZON Innovation Actions
+        - generic [ref=f16e27]:
+          - generic [ref=f16e28]: Open
+          - generic [ref=f16e30]: Closes in 41 days · 23 Sept 2026
+        - generic [ref=f16e31]:
+          - generic [ref=f16e32]:
+            - generic [ref=f16e33]:
+              - heading "On offer" [level=2] [ref=f16e34]
+              - generic "Indicative work-programme budget on offer — not awarded" [ref=f16e35]: Indicative · on offer
+            - generic [ref=f16e36]:
+              - generic [ref=f16e37]:
+                - term [ref=f16e38]: Indicative budget on offer
+                - definition [ref=f16e39]: €12.0M
+              - generic [ref=f16e40]:
+                - term [ref=f16e41]: EU contribution per project
+                - definition [ref=f16e42]: €5.0M – €6.0M
+              - generic [ref=f16e43]:
+                - term [ref=f16e44]: Projects expected
+                - definition [ref=f16e45]: "2"
+          - generic [ref=f16e46]:
+            - heading "Timeline" [level=2] [ref=f16e48]
+            - generic [ref=f16e49]:
+              - generic [ref=f16e50]:
+                - term [ref=f16e51]: Opens
+                - definition [ref=f16e52]: 12 May 2026
+              - generic [ref=f16e53]:
+                - term [ref=f16e54]: Deadline
+                - definition [ref=f16e55]:
+                  - generic [ref=f16e56]: 23 Sept 2026
+        - generic [ref=f16e57]:
+          - button "Open the official call page on the EU Funding & Tenders portal (opens in a new tab)" [ref=f16e58] [cursor=pointer]: Official call page
+          - button "Bookmarked — already saved" [active] [pressed] [ref=f16e62] [cursor=pointer]: Bookmarked
+          - status [ref=f16e66]: Bookmarked.
+      - generic [ref=f16e67]:
+        - generic [ref=f16e68]:
+          - region [ref=f16e69]:
+            - generic [ref=f16e70] [cursor=pointer]:
+              - generic [ref=f16e71]:
+                - generic [ref=f16e72]:
+                  - heading "Funded track record in this area" [level=2] [ref=f16e73]
+                  - 'generic "Real euros already awarded to funded projects — Source: EU CORDIS" [ref=f16e74]': Awarded · CORDIS
+                - generic [ref=f16e75]: 668 funded projects · €2.0B awarded · top country DE
+                - generic [ref=f16e76]: In this call’s research area — not funded by this call.
+              - button "Show the funded track record in this area" [ref=f16e77]: Show
+          - generic [ref=f16e78]:
+            - heading "Research fields (CORDIS · EuroSciVoc)" [level=2] [ref=f16e79]
+            - generic [ref=f16e80]:
+              - generic [ref=f16e81]: business models
+              - generic [ref=f16e82]: entrepreneurship
+              - generic [ref=f16e83]: software
+              - generic [ref=f16e84]: employment
+              - generic [ref=f16e85]: internet
+              - generic [ref=f16e86]: arts
+          - region [ref=f16e87]:
+            - generic [ref=f16e88]:
+              - heading "Key information" [level=2] [ref=f16e89]
+              - generic "Indicative work-programme budget on offer — not awarded" [ref=f16e90]: Indicative · on offer
+            - generic [ref=f16e92]:
+              - generic [ref=f16e93]:
+                - generic [ref=f16e94]: Minimum EU contribution per project
+                - generic [ref=f16e98]: 5 000 000 €
+              - generic [ref=f16e99]:
+                - generic [ref=f16e100]: Maximum EU contribution per project
+                - generic [ref=f16e104]: 6 000 000 €
+              - generic [ref=f16e105]:
+                - generic [ref=f16e106]: Indicative budget on offer
+                - generic [ref=f16e110]: 12 000 000 €
+              - generic [ref=f16e111]:
+                - generic [ref=f16e112]: Indicative number of projects
+                - generic [ref=f16e116]: "2"
+              - generic [ref=f16e117]:
+                - generic [ref=f16e118]: Type of Action
+                - generic [ref=f16e122]: HORIZON-IA HORIZON Innovation Actions
+              - generic [ref=f16e123]:
+                - generic [ref=f16e124]: Identifiers
+                - generic [ref=f16e128]: "Programme: HORIZON • Call: HORIZON-CL2-2026-01"
+          - region [ref=f16e129]:
+            - generic [ref=f16e130]:
+              - heading "Expected Outcome" [level=2] [ref=f16e131]
+              - button "Hide Expected Outcome" [expanded] [ref=f16e132] [cursor=pointer]: Hide
+            - generic [ref=f16e133]:
+              - paragraph [ref=f16e134]: "Projects should contribute to all of the following expected outcomes:"
+              - paragraph [ref=f16e135]: Deepened knowledge of specific factors favouring the growth of creative startups [1] , in particular those with potential for disruptive innovation [2] and/or cross-sectorial innovation impacts, is made available and promoted to policymakers, investors, funding- and enterprise support bodies.
+              - paragraph [ref=f16e136]: Effective methods to favour the growth of creative startups, in particular those with potential for disruptive innovation and/or cross-sectorial innovation impacts, are developed, tested and put in practice by industry, investors, funding- and enterprise support bodies, and relevant decision makers.
+              - paragraph [ref=f16e137]: "Examples of creative startups scaling up and/or engaging in disruptive innovation are made available, with a view to increase the visibility and recognition of the innovative power of Europe’s creative startups. In addition, proposals should contribute to at least one of the following expected outcomes, depending on the option chosen (a or b below):"
+              - paragraph [ref=f16e138]: The effectiveness of the methods developed is demonstrated by at least one creative startup supported via the action becoming a scaleup [3] in a Member State or an Associated Country.
+              - paragraph [ref=f16e139]: The effectiveness of the methods developed is demonstrated by at least one creative startup or scaleup supported via the action succeeding in bringing a disruptive innovation to the market.
+          - region [ref=f16e140]:
+            - generic [ref=f16e141]:
+              - heading "Scope" [level=2] [ref=f16e142]
+              - button "Show Scope" [ref=f16e143] [cursor=pointer]: Show
+          - region [ref=f16e144]:
+            - generic [ref=f16e145]:
+              - heading "Admissibility Conditions" [level=2] [ref=f16e146]
+              - button "Show Admissibility Conditions" [ref=f16e147] [cursor=pointer]: Show
+          - region [ref=f16e148]:
+            - generic [ref=f16e149]:
+              - heading "Eligible Countries" [level=2] [ref=f16e150]
+              - button "Show Eligible Countries" [ref=f16e151] [cursor=pointer]: Show
+          - region [ref=f16e152]:
+            - generic [ref=f16e153]:
+              - heading "Other Eligibility Conditions" [level=2] [ref=f16e154]
+              - button "Show Other Eligibility Conditions" [ref=f16e155] [cursor=pointer]: Show
+          - region [ref=f16e156]:
+            - generic [ref=f16e157]:
+              - heading "Financial & Operational Capacity" [level=2] [ref=f16e158]
+              - button "Show Financial & Operational Capacity" [ref=f16e159] [cursor=pointer]: Show
+          - region [ref=f16e160]:
+            - generic [ref=f16e161]:
+              - heading "Submission & Evaluation Process" [level=2] [ref=f16e162]
+              - button "Show Submission & Evaluation Process" [ref=f16e163] [cursor=pointer]: Show
+          - region [ref=f16e164]:
+            - generic [ref=f16e165]:
+              - heading "Award Criteria / Thresholds" [level=2] [ref=f16e166]
+              - button "Show Award Criteria / Thresholds" [ref=f16e167] [cursor=pointer]: Show
+          - region [ref=f16e168]:
+            - generic [ref=f16e169]:
+              - heading "Proposal Page Limits" [level=2] [ref=f16e170]
+              - button "Show Proposal Page Limits" [ref=f16e171] [cursor=pointer]: Show
+          - region [ref=f16e172]:
+            - generic [ref=f16e173]:
+              - heading "Legal and Financial Setup" [level=2] [ref=f16e174]
+              - button "Show Legal and Financial Setup" [ref=f16e175] [cursor=pointer]: Show
+        - complementary [ref=f16e176]:
+          - region [ref=f16e177]:
+            - heading "Connections" [level=2] [ref=f16e179]
+            - link "Innovative Research on European Cultural Heritage and Cultural and" [ref=f16e187] [cursor=pointer]:
+              - /url: /node/CL2%3Ainnovative-research-on-european-cultural-heritage-and-cultural-and

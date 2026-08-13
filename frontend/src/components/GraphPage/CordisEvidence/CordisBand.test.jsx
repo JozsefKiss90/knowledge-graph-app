@@ -10,6 +10,9 @@ import CordisBand from "./CordisBand";
 // evidence surfaces (A2 projects, B2 organisations) on one tap.
 
 const TITLE = "Funded track record in this area";
+// The toggle names the section it governs rather than being one of a run of identical "Show"s.
+const SHOW_LABEL = "Show the funded track record in this area";
+const HIDE_LABEL = "Hide the funded track record in this area";
 
 const populatedEvidence = {
   loading: false,
@@ -67,11 +70,15 @@ test("populated: collapsed by default to the one-line summary", () => {
   expect(screen.getByText(TITLE)).toBeInTheDocument();
   // toLocaleString's thousands separator varies with the test env's locale — accept both.
   expect(
-    screen.getByText(/4,?023 funded projects · €16\.1B · top country DE/)
+    screen.getByText(/4,?023 funded projects · €16\.1B awarded · top country DE/)
+  ).toBeInTheDocument();
+  // ADR-0001's thematic qualifier travels with the figure, not behind the toggle.
+  expect(
+    screen.getByText(/In this call’s research area — not funded by this call\./)
   ).toBeInTheDocument();
   // Collapsed: no tabs, no provenance yet — just the labelled summary and the toggle.
   expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Show" })).toHaveAttribute(
+  expect(screen.getByRole("button", { name: SHOW_LABEL })).toHaveAttribute(
     "aria-expanded",
     "false"
   );
@@ -80,11 +87,18 @@ test("populated: collapsed by default to the one-line summary", () => {
 test("populated: one tap reveals A2 + B2 (and only those), with source attribution", async () => {
   renderBand(populatedEvidence);
 
-  fireEvent.click(screen.getByRole("button", { name: "Show" }));
+  fireEvent.click(screen.getByRole("button", { name: SHOW_LABEL }));
 
   // Exactly the two launch evidence surfaces — A6/B3 are second-wave and must not appear.
   const tabs = screen.getAllByRole("tab");
   expect(tabs.map((t) => t.textContent)).toEqual(["Funded projects", "Organisations"]);
+
+  // The tablist contract is complete: a real panel, associated, with a roving tab stop.
+  const panel = screen.getByRole("tabpanel");
+  expect(tabs[0]).toHaveAttribute("aria-controls", panel.id);
+  expect(panel).toHaveAttribute("aria-labelledby", tabs[0].id);
+  expect(tabs[0]).toHaveAttribute("tabindex", "0");
+  expect(tabs[1]).toHaveAttribute("tabindex", "-1");
 
   // ADR-0001 thematic wording + honest scope caveat.
   expect(
@@ -107,7 +121,7 @@ test("populated: one tap reveals A2 + B2 (and only those), with source attributi
   ).toBeInTheDocument();
 
   // Collapses again on demand.
-  fireEvent.click(screen.getByRole("button", { name: "Hide" }));
+  fireEvent.click(screen.getByRole("button", { name: HIDE_LABEL }));
   expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
 });
 
