@@ -4,6 +4,11 @@
 `.scratch/wp-doc-ingest/PRD.md` Step 1 (audit gate), ADR-0008 · **Tool:** `reconcile_health_2026.py`
 (read-only, per-cluster) · supersedes the Health-only `reconciliation-health-2026.md`.
 
+> **Progress (2026-07-09):** the merge is now **built + ingested + UI-verified for CL4** (pilot,
+> `cl4-pilot-report.md`) **and CL3** (`cl3-report.md`). CL3 was pure TRL enrichment (34 topics, no
+> bucket C, no id alias, 9 `CS-ECCC` kept API-only). **CL6 is the remaining High cluster** (TRL 39 +
+> 1 bucket-C). Health/CL2 stay API-only (extractor fix only).
+
 > **▶ To reproduce the CL4 document+API merge on another cluster/programme, follow `RUNBOOK.md`**
 > (this dir) — the step-by-step recipe, per-cluster inputs, cluster-specific variations, and gotchas.
 > This report tells you *which* clusters are worth doing (bucket B/C); the runbook tells you *how*.
@@ -31,9 +36,9 @@ tech/science clusters.
 |---|---|---|---|---|---|---|---|---|
 | Health (HLTH) | 38 | 38 | 38 | 38 | **0** (0 / 1) | 0 | **38/38** | Low — fix status |
 | CL2 Culture/Society | 55 | 55 | 55 | 52 | **0** (1 / 1) | 0 | **52/52** | Low — fix status |
-| CL3 Civil Security | 39 | 47 | 47 | 38 | **30** (34 / 4) | 0 · *(9 API-only)* | 0 | **High** |
-| CL4 Digital/Industry/**Space** | 78 | 64 | 64 | 62 | **38** (53 / 2) | **15 (Space)** | 0 | **Pilot** |
-| CL6 Food/Bioeconomy | 110 | 113 | 113 | 107 | **39** (43 / 5) | 1 | 0 | High |
+| CL3 Civil Security | 39 | 47 | 47 | 38 | **30** (34 / 4) | 0 · *(9 API-only)* | 0 | **High → DONE** |
+| CL4 Digital/Industry/**Space** | 78 | 64 | 64 | 62 | **38** (53 / 2) | **15 (Space)** | 0 | **Pilot → DONE** |
+| CL6 Food/Bioeconomy | 110 | 113 | 113 | 107 | **39** (43 / 5) | 1 | 0 | High (next) |
 
 *"TRL PDF-has / API-has" = topics where the document states a TRL / where the API narrative carries any
 TRL text. Grouped TRL fill is **0/N for every cluster** — the pipeline never extracts it.*

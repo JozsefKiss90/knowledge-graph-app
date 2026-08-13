@@ -5,9 +5,16 @@ narrative) with the F&T API state and ingested it live. This is the repeatable r
 another cluster (CL3, CL6, …) or programme. Read `cl4-pilot-report.md` for the CL4 result and
 `reconciliation-report.md` for which clusters are worth doing.
 
-**Scripts (this dir), currently CL4-templated** — copy + retune the constants at the top for a new cluster:
-`reconcile_health_2026.py` (already parameterised `<health|cl2|cl3|cl4|cl6>`), `cl4_wp_parser.py`,
-`cl4_merge.py`, `canonicalize_cl4_ids.py`. The parse engine is reused from git (see step 1).
+**Reproduced so far:** **CL4** (pilot — TRL + 15 Space bucket-C topics; `cl4-pilot-report.md`) and
+**CL3** (pure TRL enrichment, no bucket C, no id alias; `cl3-report.md`). Both are live in the dev graph.
+CL3 is the cleaner second example — read it if your cluster has no PDF-only topics.
+
+**Scripts (this dir)** — copy + retune the constants at the top for a new cluster. Two worked examples:
+CL4 (`cl4_wp_parser.py`, `cl4_merge.py`, `canonicalize_cl4_ids.py` — has Space bucket-C + an id alias)
+and CL3 (`cl3_wp_parser.py`, `cl3_merge.py` — enrichment-only, no canonicalise). Plus the shared gate
+`reconcile_health_2026.py` (already parameterised `<health|cl2|cl3|cl4|cl6>`). The parse engine is reused
+from git (see step 1). **Prefer the CL3 pair as the base for an enrichment-only cluster** — it already
+has the Space-append branch and the alias removed.
 
 ---
 
@@ -109,8 +116,9 @@ session scratchpad).
 - **ID vintage aliases** (step 4): CL4 = `MATERIALS-PRODUCTION`↔`MAT-PROD`. Others may have their own — detect, don't assume.
 - **Non-`CL<n>` namespaces in the WP:** CL4 has EUSPA (Space). Broaden the parser, but keep excluding true cross-cluster refs.
 - **Destination-code schemes:** CL5 topics carry `-D<n>-` codes and the prior art regroups destinations by them; CL3/4/6 use header/ToC destinations.
-- **API-only topics (keep them — additive):** CL3 has 9 `CS-ECCC` topics in the API but not the PDF. The merge keeps `content_source=api`.
+- **API-only topics (keep them — additive):** CL3 has 9 `CS-ECCC` topics in the API but not the PDF. The merge keeps `content_source=api`. **Verified for CL3:** all 9 survived ingest as `content_source=api`.
 - **Two-stage placeholders** (`HORIZON-CL<n>-YYYY-NN-two-stage` with no topic suffix) are call-level, not topics — they stay API-only, never matched to a PDF topic.
+- **In-block cross-references to prior-year predecessors** (CL3: `2027-01-INFRA-01`'s narrative cites `2025-01-INFRA-01`). The prior-art `parse_call_block` re-derives `call_id` from the block and gets hijacked by the cross-ref — it drops the real topic and injects a phantom old-year one. **Fix: pin `rec["call_id"]` to the header id, don't trust the engine's derived id** (see gotcha #9). Check any cluster with year-over-year topic continuity.
 
 ## Gotchas / lessons (the expensive ones)
 
@@ -121,7 +129,8 @@ session scratchpad).
 5. **TRL + provenance ride `_description_section_keys`** (no builder change). Productionisation: promote TRL to a first-class prop in `_build_call_props`.
 6. **`status` is derived from dates at merge time** (deterministic `f(opening, deadline)`), never imported from the stale API snapshot (36% of dump statuses were stale/pre-close).
 7. **Route prefix is `/cluster<N>`, not `/cl<N>`.**
-8. **Pre-existing `min__contribution` typo** (double underscore) in some grouped files → builder reads `min_contribution` → drops the numeric min. Fix if you touch those calls.
+8. **Pre-existing `min__contribution` typo** (double underscore) in some grouped files → builder reads `min_contribution` → drops the numeric min. Fix if you touch those calls. **Scope check: it is on 100% of CL3 grouped calls** (0/47 use the correct key) and partial on CL4 — so it's a cross-cluster grouped-file bug, best fixed once for all clusters, not per-merge.
+9. **Pin `call_id` to the PDF header, not the parser's derived id.** The prior-art `parse_call_block` scans the block for a topic id and an in-block cross-reference to a prior-year predecessor can hijack it (CL3 `2027-01-INFRA-01` → mislabelled `2025-01-INFRA-01`). Set `rec["call_id"] = cid` (the HDR-captured header) unconditionally — the block content is correct, only the label was wrong. (CL4 used `rec.get("call_id") or cid` and got lucky; CL3 did not.)
 
 ## Non-Horizon programmes (DEP, Creative Europe, Euratom, Erasmus+, CEF)
 

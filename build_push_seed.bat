@@ -13,8 +13,8 @@ REM ---- Edit these if needed ----
 set DOCKERHUB_USER=jozsefkiss90
 set NEO4J_TAG=2026.02.2
 set SEED_IMAGE=%DOCKERHUB_USER%/knowledge-graph-neo4j-seed
-set DEV_CONTAINER=kg-dev-neo4j-1
-set DEV_VOLUME=kg-dev_neo4j_data
+set DEV_CONTAINER=knowledge-graph-app-dev-neo4j-1
+set DEV_VOLUME=knowledge-graph-app-dev_neo4j_data
 set SEED_DIR=%~dp0neo4j-seed
 
 echo.

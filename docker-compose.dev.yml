@@ -1,6 +1,13 @@
+# Pin the compose project name so a bare `docker compose -f docker-compose.dev.yml ...`
+# always targets the SAME stack + volume (knowledge-graph-app-dev_neo4j_data).
+# Without this, an explicit `-p kg-dev` silently creates a SECOND, EMPTY stack and a
+# SECOND, EMPTY volume - which is how the graph was lost in July 2026.
+# Do NOT pass -p on the command line; just use `docker compose -f docker-compose.dev.yml`.
+name: knowledge-graph-app-dev
+
 services:
   neo4j:
-    image: neo4j:latest
+    image: neo4j:2026.02.2   # pinned to match neo4j-seed/neo4j.dump + Railway production (was neo4j:latest)
     restart: unless-stopped
     ports:
       - "7474:7474"

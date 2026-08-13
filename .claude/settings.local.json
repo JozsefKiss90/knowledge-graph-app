@@ -167,7 +167,9 @@
       "PowerShell(Set-Location frontend; $env:CI=\"true\"; node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false --testPathPattern=\"CompareCallBody|CordisBand\")",
       "PowerShell($env:CI=\"true\"; node node_modules/react-scripts/bin/react-scripts.js build 2>&1 | Select-String -Pattern \"Compiled|Failed|Error|CompareCall|useCallCompare|warning  src/components/GraphPage/CompareDrawer\" -Context 0,1)",
       "PowerShell($env:CI=\"\"; node node_modules/react-scripts/bin/react-scripts.js build 2>&1 | Select-String -Pattern \"Compiled|Failed to compile|CompareDrawer|useCallCompare|CompareCall|CompareNodeHeader|setupEvents\")",
-      "Bash(echo \"exit=$?\")"
+      "Bash(echo \"exit=$?\")",
+      "Bash(ls -la \"C:/Code/knowledge-graph-app/neo4j-seed/neo4j.dump\")",
+      "Bash(git check-attr *)"
     ]
   }
 }
