@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-13T00:00:00Z",
+  "title": "Design System: European Research-Funding Intelligence",
+  "extensions": {
+    "colorMeta": {
+      "signal-blue": { "role": "primary", "displayName": "Signal Blue", "canonical": "#47a9ff", "tonalRamp": ["#081c33", "#0d2c50", "#12406f", "#1a5a9e", "#2277cf", "#47a9ff", "#8ac4ff", "#d3e9ff"] },
+      "signal-blue-daylight": { "role": "primary", "displayName": "Signal Blue Daylight", "canonical": "#1f6feb", "tonalRamp": ["#071a3a", "#0c2a5e", "#123d87", "#1852b3", "#1f6feb", "#5b93f2", "#97b9f7", "#d4e2fc"] },
+      "deep-field-navy": { "role": "neutral", "displayName": "Deep Field Navy", "canonical": "#0b1437", "tonalRamp": ["#05091c", "#0b1437", "#141f52", "#1e2c6e", "#2f4090", "#4f5fae", "#8590cc", "#c8cde8"] },
+      "awarded-green": { "role": "secondary", "displayName": "Awarded Green", "canonical": "#35d07f", "tonalRamp": ["#062916", "#0a4526", "#0f6238", "#15824b", "#1ca75f", "#35d07f", "#7fe3ab", "#c9f5dc"] },
+      "deadline-amber": { "role": "secondary", "displayName": "Deadline Amber", "canonical": "#f3b84b", "tonalRamp": ["#33230a", "#553a10", "#785217", "#9c6c1e", "#c48c2c", "#f3b84b", "#f8d38b", "#fdedcd"] },
+      "closed-slate": { "role": "secondary", "displayName": "Closed Slate", "canonical": "#4f7dc9", "tonalRamp": ["#0c1526", "#152442", "#1f345f", "#2a467f", "#3760a3", "#4f7dc9", "#8aa8dd", "#cdd9f0"] },
+      "marker-magenta": { "role": "secondary", "displayName": "Marker Magenta", "canonical": "#ec6cff", "tonalRamp": ["#320a38", "#54125e", "#771c85", "#9c28ae", "#c23fd7", "#ec6cff", "#f4a3ff", "#fbdcff"] },
+      "text-high": { "role": "neutral", "displayName": "Text High", "canonical": "#f5f9ff", "tonalRamp": ["#5a6e8c", "#7e93b3", "#a9bdd6", "#c3d3e8", "#d7e6f7", "#e6eefa", "#f0f5fc", "#f5f9ff"] },
+      "daylight-shell": { "role": "neutral", "displayName": "Daylight Shell", "canonical": "#eef2f8", "tonalRamp": ["#1a2740", "#3a4d6e", "#62748f", "#8b9ab3", "#b3bdd0", "#d3dae7", "#e3e9f2", "#eef2f8"] }
+    },
+    "typographyMeta": {
+      "headline": { "displayName": "Headline", "purpose": "Page and panel titles (h1, 24px/600, -0.01em)." },
+      "title": { "displayName": "Title", "purpose": "Section headings (h3, 18px/600)." },
+      "body": { "displayName": "Body", "purpose": "Prose and detail text (16px/400, lh 1.6)." },
+      "label": { "displayName": "Label", "purpose": "Form labels, buttons, inputs (14px/500)." },
+      "data-mono": { "displayName": "Data Mono", "purpose": "JetBrains Mono, 8.5-10px/600 — count pills, kbd hints, timestamps, provenance. Mono means data, never prose." }
+    },
+    "shadows": [
+      { "name": "chrome-pop", "value": "0 24px 56px rgba(2, 6, 23, 0.6)", "purpose": "Popovers and floating panels over the graph canvas." },
+      { "name": "chrome-card", "value": "0 16px 40px rgba(2, 6, 23, 0.55)", "purpose": "Floating capsules and cards in the landing chrome." },
+      { "name": "dash-card", "value": "0 18px 44px rgba(2, 6, 23, 0.5), 0 0 26px rgba(47, 98, 180, 0.1)", "purpose": "Dashboard glass cards — deep cast plus faint blue ambience." },
+      { "name": "cta-glow", "value": "0 6px 16px rgba(63, 147, 255, 0.22)", "purpose": "The one sanctioned glow: the primary CTA's accent shadow." },
+      { "name": "app-md", "value": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)", "purpose": "Legacy app-scale mid elevation (light mode); dark swaps to navy casts." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Global default easing; 150ms duration on background, color, border, shadow, transform." },
+      { "name": "cta-hover", "value": "filter 0.14s ease, box-shadow 0.14s ease", "purpose": "Primary CTA brightens 6% on hover; active nudges down 1px. No elevation change anywhere else." }
+    ],
+    "breakpoints": [
+      { "name": "xs", "value": "480px" },
+      { "name": "sm", "value": "600px" },
+      { "name": "md", "value": "900px" },
+      { "name": "lg", "value": "1100px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary CTA",
+      "kind": "button",
+      "refersTo": "button-cta",
+      "description": "The surface's one primary action (e.g. \"Find open calls\") — Signal Blue fill with the sanctioned accent glow.",
+      "html": "<button class=\"ds-btn-cta\"><span>Find open calls</span><span class=\"ds-btn-cta-count\">312</span></button>",
+      "css": ".ds-btn-cta { display: inline-flex; align-items: center; gap: 8px; padding: 9px 12px; border: none; border-radius: 10px; background: #47a9ff; color: #fff; font-family: Inter, sans-serif; font-size: 13px; font-weight: 650; cursor: pointer; box-shadow: 0 6px 16px rgba(63, 147, 255, 0.22); transition: filter 0.14s ease, box-shadow 0.14s ease; } .ds-btn-cta:hover { filter: brightness(1.06); box-shadow: 0 8px 20px rgba(63, 147, 255, 0.22); } .ds-btn-cta:active { transform: translateY(1px); } .ds-btn-cta:focus-visible { outline: 2px solid #9ccafd; outline-offset: 2px; } .ds-btn-cta-count { margin-left: auto; padding: 2px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); font: 600 10px 'JetBrains Mono', ui-monospace, monospace; }"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Command-bar / rail icon button: transparent at rest, accent tint on hover, inset hairline ring when active.",
+      "html": "<div class=\"ds-iconbtn-row\"><button class=\"ds-iconbtn\" aria-label=\"Search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><line x1=\"21\" y1=\"21\" x2=\"16.5\" y2=\"16.5\"/></svg></button><button class=\"ds-iconbtn is-active\" aria-label=\"Filters\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><line x1=\"4\" y1=\"6\" x2=\"20\" y2=\"6\"/><line x1=\"7\" y1=\"12\" x2=\"17\" y2=\"12\"/><line x1=\"10\" y1=\"18\" x2=\"14\" y2=\"18\"/></svg></button></div>",
+      "css": ".ds-iconbtn-row { display: inline-flex; gap: 4px; padding: 8px; background: #0b1437; border-radius: 12px; } .ds-iconbtn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: none; border-radius: 8px; background: transparent; color: #a9bdd6; cursor: pointer; padding: 0; transition: background 0.15s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s cubic-bezier(0.4, 0, 0.2, 1); } .ds-iconbtn:hover { background: rgba(63, 147, 255, 0.16); color: #6cb8ff; } .ds-iconbtn.is-active { background: rgba(63, 147, 255, 0.16); box-shadow: inset 0 0 0 1px rgba(95, 148, 232, 0.4); color: #6cb8ff; } .ds-iconbtn:focus-visible { outline: 2px solid #9ccafd; outline-offset: 1px; }"
+    },
+    {
+      "name": "Money Badge — Advertised",
+      "kind": "chip",
+      "refersTo": "money-badge-advertised",
+      "description": "The blue half of the Two-Halves Rule: indicative work-programme money on offer. Cursor is help — it explains, it doesn't act.",
+      "html": "<span class=\"ds-money-badge ds-money-badge--advertised\">Indicative · on offer</span>",
+      "css": ".ds-money-badge { display: inline-flex; align-items: center; gap: 4px; font-family: Inter, sans-serif; font-size: 10px; font-weight: 700; line-height: 1.5; letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap; padding: 1px 8px; border-radius: 999px; border: 1px solid transparent; cursor: help; user-select: none; } .ds-money-badge--advertised { color: #7bb4ff; background: rgba(63, 139, 255, 0.12); border-color: rgba(63, 139, 255, 0.42); }"
+    },
+    {
+      "name": "Money Badge — Awarded",
+      "kind": "chip",
+      "refersTo": "money-badge-awarded",
+      "description": "The green half: real euros already awarded to CORDIS-funded projects.",
+      "html": "<span class=\"ds-money-badge2 ds-money-badge2--awarded\">Awarded · CORDIS</span>",
+      "css": ".ds-money-badge2 { display: inline-flex; align-items: center; gap: 4px; font-family: Inter, sans-serif; font-size: 10px; font-weight: 700; line-height: 1.5; letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap; padding: 1px 8px; border-radius: 999px; border: 1px solid transparent; cursor: help; user-select: none; } .ds-money-badge2--awarded { color: #57d98a; background: rgba(34, 178, 94, 0.13); border-color: rgba(34, 178, 94, 0.44); }"
+    },
+    {
+      "name": "Segmented Tabs",
+      "kind": "nav",
+      "refersTo": "tab-segment-active",
+      "description": "Sub-tab strip (evidence band, dashboard tools): soft inset strip, Signal Blue active segment.",
+      "html": "<div class=\"ds-segtabs\"><button class=\"ds-segtab ds-segtab--active\">Projects</button><button class=\"ds-segtab\">Organisations</button><button class=\"ds-segtab\">Fields</button></div>",
+      "css": ".ds-segtabs { display: inline-flex; flex-wrap: wrap; gap: 2px; background: rgba(10, 22, 40, 0.8); border-radius: 10px; padding: 3px; } .ds-segtab { all: unset; display: inline-flex; align-items: center; justify-content: center; font-family: Inter, sans-serif; font-size: 0.78rem; font-weight: 600; padding: 6px 12px; border-radius: 8px; color: #a9bdd6; cursor: pointer; transition: background 0.15s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s cubic-bezier(0.4, 0, 0.2, 1); } .ds-segtab:hover { color: #d7e6f7; } .ds-segtab--active { background: #47a9ff; color: #fff; } .ds-segtab:focus-visible { outline: 2px solid #9ccafd; outline-offset: 1px; }"
+    },
+    {
+      "name": "Glass Card",
+      "kind": "card",
+      "description": "The blue-glass panel: translucent navy surface, hairline border, blur, structural shadow.",
+      "html": "<div class=\"ds-glass-card\"><div class=\"ds-glass-card-title\">Closing soon</div><div class=\"ds-glass-card-body\">HORIZON-CL4-2027-DIGITAL-01 closes in 12 days.</div><div class=\"ds-glass-card-prov\">Source: EU CORDIS · as of 24 Jun 2026</div></div>",
+      "css": ".ds-glass-card { max-width: 320px; background: rgba(16, 36, 70, 0.85); border: 1px solid rgba(99, 136, 196, 0.45); border-radius: 14px; padding: 16px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 18px 44px rgba(2, 6, 23, 0.5), 0 0 26px rgba(47, 98, 180, 0.1); font-family: Inter, sans-serif; } .ds-glass-card-title { font-size: 13.5px; font-weight: 600; color: #f5f9ff; margin-bottom: 8px; } .ds-glass-card-body { font-size: 12px; line-height: 1.5; color: #d7e6f7; } .ds-glass-card-prov { margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(82, 111, 160, 0.22); font-size: 10.5px; color: #8ba3c4; }"
+    },
+    {
+      "name": "Quiet Input",
+      "kind": "input",
+      "description": "Search / form field: quiet dark well, visible focus ring, 14px/400 text.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Search calls…\" />",
+      "css": ".ds-input { width: 240px; padding: 8px 12px; border: 1px solid rgba(82, 111, 160, 0.3); border-radius: 8px; background: #0c1740; color: #d7e6f7; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 400; line-height: 1.5; transition: border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1); } .ds-input::placeholder { color: #7e93b3; } .ds-input:hover { border-color: rgba(95, 148, 232, 0.4); } .ds-input:focus { outline: none; border-color: rgba(95, 148, 232, 0.55); box-shadow: 0 0 0 3px rgba(63, 147, 255, 0.16); }"
+    },
+    {
+      "name": "Evidence Band Header",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Signature component: the always-present \"Funded track record in this area\" band header, shown here in its honest-empty pre-ingest state.",
+      "html": "<div class=\"ds-band\"><div class=\"ds-band-head\"><div><div class=\"ds-band-title\">Funded track record in this area</div><div class=\"ds-band-summary ds-band-summary--muted\">No CORDIS data ingested for this area yet</div></div><span class=\"ds-band-src\">Source: EU CORDIS</span></div></div>",
+      "css": ".ds-band { max-width: 420px; background: rgba(15, 34, 65, 0.9); border: 1px solid rgba(82, 111, 160, 0.34); border-radius: 12px; font-family: Inter, sans-serif; } .ds-band-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 22px 24px 18px; cursor: pointer; } .ds-band-title { font-size: 1.125rem; font-weight: 600; line-height: 1.5; color: #f5f9ff; } .ds-band-summary { margin-top: 8px; font-size: 13.5px; font-weight: 600; color: #d7e6f7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-band-summary--muted { font-weight: 400; font-style: italic; color: #8ba3c4; } .ds-band-src { flex: 0 0 auto; font: 600 10px 'JetBrains Mono', ui-monospace, monospace; color: #7e93b3; letter-spacing: 0.02em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Funding Observatory",
+    "overview": "A calm instrument for watching a landscape. The interface is a set of glass panels floating over a deep-navy field — the full-bleed graph canvas owns the screen, and the chrome sits above it as translucent, blurred panes. The visitor is a professional on a recurring monitoring visit: the design's job is to let real evidence be read at a distance, quickly and without drama. Nothing shouts; the data is loud, the chrome is quiet.\n\nThe voice is calm, precise, evidential — the product's honesty contract expressed as an aesthetic. Money figures always carry their provenance badge, empty states are styled deliberately rather than hidden, and small monospace readouts mark the places where the interface is reporting fact rather than decoration. Dark mode is the reference design; light mode is a translucent-white daylight adaptation of the same architecture, not a separate identity.",
+    "keyCharacteristics": [
+      "Full-bleed canvas; all chrome floats as blurred glass panels above it",
+      "Deep navy field, one restrained blue accent, semantic green/amber/magenta signals",
+      "Inter for prose and controls; JetBrains Mono strictly for data readouts",
+      "Tint-based interaction (no lift, no glow on hover); hairline borders everywhere",
+      "Dual token vocabularies: --lc-* (landing chrome) and --d2-* (dashboard), both dark-first with a light adaptation"
+    ],
+    "rules": [
+      { "name": "The Quiet Chrome Rule", "body": "Chrome speaks only in tints of Signal Blue (10–22% alpha) and hairlines. Green, amber, slate, and magenta are semantic — they mark data states (open, closing, closed, counts), never decoration.", "section": "colors" },
+      { "name": "The Two-Halves Rule", "body": "Every euro figure wears its half: Advertised money is badged blue (\"Indicative · on offer\"), Awarded money is badged green (\"Awarded · CORDIS\"). The colors never swap and never appear unbadged on a money figure.", "section": "colors" },
+      { "name": "The Blue-Glass-Wins Rule", "body": "The global dark theme still carries a legacy Vision-UI purple (--primary: #7551ff) on older surfaces. New work never extends the purple: landing chrome and dashboard both override to Signal Blue, and that is the direction of travel.", "section": "colors" },
+      { "name": "The Mono-Means-Data Rule", "body": "JetBrains Mono appears only where the UI reports data — counters, keyboard hints, timestamps, provenance. Never in prose, labels, or headings.", "section": "typography" },
+      { "name": "The Tint-Not-Lift Rule", "body": "State changes are acknowledged with a background tint and an inset ring; shadows never change on hover.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do define both theme sets for any new chrome: the dark --lc-*/--d2-* values are the reference; light mode is the daylight adaptation. A token defined in only one mode is a bug.",
+      "Do use the _breakpoints.scss tokens/mixins (480/600/900/1100/1280) for every media query; they are mirrored into the MUI theme.",
+      "Do badge every money figure with its half (advertised blue / awarded green) and keep provenance lines (\"Source: EU CORDIS · as of …\") on every evidence surface.",
+      "Do style empty states deliberately — italic, muted, in place — when data is missing but the mechanism works (\"no CORDIS data ingested for this area yet\").",
+      "Do keep interaction quiet: accent tint + inset 0 0 0 1px ring for hover/active; 150ms cubic-bezier(0.4, 0, 0.2, 1) transitions.",
+      "Do pair color with a second channel (label, shape, position) — node-type and status colors never carry meaning alone; keep WCAG AA contrast, visible focus, keyboard paths, and reduced-motion support."
+    ],
+    "donts": [
+      "Don't extend the legacy Vision-UI purple (#7551ff) to any new surface; Signal Blue glass is the direction of travel.",
+      "Don't use JetBrains Mono for prose or spend green/amber/magenta on decoration — mono means data, semantic colors mean state.",
+      "Don't ship an inert control. A mechanism that doesn't work is removed, not styled (ADR-0006 §2); a dead button lies.",
+      "Don't dress numbers up: no odds, no funded-rates, counts ≠ euros ≠ impact, and Advertised money never wears an Awarded label or color.",
+      "Don't let user-facing copy say \"graph\", \"nodes\", or \"edges\" — mechanism words are banned; say \"in one place\".",
+      "Don't add elevation on hover, gradient text, or glow effects beyond the CTA's sanctioned accent shadow."
+    ]
+  }
+}
