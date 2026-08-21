@@ -12,6 +12,11 @@ import React, { useMemo } from "react";
  * It intentionally derives everything from the `calls` it is handed (the very rows above it), so
  * filtering the list re-shapes the runway in lock-step. Display-only: no verdicts, just the shape of
  * the deadlines. Restyled to the blue-glass dashboard design.
+ *
+ * The plot is decorative-with-a-name (`role="img"` + a summary label): everything it encodes —
+ * call names, deadline distances, cluster counts and the beyond-horizon overflow — is repeated
+ * verbatim in the disclosure below it, so nothing is reachable only by hovering a dot, reading a
+ * `title`, or telling green from amber.
  */
 
 const DAY = 86400000;
@@ -47,6 +52,19 @@ function shortName(label, id) {
 function pos(frac) {
   return `${(INSET + frac * (100 - 2 * INSET)).toFixed(2)}%`;
 }
+
+// Deadline distance in words. A cluster spanning several days keeps both ends; a single
+// deadline passes one day and reads "in 12 days" / "today" / "tomorrow".
+function distance(minDays, maxDays = minDays) {
+  if (minDays !== maxDays) return `in ${minDays}–${maxDays} days`;
+  if (minDays === 0) return "today";
+  if (minDays === 1) return "tomorrow";
+  return `in ${minDays} days`;
+}
+
+const callName = (c) => c.label || c.id || "Untitled call";
+
+const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 export default function DeadlineRunway({ calls }) {
   const model = useMemo(() => {
@@ -99,21 +117,48 @@ export default function DeadlineRunway({ calls }) {
       };
     });
 
+    // The textual equivalent of the plot: one entry per dot, in the same left-to-right order,
+    // carrying what the dot only shows (names, distance, how many share the marker, urgency).
+    const entries = clusters.map((cl, i) => {
+      const dist = distance(cl.minDays, cl.maxDays);
+      const urgent = cl.minDays <= 10 ? " · closing within 10 days" : "";
+      const names = cl.items.map((it) => callName(it.call));
+      const text =
+        names.length === 1
+          ? `${names[0]} closes ${dist}`
+          : `${plural(names.length, "call")} close ${dist}: ${names.join(", ")}`;
+      return { key: `c${i}`, text: `${text}${urgent}` };
+    });
+    if (beyond > 0) {
+      entries.push({
+        key: "beyond",
+        text: `${plural(beyond, "call")} ${beyond === 1 ? "closes" : "close"} beyond the next ${weeks} weeks`,
+      });
+    }
+
     const ticks = [];
     for (let w = 0; w <= weeks; w++) {
       ticks.push({ left: pos(w / weeks), label: w === 0 ? "Today" : `${w}w` });
     }
 
     const next = future[0];
+
+    // The plot's accessible name: how many deadlines it draws, over what window, and the one
+    // that matters first. The per-dot detail lives in the disclosure below, not here.
+    const summary =
+      `Deadline runway: ${plural(within.length, "call")} plotted over the next ${weeks} weeks` +
+      `${beyond > 0 ? `, ${plural(beyond, "call")} beyond` : ""}. ` +
+      `Next deadline: ${callName(next.call)} ${distance(next.days)}.`;
+
     const closing14 = future.filter((x) => x.days <= 14).length;
     const within90 = future.filter((x) => x.days <= 90).length;
     const stats = [
       { l: "NEXT DEADLINE", v: `${shortName(next.call.label, next.call.id)} · ${next.days}d`, c: "#9ccafd" },
-      { l: "CLOSING ≤ 14 DAYS", v: `${closing14} call${closing14 === 1 ? "" : "s"}`, c: "#f6c35e" },
-      { l: "OPEN WITHIN 90 DAYS", v: `${within90} call${within90 === 1 ? "" : "s"}`, c: "#3ee08a" },
+      { l: "CLOSING ≤ 14 DAYS", v: plural(closing14, "call"), c: "#f6c35e" },
+      { l: "OPEN WITHIN 90 DAYS", v: plural(within90, "call"), c: "#3ee08a" },
     ];
 
-    return { weeks, dots, ticks, stats, beyond };
+    return { weeks, dots, ticks, stats, beyond, entries, summary, total: future.length };
   }, [calls]);
 
   return (
@@ -141,7 +186,7 @@ export default function DeadlineRunway({ calls }) {
 
       {model ? (
         <>
-          <div className="dash-runway__track">
+          <div className="dash-runway__track" role="img" aria-label={model.summary}>
             <div className="dash-runway__axis" />
             {model.ticks.map((t, i) => (
               <React.Fragment key={`t${i}`}>
@@ -169,6 +214,20 @@ export default function DeadlineRunway({ calls }) {
               </React.Fragment>
             ))}
           </div>
+
+          {/* Same content as the plot, in words: keyboard- and touch-reachable, and the only
+              channel that survives without colour, hover or the `title` attribute. */}
+          {/* aria-label because Chrome does not take a details' name from its summary. */}
+          <details className="dash-runway__equiv" aria-label={`All ${model.total} deadlines in view`}>
+            <summary className="dash-runway__equiv-summary">
+              All {model.total} deadlines in view
+            </summary>
+            <ul className="dash-runway__equiv-list">
+              {model.entries.map((e) => (
+                <li key={e.key}>{e.text}</li>
+              ))}
+            </ul>
+          </details>
 
           <div className="dash-runway__stats">
             {model.stats.map((s) => (

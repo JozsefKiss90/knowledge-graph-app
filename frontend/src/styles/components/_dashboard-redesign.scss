@@ -652,11 +652,57 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.dash-runway__empty {
+/* An instrument with nothing to plot says so in the same voice wherever it happens. */
+%dash-card-empty {
   text-align: center;
   color: var(--d2-faint);
   font-size: 12.5px;
   padding: 22px 4px;
+}
+.dash-runway__empty { @extend %dash-card-empty; }
+
+/* Disclosure that carries a plot's content in words (runway entries, chart values).
+   Shared shape so both instruments read as the same affordance. */
+%dash-disclosure-summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--d2-dim);
+  &::-webkit-details-marker { display: none; }
+  &::before { content: "▸"; }
+  &:hover { color: var(--d2-title); }
+  &:focus-visible {
+    outline: 2px solid var(--d2-accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+.dash-runway__equiv {
+  margin-top: 8px;
+  &[open] .dash-runway__equiv-summary::before { content: "▾"; }
+}
+.dash-runway__equiv-summary { @extend %dash-disclosure-summary; }
+.dash-runway__equiv-list {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+
+  li {
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--d2-dim);
+    padding-left: 8px;
+    border-left: 2px solid var(--d2-inner-border);
+  }
 }
 
 /* ── Research-tools panel (mockup "Research tools" card) ───────────── */
@@ -723,8 +769,13 @@
 .dash-calls-time__head {
   display: flex;
   align-items: center;
+  /* The series names are spelled out ("Open & forthcoming"), so in the narrow right column the
+     controls drop to their own line rather than shredding the title. */
+  flex-wrap: wrap;
   gap: 9px;
   margin-bottom: 10px;
+
+  .dash-card__title { white-space: nowrap; }
 }
 .dash-calls-time__year {
   font-family: var(--d2-mono);
@@ -759,6 +810,10 @@
     box-shadow: inset 0 0 0 1px var(--d2-accent-border);
   }
 }
+.dash-shell .dash-card__tab:focus-visible {
+  outline: 2px solid var(--d2-accent);
+  outline-offset: 2px;
+}
 .dash-calls-time__svg { height: 78px; }
 .dash-calls-time__labels {
   margin-top: 6px;
@@ -767,6 +822,44 @@
   letter-spacing: 0.08em;
   color: var(--d2-faint);
 }
+.dash-calls-time__caption {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--d2-dim);
+}
+.dash-calls-time__values { margin-top: 6px; }
+.dash-calls-time__values-summary { @extend %dash-disclosure-summary; }
+.dash-calls-time__values[open] .dash-calls-time__values-summary::before { content: "▾"; }
+/* Month names and counts are the chart's text equivalent, so they read at chrome size in the
+   body face — mono is reserved for data readouts (DESIGN.md, Mono-Means-Data), and tabular
+   figures keep the column aligned without it. */
+.dash-calls-time__table {
+  width: 100%;
+  margin-top: 6px;
+  border-collapse: collapse;
+  font-size: 12px;
+
+  th,
+  td {
+    padding: 3px 6px;
+    text-align: left;
+    border-bottom: 1px solid var(--d2-inner-border);
+  }
+  thead th {
+    font-weight: 500;
+    color: var(--d2-faint);
+  }
+  tbody th {
+    font-weight: 400;
+    color: var(--d2-dim);
+  }
+  td {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--d2-title);
+  }
+}
+.dash-calls-time__empty { @extend %dash-card-empty; }
 
 /* ── On offer / funded summary strip ──────────────────────────────── */
 .dash-offerstrip {
