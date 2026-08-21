@@ -1,0 +1,632 @@
+- generic [ref=f4e12]:
+  - generic [ref=f4e13]:
+    - generic [ref=f4e14]: EU Knowledge Graph
+    - button "Home" [ref=f4e30] [cursor=pointer]
+    - navigation "Graph level breadcrumbs" [ref=f4e33]:
+      - button "EU Funding Programmes" [ref=f4e36] [cursor=pointer]
+    - generic [ref=f4e37]: LEVEL 1
+    - button "Search calls, topics, programmes" [ref=f4e38] [cursor=pointer]:
+      - generic [ref=f4e42]: Search calls, topics, programmes…
+      - generic [ref=f4e43]: ⌘K
+    - button "Back to funding map" [ref=f4e45] [cursor=pointer]
+    - generic [ref=f4e51]:
+      - generic "Copy link to this view" [ref=f4e52]:
+        - button "Copy link to this view" [ref=f4e53] [cursor=pointer]
+      - generic "Save this view" [ref=f4e59]:
+        - button "Save this view" [ref=f4e60] [cursor=pointer]
+  - generic [ref=f4e65]:
+    - generic [ref=f4e68]:
+      - generic [ref=f4e69]:
+        - generic [ref=f4e70]: Explore by theme
+        - generic [ref=f4e74]:
+          - button "Funding" [ref=f4e75] [cursor=pointer]:
+            - generic [ref=f4e79]: +
+          - button "Funded activity" [ref=f4e80] [cursor=pointer]:
+            - generic [ref=f4e84]: +
+          - button "Geography" [ref=f4e85] [cursor=pointer]:
+            - generic [ref=f4e89]: +
+          - button "Organisations" [ref=f4e90] [cursor=pointer]:
+            - generic [ref=f4e94]: +
+          - button "Fields & topics" [ref=f4e95] [cursor=pointer]:
+            - generic [ref=f4e99]: +
+          - button "Topics" [ref=f4e100] [cursor=pointer]:
+            - generic [ref=f4e106]: +
+        - button "Saved 1" [ref=f4e107] [cursor=pointer]:
+          - generic [ref=f4e110]: Saved
+          - generic [ref=f4e111]: "1"
+      - generic [ref=f4e112]:
+        - generic [ref=f4e113]:
+          - generic [ref=f4e114]:
+            - generic [ref=f4e115]:
+              - generic [ref=f4e116]:
+                - heading "Open & forthcoming calls" [level=3] [ref=f4e117]
+                - generic [ref=f4e118]: Next 8 of 344 by deadline · 131 open · 213 forthcoming
+              - generic "Indicative work-programme budget on offer — not awarded" [ref=f4e119]: Indicative · on offer
+              - group "Filter calls" [ref=f4e120]:
+                - button "Next 8" [pressed] [ref=f4e121] [cursor=pointer]
+                - button "Closing 30d" [ref=f4e122] [cursor=pointer]
+              - button "View in funding map" [ref=f4e123] [cursor=pointer]
+            - table "Open and forthcoming calls, sorted by deadline" [ref=f4e126]:
+              - rowgroup [ref=f4e127]:
+                - row [ref=f4e128]:
+                  - columnheader "Call" [ref=f4e129]
+                  - columnheader "Budget — indicative, on offer" [ref=f4e130]: Budget
+                  - columnheader "Deadline" [ref=f4e131]
+                  - columnheader "Status" [ref=f4e132]
+              - rowgroup [ref=f4e133]:
+                - row [ref=f4e134]:
+                  - cell "Centres of Vocational Excellence ERASMUS-EDU-2026-PEX-COVE" [ref=f4e135]:
+                    - generic [ref=f4e137]:
+                      - link "Centres of Vocational Excellence" [ref=f4e138] [cursor=pointer]:
+                        - /url: /node/ERASMUS-EDU-2026-PEX-COVE
+                      - generic [ref=f4e139]: ERASMUS-EDU-2026-PEX-COVE
+                  - cell "€68M" [ref=f4e140]
+                  - cell "in 12 days Erasmus+" [ref=f4e141]:
+                    - generic [ref=f4e142]: in 12 days
+                    - generic [ref=f4e143]: Erasmus+
+                  - cell [ref=f4e144]:
+                    - generic [ref=f4e145]: Open
+                    - button "Show Centres of Vocational Excellence in funding map" [ref=f4e147] [cursor=pointer]: Show in funding map
+                - row [ref=f4e148]:
+                  - cell "MSCA Postdoctoral Fellowships 2026 HORIZON-MSCA-2026-PF-01-01" [ref=f4e149]:
+                    - generic [ref=f4e151]:
+                      - link "MSCA Postdoctoral Fellowships 2026" [ref=f4e152] [cursor=pointer]:
+                        - /url: /node/HORIZON-MSCA-2026-PF-01-01
+                      - generic [ref=f4e153]: HORIZON-MSCA-2026-PF-01-01
+                  - cell "€60M" [ref=f4e154]
+                  - cell "in 18 days MSCA" [ref=f4e155]:
+                    - generic [ref=f4e156]: in 18 days
+                    - generic [ref=f4e157]: MSCA
+                  - cell [ref=f4e158]:
+                    - generic [ref=f4e159]: Open
+                    - button "Show MSCA Postdoctoral Fellowships 2026 in funding map" [ref=f4e161] [cursor=pointer]: Show in funding map
+                - row [ref=f4e162]:
+                  - cell "ERA Fellowships HORIZON-WIDERA-2026-05-WIDENING-01" [ref=f4e163]:
+                    - generic [ref=f4e165]:
+                      - link "ERA Fellowships" [ref=f4e166] [cursor=pointer]:
+                        - /url: /node/HORIZON-WIDERA-2026-05-WIDENING-01
+                      - generic [ref=f4e167]: HORIZON-WIDERA-2026-05-WIDENING-01
+                  - cell "€8M" [ref=f4e168]
+                  - cell "in 18 days WIDERA" [ref=f4e169]:
+                    - generic [ref=f4e170]: in 18 days
+                    - generic [ref=f4e171]: WIDERA
+                  - cell [ref=f4e172]:
+                    - generic [ref=f4e173]: Open
+                    - button "Show ERA Fellowships in funding map" [ref=f4e175] [cursor=pointer]: Show in funding map
+                - row [ref=f4e176]:
+                  - cell "European Partnership on Rare Diseases (ERDERA) (Phase 2) HORIZON-HLTH-2026-02-DISEASE-12" [ref=f4e177]:
+                    - generic [ref=f4e179]:
+                      - link "European Partnership on Rare Diseases (ERDERA) (Phase 2)" [ref=f4e180] [cursor=pointer]:
+                        - /url: /node/HORIZON-HLTH-2026-02-DISEASE-12
+                      - generic [ref=f4e181]: HORIZON-HLTH-2026-02-DISEASE-12
+                  - cell "€91M" [ref=f4e182]
+                  - cell "in 24 days CL1 – Health" [ref=f4e183]:
+                    - generic [ref=f4e184]: in 24 days
+                    - generic [ref=f4e185]: CL1 – Health
+                  - cell [ref=f4e186]:
+                    - generic [ref=f4e187]: Open
+                    - button "Show European Partnership on Rare Diseases (ERDERA) (Phase 2) in funding map" [ref=f4e189] [cursor=pointer]: Show in funding map
+                - row [ref=f4e190]:
+                  - cell "Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations HORIZON-CL3-2026-02-CS-ECCC-03" [ref=f4e191]:
+                    - generic [ref=f4e193]:
+                      - link "Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations" [ref=f4e194] [cursor=pointer]:
+                        - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-03
+                      - generic [ref=f4e195]: HORIZON-CL3-2026-02-CS-ECCC-03
+                  - cell "€12M" [ref=f4e196]
+                  - cell "in 24 days CL3 – Security" [ref=f4e197]:
+                    - generic [ref=f4e198]: in 24 days
+                    - generic [ref=f4e199]: CL3 – Security
+                  - cell [ref=f4e200]:
+                    - generic [ref=f4e201]: Open
+                    - button "Show Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations in funding map" [ref=f4e203] [cursor=pointer]: Show in funding map
+                - row [ref=f4e204]:
+                  - cell "Approaches and tools for security in software and hardware development and assessment HORIZON-CL3-2026-02-CS-ECCC" [ref=f4e205]:
+                    - generic [ref=f4e207]:
+                      - link "Approaches and tools for security in software and hardware development and assessment" [ref=f4e208] [cursor=pointer]:
+                        - /url: /node/HORIZON-CL3-2026-02-CS-ECCC
+                      - generic [ref=f4e209]: HORIZON-CL3-2026-02-CS-ECCC
+                  - cell "€12M" [ref=f4e210]
+                  - cell "in 24 days CL3 – Security" [ref=f4e211]:
+                    - generic [ref=f4e212]: in 24 days
+                    - generic [ref=f4e213]: CL3 – Security
+                  - cell [ref=f4e214]:
+                    - generic [ref=f4e215]: Open
+                    - button "Show Approaches and tools for security in software and hardware development and assessment in funding map" [ref=f4e217] [cursor=pointer]: Show in funding map
+                - row [ref=f4e218]:
+                  - cell "Approaches and tools for security in software and hardware development and assessment HORIZON-CL3-2026-02-CS-ECCC-01" [ref=f4e219]:
+                    - generic [ref=f4e221]:
+                      - link "Approaches and tools for security in software and hardware development and assessment" [ref=f4e222] [cursor=pointer]:
+                        - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-01
+                      - generic [ref=f4e223]: HORIZON-CL3-2026-02-CS-ECCC-01
+                  - cell "€20M" [ref=f4e224]
+                  - cell "in 24 days CL3 – Security" [ref=f4e225]:
+                    - generic [ref=f4e226]: in 24 days
+                    - generic [ref=f4e227]: CL3 – Security
+                  - cell [ref=f4e228]:
+                    - generic [ref=f4e229]: Open
+                    - button "Show Approaches and tools for security in software and hardware development and assessment in funding map" [ref=f4e231] [cursor=pointer]: Show in funding map
+                - row [ref=f4e232]:
+                  - cell "Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI) HORIZON-CL3-2026-02-CS-ECCC-02" [ref=f4e233]:
+                    - generic [ref=f4e235]:
+                      - link "Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI)" [ref=f4e236] [cursor=pointer]:
+                        - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-02
+                      - generic [ref=f4e237]: HORIZON-CL3-2026-02-CS-ECCC-02
+                  - cell "€20M" [ref=f4e238]
+                  - cell "in 24 days CL3 – Security" [ref=f4e239]:
+                    - generic [ref=f4e240]: in 24 days
+                    - generic [ref=f4e241]: CL3 – Security
+                  - cell [ref=f4e242]:
+                    - generic [ref=f4e243]: Open
+                    - button "Show Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI) in funding map" [ref=f4e245] [cursor=pointer]: Show in funding map
+          - generic [ref=f4e246]:
+            - generic [ref=f4e247]:
+              - generic [ref=f4e248]:
+                - heading "Deadline runway" [level=3] [ref=f4e249]
+                - generic [ref=f4e250]: When the calls above close · next 6 weeks
+              - generic [ref=f4e251]: Open
+              - generic [ref=f4e253]: Closing ≤10d
+            - 'img "Deadline runway: 8 calls plotted over the next 6 weeks. Next deadline: Centres of Vocational Excellence in 12 days." [ref=f4e255]':
+              - generic [ref=f4e258]: Today
+              - generic [ref=f4e260]: 1w
+              - generic [ref=f4e262]: 2w
+              - generic [ref=f4e264]: 3w
+              - generic [ref=f4e266]: 4w
+              - generic [ref=f4e268]: 5w
+              - generic [ref=f4e270]: 6w
+              - generic [ref=f4e271]: 12d
+              - generic "Centres of Vocational Excellence" [ref=f4e272]
+              - generic [ref=f4e273]: 18d
+              - generic "MSCA Postdoctoral Fellowships 2026 ERA Fellowships" [ref=f4e274]
+              - generic [ref=f4e275]: "2"
+              - generic [ref=f4e276]: 24d
+              - generic "European Partnership on Rare Diseases (ERDERA) (Phase 2) Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations Approaches and tools for security in software and hardware development and assessment Approaches and tools for security in software and hardware development and assessment Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI)" [ref=f4e277]
+              - generic [ref=f4e278]: "5"
+            - group "All 8 deadlines in view" [ref=f4e279]:
+              - generic "▸ All 8 deadlines in view" [ref=f4e280] [cursor=pointer]
+            - generic [ref=f4e281]:
+              - generic [ref=f4e282]:
+                - generic [ref=f4e283]: NEXT DEADLINE
+                - generic [ref=f4e284]: Centres of… · 12d
+              - generic [ref=f4e285]:
+                - generic [ref=f4e286]: CLOSING ≤ 14 DAYS
+                - generic [ref=f4e287]: 1 call
+              - generic [ref=f4e288]:
+                - generic [ref=f4e289]: OPEN WITHIN 90 DAYS
+                - generic [ref=f4e290]: 8 calls
+        - generic [ref=f4e291]:
+          - generic [ref=f4e292]:
+            - generic [ref=f4e293]:
+              - generic [ref=f4e296]: Research tools
+              - generic [ref=f4e297]: CORDIS EVIDENCE
+            - generic [ref=f4e298]:
+              - tablist "Research tools" [ref=f4e299]:
+                - tab "Research fields" [ref=f4e300] [cursor=pointer]:
+                  - generic [ref=f4e303]: Fields
+                - tab "Country activity" [selected] [ref=f4e304] [cursor=pointer]:
+                  - generic [ref=f4e307]: Country
+                - tab "Hop-on" [ref=f4e308] [cursor=pointer]
+              - button "Close the research tools panel" [ref=f4e312] [cursor=pointer]
+            - tabpanel "Country activity" [ref=f4e315]:
+              - generic [ref=f4e316]:
+                - generic [ref=f4e317]:
+                  - text: Pick a country to see where its organisations have been funded across the funding landscape. Green calls are areas it has
+                  - strong [ref=f4e318]: led
+                  - text: (coordinated); lighter green it has
+                  - strong [ref=f4e319]: joined
+                  - text: (partnered); dimmed areas are EU-funded but have no recorded activity from this country. Highlights show in the funding map wherever calls are visible. EU-funded participation only — not a measure of quality, and organisations funded nationally or privately won’t appear.
+                - generic [ref=f4e320]:
+                  - generic [ref=f4e321]: Country
+                  - combobox "Country" [ref=f4e322]:
+                    - option "Select a country…"
+                    - option "DE (559 areas)" [selected]
+                    - option "FR (559 areas)"
+                    - option "IT (559 areas)"
+                    - option "ES (559 areas)"
+                    - option "NL (559 areas)"
+                    - option "UK (558 areas)"
+                    - option "BE (558 areas)"
+                    - option "EL (558 areas)"
+                    - option "AT (557 areas)"
+                    - option "SE (556 areas)"
+                    - option "DK (556 areas)"
+                    - option "FI (555 areas)"
+                    - option "PL (555 areas)"
+                    - option "PT (554 areas)"
+                    - option "CH (553 areas)"
+                    - option "NO (552 areas)"
+                    - option "IE (552 areas)"
+                    - option "CZ (550 areas)"
+                    - option "HU (546 areas)"
+                    - option "RO (546 areas)"
+                    - option "EE (546 areas)"
+                    - option "TR (545 areas)"
+                    - option "SI (544 areas)"
+                    - option "BG (541 areas)"
+                    - option "IL (534 areas)"
+                    - option "CY (533 areas)"
+                    - option "HR (533 areas)"
+                    - option "SK (530 areas)"
+                    - option "LT (530 areas)"
+                    - option "LV (523 areas)"
+                    - option "US (521 areas)"
+                    - option "LU (521 areas)"
+                    - option "UA (507 areas)"
+                    - option "RS (504 areas)"
+                    - option "CA (494 areas)"
+                    - option "IS (484 areas)"
+                    - option "MT (476 areas)"
+                    - option "CN (466 areas)"
+                    - option "ZA (456 areas)"
+                    - option "AU (455 areas)"
+                    - option "RU (442 areas)"
+                    - option "BR (441 areas)"
+                    - option "MK (417 areas)"
+                    - option "JP (416 areas)"
+                    - option "KR (410 areas)"
+                    - option "IN (405 areas)"
+                    - option "MA (399 areas)"
+                    - option "KE (391 areas)"
+                    - option "EG (390 areas)"
+                    - option "TN (389 areas)"
+                    - option "AR (388 areas)"
+                    - option "MD (375 areas)"
+                    - option "BA (372 areas)"
+                    - option "CO (360 areas)"
+                    - option "CL (358 areas)"
+                    - option "TW (352 areas)"
+                    - option "GH (350 areas)"
+                    - option "GE (349 areas)"
+                    - option "AL (343 areas)"
+                    - option "TH (337 areas)"
+                    - option "MX (330 areas)"
+                    - option "NZ (321 areas)"
+                    - option "UG (319 areas)"
+                    - option "SN (315 areas)"
+                    - option "ME (309 areas)"
+                    - option "VN (306 areas)"
+                    - option "NG (299 areas)"
+                    - option "ET (298 areas)"
+                    - option "MY (297 areas)"
+                    - option "AM (292 areas)"
+                    - option "TZ (290 areas)"
+                    - option "LB (290 areas)"
+                    - option "PE (271 areas)"
+                    - option "FO (271 areas)"
+                    - option "JO (268 areas)"
+                    - option "BY (262 areas)"
+                    - option "DZ (262 areas)"
+                    - option "UY (259 areas)"
+                    - option "HK (250 areas)"
+                    - option "MZ (249 areas)"
+                    - option "CM (248 areas)"
+                    - option "PH (242 areas)"
+                    - option "ID (239 areas)"
+                    - option "SG (239 areas)"
+                    - option "KZ (232 areas)"
+                    - option "BF (228 areas)"
+                    - option "NA (223 areas)"
+                    - option "ZM (221 areas)"
+                    - option "CV (221 areas)"
+                    - option "AZ (219 areas)"
+                    - option "CR (219 areas)"
+                    - option "RW (218 areas)"
+                    - option "BW (215 areas)"
+                    - option "CI (214 areas)"
+                    - option "PK (211 areas)"
+                    - option "EC (209 areas)"
+                    - option "GL (201 areas)"
+                    - option "BD (199 areas)"
+                    - option "BJ (198 areas)"
+                    - option "MG (197 areas)"
+                    - option "YU (193 areas)"
+                    - option "UZ (182 areas)"
+                    - option "XK (181 areas)"
+                    - option "PS (180 areas)"
+                    - option "CD (175 areas)"
+                    - option "CU (171 areas)"
+                    - option "ZW (167 areas)"
+                    - option "MW (163 areas)"
+                    - option "NE (163 areas)"
+                    - option "KG (155 areas)"
+                    - option "LK (149 areas)"
+                    - option "ML (148 areas)"
+                    - option "BO (146 areas)"
+                    - option "MC (145 areas)"
+                    - option "NC (143 areas)"
+                    - option "SA (141 areas)"
+                    - option "TG (139 areas)"
+                    - option "MU (136 areas)"
+                    - option "IR (123 areas)"
+                    - option "AE (122 areas)"
+                    - option "SL (122 areas)"
+                    - option "JM (118 areas)"
+                    - option "SY (117 areas)"
+                    - option "TJ (114 areas)"
+                    - option "LI (105 areas)"
+                    - option "NP (105 areas)"
+                    - option "AO (105 areas)"
+                    - option "KH (103 areas)"
+                    - option "GA (102 areas)"
+                    - option "CG (93 areas)"
+                    - option "PA (92 areas)"
+                    - option "PY (91 areas)"
+                    - option "SD (87 areas)"
+                    - option "VE (86 areas)"
+                    - option "IQ (86 areas)"
+                    - option "BI (85 areas)"
+                    - option "DJ (85 areas)"
+                    - option "TM (83 areas)"
+                    - option "PF (83 areas)"
+                    - option "MR (80 areas)"
+                    - option "GN (76 areas)"
+                    - option "GT (74 areas)"
+                    - option "NI (70 areas)"
+                    - option "GI (70 areas)"
+                    - option "ST (68 areas)"
+                    - option "LA (67 areas)"
+                    - option "BT (67 areas)"
+                    - option "MN (67 areas)"
+                    - option "ZZ (64 areas)"
+                    - option "PG (64 areas)"
+                    - option "CF (60 areas)"
+                    - option "HN (57 areas)"
+                    - option "LS (57 areas)"
+                    - option "MV (57 areas)"
+                    - option "BQ (56 areas)"
+                    - option "LR (53 areas)"
+                    - option "LY (53 areas)"
+                    - option "DO (52 areas)"
+                    - option "SZ (49 areas)"
+                    - option "GM (48 areas)"
+                    - option "KW (48 areas)"
+                    - option "SV (47 areas)"
+                    - option "BZ (47 areas)"
+                    - option "TT (46 areas)"
+                    - option "FJ (46 areas)"
+                    - option "GW (41 areas)"
+                    - option "AW (41 areas)"
+                    - option "AF (40 areas)"
+                    - option "TD (38 areas)"
+                    - option "GQ (37 areas)"
+                    - option "SC (34 areas)"
+                    - option "YE (34 areas)"
+                    - option "AI (33 areas)"
+                    - option "MM (32 areas)"
+                    - option "SR (31 areas)"
+                    - option "MH (29 areas)"
+                    - option "QA (29 areas)"
+                    - option "OM (28 areas)"
+                    - option "PR (26 areas)"
+                    - option "SO (23 areas)"
+                    - option "AN (22 areas)"
+                    - option "VU (22 areas)"
+                    - option "AD (21 areas)"
+                    - option "MO (21 areas)"
+                    - option "HT (20 areas)"
+                    - option "BB (19 areas)"
+                    - option "BH (19 areas)"
+                    - option "SX (19 areas)"
+                    - option "WS (18 areas)"
+                    - option "GY (16 areas)"
+                    - option "CW (15 areas)"
+                    - option "VA (14 areas)"
+                    - option "IM (13 areas)"
+                    - option "SS (13 areas)"
+                    - option "VG (13 areas)"
+                    - option "GD (12 areas)"
+                    - option "JE (10 areas)"
+                    - option "SB (10 areas)"
+                    - option "TL (10 areas)"
+                    - option "WF (10 areas)"
+                    - option "CS (8 areas)"
+                    - option "DC (7 areas)"
+                    - option "GP (7 areas)"
+                    - option "GU (7 areas)"
+                    - option "MP (6 areas)"
+                    - option "TO (6 areas)"
+                    - option "NU (5 areas)"
+                    - option "SM (4 areas)"
+                    - option "ZR (4 areas)"
+                    - option "EU (4 areas)"
+                    - option "MQ (4 areas)"
+                    - option "BN (2 areas)"
+                    - option "GF (2 areas)"
+                    - option "KM (2 areas)"
+                    - option "NF (2 areas)"
+                    - option "KY (1 area)"
+                    - option "LC (1 area)"
+                - generic [ref=f4e323]:
+                  - generic [ref=f4e324]: Led (coordinated)
+                  - generic [ref=f4e326]: Joined (partnered)
+                  - generic [ref=f4e328]: Funded, no activity
+                - generic [ref=f4e330]:
+                  - strong [ref=f4e331]: DE
+                  - text: — active in 505 research areas · 13 061 led · 32 046 joined
+                - list [ref=f4e332]:
+                  - listitem [ref=f4e333]:
+                    - generic [ref=f4e334]:
+                      - generic "Testing and optimising models of co-creation of advanced research infrastructure technologies" [ref=f4e335]
+                      - generic [ref=f4e336]: 11 406 organisations
+                    - generic "3073 led · 10493 joined · 11658 distinct funded projects" [ref=f4e337]:
+                      - generic [ref=f4e338]: 11 658 proj
+                      - generic [ref=f4e339]: 3073 led · 10 493 joined
+                  - listitem [ref=f4e340]:
+                    - generic [ref=f4e341]:
+                      - generic "Advanced manufacturing for key products (IA) (Made in Europe partnership)" [ref=f4e342]
+                      - generic [ref=f4e343]: 9794 organisations
+                    - generic "1968 led · 6843 joined · 7520 distinct funded projects" [ref=f4e344]:
+                      - generic [ref=f4e345]: 7520 proj
+                      - generic [ref=f4e346]: 1968 led · 6843 joined
+                  - listitem [ref=f4e347]:
+                    - generic [ref=f4e348]:
+                      - generic "Cooperation on innovative advanced materials with Japan (CSA)" [ref=f4e349]
+                      - generic [ref=f4e350]: 6998 organisations
+                    - generic "1992 led · 5474 joined · 6453 distinct funded projects" [ref=f4e351]:
+                      - generic [ref=f4e352]: 6453 proj
+                      - generic [ref=f4e353]: 1992 led · 5474 joined
+                  - listitem [ref=f4e354]:
+                    - generic [ref=f4e355]:
+                      - generic "Research infrastructures as accelerators of the integration of Ukraine in the European Research Area" [ref=f4e356]
+                      - generic [ref=f4e357]: 6551 organisations
+                    - generic "1338 led · 5229 joined · 5659 distinct funded projects" [ref=f4e358]:
+                      - generic [ref=f4e359]: 5659 proj
+                      - generic [ref=f4e360]: 1338 led · 5229 joined
+                  - listitem [ref=f4e361]:
+                    - generic [ref=f4e362]:
+                      - generic "Trusted frameworks for secure and efficient data sharing in EOSC (EOSC Partnership)" [ref=f4e363]
+                      - generic [ref=f4e364]: 3786 organisations
+                    - generic "814 led · 3607 joined · 3864 distinct funded projects" [ref=f4e365]:
+                      - generic [ref=f4e366]: 3864 proj
+                      - generic [ref=f4e367]: 814 led · 3607 joined
+                  - listitem [ref=f4e368]:
+                    - generic [ref=f4e369]:
+                      - generic "Innovative tools and services to manage and empower energy communities" [ref=f4e370]
+                      - generic [ref=f4e371]: 3769 organisations
+                    - generic "1013 led · 3425 joined · 3858 distinct funded projects" [ref=f4e372]:
+                      - generic [ref=f4e373]: 3858 proj
+                      - generic [ref=f4e374]: 1013 led · 3425 joined
+                  - listitem [ref=f4e375]:
+                    - generic [ref=f4e376]:
+                      - generic "ERA Fellowships" [ref=f4e377]
+                      - generic [ref=f4e378]: 4596 organisations
+                    - generic "1158 led · 3184 joined · 3787 distinct funded projects" [ref=f4e379]:
+                      - generic [ref=f4e380]: 3787 proj
+                      - generic [ref=f4e381]: 1158 led · 3184 joined
+                  - listitem [ref=f4e382]:
+                    - generic [ref=f4e383]:
+                      - generic "Unlocking the potential of academic intellectual assets for industry, SMEs and startups (CSA)" [ref=f4e384]
+                      - generic [ref=f4e385]: 4891 organisations
+                    - generic "1050 led · 3281 joined · 3690 distinct funded projects" [ref=f4e386]:
+                      - generic [ref=f4e387]: 3690 proj
+                      - generic [ref=f4e388]: 1050 led · 3281 joined
+                  - listitem [ref=f4e389]:
+                    - generic [ref=f4e390]:
+                      - 'generic "Jean Monnet Actions in other fields of Education and Training: Learning EU" [ref=f4e391]'
+                      - generic [ref=f4e392]: 3963 organisations
+                    - generic "836 led · 3122 joined · 3446 distinct funded projects" [ref=f4e393]:
+                      - generic [ref=f4e394]: 3446 proj
+                      - generic [ref=f4e395]: 836 led · 3122 joined
+                  - listitem [ref=f4e396]:
+                    - generic [ref=f4e397]:
+                      - 'generic "Pillar I: Building institutional capacities for ethical, equitable, open, and inclusive ERA" [ref=f4e398]'
+                      - generic [ref=f4e399]: 3461 organisations
+                    - generic "777 led · 3115 joined · 3396 distinct funded projects" [ref=f4e400]:
+                      - generic [ref=f4e401]: 3396 proj
+                      - generic [ref=f4e402]: 777 led · 3115 joined
+                  - listitem [ref=f4e403]:
+                    - generic [ref=f4e404]:
+                      - 'generic "“Artistic intelligence” : harnessing the power of the arts to address complex challenges, enhance soft skills and boost innovation and competitiveness" [ref=f4e405]'
+                      - generic [ref=f4e406]: 3793 organisations
+                    - generic "909 led · 2984 joined · 3376 distinct funded projects" [ref=f4e407]:
+                      - generic [ref=f4e408]: 3376 proj
+                      - generic [ref=f4e409]: 909 led · 2984 joined
+                  - listitem [ref=f4e410]:
+                    - generic [ref=f4e411]:
+                      - generic "Preparatory phase of new ESFRI research infrastructure projects" [ref=f4e412]
+                      - generic [ref=f4e413]: 3589 organisations
+                    - generic "698 led · 2910 joined · 3107 distinct funded projects" [ref=f4e414]:
+                      - generic [ref=f4e415]: 3107 proj
+                      - generic [ref=f4e416]: 698 led · 2910 joined
+                  - listitem [ref=f4e417]:
+                    - generic [ref=f4e418]:
+                      - generic "European Universities" [ref=f4e419]
+                      - generic [ref=f4e420]: 3739 organisations
+                    - generic "744 led · 2713 joined · 2963 distinct funded projects" [ref=f4e421]:
+                      - generic [ref=f4e422]: 2963 proj
+                      - generic [ref=f4e423]: 744 led · 2713 joined
+                  - listitem [ref=f4e424]:
+                    - generic [ref=f4e425]:
+                      - generic "Access to research infrastructure services to enable R&I addressing EU priorities and emerging challenges" [ref=f4e426]
+                      - generic [ref=f4e427]: 3276 organisations
+                    - generic "652 led · 2761 joined · 2917 distinct funded projects" [ref=f4e428]:
+                      - generic [ref=f4e429]: 2917 proj
+                      - generic [ref=f4e430]: 652 led · 2761 joined
+                  - listitem [ref=f4e431]:
+                    - generic [ref=f4e432]:
+                      - generic "Consolidation of the research infrastructure landscape – individual support for evolution, long-term sustainability and emerging needs of pan-European research infrastructures" [ref=f4e433]
+                      - generic [ref=f4e434]: 3170 organisations
+                    - generic "597 led · 2677 joined · 2835 distinct funded projects" [ref=f4e435]:
+                      - generic [ref=f4e436]: 2835 proj
+                      - generic [ref=f4e437]: 597 led · 2677 joined
+                - generic [ref=f4e438]: Showing the top 15 of 505 research areas.
+                - generic [ref=f4e439]: Organisations from the chosen country participating in CORDIS-funded projects, by area and role (CORDIS, FP7-Horizon Europe). EU-funded participation, not scientific quality; absence is not absence of activity.
+          - generic [ref=f4e440]:
+            - generic [ref=f4e441]:
+              - heading "Calls over time" [level=3] [ref=f4e442]
+              - generic [ref=f4e443]: Jan–Dec 2026
+              - group "Series shown" [ref=f4e444]:
+                - button "Open & forthcoming" [pressed] [ref=f4e445] [cursor=pointer]
+                - button "Closed" [ref=f4e447] [cursor=pointer]
+            - generic [ref=f4e449]:
+              - img "Calls over time" [ref=f4e450]
+              - generic [ref=f4e453]:
+                - generic [ref=f4e454]: Jan
+                - generic [ref=f4e455]: Feb
+                - generic [ref=f4e456]: Mar
+                - generic [ref=f4e457]: Apr
+                - generic [ref=f4e458]: May
+                - generic [ref=f4e459]: Jun
+                - generic [ref=f4e460]: Jul
+                - generic [ref=f4e461]: Aug
+                - generic [ref=f4e462]: Sep
+                - generic [ref=f4e463]: Oct
+                - generic [ref=f4e464]: Nov
+                - generic [ref=f4e465]: Dec
+            - paragraph [ref=f4e466]: Showing open & forthcoming calls active in each month
+            - group "Monthly values" [ref=f4e467]:
+              - generic "▸ Monthly values" [ref=f4e468] [cursor=pointer]
+      - generic [ref=f4e469]:
+        - generic [ref=f4e470]: ON OFFER
+        - generic [ref=f4e471]:
+          - generic [ref=f4e472]: €15.4B
+          - generic [ref=f4e473]: INDICATIVE FUNDING
+        - generic [ref=f4e474]:
+          - generic [ref=f4e475]: "6"
+          - generic [ref=f4e476]: PROGRAMMES
+        - generic [ref=f4e477]:
+          - generic [ref=f4e478]: "131"
+          - generic [ref=f4e479]: OPEN CALLS
+        - generic [ref=f4e480]:
+          - generic [ref=f4e481]: "213"
+          - generic [ref=f4e482]: FORTHCOMING
+        - generic [ref=f4e484]: FUNDED
+        - generic [ref=f4e485]:
+          - generic [ref=f4e486]: 101 479
+          - generic [ref=f4e487]: PROJECTS
+        - generic [ref=f4e488]:
+          - generic [ref=f4e489]: €187.7B
+          - generic [ref=f4e490]: EU AWARDED
+        - generic [ref=f4e491]:
+          - generic [ref=f4e492]: 238 138
+          - generic [ref=f4e493]: ORGANISATIONS
+        - generic [ref=f4e494]:
+          - generic [ref=f4e495]: "217"
+          - generic [ref=f4e496]: COUNTRIES
+        - generic [ref=f4e497]: "Source: EU CORDIS"
+        - generic "Funded projects linked to tracked Horizon Europe calls (CORDIS, FP7-Horizon Europe). EU-funded participation and awarded EU contribution — not scientific quality or impact. Counts and euros are separate measures." [ref=f4e498]: On offer = indicative work-programme budgets · Funded = historical CORDIS awards
+    - generic [ref=f4e502]:
+      - button "Collapse" [ref=f4e503] [cursor=pointer]
+      - generic [ref=f4e507]: General
+      - button "Command palette (Ctrl / ⌘ K)" [ref=f4e510] [cursor=pointer]:
+        - generic [ref=f4e517]: Commands
+      - button "Help" [ref=f4e519] [cursor=pointer]
+      - generic [ref=f4e523]: Explore
+      - generic "Find calls — switch to the graph first" [ref=f4e525]:
+        - button "Find calls — switch to the graph first" [disabled]:
+          - generic: Find calls
+      - button "View bookmarks" [ref=f4e527] [cursor=pointer]:
+        - generic [ref=f4e530]: Bookmarks
+      - button "Timeline scrubber" [ref=f4e532] [cursor=pointer]:
+        - generic [ref=f4e537]: Timeline
+      - button "Compare programmes" [ref=f4e539] [cursor=pointer]:
+        - generic [ref=f4e543]: Compare
+      - generic [ref=f4e544]: Landscape
+      - button "Funded landscape — explore by research field" [ref=f4e547] [cursor=pointer]:
+        - generic [ref=f4e551]: Funded landscape
+      - generic [ref=f4e553]: Settings
+      - button "Switch light / dark mode" [ref=f4e556] [cursor=pointer]:
+        - generic [ref=f4e559]: Theme
+      - button "Send a message" [ref=f4e561] [cursor=pointer]:
+        - generic [ref=f4e565]: Contact
+      - button "Graph layout & settings" [ref=f4e567] [cursor=pointer]:
+        - generic [ref=f4e571]: Layout & settings

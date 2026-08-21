@@ -18,7 +18,7 @@
 
 .dash-tool-panel {
   /* A subtle accent so the activated tool reads as a distinct panel, not just another card. */
-  border-color: var(--primary, #3d8fff);
+  border-color: var(--primary, #47a9ff);
   box-shadow: 0 0 0 1px rgba(var(--primary-rgb), 0.18),
               0 10px 30px rgba(2, 6, 23, 0.18);
   scroll-margin-top: 12px;
@@ -69,7 +69,7 @@
   }
 
   &--active {
-    background: var(--primary, #3d8fff);
+    background: var(--primary, #47a9ff);
     color: #fff;
   }
 }
@@ -169,7 +169,7 @@
 
 .dash-tool-panel__intro-icon {
   font-size: 1.1rem !important;
-  color: var(--primary, #3d8fff);
+  color: var(--primary, #47a9ff);
   flex: 0 0 auto;
   margin-top: 1px;
 }

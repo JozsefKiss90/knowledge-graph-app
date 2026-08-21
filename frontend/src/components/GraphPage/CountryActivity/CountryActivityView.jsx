@@ -27,9 +27,9 @@ export default function CountryActivityView({ country, setCountry }) {
     <div className="country-activity dash-tool-panel__tool">
       <div className="country-activity__hint">
         Pick a country to see where its organisations have been funded across the funding landscape. Green
-        call nodes are areas it has <strong>led</strong> (coordinated); lighter green it has{" "}
+        calls are areas it has <strong>led</strong> (coordinated); lighter green it has{" "}
         <strong>joined</strong> (partnered); dimmed areas are EU-funded but have no recorded activity from
-        this country. Highlights show in the funding map wherever call nodes are visible. EU-funded
+        this country. Highlights show in the funding map wherever calls are visible. EU-funded
         participation only — not a measure of quality, and organisations funded nationally or privately
         won&rsquo;t appear.
       </div>

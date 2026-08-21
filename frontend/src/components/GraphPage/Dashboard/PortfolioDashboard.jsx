@@ -39,18 +39,27 @@ import SavedViews from "./SavedViews";
 import DashCardSkeleton from "./DashCardSkeleton";
 import DashWindow from "./DashWindow";
 
+// Window accents follow the Two-Halves rule with the two documented tokens only: Signal Blue for
+// planned/on-offer surfaces and navigation, Awarded Green strictly for historical CORDIS funded
+// evidence. No per-window rainbow, no legacy purple.
+const ON_OFFER_ACCENT = "#47a9ff"; // Signal Blue
+const AWARDED_ACCENT = "#35d07f"; // Awarded Green
+
 // The "Explore by theme" windows. Each opens a draggable DashWindow holding a reused dashboard
 // component. `accent` colours the window header; the pills themselves share one blue-glass active
 // style (the redesign is single-accent). `saved` is pulled out and right-aligned in the bar.
 const THEMES = [
-  { key: "funding", label: "Funding", icon: BarChartIcon, accent: "#47a9ff", width: 480 },
-  { key: "funded", label: "Funded activity", icon: StackedBarChartIcon, accent: "#34d399", width: 540 },
-  { key: "geography", label: "Geography", icon: PublicIcon, accent: "#60A5FA", width: 480 },
-  { key: "orgs", label: "Organisations", icon: GroupsIcon, accent: "#F472B6", width: 460 },
-  { key: "fields", label: "Fields & topics", icon: AccountTreeIcon, accent: "#22C55E", width: 460 },
-  { key: "topics", label: "Topics", icon: BubbleChartIcon, accent: "#22D3EE", width: 460 },
-  { key: "saved", label: "Saved", icon: BookmarkIcon, accent: "#FBBF24", width: 440 },
+  { key: "funding", label: "Funding", icon: BarChartIcon, accent: ON_OFFER_ACCENT, width: 480 },
+  { key: "funded", label: "Funded activity", icon: StackedBarChartIcon, accent: AWARDED_ACCENT, width: 540 },
+  { key: "geography", label: "Geography", icon: PublicIcon, accent: AWARDED_ACCENT, width: 480 },
+  { key: "orgs", label: "Organisations", icon: GroupsIcon, accent: AWARDED_ACCENT, width: 460 },
+  { key: "fields", label: "Fields & topics", icon: AccountTreeIcon, accent: AWARDED_ACCENT, width: 460 },
+  { key: "topics", label: "Topics", icon: BubbleChartIcon, accent: ON_OFFER_ACCENT, width: 460 },
+  { key: "saved", label: "Saved", icon: BookmarkIcon, accent: ON_OFFER_ACCENT, width: 440 },
 ];
+
+// Accent/width lookup so the window JSX below can never drift from the pill definitions.
+const THEME_BY_KEY = Object.fromEntries(THEMES.map((t) => [t.key, t]));
 
 const WIN_KEYS = THEMES.map((t) => t.key);
 const INITIAL_POS = {
@@ -66,7 +75,10 @@ const INITIAL_POS = {
 /**
  * Gate for a CORDIS window body, honouring the hide-when-empty guardrail in every state:
  *  - no CORDIS ingested at all → the honest "what's been funded" teaser,
- *  - fetch failed → an honest "couldn't load" empty-state (not a perpetual skeleton),
+ *  - the top-level CORDIS check itself in flight → skeleton,
+ *  - the top-level CORDIS check failed → an honest "couldn't check" state (a fetch failure must
+ *    never masquerade as "nothing ingested yet" — same precedence as the offer/funded strip),
+ *  - this window's fetch failed → an honest "couldn't load" empty-state (not a perpetual skeleton),
  *  - fetch in flight → skeleton,
  *  - ingested but this view has no rows yet (e.g. projects present but not yet EuroSciVoc
  *    classified) → an honest empty-state, NEVER a window with blank chrome,
@@ -74,8 +86,17 @@ const INITIAL_POS = {
  * `hasRows` is the per-window non-empty predicate (a truthy-but-empty payload must not slip
  * through as renderable, since the reused widgets self-return null on empty data).
  */
-function CordisGate({ active, loading, error, data, hasRows, children }) {
+function CordisGate({ active, sourceLoading, sourceError, loading, error, data, hasRows, children }) {
   if (!active) {
+    if (sourceLoading) return <DashCardSkeleton />;
+    if (sourceError) {
+      return (
+        <CordisEmptyState compact>
+          We couldn't check the funded track record (CORDIS) right now — it may still be
+          available. Try reopening the window.
+        </CordisEmptyState>
+      );
+    }
     return (
       <CordisEmptyState>
         Real awarded projects, organisations and countries appear here once EU funded-project
@@ -312,8 +333,8 @@ export default function PortfolioDashboard({
             title="Funding"
             subtitle="Indicative funding on offer by programme"
             icon={BarChartIcon}
-            accent="#7551FF"
-            width={480}
+            accent={THEME_BY_KEY.funding.accent}
+            width={THEME_BY_KEY.funding.width}
           >
             <FundingByProgramme
               callsByProgramme={data.callsByProgramme}
@@ -328,11 +349,13 @@ export default function PortfolioDashboard({
             title="Funded activity"
             subtitle="Historical funded projects over time · EU CORDIS"
             icon={StackedBarChartIcon}
-            accent="#34d399"
-            width={540}
+            accent={THEME_BY_KEY.funded.accent}
+            width={THEME_BY_KEY.funded.width}
           >
             <CordisGate
               active={cordisActive}
+              sourceLoading={!cordis.data && cordis.loading}
+              sourceError={!cordis.data && cordis.error}
               loading={trend.loading}
               error={trend.error}
               data={trend.data}
@@ -352,11 +375,13 @@ export default function PortfolioDashboard({
             title="Geography"
             subtitle="Funded activity by country · EU CORDIS"
             icon={PublicIcon}
-            accent="#60A5FA"
-            width={480}
+            accent={THEME_BY_KEY.geography.accent}
+            width={THEME_BY_KEY.geography.width}
           >
             <CordisGate
               active={cordisActive}
+              sourceLoading={!cordis.data && cordis.loading}
+              sourceError={!cordis.data && cordis.error}
               loading={countryActivity.loading}
               error={countryActivity.error}
               data={countryActivity.data}
@@ -379,11 +404,13 @@ export default function PortfolioDashboard({
             title="Organisations"
             subtitle="Most-funded organisations · EU CORDIS"
             icon={GroupsIcon}
-            accent="#F472B6"
-            width={460}
+            accent={THEME_BY_KEY.orgs.accent}
+            width={THEME_BY_KEY.orgs.width}
           >
             <CordisGate
               active={cordisActive}
+              sourceLoading={!cordis.data && cordis.loading}
+              sourceError={!cordis.data && cordis.error}
               loading={topOrgs.loading}
               error={topOrgs.error}
               data={topOrgs.data}
@@ -399,11 +426,13 @@ export default function PortfolioDashboard({
             title="Fields & topics"
             subtitle="Funded research fields · EU CORDIS"
             icon={AccountTreeIcon}
-            accent="#22C55E"
-            width={460}
+            accent={THEME_BY_KEY.fields.accent}
+            width={THEME_BY_KEY.fields.width}
           >
             <CordisGate
               active={cordisActive}
+              sourceLoading={!cordis.data && cordis.loading}
+              sourceError={!cordis.data && cordis.error}
               loading={fieldTree.loading}
               error={fieldTree.error}
               data={fieldTree.data}
@@ -429,8 +458,8 @@ export default function PortfolioDashboard({
             title="Topics"
             subtitle="Estimated topic mix across planned calls"
             icon={BubbleChartIcon}
-            accent="#22D3EE"
-            width={460}
+            accent={THEME_BY_KEY.topics.accent}
+            width={THEME_BY_KEY.topics.width}
           >
             <TopicDistribution topicDistribution={data.topicDistribution} />
           </DashWindow>
@@ -443,8 +472,8 @@ export default function PortfolioDashboard({
             title="Saved"
             subtitle="Quick filters and saved views"
             icon={BookmarkIcon}
-            accent="#FBBF24"
-            width={440}
+            accent={THEME_BY_KEY.saved.accent}
+            width={THEME_BY_KEY.saved.width}
           >
             <SavedSearches
               openForthcoming={monitoredCount}

@@ -106,7 +106,7 @@ export default function FundingByProgramme({ callsByProgramme, plannedByProgramm
       return {
         key,
         label: disp.label || key,
-        color: disp.color || "#60A5FA",
+        color: disp.color || "#47a9ff",
         planned: p ? p.budget : null,
         awarded: a ? a.awardedEc : null,
       };

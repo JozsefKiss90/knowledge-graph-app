@@ -43,7 +43,7 @@ export default function KpiCard({ title, value, unit, subtitle, badge, badgeVari
                     padding: "1px 6px",
                     borderRadius: 999,
                     lineHeight: 1.4,
-                    background: "var(--primary, #6366f1)",
+                    background: "var(--primary, #47a9ff)",
                     color: "#fff",
                   }
                 : {

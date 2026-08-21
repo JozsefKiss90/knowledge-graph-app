@@ -128,7 +128,7 @@ export function useDashboardData(loadFromStore) {
           programme: topProg,
           programmeKey: progKey,
           programmeLabel: PROGRAMME_DISPLAY[progKey]?.label || progKey,
-          programmeColor: PROGRAMME_DISPLAY[progKey]?.color || TOP_LEVEL_COLORS[topProg] || "#60A5FA",
+          programmeColor: PROGRAMME_DISPLAY[progKey]?.color || TOP_LEVEL_COLORS[topProg] || "#47a9ff",
           budget,
           status,
           openDate,
@@ -184,7 +184,7 @@ export function useDashboardData(loadFromStore) {
       .map(([key, budget]) => ({
         key,
         label: TOP_LEVEL_LABELS[key] || key,
-        color: TOP_LEVEL_COLORS[key] || "#60A5FA",
+        color: TOP_LEVEL_COLORS[key] || "#47a9ff",
         budget,
         callCount: callCountByTopProgramme[key] || 0,
       }))

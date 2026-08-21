@@ -8,9 +8,10 @@
 // Note it scans STATIC copy — render the surface with stub/empty data. The match is on the whole
 // word (plus the "subgraph" compound): legitimate domain words that merely contain the substring
 // ("Geography", "demography", "cryptography", "geographic information systems") are not
-// mechanism language.
+// mechanism language. "Node"/"edge" are banned as whole words too — they only exist in the
+// internal mechanism vocabulary (routes and code may keep them; copy and ARIA may not).
 
-const BANNED = /\b(?:sub)?graphs?\b/i;
+const BANNED = /\b(?:sub)?graphs?\b|\bnodes?\b|\bedges?\b/i;
 
 /**
  * Assert a rendered surface carries no mechanism language: neither in its visible text nor in what

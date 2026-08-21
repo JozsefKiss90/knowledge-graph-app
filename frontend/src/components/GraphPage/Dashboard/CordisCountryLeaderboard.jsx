@@ -1,8 +1,8 @@
 import React from "react";
 
 const TOP_N = 10;
-const ORGS_COLOR = "#60A5FA";   // organisations active (presence)
-const AREAS_COLOR = "#34D399";  // research areas touched (breadth)
+const ORGS_COLOR = "#47a9ff";   // organisations active (presence) — Signal Blue
+const AREAS_COLOR = "#35d07f";  // research areas touched (breadth) — Awarded Green
 
 const fmt = (n) => (n || 0).toLocaleString();
 

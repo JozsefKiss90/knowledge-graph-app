@@ -62,8 +62,8 @@ export function buildCommands(ctx) {
   add({
     id: "view-toggle-dashboard",
     group: "View",
-    label: viewMode === "dashboard" ? "Back to graph" : "Open portfolio dashboard",
-    keywords: "dashboard graph portfolio overview kpi",
+    label: viewMode === "dashboard" ? "Back to funding map" : "Open portfolio dashboard",
+    keywords: "dashboard graph map portfolio overview kpi",
     perform: () => setViewMode(viewMode === "dashboard" ? "graph" : "dashboard"),
   });
   add({

@@ -153,9 +153,9 @@ export default function DeadlineRunway({ calls }) {
     const closing14 = future.filter((x) => x.days <= 14).length;
     const within90 = future.filter((x) => x.days <= 90).length;
     const stats = [
-      { l: "NEXT DEADLINE", v: `${shortName(next.call.label, next.call.id)} · ${next.days}d`, c: "#9ccafd" },
-      { l: "CLOSING ≤ 14 DAYS", v: plural(closing14, "call"), c: "#f6c35e" },
-      { l: "OPEN WITHIN 90 DAYS", v: plural(within90, "call"), c: "#3ee08a" },
+      { l: "NEXT DEADLINE", v: `${shortName(next.call.label, next.call.id)} · ${next.days}d`, c: "var(--d2-accent-text)" },
+      { l: "CLOSING ≤ 14 DAYS", v: plural(closing14, "call"), c: "var(--d2-amber)" },
+      { l: "OPEN WITHIN 90 DAYS", v: plural(within90, "call"), c: "var(--d2-open)" },
     ];
 
     return { weeks, dots, ticks, stats, beyond, entries, summary, total: future.length };

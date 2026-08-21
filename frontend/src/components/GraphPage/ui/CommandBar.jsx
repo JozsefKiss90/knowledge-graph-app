@@ -158,7 +158,7 @@ export default function CommandBar({
       >
         <DashboardIcon size={13} />
         <span className="kg-commandbar__dash-label">
-          {inDashboard ? "Back to graph" : "Open dashboard"}
+          {inDashboard ? "Back to funding map" : "Open dashboard"}
         </span>
       </button>
 

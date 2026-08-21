@@ -44,7 +44,7 @@ function relDeadline(days, d) {
 // rgba glow tint for the programme dot (skips non-hex colours gracefully).
 function glow(hex) {
   if (typeof hex !== "string" || hex[0] !== "#" || hex.length < 7) {
-    return "rgba(117,81,255,0.18)";
+    return "rgba(71,169,255,0.18)"; // Signal Blue tint — same family as the accent tokens
   }
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);

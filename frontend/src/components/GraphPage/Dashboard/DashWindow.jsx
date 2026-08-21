@@ -7,7 +7,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 // rgba tint of a hex accent (mockup helper) — used for the header gradient + icon glow so
 // each theme window carries its own accent without hardcoding per-window CSS.
 function tint(hex, a) {
-  const h = (hex || "#7551FF").replace("#", "");
+  const h = (hex || "#47a9ff").replace("#", "");
   const r = parseInt(h.slice(0, 2), 16);
   const g = parseInt(h.slice(2, 4), 16);
   const b = parseInt(h.slice(4, 6), 16);
@@ -41,7 +41,7 @@ export default function DashWindow({
   title,
   subtitle,
   icon: Icon,
-  accent = "#7551FF",
+  accent = "#47a9ff",
   width = 460,
   children,
 }) {

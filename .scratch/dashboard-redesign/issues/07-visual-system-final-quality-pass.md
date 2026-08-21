@@ -1,6 +1,6 @@
 # 07 — Visual system sweep and final quality pass
 
-Status: ready-for-agent
+Status: done (2026-08-22 — see ../DELIVERY-REPORT.md)
 
 ## Parent
 
@@ -30,14 +30,14 @@ Final quality pass (after the visual work):
 
 ## Acceptance criteria
 
-- [ ] No dashboard-owned `#7551FF` (or near-duplicate substitutes) remains; Signal Blue / Awarded Green used per the documented rules
-- [ ] Light mode is a deliberate adaptation and both themes pass Playwright verification at both viewports
-- [ ] Visible focus and reduced-motion preferences respected across the dashboard
-- [ ] Impeccable polish, audit, doctor, and hooks status clean for ticket-owned work, without new broad ignore rules
-- [ ] Consolidated banned-mechanism-strings test passes (min-test 8)
-- [ ] Full Playwright matrix passes with curated evidence in `.scratch/dashboard-redesign/final/`; no transient Playwright state staged
-- [ ] Dashboard-focused tests, full frontend suite, lint, and production build pass (or failures shown pre-existing)
-- [ ] Delivery report written covering all twelve points in the parent ticket
+- [x] No dashboard-owned `#7551FF` (or near-duplicate substitutes) remains; Signal Blue / Awarded Green used per the documented rules (shared era/programme data palettes deferred with rationale — report §11)
+- [x] Light mode is a deliberate adaptation and both themes pass Playwright verification at both viewports
+- [x] Visible focus and reduced-motion preferences respected across the dashboard
+- [x] Impeccable polish, audit, doctor, and hooks status clean for ticket-owned work, without new broad ignore rules
+- [x] Consolidated banned-mechanism-strings test passes (min-test 8) — and caught a live "call nodes" leak
+- [x] Full Playwright matrix passes with curated evidence in `.scratch/dashboard-redesign/final/`; no transient Playwright state staged
+- [x] Dashboard-focused tests, full frontend suite (76/76), lint, and production build pass (pre-existing warnings only)
+- [x] Delivery report written covering all twelve points in the parent ticket (`../DELIVERY-REPORT.md`)
 
 ## Blocked by
 
