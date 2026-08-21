@@ -2,7 +2,7 @@ import React from "react";
 import KpiCard from "./KpiCard";
 
 export default function KpiCardsRow({
-  totalCommitted,
+  totalOnOffer,
   openCalls,
   closingIn30d,
   topicsTracked,
@@ -11,7 +11,7 @@ export default function KpiCardsRow({
     <div className="dash-kpi-row">
       <KpiCard
         title="Planned (on offer)"
-        value={totalCommitted}
+        value={totalOnOffer}
         unit="currency"
         subtitle="across all programmes"
         badge="offer"

@@ -1,6 +1,6 @@
 # 02 — On-offer vs funded honesty: the totalOnOffer rename and honest empty states
 
-Status: ready-for-agent
+Status: ready-for-human
 
 ## Parent
 
@@ -21,13 +21,30 @@ Out of scope: backend/API changes, repository-wide renames, visual/palette chang
 
 ## Acceptance criteria
 
-- [ ] No `totalCommitted` (or other committed/allocated/spent/awarded wording for advertised money) remains anywhere in dashboard-owned code, tests, or comments
-- [ ] The rendered dashboard labels advertised totals as indicative / on offer
-- [ ] Historical CORDIS values remain clearly historical, sourced, and separate from on-offer values
-- [ ] CORDIS unavailable/empty states render an honest message, never funded zeroes
-- [ ] Focused tests cover: indicative totals use on-offer terminology internally and visibly (min-test 3); CORDIS unavailable/empty states do not become funded zeroes (min-test 4)
-- [ ] Existing dashboard data wiring is preserved; frontend tests and production build pass
+- [x] No `totalCommitted` (or other committed/allocated/spent/awarded wording for advertised money) remains anywhere in dashboard-owned code, tests, or comments
+- [x] The rendered dashboard labels advertised totals as indicative / on offer
+- [x] Historical CORDIS values remain clearly historical, sourced, and separate from on-offer values
+- [x] CORDIS unavailable/empty states render an honest message, never funded zeroes
+- [x] Focused tests cover: indicative totals use on-offer terminology internally and visibly (min-test 3); CORDIS unavailable/empty states do not become funded zeroes (min-test 4)
+- [x] Existing dashboard data wiring is preserved; frontend tests and production build pass
 
 ## Blocked by
 
 - `01-baseline-critique-and-plan.md`
+
+## Delivery note (2026-08-21)
+
+- `totalCommitted` → `totalOnOffer` across producer (`useDashboardData`), live consumers
+  (`OfferFundedStrip`, `PortfolioDashboard`) and the dead-but-owned `KpiCardsRow`/`KpiTileRow`
+  (unmounted; slice G's candidate cleanup decides their deletion). The string survives only as
+  negative assertions in the new tests.
+- Strip: on-offer figure now labelled "INDICATIVE FUNDING"; funded half resolves one of four
+  honest states (populated / checking / couldn't-be-loaded / appears-once-ingested) with matched
+  tooltip — a fetch error never claims "not ingested", and no state renders funded zeroes.
+- **As-of freshness (Slice D assumption): verified absent.** `/cordis/portfolio-summary` returns
+  no ingest/as-of timestamp, so the strip stays source-only ("Source: EU CORDIS") per the plan's
+  stop condition; timestamp recorded as an out-of-scope backend gap (see PLAN.md §9).
+- Out-of-slice fixes needed to make "frontend tests pass" true: pinned the fake-timer date in
+  `NodeDetail.callheader.test.jsx` via `jest.setSystemTime` (Jest 27 ignores the options object,
+  so its day-count tests drifted daily), and deleted the stock CRA `App.test.js` boilerplate
+  (asserted a "learn react" link that never existed in this app).

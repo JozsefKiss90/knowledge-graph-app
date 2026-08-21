@@ -16,21 +16,25 @@ function count(value) {
 /**
  * ON OFFER / FUNDED summary band — the mockup's footer strip.
  *
- * Left group (ON OFFER) is the work-programme side, always shown. Right group (FUNDED) is the CORDIS
- * funded-reality side and only appears once real funded-project data is ingested; until then we show
- * an honest "appears once ingested" note rather than a row of zeros. Planned and awarded stay two
- * separate measures (never blended), honouring the honesty contract. The two halves are labelled so
- * the reader always knows which source a figure comes from.
+ * Left group (ON OFFER) is the work-programme side, always shown: indicative funding on
+ * offer, never money committed or awarded. Right group (FUNDED) is the CORDIS
+ * funded-reality side with four distinct honest states — populated, still loading
+ * ("checking"), fetch failed ("couldn't be loaded", never a false not-ingested claim),
+ * and not-yet-ingested ("appears once ingested") — never a row of zeros. On-offer and
+ * awarded stay two separate measures (never blended), honouring the honesty contract.
+ * The two halves are labelled so the reader always knows which source a figure comes from.
  */
 export default function OfferFundedStrip({
-  totalCommitted,
+  totalOnOffer,
   programmeCount,
   openCalls,
   cordis,
   cordisActive,
+  cordisLoading,
+  cordisError,
 }) {
   const offer = [
-    { v: euro(totalCommitted), l: "ON OFFER" },
+    { v: euro(totalOnOffer), l: "INDICATIVE FUNDING" },
     { v: count(programmeCount), l: "PROGRAMMES" },
     { v: count(openCalls), l: "OPEN CALLS" },
   ];
@@ -44,6 +48,30 @@ export default function OfferFundedStrip({
           { v: count(cordis.countryCount), l: "COUNTRIES" },
         ]
       : null;
+
+  // The non-populated funded half, resolved once so the strip line and the tooltip can never
+  // disagree. Precedence: in-flight beats failed beats not-ingested — a fetch error must never
+  // masquerade as "nothing ingested yet".
+  const fundedFallback = funded
+    ? null
+    : cordisLoading
+    ? {
+        line: "Checking the funded track record (CORDIS)…",
+        tooltip: "Checking EU funded-project data (CORDIS)…",
+      }
+    : cordisError
+    ? {
+        line: "Funded track record (CORDIS) couldn’t be loaded right now",
+        tooltip:
+          "CORDIS couldn’t be reached — the funded figures are temporarily unavailable, not empty.",
+      }
+    : {
+        line: "Funded track record (CORDIS) appears here once ingested",
+        tooltip:
+          "Real awarded euros and organisations appear once EU funded-project data (CORDIS) is ingested.",
+      };
+
+  const noteTitle = fundedFallback ? fundedFallback.tooltip : cordis.provenance;
 
   return (
     <div className="dash-offerstrip">
@@ -71,24 +99,14 @@ export default function OfferFundedStrip({
           <span className="dash-offerstrip__src">Source: EU CORDIS</span>
         </>
       ) : (
-        <span className="dash-offerstrip__pending">
-          Funded track record (CORDIS) appears here once ingested
-        </span>
+        <span className="dash-offerstrip__pending">{fundedFallback.line}</span>
       )}
 
       <span className="dash-offerstrip__grow" />
 
-      <Tooltip
-        arrow
-        placement="top"
-        title={
-          cordisActive && cordis
-            ? cordis.provenance
-            : "Real awarded euros and organisations appear once EU funded-project data (CORDIS) is ingested."
-        }
-      >
+      <Tooltip arrow placement="top" title={noteTitle}>
         <span className="dash-offerstrip__note">
-          On offer = work programme · Funded = CORDIS
+          On offer = indicative work-programme budgets · Funded = historical CORDIS awards
           <InfoOutlinedIcon fontSize="inherit" className="dash-offerstrip__note-icon" />
         </span>
       </Tooltip>

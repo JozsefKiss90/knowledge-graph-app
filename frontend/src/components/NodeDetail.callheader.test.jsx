@@ -81,9 +81,11 @@ beforeEach(() => {
         ),
     })
   );
-  // Fixed "today" so the day counts below are deterministic; real time still advances so the
-  // component's own async work resolves.
-  jest.useFakeTimers({ now: new Date("2026-08-13T09:00:00Z"), doNotFake: ["queueMicrotask"] });
+  // Fixed "today" so the day counts below are deterministic. Jest 27 (react-scripts 5)
+  // ignores an options object passed to useFakeTimers, so the date must be pinned via
+  // setSystemTime — microtasks stay real, letting the component's async work resolve.
+  jest.useFakeTimers("modern");
+  jest.setSystemTime(new Date("2026-08-13T09:00:00Z"));
 });
 
 afterEach(() => {

@@ -57,7 +57,7 @@ export function useDashboardData(loadFromStore) {
         closingIn30d: 0,
         openCallsList: [],
         closingIn30dList: [],
-        totalCommitted: 0,
+        totalOnOffer: 0,
         topicsTracked: 0,
         callsByProgramme: [],
         plannedByProgrammeKey: {},
@@ -160,7 +160,9 @@ export function useDashboardData(loadFromStore) {
       return dl && dl >= now && dl <= in30d;
     });
 
-    const totalCommitted = Object.values(budgetByTopProgramme).reduce((a, b) => a + b, 0);
+    // Indicative funding currently on offer across all work programmes — advertised call
+    // budgets, never money committed, allocated, or awarded (ADR-0006).
+    const totalOnOffer = Object.values(budgetByTopProgramme).reduce((a, b) => a + b, 0);
 
     // Programmes with data
     const activeProgrammes = Object.keys(callCountByTopProgramme).filter(
@@ -225,7 +227,7 @@ export function useDashboardData(loadFromStore) {
       closingIn30d: closingIn30d.length,
       openCallsList: openCalls,
       closingIn30dList: closingIn30d,
-      totalCommitted,
+      totalOnOffer,
       topicsTracked: allTopics.size,
       callsByProgramme,
       plannedByProgrammeKey,

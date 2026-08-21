@@ -68,7 +68,7 @@ function Tile({ icon: Icon, tone, label, value, currency, sub, badge, badgeVaria
  */
 export default function KpiTileRow({
   // planned (work-programme) side — from useDashboardData
-  totalCommitted,
+  totalOnOffer,
   openCalls,
   closingIn30d,
   topicsTracked,
@@ -81,7 +81,7 @@ export default function KpiTileRow({
     icon: SavingsIcon,
     tone: "#7551FF",
     label: "Planned (on offer)",
-    value: totalCommitted,
+    value: totalOnOffer,
     currency: true,
     sub: `across ${(programmeCount || 0).toLocaleString()} programmes`,
     badge: "offer",

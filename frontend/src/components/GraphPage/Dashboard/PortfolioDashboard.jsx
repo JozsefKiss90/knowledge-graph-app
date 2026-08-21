@@ -255,14 +255,17 @@ export default function PortfolioDashboard({
           </div>
         </div>
 
-        {/* ── On offer / funded summary strip (planned vs CORDIS-funded, kept as separate
-            measures; the funded half only appears once real CORDIS data is ingested) ── */}
+        {/* ── On offer / funded summary strip (indicative on-offer vs CORDIS-funded, kept as
+            separate measures; the funded half renders honest loading / failed / not-ingested
+            states until real CORDIS data is available) ── */}
         <OfferFundedStrip
-          totalCommitted={data.totalCommitted}
+          totalOnOffer={data.totalOnOffer}
           programmeCount={data.programmeCount}
           openCalls={data.openCalls}
           cordis={cordis.data}
           cordisActive={cordisActive}
+          cordisLoading={cordis.loading}
+          cordisError={cordis.error}
         />
       </div>
 

@@ -155,6 +155,10 @@ locally. Anything else must be justified in the delivery report.
 ## 9. Open decisions a builder must not invent
 
 - Exact "Forthcoming" label wording (vs "Opens <date>") — pick once, apply to pill + counts + tests.
-- Whether the as-of date exists in current responses (Slice D assumption) — verify before styling.
+- ~~Whether the as-of date exists in current responses (Slice D assumption)~~ — **verified during
+  slice 02 (2026-08-21): no.** `/cordis/portfolio-summary` (`_shape_portfolio_summary`,
+  `cordis_routes.py`) returns counts/euros + a static provenance string, no ingest/as-of timestamp.
+  Per the stop condition the strip stays source-only ("Source: EU CORDIS"); the timestamp is
+  recorded as a backend gap, out of scope this ticket.
 - Whether dead-code deletion ships this ticket (candidate cleanup above).
 - "Back to graph" (shared command) rename — only if that file is touched anyway.
