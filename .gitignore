@@ -30,3 +30,6 @@ Thumbs.db
 # The committed evidence is the small generated frontend/src/data/cordisThemeEvidence.json;
 # regenerate it from this data with: python CORDIS/build_theme_evidence.py
 CORDIS/data/
+
+# Playwright CLI transient state (never commit)
+.playwright-cli/
