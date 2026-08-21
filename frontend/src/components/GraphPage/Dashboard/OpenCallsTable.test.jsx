@@ -3,6 +3,7 @@ import { render, screen, within, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 import OpenCallsTable from "./OpenCallsTable";
+import { expectNoMechanismCopy } from "./noMechanismCopy";
 
 // Locks slice 03's contract on the calls surface: truthful statuses (a forthcoming call is
 // never labelled Open), programmatic selected state on the filter chips, ARIA-table
@@ -152,15 +153,7 @@ test("row actions and header action use funding-map terminology, never graph mec
   ).toBeGreaterThan(0);
   // Banned mechanism strings for this dashboard-owned surface (min-test 8, slice share):
   // visible text plus everything assistive technology reads (aria-* and title attributes).
-  expect(container.textContent).not.toMatch(/graph/i);
-  // eslint-disable-next-line testing-library/no-node-access
-  for (const el of container.querySelectorAll("*")) {
-    for (const attr of el.attributes) {
-      if (attr.name.startsWith("aria-") || attr.name === "title") {
-        expect(attr.value).not.toMatch(/graph/i);
-      }
-    }
-  }
+  expectNoMechanismCopy(container);
 });
 
 test("call-detail link and locate-in-funding-map wiring still work", () => {

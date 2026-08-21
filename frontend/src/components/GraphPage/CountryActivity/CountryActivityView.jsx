@@ -5,7 +5,7 @@ const fmt = (n) => (n || 0).toLocaleString();
 
 /**
  * B4 — Country activity (dashboard panel body): pick any country and see where its organisations have been
- * funded across the graph. Picking a country also paints the graph's call nodes (green = led/coordinated,
+ * funded across the funding landscape. Picking a country also paints the map's call nodes (green = led/coordinated,
  * lighter green = joined/partnered, dimmed = EU-funded but no activity from this country — handled in
  * GraphMainColumn) and lists the CORDIS research SUBJECTS the country is most active in. Pure read of existing
  * CORDIS edges. Honest: EU-funded participation, not quality/impact; absence is not absence of activity, and
@@ -26,11 +26,12 @@ export default function CountryActivityView({ country, setCountry }) {
   return (
     <div className="country-activity dash-tool-panel__tool">
       <div className="country-activity__hint">
-        Pick a country to see where its organisations have been funded across the graph. Green call nodes are
-        areas it has <strong>led</strong> (coordinated); lighter green it has <strong>joined</strong>
-        {" "}(partnered); dimmed areas are EU-funded but have no recorded activity from this country.
-        Highlights show on the graph layers where call nodes are visible. EU-funded participation only — not a
-        measure of quality, and organisations funded nationally or privately won&rsquo;t appear.
+        Pick a country to see where its organisations have been funded across the funding landscape. Green
+        call nodes are areas it has <strong>led</strong> (coordinated); lighter green it has{" "}
+        <strong>joined</strong> (partnered); dimmed areas are EU-funded but have no recorded activity from
+        this country. Highlights show in the funding map wherever call nodes are visible. EU-funded
+        participation only — not a measure of quality, and organisations funded nationally or privately
+        won&rsquo;t appear.
       </div>
 
       {loading && !data ? (
@@ -63,7 +64,7 @@ export default function CountryActivityView({ country, setCountry }) {
           {!picked ? (
             <div className="country-activity__calls-empty">
               Select a country above to see the CORDIS research areas its organisations are active in (and to
-              highlight them on the graph).
+              highlight them in the funding map).
             </div>
           ) : (
             <>
