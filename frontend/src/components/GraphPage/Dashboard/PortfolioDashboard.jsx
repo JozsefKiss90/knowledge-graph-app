@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
@@ -128,6 +128,26 @@ export default function PortfolioDashboard({
   // Floating-window manager — drives which theme windows are open (and therefore which CORDIS
   // fetches fire, see below).
   const { open, toggle, mkWin } = useDraggableWindows(WIN_KEYS, INITIAL_POS);
+  // The portaled layer only exists while a window is open: when stacked (below lg) it dims and
+  // captures the whole viewport, so an always-mounted layer would block the dashboard on arrival.
+  const anyWindowOpen = WIN_KEYS.some((k) => open[k]);
+
+  // Closing a window (close button or Escape) hands focus back to the pill that launched it,
+  // so keyboard users aren't dropped at the top of the document when the dialog unmounts.
+  const launcherRefs = useRef({});
+  const setLauncherRef = (key) => (el) => {
+    launcherRefs.current[key] = el;
+  };
+  const windowFor = (key) => {
+    const w = mkWin(key);
+    return {
+      ...w,
+      onClose: () => {
+        w.onClose();
+        launcherRefs.current[key]?.focus();
+      },
+    };
+  };
 
   // Below lg the floating windows restack into a scrolling column (see DashWindow +
   // .dash-windows-layer--stacked) so none of them land off-screen on tablets/phones.
@@ -193,6 +213,7 @@ export default function PortfolioDashboard({
               return (
                 <button
                   key={t.key}
+                  ref={setLauncherRef(t.key)}
                   type="button"
                   className={`dash-pill${on ? " is-active" : ""}`}
                   aria-pressed={on}
@@ -212,6 +233,7 @@ export default function PortfolioDashboard({
           <span className="dash-themebar__grow" />
           {/* Saved is pulled out and right-aligned, carrying a live count of saved views. */}
           <button
+            ref={setLauncherRef("saved")}
             type="button"
             className={`dash-pill dash-pill--saved${open.saved ? " is-active" : ""}`}
             aria-pressed={open.saved}
@@ -281,11 +303,14 @@ export default function PortfolioDashboard({
           keys off the `light-theme` class App.js sets on <body> (an ancestor of this portal),
           so we don't reuse the theme-wrapper class names here (those paint an opaque fill). The
           layer is transparent + click-through; only the windows capture pointer events. */}
-      {createPortal(
+      {anyWindowOpen &&
+        createPortal(
         <div className={`dash-windows-layer${stacked ? " dash-windows-layer--stacked" : ""}`}>
           <DashWindow
-            win={mkWin("funding")}
+            win={windowFor("funding")}
+            winKey="funding"
             title="Funding"
+            subtitle="Indicative funding on offer by programme"
             icon={BarChartIcon}
             accent="#7551FF"
             width={480}
@@ -298,8 +323,10 @@ export default function PortfolioDashboard({
           </DashWindow>
 
           <DashWindow
-            win={mkWin("funded")}
+            win={windowFor("funded")}
+            winKey="funded"
             title="Funded activity"
+            subtitle="Historical funded projects over time · EU CORDIS"
             icon={StackedBarChartIcon}
             accent="#34d399"
             width={540}
@@ -320,8 +347,10 @@ export default function PortfolioDashboard({
           </DashWindow>
 
           <DashWindow
-            win={mkWin("geography")}
+            win={windowFor("geography")}
+            winKey="geography"
             title="Geography"
+            subtitle="Funded activity by country · EU CORDIS"
             icon={PublicIcon}
             accent="#60A5FA"
             width={480}
@@ -345,8 +374,10 @@ export default function PortfolioDashboard({
           </DashWindow>
 
           <DashWindow
-            win={mkWin("orgs")}
+            win={windowFor("orgs")}
+            winKey="orgs"
             title="Organisations"
+            subtitle="Most-funded organisations · EU CORDIS"
             icon={GroupsIcon}
             accent="#F472B6"
             width={460}
@@ -363,8 +394,10 @@ export default function PortfolioDashboard({
           </DashWindow>
 
           <DashWindow
-            win={mkWin("fields")}
+            win={windowFor("fields")}
+            winKey="fields"
             title="Fields & topics"
+            subtitle="Funded research fields · EU CORDIS"
             icon={AccountTreeIcon}
             accent="#22C55E"
             width={460}
@@ -391,8 +424,10 @@ export default function PortfolioDashboard({
           {/* Topics: planned/estimated topic distribution — distinct from the CORDIS
               "Fields & topics" window; keeps its "estimated from call IDs" disclaimer. */}
           <DashWindow
-            win={mkWin("topics")}
+            win={windowFor("topics")}
+            winKey="topics"
             title="Topics"
+            subtitle="Estimated topic mix across planned calls"
             icon={BubbleChartIcon}
             accent="#22D3EE"
             width={460}
@@ -403,8 +438,10 @@ export default function PortfolioDashboard({
           {/* Saved: quick filters (the real callFilter mechanism) and saved views folded
               into one window. */}
           <DashWindow
-            win={mkWin("saved")}
+            win={windowFor("saved")}
+            winKey="saved"
             title="Saved"
+            subtitle="Quick filters and saved views"
             icon={BookmarkIcon}
             accent="#FBBF24"
             width={440}

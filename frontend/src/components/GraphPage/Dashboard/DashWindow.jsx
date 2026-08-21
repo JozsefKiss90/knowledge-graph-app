@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useMediaQuery } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -26,6 +26,8 @@ function tint(hex, a) {
  *
  * @param {object} win    view-model from useDraggableWindows().mkWin(key):
  *                        { open, left, top, z, onDrag, onClose, onFocus }
+ * @param {string} winKey the window's manager key; the dialog's DOM ids for label/description
+ *                        wiring derive from it (`dash-window-<winKey>`)
  * @param {string} title
  * @param {string} subtitle
  * @param {React.ElementType} icon   MUI icon component (rendered in the grab header)
@@ -35,6 +37,7 @@ function tint(hex, a) {
  */
 export default function DashWindow({
   win,
+  winKey,
   title,
   subtitle,
   icon: Icon,
@@ -44,20 +47,46 @@ export default function DashWindow({
 }) {
   const stacked = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
-  if (!win || !win.open) return null;
+  // Focus the dialog container when the window opens (windows only open from an explicit
+  // launcher activation), so keyboard users land inside the window they just asked for.
+  const rootRef = useRef(null);
+  const isOpen = !!(win && win.open);
+  useEffect(() => {
+    if (isOpen) rootRef.current?.focus();
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   // Stacked: let CSS own position + width; floating: place by the drag manager's px.
   const style = stacked
     ? { zIndex: win.z, "--win-accent": accent }
     : { left: win.left, top: win.top, width, zIndex: win.z, "--win-accent": accent };
 
+  const id = `dash-window-${winKey}`;
+  const titleId = `${id}-title`;
+  const descId = subtitle ? `${id}-desc` : undefined;
+
+  // Escape anywhere inside the window closes it (the handler is on the dialog root, so only
+  // the window that owns focus reacts). Stop propagation so an outer surface — e.g. the
+  // graph page's own Escape handling — doesn't also act on the same keypress.
+  const onKeyDown = (e) => {
+    if (e.key !== "Escape") return;
+    e.stopPropagation();
+    win.onClose();
+  };
+
   return (
     <div
+      ref={rootRef}
+      id={id}
       className={`dash-window${stacked ? " dash-window--stacked" : ""}`}
       style={style}
       onPointerDown={stacked ? undefined : win.onFocus}
+      onKeyDown={onKeyDown}
       role="dialog"
-      aria-label={title}
+      aria-labelledby={titleId}
+      aria-describedby={descId}
+      tabIndex={-1}
     >
       <div
         className="dash-window__header"
@@ -73,8 +102,14 @@ export default function DashWindow({
           </span>
         )}
         <div className="dash-window__titles">
-          <div className="dash-window__title">{title}</div>
-          {subtitle && <div className="dash-window__subtitle">{subtitle}</div>}
+          <div className="dash-window__title" id={titleId}>
+            {title}
+          </div>
+          {subtitle && (
+            <div className="dash-window__subtitle" id={descId}>
+              {subtitle}
+            </div>
+          )}
         </div>
         {!stacked && (
           <DragIndicatorIcon className="dash-window__drag" fontSize="inherit" aria-hidden />
@@ -88,7 +123,17 @@ export default function DashWindow({
           <CloseIcon fontSize="inherit" />
         </IconButton>
       </div>
-      <div className="dash-window__body">{children}</div>
+      {/* The body scrolls when content overflows (max-height in SCSS), so it takes a tab stop
+          of its own — keyboard users can reach and arrow-scroll it even when the content has
+          no focusable elements. */}
+      <div
+        className="dash-window__body"
+        role="region"
+        aria-labelledby={titleId}
+        tabIndex={0}
+      >
+        {children}
+      </div>
     </div>
   );
 }

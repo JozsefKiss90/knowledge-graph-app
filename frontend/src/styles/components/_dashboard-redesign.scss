@@ -980,6 +980,10 @@
   color: var(--d2-text);
 
   .light-theme & { box-shadow: 0 24px 60px rgba(27, 37, 89, 0.18); }
+
+  /* The dialog container takes programmatic focus on open. It keeps the shared visible
+     ring; the root's overflow clips an outset ring, so it sits inside the border radius. */
+  &:focus-visible { outline: 2px solid var(--d2-accent); outline-offset: -2px; }
 }
 
 /* ── Stacked (below lg) ──
