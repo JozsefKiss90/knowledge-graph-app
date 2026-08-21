@@ -1,0 +1,273 @@
+- generic [ref=e12]:
+  - generic [ref=e13]:
+    - generic [ref=e14]: EU Knowledge Graph
+    - button "Home" [ref=e30] [cursor=pointer]
+    - navigation "Graph level breadcrumbs" [ref=e33]:
+      - button "EU Funding Programmes" [ref=e36] [cursor=pointer]
+    - generic [ref=e37]: LEVEL 1
+    - button "Search calls, topics, programmes" [ref=e38] [cursor=pointer]:
+      - generic [ref=e42]: Search calls, topics, programmes…
+      - generic [ref=e43]: ⌘K
+    - button "Back to graph" [ref=e45] [cursor=pointer]
+    - generic [ref=e51]:
+      - generic "Copy link to this view" [ref=e52]:
+        - button "Copy link to this view" [ref=e53] [cursor=pointer]
+      - generic "Save this view" [ref=e59]:
+        - button "Save this view" [ref=e60] [cursor=pointer]
+  - generic [ref=e65]:
+    - generic [ref=e68]:
+      - generic [ref=e69]:
+        - generic [ref=e70]: Explore by theme
+        - generic [ref=e74]:
+          - button "Funding" [ref=e75] [cursor=pointer]:
+            - generic [ref=e79]: +
+          - button "Funded activity" [ref=e80] [cursor=pointer]:
+            - generic [ref=e84]: +
+          - button "Geography" [ref=e85] [cursor=pointer]:
+            - generic [ref=e89]: +
+          - button "Organisations" [ref=e90] [cursor=pointer]:
+            - generic [ref=e94]: +
+          - button "Fields & topics" [ref=e95] [cursor=pointer]:
+            - generic [ref=e99]: +
+          - button "Topics" [ref=e100] [cursor=pointer]:
+            - generic [ref=e106]: +
+        - button "Saved" [ref=e107] [cursor=pointer]
+      - generic [ref=e111]:
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - heading "Open & upcoming calls" [level=3] [ref=e116]
+                - generic [ref=e117]: Sorted by deadline · 344 open · 45 closing in 30d
+              - generic "Indicative work-programme budget on offer — not awarded" [ref=e118]: Indicative · on offer
+              - group "Filter calls" [ref=e119]:
+                - button "All" [ref=e120] [cursor=pointer]
+                - button "Closing 30d" [ref=e121] [cursor=pointer]
+              - button "View on graph" [ref=e122] [cursor=pointer]
+            - generic [ref=e125]:
+              - generic [ref=e126]: Call
+              - generic [ref=e127]: Budget
+              - generic [ref=e128]: Deadline
+              - generic [ref=e129]: Status
+            - generic [ref=e130]:
+              - generic [ref=e131]:
+                - generic [ref=e134]:
+                  - link "Centres of Vocational Excellence" [ref=e135] [cursor=pointer]:
+                    - /url: /node/ERASMUS-EDU-2026-PEX-COVE
+                  - generic [ref=e136]: ERASMUS-EDU-2026-PEX-COVE
+                - generic [ref=e137]: €68M
+                - generic [ref=e138]:
+                  - generic [ref=e139]: in 12 days
+                  - generic [ref=e140]: Erasmus+
+                - generic [ref=e141]:
+                  - generic [ref=e142]: Open
+                  - button "Show in graph" [ref=e144] [cursor=pointer]
+              - generic [ref=e145]:
+                - generic [ref=e148]:
+                  - link "MSCA Postdoctoral Fellowships 2026" [ref=e149] [cursor=pointer]:
+                    - /url: /node/HORIZON-MSCA-2026-PF-01-01
+                  - generic [ref=e150]: HORIZON-MSCA-2026-PF-01-01
+                - generic [ref=e151]: €60M
+                - generic [ref=e152]:
+                  - generic [ref=e153]: in 18 days
+                  - generic [ref=e154]: MSCA
+                - generic [ref=e155]:
+                  - generic [ref=e156]: Open
+                  - button "Show in graph" [ref=e158] [cursor=pointer]
+              - generic [ref=e159]:
+                - generic [ref=e162]:
+                  - link "ERA Fellowships" [ref=e163] [cursor=pointer]:
+                    - /url: /node/HORIZON-WIDERA-2026-05-WIDENING-01
+                  - generic [ref=e164]: HORIZON-WIDERA-2026-05-WIDENING-01
+                - generic [ref=e165]: €8M
+                - generic [ref=e166]:
+                  - generic [ref=e167]: in 18 days
+                  - generic [ref=e168]: WIDERA
+                - generic [ref=e169]:
+                  - generic [ref=e170]: Open
+                  - button "Show in graph" [ref=e172] [cursor=pointer]
+              - generic [ref=e173]:
+                - generic [ref=e176]:
+                  - link "European Partnership on Rare Diseases (ERDERA) (Phase 2)" [ref=e177] [cursor=pointer]:
+                    - /url: /node/HORIZON-HLTH-2026-02-DISEASE-12
+                  - generic [ref=e178]: HORIZON-HLTH-2026-02-DISEASE-12
+                - generic [ref=e179]: €91M
+                - generic [ref=e180]:
+                  - generic [ref=e181]: in 24 days
+                  - generic [ref=e182]: CL1 – Health
+                - generic [ref=e183]:
+                  - generic [ref=e184]: Open
+                  - button "Show in graph" [ref=e186] [cursor=pointer]
+              - generic [ref=e187]:
+                - generic [ref=e190]:
+                  - link "Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations" [ref=e191] [cursor=pointer]:
+                    - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-03
+                  - generic [ref=e192]: HORIZON-CL3-2026-02-CS-ECCC-03
+                - generic [ref=e193]: €12M
+                - generic [ref=e194]:
+                  - generic [ref=e195]: in 24 days
+                  - generic [ref=e196]: CL3 – Security
+                - generic [ref=e197]:
+                  - generic [ref=e198]: Open
+                  - button "Show in graph" [ref=e200] [cursor=pointer]
+              - generic [ref=e201]:
+                - generic [ref=e204]:
+                  - link "Approaches and tools for security in software and hardware development and assessment" [ref=e205] [cursor=pointer]:
+                    - /url: /node/HORIZON-CL3-2026-02-CS-ECCC
+                  - generic [ref=e206]: HORIZON-CL3-2026-02-CS-ECCC
+                - generic [ref=e207]: €12M
+                - generic [ref=e208]:
+                  - generic [ref=e209]: in 24 days
+                  - generic [ref=e210]: CL3 – Security
+                - generic [ref=e211]:
+                  - generic [ref=e212]: Open
+                  - button "Show in graph" [ref=e214] [cursor=pointer]
+              - generic [ref=e215]:
+                - generic [ref=e218]:
+                  - link "Approaches and tools for security in software and hardware development and assessment" [ref=e219] [cursor=pointer]:
+                    - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-01
+                  - generic [ref=e220]: HORIZON-CL3-2026-02-CS-ECCC-01
+                - generic [ref=e221]: €20M
+                - generic [ref=e222]:
+                  - generic [ref=e223]: in 24 days
+                  - generic [ref=e224]: CL3 – Security
+                - generic [ref=e225]:
+                  - generic [ref=e226]: Open
+                  - button "Show in graph" [ref=e228] [cursor=pointer]
+              - generic [ref=e229]:
+                - generic [ref=e232]:
+                  - link "Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI)" [ref=e233] [cursor=pointer]:
+                    - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-02
+                  - generic [ref=e234]: HORIZON-CL3-2026-02-CS-ECCC-02
+                - generic [ref=e235]: €20M
+                - generic [ref=e236]:
+                  - generic [ref=e237]: in 24 days
+                  - generic [ref=e238]: CL3 – Security
+                - generic [ref=e239]:
+                  - generic [ref=e240]: Open
+                  - button "Show in graph" [ref=e242] [cursor=pointer]
+          - generic [ref=e243]:
+            - generic [ref=e244]:
+              - generic [ref=e245]:
+                - heading "Deadline runway" [level=3] [ref=e246]
+                - generic [ref=e247]: When the calls above close · next 6 weeks
+              - generic [ref=e248]: Open
+              - generic [ref=e250]: Closing ≤10d
+            - generic [ref=e252]:
+              - generic [ref=e255]: Today
+              - generic [ref=e257]: 1w
+              - generic [ref=e259]: 2w
+              - generic [ref=e261]: 3w
+              - generic [ref=e263]: 4w
+              - generic [ref=e265]: 5w
+              - generic [ref=e267]: 6w
+              - generic [ref=e268]: 12d
+              - generic "Centres of Vocational Excellence" [ref=e269]
+              - generic [ref=e270]: 18d
+              - generic "MSCA Postdoctoral Fellowships 2026 ERA Fellowships" [ref=e271]
+              - generic [ref=e272]: "2"
+              - generic [ref=e273]: 24d
+              - generic "European Partnership on Rare Diseases (ERDERA) (Phase 2) Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations Approaches and tools for security in software and hardware development and assessment Approaches and tools for security in software and hardware development and assessment Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI)" [ref=e274]
+              - generic [ref=e275]: "5"
+            - generic [ref=e276]:
+              - generic [ref=e277]:
+                - generic [ref=e278]: NEXT DEADLINE
+                - generic [ref=e279]: Centres of… · 12d
+              - generic [ref=e280]:
+                - generic [ref=e281]: CLOSING ≤ 14 DAYS
+                - generic [ref=e282]: 1 call
+              - generic [ref=e283]:
+                - generic [ref=e284]: OPEN WITHIN 90 DAYS
+                - generic [ref=e285]: 8 calls
+        - generic [ref=e286]:
+          - generic [ref=e287]:
+            - generic [ref=e288]:
+              - generic [ref=e291]: Research tools
+              - generic [ref=e292]: CORDIS EVIDENCE
+            - tablist "Research tools" [ref=e294]:
+              - tab "Fields" [ref=e295] [cursor=pointer]
+              - tab "Country" [ref=e299] [cursor=pointer]
+              - tab "Hop-on" [ref=e303] [cursor=pointer]
+            - generic [ref=e307]:
+              - paragraph [ref=e308]: "Pick a tool to explore the funded-project evidence (CORDIS) behind the calls:"
+              - list [ref=e309]:
+                - listitem [ref=e310]:
+                  - generic [ref=e313]:
+                    - strong [ref=e314]: Research fields
+                    - text: — Browse EU-funded research fields (EuroSciVoc) and the calls funded in each.
+                - listitem [ref=e315]:
+                  - generic [ref=e318]:
+                    - strong [ref=e319]: Country activity
+                    - text: — Pick a country to see where its organisations have been funded across the graph.
+                - listitem [ref=e320]:
+                  - generic [ref=e323]:
+                    - strong [ref=e324]: Hop-on
+                    - text: — Recently-started Horizon Europe projects a widening-country partner may still be able to join.
+          - generic [ref=e325]:
+            - generic [ref=e326]:
+              - heading "Calls over time" [level=3] [ref=e327]
+              - generic [ref=e328]: "2026"
+              - generic [ref=e329]:
+                - button "Open" [ref=e330] [cursor=pointer]
+                - button "Closed" [ref=e332] [cursor=pointer]
+            - generic [ref=e338]:
+              - generic [ref=e339]: Jan
+              - generic [ref=e340]: Feb
+              - generic [ref=e341]: Mar
+              - generic [ref=e342]: Apr
+              - generic [ref=e343]: May
+              - generic [ref=e344]: Jun
+              - generic [ref=e345]: Jul
+              - generic [ref=e346]: Aug
+              - generic [ref=e347]: Sep
+              - generic [ref=e348]: Oct
+              - generic [ref=e349]: Nov
+              - generic [ref=e350]: Dec
+      - generic [ref=e351]:
+        - generic [ref=e352]: ON OFFER
+        - generic [ref=e353]:
+          - generic [ref=e354]: €15.4B
+          - generic [ref=e355]: ON OFFER
+        - generic [ref=e356]:
+          - generic [ref=e357]: "6"
+          - generic [ref=e358]: PROGRAMMES
+        - generic [ref=e359]:
+          - generic [ref=e360]: "344"
+          - generic [ref=e361]: OPEN CALLS
+        - generic [ref=e363]: FUNDED
+        - generic [ref=e364]:
+          - generic [ref=e365]: 101 479
+          - generic [ref=e366]: PROJECTS
+        - generic [ref=e367]:
+          - generic [ref=e368]: €187.7B
+          - generic [ref=e369]: EU AWARDED
+        - generic [ref=e370]:
+          - generic [ref=e371]: 238 138
+          - generic [ref=e372]: ORGANISATIONS
+        - generic [ref=e373]:
+          - generic [ref=e374]: "217"
+          - generic [ref=e375]: COUNTRIES
+        - generic [ref=e376]: "Source: EU CORDIS"
+        - generic "Funded projects linked to tracked Horizon Europe calls (CORDIS, FP7-Horizon Europe). EU-funded participation and awarded EU contribution — not scientific quality or impact. Counts and euros are separate measures." [ref=e377]: On offer = work programme · Funded = CORDIS
+    - generic [ref=e381]:
+      - button "Expand" [ref=e382] [cursor=pointer]
+      - generic "Command palette (Ctrl / ⌘ K)" [ref=e387]:
+        - button "Command palette (Ctrl / ⌘ K)" [ref=e388] [cursor=pointer]
+      - generic "Help" [ref=e395]:
+        - button "Help" [ref=e396] [cursor=pointer]
+      - generic "Find calls — switch to the graph first" [ref=e400]:
+        - button "Find calls — switch to the graph first" [disabled]
+      - generic "View bookmarks" [ref=e401]:
+        - button "View bookmarks" [ref=e402] [cursor=pointer]
+      - generic "Timeline scrubber" [ref=e405]:
+        - button "Timeline scrubber" [ref=e406] [cursor=pointer]
+      - generic "Compare programmes" [ref=e411]:
+        - button "Compare programmes" [ref=e412] [cursor=pointer]
+      - generic "Funded landscape — explore by research field" [ref=e417]:
+        - button "Funded landscape — explore by research field" [ref=e418] [cursor=pointer]
+      - generic "Switch light / dark mode" [ref=e423]:
+        - button "Switch light / dark mode" [ref=e424] [cursor=pointer]
+      - generic "Send a message" [ref=e427]:
+        - button "Send a message" [ref=e428] [cursor=pointer]
+      - generic "Graph layout & settings" [ref=e432]:
+        - button "Graph layout & settings" [ref=e433] [cursor=pointer]
