@@ -1,0 +1,438 @@
+- generic [ref=e1]:
+  - generic [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]: EU Knowledge Graph
+      - button "Home" [ref=e30] [cursor=pointer]
+      - navigation "Graph level breadcrumbs" [ref=e33]:
+        - button "EU Funding Programmes" [ref=e36] [cursor=pointer]
+      - generic [ref=e37]: LEVEL 1
+      - button "Search calls, topics, programmes" [ref=e38] [cursor=pointer]:
+        - generic [ref=e42]: Search calls, topics, programmes…
+        - generic [ref=e43]: ⌘K
+      - button "Back to funding map" [ref=e45] [cursor=pointer]
+      - generic [ref=e51]:
+        - generic "Copy link to this view" [ref=e52]:
+          - button "Copy link to this view" [ref=e53] [cursor=pointer]
+        - generic "Save this view" [ref=e59]:
+          - button "Save this view" [ref=e60] [cursor=pointer]
+    - generic [ref=e65]:
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]: Explore by theme
+          - generic [ref=e74]:
+            - button "Funding" [ref=e75] [cursor=pointer]:
+              - generic [ref=e79]: +
+            - button "Funded activity" [pressed] [ref=e80] [cursor=pointer]
+            - button "Geography" [ref=e86] [cursor=pointer]:
+              - generic [ref=e90]: +
+            - button "Organisations" [ref=e91] [cursor=pointer]:
+              - generic [ref=e95]: +
+            - button "Fields & topics" [ref=e96] [cursor=pointer]:
+              - generic [ref=e100]: +
+            - button "Topics" [ref=e101] [cursor=pointer]:
+              - generic [ref=e107]: +
+          - button "Saved" [ref=e108] [cursor=pointer]
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - generic [ref=e116]:
+                  - heading "Open & forthcoming calls" [level=3] [ref=e117]
+                  - generic [ref=e118]: Next 8 of 344 by deadline · 131 open · 213 forthcoming
+                - generic "Indicative work-programme budget on offer — not awarded" [ref=e119]: Indicative · on offer
+                - group "Filter calls" [ref=e120]:
+                  - button "Next 8" [pressed] [ref=e121] [cursor=pointer]
+                  - button "Closing 30d" [ref=e122] [cursor=pointer]
+                - button "View in funding map" [ref=e123] [cursor=pointer]
+              - table "Open and forthcoming calls, sorted by deadline" [ref=e126]:
+                - rowgroup [ref=e127]:
+                  - row [ref=e128]:
+                    - columnheader "Call" [ref=e129]
+                    - columnheader "Budget — indicative, on offer" [ref=e130]: Budget
+                    - columnheader "Deadline" [ref=e131]
+                    - columnheader "Status" [ref=e132]
+                - rowgroup [ref=e133]:
+                  - row [ref=e134]:
+                    - cell "Centres of Vocational Excellence ERASMUS-EDU-2026-PEX-COVE" [ref=e135]:
+                      - generic [ref=e137]:
+                        - link "Centres of Vocational Excellence" [ref=e138] [cursor=pointer]:
+                          - /url: /node/ERASMUS-EDU-2026-PEX-COVE
+                        - generic [ref=e139]: ERASMUS-EDU-2026-PEX-COVE
+                    - cell "€68M" [ref=e140]
+                    - cell "in 12 days Erasmus+" [ref=e141]:
+                      - generic [ref=e142]: in 12 days
+                      - generic [ref=e143]: Erasmus+
+                    - cell [ref=e144]:
+                      - generic [ref=e145]: Open
+                      - button "Show Centres of Vocational Excellence in funding map" [ref=e147] [cursor=pointer]: Show in funding map
+                  - row [ref=e148]:
+                    - cell "MSCA Postdoctoral Fellowships 2026 HORIZON-MSCA-2026-PF-01-01" [ref=e149]:
+                      - generic [ref=e151]:
+                        - link "MSCA Postdoctoral Fellowships 2026" [ref=e152] [cursor=pointer]:
+                          - /url: /node/HORIZON-MSCA-2026-PF-01-01
+                        - generic [ref=e153]: HORIZON-MSCA-2026-PF-01-01
+                    - cell "€60M" [ref=e154]
+                    - cell "in 18 days MSCA" [ref=e155]:
+                      - generic [ref=e156]: in 18 days
+                      - generic [ref=e157]: MSCA
+                    - cell [ref=e158]:
+                      - generic [ref=e159]: Open
+                      - button "Show MSCA Postdoctoral Fellowships 2026 in funding map" [ref=e161] [cursor=pointer]: Show in funding map
+                  - row [ref=e162]:
+                    - cell "ERA Fellowships HORIZON-WIDERA-2026-05-WIDENING-01" [ref=e163]:
+                      - generic [ref=e165]:
+                        - link "ERA Fellowships" [ref=e166] [cursor=pointer]:
+                          - /url: /node/HORIZON-WIDERA-2026-05-WIDENING-01
+                        - generic [ref=e167]: HORIZON-WIDERA-2026-05-WIDENING-01
+                    - cell "€8M" [ref=e168]
+                    - cell "in 18 days WIDERA" [ref=e169]:
+                      - generic [ref=e170]: in 18 days
+                      - generic [ref=e171]: WIDERA
+                    - cell [ref=e172]:
+                      - generic [ref=e173]: Open
+                      - button "Show ERA Fellowships in funding map" [ref=e175] [cursor=pointer]: Show in funding map
+                  - row [ref=e176]:
+                    - cell "European Partnership on Rare Diseases (ERDERA) (Phase 2) HORIZON-HLTH-2026-02-DISEASE-12" [ref=e177]:
+                      - generic [ref=e179]:
+                        - link "European Partnership on Rare Diseases (ERDERA) (Phase 2)" [ref=e180] [cursor=pointer]:
+                          - /url: /node/HORIZON-HLTH-2026-02-DISEASE-12
+                        - generic [ref=e181]: HORIZON-HLTH-2026-02-DISEASE-12
+                    - cell "€91M" [ref=e182]
+                    - cell "in 24 days CL1 – Health" [ref=e183]:
+                      - generic [ref=e184]: in 24 days
+                      - generic [ref=e185]: CL1 – Health
+                    - cell [ref=e186]:
+                      - generic [ref=e187]: Open
+                      - button "Show European Partnership on Rare Diseases (ERDERA) (Phase 2) in funding map" [ref=e189] [cursor=pointer]: Show in funding map
+                  - row [ref=e190]:
+                    - cell "Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations HORIZON-CL3-2026-02-CS-ECCC-03" [ref=e191]:
+                      - generic [ref=e193]:
+                        - link "Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations" [ref=e194] [cursor=pointer]:
+                          - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-03
+                        - generic [ref=e195]: HORIZON-CL3-2026-02-CS-ECCC-03
+                    - cell "€12M" [ref=e196]
+                    - cell "in 24 days CL3 – Security" [ref=e197]:
+                      - generic [ref=e198]: in 24 days
+                      - generic [ref=e199]: CL3 – Security
+                    - cell [ref=e200]:
+                      - generic [ref=e201]: Open
+                      - button "Show Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations in funding map" [ref=e203] [cursor=pointer]: Show in funding map
+                  - row [ref=e204]:
+                    - cell "Approaches and tools for security in software and hardware development and assessment HORIZON-CL3-2026-02-CS-ECCC" [ref=e205]:
+                      - generic [ref=e207]:
+                        - link "Approaches and tools for security in software and hardware development and assessment" [ref=e208] [cursor=pointer]:
+                          - /url: /node/HORIZON-CL3-2026-02-CS-ECCC
+                        - generic [ref=e209]: HORIZON-CL3-2026-02-CS-ECCC
+                    - cell "€12M" [ref=e210]
+                    - cell "in 24 days CL3 – Security" [ref=e211]:
+                      - generic [ref=e212]: in 24 days
+                      - generic [ref=e213]: CL3 – Security
+                    - cell [ref=e214]:
+                      - generic [ref=e215]: Open
+                      - button "Show Approaches and tools for security in software and hardware development and assessment in funding map" [ref=e217] [cursor=pointer]: Show in funding map
+                  - row [ref=e218]:
+                    - cell "Approaches and tools for security in software and hardware development and assessment HORIZON-CL3-2026-02-CS-ECCC-01" [ref=e219]:
+                      - generic [ref=e221]:
+                        - link "Approaches and tools for security in software and hardware development and assessment" [ref=e222] [cursor=pointer]:
+                          - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-01
+                        - generic [ref=e223]: HORIZON-CL3-2026-02-CS-ECCC-01
+                    - cell "€20M" [ref=e224]
+                    - cell "in 24 days CL3 – Security" [ref=e225]:
+                      - generic [ref=e226]: in 24 days
+                      - generic [ref=e227]: CL3 – Security
+                    - cell [ref=e228]:
+                      - generic [ref=e229]: Open
+                      - button "Show Approaches and tools for security in software and hardware development and assessment in funding map" [ref=e231] [cursor=pointer]: Show in funding map
+                  - row [ref=e232]:
+                    - cell "Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI) HORIZON-CL3-2026-02-CS-ECCC-02" [ref=e233]:
+                      - generic [ref=e235]:
+                        - link "Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI)" [ref=e236] [cursor=pointer]:
+                          - /url: /node/HORIZON-CL3-2026-02-CS-ECCC-02
+                        - generic [ref=e237]: HORIZON-CL3-2026-02-CS-ECCC-02
+                    - cell "€20M" [ref=e238]
+                    - cell "in 24 days CL3 – Security" [ref=e239]:
+                      - generic [ref=e240]: in 24 days
+                      - generic [ref=e241]: CL3 – Security
+                    - cell [ref=e242]:
+                      - generic [ref=e243]: Open
+                      - button "Show Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI) in funding map" [ref=e245] [cursor=pointer]: Show in funding map
+            - generic [ref=e246]:
+              - generic [ref=e247]:
+                - generic [ref=e248]:
+                  - heading "Deadline runway" [level=3] [ref=e249]
+                  - generic [ref=e250]: When the calls above close · next 6 weeks
+                - generic [ref=e251]: Open
+                - generic [ref=e253]: Closing ≤10d
+              - 'img "Deadline runway: 8 calls plotted over the next 6 weeks. Next deadline: Centres of Vocational Excellence in 12 days." [ref=e255]':
+                - generic [ref=e258]: Today
+                - generic [ref=e260]: 1w
+                - generic [ref=e262]: 2w
+                - generic [ref=e264]: 3w
+                - generic [ref=e266]: 4w
+                - generic [ref=e268]: 5w
+                - generic [ref=e270]: 6w
+                - generic [ref=e271]: 12d
+                - generic "Centres of Vocational Excellence" [ref=e272]
+                - generic [ref=e273]: 18d
+                - generic "MSCA Postdoctoral Fellowships 2026 ERA Fellowships" [ref=e274]
+                - generic [ref=e275]: "2"
+                - generic [ref=e276]: 24d
+                - generic "European Partnership on Rare Diseases (ERDERA) (Phase 2) Advanced cryptographic schemes and High-Assurance high-speed cryptographic implementations Approaches and tools for security in software and hardware development and assessment Approaches and tools for security in software and hardware development and assessment Enhancing the Security, Privacy and Robustness of AI Models and Systems (SecureAI)" [ref=e277]
+                - generic [ref=e278]: "5"
+              - group "All 8 deadlines in view" [ref=e279]:
+                - generic "▸ All 8 deadlines in view" [ref=e280] [cursor=pointer]
+              - generic [ref=e281]:
+                - generic [ref=e282]:
+                  - generic [ref=e283]: NEXT DEADLINE
+                  - generic [ref=e284]: Centres of… · 12d
+                - generic [ref=e285]:
+                  - generic [ref=e286]: CLOSING ≤ 14 DAYS
+                  - generic [ref=e287]: 1 call
+                - generic [ref=e288]:
+                  - generic [ref=e289]: OPEN WITHIN 90 DAYS
+                  - generic [ref=e290]: 8 calls
+          - generic [ref=e291]:
+            - generic [ref=e292]:
+              - generic [ref=e293]:
+                - generic [ref=e296]: Research tools
+                - generic [ref=e297]: CORDIS EVIDENCE
+              - tablist "Research tools" [ref=e299]:
+                - tab "Research fields" [ref=e300] [cursor=pointer]:
+                  - generic [ref=e303]: Fields
+                - tab "Country activity" [ref=e304] [cursor=pointer]:
+                  - generic [ref=e307]: Country
+                - tab "Hop-on" [ref=e308] [cursor=pointer]
+              - generic [ref=e312]:
+                - paragraph [ref=e313]: "Pick a tool to explore the funded-project evidence (CORDIS) behind the calls:"
+                - list [ref=e314]:
+                  - listitem [ref=e315]:
+                    - generic [ref=e318]:
+                      - strong [ref=e319]: Research fields
+                      - text: — Browse EU-funded research fields (EuroSciVoc) and the calls funded in each.
+                  - listitem [ref=e320]:
+                    - generic [ref=e323]:
+                      - strong [ref=e324]: Country activity
+                      - text: — Pick a country to see where its organisations have been funded across the funding landscape.
+                  - listitem [ref=e325]:
+                    - generic [ref=e328]:
+                      - strong [ref=e329]: Hop-on
+                      - text: — Recently-started Horizon Europe projects a widening-country partner may still be able to join.
+            - generic [ref=e330]:
+              - generic [ref=e331]:
+                - heading "Calls over time" [level=3] [ref=e332]
+                - generic [ref=e333]: Jan–Dec 2026
+                - group "Series shown" [ref=e334]:
+                  - button "Open & forthcoming" [pressed] [ref=e335] [cursor=pointer]
+                  - button "Closed" [ref=e337] [cursor=pointer]
+              - generic [ref=e339]:
+                - img "Calls over time" [ref=e340]
+                - generic [ref=e343]:
+                  - generic [ref=e344]: Jan
+                  - generic [ref=e345]: Feb
+                  - generic [ref=e346]: Mar
+                  - generic [ref=e347]: Apr
+                  - generic [ref=e348]: May
+                  - generic [ref=e349]: Jun
+                  - generic [ref=e350]: Jul
+                  - generic [ref=e351]: Aug
+                  - generic [ref=e352]: Sep
+                  - generic [ref=e353]: Oct
+                  - generic [ref=e354]: Nov
+                  - generic [ref=e355]: Dec
+              - paragraph [ref=e356]: Showing open & forthcoming calls active in each month
+              - group "Monthly values" [ref=e357]:
+                - generic "▸ Monthly values" [ref=e358] [cursor=pointer]
+        - generic [ref=e359]:
+          - generic [ref=e360]: ON OFFER
+          - generic [ref=e361]:
+            - generic [ref=e362]: €15.4B
+            - generic [ref=e363]: INDICATIVE FUNDING
+          - generic [ref=e364]:
+            - generic [ref=e365]: "6"
+            - generic [ref=e366]: PROGRAMMES
+          - generic [ref=e367]:
+            - generic [ref=e368]: "131"
+            - generic [ref=e369]: OPEN CALLS
+          - generic [ref=e370]:
+            - generic [ref=e371]: "213"
+            - generic [ref=e372]: FORTHCOMING
+          - generic [ref=e374]: FUNDED
+          - generic [ref=e375]:
+            - generic [ref=e376]: 101 479
+            - generic [ref=e377]: PROJECTS
+          - generic [ref=e378]:
+            - generic [ref=e379]: €187.7B
+            - generic [ref=e380]: EU AWARDED
+          - generic [ref=e381]:
+            - generic [ref=e382]: 238 138
+            - generic [ref=e383]: ORGANISATIONS
+          - generic [ref=e384]:
+            - generic [ref=e385]: "217"
+            - generic [ref=e386]: COUNTRIES
+          - generic [ref=e387]: "Source: EU CORDIS"
+          - generic "Funded projects linked to tracked Horizon Europe calls (CORDIS, FP7-Horizon Europe). EU-funded participation and awarded EU contribution — not scientific quality or impact. Counts and euros are separate measures." [ref=e388]: On offer = indicative work-programme budgets · Funded = historical CORDIS awards
+      - generic [ref=e392]:
+        - button "Expand" [ref=e393] [cursor=pointer]
+        - generic "Command palette (Ctrl / ⌘ K)" [ref=e398]:
+          - button "Command palette (Ctrl / ⌘ K)" [ref=e399] [cursor=pointer]
+        - generic "Help" [ref=e406]:
+          - button "Help" [ref=e407] [cursor=pointer]
+        - generic "Find calls — switch to the graph first" [ref=e411]:
+          - button "Find calls — switch to the graph first" [disabled]
+        - generic "View bookmarks" [ref=e412]:
+          - button "View bookmarks" [ref=e413] [cursor=pointer]
+        - generic "Timeline scrubber" [ref=e416]:
+          - button "Timeline scrubber" [ref=e417] [cursor=pointer]
+        - generic "Compare programmes" [ref=e422]:
+          - button "Compare programmes" [ref=e423] [cursor=pointer]
+        - generic "Funded landscape — explore by research field" [ref=e428]:
+          - button "Funded landscape — explore by research field" [ref=e429] [cursor=pointer]
+        - generic "Switch light / dark mode" [ref=e434]:
+          - button "Switch light / dark mode" [ref=e435] [cursor=pointer]
+        - generic "Send a message" [ref=e438]:
+          - button "Send a message" [ref=e439] [cursor=pointer]
+        - generic "Graph layout & settings" [ref=e443]:
+          - button "Graph layout & settings" [ref=e444] [cursor=pointer]
+  - dialog [active] [ref=e448]:
+    - generic [ref=e449]:
+      - generic [ref=e453]:
+        - generic [ref=e454]: Funded activity
+        - generic [ref=e455]: Historical funded projects over time · EU CORDIS
+      - button "Close Funded activity" [ref=e458] [cursor=pointer]
+    - region "Funded activity" [ref=e461]:
+      - generic [ref=e462]:
+        - generic [ref=e463]:
+          - generic [ref=e464]:
+            - heading "Funded activity over eras (CORDIS)" [level=3] [ref=e465]
+            - generic [ref=e466]: 101 479 funded projects · by start year
+          - group "Measure" [ref=e467]:
+            - button "Projects" [ref=e468] [cursor=pointer]
+            - button "EU funding" [ref=e469] [cursor=pointer]
+        - generic [ref=e470]:
+          - generic [ref=e471]:
+            - generic [ref=e472]:
+              - generic "1981 · 103 projects · €27.9M · Other programmes" [ref=e473]: "1981"
+              - generic "1982 · 136 projects · €30.0M · Other programmes" [ref=e478]
+              - generic "1983 · 238 projects · €49.2M · Other programmes" [ref=e482]
+              - generic "1984 · 169 projects · €63.1M · Other programmes" [ref=e486]
+              - generic "1985 · 296 projects · €82.6M · Other programmes" [ref=e490]
+              - generic "1986 · 638 projects · €92.1M · Other programmes" [ref=e494]
+              - generic "1987 · 491 projects · €89.1M · Other programmes" [ref=e498]
+              - generic "1988 · 541 projects · €72.1M · FP2, FP4, Other programmes" [ref=e502]
+              - generic "1989 · 513 projects · €74.3M · FP2, FP4, Other programmes" [ref=e508]: "1989"
+              - generic "1990 · 799 projects · €70.9M · FP2, FP4, Other programmes" [ref=e515]
+              - generic "1991 · 817 projects · €108.7M · FP2, FP3, Other programmes" [ref=e521]
+              - generic "1992 · 1247 projects · €342.5M · FP2, FP3, Other programmes" [ref=e527]
+              - generic "1993 · 1045 projects · €415.0M · FP2, FP3, FP4, Other programmes" [ref=e533]
+              - generic "1994 · 1538 projects · €386.6M · FP2, FP3, Other programmes" [ref=e540]
+              - generic "1995 · 1226 projects · €785.2M · FP2, FP3, FP4, Other programmes" [ref=e546]
+              - generic "1996 · 2446 projects · €884.1M · FP3, FP4, Other programmes" [ref=e553]
+              - generic "1997 · 2386 projects · €572.5M · FP4, Other programmes" [ref=e559]: "1997"
+              - generic "1998 · 1955 projects · €217.2M · FP4, Other programmes" [ref=e565]
+              - generic "1999 · 506 projects · €102.0M · FP4, FP5, Other programmes" [ref=e570]
+              - generic "2000 · 2168 projects · €2.5B · FP5, Other programmes" [ref=e576]
+              - generic "2001 · 2192 projects · €2.3B · FP5, Other programmes" [ref=e581]
+              - generic "2002 · 2271 projects · €2.5B · FP5, FP6, Other programmes" [ref=e586]
+              - generic "2003 · 764 projects · €944.5M · FP5, FP6, Other programmes" [ref=e592]
+              - generic "2004 · 2195 projects · €4.9B · FP5, FP6, Other programmes" [ref=e598]
+              - generic "2005 · 2342 projects · €4.0B · FP5, FP6, Other programmes" [ref=e604]: "2005"
+              - generic "2006 · 2692 projects · €5.6B · FP6, Other programmes" [ref=e611]
+              - generic "2007 · 1293 projects · €1.9B · FP6, FP7, Other programmes" [ref=e616]
+              - generic "2008 · 2152 projects · €5.3B · FP6, FP7, Other programmes" [ref=e622]
+              - generic "2009 · 2049 projects · €4.2B · FP6, FP7, Other programmes" [ref=e628]
+              - generic "2010 · 2537 projects · €5.3B · FP6, FP7, Other programmes" [ref=e634]
+              - generic "2011 · 2871 projects · €5.9B · FP7, Other programmes" [ref=e640]
+              - generic "2012 · 3154 projects · €6.5B · FP7, Other programmes" [ref=e645]
+              - generic "2013 · 3391 projects · €7.7B · FP7, Other programmes" [ref=e650]: "2013"
+              - generic "2014 · 2238 projects · €5.3B · FP7, Horizon 2020, Other programmes" [ref=e656]
+              - generic "2015 · 4018 projects · €8.6B · FP7, Horizon 2020" [ref=e662]
+              - generic "2016 · 4024 projects · €8.2B · FP7, Horizon 2020" [ref=e667]
+              - generic "2017 · 4012 projects · €8.0B · FP7, Horizon 2020" [ref=e672]
+              - generic "2018 · 4127 projects · €8.0B · FP7, Horizon 2020" [ref=e677]
+              - generic "2019 · 4562 projects · €9.9B · Horizon 2020" [ref=e682]
+              - generic "2020 · 3721 projects · €10.6B · Horizon 2020" [ref=e686]
+              - generic "2021 · 3596 projects · €9.9B · Horizon 2020, Horizon Europe" [ref=e690]: "2021"
+              - generic "2022 · 3570 projects · €10.0B · Horizon 2020, Horizon Europe" [ref=e696]
+              - generic "2023 · 4293 projects · €14.1B · Horizon 2020, Horizon Europe" [ref=e701]
+              - generic "2024 · 4019 projects · €12.2B · Horizon Europe" [ref=e706]
+              - generic "2025 · 3455 projects · €9.2B · Horizon Europe" [ref=e710]
+              - generic "2026 · 3359 projects · €8.9B · Horizon Europe" [ref=e714]
+              - generic "2027 · 493 projects · €354.7M · Horizon Europe" [ref=e718]: "2027"
+            - generic [ref=e723]: Funded projects per start year
+          - generic [ref=e724]:
+            - generic [ref=e725]: FP2
+            - generic [ref=e727]: FP3
+            - generic [ref=e729]: FP4
+            - generic [ref=e731]: FP5
+            - generic [ref=e733]: FP6
+            - generic [ref=e735]: FP7
+            - generic [ref=e737]: Horizon 2020
+            - generic [ref=e739]: Horizon Europe
+            - generic [ref=e741]: Other programmes
+          - generic [ref=e743]: By framework-programme era
+          - list [ref=e744]:
+            - listitem [ref=e745]:
+              - generic [ref=e746]:
+                - text: FP2
+                - generic [ref=e748]: · 1988–1995
+              - generic [ref=e749]:
+                - text: 123 projects
+                - generic [ref=e750]: · €54.3M
+            - listitem [ref=e751]:
+              - generic [ref=e752]:
+                - text: FP3
+                - generic [ref=e754]: · 1991–1996
+              - generic [ref=e755]:
+                - text: 1561 projects
+                - generic [ref=e756]: · €782.9M
+            - listitem [ref=e757]:
+              - generic [ref=e758]:
+                - text: FP4
+                - generic [ref=e760]: · 1988–1999
+              - generic [ref=e761]:
+                - text: 6710 projects
+                - generic [ref=e762]: · €2.2B
+            - listitem [ref=e763]:
+              - generic [ref=e764]:
+                - text: FP5
+                - generic [ref=e766]: · 1999–2005
+              - generic [ref=e767]:
+                - text: 5618 projects
+                - generic [ref=e768]: · €6.9B
+            - listitem [ref=e769]:
+              - generic [ref=e770]:
+                - text: FP6
+                - generic [ref=e772]: · 2002–2010
+              - generic [ref=e773]:
+                - text: 8038 projects
+                - generic [ref=e774]: · €15.5B
+            - listitem [ref=e775]:
+              - generic [ref=e776]:
+                - text: FP7
+                - generic [ref=e778]: · 2007–2018
+              - generic [ref=e779]:
+                - text: 18 087 projects
+                - generic [ref=e780]: · €38.8B
+            - listitem [ref=e781]:
+              - generic [ref=e782]:
+                - text: Horizon 2020
+                - generic [ref=e784]: · 2014–2023
+              - generic [ref=e785]:
+                - text: 28 818 projects
+                - generic [ref=e786]: · €63.9B
+            - listitem [ref=e787]:
+              - generic [ref=e788]:
+                - text: Horizon Europe
+                - generic [ref=e790]: · 2021–2027
+              - generic [ref=e791]:
+                - text: 18 495 projects
+                - generic [ref=e792]: · €55.4B
+            - listitem [ref=e793]:
+              - generic [ref=e794]:
+                - text: Other programmes
+                - generic [ref=e796]: · 1981–2014
+              - generic [ref=e797]:
+                - text: 11 198 projects
+                - generic [ref=e798]: · €3.9B
+          - generic [ref=e799]: Funded activity spans 1981–2027 across 9 EU programmes (FP2 to Other programmes). Peak year 2019 (4562 projects). (+2831 projects with no start date, not shown.)
+          - generic [ref=e800]: Funded activity across the tracked Horizon Europe portfolio, by project start year and Framework-Programme era (CORDIS, FP7-Horizon Europe). Counts and euros are separate measures; awarded euros are historical EU contribution, not scientific quality or impact.

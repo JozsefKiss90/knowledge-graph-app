@@ -9,9 +9,11 @@
 // word (plus the "subgraph" compound): legitimate domain words that merely contain the substring
 // ("Geography", "demography", "cryptography", "geographic information systems") are not
 // mechanism language. "Node"/"edge" are banned as whole words too — they only exist in the
-// internal mechanism vocabulary (routes and code may keep them; copy and ARIA may not).
+// internal mechanism vocabulary (routes and code may keep them; copy and ARIA may not). The
+// hyphen lookbehind spares hyphenated compounds ("cutting-edge", "leading-edge"), which are
+// legitimate prose, not mechanism words.
 
-const BANNED = /\b(?:sub)?graphs?\b|\bnodes?\b|\bedges?\b/i;
+const BANNED = /\b(?:sub)?graphs?\b|(?<!-)\bnodes?\b|(?<!-)\bedges?\b/i;
 
 /**
  * Assert a rendered surface carries no mechanism language: neither in its visible text nor in what

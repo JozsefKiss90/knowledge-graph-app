@@ -1,7 +1,7 @@
 import React from "react";
 
-// Shared KPI value/unit formatters. Exported so the redesigned KpiTileRow can reuse the
-// exact same number formatting as the original KpiCard (currency scaled to B/M/K, counts
+// Shared KPI value/unit formatters. Exported so other dashboard surfaces (OfferFundedStrip) reuse
+// the exact same number formatting as the original KpiCard (currency scaled to B/M/K, counts
 // via toLocaleString) instead of re-deriving numbers in JSX.
 export function formatValue(value, unit) {
   if (unit === "currency") {

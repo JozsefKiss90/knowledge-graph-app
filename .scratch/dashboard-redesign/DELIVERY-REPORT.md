@@ -168,8 +168,14 @@ All against the real app (`docker-compose.dev.yml`, frontend :3001, restored Neo
 - `dashboard-dark-theme-window-funding-both.png` — Funding window on the Both view (two-halves)
 - `dashboard-dark-cordis-unavailable.png`, `dashboard-dark-window-cordis-unavailable.png` — honest
   failure states (strip + window)
-- `dashboard-dark-1440x900-a11y-snapshot.yml` — accessibility tree
+- `dashboard-dark-1440x900-a11y-snapshot.yml` — accessibility tree, default surface
+- `dashboard-dark-window-open-a11y-snapshot.yml` — accessibility tree with a theme-window dialog open
 - Baselines from slice 01 remain under `baseline/` for before/after comparison.
+
+Post-review cleanups (same slice, follow-up commit after the two-axis code review):
+`CordisCountryLeaderboard` series colors → `var(--d2-accent)`/`var(--d2-open)` (daylight-adaptive);
+the CordisGate source-state props computed once; hyphen lookbehind in the mechanism-word ban so
+"cutting-edge" prose can't false-positive; stale `KpiTileRow` comment reference removed.
 
 ## 11. Remaining risks and deferred findings
 

@@ -145,6 +145,10 @@ export default function PortfolioDashboard({
   // Gate the whole CORDIS layer on real data: an empty graph yields an all-zero summary, so we
   // fall back to planned-only KPIs and show the honest empty-state in windows rather than zeros.
   const cordisActive = !!cordis.data && (cordis.data.projectCount || 0) > 0;
+  // The source check's own in-flight/failed state, shared by every CordisGate: while the summary
+  // is unknown, windows must not claim "not ingested yet".
+  const cordisSourceLoading = !cordis.data && cordis.loading;
+  const cordisSourceError = !cordis.data && !!cordis.error;
 
   // Floating-window manager — drives which theme windows are open (and therefore which CORDIS
   // fetches fire, see below).
@@ -354,8 +358,8 @@ export default function PortfolioDashboard({
           >
             <CordisGate
               active={cordisActive}
-              sourceLoading={!cordis.data && cordis.loading}
-              sourceError={!cordis.data && cordis.error}
+              sourceLoading={cordisSourceLoading}
+              sourceError={cordisSourceError}
               loading={trend.loading}
               error={trend.error}
               data={trend.data}
@@ -380,8 +384,8 @@ export default function PortfolioDashboard({
           >
             <CordisGate
               active={cordisActive}
-              sourceLoading={!cordis.data && cordis.loading}
-              sourceError={!cordis.data && cordis.error}
+              sourceLoading={cordisSourceLoading}
+              sourceError={cordisSourceError}
               loading={countryActivity.loading}
               error={countryActivity.error}
               data={countryActivity.data}
@@ -409,8 +413,8 @@ export default function PortfolioDashboard({
           >
             <CordisGate
               active={cordisActive}
-              sourceLoading={!cordis.data && cordis.loading}
-              sourceError={!cordis.data && cordis.error}
+              sourceLoading={cordisSourceLoading}
+              sourceError={cordisSourceError}
               loading={topOrgs.loading}
               error={topOrgs.error}
               data={topOrgs.data}
@@ -431,8 +435,8 @@ export default function PortfolioDashboard({
           >
             <CordisGate
               active={cordisActive}
-              sourceLoading={!cordis.data && cordis.loading}
-              sourceError={!cordis.data && cordis.error}
+              sourceLoading={cordisSourceLoading}
+              sourceError={cordisSourceError}
               loading={fieldTree.loading}
               error={fieldTree.error}
               data={fieldTree.data}
