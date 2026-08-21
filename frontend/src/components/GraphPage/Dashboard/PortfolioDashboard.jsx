@@ -133,15 +133,19 @@ export default function PortfolioDashboard({
   // .dash-windows-layer--stacked) so none of them land off-screen on tablets/phones.
   const stacked = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
-  // The calls list doubles as a filter target. `callFilter` is null (default upcoming slice),
-  // "open" (all open calls) or "closing30" (calls closing within 30 days).
+  // The calls list doubles as a filter target. `callFilter` is null (default next-deadlines
+  // slice), "open" (all open & forthcoming calls) or "closing30" (calls closing within 30 days).
   const [callFilter, setCallFilter] = useState(null);
   const tableRows = useMemo(() => {
     const byDeadline = (a, b) => (a.closeDate || Infinity) - (b.closeDate || Infinity);
-    if (callFilter === "open") return [...(data.openCallsList || [])].sort(byDeadline);
+    if (callFilter === "open") return [...(data.monitoredCallsList || [])].sort(byDeadline);
     if (callFilter === "closing30") return [...(data.closingIn30dList || [])].sort(byDeadline);
     return data.upcomingCalls;
-  }, [callFilter, data.openCallsList, data.closingIn30dList, data.upcomingCalls]);
+  }, [callFilter, data.monitoredCallsList, data.closingIn30dList, data.upcomingCalls]);
+
+  // Open + forthcoming — the full non-closed set the table's subtitle and the Saved
+  // quick filter both describe.
+  const monitoredCount = data.openCalls + data.forthcomingCalls;
 
   // A country-leaderboard row composes the overlay selection with a jump to the country tool.
   const handleSelectCountry = useCallback(
@@ -229,7 +233,7 @@ export default function PortfolioDashboard({
               locateCall={locateCall}
               filterLabel={
                 callFilter === "open"
-                  ? "All open calls"
+                  ? "All open & forthcoming calls"
                   : callFilter === "closing30"
                   ? "Calls closing in 30 days"
                   : null
@@ -237,7 +241,8 @@ export default function PortfolioDashboard({
               callFilter={callFilter}
               onSetFilter={setCallFilter}
               openCount={data.openCalls}
-              closingCount={data.closingIn30d}
+              forthcomingCount={data.forthcomingCalls}
+              totalCount={monitoredCount}
             />
             {/* Deadline runway — plots the very calls above by close date. */}
             <DeadlineRunway calls={tableRows} />
@@ -262,6 +267,7 @@ export default function PortfolioDashboard({
           totalOnOffer={data.totalOnOffer}
           programmeCount={data.programmeCount}
           openCalls={data.openCalls}
+          forthcomingCalls={data.forthcomingCalls}
           cordis={cordis.data}
           cordisActive={cordisActive}
           cordisLoading={cordis.loading}
@@ -404,7 +410,7 @@ export default function PortfolioDashboard({
             width={440}
           >
             <SavedSearches
-              openCalls={data.openCalls}
+              openForthcoming={monitoredCount}
               closingIn30d={data.closingIn30d}
               activeFilter={callFilter}
               onSelectFilter={setCallFilter}

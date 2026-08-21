@@ -1,6 +1,6 @@
 # 03 — Calls and deadlines: status truth, semantics, and funding-map terminology
 
-Status: ready-for-agent
+Status: ready-for-human
 
 ## Parent
 
@@ -21,14 +21,50 @@ Make the open-calls surface truthful, semantically navigable, and mechanism-free
 
 ## Acceptance criteria
 
-- [ ] Upcoming calls are never labelled Open (min-test 1)
-- [ ] Open and closing-soon filtering preserves the expected calls, and the filter controls expose programmatic selected state (min-test 2)
-- [ ] Calls render as a semantic table or structured list navigable by assistive technology
-- [ ] No important call action is hover-only
-- [ ] Dashboard-owned "graph" mechanism strings are replaced by funding-map terminology, covered by the banned-strings test for this surface (min-test 8, this slice's share)
-- [ ] Call-detail round-trip and locate-in-funding-map still work, covered by tests (min-test 9) and verified in the running app via Playwright CLI
-- [ ] Frontend tests and production build pass
+- [x] Upcoming calls are never labelled Open (min-test 1)
+- [x] Open and closing-soon filtering preserves the expected calls, and the filter controls expose programmatic selected state (min-test 2)
+- [x] Calls render as a semantic table or structured list navigable by assistive technology
+- [x] No important call action is hover-only
+- [x] Dashboard-owned "graph" mechanism strings are replaced by funding-map terminology, covered by the banned-strings test for this surface (min-test 8, this slice's share)
+- [x] Call-detail round-trip and locate-in-funding-map still work, covered by tests (min-test 9) and verified in the running app via Playwright CLI
+- [x] Frontend tests and production build pass
 
 ## Blocked by
 
 - `01-baseline-critique-and-plan.md`
+
+## Delivery note (2026-08-21)
+
+- **Wording decision (PLAN §9) locked: "Forthcoming"** — matching the vocabulary the timeline
+  legend, NodeDetail and hover card already use. Applied to the pill (`is-forthcoming`, quiet
+  slate, no glow), the counts, and the tests.
+- Status truth: `useDashboardData` now returns `openCalls` (truly open only) + new
+  `forthcomingCalls`; `openCallsList` stays the combined non-closed set behind the Saved quick
+  filter, relabelled "All open & forthcoming calls". Subtitle reads
+  "Next 8 of 344 by deadline · 131 open · 213 forthcoming"; the summary strip gained a
+  FORTHCOMING stat so OPEN CALLS no longer counts unopened calls. Side-benefit:
+  `LandingHome`'s "N open now" pulls the same value and is now truthful too (no code change).
+- Semantics: the calls collection is an ARIA table (`role=table/rowgroup/row/columnheader/cell`
+  on the existing grid divs) with an accessible name; the Budget header is announced
+  "Budget — indicative, on offer"; chips carry `aria-pressed`; the default chip is renamed
+  "All" → "Next 8" to resolve the two-different-"All"s ambiguity.
+- Actions: "Show in funding map" is always visible (opacity-0-until-hover removed; status column
+  92→112px), each with a per-call accessible name; "View on graph"/"Show in graph" →
+  funding-map terminology. The shared CommandBar "Back to graph" was NOT touched (per ticket:
+  only if touched); the global "EU Knowledge Graph" brand string remains a recorded governance
+  finding (CRITIQUE.md), not fixed here.
+- Verified live via Playwright CLI (dev server + local API): Forthcoming pill beside green Open
+  pills, chip filtering (45 closing-30d rows), call-detail round trip, locate-in-funding-map
+  (`03-evidence-forthcoming-pills.png`, `03-evidence-locate-in-map.png`); 0 console errors.
+- Tests: `OpenCallsTable.test.jsx` (9 tests: min-tests 1, 2, 8-share, 9 + table semantics +
+  budget badge + empty state) and extended `useDashboardData.test.js` (split counts, filter-list
+  preservation). Full suite 36 tests green; production build passes.
+- Two-axis code review (standards + spec sub-agents) applied: `openCallsList` renamed
+  `monitoredCallsList` (the old name lied — it held open + forthcoming); the "Next 8" chip and
+  the hook's slice share one `NEXT_DEADLINES_SLICE` constant; dead `closingCount` prop removed;
+  internal `viewgraph` class renamed `viewmap`; min-test 9 now also asserts the return-leg
+  `graphName` persistence, and min-test 8 scans aria-*/title attributes too. Left open by
+  decision: the Closing pill's 10-day urgency threshold stays tighter than the 30-day chip
+  (urgency signal ≠ filter window); `LandingHome`'s "N open now" now truthfully excludes
+  forthcoming (hook ripple, no file change); pre-existing `_dashboard-redesign.scss`
+  palette/type findings stay with slice 07.

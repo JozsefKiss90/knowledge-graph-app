@@ -38,6 +38,10 @@ const TOP_LEVEL_COLORS = {
   EURATOM: "#22D3EE",
 };
 
+// Size of the default "next deadlines" slice — the calls table's chip label and the
+// list it shows must agree, so the number lives in one place.
+export const NEXT_DEADLINES_SLICE = 8;
+
 function parseNumber(v) {
   if (v == null) return null;
   if (typeof v === "number" && Number.isFinite(v)) return v;
@@ -54,8 +58,9 @@ export function useDashboardData(loadFromStore) {
         totalCalls: 0,
         programmeCount: 0,
         openCalls: 0,
+        forthcomingCalls: 0,
         closingIn30d: 0,
-        openCallsList: [],
+        monitoredCallsList: [],
         closingIn30dList: [],
         totalOnOffer: 0,
         topicsTracked: 0,
@@ -153,7 +158,12 @@ export function useDashboardData(loadFromStore) {
     }
 
     const allCalls = Array.from(callMap.values());
-    const openCalls = allCalls.filter((c) => c.status === "open" || c.status === "upcoming");
+    // Truthful status split (ADR-0006): a call whose opening date is still in the future is
+    // *forthcoming*, never "open" — the two are counted separately everywhere they surface.
+    // `monitoredCalls` (open + forthcoming) is the full non-closed set the dashboard watches.
+    const openNowCalls = allCalls.filter((c) => c.status === "open");
+    const forthcomingCallsList = allCalls.filter((c) => c.status === "upcoming");
+    const monitoredCalls = openNowCalls.concat(forthcomingCallsList);
     const closingIn30d = allCalls.filter((c) => {
       if (c.status === "closed") return false;
       const dl = c.closeDate;
@@ -207,7 +217,7 @@ export function useDashboardData(loadFromStore) {
     const upcomingCalls = allCalls
       .filter((c) => c.status !== "closed" && c.closeDate)
       .sort((a, b) => (a.closeDate || Infinity) - (b.closeDate || Infinity))
-      .slice(0, 8);
+      .slice(0, NEXT_DEADLINES_SLICE);
 
     // Monthly buckets for the area chart (reuse timeline logic)
     const callsForBuckets = allCalls
@@ -223,9 +233,10 @@ export function useDashboardData(loadFromStore) {
     return {
       totalCalls: allCalls.length,
       programmeCount: activeProgrammes.length,
-      openCalls: openCalls.length,
+      openCalls: openNowCalls.length,
+      forthcomingCalls: forthcomingCallsList.length,
       closingIn30d: closingIn30d.length,
-      openCallsList: openCalls,
+      monitoredCallsList: monitoredCalls,
       closingIn30dList: closingIn30d,
       totalOnOffer,
       topicsTracked: allTopics.size,

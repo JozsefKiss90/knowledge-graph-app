@@ -1,12 +1,14 @@
 import React from "react";
 
+// "open" spans every non-closed call — open *and* forthcoming — so the label says so
+// (a forthcoming call must never hide inside an "open" count, ADR-0006).
 const FILTERS = [
-  { key: "open", label: "All open calls" },
+  { key: "open", label: "All open & forthcoming calls" },
   { key: "closing30", label: "Calls closing in 30 days" },
 ];
 
-export default function SavedSearches({ openCalls, closingIn30d, activeFilter, onSelectFilter }) {
-  const countFor = (key) => (key === "open" ? openCalls : key === "closing30" ? closingIn30d : null);
+export default function SavedSearches({ openForthcoming, closingIn30d, activeFilter, onSelectFilter }) {
+  const countFor = (key) => (key === "open" ? openForthcoming : key === "closing30" ? closingIn30d : null);
   return (
     <div className="dash-card dash-searches">
       <div className="dash-card__header">

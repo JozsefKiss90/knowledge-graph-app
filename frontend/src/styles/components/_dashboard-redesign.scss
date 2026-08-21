@@ -359,7 +359,7 @@
   }
   &:focus-visible { outline: 2px solid var(--d2-accent); outline-offset: 1px; }
 }
-.dash-calls__viewgraph {
+.dash-calls__viewmap {
   all: unset;
   box-sizing: border-box;
   display: inline-flex;
@@ -370,14 +370,14 @@
   color: var(--d2-accent-text);
   cursor: pointer;
   flex: 0 0 auto;
-  .dash-calls__viewgraph-icon { font-size: 13px; }
+  .dash-calls__viewmap-icon { font-size: 13px; }
   &:hover { text-decoration: underline; }
   &:focus-visible { outline: 2px solid var(--d2-accent); outline-offset: 1px; }
 }
 
 .dash-calls__colhead {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 88px 132px 92px;
+  grid-template-columns: minmax(0, 1fr) 88px 124px 112px;
   gap: 0 14px;
   font-family: var(--d2-mono);
   font-size: 9.5px;
@@ -394,7 +394,7 @@
 .dash-calls__rows { margin-top: 1px; }
 .dash-calls__row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 88px 132px 92px;
+  grid-template-columns: minmax(0, 1fr) 88px 124px 112px;
   gap: 0 14px;
   align-items: center;
   padding: 7px 8px;
@@ -491,17 +491,25 @@
     box-shadow: inset 0 0 0 1px rgba(243, 184, 75, 0.4), 0 0 10px rgba(243, 184, 75, 0.22);
     .dash-calls__pill-dot { background: var(--d2-amber); }
   }
+  // Forthcoming = not yet open: quiet slate, no glow — never the green "Open" treatment.
+  &.is-forthcoming {
+    color: var(--d2-dim);
+    background: rgba(139, 163, 196, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(139, 163, 196, 0.35);
+    .dash-calls__pill-dot { background: var(--d2-dim); }
+  }
 }
+// Always visible (never hover-revealed): the locate action must be reachable by
+// touch and discoverable by sight, not only on pointer hover.
 .dash-calls__action {
   all: unset;
   font-size: 10px;
+  text-align: right;
   color: var(--d2-accent-text);
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.15s;
-  &:focus-visible { opacity: 1; outline: 2px solid var(--d2-accent); outline-offset: 1px; }
+  &:hover { text-decoration: underline; }
+  &:focus-visible { outline: 2px solid var(--d2-accent); outline-offset: 1px; }
 }
-.dash-calls__row:hover .dash-calls__action { opacity: 1; }
 .dash-calls__empty {
   text-align: center;
   color: var(--d2-faint);

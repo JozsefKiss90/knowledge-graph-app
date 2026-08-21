@@ -28,15 +28,19 @@ export default function OfferFundedStrip({
   totalOnOffer,
   programmeCount,
   openCalls,
+  forthcomingCalls,
   cordis,
   cordisActive,
   cordisLoading,
   cordisError,
 }) {
+  // Open and forthcoming stay separate counts — a call whose opening date is still in the
+  // future must never inflate an "open" figure (truthful-status half of ADR-0006).
   const offer = [
     { v: euro(totalOnOffer), l: "INDICATIVE FUNDING" },
     { v: count(programmeCount), l: "PROGRAMMES" },
     { v: count(openCalls), l: "OPEN CALLS" },
+    { v: count(forthcomingCalls), l: "FORTHCOMING" },
   ];
 
   const funded =
