@@ -31,8 +31,6 @@
   --nd-accent-fill-hover: #1a5fd0;
   --nd-accent-tint: rgba(63, 147, 255, 0.16);
   --nd-accent-tint-strong: rgba(63, 147, 255, 0.28);
-  --nd-chip-blue-1: #8b6cff;
-  --nd-chip-blue-2: #6a3df0;
 
   /* The Awarded half's green, so the two halves can be keyed from one place. */
   --nd-awarded: #35d07f;
@@ -78,8 +76,6 @@
   --nd-accent-fill-hover: #1a5fd0;
   --nd-accent-tint: rgba(31, 111, 235, 0.1);
   --nd-accent-tint-strong: rgba(31, 111, 235, 0.18);
-  --nd-chip-blue-1: #50a8ff;
-  --nd-chip-blue-2: #2d84ec;
   --nd-awarded: #1a8a52;
   --nd-awarded-tint: rgba(34, 178, 94, 0.12);
   --nd-awarded-border: rgba(26, 138, 82, 0.36);
@@ -143,7 +139,7 @@
 .nd-main-inner {
   max-width: 1360px;
   margin: 0 auto;
-  padding: 34px 28px 56px;
+  padding: 32px 28px 56px;
 }
 
 .nd-loading-wrapper {
@@ -195,8 +191,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
-  margin-bottom: 26px;
+  margin-top: 16px;
+  margin-bottom: 24px;
 }
 
 /* Research fields / keywords. These read as metadata by default — they used to be filled,
@@ -255,7 +251,7 @@
 }
 
 .nd-tags-section {
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
 .nd-tags-label {
@@ -318,7 +314,7 @@
 .nd-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(300px, 0.72fr);
-  gap: 30px;
+  gap: 24px;
   align-items: start;
 }
 
@@ -331,7 +327,7 @@
 }
 
 .nd-card {
-  border-radius: 18px;
+  border-radius: 14px;
   border: 1px solid var(--nd-border);
   background:
     linear-gradient(180deg, rgba(10, 24, 47, 0.92) 0%, rgba(9, 20, 39, 0.96) 100%);
@@ -347,7 +343,7 @@
 }
 
 .nd-card-header {
-  padding: 26px 24px 10px;
+  padding: 24px 24px 12px;
 }
 
 .nd-card-header--with-icon {
@@ -387,7 +383,7 @@
 }
 
 .nd-card-body {
-  padding: 18px 24px 24px;
+  padding: 16px 24px 24px;
 }
 
 .nd-card-body--text {
@@ -405,19 +401,15 @@
   gap: 10px;
 }
 
-.nd-actions {
-  padding-top: 8px;
-}
-
 .nd-metrics-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 
 .nd-metric {
   min-height: 86px;
-  padding: 18px 18px 16px;
+  padding: 16px;
   border-radius: 14px;
   border: 1px solid rgba(50, 106, 181, 0.3);
   background:
@@ -464,12 +456,6 @@
   font-weight: 400;
   font-style: italic;
   color: var(--nd-text-muted);
-}
-
-.nd-metric-value--small {
-  font-size: 15px;
-  line-height: 1.45;
-  font-weight: 600;
 }
 
 .nd-info-row {
@@ -564,52 +550,9 @@ h5.nd-md-heading { font-size: 14px; }
   background: var(--nd-accent-tint) !important;
 }
 
-.nd-timeline-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 6px 0 16px;
-}
-
-.nd-timeline-row + .nd-timeline-row {
-  border-top: 1px solid rgba(100, 124, 168, 0.22);
-  padding-top: 16px;
-}
-
 .nd-timeline-icon {
   margin-top: 2px;
   color: #91a8ca !important;
-}
-
-.nd-timeline-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.nd-timeline-label {
-  font-size: 15px !important;
-  font-weight: 500 !important;
-  color: #d8e5f5 !important;
-}
-
-.nd-shell--light .nd-timeline-label {
-  color: #243d63 !important;
-}
-
-.nd-timeline-date { 
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: #ffffff !important;
-}
-
-.nd-shell--light .nd-timeline-date {
-  color: #243d63 !important;
-}
-
-.nd-card-action {
-  margin-top: 18px;
 }
 
 .nd-primary-button {
@@ -620,26 +563,6 @@ h5.nd-md-heading { font-size: 14px; }
   font-weight: 600 !important;
   box-shadow: none !important;
   border: none !important;
-}
-
-.nd-primary-button--official {
-  justify-content: center !important;
-  background: linear-gradient(180deg, var(--nd-accent-3) 0%, var(--nd-accent-2) 100%) !important;
-  color: #ffffff !important;
-}
-
-.nd-primary-button--official:hover {
-  background: linear-gradient(180deg, #57b3ff 0%, #4595f5 100%) !important;
-}
-
-.nd-primary-button--bookmark {
-  justify-content: center !important;
-  background: linear-gradient(180deg, #3aa3f4 0%, #2c8aea 100%) !important;
-  color: #ffffff !important;
-}
-
-.nd-primary-button--bookmark:hover {
-  background: linear-gradient(180deg, #4aaeef 0%, #3594ef 100%) !important;
 }
 
 .nd-primary-button .MuiButton-startIcon {
@@ -682,23 +605,6 @@ h5.nd-md-heading { font-size: 14px; }
     0 6px 18px rgba(50, 100, 200, 0.45);
 }
 
-
-/* SECONDARY CTA (Bookmark) */
-
-.nd-secondary-button--bookmark {
-  border: 1px solid rgba(120, 160, 220, 0.35);
-  color: var(--foreground);
-  background: transparent;
-  font-weight: 500;
-  padding: 8px 14px;
-  transition: all 0.18s ease;
-}
-
-.nd-secondary-button--bookmark:hover {
-  background: rgba(70, 120, 220, 0.12);
-  border-color: rgba(120, 170, 255, 0.6);
-  box-shadow: 0 0 10px rgba(80, 140, 255, 0.18);
-}
 
 .nd-main-column .nd-card {
   width: 100%;
@@ -1092,9 +998,9 @@ h5.nd-md-heading { font-size: 14px; }
    ================================================================ */
 .nd-callhead {
   position: relative;
-  margin-bottom: 26px;
-  padding: 26px 28px 22px;
-  border-radius: 18px;
+  margin-bottom: 24px;
+  padding: 24px 28px 24px;
+  border-radius: 14px;
   border: 1px solid var(--nd-border);
   background: linear-gradient(180deg, rgba(10, 24, 47, 0.92) 0%, rgba(9, 20, 39, 0.96) 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), var(--nd-shadow);
@@ -1262,7 +1168,7 @@ h5.nd-md-heading { font-size: 14px; }
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
   gap: 14px;
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .nd-callhead__half {
@@ -1346,7 +1252,7 @@ h5.nd-md-heading { font-size: 14px; }
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 .nd-cta {
@@ -1526,6 +1432,67 @@ h5.nd-md-heading { font-size: 14px; }
   font-weight: 650;
   letter-spacing: -0.005em;
   color: var(--nd-text-soft);
+}
+
+/* ---------------------------------------------------------------------------
+   Connections
+   ---------------------------------------------------------------------------
+   Six class names here had no CSS anywhere in the stylesheet: the dot rendered as a 0×0 span
+   and every neighbour arrived as an undifferentiated blue link. Rows with a hairline, not
+   nested cards — the card is already the container. Link colour stays with the existing
+   .nd-card-body--connections rule so there is one owner for it. */
+.nd-connections-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.nd-connection-box + .nd-connection-box {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--nd-border-soft);
+}
+
+.nd-connection-box-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.nd-connection-dot {
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--nd-accent-2);
+}
+
+.nd-connection-box-text {
+  min-width: 0;
+}
+
+.nd-connection-kind {
+  display: block;
+  font-size: 10.5px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nd-text-muted);
+}
+
+.nd-connection-title {
+  display: inline-block;
+  font-size: 13.5px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.nd-connections-empty {
+  margin: 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--nd-text-muted);
 }
 
 /* ---------------------------------------------------------------------------

@@ -8,7 +8,7 @@ function formatBudget(val) {
   if (val >= 1e9) return `€${(val / 1e9).toFixed(1)}B`;
   if (val >= 1e6) return `€${(val / 1e6).toFixed(1)}M`;
   if (val >= 1e3) return `€${(val / 1e3).toFixed(0)}K`;
-  if (val > 0) return `€${val.toLocaleString()}`;
+  if (val > 0) return `€${val.toLocaleString("en-GB")}`;
   return "—";
 }
 
@@ -118,7 +118,7 @@ export default function CordisTrendPanel({ callId, bare = false }) {
       .join(", ");
     const tip =
       b.count > 0
-        ? `${b.year} · ${b.count.toLocaleString()} projects · ${formatBudget(b.funding)} · ${composition}`
+        ? `${b.year} · ${b.count.toLocaleString("en-GB")} projects · ${formatBudget(b.funding)} · ${composition}`
         : `${b.year} · no funded projects`;
     return { b, i, yearMetric, barPct, segs, tip };
   });
@@ -214,7 +214,7 @@ export default function CordisTrendPanel({ callId, bare = false }) {
                   </span>
                 </span>
                 <span className="cordis-trend__era-val">
-                  {e.count.toLocaleString()} projects
+                  {e.count.toLocaleString("en-GB")} projects
                   <span className="cordis-trend__sub"> · {formatBudget(e.funding)}</span>
                 </span>
               </li>
@@ -224,8 +224,8 @@ export default function CordisTrendPanel({ callId, bare = false }) {
       )}
 
       <div className="cordis-trend__summary">
-        Funded activity {spanText} {eraText}. Peak year {data.peakYear} ({(data.peakCount || 0).toLocaleString()} projects).
-        {data.undatedCount > 0 ? ` (+${data.undatedCount.toLocaleString()} projects with no start date.)` : ""}
+        Funded activity {spanText} {eraText}. Peak year {data.peakYear} ({(data.peakCount || 0).toLocaleString("en-GB")} projects).
+        {data.undatedCount > 0 ? ` (+${data.undatedCount.toLocaleString("en-GB")} projects with no start date.)` : ""}
       </div>
 
       {!bare && (

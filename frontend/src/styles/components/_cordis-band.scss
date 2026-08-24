@@ -9,20 +9,19 @@
   gap: 14px;
   padding: 22px 24px 18px;
 }
-.nd-cordis-band__head--expandable {
-  cursor: pointer;
-}
 .nd-cordis-band__head-main {
   min-width: 0;
 }
+/* This is the line the reader quotes into a briefing — "524 funded projects · €2.1B awarded ·
+   top country DE". It was nowrap + ellipsis, so at tablet width the top country fell off the
+   end and at narrower widths the € figure went with it. It is at most two lines; let it wrap. */
 .nd-cordis-band__summary {
   margin-top: 8px;
   font-size: 13.5px;
+  line-height: 1.45;
   font-weight: 600;
   color: var(--nd-text-soft, var(--foreground));
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-wrap: pretty;
 }
 .nd-cordis-band__summary--muted {
   font-weight: 400;
@@ -61,14 +60,21 @@
   margin-bottom: 12px;
   line-height: 1.5;
 }
+/* The track read from the global --btn-default-bg, which is pure white in light mode — so on
+   the daylight card the strip was white on white and the inactive segment floated on nothing.
+   The track is now keyed to the call detail's own palette in both modes. */
 .nd-cordis-band__tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 2px;
-  background: var(--btn-default-bg, rgba(255, 255, 255, 0.06));
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 10px;
   padding: 3px;
   margin-bottom: 14px;
+}
+
+.nd-shell--light .nd-cordis-band__tabs {
+  background: rgba(31, 111, 235, 0.08);
 }
 .nd-cordis-band__tab {
   all: unset;
@@ -96,6 +102,13 @@
     outline-offset: 2px;
   }
 }
+/* The resting colour reads from --muted-foreground, which is tuned for the navy shell: on the
+   daylight card it measured 2.17:1 against the surface, so the unselected tab was barely
+   legible in exactly the mode where the track had also gone white-on-white. */
+.nd-shell--light .nd-cordis-band__tab {
+  color: var(--nd-text-muted, #587097);
+}
+
 .light-theme .nd-cordis-band__tab--active,
 .nd-shell--light .nd-cordis-band__tab--active {
   background: #1f6feb;

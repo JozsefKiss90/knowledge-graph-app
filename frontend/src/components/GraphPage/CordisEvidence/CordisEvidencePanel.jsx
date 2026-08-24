@@ -10,7 +10,7 @@ function formatBudget(val) {
   if (val >= 1e9) return `€${(val / 1e9).toFixed(1)}B`;
   if (val >= 1e6) return `€${(val / 1e6).toFixed(1)}M`;
   if (val >= 1e3) return `€${(val / 1e3).toFixed(0)}K`;
-  if (val > 0) return `€${val.toLocaleString()}`;
+  if (val > 0) return `€${val.toLocaleString("en-GB")}`;
   return "—";
 }
 
@@ -70,7 +70,7 @@ export default function CordisEvidencePanel({ callId, bare = false, evidence }) 
       <div className="nd-metrics-grid">
         <div className="nd-metric nd-metric--awarded">
           <div className="nd-metric-label"><span>Funded projects</span></div>
-          <div className="nd-metric-value">{count.toLocaleString()}</div>
+          <div className="nd-metric-value">{count.toLocaleString("en-GB")}</div>
         </div>
         <div className="nd-metric nd-metric--awarded">
           <div className="nd-metric-label">
@@ -101,7 +101,7 @@ export default function CordisEvidencePanel({ callId, bare = false, evidence }) 
                   />
                 </div>
                 <span className="dash-funding__value">
-                  {f.n.toLocaleString()}
+                  {f.n.toLocaleString("en-GB")}
                   <span className="cordis-ev__sub"> · {formatBudget(f.funding)}</span>
                 </span>
               </div>

@@ -16,7 +16,7 @@ function formatBudget(val) {
   if (val >= 1e9) return `€${(val / 1e9).toFixed(1)}B`;
   if (val >= 1e6) return `€${(val / 1e6).toFixed(1)}M`;
   if (val >= 1e3) return `€${(val / 1e3).toFixed(0)}K`;
-  if (val > 0) return `€${val.toLocaleString()}`;
+  if (val > 0) return `€${val.toLocaleString("en-GB")}`;
   return "—";
 }
 
@@ -44,7 +44,7 @@ export default function CordisBand({ callId, evidence, defaultOpen = false }) {
     summary = "Checking the funded track record…";
   } else if (hasEvidence) {
     const parts = [
-      `${count.toLocaleString()} funded project${count === 1 ? "" : "s"}`,
+      `${count.toLocaleString("en-GB")} funded project${count === 1 ? "" : "s"}`,
       `${formatBudget(ev.totalEcContribution)} awarded`,
     ];
     const topCountry = ev.topCountries?.[0]?.country;
@@ -82,12 +82,11 @@ export default function CordisBand({ callId, evidence, defaultOpen = false }) {
 
   return (
     <Box className="nd-card nd-cordis-band" component="section" aria-labelledby={`${bodyId}-title`}>
-      <Box
-        className={`nd-card-header nd-cordis-band__head${
-          expandable ? " nd-cordis-band__head--expandable" : ""
-        }`}
-        onClick={expandable ? toggle : undefined}
-      >
+      {/* The whole header used to be a click target: a div with onClick, no role and no
+          tabIndex, so the pointer promised something the keyboard could not do — and
+          double-clicking to select the € figure for a paste collapsed the panel instead. The
+          named Show/Hide button below was always the real control; now it is the only one. */}
+      <Box className="nd-card-header nd-cordis-band__head">
         <Box className="nd-cordis-band__head-main">
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
             <Typography
@@ -102,10 +101,14 @@ export default function CordisBand({ callId, evidence, defaultOpen = false }) {
                 line is an honest empty state with no figure to label (ADR-0006 #2/#5). */}
             {hasEvidence && <MoneyBadge kind="awarded" />}
           </Box>
+          {/* The one asynchronous, decision-critical value on the page. It resolved from
+              "Checking…" to the real count and euros inside a plain div, so a screen-reader
+              user was never told the evidence had arrived. */}
           <div
             className={`nd-cordis-band__summary${
               hasEvidence ? "" : " nd-cordis-band__summary--muted"
             }`}
+            aria-live="polite"
           >
             {summary}
           </div>
@@ -126,11 +129,7 @@ export default function CordisBand({ callId, evidence, defaultOpen = false }) {
             aria-expanded={expanded}
             aria-controls={bodyId}
             aria-label={`${expanded ? "Hide" : "Show"} the funded track record in this area`}
-            onClick={(e) => {
-              // The header is also a click target; without this the toggle would fire twice.
-              e.stopPropagation();
-              toggle();
-            }}
+            onClick={toggle}
           >
             {expanded ? "Hide" : "Show"}
           </Button>

@@ -345,8 +345,14 @@ const NodeConnections = ({ id, relations, connectedNodes = {}, bare = false }) =
           return (
             <div key={itemKey} className="nd-connection-box">
               <div className="nd-connection-box-header">
-                <span className="nd-connection-dot" />
+                <span className="nd-connection-dot" aria-hidden="true" />
                 <div className="nd-connection-box-text">
+                  {/* This branch already computed what the neighbour IS — Destination, Call,
+                      Programme — and then dropped it, leaving an unqualified blue link on the
+                      one card whose job is saying where this call sits. */}
+                  {connectionLabel && (
+                    <span className="nd-connection-kind">{connectionLabel}</span>
+                  )}
                   <Link
                     to={`/node/${encodeURIComponent(neighborId)}`}
                     onClick={() => localStorage.setItem("graphName", graphName)}

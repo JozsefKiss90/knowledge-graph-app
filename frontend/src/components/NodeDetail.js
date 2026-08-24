@@ -1083,7 +1083,9 @@ function CallDecisionHeader({
             )
           }
           aria-pressed={bookmarked}
-          aria-label={bookmarked ? "Bookmarked — already saved" : "Bookmark this call"}
+          aria-label={
+            bookmarked ? "Bookmarked — press to remove" : "Bookmark this call"
+          }
           onClick={onBookmark}
         >
           {bookmarked ? "Bookmarked" : "Bookmark"}
@@ -1167,7 +1169,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
       nodeData.call_id == null &&
       nodeData.type_of_action == null;
 
-    const title = nodeData.name || nodeData.label || "Untitled node";
+    const title = nodeData.name || nodeData.label || "Untitled";
 
     if (isHeEntity) {
       const keywords = Array.isArray(nodeData.keywords)
@@ -1326,6 +1328,10 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
     return () => window.removeEventListener("bookmarksChanged", read);
   }, [bookmarkId]);
 
+  // The button carries aria-pressed, which promises a control that can be un-pressed — and it
+  // could not be: a second press only re-announced "Already bookmarked." Removing was possible
+  // from the bookmarks card elsewhere in the app but not from the page that saved it. Same
+  // mechanism, now a real toggle, so the announced state and the behaviour agree.
   const handleBookmark = useCallback(() => {
     if (!bookmarkId) return;
     let stored = [];
@@ -1336,17 +1342,24 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
     }
     if (!Array.isArray(stored)) stored = [];
 
-    if (stored.some((item) => item?.id === bookmarkId)) {
-      setBookmarkNote("Already bookmarked.");
-      return;
-    }
+    const already = stored.some((item) => item?.id === bookmarkId);
+    const next = already
+      ? stored.filter((item) => item?.id !== bookmarkId)
+      : [...stored, { id: bookmarkId, name: nodeData?.name }];
 
-    stored.push({ id: bookmarkId, name: nodeData?.name });
-    localStorage.setItem("bookmarkedCalls", JSON.stringify(stored));
+    localStorage.setItem("bookmarkedCalls", JSON.stringify(next));
     window.dispatchEvent(new Event("bookmarksChanged"));
-    setBookmarked(true);
-    setBookmarkNote("Bookmarked.");
+    setBookmarked(!already);
+    setBookmarkNote(already ? "Removed from bookmarks." : "Bookmarked.");
   }, [bookmarkId, nodeData?.name]);
+
+  // The confirmation used to persist for the rest of the session, so a note about one press
+  // was still on screen many minutes later. It says its piece and goes.
+  useEffect(() => {
+    if (!bookmarkNote) return undefined;
+    const t = setTimeout(() => setBookmarkNote(""), 4000);
+    return () => clearTimeout(t);
+  }, [bookmarkNote]);
 
   // Resolve [[wikilinks]] in the body against this node's fetched neighbors,
   // so curated/contextual links navigate to the target entity's detail page.
@@ -1412,7 +1425,16 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
             </Button>
             <span className="nd-header-divider" />
             {entityLabel && <Chip label={entityLabel} size="small" className="nd-chip nd-chip--kind" />}
-            {statusLabel && <Chip label={statusLabel} size="small" className="nd-chip nd-chip--status nd-chip--status-open" />}
+            {/* Was hardcoded to the open (green) class regardless of the actual value, so a
+                closed entity announced itself in the colour that means open. The two other
+                status classes already existed in the stylesheet and no code path used them. */}
+            {statusLabel && (
+              <Chip
+                label={statusLabel}
+                size="small"
+                className={`nd-chip nd-chip--status nd-chip--status-${statusLabel.toLowerCase()}`}
+              />
+            )}
           </Box>
         </header>
 
@@ -1421,8 +1443,11 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
             <Box className="nd-title-block">
               <Box className="nd-title-dot" />
               <Box className="nd-title-text">
+                {/* The page began at h4 with no h1 above it, then emitted an h2 underneath —
+                    an outline that ran downwards then jumped back up. Same size, real rank. */}
                 <Typography
                   variant="h4"
+                  component="h1"
                   className="nd-title"
                   sx={{
                     fontSize: "var(--text-2xl)",
@@ -1434,8 +1459,11 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 >
                   {viewModel.title}
                 </Typography>
+                {/* Was "Node ID:" — the one place on the surface where the implementation's
+                    vocabulary reached the reader. Mechanism words are banned user-facing; the
+                    fact itself is useful, so it keeps the fact and loses the word. */}
                 <Typography variant="subtitle2" className="nd-subtitle">
-                  Node ID: {nodeData.id || id}
+                  Reference: {nodeData.id || id}
                 </Typography>
               </Box>
             </Box>
@@ -1452,7 +1480,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                       Summary
                     </Typography>
                   </Box>
@@ -1473,7 +1501,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header nd-card-header--with-icon">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                       Connections
                     </Typography>
                     <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
@@ -1486,7 +1514,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 {viewModel.aliases.length > 0 && (
                   <Box className="nd-card">
                     <Box className="nd-card-header">
-                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                         Also Known As
                       </Typography>
                     </Box>
@@ -1501,7 +1529,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 {viewModel.sourceDocs.length > 0 && (
                   <Box className="nd-card">
                     <Box className="nd-card-header">
-                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                         Source Documents
                       </Typography>
                     </Box>
@@ -1516,7 +1544,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 {sourceText && sourceText !== "—" && (
                   <Box className="nd-card">
                     <Box className="nd-card-header">
-                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                         Source
                       </Typography>
                     </Box>
@@ -1581,7 +1609,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               <div className="nd-main-column" style={isMobile ? { order: 1 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                       Summary
                     </Typography>
                   </Box>
@@ -1596,7 +1624,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
               <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
                 <Box className="nd-card">
                   <Box className="nd-card-header nd-card-header--with-icon">
-                    <Typography variant="body2" className="nd-card-title nd-muted-label">
+                    <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                       Connections
                     </Typography>
                     <InfoOutlinedIcon fontSize="small" className="nd-card-header-icon" />
@@ -1609,7 +1637,7 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 {sourceText && sourceText !== "—" && (
                   <Box className="nd-card">
                     <Box className="nd-card-header">
-                      <Typography variant="body2" className="nd-card-title nd-muted-label">
+                      <Typography variant="body2" component="h2" className="nd-card-title nd-muted-label">
                         Source
                       </Typography>
                     </Box>

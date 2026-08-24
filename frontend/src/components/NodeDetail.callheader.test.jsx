@@ -183,10 +183,20 @@ test("official call page is primary and named; bookmark is secondary and statefu
   expect(JSON.parse(localStorage.getItem("bookmarkedCalls"))).toEqual([
     { id: CALL.id, name: CALL.name },
   ]);
-  expect(
-    screen.getByRole("button", { name: /Bookmarked — already saved/i })
-  ).toHaveAttribute("aria-pressed", "true");
+  const pressed = screen.getByRole("button", { name: /Bookmarked — press to remove/i });
+  expect(pressed).toHaveAttribute("aria-pressed", "true");
   expect(screen.getByRole("status")).toHaveTextContent("Bookmarked.");
+
+  // aria-pressed promises a control that can be un-pressed. It now can be: the same button
+  // removes the call, rather than re-announcing "Already bookmarked." forever.
+  fireEvent.click(pressed);
+
+  expect(JSON.parse(localStorage.getItem("bookmarkedCalls"))).toEqual([]);
+  expect(screen.getByRole("button", { name: "Bookmark this call" })).toHaveAttribute(
+    "aria-pressed",
+    "false"
+  );
+  expect(screen.getByRole("status")).toHaveTextContent("Removed from bookmarks.");
 });
 
 test("research fields are inert metadata when nothing is wired to them", async () => {
