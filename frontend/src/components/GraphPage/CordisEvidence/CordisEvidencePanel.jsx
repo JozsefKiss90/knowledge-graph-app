@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import useCordisEvidence from "./useCordisEvidence";
 import CordisEmptyState from "./CordisEmptyState";
 import OrgLink from "./OrgLink";
+import MoneyBadge from "../../common/MoneyBadge";
 
 // Same € formatter as the dashboard (FundingByProgramme.jsx) — counts and euros are never mixed.
 function formatBudget(val) {
@@ -61,13 +62,21 @@ export default function CordisEvidencePanel({ callId, bare = false, evidence }) 
         </div>
       )}
 
+      {/* These tiles are the same component the call's *advertised* budget renders in. The euro
+          figure therefore carries its own awarded badge rather than inheriting one from the band
+          header four text blocks above it — the moment a reader screenshots or copies this tile
+          into a briefing, the badge has to come with it (DESIGN.md, the Two-Halves Rule). The
+          project count is a count, not euros, so it wears the half's colour and no money badge. */}
       <div className="nd-metrics-grid">
-        <div className="nd-metric">
+        <div className="nd-metric nd-metric--awarded">
           <div className="nd-metric-label"><span>Funded projects</span></div>
           <div className="nd-metric-value">{count.toLocaleString()}</div>
         </div>
-        <div className="nd-metric">
-          <div className="nd-metric-label"><span>Total EU contribution</span></div>
+        <div className="nd-metric nd-metric--awarded">
+          <div className="nd-metric-label">
+            <span>Total EU contribution</span>
+            <MoneyBadge kind="awarded" size="sm" />
+          </div>
           <div className="nd-metric-value">{formatBudget(data.totalEcContribution)}</div>
         </div>
       </div>

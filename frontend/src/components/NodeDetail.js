@@ -1,4 +1,11 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import {
   Box,
   Button,
@@ -236,42 +243,103 @@ const CANONICAL_DESCRIPTION_SECTION_KEYS = [
   "additional_information",
 ];
 
-// Primary rendering order for long-form text sections.
-const baseTextFieldConfig = [
-  { key: "description_root", label: "Description" },
-  { key: "objective", label: "Objective" },
-  { key: "expected_outcome", label: "Expected Outcome" },
-  { key: "expected_results", label: "Expected Results" },
-  { key: "expected_impact", label: "Expected Impact" },
-  { key: "scope", label: "Scope" },
-  { key: "specific_challenge", label: "Specific Challenge" },
-  { key: "challenge", label: "Challenge" },
-  { key: "background", label: "Background" },
-  { key: "context", label: "Context" },
-
-  { key: "admissibility_conditions", label: "Admissibility Conditions" },
-  { key: "eligibility_conditions", label: "Eligibility Conditions" },
-  { key: "eligible_applicants", label: "Eligible Applicants" },
-  { key: "eligible_activities", label: "Eligible Activities" },
-  { key: "eligible_countries", label: "Eligible Countries" },
-  { key: "other_eligibility_conditions", label: "Other Eligibility Conditions" },
-  { key: "conditions_for_participation", label: "Conditions For Participation" },
-  { key: "financial_and_operational_capacity", label: "Financial & Operational Capacity" },
-
-  { key: "application_procedure", label: "Application Procedure" },
-  { key: "submission", label: "Submission" },
-  { key: "submission_and_evaluation_process", label: "Submission & Evaluation Process" },
-  { key: "evaluation", label: "Evaluation" },
-  { key: "award_criteria", label: "Award Criteria" },
-  { key: "award_criteria_scoring_thresholds", label: "Award Criteria / Thresholds" },
-
-  { key: "funding_rules", label: "Funding Rules" },
-  { key: "implementation", label: "Implementation" },
-  { key: "work_programme", label: "Work Programme" },
-  { key: "proposal_page_limits_mentions", label: "Proposal Page Limits" },
-  { key: "legal_and_financial_setup", label: "Legal and Financial Setup" },
-  { key: "additional_information", label: "Additional Information" },
+/**
+ * An advisor reads a call in four passes: what it funds, whether we can apply, how we apply,
+ * and what the rules are. Those four groups were already authored into this list as blank-line
+ * runs — and then flattened at render, so thirty identically-shelled sections arrived as one
+ * undifferentiated stack in which "Eligibility Conditions" and "Proposal Page Limits" looked
+ * exactly alike. The grouping is now data the view can use, not a comment convention.
+ *
+ * Order within a group is still the reading order; order of groups is the decision order.
+ */
+const TEXT_SECTION_GROUPS = [
+  {
+    key: "what",
+    label: "What this call funds",
+    fields: [
+      { key: "description_root", label: "Description" },
+      { key: "objective", label: "Objective" },
+      { key: "expected_outcome", label: "Expected Outcome" },
+      { key: "expected_results", label: "Expected Results" },
+      { key: "expected_impact", label: "Expected Impact" },
+      { key: "scope", label: "Scope" },
+      { key: "specific_challenge", label: "Specific Challenge" },
+      { key: "challenge", label: "Challenge" },
+      { key: "background", label: "Background" },
+      { key: "context", label: "Context" },
+    ],
+  },
+  {
+    key: "eligibility",
+    label: "Whether you can apply",
+    fields: [
+      { key: "admissibility_conditions", label: "Admissibility Conditions" },
+      { key: "eligibility_conditions", label: "Eligibility Conditions" },
+      { key: "eligible_applicants", label: "Eligible Applicants" },
+      { key: "eligible_activities", label: "Eligible Activities" },
+      { key: "eligible_countries", label: "Eligible Countries" },
+      { key: "other_eligibility_conditions", label: "Other Eligibility Conditions" },
+      { key: "conditions_for_participation", label: "Conditions For Participation" },
+      { key: "financial_and_operational_capacity", label: "Financial & Operational Capacity" },
+    ],
+  },
+  {
+    key: "process",
+    label: "How to apply",
+    fields: [
+      { key: "application_procedure", label: "Application Procedure" },
+      { key: "submission", label: "Submission" },
+      { key: "submission_and_evaluation_process", label: "Submission & Evaluation Process" },
+      { key: "evaluation", label: "Evaluation" },
+      { key: "award_criteria", label: "Award Criteria" },
+      { key: "award_criteria_scoring_thresholds", label: "Award Criteria / Thresholds" },
+    ],
+  },
+  {
+    key: "rules",
+    label: "Rules and admin",
+    fields: [
+      { key: "funding_rules", label: "Funding Rules" },
+      { key: "implementation", label: "Implementation" },
+      { key: "work_programme", label: "Work Programme" },
+      { key: "proposal_page_limits_mentions", label: "Proposal Page Limits" },
+      { key: "legal_and_financial_setup", label: "Legal and Financial Setup" },
+      { key: "additional_information", label: "Additional Information" },
+    ],
+  },
 ];
+
+// Flat reading order, derived — never hand-maintained alongside the groups.
+const baseTextFieldConfig = TEXT_SECTION_GROUPS.flatMap((g) => g.fields);
+
+// The three sections that answer "what is this" open on arrival; everything else waits to be
+// asked for. One set, used at every breakpoint — the mobile branch used to be this list negated,
+// which collapsed the four sections that matter and expanded the twenty-odd that don't.
+const OPEN_BY_DEFAULT = new Set(["description_root", "objective", "expected_outcome"]);
+
+// These keys are in labelMap because they are rendered as *metadata* elsewhere on the page —
+// the decision header, the Key information card. A dynamic section must never restate one of
+// them as a long-form card.
+const NON_SECTION_KEYS = new Set([
+  "funding_link",
+  "expected_eu_contribution",
+  "indicative_budget",
+  "indicative_number_of_projects",
+  "max_funded_projects",
+  "deadline",
+  "deadlines",
+  "trl",
+  "source",
+  "call_id",
+  "identifier",
+  "topic_id",
+  "call_identifier",
+  "min_contribution",
+  "max_contribution",
+  "type_of_action",
+  "opening_date",
+  "tags_from_description",
+]);
 
 function hasRenderableValue(value) {
   if (value == null) return false;
@@ -306,9 +374,14 @@ function getDynamicDescriptionSectionConfig(nodeData) {
   const dynamic = [];
 
   for (const key of advertised) {
-    if (!existingKeys.has(key) && hasRenderableValue(nodeData?.[key])) {
-      dynamic.push({ key, label: formatLabel(key) });
-    }
+    if (existingKeys.has(key) || NON_SECTION_KEYS.has(key)) continue;
+    // A heading has to be something the work programme actually calls this. formatLabel's
+    // fallback Title-Cases whatever column name the record happens to carry, which shipped the
+    // database schema to the user as a section title. An unmapped key gets no section — the
+    // fix is to name it in labelMap, not to dress the column up as a heading.
+    if (!labelMap[key]) continue;
+    if (!hasRenderableValue(nodeData?.[key])) continue;
+    dynamic.push({ key, label: labelMap[key] });
   }
 
   return dynamic;
@@ -351,7 +424,15 @@ function formatValue(key, value) {
   if (["min_contribution", "max_contribution", "indicative_budget"].includes(key)) {
     const num =
       typeof value === "number" ? value : parseFloat(String(value).replace(",", "."));
-    if (Number.isFinite(num)) return `${num.toLocaleString()} €`;
+    // Leading symbol, as everywhere else on the page. The header's compact read (€12.0M) and
+    // this card's exact figure (€12,000,000) used to disagree about where the € goes, which
+    // left the reader checking whether two euro figures ~700px apart were the same number.
+    // Precision stays here; only the notation is unified.
+    //
+    // The locale is pinned for the same reason the dates are (see formatDateShort): an
+    // unpinned toLocaleString groups by the *browser's* locale, so the same call rendered
+    // "€35 000 000" here and "€35.0M" in the header on any non-English machine.
+    if (Number.isFinite(num)) return `€${num.toLocaleString("en-GB")}`;
     return value;
   }
 
@@ -462,18 +543,65 @@ let collapsibleSeq = 0;
 // Every section used to be a <p> with a "Show" button next to it, which left the page with one
 // heading, no outline, and a run of eleven identical tab stops all announced as "Show". The title
 // is now a real heading, the toggle names the section it governs, and the two are associated.
-const CollapsibleSection = ({ title, defaultOpen = true, children }) => {
+const CollapsibleSection = ({
+  title,
+  sectionId,
+  titleLevel = "h2",
+  defaultOpen = true,
+  openSignal,
+  children,
+}) => {
   const [open, setOpen] = useState(defaultOpen);
-  const [domId] = useState(() => `nd-sec-${(collapsibleSeq += 1)}`);
+  const [fallbackId] = useState(() => `nd-sec-${(collapsibleSeq += 1)}`);
+  const domId = sectionId || fallbackId;
+  const bodyRef = useRef(null);
+
+  // Expand all / Collapse all drives every section from one control without taking ownership of
+  // each section's state: the signal carries a sequence number and only acts when it changes, so
+  // a section the reader opened by hand stays open until the next explicit all-command.
+  const seq = openSignal?.seq;
+  const signalOpen = openSignal?.open;
+  useEffect(() => {
+    if (seq == null) return;
+    setOpen(!!signalOpen);
+  }, [seq, signalOpen]);
+
+  // Collapsed bodies used to be unmounted, which meant browser find-in-page could not reach the
+  // paragraph that decides whether a consortium is eligible — on a page whose whole job is
+  // helping someone find exactly that. They stay in the DOM now as `hidden="until-found"`:
+  // findable, and revealed by the browser when a match lands inside. React is deliberately not
+  // given the attribute (it would coerce the string to a bare boolean), and browsers without
+  // support treat any value as plain `hidden`, which is precisely the previous behaviour.
+  useLayoutEffect(() => {
+    const el = bodyRef.current;
+    if (!el) return;
+    if (open) el.removeAttribute("hidden");
+    else el.setAttribute("hidden", "until-found");
+  }, [open]);
+
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!el) return undefined;
+    const reveal = () => setOpen(true);
+    el.addEventListener("beforematch", reveal);
+    return () => el.removeEventListener("beforematch", reveal);
+  }, []);
 
   if (!children) return null;
 
+  const Title = titleLevel;
+
   return (
-    <Box className="nd-card" component="section" aria-labelledby={`${domId}-title`}>
+    <Box
+      className="nd-card nd-section"
+      component="section"
+      id={domId}
+      aria-labelledby={`${domId}-title`}
+    >
       <Box className="nd-card-header nd-card-header--collapsible">
         <Typography
           variant="body2"
-          component="h2"
+          component={Title}
           id={`${domId}-title`}
           className="nd-card-title nd-muted-label"
         >
@@ -491,56 +619,79 @@ const CollapsibleSection = ({ title, defaultOpen = true, children }) => {
           {open ? "Hide" : "Show"}
         </Button>
       </Box>
-      {open && (
-        <Box id={`${domId}-body`} className="nd-card-body nd-card-body--text">
-          {children}
-        </Box>
-      )}
+      <Box
+        ref={bodyRef}
+        id={`${domId}-body`}
+        className="nd-card-body nd-card-body--text"
+      >
+        {children}
+      </Box>
     </Box>
   );
 };
 
-const TextSectionFromField = ({ nodeData, fieldKey, label, defaultOpen = true }) => {
-  const raw = nodeData[fieldKey];
-  if (!hasRenderableValue(raw)) return null;
+/**
+ * Build the four reading groups against one record: which sections this call actually carries,
+ * in reading order, each with a stable anchor id. A group the work programme says nothing about
+ * keeps its place with an empty entry list — the index turns that into "not stated", so the
+ * reader can tell *missing* from *collapsed*, which thirty identical closed shells could not.
+ */
+function buildSectionGroups(nodeData) {
+  if (!nodeData) return [];
+  const dynamic = getDynamicDescriptionSectionConfig(nodeData);
 
-  if (fieldKey === "tags_from_description") {
-    const items = Array.isArray(raw)
-      ? raw.map((x) => String(x).trim()).filter(Boolean)
-      : toListItems(raw);
+  return TEXT_SECTION_GROUPS.map((group) => {
+    const fields = group.key === "rules" ? [...group.fields, ...dynamic] : group.fields;
+    const entries = [];
 
-    if (items.length === 0) return null;
+    for (const field of fields) {
+      if (!hasRenderableValue(nodeData[field.key])) continue;
+      const items = toListItems(nodeData[field.key]);
+      if (items.length === 0) continue;
+      entries.push({
+        key: field.key,
+        label: field.label || formatLabel(field.key),
+        domId: `nd-sec-${field.key}`,
+        items,
+      });
+    }
 
-    return (
-      <CollapsibleSection title={label || formatLabel(fieldKey)} defaultOpen={defaultOpen}>
-        <Box className="nd-tags-row">
-          {items.map((item) => (
-            <Chip
-              key={item}
-              label={item}
-              size="small"
-              className="nd-tag-chip"
-              variant="filled"
-            />
-          ))}
-        </Box>
-      </CollapsibleSection>
-    );
-  }
+    return { key: group.key, label: group.label, entries };
+  });
+}
 
-  const items = toListItems(raw);
-  if (items.length === 0) return null;
+/**
+ * The jump list. It occupies the sidebar column on wide screens — which previously sat empty
+ * for the full height of the page beside the section stack — and rides above the stack on
+ * narrower ones, where there is no second column to put it in.
+ */
+function CallSectionIndex({ groups, variant }) {
+  const populated = groups.filter((g) => g.entries.length > 0);
+  if (populated.length === 0) return null;
 
   return (
-    <CollapsibleSection title={label || formatLabel(fieldKey)} defaultOpen={defaultOpen}>
-      {items.map((item, idx) => (
-        <Typography key={idx} variant="body2" className="nd-paragraph">
-          {item}
-        </Typography>
+    <nav className={`nd-secindex nd-secindex--${variant}`} aria-label="Call sections">
+      {groups.map((group) => (
+        <div key={group.key} className="nd-secindex__group">
+          <div className="nd-secindex__group-label">{group.label}</div>
+          {group.entries.length > 0 ? (
+            <ul className="nd-secindex__list">
+              {group.entries.map((entry) => (
+                <li key={entry.key}>
+                  <a className="nd-secindex__link" href={`#${entry.domId}`}>
+                    {entry.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="nd-secindex__absent">Not stated in the work programme.</p>
+          )}
+        </div>
       ))}
-    </CollapsibleSection>
+    </nav>
   );
-};
+}
 
 // add near the other helpers
 
@@ -709,6 +860,27 @@ function buildProgrammeTrail({ nodeData, relations, connectedNodes }) {
   return trail;
 }
 
+/**
+ * One euro tile in the Key information grid. The badge and the half's colour belong to a
+ * *figure*: an absent one gets neither, because stamping "Indicative · on offer" on an em-dash
+ * labels nothing. Absent also reads "Not stated" rather than "—", so one grid stops using two
+ * notations for one condition.
+ */
+function MoneyMetric({ label, value, present }) {
+  return (
+    <div className={`nd-metric${present ? " nd-metric--advertised" : ""}`}>
+      <div className="nd-metric-label">
+        <EuroIcon fontSize="small" className="nd-metric-icon" />
+        <span>{label}</span>
+        {present && <MoneyBadge kind="advertised" size="sm" />}
+      </div>
+      <div className={`nd-metric-value${present ? "" : " nd-metric-value--absent"}`}>
+        {present ? value : "Not stated"}
+      </div>
+    </div>
+  );
+}
+
 function StatusPill({ status, statusKey }) {
   if (!status) return null;
   // The dot's shape (filled / hollow / barred) repeats what the word says, so the state never
@@ -751,6 +923,26 @@ function CallDecisionHeader({
   } = viewModel;
 
   const openingDate = nodeData?.opening_date;
+
+  // A closed call's advertised half is history and its portal page cannot be applied to, so the
+  // header stops ranking them as if the decision were still live. What the reader wants from a
+  // closed topic is the other half — who won this, is there a successor — which the evidence
+  // band below opens on arrival for exactly this state. The figures are not hidden or restated;
+  // only their rank and tense change.
+  const isClosed = statusKey === "closed";
+  const isForthcoming = statusKey === "forthcoming";
+
+  const offerTitle = isClosed ? "Was on offer" : "On offer";
+  const officialLabel = isClosed
+    ? "View the archived topic page"
+    : isForthcoming
+    ? "Preview on the official portal"
+    : "Official call page";
+  const officialAria = isClosed
+    ? "View the archived topic page on the EU Funding & Tenders portal (opens in a new tab)"
+    : isForthcoming
+    ? "Preview this topic on the EU Funding & Tenders portal (opens in a new tab)"
+    : "Open the official call page on the EU Funding & Tenders portal (opens in a new tab)";
 
   const contributionRange =
     minContributionNum != null && maxContributionNum != null
@@ -799,9 +991,15 @@ function CallDecisionHeader({
       </div>
 
       <div className="nd-callhead__halves">
-        <div className="nd-callhead__half nd-callhead__half--offer">
+        <div
+          className={`nd-callhead__half nd-callhead__half--offer${
+            isClosed ? " nd-callhead__half--past" : ""
+          }`}
+        >
           <div className="nd-callhead__half-head">
-            <h2 className="nd-callhead__half-title">On offer</h2>
+            <h2 className="nd-callhead__half-title">{offerTitle}</h2>
+            {/* The badge names the half, not the tense — it stays the one constant string so the
+                advertised/awarded vocabulary never forks per state (ADR-0006 #5). */}
             <MoneyBadge kind="advertised" />
           </div>
           <dl className="nd-callhead__facts">
@@ -867,12 +1065,12 @@ function CallDecisionHeader({
       <div className="nd-callhead__actions">
         {officialCallPageUrl && (
           <Button
-            className="nd-cta nd-cta--primary"
+            className={`nd-cta ${isClosed ? "nd-cta--secondary" : "nd-cta--primary"}`}
             startIcon={<OpenInNewIcon fontSize="small" />}
-            aria-label="Open the official call page on the EU Funding & Tenders portal (opens in a new tab)"
+            aria-label={officialAria}
             onClick={() => window.open(officialCallPageUrl, "_blank", "noopener,noreferrer")}
           >
-            Official call page
+            {officialLabel}
           </Button>
         )}
         <Button
@@ -912,13 +1110,21 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
     initialNodeData: embeddedNodeData,
   });
 
-  const textFieldConfig = useMemo(() => {
-    if (!nodeData) return baseTextFieldConfig;
+  const sectionGroups = useMemo(() => buildSectionGroups(nodeData), [nodeData]);
 
-    const dynamicFields = getDynamicDescriptionSectionConfig(nodeData);
-
-    return [...baseTextFieldConfig, ...dynamicFields];
-  }, [nodeData]);
+  // One control over the whole stack. The sequence number is what the sections react to, so
+  // pressing the same command twice still re-applies it.
+  // Null until the reader actually uses the control: a signal that exists on mount would
+  // override every section's own default the moment it rendered.
+  const [sectionSignal, setSectionSignal] = useState(null);
+  const [allExpanded, setAllExpanded] = useState(false);
+  const toggleAllSections = useCallback(() => {
+    setAllExpanded((wasExpanded) => {
+      const next = !wasExpanded;
+      setSectionSignal((s) => ({ open: next, seq: (s?.seq ?? 0) + 1 }));
+      return next;
+    });
+  }, []);
 
   const handleBackToGraph = () => {
     if (typeof onBack === "function") {
@@ -1483,7 +1689,13 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                   in the decision header — the two halves read together, which is the whole point
                   of the join (ADR-0001). */}
               {viewModel.kind === "call" && (
-                <CordisBand callId={nodeData.id || id} evidence={cordisEvidence} />
+                <CordisBand
+                  callId={nodeData.id || id}
+                  evidence={cordisEvidence}
+                  // On a closed call the awarded half is the page's primary content, so it
+                  // arrives open rather than behind a toggle.
+                  defaultOpen={viewModel.statusKey === "closed"}
+                />
               )}
 
               {tags.length > 0 && (
@@ -1541,39 +1753,47 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 </Box>
 
                 <Box className="nd-card-body">
+                  {/* Every euro tile carries its own badge, not just the card header. A figure
+                      that can be screenshotted or copied out of its group has to travel with
+                      its half — an awarded tile and an advertised tile were previously the same
+                      component, distinguishable only by which card you had scrolled to. */}
                   <div className="nd-metrics-grid">
-                    <div className="nd-metric">
-                      <div className="nd-metric-label">
-                        <EuroIcon fontSize="small" className="nd-metric-icon" />
-                        <span>Minimum EU contribution per project</span>
-                      </div>
-                      <div className="nd-metric-value">{minContribution}</div>
-                    </div>
+                    <MoneyMetric
+                      label="Minimum EU contribution per project"
+                      value={minContribution}
+                      present={hasRenderableValue(nodeData.min_contribution)}
+                    />
 
-                    <div className="nd-metric">
-                      <div className="nd-metric-label">
-                        <EuroIcon fontSize="small" className="nd-metric-icon" />
-                        <span>Maximum EU contribution per project</span>
-                      </div>
-                      <div className="nd-metric-value">{maxContribution}</div>
-                    </div>
+                    <MoneyMetric
+                      label="Maximum EU contribution per project"
+                      value={maxContribution}
+                      present={hasRenderableValue(nodeData.max_contribution)}
+                    />
 
-                    <div className="nd-metric">
-                      <div className="nd-metric-label">
-                        <EuroIcon fontSize="small" className="nd-metric-icon" />
-                        {/* Q6.2 / ADR-0006 #5: this is money on offer, never money committed. */}
-                        <span>Indicative budget on offer</span>
-                      </div>
-                      <div className="nd-metric-value">{totalBudget}</div>
-                    </div>
+                    {/* Q6.2 / ADR-0006 #5: this is money on offer, never money committed. */}
+                    <MoneyMetric
+                      label="Indicative budget on offer"
+                      value={totalBudget}
+                      present={hasRenderableValue(nodeData.indicative_budget)}
+                    />
 
-                    <div className="nd-metric">
+                    {/* A count, not euros — it wears no money badge, because counts, funding and
+                        impact are different measures (ADR-0006 #3). */}
+                    <div
+                      className={`nd-metric${
+                        indicativeProjects != null ? " nd-metric--advertised" : ""
+                      }`}
+                    >
                       <div className="nd-metric-label">
                         <GroupIcon fontSize="small" className="nd-metric-icon" />
                         <span>Indicative number of projects</span>
                       </div>
-                      <div className="nd-metric-value">
-                        {indicativeProjects != null ? indicativeProjects.toLocaleString() : "Not stated"}
+                      <div
+                        className={`nd-metric-value${
+                          indicativeProjects == null ? " nd-metric-value--absent" : ""
+                        }`}
+                      >
+                        {indicativeProjects != null ? indicativeProjects.toLocaleString("en-GB") : "Not stated"}
                       </div>
                     </div>
 
@@ -1634,19 +1854,66 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 </Box>
               )}
 
-              {textFieldConfig.map(({ key, label }) => (
-                <TextSectionFromField
-                  key={key}
-                  nodeData={nodeData}
-                  fieldKey={key}
-                  label={label}
-                  defaultOpen={
-                    isMobile
-                      ? !["description_root", "objective", "expected_outcome", "scope"].includes(key)
-                      : ["description_root", "objective", "expected_outcome"].includes(key)
-                  }
-                />
-              ))}
+              {sectionGroups.some((g) => g.entries.length > 0) && (
+                <div className="nd-sections">
+                  <div className="nd-sections__bar">
+                    <Button
+                      size="small"
+                      variant="text"
+                      className="nd-sections__toggle-all"
+                      onClick={toggleAllSections}
+                      aria-label={
+                        allExpanded
+                          ? "Collapse all call sections"
+                          : "Expand all call sections"
+                      }
+                    >
+                      {allExpanded ? "Collapse all" : "Expand all"}
+                    </Button>
+                    {/* Below the two-column breakpoint the sidebar reflows underneath this
+                        column, so the jump list rides here instead of arriving after the very
+                        content it indexes. */}
+                    <CallSectionIndex groups={sectionGroups} variant="inline" />
+                  </div>
+
+                  {sectionGroups
+                    .filter((group) => group.entries.length > 0)
+                    .map((group) => (
+                      <section
+                        key={group.key}
+                        className="nd-section-group"
+                        aria-labelledby={`nd-secgroup-${group.key}`}
+                      >
+                        <h2
+                          id={`nd-secgroup-${group.key}`}
+                          className="nd-section-group__title"
+                        >
+                          {group.label}
+                        </h2>
+                        {group.entries.map((entry) => (
+                          <CollapsibleSection
+                            key={entry.key}
+                            sectionId={entry.domId}
+                            title={entry.label}
+                            titleLevel="h3"
+                            defaultOpen={OPEN_BY_DEFAULT.has(entry.key)}
+                            openSignal={sectionSignal}
+                          >
+                            {entry.items.map((item, idx) => (
+                              <Typography
+                                key={idx}
+                                variant="body2"
+                                className="nd-paragraph"
+                              >
+                                {item}
+                              </Typography>
+                            ))}
+                          </CollapsibleSection>
+                        ))}
+                      </section>
+                    ))}
+                </div>
+              )}
             </div>
 
             {/* Timeline, the primary action and the bookmark used to live here, which is why at
@@ -1655,7 +1922,11 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                 header and are not restated. The "Source: Cluster N" card went with them: the
                 same fact now opens the programme trail, and its old label collided with the
                 evidence band's "Source: EU CORDIS". */}
-            <aside className="nd-sidebar" style={isMobile ? { order: 2 } : undefined}>
+            <aside
+              className="nd-sidebar"
+              aria-label="Call reference"
+              style={isMobile ? { order: 2 } : undefined}
+            >
               <Box className="nd-card" component="section" aria-labelledby="nd-connections-title">
                 <Box className="nd-card-header nd-card-header--with-icon">
                   <Typography
@@ -1672,6 +1943,31 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
                   <NodeConnections id={id} relations={relations} connectedNodes={connectedNodes} bare />
                 </Box>
               </Box>
+
+              {/* This column stood empty for the whole height of the page beside a stack of
+                  thirty sections. It now holds the map of that stack — and only when there is a
+                  stack to map. */}
+              {sectionGroups.some((g) => g.entries.length > 0) && (
+              <Box
+                className="nd-card nd-secindex-card"
+                component="section"
+                aria-labelledby="nd-secindex-title"
+              >
+                <Box className="nd-card-header">
+                  <Typography
+                    variant="body2"
+                    component="h2"
+                    id="nd-secindex-title"
+                    className="nd-card-title nd-muted-label"
+                  >
+                    On this page
+                  </Typography>
+                </Box>
+                <Box className="nd-card-body nd-card-body--text">
+                  <CallSectionIndex groups={sectionGroups} variant="rail" />
+                </Box>
+              </Box>
+              )}
             </aside>
           </div>
         </div>

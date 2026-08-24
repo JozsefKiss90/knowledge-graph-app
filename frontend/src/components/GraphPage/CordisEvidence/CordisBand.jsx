@@ -26,8 +26,10 @@ function formatBudget(val) {
  * Pre-ingest it stays visible with an honest empty line (ADR-0006 #2) — never blank,
  * never removed. "CORDIS" is user-facing only as attribution (Q5.3).
  */
-export default function CordisBand({ callId, evidence }) {
-  const [open, setOpen] = useState(false);
+export default function CordisBand({ callId, evidence, defaultOpen = false }) {
+  // `defaultOpen` is how a closed call promotes this band to its primary content: there, the
+  // advertised half is history and the funded track record is the only live thing on the page.
+  const [open, setOpen] = useState(!!defaultOpen);
   const [tab, setTab] = useState("projects");
   if (!callId) return null;
 

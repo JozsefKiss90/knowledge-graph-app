@@ -170,7 +170,10 @@
       "Bash(echo \"exit=$?\")",
       "Bash(ls -la \"C:/Code/knowledge-graph-app/neo4j-seed/neo4j.dump\")",
       "Bash(git check-attr *)",
-      "PowerShell(node .claude/skills/impeccable/scripts/context.mjs)"
+      "PowerShell(node .claude/skills/impeccable/scripts/context.mjs)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(curl -s -o /dev/null -w \"3000:%{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(curl -s -o /dev/null -w \"8000:%{http_code}\\\\n\" http://localhost:8000/docs)"
     ]
   },
   "hooks": {
