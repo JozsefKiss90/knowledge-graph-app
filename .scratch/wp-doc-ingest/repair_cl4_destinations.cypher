@@ -143,7 +143,7 @@ MATCH (old:Call {source:'cluster_4'})
   WHERE old.id = replace(new.id, 'MAT-PROD', 'MATERIALS-PRODUCTION')
 OPTIONAL MATCH (new)-[r:HAS_FUNDED_PROJECT]->()
 RETURN count(r) AS twin_evidence_must_be_zero;
-// (No rows means there are no twins - skip straight to phase 2.)
+// (No rows at all means there are no twins - skip straight to phase 2.)
 
 // ACT
 MATCH (new:Call {source:'cluster_4'}) WHERE new.id CONTAINS 'MAT-PROD'
@@ -161,7 +161,7 @@ MATCH (c:Call {source:'cluster_4'}) WHERE c.id CONTAINS 'MATERIALS-PRODUCTION'
 WITH replace(c.id,'MATERIALS-PRODUCTION','MAT-PROD') AS newId
 OPTIONAL MATCH (x:Call {id:newId})
 RETURN count(x) AS collisions_must_be_zero;
-// (No rows at all also means zero - it means phase 1 already cleared every twin.)
+// (No rows at all also means zero - phase 1 already cleared every twin.)
 
 // ACT
 MATCH (c:Call {source:'cluster_4'}) WHERE c.id CONTAINS 'MATERIALS-PRODUCTION'

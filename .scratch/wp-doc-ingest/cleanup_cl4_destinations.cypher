@@ -1,0 +1,231 @@
+// ============================================================================
+// cleanup_cl4_destinations.cypher
+// ----------------------------------------------------------------------------
+// Removes the duplicated / outdated CL4 Destination nodes left behind by the
+// re-populate, and drops the stale HAS_CALL edges that survive it.
+//
+// WHY THE DUPLICATES EXIST
+//   A Destination's node id is `CL4:<slugified name>`. The old buckets carried
+//   the portal's names with a "(2026-27)" suffix; the corrected file uses the
+//   work programme's names without it. Different name -> different slug ->
+//   different node id, so MERGE created a NEW node instead of updating the old
+//   one. Nothing deletes the old node, so both now hang off the cluster:
+//
+//     Digital and industrial technologies driving human-centric innovation (2026-27)   <- old
+//     Digital and industrial technologies driving human-centric innovation             <- current
+//
+//   Two extra legacy nodes have no counterpart at all: the portal-only label
+//   "Achieving technological leadership for Europe's open strategic autonomy in
+//   raw materials, chemicals and innovative materials (2026-27)" (that name is
+//   not in the work programme) and "Space (work programme)" (invented by the v1
+//   merge script).
+//
+// THE SUBTLER HALF - STALE EDGES ON A *SURVIVING* NODE
+//   "Leadership in materials and production for Europe" is both the old
+//   dumping-ground bucket AND a real current destination, so old and new share
+//   one node id. Its 15 wrong HAS_CALL edges (the 2027 DATA / HUMAN /
+//   DIGITAL-EMERGING calls that the portal left as `_unknown_destination`)
+//   therefore survive the re-populate - MERGE adds edges, it never removes them.
+//   Deleting duplicate NODES alone would not fix those. Phase 2 does.
+//
+// SAFETY: only Destination nodes and (Destination)-[:HAS_CALL]->(Call) edges are
+// touched. Call nodes, (Cluster)-[:HAS_CALL]->(Call) edges and every CORDIS
+// HAS_FUNDED_PROJECT edge are left alone. Idempotent - safe to re-run, and safe
+// to run after any future `/cluster4/populate`.
+//
+// Run phase by phase, reading each guard:
+//   docker exec -i knowledge-graph-app-dev-neo4j-1 cypher-shell -u neo4j -p password
+// ============================================================================
+
+// The 5 destinations the current work programme defines.
+:param currentDestinations => [
+  'CL4:leadership-in-materials-and-production-for-europe',
+  'CL4:digital-and-industrial-technologies-driving-human-centric-innovation',
+  'CL4:developing-an-agile-and-secure-single-market-and-infrastructure-for-data-services-and-trustworthy-artificial-intelligence-services',
+  'CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies',
+  'CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data'
+];
+
+// The authoritative (destination, call) membership, generated from
+// cluster_CL4.merged.v2.json. Regenerate whenever the merge is re-run.
+:param membership => [
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-01'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-04'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-05'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-11'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-12'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-13'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-14'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-23'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-24'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-31'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-41'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-44'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-45'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-46'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-01-MAT-PROD-48'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2026-02-MAT-PROD-21-two-stage'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-02'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-03'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-06'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-08'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-16'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-17'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-22'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-42'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-47'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-49'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-61'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-62'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-02-MAT-PROD-32-two-stage'],
+  ['CL4:leadership-in-materials-and-production-for-europe','HORIZON-CL4-2027-01-MAT-PROD-50'],
+  ['CL4:digital-and-industrial-technologies-driving-human-centric-innovation','HORIZON-CL4-2026-05-MAT-PROD-25'],
+  ['CL4:digital-and-industrial-technologies-driving-human-centric-innovation','HORIZON-CL4-2026-04-HUMAN-01'],
+  ['CL4:digital-and-industrial-technologies-driving-human-centric-innovation','HORIZON-CL4-2026-04-HUMAN-02'],
+  ['CL4:digital-and-industrial-technologies-driving-human-centric-innovation','HORIZON-CL4-2027-04-HUMAN-01'],
+  ['CL4:digital-and-industrial-technologies-driving-human-centric-innovation','HORIZON-CL4-2027-04-HUMAN-02'],
+  ['CL4:digital-and-industrial-technologies-driving-human-centric-innovation','HORIZON-CL4-2027-04-HUMAN-07'],
+  ['CL4:developing-an-agile-and-secure-single-market-and-infrastructure-for-data-services-and-trustworthy-artificial-intelligence-services','HORIZON-CL4-2026-04-DATA-02'],
+  ['CL4:developing-an-agile-and-secure-single-market-and-infrastructure-for-data-services-and-trustworthy-artificial-intelligence-services','HORIZON-CL4-2026-04-DATA-03'],
+  ['CL4:developing-an-agile-and-secure-single-market-and-infrastructure-for-data-services-and-trustworthy-artificial-intelligence-services','HORIZON-CL4-2026-04-DATA-06'],
+  ['CL4:developing-an-agile-and-secure-single-market-and-infrastructure-for-data-services-and-trustworthy-artificial-intelligence-services','HORIZON-CL4-2027-04-DATA-03'],
+  ['CL4:developing-an-agile-and-secure-single-market-and-infrastructure-for-data-services-and-trustworthy-artificial-intelligence-services','HORIZON-CL4-2027-04-DATA-08'],
+  ['CL4:developing-an-agile-and-secure-single-market-and-infrastructure-for-data-services-and-trustworthy-artificial-intelligence-services','HORIZON-CL4-2027-04-DATA-09'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-02-DIGITAL-EMERGING-51-two-stage'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-02-DIGITAL-EMERGING-53-two-stage'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-01'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-08'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-09'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-11'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-12'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-14'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-15'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-17'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-18'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-04-DIGITAL-EMERGING-19'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-05-DIGITAL-EMERGING-02'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2026-05-DIGITAL-EMERGING-03'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2027-02-DIGITAL-EMERGING-52-two-stage'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2027-04-DIGITAL-EMERGING-04'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2027-04-DIGITAL-EMERGING-05'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2027-04-DIGITAL-EMERGING-06'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2027-04-DIGITAL-EMERGING-10'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2027-04-DIGITAL-EMERGING-11'],
+  ['CL4:achieving-open-strategic-autonomy-in-digital-and-emerging-enabling-technologies','HORIZON-CL4-2027-05-DIGITAL-EMERGING-03'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-11'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2027-SPACE-03-12'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2027-SPACE-03-21'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-31'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-32'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2027-SPACE-03-33'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2027-SPACE-03-34'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-61'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-81'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-82'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-85'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2026-SPACE-03-86'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2027-SPACE-07-83'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2027-SPACE-07-84'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-CL4-2027-SPACE-03-71'],
+  ['CL4:open-strategic-autonomy-in-developing-deploying-and-using-global-space-based-infrastructure-services-applications-and-data','HORIZON-2027-EUSPA-SPACE-51']
+];
+
+
+// ---------------------------------------------------------------------------
+// PHASE 0 - MEASURE. Every CL4 destination and what hangs off it.
+// ---------------------------------------------------------------------------
+MATCH (d:Destination) WHERE d.source = 'cluster_4' OR d.id STARTS WITH 'CL4:'
+OPTIONAL MATCH (d)-[:HAS_CALL]->(c:Call)
+RETURN d.id AS id,
+       CASE WHEN d.id IN $currentDestinations THEN 'KEEP' ELSE 'DROP' END AS verdict,
+       count(c) AS calls,
+       left(d.name, 70) AS name
+ORDER BY verdict, calls DESC;
+
+MATCH (c:Call {source:'cluster_4'})-[r:HAS_FUNDED_PROJECT]->()
+RETURN count(r) AS cordis_edges_before;   // write this down; phase 4 must match
+
+
+// ---------------------------------------------------------------------------
+// PHASE 1 - GUARD. Would deleting the outdated nodes strand any call?
+// A call is stranded if its only Destination parent is one being dropped and it
+// has no edge from a current destination.
+// MUST RETURN NO ROWS. If it returns rows, run phase 2's MERGE step first (it
+// re-creates the correct membership), then re-check.
+// ---------------------------------------------------------------------------
+MATCH (d:Destination)-[:HAS_CALL]->(c:Call {source:'cluster_4'})
+WHERE NOT d.id IN $currentDestinations
+  AND NOT EXISTS {
+        MATCH (k:Destination)-[:HAS_CALL]->(c) WHERE k.id IN $currentDestinations }
+RETURN DISTINCT c.id AS stranded_call, left(c.name, 60) AS title;
+
+
+// ---------------------------------------------------------------------------
+// PHASE 2 - make membership match the work programme exactly.
+// 2a ensures every correct edge exists, 2b removes every edge that disagrees.
+// Run 2a BEFORE 2b so nothing is ever momentarily parentless.
+// ---------------------------------------------------------------------------
+
+// 2a - ensure the correct edges (no-op if the populate already made them)
+UNWIND $membership AS m
+MATCH (d:Destination {id: m[0]}), (c:Call {id: m[1]})
+MERGE (d)-[:HAS_CALL]->(c)
+RETURN count(*) AS edges_ensured;        // expect 79
+
+// 2b - GUARD: what disagrees with the work programme? Review before deleting.
+MATCH (d:Destination)-[r:HAS_CALL]->(c:Call {source:'cluster_4'})
+WHERE NOT [d.id, c.id] IN $membership
+RETURN left(d.name,55) AS wrong_parent, c.id AS call, count(r) AS edges
+ORDER BY wrong_parent, call;
+
+// 2b - ACT
+MATCH (d:Destination)-[r:HAS_CALL]->(c:Call {source:'cluster_4'})
+WHERE NOT [d.id, c.id] IN $membership
+DELETE r
+RETURN count(r) AS stale_edges_deleted;
+
+
+// ---------------------------------------------------------------------------
+// PHASE 3 - delete the outdated Destination nodes.
+// After phase 2b they hold no calls, so this only removes the node and its
+// (Cluster)-[:HAS_DESTINATION]-> edge.
+// ---------------------------------------------------------------------------
+MATCH (d:Destination)
+WHERE (d.source = 'cluster_4' OR d.id STARTS WITH 'CL4:')
+  AND NOT d.id IN $currentDestinations
+DETACH DELETE d
+RETURN count(*) AS outdated_destinations_deleted;   // expect 5
+
+
+// ---------------------------------------------------------------------------
+// PHASE 4 - VERIFY
+// ---------------------------------------------------------------------------
+MATCH (cl:Cluster {id:'CL4'})-[:HAS_DESTINATION]->(d:Destination)
+OPTIONAL MATCH (d)-[:HAS_CALL]->(c:Call)
+RETURN left(d.name,70) AS destination, count(c) AS calls ORDER BY calls DESC;
+// expect exactly five rows:
+//   30  Leadership in materials and production for Europe
+//   21  Achieving open strategic autonomy in digital and emerging enabling technologies
+//   16  Open Strategic Autonomy in Developing, Deploying and Using Global Space-Based ...
+//    6  Digital and industrial technologies driving human-centric innovation
+//    6  Developing an agile and secure single market and infrastructure for data-services ...
+
+// Every call has exactly one destination parent
+MATCH (c:Call {source:'cluster_4'})
+OPTIONAL MATCH (d:Destination)-[:HAS_CALL]->(c)
+WITH c, count(d) AS parents
+RETURN parents, count(c) AS calls ORDER BY parents;   // expect one row: 1 | 79
+
+// Spot-check the call from the report
+MATCH (d:Destination)-[:HAS_CALL]->(c:Call {id:'HORIZON-CL4-2027-04-HUMAN-01'})
+RETURN c.id AS call, d.name AS destination;
+// expect: Digital and industrial technologies driving human-centric innovation
+
+// Nothing lost on the CORDIS side
+MATCH (c:Call {source:'cluster_4'})-[r:HAS_FUNDED_PROJECT]->()
+RETURN count(r) AS cordis_edges_after;   // must equal cordis_edges_before
+
+// No destination left without a summary (the UI shows a blank panel otherwise)
+MATCH (cl:Cluster {id:'CL4'})-[:HAS_DESTINATION]->(d:Destination)
+WHERE d.summary IS NULL OR d.summary = ''
+RETURN collect(left(d.name,60)) AS missing_summaries_must_be_empty;

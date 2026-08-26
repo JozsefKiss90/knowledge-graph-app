@@ -63,8 +63,9 @@ RETURN d.name AS destination, count(c) AS calls ORDER BY calls DESC;
 MATCH (new:Call {source:'cluster_4'}) WHERE new.id CONTAINS 'MAT-PROD'
 MATCH (old:Call {source:'cluster_4'})
   WHERE old.id = replace(new.id, 'MAT-PROD', 'MATERIALS-PRODUCTION')
-MATCH (new)-[r:HAS_FUNDED_PROJECT]->()
+OPTIONAL MATCH (new)-[r:HAS_FUNDED_PROJECT]->()
 RETURN count(r) AS twin_evidence_must_be_zero;
+// (No rows at all means there are no twins - skip straight to phase 2.)
 
 // ACT
 MATCH (new:Call {source:'cluster_4'}) WHERE new.id CONTAINS 'MAT-PROD'
@@ -80,7 +81,9 @@ RETURN count(*) AS twins_deleted;                // expected 30
 // ---------------------------------------------------------------------------
 MATCH (c:Call {source:'cluster_4'}) WHERE c.id CONTAINS 'MATERIALS-PRODUCTION'
 WITH replace(c.id,'MATERIALS-PRODUCTION','MAT-PROD') AS newId
-MATCH (x:Call {id:newId}) RETURN count(x) AS collisions_must_be_zero;
+OPTIONAL MATCH (x:Call {id:newId})
+RETURN count(x) AS collisions_must_be_zero;
+// (No rows at all also means zero - phase 1 already cleared every twin.)
 
 // ACT
 MATCH (c:Call {source:'cluster_4'}) WHERE c.id CONTAINS 'MATERIALS-PRODUCTION'
