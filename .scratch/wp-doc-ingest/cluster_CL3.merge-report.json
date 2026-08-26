@@ -1,0 +1,30 @@
+{
+  "cluster": "CL3",
+  "cluster_node_id": "CL3",
+  "source_tag": "cluster_3",
+  "populate_path": "/cluster3/populate",
+  "document": "HORIZON-CL3-2026-2027_07_28_2026.pdf",
+  "generated_from": "cluster_CL3.merged.v2.json",
+  "id_rewrites": [],
+  "dropped_artefacts": [
+    [
+      "HORIZON-CL3-2026-02-CS-ECCC",
+      "HORIZON-CL3-2026-02-CS-ECCC-01"
+    ],
+    [
+      "HORIZON-CL3-2027-02-CS-ECCC",
+      "HORIZON-CL3-2027-02-CS-ECCC-04"
+    ]
+  ],
+  "cancelled": [],
+  "document_only": [],
+  "portal_only": [
+    "HORIZON-CL3-2026-02-CS-ECCC-01",
+    "HORIZON-CL3-2026-02-CS-ECCC-02",
+    "HORIZON-CL3-2026-02-CS-ECCC-03",
+    "HORIZON-CL3-2027-02-CS-ECCC-01",
+    "HORIZON-CL3-2027-02-CS-ECCC-02",
+    "HORIZON-CL3-2027-02-CS-ECCC-03",
+    "HORIZON-CL3-2027-02-CS-ECCC-04"
+  ]
+}
