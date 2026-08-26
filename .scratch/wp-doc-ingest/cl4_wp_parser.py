@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "_refs"))
 import he_wp_parser_merged_patched_with_dates as pa  # prior-art engine (import-safe)
 import fitz
 
-PDF = Path(__file__).resolve().parents[2] / "pdf_files/HORIZON_2026/wp-7-digital-industry-and-space_horizon-2026-2027_en.pdf"
+PDF = Path(__file__).resolve().parents[2] / "pdf_files\\2027 draft_20260824\\HORIZON-CL4-2026-2027_2026-07-28 final.pdf"
 # CL4 topics + EUSPA-namespaced Space topics published in this WP (e.g. HORIZON-2027-EUSPA-SPACE-51).
 # Excludes cross-references to other clusters (CL1/2/3/5/6), which are not CL4 calls.
 EDITION_RE = re.compile(r'HORIZON-(?:CL4-20(?:26|27)|20(?:26|27)-EUSPA)-')
