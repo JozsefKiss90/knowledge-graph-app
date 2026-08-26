@@ -1,17 +1,25 @@
 @import "breakpoints";
 
 :root {
-  --nd-bg: #040b16;
-  --nd-bg-top: #0b1628;
-  --nd-surface: #0d1930;
-  --nd-surface-2: #10203b;
-  --nd-surface-3: #12284a;
-  --nd-border: rgba(82, 111, 160, 0.34);
-  --nd-border-soft: rgba(96, 124, 175, 0.2);
+  /* The shell navy, the card navy and the text ramp are the landing chrome's --lc-* and the
+     dashboard's --d2-* values, not near-misses of them: this page used to sit on #040b16 with
+     cards at rgba(10,24,47,.92), roughly a step and a half darker and cooler than the map you
+     arrive from, so opening a call read as leaving the product. Same three surfaces now. */
+  --nd-bg: #0b1437;
+  --nd-bg-top: #0e1a42;
+  --nd-surface: #102446;
+  --nd-surface-2: #13294f;
+  --nd-surface-3: #163058;
+  /* The card gradient the whole page is built from, as tokens — it was hardcoded in three
+     places and so could not follow the shell it sits on. */
+  --nd-card-top: rgba(16, 36, 70, 0.85);
+  --nd-card-bottom: rgba(13, 30, 60, 0.9);
+  --nd-border: rgba(99, 136, 196, 0.45);
+  --nd-border-soft: rgba(82, 111, 160, 0.22);
   --nd-text: #f5f9ff;
-  --nd-text-soft: #dbe6f6;
-  --nd-text-muted: #9aacc9;
-  --nd-text-dim: #7f95b8;
+  --nd-text-soft: #d7e6f7;
+  --nd-text-muted: #a9bdd6;
+  --nd-text-dim: #7e93b3;
   /* Was only ever read through an inline fallback, so the quietest step of the ramp existed in
      the markup and in no theme. Both modes define it now. */
   --nd-text-faint: #5a6e8c;
@@ -40,33 +48,49 @@
   --nd-closed-slate: #4f7dc9;
 
   --nd-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --nd-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
-  --nd-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.22);
+  /* Neutral black cast a grey shadow on a navy page; the shared surfaces drop the same
+     blue-black the dashboard cards do. */
+  --nd-shadow: 0 18px 44px rgba(2, 6, 23, 0.5), 0 0 26px rgba(47, 98, 180, 0.1);
+  --nd-shadow-soft: 0 8px 24px rgba(2, 6, 23, 0.4);
   --nd-focus-ring: #7bc0ff;
 }
 
 .nd-shell {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 18% 0%, rgba(33, 72, 132, 0.18) 0%, rgba(33, 72, 132, 0) 26%),
-    radial-gradient(circle at 88% 20%, rgba(29, 93, 179, 0.12) 0%, rgba(29, 93, 179, 0) 24%),
-    linear-gradient(180deg, #081222 0%, var(--nd-bg) 220px);
+    radial-gradient(circle at 18% 0%, rgba(63, 147, 255, 0.14) 0%, rgba(63, 147, 255, 0) 26%),
+    radial-gradient(circle at 88% 20%, rgba(63, 147, 255, 0.1) 0%, rgba(63, 147, 255, 0) 24%),
+    linear-gradient(180deg, var(--nd-bg-top) 0%, var(--nd-bg) 220px);
   color: var(--nd-text);
 }
 
+/* This rule had no daylight counterpart, so the light page opened on the DARK shell gradient —
+   a navy band fading to white over the first 220px, mostly hidden behind the sticky header bar
+   that has now gone. Same geometry, daylight values. */
+.nd-shell--light.nd-shell {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(31, 111, 235, 0.06) 0%, rgba(31, 111, 235, 0) 26%),
+    radial-gradient(circle at 88% 20%, rgba(31, 111, 235, 0.045) 0%, rgba(31, 111, 235, 0) 24%),
+    linear-gradient(180deg, var(--nd-bg-top) 0%, var(--nd-bg) 220px);
+}
+
 .nd-shell--light {
-  --nd-bg: #f4f8ff;
-  --nd-bg-top: #edf3fb;
+  --nd-bg: #eef2f8;
+  --nd-bg-top: #f4f7fc;
   --nd-surface: #ffffff;
   --nd-surface-2: #f7faff;
   --nd-surface-3: #f2f7ff;
-  --nd-border: rgba(102, 126, 172, 0.22);
-  --nd-border-soft: rgba(102, 126, 172, 0.16);
-  --nd-text: #10233f;
-  --nd-text-soft: #1b3358;
-  --nd-text-muted: #587097;
-  --nd-text-dim: #7a8daa;
-  --nd-text-faint: #8b9ab3;
+  --nd-card-top: rgba(255, 255, 255, 0.96);
+  --nd-card-bottom: rgba(250, 252, 255, 0.96);
+  --nd-border: rgba(26, 35, 50, 0.12);
+  --nd-border-soft: rgba(26, 35, 50, 0.1);
+  --nd-text: #101b2e;
+  --nd-text-soft: #1a2740;
+  --nd-text-muted: #3a4d6e;
+  --nd-text-dim: #62748f;
+  /* The dashboard merged faint into dim in daylight because #8b9ab3 measures 2.9:1 on white.
+     Same merge here rather than a second answer to the same problem. */
+  --nd-text-faint: #62748f;
   /* Daylight adaptation of the same architecture — every dark token above has a light value
      here, so no token is defined in only one mode. */
   --nd-accent: #1f6feb;
@@ -81,8 +105,8 @@
   --nd-awarded-border: rgba(26, 138, 82, 0.36);
   --nd-deadline-amber: #9a6100;
   --nd-closed-slate: #3b62a5;
-  --nd-shadow: 0 14px 32px rgba(31, 55, 92, 0.1);
-  --nd-shadow-soft: 0 8px 20px rgba(31, 55, 92, 0.08);
+  --nd-shadow: 0 16px 40px rgba(15, 30, 60, 0.12);
+  --nd-shadow-soft: 0 8px 20px rgba(15, 30, 60, 0.1);
 }
 
 .nd-header {
@@ -91,14 +115,14 @@
   z-index: 10;
   padding: 14px 28px;
   border-bottom: 1px solid rgba(86, 107, 143, 0.2);
-  background:
-    linear-gradient(180deg, rgba(10, 19, 35, 0.96) 0%, rgba(10, 19, 35, 0.92) 100%);
+  /* Same translucent navy as the landing command bar (--lc-bar-bg), so the three pages that
+     still carry this bar read as the same chrome. NodeDetail no longer uses it. */
+  background: rgba(11, 20, 55, 0.82);
   backdrop-filter: blur(10px);
 }
 
 .nd-shell--light .nd-header {
-  background:
-    linear-gradient(180deg, rgba(241, 246, 255, 0.96) 0%, rgba(241, 246, 255, 0.92) 100%);
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .nd-header-left,
@@ -108,8 +132,10 @@
   gap: 10px;
 }
 
+/* #21baff was a cyan that appears in no token set in the project — the accent every other
+   surface uses for the same job is Signal Blue. */
 .nd-back-button {
-  color: #21baff !important;
+  color: var(--nd-accent) !important;
   text-transform: none !important;
   font-weight: 500 !important;
   letter-spacing: 0 !important;
@@ -118,7 +144,7 @@
 }
 
 .nd-back-button:hover {
-  background: rgba(33, 186, 255, 0.08) !important;
+  background: var(--nd-accent-tint) !important;
 }
 
 .nd-header-divider {
@@ -130,6 +156,60 @@
 
 .nd-shell--light .nd-header-divider {
   background: rgba(31, 55, 92, 0.16);
+}
+
+/* First line of the content column on the entity and destination pages: what the sticky bar
+   used to hold, at the width of the text it introduces instead of full bleed. */
+.nd-topline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* The call page's back control. Quiet by rank — the page's real actions are the official
+   portal link and bookmark — but a full-size target, and it starts on the text edge so the
+   trail beside it stays aligned with the title below. */
+.nd-backlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: -8px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--nd-accent);
+  cursor: pointer;
+  /* The label alone is ~19px tall, so the control carries its own height rather than
+     inheriting the text box; it grows to a thumb target at touch widths below. */
+  min-height: 32px;
+  transition: background 0.12s ease;
+}
+
+.nd-backlink:hover {
+  background: var(--nd-accent-tint);
+}
+
+.nd-backlink:focus-visible {
+  outline: 2px solid var(--nd-focus-ring);
+  outline-offset: 2px;
+}
+
+@include respond-below($bp-md) {
+  .nd-backlink {
+    min-height: 40px;
+    padding: 8px 10px;
+  }
+}
+
+.nd-backlink__icon {
+  font-size: 15px;
 }
 
 .nd-main {
@@ -329,17 +409,11 @@
 .nd-card {
   border-radius: 14px;
   border: 1px solid var(--nd-border);
-  background:
-    linear-gradient(180deg, rgba(10, 24, 47, 0.92) 0%, rgba(9, 20, 39, 0.96) 100%);
+  background: linear-gradient(180deg, var(--nd-card-top) 0%, var(--nd-card-bottom) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.03),
     var(--nd-shadow);
   overflow: hidden;
-}
-
-.nd-shell--light .nd-card {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 252, 255, 0.98) 100%);
 }
 
 .nd-card-header {
@@ -722,10 +796,6 @@ h5.nd-md-heading { font-size: 14px; }
   background: rgba(61, 104, 177, 0.06);
 }
 
-.nd-shell--light .nd-back-button {
-  color: #1596e2 !important;
-}
-
 /* Was `color: #ffffff` — correct while the chip was a filled purple pill, invisible now that the
    chip is transparent metadata. It inherits --nd-text-soft in both modes instead. */
 .nd-shell--light .nd-tag-chip--action {
@@ -852,7 +922,7 @@ h5.nd-md-heading { font-size: 14px; }
   }
 
   .nd-card {
-    border-radius: 16px;
+    border-radius: 14px;
   }
 
   .nd-card-header--collapsible {
@@ -1002,24 +1072,28 @@ h5.nd-md-heading { font-size: 14px; }
   padding: 24px 28px 24px;
   border-radius: 14px;
   border: 1px solid var(--nd-border);
-  background: linear-gradient(180deg, rgba(10, 24, 47, 0.92) 0%, rgba(9, 20, 39, 0.96) 100%);
+  background: linear-gradient(180deg, var(--nd-card-top) 0%, var(--nd-card-bottom) 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), var(--nd-shadow);
   min-width: 0;
-}
-
-.nd-shell--light .nd-callhead {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(249, 252, 255, 0.98) 100%);
 }
 
 /* Where this call sits in the work programme — the structure the flat official portal cannot
    show. Text, not links: nothing here navigates yet, and a control that looks live and is not
    would be the very thing this pass removed elsewhere. */
+.nd-callhead__nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-bottom: 14px;
+}
+
 .nd-callhead__trail {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 14px;
+  min-width: 0;
   font-size: 12px;
   line-height: 1.5;
   color: var(--nd-text-muted);

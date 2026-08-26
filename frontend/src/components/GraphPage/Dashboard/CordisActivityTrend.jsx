@@ -80,7 +80,10 @@ export default function CordisActivityTrend({ data, loading }) {
   // Label thinning: all labels when the span is short, else ~6 evenly spaced incl. first & last.
   const span = years.length;
   const labelStep = span <= 10 ? 1 : Math.ceil(span / 6);
-  const showLabel = (i) => i === 0 || i === span - 1 || i % labelStep === 0;
+  // The forced last tick can land right next to a stepped one (e.g. a 43-year span, step 8, ticks at
+  // 40 and 42) and collide, so a stepped tick yields when it is inside half a step of the end.
+  const showLabel = (i) =>
+    i === 0 || i === span - 1 || (i % labelStep === 0 && span - 1 - i >= labelStep / 2);
 
   // Per-year render rows. Segments are filtered to the ACTIVE measure (drop eras with 0 in that measure)
   // so an era is never drawn as an invisible zero-height slice — keeping the chart and legend consistent.

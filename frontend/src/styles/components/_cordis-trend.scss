@@ -2,6 +2,13 @@
    Sibling of the A2 cordis-evidence card; reuses .nd-card, defines its own chart/legend/era styles.
    Bar-segment and swatch colours are applied inline from FP_META (chronological era ramp). */
 
+/* Fixed column geometry for the year chart. Every column is bar-area + gap + label row of the
+   SAME height whether or not that year carries a tick label — otherwise flex-end alignment lifts
+   the labelled columns' bars by the label's line box and the baseline reads as ragged. */
+$trend-bar-h: 96px;
+$trend-label-h: 12px;
+$trend-label-gap: 5px;
+
 .cordis-trend {
   .cordis-trend__hint {
     font-size: 12px;
@@ -44,10 +51,24 @@
   }
 
   .cordis-trend__bars {
+    position: relative;
     display: flex;
     align-items: flex-end;
     gap: 2px;
     width: 100%;
+
+    /* The zero line, drawn once across the whole axis so it stays unbroken through the 2px column
+       gaps — sits just under the bar footing, never over it. */
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: $trend-label-h + $trend-label-gap - 1px;
+      height: 1px;
+      background: var(--border);
+      pointer-events: none;
+    }
   }
 
   .cordis-trend__col {
@@ -59,7 +80,8 @@
   }
 
   .cordis-trend__bar-area {
-    height: 96px;
+    flex: 0 0 auto;   /* never absorbs or yields height to the label row */
+    height: $trend-bar-h;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -83,12 +105,23 @@
   }
 
   .cordis-trend__col-label {
-    margin-top: 5px;
+    flex: 0 0 auto;
+    height: $trend-label-h;      /* reserved whether or not this year carries a tick */
+    margin-top: $trend-label-gap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 9px;
     line-height: 1;
     color: var(--foreground-muted);
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
+
+  /* A tick is wider than its own (~4px) column, so the outer two are anchored inward instead of
+     centred — the span endpoints stay legible instead of bleeding past the chart edge. */
+  .cordis-trend__col:first-child .cordis-trend__col-label { justify-content: flex-start; }
+  .cordis-trend__col:last-child .cordis-trend__col-label { justify-content: flex-end; }
 
   .cordis-trend__y-note {
     margin-top: 8px;

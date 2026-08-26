@@ -900,6 +900,7 @@ function StatusPill({ status, statusKey }) {
  * band directly below, which owns the "in this area" qualifier (ADR-0001).
  */
 function CallDecisionHeader({
+  onBack,
   viewModel,
   nodeData,
   trail,
@@ -957,16 +958,31 @@ function CallDecisionHeader({
 
   return (
     <section className="nd-callhead" aria-labelledby="nd-call-title">
-      {trail.length > 0 && (
-        <nav className="nd-callhead__trail" aria-label="Work programme location">
-          {trail.map((step, i) => (
-            <React.Fragment key={`${step}-${i}`}>
-              {i > 0 && <span className="nd-callhead__trail-sep" aria-hidden="true">›</span>}
-              <span className="nd-callhead__trail-step">{step}</span>
-            </React.Fragment>
-          ))}
-        </nav>
-      )}
+      {/* Back rides the trail row rather than a sticky bar of its own: it is the same
+          navigational axis the breadcrumb describes, and on this row it costs no height at
+          all. The trail stays alone inside the nav landmark. */}
+      <div className="nd-callhead__nav">
+        <button
+          type="button"
+          className="nd-backlink"
+          onClick={onBack}
+          aria-label="Back to the funding map"
+        >
+          <ArrowBackIcon className="nd-backlink__icon" fontSize="inherit" aria-hidden="true" />
+          Back
+        </button>
+        {trail.length > 0 && <span className="nd-header-divider" aria-hidden="true" />}
+        {trail.length > 0 && (
+          <nav className="nd-callhead__trail" aria-label="Work programme location">
+            {trail.map((step, i) => (
+              <React.Fragment key={`${step}-${i}`}>
+                {i > 0 && <span className="nd-callhead__trail-sep" aria-hidden="true">›</span>}
+                <span className="nd-callhead__trail-step">{step}</span>
+              </React.Fragment>
+            ))}
+          </nav>
+        )}
+      </div>
 
       <h1 id="nd-call-title" className="nd-callhead__title">
         {title}
@@ -1412,34 +1428,35 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
 
     return (
       <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
-        <header className="nd-header">
-          <Box className="nd-header-left">
-            <Button
-              size="small"
-              variant="text"
-              startIcon={<ArrowBackIcon fontSize="small" />}
-              onClick={handleBackToGraph}
-              className="nd-back-button"
-            >
-              Back
-            </Button>
-            <span className="nd-header-divider" />
-            {entityLabel && <Chip label={entityLabel} size="small" className="nd-chip nd-chip--kind" />}
-            {/* Was hardcoded to the open (green) class regardless of the actual value, so a
-                closed entity announced itself in the colour that means open. The two other
-                status classes already existed in the stylesheet and no code path used them. */}
-            {statusLabel && (
-              <Chip
-                label={statusLabel}
-                size="small"
-                className={`nd-chip nd-chip--status nd-chip--status-${statusLabel.toLowerCase()}`}
-              />
-            )}
-          </Box>
-        </header>
-
         <main className="nd-main">
           <div className="nd-main-inner">
+            {/* Back and the kind/status chips used to sit in a sticky full-bleed bar that cost
+                ~90px of the first screen to carry one text button. Same controls, same order,
+                now the first line of the page rather than a band above it. */}
+            <div className="nd-topline">
+              <Button
+                size="small"
+                variant="text"
+                startIcon={<ArrowBackIcon fontSize="small" />}
+                onClick={handleBackToGraph}
+                className="nd-back-button"
+                aria-label="Back to the funding map"
+              >
+                Back
+              </Button>
+              <span className="nd-header-divider" />
+              {entityLabel && <Chip label={entityLabel} size="small" className="nd-chip nd-chip--kind" />}
+              {/* Was hardcoded to the open (green) class regardless of the actual value, so a
+                  closed entity announced itself in the colour that means open. The two other
+                  status classes already existed in the stylesheet and no code path used them. */}
+              {statusLabel && (
+                <Chip
+                  label={statusLabel}
+                  size="small"
+                  className={`nd-chip nd-chip--status nd-chip--status-${statusLabel.toLowerCase()}`}
+                />
+              )}
+            </div>
             <Box className="nd-title-block">
               <Box className="nd-title-dot" />
               <Box className="nd-title-text">
@@ -1568,24 +1585,22 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
 
     return (
       <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
-        <header className="nd-header">
-          <Box className="nd-header-left">
-            <Button
-              size="small"
-              variant="text"
-              startIcon={<ArrowBackIcon fontSize="small" />}
-              onClick={handleBackToGraph}
-              className="nd-back-button"
-            >
-              Back
-            </Button>
-            <span className="nd-header-divider" />
-            <Chip label="Destination" size="small" className="nd-chip nd-chip--kind" />
-          </Box>
-        </header>
-
         <main className="nd-main">
           <div className="nd-main-inner">
+            <div className="nd-topline">
+              <Button
+                size="small"
+                variant="text"
+                startIcon={<ArrowBackIcon fontSize="small" />}
+                onClick={handleBackToGraph}
+                className="nd-back-button"
+                aria-label="Back to the funding map"
+              >
+                Back
+              </Button>
+              <span className="nd-header-divider" />
+              <Chip label="Destination" size="small" className="nd-chip nd-chip--kind" />
+            </div>
             <Box className="nd-title-block">
               <Box className="nd-title-dot" />
               <Box className="nd-title-text">
@@ -1683,24 +1698,10 @@ function NodeDetail({ embeddedId, embeddedNodeData, onBack, onOpenResearchFields
 
   return (
     <div className={`nd-shell ${darkMode ? "nd-shell--dark" : "nd-shell--light"}`}>
-      <header className="nd-header">
-        <Box className="nd-header-left">
-          <Button
-            size="small"
-            variant="text"
-            startIcon={<ArrowBackIcon fontSize="small" />}
-            onClick={handleBackToGraph}
-            className="nd-back-button"
-            aria-label="Back to the funding map"
-          >
-            Back
-          </Button>
-        </Box>
-      </header>
-
       <main className="nd-main">
         <div className="nd-main-inner">
           <CallDecisionHeader
+            onBack={handleBackToGraph}
             viewModel={viewModel}
             nodeData={nodeData}
             trail={programmeTrail}
