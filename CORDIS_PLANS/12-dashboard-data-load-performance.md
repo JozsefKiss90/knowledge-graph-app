@@ -205,8 +205,16 @@ RETURN projectCount, totalEcContribution, callCount, organisationCount, countryC
 ### B4. `/top-organisations` — fold the total-count into the ranked query
 
 `cordis_routes.py:1062` + `:1075` traverse the same set twice (ranked top-N + total distinct-org count).
-Combine via a `CALL {}` subquery for the total, or compute the total in the same pass. Saves one full
-traversal.
+Combine via a `CALL {}` subquery for the total. Saves one full traversal.
+
+> **Done 2026-08-27 — with a correction. Use the `CALL {}` subquery, NOT "compute the total in the same
+> pass."** The same-pass variant (`collect()` every org, read `size(orgs)`, `UNWIND` + rank) was shipped
+> first and made the endpoint return 500: the collected list is O(organisations) and at ~151k orgs it
+> allocated ~1.35 GiB, hitting `dbms.memory.transaction.total.max` (~70% of heap; ~1.4 GiB both locally
+> and on the 2g-heap Railway container from `13b:38`) with `MemoryPoolOutOfMemoryError`. Measured
+> `PROFILE` for the streaming `CALL {}` version: **~102 MB total** (~97 MiB of it the aggregation's
+> DISTINCT tracking over 2.1M participation rows, ~31 KB the `Top`). The saved traversal is not worth an
+> unbounded materialisation — and `cordis_cache` absorbs the extra pass anyway.
 
 ### B5. `/hop-on-hosts` — narrow before the regex; consider a parsed-date property
 

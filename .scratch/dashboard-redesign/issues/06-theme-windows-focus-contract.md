@@ -53,8 +53,12 @@ Leave the windows' legacy purple accent values alone in this slice — the palet
 - Known stacked-mode behaviour (pre-existing, unchanged): while a window is open below lg, the
   scrim intercepts pointer clicks on the theme bar, so a second window opens via keyboard or by
   closing the first. Candidate for slice 07 polish if desired (e.g. backdrop click closes).
-- Environment finding, out of scope (backend): `/cordis/top-organisations?top_n=15` returns 500 in
-  the dev stack; the Organisations window correctly shows the honest "couldn't load" state.
+- Backend finding, out of scope for this slice: `/cordis/top-organisations?top_n=15` returned 500 in
+  the dev stack; the Organisations window correctly showed the honest "couldn't load" state.
+  **Resolved 2026-08-27** — not environment as first recorded, but a query defect: the route
+  `collect()`-ed all ~151k organisations into one list, exceeding Neo4j's transaction memory pool.
+  Rewritten to a streaming `CALL {}` + `ORDER BY`/`LIMIT` (`cordis_routes.py`, see `CORDIS_PLANS/12` B4);
+  endpoint now 200s. The window's error state was correct behaviour throughout.
 
 ## Blocked by
 

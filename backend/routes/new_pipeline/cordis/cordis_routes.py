@@ -1094,30 +1094,38 @@ def top_organisations(top_n: int = 15):
     """
     def _compute():
         s = SOURCE_TAG
-        # B4: single pass — collect every org with its role-split counts, read the distinct-org TOTAL from the
-        # collected size, then UNWIND + rank + LIMIT to the cap. Replaces the old second full traversal that
-        # existed only to count distinct organisations. Coordinated vs partnered are counted as distinct
-        # projects (an org's role on a project is single) so the two role measures never double-count.
+        # The distinct-org TOTAL comes from a CALL {} subquery; the ranked set then STREAMS through
+        # aggregate -> ORDER BY -> LIMIT $cap, so nothing unbounded is ever materialised. This replaces an
+        # earlier single-pass variant that collect()-ed every organisation into one list to read its size:
+        # that list is O(organisations) and at ~151k orgs it allocated ~1.35 GiB, blowing
+        # dbms.memory.transaction.total.max (~70% of heap, i.e. ~1.4 GiB on the 2g-heap Railway container)
+        # and failing the endpoint with a MemoryPoolOutOfMemoryError. Measured after this rewrite: ~102 MB
+        # total, ~97 MiB of it the aggregation's DISTINCT tracking over 2.1M participation rows. The extra
+        # traversal for the count is deliberate — it costs one pass and is cached by cordis_cache, whereas
+        # the collect() cost scales with every future ingest.
+        # Coordinated vs partnered are counted as distinct projects (an org's role on a project is single)
+        # so the two role measures never double-count.
         rows = db.query(
+            "CALL () { "
+            "  MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(:CordisProject {source:$s})"
+            "<-[:PARTICIPATED_IN]-(o:CordisOrganisation {source:$s}) "
+            "  RETURN count(DISTINCT o) AS organisationCount "
+            "} "
             "MATCH (:Call)-[:HAS_FUNDED_PROJECT]->(pr:CordisProject {source:$s})"
             "<-[r:PARTICIPATED_IN]-(og:CordisOrganisation {source:$s}) "
-            "WITH og, "
+            "WITH organisationCount, og, "
             "     count(DISTINCT CASE WHEN r.role='coordinator' THEN pr END) AS coordinatedCount, "
             "     count(DISTINCT CASE WHEN r.role<>'coordinator' THEN pr END) AS partneredCount "
-            "WITH collect({id: og.id, name: og.name, country: og.country, orgType: og.orgType, "
-            "              coordinatedCount: coordinatedCount, partneredCount: partneredCount, "
-            "              total: coordinatedCount + partneredCount}) AS orgs "
-            "WITH orgs, size(orgs) AS organisationCount "
-            "UNWIND orgs AS o "
-            "WITH organisationCount, o ORDER BY o.total DESC LIMIT $cap "
-            "RETURN organisationCount, o.id AS id, o.name AS name, o.country AS country, "
-            "       o.orgType AS orgType, o.coordinatedCount AS coordinatedCount, "
-            "       o.partneredCount AS partneredCount",
+            "WITH organisationCount, og, coordinatedCount, partneredCount, "
+            "     coordinatedCount + partneredCount AS total "
+            "ORDER BY total DESC LIMIT $cap "
+            "RETURN organisationCount, og.id AS id, og.name AS name, og.country AS country, "
+            "       og.orgType AS orgType, coordinatedCount, partneredCount",
             {"s": s, "cap": TOP_ORGS_CAP},
         )
         organisations = _rank_top_organisations(rows, top_n)
         # The distinct-org total rides on every row (same value); take it from the first, defaulting to 0 when
-        # the graph has no participation (UNWIND of an empty collect yields no rows).
+        # the graph has no participation (the ranked MATCH yields no rows, so the subquery's count is unseen).
         total_count = (rows[0]["organisationCount"] if rows else 0) or 0
         return {
             "organisations": organisations,
