@@ -82,10 +82,10 @@ components:
     size: "32px"
   icon-glyph:
     viewBox: "24"
-    md: "16px"
-    lg: "18px"
-    xl: "20px"
-    inline: "12px"
+    md: "18px"
+    lg: "20px"
+    xl: "22px"
+    inline: "14px"
     stroke: "1.25px"
     strokeDaylight: "1.15px"
   tab-segment-active:
@@ -232,9 +232,9 @@ Component philosophy: **precise and quiet** — small, exact controls; interacti
 
 ### Icons
 One family (`railIcons.jsx`): 24u viewBox, `currentColor`, round caps and joins. **Size and stroke
-weight are tokens, never call-site props** — the surface sets `--kg-icon-size` (`md` 16px on the
-28px command-bar buttons, `lg` 18px on the 32px rail buttons, `xl` 20px on the 40px left-rail tiles,
-`inline` 12px for separators set in text), holding the glyph/box ratio at ~0.56 across both
+weight are tokens, never call-site props** — the surface sets `--kg-icon-size` (`md` 18px on the
+28px command-bar buttons, `lg` 20px on the 32px rail buttons, `xl` 22px on the 40px left-rail tiles,
+`inline` 14px for separators set in text), holding the glyph/box ratio at ~0.63 across both
 toolbars. `--kg-icon-stroke` owns the weight — 1.25px dark, 1.15px daylight — and
 `vector-effect: non-scaling-stroke` pins it to device pixels so one weight survives every size.
 
