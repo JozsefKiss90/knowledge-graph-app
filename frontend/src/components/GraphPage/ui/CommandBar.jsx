@@ -102,7 +102,7 @@ export default function CommandBar({
           onClick={() => onLevelClick?.(0)}
           aria-label="Home"
         >
-          <HomeIcon size={15} />
+          <HomeIcon />
         </button>
       </Tooltip>
 
@@ -112,7 +112,7 @@ export default function CommandBar({
           const isActive = lvl.key === currentKey;
           return (
             <React.Fragment key={lvl.key}>
-              <ChevronRightIcon size={12} className="kg-commandbar__crumb-sep" />
+              <ChevronRightIcon className="kg-commandbar__crumb-sep" />
               <button
                 type="button"
                 className={`kg-commandbar__crumb${isActive ? " is-active" : ""}`}
@@ -144,7 +144,7 @@ export default function CommandBar({
         onClick={() => onOpenPalette?.()}
         aria-label="Search calls, topics, programmes"
       >
-        <SearchIcon size={14} />
+        <SearchIcon />
         <span className="kg-commandbar__search-ph">Search calls, topics, programmes…</span>
         <span className="kg-commandbar__kbd">⌘K</span>
       </button>
@@ -156,7 +156,7 @@ export default function CommandBar({
         className={`kg-commandbar__dash${inDashboard ? " is-active" : ""}`}
         onClick={() => setViewMode?.(inDashboard ? "graph" : "dashboard")}
       >
-        <DashboardIcon size={13} />
+        <DashboardIcon />
         <span className="kg-commandbar__dash-label">
           {inDashboard ? "Back to funding map" : "Open dashboard"}
         </span>
@@ -171,7 +171,7 @@ export default function CommandBar({
               onClick={() => onLayoutModeChange?.("cose-bilkent")}
               className="kg-commandbar__action--secondary"
             >
-              <GridIcon size={15} />
+              <GridIcon />
             </BarIconButton>
             <BarIconButton
               title="Hierarchical layout"
@@ -179,17 +179,17 @@ export default function CommandBar({
               onClick={() => onLayoutModeChange?.("breadthfirst")}
               className="kg-commandbar__action--secondary"
             >
-              <FlowIcon size={15} />
+              <FlowIcon />
             </BarIconButton>
           </>
         )}
         {graphActionsVisible && (
           <>
             <BarIconButton title="Reset camera" onClick={onResetView}>
-              <UndoIcon size={15} />
+              <UndoIcon />
             </BarIconButton>
             <BarIconButton title="Fit to screen" onClick={onFitView}>
-              <FitIcon size={15} />
+              <FitIcon />
             </BarIconButton>
           </>
         )}
@@ -199,7 +199,7 @@ export default function CommandBar({
             onClick={onCopyLink}
             className="kg-commandbar__action--secondary"
           >
-            <ShareIcon size={15} />
+            <ShareIcon />
           </BarIconButton>
         )}
         {onSaveView && (
@@ -208,7 +208,7 @@ export default function CommandBar({
             onClick={onSaveView}
             className="kg-commandbar__action--secondary"
           >
-            <BookmarkPlusIcon size={15} />
+            <BookmarkPlusIcon />
           </BarIconButton>
         )}
       </div>

@@ -90,7 +90,8 @@
   height: 1px;
   flex: 0 0 auto;
   margin: 4px 0;
-  background-color: var(--lc-hairline);
+  /* Panel-border alpha, not hairline — see .kg-commandbar__divider. */
+  background-color: var(--lc-panel-border);
 }
 
 /* Pushes the settings group to the foot of the rail */

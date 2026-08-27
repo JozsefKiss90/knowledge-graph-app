@@ -2,8 +2,15 @@
 //
 // Inline SVG icon set for the landing chrome (command bar, left rail, docked
 // right toolbar). All icons follow the reference design language: 24px viewBox,
-// stroke = currentColor, 1.6px width, round caps/joins — so they read as one
-// family regardless of which surface they sit on.
+// stroke = currentColor, round caps/joins — so they read as one family
+// regardless of which surface they sit on.
+//
+// Size and stroke weight are NOT the call site's decision: the surface sets
+// --kg-icon-size (md / lg / xl / inline) and --kg-icon-stroke owns the weight,
+// both in _landing-chrome.scss. Hand-tuning `size` per icon is what previously
+// left the family rendering at five sizes and six stroke weights, because
+// stroke scales with size. `vector-effect: non-scaling-stroke` now pins the
+// stroke to device pixels so one weight holds at every size.
 
 import React from "react";
 
@@ -11,13 +18,20 @@ const base = {
   viewBox: "0 0 24 24",
   fill: "none",
   stroke: "currentColor",
-  strokeWidth: 1.6,
   strokeLinecap: "round",
   strokeLinejoin: "round",
 };
 
-const Icon = ({ size = 16, children, ...rest }) => (
-  <svg width={size} height={size} {...base} {...rest} aria-hidden="true">
+// `size` stays as a per-instance escape hatch (inline style, so it wins over
+// the token) — reach for a token before reaching for it.
+const Icon = ({ size, className = "", children, ...rest }) => (
+  <svg
+    className={`kg-icon${className ? ` ${className}` : ""}`}
+    {...base}
+    {...(size ? { style: { width: size, height: size } } : null)}
+    {...rest}
+    aria-hidden="true"
+  >
     {children}
   </svg>
 );

@@ -80,6 +80,14 @@ components:
     textColor: "{colors.text-mid}"
     rounded: "{rounded.rail}"
     size: "32px"
+  icon-glyph:
+    viewBox: "24"
+    md: "16px"
+    lg: "18px"
+    xl: "20px"
+    inline: "12px"
+    stroke: "1.25px"
+    strokeDaylight: "1.15px"
   tab-segment-active:
     backgroundColor: "{colors.signal-blue}"
     textColor: "#ffffff"
@@ -221,6 +229,17 @@ Component philosophy: **precise and quiet** — small, exact controls; interacti
 - **Icon button** (command bar, 28px, 8px radius): transparent at rest in text-mid; hover = accent tint + accent-icon color; active adds `inset 0 0 0 1px` accent border; disabled at 40% opacity.
 - **Rail button** (docked toolbar, 32px, 9px radius): same tint/ring grammar; magenta count badge (13px circle, mono 8.5px) may sit on its corner.
 - **Node-type buttons**: legacy semantic vocabulary in `_variables.scss` (`--btn-<type>-*`), one flat color per graph node/edge type.
+
+### Icons
+One family (`railIcons.jsx`): 24u viewBox, `currentColor`, round caps and joins. **Size and stroke
+weight are tokens, never call-site props** — the surface sets `--kg-icon-size` (`md` 16px on the
+28px command-bar buttons, `lg` 18px on the 32px rail buttons, `xl` 20px on the 40px left-rail tiles,
+`inline` 12px for separators set in text), holding the glyph/box ratio at ~0.56 across both
+toolbars. `--kg-icon-stroke` owns the weight — 1.25px dark, 1.15px daylight — and
+`vector-effect: non-scaling-stroke` pins it to device pixels so one weight survives every size.
+
+**The Size-Is-A-Token Rule.** A hand-tuned `size` prop is a bug: stroke scales with size, so tuning
+one icon by eye re-weights it against the rest of the family.
 
 ### Chips
 - **Money badge** (`.money-badge`): the signature pill — uppercase 10px/700, 1px 8px padding, full pill. Two variants only: **advertised** (blue tint bg, blue text) and **awarded** (green tint bg, green text); text brightens on dark surfaces (#7bb4ff / #57d98a). `--sm` variant at 9px for tight rows. Cursor is `help` — it explains, it doesn't act.

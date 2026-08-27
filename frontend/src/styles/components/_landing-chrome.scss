@@ -1,4 +1,62 @@
 /* src/styles/components/_landing-chrome.scss */
+
+/* ============================================================================
+   Icon family tokens
+   ----------------------------------------------------------------------------
+   The chrome icons (railIcons.jsx) are one family: 24u viewBox, currentColor,
+   round joins. Their SIZE belongs to the surface they sit on and their STROKE
+   belongs to the theme — never to the call site. Defined at :root (not on
+   .graph-shell) so portaled chrome — MUI menus, popovers — inherits them too.
+   ========================================================================== */
+
+:root {
+  --kg-icon-md: 16px; /* 28px command-bar buttons  → 0.57 glyph/box */
+  --kg-icon-lg: 18px; /* 32px right-rail buttons   → 0.56 */
+  --kg-icon-xl: 20px; /* 40px left-rail tiles      → 0.50 */
+  --kg-icon-inline: 12px; /* separators and chevrons set inside text */
+
+  /* One weight for the whole family. Dark-on-light blooms, so daylight runs a
+     hair lighter — the same architecture, not a second identity. */
+  --kg-icon-stroke: 1.25;
+}
+
+body.light-theme {
+  --kg-icon-stroke: 1.15;
+}
+
+.kg-icon {
+  width: var(--kg-icon-size, var(--kg-icon-md));
+  height: var(--kg-icon-size, var(--kg-icon-md));
+  flex: 0 0 auto;
+  display: block;
+  stroke-width: var(--kg-icon-stroke);
+}
+
+/* Pins the stroke to device pixels instead of scaling it with the glyph. Without
+   it, one declared width renders at a different weight at every size — which is
+   how a single family ended up drawn in six. */
+.kg-icon * {
+  vector-effect: non-scaling-stroke;
+}
+
+/* One size per surface. */
+.kg-commandbar,
+.kg-home,
+.graph-status-overlay {
+  --kg-icon-size: var(--kg-icon-md);
+}
+.sidebar-controls {
+  --kg-icon-size: var(--kg-icon-lg);
+}
+.kg-leftrail {
+  --kg-icon-size: var(--kg-icon-xl);
+}
+.kg-commandbar__crumb-sep,
+.kg-home__section-chev,
+.graph-layout-pill .kg-icon {
+  --kg-icon-size: var(--kg-icon-inline);
+}
+
 /* ============================================================================
    Landing redesign ("Riff on 1a — right toolbar docked edge-to-edge").
    One slim command bar on top, a floating filter rail + GRAPH DATASET popover
@@ -141,7 +199,9 @@ body.light-theme .graph-shell {
 .kg-commandbar__divider {
   width: 1px;
   height: 18px;
-  background: var(--lc-hairline);
+  /* Panel-border alpha, not hairline: at 22% over blurred glass the divider was
+     present in the box model and absent to the eye. */
+  background: var(--lc-panel-border);
   margin: 0 4px;
   flex: 0 0 auto;
 }

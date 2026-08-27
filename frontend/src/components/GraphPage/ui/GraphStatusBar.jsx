@@ -42,7 +42,7 @@ const GraphStatusBar = ({
         title={layoutSwitchVisible ? "Switch layout" : layoutLabel}
       >
         {pillLabel}
-        {layoutSwitchVisible && <ChevronDownIcon size={11} />}
+        {layoutSwitchVisible && <ChevronDownIcon />}
       </button>
 
       <Menu
@@ -59,7 +59,7 @@ const GraphStatusBar = ({
             setAnchor(null);
           }}
         >
-          <ListItemIcon><GridIcon size={15} /></ListItemIcon>
+          <ListItemIcon><GridIcon /></ListItemIcon>
           Force-directed
         </MenuItem>
         <MenuItem
@@ -69,7 +69,7 @@ const GraphStatusBar = ({
             setAnchor(null);
           }}
         >
-          <ListItemIcon><FlowIcon size={15} /></ListItemIcon>
+          <ListItemIcon><FlowIcon /></ListItemIcon>
           Hierarchical
         </MenuItem>
       </Menu>

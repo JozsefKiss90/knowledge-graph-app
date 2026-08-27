@@ -74,7 +74,7 @@ export default function LandingHome({
   return (
     <aside className="kg-home" aria-label="Home — orientation and what's closing soon">
       <div className="kg-home__header">
-        <CompassIcon size={15} className="kg-home__header-icon" />
+        <CompassIcon className="kg-home__header-icon" />
         <span className="kg-home__header-title">Home</span>
         <span className="kg-home__header-grow" />
         {onClose && (
@@ -85,7 +85,7 @@ export default function LandingHome({
             aria-label="Hide home"
             title="Hide home"
           >
-            <CloseIcon size={16} />
+            <CloseIcon />
           </button>
         )}
       </div>
@@ -102,7 +102,7 @@ export default function LandingHome({
             track record in that area before you spend a season on a bid.
           </p>
           <button type="button" className="kg-home__cta" onClick={onFindCalls}>
-            <FindCallsIcon size={16} />
+            <FindCallsIcon />
             <span className="kg-home__cta-label">Find open calls</span>
             {data.openCalls > 0 && (
               <span className="kg-home__cta-count">{count(data.openCalls)} open now</span>
@@ -119,7 +119,7 @@ export default function LandingHome({
         >
           <span className="kg-home__section-title">
             <span>Funding landscape</span>
-            <ChevronRightIcon size={13} className="kg-home__section-chev" />
+            <ChevronRightIcon className="kg-home__section-chev" />
           </span>
 
           {cordisActive ? (

@@ -113,7 +113,7 @@ const SidebarControls = ({
           className="sidebar-controls-button sidebar-controls-toggle"
           onClick={() => setIsExpanded((p) => !p)}
         >
-          {isExpanded ? <ChevronsRightIcon size={15} /> : <ChevronsLeftIcon size={15} />}
+          {isExpanded ? <ChevronsRightIcon /> : <ChevronsLeftIcon />}
         </IconButton>
       </Tooltip>
 
@@ -124,11 +124,11 @@ const SidebarControls = ({
         label="Commands"
         onClick={() => onOpenCommandPalette?.()}
       >
-        <CommandIcon size={16} />
+        <CommandIcon />
       </RailButton>
 
       <RailButton title="Help" label="Help" onClick={(e) => setHelpAnchor(e.currentTarget)}>
-        <InfoIcon size={17} />
+        <InfoIcon />
       </RailButton>
       <Menu
         anchorEl={helpAnchor}
@@ -162,7 +162,7 @@ const SidebarControls = ({
         disabled={isHEWiki || viewMode !== "graph"}
         onClick={() => setFindOpen((prev) => !prev)}
       >
-        <FindCallsIcon size={17} />
+        <FindCallsIcon />
       </RailButton>
 
       <RailButton
@@ -171,7 +171,7 @@ const SidebarControls = ({
         badge={bookmarksCount}
         onClick={() => navigate("/bookmarks")}
       >
-        <BookmarkIcon size={16} />
+        <BookmarkIcon />
       </RailButton>
 
       <RailButton
@@ -181,7 +181,7 @@ const SidebarControls = ({
         disabled={isHEWiki}
         onClick={() => setTimelineOpen((prev) => !prev)}
       >
-        <TimelineIcon size={17} />
+        <TimelineIcon />
       </RailButton>
 
       <RailButton
@@ -191,7 +191,7 @@ const SidebarControls = ({
         disabled={isHEWiki}
         onClick={() => setCompareOpen((prev) => !prev)}
       >
-        <ColumnsIcon size={16} />
+        <ColumnsIcon />
       </RailButton>
 
       <SectionDivider label="Landscape" />
@@ -210,7 +210,7 @@ const SidebarControls = ({
         disabled={isHEWiki}
         onClick={() => onSelectDashboardPanel("fields")}
       >
-        <LayersIcon size={16} />
+        <LayersIcon />
       </RailButton>
 
       <span className="sidebar-controls-spacer" />
@@ -222,15 +222,15 @@ const SidebarControls = ({
         label="Theme"
         onClick={() => setDarkMode((prev) => !prev)}
       >
-        <MoonIcon size={16} />
+        <MoonIcon />
       </RailButton>
 
       <RailButton title="Send a message" label="Contact" onClick={() => setIsMessageDrawerOpen(true)}>
-        <MailIcon size={16} />
+        <MailIcon />
       </RailButton>
 
       <RailButton title="Graph layout & settings" label="Layout & settings" onClick={() => setDrawerOpen(true)}>
-        <GearIcon size={16} />
+        <GearIcon />
       </RailButton>
 
       {/* Drawers stay the same */}

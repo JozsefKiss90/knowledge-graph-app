@@ -61,7 +61,7 @@ export default function LeftRail({
           active={homeOpen}
           onClick={onToggleHome}
         >
-          <CompassIcon size={17} />
+          <CompassIcon />
         </RailButton>
 
         <RailButton
@@ -70,7 +70,7 @@ export default function LeftRail({
           badge={filterCount}
           onClick={onToggleLegend}
         >
-          <FilterIcon size={17} />
+          <FilterIcon />
         </RailButton>
 
         <RailButton
@@ -79,7 +79,7 @@ export default function LeftRail({
           disabled={compareDisabled}
           onClick={onToggleCompare}
         >
-          <ColumnsIcon size={17} />
+          <ColumnsIcon />
         </RailButton>
 
         <RailButton
@@ -88,7 +88,7 @@ export default function LeftRail({
           disabled={findDisabled}
           onClick={onToggleFind}
         >
-          <FindCallsIcon size={17} />
+          <FindCallsIcon />
         </RailButton>
 
         <RailButton
@@ -97,7 +97,7 @@ export default function LeftRail({
           disabled={assistantDisabled}
           onClick={onOpenAssistant}
         >
-          <SparklesIcon size={17} />
+          <SparklesIcon />
         </RailButton>
       </div>
 
