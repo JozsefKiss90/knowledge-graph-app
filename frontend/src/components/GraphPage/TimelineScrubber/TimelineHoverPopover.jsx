@@ -41,7 +41,7 @@ export default function TimelineHoverPopover({
       }}
     >
       <div className="timeline-popover__header">
-        <span className="timeline-popover__month">{bucket.label}</span>
+        <span className="timeline-popover__month">{bucket.fullLabel || bucket.label}</span>
         <span className="timeline-popover__total">
           {bucket.count} call{bucket.count !== 1 ? "s" : ""}
         </span>

@@ -83,12 +83,12 @@ export default function GraphMainColumn({
   onApplySavedView,
   onDeleteSavedView,
   onLevelBarChange,
+  levelBar,
   assistantOpenSignal,
   homeOpen,
   onCloseHome,
 }) {
   const isDetailMode = !!detailNode;
-  const levelsRef = useRef([]);
   const assistantFocusHandledRef = useRef(null);
 
   // The HE Wiki graph is a flat entity network — Compare/Timeline (cluster/Call tools) don't apply.
@@ -376,7 +376,6 @@ export default function GraphMainColumn({
               canGoBack,
               onBack,
             }) => {
-              levelsRef.current = levels;
               // Lift the layer nav callbacks so GraphPage's Backspace / ← shortcut
               // and the CommandBar breadcrumbs can drive the level stack.
               if (levelNavRef) levelNavRef.current = { canGoBack, onBack, onLevelClick };
@@ -527,8 +526,13 @@ export default function GraphMainColumn({
 
           <TimelineScrubber
             loadFromStore={loadFromStore}
-            currentKey={graphName}
-            levels={levelsRef.current}
+            // The level key, not the dataset name: entering a Destination keeps
+            // `graphName` on the parent cluster (that is the dataset the layer is
+            // drawn from), so passing it here made levels 4 and 5 identical.
+            // `levelBar` is state lifted through LevelBarSync, so it is also
+            // current at render time — the old levelsRef was a render behind.
+            currentKey={levelBar?.currentKey || graphName}
+            levels={levelBar?.levels}
             isOpen={timelineOpen && !isDetailMode && !isHEWiki}
             onSelectionChange={setTimelineSelection}
           />

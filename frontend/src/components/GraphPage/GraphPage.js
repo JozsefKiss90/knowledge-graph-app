@@ -828,6 +828,7 @@ useEffect(() => {
               onApplySavedView={handleApplySavedView}
               onDeleteSavedView={handleDeleteSavedView}
               onLevelBarChange={handleLevelBarChange}
+              levelBar={levelBar}
               assistantOpenSignal={assistantOpenSignal}
               homeOpen={homeOpen}
               onCloseHome={closeHome}

@@ -260,6 +260,36 @@
   pointer-events: none;
 }
 
+/* January ticks carry the year on a multi-year strip — stronger, so the eye can
+   find the year boundaries without reading every tick. */
+.timeline-chart__axis-label--year {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Hairline at each January. Structure, not decoration: it is what makes a
+   thinned-out axis read as a scale rather than as missing months. */
+.timeline-chart__year-line {
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.dark-theme .timeline-chart__year-line {
+  stroke: rgba(154, 172, 201, 0.18);
+}
+
+.light-theme .timeline-chart__year-line {
+  stroke: rgba(2, 6, 23, 0.10);
+}
+
+.dark-theme .timeline-chart__axis-label--year {
+  fill: rgba(196, 214, 240, 0.95);
+}
+
+.light-theme .timeline-chart__axis-label--year {
+  fill: var(--foreground);
+}
+
 .dark-theme .timeline-chart__axis-label {
   fill: rgba(154, 172, 201, 0.7);
 }

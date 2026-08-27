@@ -4,15 +4,19 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * Manages the selected range within the timeline bar chart.
  *
  * @param {number} bucketCount - total number of month buckets
+ * @param {string} windowKey   - identity of the month window (first..last bucket).
+ *                               Bucket indices only mean a date within one window, so a
+ *                               selection must not survive a window that merely happens
+ *                               to have the same number of months.
  * @returns selection state + pointer event handlers
  */
-export function useTimelineSelection(bucketCount) {
+export function useTimelineSelection(bucketCount, windowKey = "") {
   const [range, setRange] = useState({ start: 0, end: Math.max(0, bucketCount - 1) });
 
-  // Reset range when bucket count changes (layer change)
+  // Reset the range whenever the strip changes (layer change, or a different month span)
   useEffect(() => {
     setRange({ start: 0, end: Math.max(0, bucketCount - 1) });
-  }, [bucketCount]);
+  }, [bucketCount, windowKey]);
 
   const dragRef = useRef(null);
   // dragRef.current = { edge: 'left'|'right'|'body', originIdx, originRange }

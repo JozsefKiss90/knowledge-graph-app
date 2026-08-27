@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import TimelineHoverPopover from "./TimelineHoverPopover";
+import { axisTicks } from "./utils";
 
 const BAR_GAP = 1;
 const AXIS_HEIGHT = 18;
 const HANDLE_HIT = 10;
 const TOP_PAD = 4;
 const BAR_RADIUS = 2.5;
+const AXIS_PAD = 2;
 
 export default function TimelineBarChart({
   buckets,
@@ -114,7 +116,8 @@ export default function TimelineBarChart({
     setHoveredIdx(null);
   }, []);
 
-  const labelInterval = 1;
+  // Which months get a label, and whether it reads as a month or a year — see axisTicks.
+  const ticks = axisTicks(buckets, size.width);
 
   const { start, end } = selectionRange;
   const selX = start * step;
@@ -200,6 +203,21 @@ export default function TimelineBarChart({
                 </feMerge>
               </filter>
             </defs>
+
+            {/* Year boundaries: the only structure a multi-year strip has, and cheaper
+                to read than counting bars back to a label. */}
+            {buckets.map((b, i) =>
+              i > 0 && b.spansYears && b.date.getMonth() === 0 ? (
+                <line
+                  key={`yr-${b.key}`}
+                  x1={i * step - BAR_GAP / 2}
+                  y1={0}
+                  x2={i * step - BAR_GAP / 2}
+                  y2={chartHeight}
+                  className="timeline-chart__year-line"
+                />
+              ) : null
+            )}
 
             {/* Selection overlay background */}
             <rect
@@ -317,17 +335,33 @@ export default function TimelineBarChart({
             />
 
             {/* Axis labels */}
-            {buckets.map((b, i) => {
-              if (i % labelInterval !== 0) return null;
-              const x = i * step + step / 2;
+            {ticks.map((t) => {
+              const centre = t.index * step + step / 2;
+              // A centred label on the first or last tick hangs off the edge and is
+              // clipped by the viewBox — "JAN 2023" arrived as "N '23". Anchor those to
+              // the edge instead. text-anchor is set in CSS, so it has to be overridden
+              // as a style to win.
+              const halfW = (t.text.length * 5.6) / 2;
+              let x = centre;
+              let anchor = "middle";
+              if (centre - halfW < AXIS_PAD) {
+                x = AXIS_PAD;
+                anchor = "start";
+              } else if (centre + halfW > size.width - AXIS_PAD) {
+                x = size.width - AXIS_PAD;
+                anchor = "end";
+              }
               return (
                 <text
-                  key={`lbl-${b.key}`}
+                  key={`lbl-${t.key}`}
                   x={x}
                   y={size.height - 3}
-                  className="timeline-chart__axis-label"
+                  style={{ textAnchor: anchor }}
+                  className={`timeline-chart__axis-label${
+                    t.isYear ? " timeline-chart__axis-label--year" : ""
+                  }`}
                 >
-                  {b.label}
+                  {t.text}
                 </text>
               );
             })}

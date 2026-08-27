@@ -16,7 +16,13 @@ export default function TimelineScrubber({
   isOpen,
   onSelectionChange,
 }) {
-  const { buckets, totalCalls, callsInYear } = useTimelineData(loadFromStore, currentKey, levels);
+  const { buckets, totalCalls } = useTimelineData(loadFromStore, currentKey, levels);
+
+  // The months the strip covers are derived from the calls in view, so the window itself
+  // is part of the selection's identity — see useTimelineSelection.
+  const windowKey = buckets.length
+    ? `${buckets[0].key}..${buckets[buckets.length - 1].key}`
+    : "";
 
   const {
     range,
@@ -24,7 +30,7 @@ export default function TimelineScrubber({
     onDragMove,
     endDrag,
     jumpTo,
-  } = useTimelineSelection(buckets.length);
+  } = useTimelineSelection(buckets.length, windowKey);
 
   // Notify parent when selection changes
   const notifySelection = useCallback(() => {

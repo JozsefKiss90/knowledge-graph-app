@@ -114,10 +114,15 @@ export function monthKeyToDate(key) {
   return new Date(`${key}-01T00:00:00`);
 }
 
-/** Short label: "JAN", "FEB", … (year omitted since chart is single-year) */
-export function formatMonthShort(date) {
+/**
+ * Short label: "JAN", "FEB", … — with the full year appended when the strip spans more
+ * than one. The year is spelled out rather than abbreviated: "JAN '24" was read as a day
+ * number ("January 24th") on a multi-year axis.
+ */
+export function formatMonthShort(date, withYear = false) {
   const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-  return months[date.getMonth()];
+  const m = months[date.getMonth()];
+  return withYear ? `${m} ${date.getFullYear()}` : m;
 }
 
 /** Label parts for the range display: { start: "Sept 2026", end: "Dec 2026" } */
@@ -131,28 +136,173 @@ export function formatRangeParts(startDate, endDate) {
 }
 
 /**
- * Bucket calls into 12 monthly buckets for the current year (Jan–Dec).
+ * Which months get an axis label, and what it says.
  *
- * Each bucket gets a `status` colour hint:
- *  - "open"     – the month is now or in the future AND has calls that are
- *                 currently accepting submissions (opening_date <= today <= deadline)
- *  - "upcoming" – the month is in the future AND only has calls whose
- *                 opening_date has not yet arrived
- *  - "closed"   – the month is entirely in the past, or all overlapping calls
- *                 have already closed
- *  - "empty"    – no calls overlap this month
+ * A five-year strip is sixty bars: a label per bar would overprint, so ticks thin out.
+ * They step along a calendar ladder (every 1/2/3/4/6/12 months) anchored on **January**
+ * rather than on the first bucket, so the spacing is regular and the same months recur in
+ * every year — an axis reading 2023·MAY·SEP·2024·MAY·SEP is a scale, where an arbitrary
+ * every-nth-bar sequence just looks like months went missing.
+ *
+ * January carries the year, and on a multi-year strip it shows the year *instead of* the
+ * month: "JAN '24" reads as a date ("January 24th"), which is the wrong thing for an axis
+ * of months to say. On a single-year strip the header already names the year, so January
+ * stays "JAN".
+ *
+ * @param {Array}  buckets  from bucketCallsByMonth
+ * @param {number} width    px available to the whole strip
+ * @returns {Array} [{ index, key, isYear, text }]
  */
-export function bucketCallsByMonth(callsWithDates) {
-  const YEAR = new Date().getFullYear();
-  const today = new Date();
+export function axisTicks(buckets, width) {
+  const list = buckets || [];
+  if (list.length === 0 || !(width > 0)) return [];
+
+  const step = width / list.length;
+  const MONTH_LABEL_PX = 30;
+  const ladder = [1, 2, 3, 4, 6, 12];
+  const interval = ladder.find((n) => n * step >= MONTH_LABEL_PX) || 12;
+
+  const ticks = [];
+  list.forEach((b, index) => {
+    const month = b.date.getMonth();
+    if (month % interval !== 0) return;
+    const isYear = month === 0 && b.spansYears;
+    ticks.push({ index, key: b.key, isYear, text: isYear ? String(b.year) : b.label });
+  });
+  return ticks;
+}
+
+/** Months since year 0 — a comparable ordinal, so month arithmetic can't wrap wrong. */
+function monthIndex(date) {
+  return date.getFullYear() * 12 + date.getMonth();
+}
+
+function monthIndexToDate(mi) {
+  return new Date(Math.floor(mi / 12), mi % 12, 1);
+}
+
+/**
+ * Hard ceiling on the number of bars — ten years. High enough that no real portfolio hits
+ * it, low enough that a single corrupt date can't produce a century of 1px bars. When it
+ * does engage the header count follows the window (see useTimelineData), so the strip and
+ * its count still describe the same set.
+ */
+const MAX_BUCKETS = 120;
+
+/**
+ * Work-programme editions run two calendar years — 2026 and 2027 are one period — and the
+ * period is what people plan against. Anchored on even years so it stays put for both of
+ * its years: during 2027 the current period is still 2026–27, not 2027–28.
+ *
+ * If the editions ever stop falling on even years, this is the one line to change.
+ */
+const PERIOD_YEARS = 2;
+
+/** [first, last] month index of the work-programme period containing `today`. */
+export function currentPeriodMonths(today) {
+  const y = today.getFullYear();
+  const start = y - (((y % PERIOD_YEARS) + PERIOD_YEARS) % PERIOD_YEARS);
+  return [start * 12, (start + PERIOD_YEARS - 1) * 12 + 11];
+}
+
+/**
+ * Bucket calls into one bucket per month.
+ *
+ * The window is the **current work-programme period** (2026–27, and so on), which is the
+ * span people actually plan against. Left to the data, the top level runs Feb 2022 → Dec
+ * 2027: five years of near-empty strip either side of the two that matter, and bars too
+ * thin to read. Two rules keep that honest:
+ *
+ *  - the header count is computed from the same window (see `useTimelineData`), so the
+ *    strip and its count always describe the same set — the earlier bug was a chart that
+ *    drew one year while the count spoke for five;
+ *  - a view with nothing in the current period (an archive, a programme that has moved
+ *    on) falls back to the span of its own calls rather than showing an empty strip.
+ *
+ * Pass `{ window: "data" }` for the full span of whatever is in view.
+ *
+ * Each bucket carries the status split of the calls overlapping that month, evaluated
+ * against today:
+ *  - "open"     – accepting submissions right now (opening_date <= today <= deadline)
+ *  - "upcoming" – opening date still ahead
+ *  - "closed"   – deadline already passed
+ *  - "empty"    – no calls overlap this month
+ *
+ * @param {Array}  callsWithDates  calls carrying { openDate, closeDate, programme }
+ * @param {Object} [options]
+ * @param {Date}   [options.today]  override for "now" (tests)
+ * @param {string} [options.window] "period" (default) or "data"
+ */
+export function bucketCallsByMonth(callsWithDates, options = {}) {
+  const today = options.today instanceof Date ? new Date(options.today) : new Date();
   today.setHours(0, 0, 0, 0);
+
+  // Normalise to a { from, to } span plus a status fixed at today. Status belongs to the
+  // call, not to the month it happens to fall in, so it is resolved once here rather than
+  // re-derived (inconsistently) inside the month loop.
+  const calls = [];
+  for (const c of callsWithDates || []) {
+    const a = c.openDate || c.closeDate;
+    const b = c.closeDate || c.openDate;
+    if (!a || !b) continue;
+    const from = a <= b ? a : b;
+    const to = a <= b ? b : a;
+    const status = to < today ? "closed" : from > today ? "upcoming" : "open";
+    calls.push({ from, to, status, programme: c.programme });
+  }
+
+  let firstMi = null;
+  let lastMi = null;
+
+  if (options.window !== "data") {
+    const [periodFirst, periodLast] = currentPeriodMonths(today);
+    // An empty view still gets the period, so the strip reads as "nothing this period"
+    // rather than collapsing to nothing.
+    const anyInPeriod =
+      calls.length === 0 ||
+      calls.some((c) => monthIndex(c.from) <= periodLast && monthIndex(c.to) >= periodFirst);
+    if (anyInPeriod) {
+      firstMi = periodFirst;
+      lastMi = periodLast;
+    }
+  }
+
+  if (firstMi === null) {
+    // Either the caller asked for the full span, or nothing in view falls in the current
+    // period — take the months the calls actually touch.
+    for (const c of calls) {
+      const a = monthIndex(c.from);
+      const b = monthIndex(c.to);
+      firstMi = firstMi === null ? a : Math.min(firstMi, a);
+      lastMi = lastMi === null ? b : Math.max(lastMi, b);
+    }
+
+    if (firstMi === null) {
+      const [periodFirst, periodLast] = currentPeriodMonths(today);
+      firstMi = periodFirst;
+      lastMi = periodLast;
+    } else if (lastMi - firstMi + 1 > MAX_BUCKETS) {
+      // Absurd span (a stray date decades out): keep the most recent months, so what is
+      // still to come stays visible.
+      firstMi = lastMi - MAX_BUCKETS + 1;
+    }
+  }
+
+  const spansYears =
+    monthIndexToDate(firstMi).getFullYear() !== monthIndexToDate(lastMi).getFullYear();
 
   const buckets = [];
 
-  for (let m = 0; m < 12; m++) {
-    const monthStart = new Date(YEAR, m, 1);
-    const monthEnd = new Date(YEAR, m + 1, 0); // last day of month
-    const monthInPast = monthEnd < today;
+  for (let mi = firstMi; mi <= lastMi; mi++) {
+    const monthStart = monthIndexToDate(mi);
+    // End of the last day, not its midnight — otherwise a call opening on the 31st
+    // fails the overlap test for its own month.
+    const monthEnd = new Date(
+      monthStart.getFullYear(),
+      monthStart.getMonth() + 1,
+      0,
+      23, 59, 59, 999
+    );
 
     let count = 0;
     let openCount = 0;
@@ -160,26 +310,17 @@ export function bucketCallsByMonth(callsWithDates) {
     let upcomingCount = 0;
     const byProgramme = {};
 
-    for (const c of callsWithDates) {
-      const cOpen = c.openDate || c.closeDate;
-      const cClose = c.closeDate || c.openDate;
+    for (const c of calls) {
+      if (c.from > monthEnd || c.to < monthStart) continue;
 
-      // Does this call overlap this month?
-      if (cOpen <= monthEnd && cClose >= monthStart) {
-        count++;
-        if (c.programme) {
-          byProgramme[c.programme] = (byProgramme[c.programme] || 0) + 1;
-        }
-
-        // Is this call currently accepting submissions?
-        if (cOpen <= today && cClose >= today) {
-          openCount++;
-        } else if (!monthInPast && cOpen > today) {
-          upcomingCount++;
-        } else {
-          closedCount++;
-        }
+      count++;
+      if (c.programme) {
+        byProgramme[c.programme] = (byProgramme[c.programme] || 0) + 1;
       }
+
+      if (c.status === "open") openCount++;
+      else if (c.status === "upcoming") upcomingCount++;
+      else closedCount++;
     }
 
     let status = "empty";
@@ -189,10 +330,18 @@ export function bucketCallsByMonth(callsWithDates) {
       else status = "closed";
     }
 
+    const isYearStart = monthStart.getMonth() === 0 || mi === firstMi;
+
     buckets.push({
       key: monthKey(monthStart),
       date: monthStart,
       label: formatMonthShort(monthStart),
+      // Year-qualified label for the axis and the hover card, so two "MAY"s in a
+      // two-year strip can't be confused for each other.
+      fullLabel: formatMonthShort(monthStart, spansYears),
+      year: monthStart.getFullYear(),
+      isYearStart,
+      spansYears,
       count,
       openCount,
       closedCount,

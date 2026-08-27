@@ -126,15 +126,20 @@ export function useTimelineData(loadFromStore, currentKey, levels) {
     let allCalls = [];
 
     if (isDestKey(key)) {
-      // Destination layer: extract from parent dataset, filter by destination id
+      // Destination layer: extract from the parent dataset, filtered to this destination.
       const destId = key.slice(5); // strip "DEST_"
-      // Find the parent dataset key from levels
+      // The level entry records the dataset it was opened from in `graphName`; the
+      // breadcrumb entry above it is the fallback when the stack was rebuilt.
+      const currentLevel = levels?.find?.((l) => cleanKey(l?.key) === key) || null;
       const parentLevel = levels?.length > 1 ? levels[levels.length - 2] : null;
-      const parentKey = cleanKey(parentLevel?.key || parentLevel?.graphName || "");
+      const parentKey = cleanKey(
+        currentLevel?.graphName || parentLevel?.key || parentLevel?.graphName || ""
+      );
       const raw = parentKey ? loadFromStore(parentKey) : null;
       allCalls = extractCallsFromRaw(raw, destId);
-      const prog = PARENT_PROGRAMME[parentKey] || parentKey;
-      allCalls.forEach(c => { c.programme = prog; });
+      // Same programme label the cluster layer uses — only the ROOT view rolls
+      // sub-programmes up to their top-level parent.
+      allCalls.forEach(c => { c.programme = parentKey; });
     } else {
       const datasetKeys = resolveDatasetKeys(key, loadFromStore);
       const useParent = key === "ROOT";
@@ -162,13 +167,27 @@ export function useTimelineData(loadFromStore, currentKey, levels) {
     }
 
     const buckets = bucketCallsByMonth(unique);
-    // totalCalls = calls that have at least one date and fall within the current year
-    const callsInYear = buckets.reduce((sum, b) => sum + b.count, 0);
+
+    // The header counts what the bars actually draw. The window spans the data, so in
+    // practice that is every dated call in view — but if the ten-year ceiling ever
+    // engages, the count follows the window rather than quietly overstating it.
+    const windowStart = buckets[0]?.date || null;
+    const lastBucket = buckets[buckets.length - 1]?.date || null;
+    const windowEnd = lastBucket
+      ? new Date(lastBucket.getFullYear(), lastBucket.getMonth() + 1, 0, 23, 59, 59, 999)
+      : null;
+    const totalCalls =
+      windowStart && windowEnd
+        ? unique.filter((c) => {
+            const from = c.openDate || c.closeDate;
+            const to = c.closeDate || c.openDate;
+            return from && to && from <= windowEnd && to >= windowStart;
+          }).length
+        : unique.length;
 
     return {
       buckets,
-      totalCalls: unique.length,
-      callsInYear,
+      totalCalls,
       callsWithDates: unique,
     };
   }, [loadFromStore, currentKey, levels]);
