@@ -43,8 +43,10 @@ try:
 except ImportError:  # older installs
     import fitz
 
-# "Destination: X" (CL4) / "Destination - X" (CL3), including en/em dashes.
-HEADING_RE = re.compile(r'Destination\s*[-:–—]\s*((?:[^\n]+\n){1,4})')
+# "Destination: X" (CL4), "Destination - X" (CL3/CL1), "Destination X" (CL2 - no
+# separator at all). The separator is therefore optional; the guards in
+# _table_headings are what keep the looser pattern honest.
+HEADING_RE = re.compile(r'Destination\s*[-:–—]?\s*((?:[^\n]+\n){1,4})')
 # The table of contents repeats the same headings with dot leaders.
 TOC_LEADER = re.compile(r'\.{4,}')
 
@@ -112,20 +114,67 @@ def real_definitions(text: str, cfg) -> list[tuple[int, str]]:
     return out
 
 
-def _table_headings(text: str, body_start: int, names: list[str]):
-    """[(offset, canonical_name)] for destination headings that introduce a budget table."""
+def _candidate_headings(text: str, body_start: int, names: list[str]):
+    """Every place in the pre-body region that reads as a destination heading.
+
+    Three layouts are in use across the clusters and all three are accepted:
+      CL4   `Destination: <name>`
+      CL3   `Destination - <name>`
+      CL5   the bare `<name>` on its own line, under "Proposals are invited
+            against the following Destinations and topic(s):"
+    Names wrap across lines, so each candidate line is joined with the next few
+    before matching, and matching is on letters and digits only.
+    """
     keyed = sorted(((_key(n), n) for n in names), key=lambda kn: -len(kn[0]))
+    region = text[:body_start]
     heads = []
-    for m in HEADING_RE.finditer(text[:body_start]):
-        raw = m.group(1)
-        if TOC_LEADER.search(raw):          # table-of-contents entry, not a table heading
-            continue
-        hk = _key(raw)
+
+    for m in HEADING_RE.finditer(region):
+        hk = _key(m.group(1))
         for nk, name in keyed:              # longest name first, so prefixes can't shadow
             if hk.startswith(nk):
                 heads.append((m.start(), name))
                 break
-    return heads
+
+    lines, pos = [], 0
+    for ln in region.split("\n"):
+        lines.append((pos, ln))
+        pos += len(ln) + 1
+    for i, (p, _) in enumerate(lines):
+        window = _key(" ".join(l for _, l in lines[i:i + 4]))
+        for nk, name in keyed:
+            if window.startswith(nk):
+                heads.append((p, name))
+                break
+
+    heads.sort()
+    deduped = []
+    for p, name in heads:                   # the same heading can match both ways
+        if deduped and deduped[-1][1] == name and p - deduped[-1][0] < 200:
+            continue
+        deduped.append((p, name))
+    return deduped
+
+
+def _table_headings(text: str, body_start: int, names: list[str], id_re):
+    """Keep only the candidates that actually introduce a budget table.
+
+    Two things must be excluded, and a positional cut-off is not enough because
+    the layouts differ:
+      * the table of contents - it repeats every heading, followed by dot leaders;
+      * the destination narrative sections and the strategic-plan mapping table -
+        real headings, but no topic rows under them.
+    So: reject a candidate whose immediate neighbourhood carries ToC dot leaders,
+    and require a topic id to appear soon after it.
+    """
+    out = []
+    for p, name in _candidate_headings(text, body_start, names):
+        if TOC_LEADER.search(text[p: p + 400]):
+            continue
+        if not id_re.search(text[p: p + 1500]):
+            continue
+        out.append((p, name))
+    return out
 
 
 def destination_map(cluster: str) -> dict[str, str]:
@@ -138,7 +187,7 @@ def destination_map(cluster: str) -> dict[str, str]:
     body_start = defs[0][0]
 
     names = canonical_destinations(cfg)
-    heads = _table_headings(text, body_start, names)
+    heads = _table_headings(text, body_start, names, cfg.id_re)
     if not heads:
         raise RuntimeError(
             f"{cfg.pdf.name}: no destination headings found before the first topic "
@@ -165,6 +214,22 @@ def destination_map(cluster: str) -> dict[str, str]:
         mapping.setdefault(cid, title)
 
     defined = [cid for _, cid in defs]
+
+    # A topic can be defined in the body yet missing from the budget tables - CL6's
+    # `2027-01-CIRCBIO-01-two-stage` is introduced under a sub-heading ("Enabling a
+    # circular economy transition") and appears in the tables only via the table of
+    # contents. Where the cluster encodes the destination in the topic id, place it
+    # with the rule LEARNED from the topics the tables did map, so this stays
+    # evidence rather than a guess.
+    still = [cid for cid in defined if cid not in mapping]
+    if still and cfg.id_destination_re:
+        rule = id_rule_map(cluster, {c: mapping[c] for c in defined if c in mapping})
+        for cid in still:
+            m = cfg.id_destination_re.search(cid)
+            if m and m.group(1) in rule:
+                mapping[cid] = rule[m.group(1)]
+                _log_id_rule_placement(cfg.key, cid, m.group(1), rule[m.group(1)])
+
     missing = [cid for cid in defined if cid not in mapping]
     if missing:
         raise RuntimeError(
@@ -179,6 +244,37 @@ def destination_map(cluster: str) -> dict[str, str]:
             f"({stale}) - re-verify the fallbacks against the current document"
         )
     return {cid: mapping[cid] for cid in defined}
+
+
+def _log_id_rule_placement(key, cid, token, dest):
+    print(f"  [{key}] {cid} is not in the budget tables; placed by its id token "
+          f"{token!r} -> {dest[:60]!r}", file=sys.stderr)
+
+
+def id_rule_map(cluster: str, documented: dict) -> dict:
+    """{id key -> destination}, learned from the topics the document DOES define.
+
+    Only for clusters whose topic ids encode the destination (see
+    `id_destination_pattern`). Refuses an ambiguous mapping rather than guessing,
+    so this can be trusted to place calls the document does not define.
+    """
+    cfg = wp_clusters.get(cluster)
+    rx = cfg.id_destination_re
+    if not rx:
+        return {}
+    seen: dict[str, set] = {}
+    for cid, dest in documented.items():
+        m = rx.search(cid)
+        if m:
+            seen.setdefault(m.group(1), set()).add(dest)
+    bad = {k: sorted(v) for k, v in seen.items() if len(v) > 1}
+    if bad:
+        raise RuntimeError(
+            f"{cfg.key}: id_destination_pattern {cfg.id_destination_pattern!r} is "
+            f"ambiguous - these keys map to more than one destination: {bad}. "
+            f"Remove the pattern or fix it before merging."
+        )
+    return {k: next(iter(v)) for k, v in seen.items()}
 
 
 if __name__ == "__main__":

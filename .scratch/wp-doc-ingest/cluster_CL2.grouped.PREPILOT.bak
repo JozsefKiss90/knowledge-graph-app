@@ -2,7 +2,6 @@
   "destinations": [
     {
       "destination_title": "Innovative Research on Democracy and Governance",
-      "destination": "Innovative Research on Democracy and Governance",
       "calls": [
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-01",
@@ -42,19 +41,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-01",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-01",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-01",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-02",
@@ -94,22 +81,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-02",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-02",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-02",
-          "procedure": ".",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"procedure\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-03",
@@ -149,22 +121,7 @@
             "2026": "8000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-03",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-03",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-03",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-04",
@@ -204,19 +161,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-04",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-04",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-04",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-05",
@@ -256,19 +201,7 @@
             "2026": "4500000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-05",
-          "expected_eu_contribution": "4000000 - 4500000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-05",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-05",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "4000000 - 4500000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-06",
@@ -308,22 +241,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-06",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-06",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-06",
-          "procedure": "General Annex F",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"procedure\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-07",
@@ -363,19 +281,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-07",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-07",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-07",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-08",
@@ -415,22 +321,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-08",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-08",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-08",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-09",
@@ -470,19 +361,7 @@
             "2026": "16000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-09",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-09",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-09",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-DEMOCRACY-10",
@@ -522,22 +401,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-DEMOCRACY-10",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-DEMOCRACY-10",
-          "call_id": "HORIZON-CL2-2026-01-DEMOCRACY-10",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-01",
@@ -577,22 +441,7 @@
             "2027": "3500000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-01",
-          "expected_eu_contribution": "3000000 - 3500000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-01",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-01",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Due to the scope of this topic, legal entities established in non- associated third countries may exceptionally participate in this Coordination and Support Action as a beneficiary or affiliated entity and are exceptionally eligible for Union funding. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-02",
@@ -632,19 +481,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-02",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-02",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-02",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-03",
@@ -684,19 +521,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-03",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-03",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-03",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-04",
@@ -736,22 +561,7 @@
             "2027": "20000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-04",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-04",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-04",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-05",
@@ -791,19 +601,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-05",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-05",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-05",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-06",
@@ -843,23 +641,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-06",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-06",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-06",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "procedure": ".",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\", \"procedure\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-07",
@@ -899,19 +681,7 @@
             "2027": "8000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-07",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-07",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-07",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-DEMOCRACY-08",
@@ -951,19 +721,48 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-DEMOCRACY-08",
-          "expected_eu_contribution": "3500000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-DEMOCRACY-08",
-          "call_id": "HORIZON-CL2-2027-01-DEMOCRACY-08",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 4000000"
+        },
+        {
+          "identifier": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+          "url": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+          "topic_title": "Open topic on reinvigorating and shielding European democracy",
+          "call_title": "Culture, Creativity and Inclusive Society - 2027 - Two-stage",
+          "call_identifier": "HORIZON-CL2-2027-02-TWO-STAGE",
+          "type_of_action": "HORIZON-RIA HORIZON Research and Innovation Actions",
+          "deadline": "2027-05-04T00:00:00+00:00",
+          "programme": "HORIZON",
+          "group_value": "Innovative Research on Democracy and Governance",
+          "unique_key": "|HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage|50140927|bg",
+          "topic_id": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+          "expected_outcome": "Projects should contribute to all of the following expected outcomes:\n• EU institutions and national decision-makers, civil society organisations and other societal actors and citizens at large are better equipped, with new data, knowledge and methods, to confront threats and challenges of democracies as well as to enhance their inclusiveness and participatory elan.\n• Strengthened citizens’ long-lasting engagement in the democratic life, including but going beyond electoral processes, and increased trust in democratic institutions.",
+          "scope": "The Political Guidelines for 2024-2029 of the European Commission [1] announced a new European Democracy Shield. Building on the European Democracy Action Plan [2] and the Defence of Democracy Package [3] , this initiative aims to safeguard, strengthen and promote democracy in the EU and to reinforce public trust. The Democracy Shield will aim to reinforce citizens’ participation and engagement in the democratic life, promote free and fair elections and support free and independent media. It will also address the increasing threats to democratic systems, institutions and processes within the EU, often driven by various hostile actors aiming to undermine citizens’ trust in democracy and its institutions. In addition, the Commission is also preparing a Civil Society Strategy and has also announced an updated strategy on LGBTIQ equality, a new anti-racism strategy, a new gender equality strategy, and a roadmap for women’s rights [4] It also continues implementing the Strategy for the rights of persons with disabilities 2021-2030 [5] , in line with the United Nations Convention on the rights of persons with disabilities, which the EU and its Member States are parties to [6] .\nEnsuring full, equal and meaningful political participation for everyone, regardless of sex, gender, racial or ethnic origin, religion or belief, disability, socioeconomic status, employment or age, fosters more stable and resilient democracies. Decision-making processes that incorporate a wider range of perspectives and experiences leads to policies that are more comprehensive and attuned to the needs of all citizens.\nUnder this open topic, proposals should address existing, upcoming or unforeseen challenges and/or creative or disruptive solutions for protecting European democracy, enhancing citizens’ trust and political participation, expanding inclusiveness and fairness of democratic institutions and practices and supporting and protecting civil society. Proposals are encouraged to investigate the opportunities offered by digital and other new technological solutions, notably from the civic tech sector. Proposals should address unmet research needs, complementing previous Horizon Europe calls.\nIn that sense, proposals should consider, build on – if appropriate – while not duplicating, previous research, including but not limited to, SSH disciplines and/or research by other Horizon Europe projects, in particular in the context of this destination. Coordination among the successful proposals from this topic should be envisaged to avoid duplication and to exploit complementarities as well as opportunities for increased impact.\nGiven the multifaceted character of the challenges confronted by democracies, applicants should ensure effective interdisciplinary collaborations by building consortia with the participation of all relevant disciplines, depending of course on the nature of the selected democratic challenge and research angle.\nApplicants are encouraged to adopt innovative approaches, including also by considering alternative and complementary models for democratic participation and engagement, facilitating the development and potential uptake of solutions. To ensure the active involvement of and timely feedback from relevant democracy practitioners and policymakers, proposals should plan a mid-term deliverable consisting in the assessment of the project’s mid-term contributions to the expected outcomes, performed by the democracy practitioners and policy-makers. Proposals should directly engage citizens, as well as civil society organisations, to enable broader public debate and explore uptake of democratic innovations and better anticipate potential risks.\nProposals are encouraged to collaborate with the JRC Competence Centre on Participatory and Deliberative Democracy, particularly with respect to demonstrating how structured opportunities for citizen participation strengthen inclusiveness and fairness of democratic institutions and practices, and foster evolution in democratic public spaces.\nWhere applicable, proposals should leverage the data and services available through European Research Infrastructures federated under the European Open Science Cloud (EOSC), as well as data from relevant Data Spaces. Particular efforts should be made to ensure that the data produced in the context of this topic is FAIR (Findable, Accessible, Interoperable and Re-usable).\n[1] https://commission.europa.eu/document/download/e6cd4328-673c-4e7a-8683-f63ffb2cf648_en?filename=Political%20Guidelines%202024-2029_EN.pdf\n[2] https://ec.europa.eu/commission/presscorner/detail/en/ip_20_2250\n[3] https://ec.europa.eu/commission/presscorner/detail/en/ip_23_6453\n[4] For the roadmap for women’s rights, see the announcement of its adoption with links to the communication and its annex: https://ec.europa.eu/commission/presscorner/detail/en/ip_25_681\n[5] https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A52021DC0101\n[6] https://www.ohchr.org/en/instruments-mechanisms/instruments/convention-rights-persons-disabilities",
+          "admissibility_conditions": "Applicants submitting a proposal for a blind evaluation (see General Annex F) must not disclose their organisation names, acronyms, logos nor names of personnel in the proposal abstract and Part B of their first-stage application (see General Annex E).\nAs described in Annex A and Annex E of the Horizon Europe Work Programme General Annexes.\nProposal page limits and layout: described in Part B of the Application Form available in the Submission System.",
+          "eligible_countries": "As described in Annex B of the Work Programme General Annexes.\nA number of non-EU/non-Associated Countries that are not automatically eligible for funding have made specific provisions for making funding available for their participants in Horizon Europe projects. See the information in the Horizon Europe Programme Guide .",
+          "other_eligibility_conditions": "The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B.\nIn order to achieve the expected outcomes, consortia must include, as beneficiaries or affiliated entities, (i) at least one relevant public body with a policy-making role; and (ii) at least one relevant civil society organisation.\nIn addition, as described in Annex B of the Work Programme General Annexes.",
+          "financial_and_operational_capacity": "As described in Annex C of the Work Programme General Annexes.",
+          "submission_and_evaluation_process": "As described in Annex F of the Work Programme General Annexes and the Online Manual .",
+          "award_criteria_scoring_thresholds": "The first-stage proposals of this topic will be evaluated blindly.\nIn addition, as described in Annex D of the Work Programme General Annexes.",
+          "indicative_timeline": "As described in Annex F of the Work Programme General Annexes.",
+          "legal_and_financial_setup": "Eligible costs will take the form of a lump sum as defined in the Decision of 7 July 2021 authorising the use of lump sum contributions under the Horizon Europe Programme – the Framework Programme for Research and Innovation (2021-2027) – and in actions under the Research and Training Programme of the European Atomic Energy Community (2021-2025) [[This decision is available on the Funding and Tenders Portal, in the reference documents section for Horizon Europe, under ‘Simplified costs decisions’ or through this link: https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/horizon/guidance/ls-decision_he_en.pdf ]].\nThe granting authority may, up to 4 years after the end of the action, object to a transfer of ownership or to the exclusive licensing of results, as set out in the specific provision of Annex 5.\nIn addition, as described in Annex G of the Work Programme General Annexes.",
+          "proposal_page_limits_mentions": [
+            "1. Admissibility Conditions: Proposal page limit and layout: Applicants submitting a proposal for a blind evaluation (see General Annex F) must not disclose their organisation names, acronyms, logos nor names of personnel in the proposal abstract and Part B of their first-stage application (see General Annex E).\nAs described in Annex A and Annex E of the Hori"
+          ],
+          "min_contribution": 2000000.0,
+          "max_contribution": 3700000.0,
+          "indicative_budget": 22000000.0,
+          "indicative_number_of_projects": 6,
+          "opening_date": "2027-03-02",
+          "deadline_model": "two-stage",
+          "deadlines": [
+            "2027-05-04",
+            "2027-09-30"
+          ],
+          "budget_year_map": {
+            "2027": "22000000"
+          },
+          "topic_id_from_budget": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+          "expected_eu_contribution": "2000000 - 3700000"
         },
         {
           "identifier": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
@@ -1004,29 +803,12 @@
             "2027": "22000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
-          "expected_eu_contribution": "2000000 - 3700000",
-          "original_call_id": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
-          "call_id": "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or 69 In the context of this call, the “EU Neighbourhood” is understood as the group of countries covered by the European Neighbourhood Policy (ENP), which includes countries to the East (Armenia, Azerbaijan, Belarus, Georgia, Moldova, and Ukraine) and to the South (Algeria, Egypt, Israel, Jordan, Lebanon, Libya, Morocco, Palestine, Syria, and Tunisia). For more information: https://enlargement.ec.europa.eu/european-neighbourhood-policy_en and https://north-africa-middle- east-gulf.ec.europa.eu/what-we-do/southern-neighbourhood_en 70 In the context of this call “low-income and low-middle income countries” are understood as the low to middle income non-associated third countries in the list of participating countries according to the Horizon Europe rules for participation and proposal",
-          "procedure": "General Annex F",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\", \"procedure\": \"document\"}",
-          "destination": "Innovative Research on Democracy and Governance",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "2000000 - 3700000"
         }
       ]
     },
     {
-      "destination_title": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-      "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
+      "destination_title": "Innovative Research on European Cultural Heritage and Cultural and",
       "calls": [
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-01",
@@ -1066,24 +848,7 @@
             "2026": "15000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-01",
-          "expected_eu_contribution": "4500000 - 5000000",
-          "original_call_id": "HORIZON-CL2-2026-01-HERITAGE-01",
-          "call_id": "HORIZON-CL2-2026-01-HERITAGE-01",
-          "technology_readiness_level": "(TRL) pilot demonstrators.",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. Subject to restrictions for the protection of European communication networks. Legal and The rules are described in General Annex G. The following exceptions apply: financial set-up of the Grant Agreements Eligible costs will take the form of a lump sum as defined in the Decision of 7 July 2021 authorising the use of lump sum contributions under the Horizon Europe Programme – the Framework Programme for Research and Innovation (2021-2027) – and in actions under the Research and Training Programme of the European Atomic Energy Community (2021-2025) 87. Beneficiaries may provide financial support to third parties. The support to third parties can only be provided in the form of grants. The maximum amount to be granted to each third party is EUR 60 000. The granting authority may, up to 4 years after the end of the action, object to a transfer of ownership or to the exclusive licensing of results, as set out in the specific provision of Annex 5.",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\", \"technology_readiness_level\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "technology_readiness_level",
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-02",
@@ -1123,22 +888,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-02",
-          "expected_eu_contribution": "5000000 - 6000000",
-          "original_call_id": "HORIZON-CL2-2026-01-HERITAGE-02",
-          "call_id": "HORIZON-CL2-2026-01-HERITAGE-02",
-          "procedure": "General Annex F",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"procedure\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "5000000 - 6000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-03",
@@ -1178,22 +928,7 @@
             "2026": "15000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-03",
-          "expected_eu_contribution": "4000000 - 5000000",
-          "original_call_id": "HORIZON-CL2-2026-01-HERITAGE-03",
-          "call_id": "HORIZON-CL2-2026-01-HERITAGE-03",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "4000000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-04",
@@ -1233,22 +968,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-04",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-HERITAGE-04",
-          "call_id": "HORIZON-CL2-2026-01-HERITAGE-04",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-05",
@@ -1288,22 +1008,7 @@
             "2026": "15000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-05",
-          "expected_eu_contribution": "3000000 - 3750000",
-          "original_call_id": "HORIZON-CL2-2026-01-HERITAGE-05",
-          "call_id": "HORIZON-CL2-2026-01-HERITAGE-05",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: In order to achieve the expected outcomes, of the action, the consortium must include at least three entities from at least one of the world regions identified (Africa, the Far East, South-East Asia, Latin America). Legal entities from these regions must take part in the project as beneficiaries. Due to the scope of this topic, legal entities established in these regions are exceptionally eligible for Union funding. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 3750000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-06",
@@ -1343,19 +1048,7 @@
             "2026": "11500000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-06",
-          "expected_eu_contribution": "5000000 - 5750000",
-          "original_call_id": "HORIZON-CL2-2026-01-HERITAGE-06",
-          "call_id": "HORIZON-CL2-2026-01-HERITAGE-06",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "5000000 - 5750000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-HERITAGE-07",
@@ -1395,22 +1088,7 @@
             "2026": "5000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-HERITAGE-07",
-          "expected_eu_contribution": "4500000 - 5000000",
-          "original_call_id": "HORIZON-CL2-2026-01-HERITAGE-07",
-          "call_id": "HORIZON-CL2-2026-01-HERITAGE-07",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. Due to the scope of this topic, legal entities established in non- associated third countries may exceptionally participate in this Coordination and Support Action as a beneficiary or affiliated entity and are exceptionally eligible for Union funding. This topic requires the involvement, as beneficiaries, of: • at least three security practitioner 111 organisations or agencies established in at least three different EU Member States or Associated Countries, and • at least two scientific research institutions working on illicit trafficking in the specific field of Cultural Heritage. For participants with practitioner status, applicants must fill in the table “Information about security practitioners” in the application form with all the requested information, following the template provided in the submission IT tool. Some activities, resulting from this topic, may involve using classified background and/or producing of security sensitive results (EUCI and SEN). Please refer to the related provisions in section B Security — EU classified and sensitive information of the General Annexes. If projects use satellite-based earth observation, positioning, navigation 111 Security practitioners has the meaning of organisations or agencies actively engaged in security operations, involved in e.g., law enforcement, customs, environmental crime management, smuggling and trafficking fighting and counter-terrorism, border and maritime surveillance, public safety, fundamental rights, etc. and/or related timing data and services, beneficiaries must make use of Copernicus and/or Galileo/EGNOS (other data and services may additionally be used). The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-01",
@@ -1450,19 +1128,7 @@
             "2027": "5000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-01",
-          "expected_eu_contribution": "4500000 - 5000000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-01",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-01",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-02",
@@ -1502,22 +1168,7 @@
             "2027": "5000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-02",
-          "expected_eu_contribution": "4500000 - 5000000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-02",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-02",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "4500000 - 5000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-03",
@@ -1557,19 +1208,7 @@
             "2027": "10500000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-03",
-          "expected_eu_contribution": "3000000 - 3500000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-03",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-03",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-04",
@@ -1609,22 +1248,7 @@
             "2027": "16000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-04",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-04",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-04",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-05",
@@ -1664,19 +1288,7 @@
             "2027": "10500000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-05",
-          "expected_eu_contribution": "3000000 - 3500000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-05",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-05",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-06",
@@ -1716,22 +1328,7 @@
             "2027": "14500000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-06",
-          "expected_eu_contribution": "4000000 - 4800000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-06",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-06",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "4000000 - 4800000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-07",
@@ -1771,22 +1368,7 @@
             "2027": "15000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-07",
-          "expected_eu_contribution": "2500000 - 3000000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-07",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-07",
-          "procedure": "General Annex F",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"procedure\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "2500000 - 3000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-HERITAGE-08",
@@ -1826,19 +1408,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-HERITAGE-08",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-HERITAGE-08",
-          "call_id": "HORIZON-CL2-2027-01-HERITAGE-08",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-02-HERITAGE-09-two-stage",
@@ -1879,28 +1449,12 @@
             "2027": "20000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-02-HERITAGE-09-two-stage",
-          "expected_eu_contribution": "2000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-02-HERITAGE-09-two-stage",
-          "call_id": "HORIZON-CL2-2027-02-HERITAGE-09-two-stage",
-          "procedure": "General Annex F",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"procedure\": \"document\"}",
-          "destination": "Innovative Research on European Cultural Heritage and Cultural and Creative Industries",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "2000000 - 4000000"
         }
       ]
     },
     {
       "destination_title": "Innovative Research on Social and Economic Transformations",
-      "destination": "Innovative Research on Social and Economic Transformations",
       "calls": [
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-02",
@@ -1940,19 +1494,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-02",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-02",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-02",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-03",
@@ -1992,19 +1534,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-03",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-03",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-03",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-04",
@@ -2044,19 +1574,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-04",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-04",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-04",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-05",
@@ -2096,19 +1614,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-05",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-05",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-05",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-06",
@@ -2148,22 +1654,7 @@
             "2026": "10000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-06",
-          "expected_eu_contribution": "3000000 - 3300000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-06",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-06",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 3300000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-07",
@@ -2203,19 +1694,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-07",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-07",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-07",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-08",
@@ -2255,22 +1734,7 @@
             "2026": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-08",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-08",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-08",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. Legal and financial set-up of the Grant The rules are described in General Annex G. The following exceptions apply: Agreements Eligible costs will take the form of a lump sum as defined in the Decision of 7 July 2021 authorising the use of lump sum contributions under the Horizon Europe Programme – the Framework Programme for Research and Innovation (2021-2027) – and in actions under the Research and Training Programme of the European Atomic Energy Community (2021-2025) 185. The granting authority may, up to 4 years after the end of the action, object to a transfer of ownership or to the exclusive licensing of results, as set out in the specific provision of Annex 5.",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-09",
@@ -2310,22 +1774,7 @@
             "2026": "15000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-09",
-          "expected_eu_contribution": "3750000 - 3750000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-09",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-09",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3750000 - 3750000"
         },
         {
           "identifier": "HORIZON-CL2-2026-01-TRANSFO-10",
@@ -2365,19 +1814,7 @@
             "2026": "3500000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-01-TRANSFO-10",
-          "expected_eu_contribution": "3500000 - 3500000",
-          "original_call_id": "HORIZON-CL2-2026-01-TRANSFO-10",
-          "call_id": "HORIZON-CL2-2026-01-TRANSFO-10",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3500000 - 3500000"
         },
         {
           "identifier": "HORIZON-CL2-2026-02-TRANSFO-01",
@@ -2417,22 +1854,7 @@
             "2026": "60000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2026-02-TRANSFO-01",
-          "expected_eu_contribution": "60000000 - 60000000",
-          "original_call_id": "HORIZON-CL2-2026-02-TRANSFO-01",
-          "call_id": "HORIZON-CL2-2026-02-TRANSFO-01",
-          "procedure": "General Annex F",
-          "content_source": "merged",
-          "status": "Open",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"procedure\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "60000000 - 60000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-01",
@@ -2472,19 +1894,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-01",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-01",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-01",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-02",
@@ -2524,19 +1934,7 @@
             "2027": "10000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-02",
-          "expected_eu_contribution": "3000000 - 3300000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-02",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-02",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 3300000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-03",
@@ -2576,19 +1974,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-03",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-03",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-03",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-04",
@@ -2628,22 +2014,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-04",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-04",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-04",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-05",
@@ -2683,22 +2054,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-05",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-05",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-05",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: Subject to restrictions for the protection of European communication networks. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-06",
@@ -2738,19 +2094,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-06",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-06",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-06",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-07",
@@ -2790,19 +2134,7 @@
             "2027": "12000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-07",
-          "expected_eu_contribution": "3000000 - 4000000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-07",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-07",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition"
-          ]
+          "expected_eu_contribution": "3000000 - 4000000"
         },
         {
           "identifier": "HORIZON-CL2-2027-01-TRANSFO-08",
@@ -2842,22 +2174,7 @@
             "2027": "15000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-01-TRANSFO-08",
-          "expected_eu_contribution": "3000000 - 3750000",
-          "original_call_id": "HORIZON-CL2-2027-01-TRANSFO-08",
-          "call_id": "HORIZON-CL2-2027-01-TRANSFO-08",
-          "eligibility_conditions": "The conditions are described in General Annex B. The following exceptions apply: The Joint Research Centre (JRC) may participate as member of the consortium selected for funding as a beneficiary with zero funding, or as an associated partner. The JRC will not participate in the preparation and submission of the proposal - see General Annex B. The rules are described in General Annex G. The following exceptions apply:",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3000000 - 3750000"
         },
         {
           "identifier": "HORIZON-CL2-2027-02-TRANSFO-09-two-stage",
@@ -2898,23 +2215,7 @@
             "2027": "16000000"
           },
           "topic_id_from_budget": "HORIZON-CL2-2027-02-TRANSFO-09-two-stage",
-          "expected_eu_contribution": "3200000 - 3200000",
-          "original_call_id": "HORIZON-CL2-2027-02-TRANSFO-09-two-stage",
-          "call_id": "HORIZON-CL2-2027-02-TRANSFO-09-two-stage",
-          "eligibility_conditions": ", award criteria, evaluation and award",
-          "procedure": "General Annexes",
-          "content_source": "merged",
-          "status": "Forthcoming",
-          "schedule_source": "api",
-          "wp_edition": "HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
-          "field_provenance": "{\"eligibility_conditions\": \"document\", \"procedure\": \"document\"}",
-          "destination": "Innovative Research on Social and Economic Transformations",
-          "_description_section_keys": [
-            "content_source",
-            "schedule_source",
-            "wp_edition",
-            "field_provenance"
-          ]
+          "expected_eu_contribution": "3200000 - 3200000"
         }
       ]
     }

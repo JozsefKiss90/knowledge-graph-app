@@ -55,11 +55,14 @@ def verify(key: str) -> bool:
     problems = []
     print(f"===== {cfg.key}  ({cfg.merged_out.name})")
     for dest in data["destinations"]:
-        summary = b._get_summary(summaries, dest["destination_title"])
-        if not summary:
-            problems.append(f"no summary for destination {dest['destination_title']!r}")
-        print(f"  summary {'OK  ' if summary else 'MISS'} {len(dest['calls']):3d} calls  "
-              f"{dest['destination_title'][:64]}")
+        if cfg.has_destinations:
+            summary = b._get_summary(summaries, dest["destination_title"])
+            if not summary:
+                problems.append(f"no summary for destination {dest['destination_title']!r}")
+            print(f"  summary {'OK  ' if summary else 'MISS'} {len(dest['calls']):3d} calls  "
+                  f"{dest['destination_title'][:64]}")
+        else:
+            print(f"  (no destination layer) {len(dest['calls']):3d} calls")
         for c in dest["calls"]:
             try:
                 props = b._build_call_props(c, c["call_id"])
@@ -73,8 +76,8 @@ def verify(key: str) -> bool:
     ids = [c["call_id"] for c in calls]
     if len(set(ids)) != len(ids):
         problems.append("duplicate call ids")
-    if any(d["destination_title"] != c["destination"]
-           for d in data["destinations"] for c in d["calls"]):
+    if cfg.has_destinations and any(d["destination_title"] != c["destination"]
+                                    for d in data["destinations"] for c in d["calls"]):
         problems.append("a call's `destination` disagrees with its bucket")
     unknown = [c["call_id"] for c in calls
                if str(c.get("destination", "")).startswith("_un")]

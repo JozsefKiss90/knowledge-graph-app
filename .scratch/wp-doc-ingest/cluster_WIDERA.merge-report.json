@@ -1,0 +1,29 @@
+{
+  "cluster": "WIDERA",
+  "cluster_node_id": "WIDERA",
+  "source_tag": "widera",
+  "populate_path": "/widera/populate",
+  "document": "HORIZON-WIDERA-2026-2027_final version.pdf",
+  "generated_from": "cluster_WIDERA.merged.v2.json",
+  "id_rewrites": [],
+  "dropped_artefacts": [],
+  "cancelled": [],
+  "document_only": [
+    "HORIZON-WIDERA-2027-01-WIDENING-01",
+    "HORIZON-WIDERA-2027-02-WIDENING-01",
+    "HORIZON-WIDERA-2027-02-WIDENING-02",
+    "HORIZON-WIDERA-2027-04-WIDENING-01",
+    "HORIZON-WIDERA-2027-05-ERA-01",
+    "HORIZON-WIDERA-2027-05-ERA-02",
+    "HORIZON-WIDERA-2027-05-ERA-03",
+    "HORIZON-WIDERA-2027-05-ERA-04",
+    "HORIZON-WIDERA-2027-05-ERA-05"
+  ],
+  "portal_only": [],
+  "deduped": [
+    [
+      "HORIZON-WIDERA-2026-06-ERA-08",
+      "26-06-ERA-08|50126780|bg"
+    ]
+  ]
+}

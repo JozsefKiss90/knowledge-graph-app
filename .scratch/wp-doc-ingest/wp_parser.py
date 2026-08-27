@@ -69,6 +69,33 @@ def parse(cluster: str) -> dict:
                     rec["indicative_budget"] = float(mb.group(1).replace(',', '.'))
                 except ValueError:
                     pass
+        # Contribution fallback. The prior-art engine reads the Specific-conditions
+        # table positionally and gives up when a footnote block or a split label
+        # column lands in the middle of it (e.g. CL5's 2027-01-D1-12, where
+        # "114 Such as PRIMA..." interrupts the row). The sentence itself is
+        # unambiguous, so read it directly - but ONLY to fill a blank, never to
+        # overwrite what the table parse produced.
+        if rec.get("min_contribution") is None and rec.get("max_contribution") is None:
+            lo = hi = None
+            # the figure and the word "million" are often separated by a line break
+            # and sometimes by an interleaved footnote marker, so allow any run of
+            # characters between them - bounded, so it cannot reach the next topic.
+            mrange = re.search(r'EU\s+contribution\s+of\s+between\s+EUR\s*([\d.,]+)'
+                               r'[\s\S]{0,60}?and\s*([\d.,]+)[\s\S]{0,120}?million',
+                               block, re.I)
+            maround = re.search(r'EU\s+contribution\s+of\s+(?:around|up\s+to)\s+EUR\s*([\d.,]+)'
+                                r'[\s\S]{0,120}?million', block, re.I)
+            try:
+                if mrange:
+                    lo, hi = (float(mrange.group(i).replace(',', '.')) for i in (1, 2))
+                elif maround:
+                    lo = hi = float(maround.group(1).replace(',', '.'))
+            except ValueError:
+                lo = hi = None
+            if lo is not None:
+                rec["min_contribution"], rec["max_contribution"] = lo, hi
+                rec.setdefault("_contribution_source", "sentence-fallback")
+
         out.setdefault(cid, rec)
     return out
 

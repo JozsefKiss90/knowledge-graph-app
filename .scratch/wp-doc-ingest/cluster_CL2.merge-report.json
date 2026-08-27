@@ -1,0 +1,19 @@
+{
+  "cluster": "CL2",
+  "cluster_node_id": "CL2",
+  "source_tag": "cluster_2",
+  "populate_path": "/cluster2/populate",
+  "document": "HORIZON-CL2-2026-2027_07_23_2026.pdf",
+  "generated_from": "cluster_CL2.merged.v2.json",
+  "id_rewrites": [],
+  "dropped_artefacts": [],
+  "cancelled": [],
+  "document_only": [],
+  "portal_only": [],
+  "deduped": [
+    [
+      "HORIZON-CL2-2027-02-DEMOCRACY-09-two-stage",
+      "09-two-stage|50140927|bg"
+    ]
+  ]
+}

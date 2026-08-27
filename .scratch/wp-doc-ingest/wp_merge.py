@@ -127,7 +127,48 @@ def find_title_artefacts(calls, defined):
         t = (c.get("call_title") or c.get("topic_title") or "").strip().lower()
         twins = [o for o in by_title.get(t, []) if o is not c and len(call_id_of(o)) > len(cid)]
         if twins:
-            out.append((c, call_id_of(twins[0])))
+            # Titles repeat across years ("Open topic: ..."), so an artefact can match a
+            # twin from the wrong year. Pick the twin sharing the longest id prefix, which
+            # keeps the reported attribution truthful.
+            def shared_prefix(o):
+                other = call_id_of(o)
+                n = 0
+                for a, b in zip(cid, other):
+                    if a != b:
+                        break
+                    n += 1
+                return n
+            out.append((c, call_id_of(max(twins, key=shared_prefix))))
+    return out
+
+
+def collapse_duplicate_ids(calls, rep):
+    """Keep one record per call id.
+
+    The portal export can emit the same topic once per language: CL1 carries
+    `HORIZON-HLTH-2027-02-DISEASE-14-two-stage` twice, identical except for the
+    `unique_key` suffix (`|bg` vs `|en`). The graph hides this - MERGE folds them
+    into one node - but the grouped file is wrong and the count is inflated.
+
+    Keeps the record with the most populated fields; ties go to the English row,
+    then to document order. Every collapse is reported.
+    """
+    seen, out = {}, []
+    for c in calls:
+        cid = c["call_id"]
+        if cid not in seen:
+            seen[cid] = len(out)
+            out.append(c)
+            continue
+        kept = out[seen[cid]]
+
+        def score(x):
+            return (sum(1 for v in x.values() if ne(v)),
+                    str(x.get("unique_key") or "").endswith("|en"))
+
+        winner, loser = (c, kept) if score(c) > score(kept) else (kept, c)
+        out[seen[cid]] = winner
+        rep["deduped"].append((cid, str(loser.get("unique_key") or "")[-24:]))
     return out
 
 
@@ -198,16 +239,25 @@ def run(cluster, base_path=None, out_path=None, promote=False):
     out_path = Path(out_path) if out_path else cfg.merged_out
 
     pdf = wp_parser.parse(cfg.key)
-    destmap = wp_destinations.destination_map(cfg.key)
-    if set(pdf) != set(destmap):
-        raise SystemExit(f"parser and destination map disagree on the topic set: "
-                         f"{sorted(set(pdf) ^ set(destmap))}")
-    canonical_dests = list(dict.fromkeys(destmap.values()))
+    if cfg.has_destinations:
+        destmap = wp_destinations.destination_map(cfg.key)
+        if set(pdf) != set(destmap):
+            raise SystemExit(f"parser and destination map disagree on the topic set: "
+                             f"{sorted(set(pdf) ^ set(destmap))}")
+        canonical_dests = list(dict.fromkeys(destmap.values()))
+        id_rule = wp_destinations.id_rule_map(cfg.key, destmap)
+    else:
+        # No destination layer in the graph (WIDERA): the builder links Cluster -> Call
+        # directly and never reads a bucket. Keep one nominal bucket so the file shape
+        # and the builder's iteration are unchanged, and leave `destination` empty
+        # rather than inventing a value the work programme does not have.
+        destmap, canonical_dests, id_rule = {}, [cfg.single_bucket_title], {}
     pdf_by_key = {norm_key(k): v for k, v in pdf.items()}
 
     calls = load_base(base_path)
     rep = {"renamed": [], "canonicalised": 0, "dropped": [], "enriched": 0, "trl_added": 0,
-           "added": [], "cancelled": [], "api_only": [], "unresolved": [], "id_rewrites": []}
+           "added": [], "cancelled": [], "api_only": [], "unresolved": [], "id_rewrites": [],
+           "placed_by_id_rule": [], "deduped": []}
 
     # --- 1. repair ids ---------------------------------------------------------------
     artefacts = {id(c): twin for c, twin in find_title_artefacts(calls, set(pdf_by_key))}
@@ -233,7 +283,7 @@ def run(cluster, base_path=None, out_path=None, promote=False):
         if "min__contribution" in c:                  # long-standing builder-blind typo
             c["min_contribution"] = c.pop("min__contribution")
         kept.append(c)
-    calls = kept
+    calls = collapse_duplicate_ids(kept, rep)
 
     # --- 2. enrich from the document -------------------------------------------------
     for c in calls:
@@ -271,7 +321,7 @@ def run(cluster, base_path=None, out_path=None, promote=False):
     for cid, p in pdf.items():
         if norm_key(cid) in have:
             continue
-        calls.append(build_document_call(cid, p, destmap[cid], cfg))
+        calls.append(build_document_call(cid, p, destmap.get(cid, ""), cfg))
         rep["added"].append(cid)
         if is_cancelled(p):
             rep["cancelled"].append(cid)
@@ -281,7 +331,16 @@ def run(cluster, base_path=None, out_path=None, promote=False):
     # as CL3's ECCC cybersecurity calls) keeps the bucket the portal put it in, but ONLY
     # if that bucket is a real destination; otherwise it is parked loudly.
     for c in calls:
+        if not cfg.has_destinations:
+            c["destination"] = ""
+            c.pop("_base_bucket", None)
+            continue
         dest = destmap.get(c["call_id"])
+        if not dest and id_rule:
+            m = cfg.id_destination_re.search(c["call_id"])
+            if m and m.group(1) in id_rule:
+                dest = id_rule[m.group(1)]
+                rep["placed_by_id_rule"].append((c["call_id"], m.group(1)))
         if not dest:
             base_bucket = (c.get("_base_bucket") or "").strip()
             if base_bucket in canonical_dests:
@@ -294,7 +353,8 @@ def run(cluster, base_path=None, out_path=None, promote=False):
 
     buckets = OrderedDict((d, []) for d in canonical_dests + [UNRESOLVED])
     for c in calls:
-        buckets.setdefault(c["destination"], []).append(c)
+        key = c["destination"] if cfg.has_destinations else cfg.single_bucket_title
+        buckets.setdefault(key, []).append(c)
     destinations = [{"destination_title": k, "destination": k, "calls": v}
                     for k, v in buckets.items() if v]
 
@@ -329,6 +389,7 @@ def run(cluster, base_path=None, out_path=None, promote=False):
         "cancelled": rep["cancelled"],
         "document_only": rep["added"],
         "portal_only": rep["api_only"],
+        "deduped": rep["deduped"],
     }, open(report_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
     # --- 6. report ----------------------------------------------------------------------
@@ -340,12 +401,19 @@ def run(cluster, base_path=None, out_path=None, promote=False):
     print(f"base               : {base_path.name}")
     print(f"ids canonicalised  : {rep['canonicalised']}")
     print(f"ids renamed        : {len(rep['renamed'])} {rep['renamed']}")
+    print(f"duplicate rows     : {len(rep['deduped'])} collapsed")
+    for cid, key in rep["deduped"]:
+        print(f"                     - {cid}  (dropped the row keyed ...{key})")
     print(f"portal artefacts   : {len(rep['dropped'])} dropped")
     for cid, twin, title in rep["dropped"]:
         print(f"                     - {cid}  (duplicates {twin}: {title})")
     print(f"enriched from doc  : {rep['enriched']}   TRL added: {rep['trl_added']}")
     print(f"document-only added: {len(rep['added'])} {rep['added']}")
-    print(f"portal-only kept   : {len(rep['api_only'])} {rep['api_only']}")
+    print(f"portal-only kept   : {len(rep['api_only'])}")
+    if rep["placed_by_id_rule"]:
+        keys = Counter(k for _, k in rep["placed_by_id_rule"])
+        print(f"placed by id rule  : {len(rep['placed_by_id_rule'])} "
+              f"({', '.join(f'{k}x{n}' for k, n in sorted(keys.items()))})")
     print(f"cancelled topics   : {len(rep['cancelled'])} {rep['cancelled']}")
     print(f"unresolved dest    : {len(rep['unresolved'])} {rep['unresolved']}")
     print(f"duplicate ids      : {dupes if dupes else 'none'}")

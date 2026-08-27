@@ -36,6 +36,20 @@ def ne(v):
     return v not in (None, "", [], {})
 
 
+def _select_blocks(text: str, marker: str, keep: bool) -> str:
+    """Keep or drop every `// <<MARKER>> ... // <</MARKER>>` block, markers included."""
+    out, rest = [], text
+    open_m, close_m = f"// <<{marker}>>\n", f"// <</{marker}>>\n"
+    while open_m in rest:
+        head, _, tail = rest.partition(open_m)
+        body, _, rest = tail.partition(close_m)
+        out.append(head)
+        if keep:
+            out.append(body)
+    out.append(rest)
+    return "".join(out)
+
+
 def main(cluster: str):
     cfg = wp_clusters.get(cluster)
     merged = cfg.merged_out
@@ -50,9 +64,11 @@ def main(cluster: str):
     dest_ids, pairs, calls = [], [], []
     for dest in data["destinations"]:
         did = f"{cfg.cluster_id}:{_slugify(dest['destination_title'])}"
-        dest_ids.append((did, dest["destination_title"], len(dest["calls"])))
+        if cfg.has_destinations:
+            dest_ids.append((did, dest["destination_title"], len(dest["calls"])))
         for call in dest["calls"]:
-            pairs.append((did, call["call_id"]))
+            if cfg.has_destinations:
+                pairs.append((did, call["call_id"]))
             calls.append(call)
 
     call_ids = sorted(c["call_id"] for c in calls)
@@ -82,6 +98,11 @@ def main(cluster: str):
     }
 
     text = TEMPLATE.read_text(encoding="utf-8")
+    # Keep only the blocks that apply to this cluster's shape. WIDERA has no
+    # destination layer (see wp_clusters.has_destinations), so its file must not
+    # carry the membership params or the destination phases at all.
+    text = _select_blocks(text, "DEST_ONLY", cfg.has_destinations)
+    text = _select_blocks(text, "NO_DEST_ONLY", not cfg.has_destinations)
     for token, value in subs.items():
         text = text.replace(token, value)
     left = [t for t in subs if t in text]
@@ -93,8 +114,11 @@ def main(cluster: str):
 
     print(f"{out.name}")
     print(f"  calls        {len(call_ids)}")
-    print(f"  destinations {len(dest_ids)}")
-    print(f"  membership   {len(pairs)}")
+    if cfg.has_destinations:
+        print(f"  destinations {len(dest_ids)}")
+        print(f"  membership   {len(pairs)}")
+    else:
+        print(f"  destinations none (Cluster -> Call; destination phases omitted)")
     print(f"  id rewrites  {len(report['id_rewrites'])}")
     print(f"  cancelled    {len(cancelled)}")
     print(f"  TRL          {trl}")

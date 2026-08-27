@@ -55,6 +55,27 @@ class ClusterConfig:
     # Portal id -> current work-programme id, for topics the edition renamed.
     renames: dict = field(default_factory=dict)
 
+    # WIDERA has no destination layer at all: `base_cluster_builder` special-cases it
+    # to link Cluster -> Call directly and never creates Destination nodes. With this
+    # False the merge keeps every call in one nominal bucket, and the generated Cypher
+    # drops the destination phases.
+    has_destinations: bool = True
+    # The nominal bucket title used when has_destinations is False. Keep it identical to
+    # what the ingested file already uses, so the file shape does not change.
+    single_bucket_title: str = ""
+
+    # Optional: a regex with ONE group that pulls a destination key out of a topic
+    # id, for clusters that encode it there (CL5 numbers its destinations 1-6 and
+    # every topic id carries the token, e.g. HORIZON-CL5-2026-02-D3-14 -> D3).
+    # The key -> destination mapping is LEARNED from the topics the document does
+    # define and rejected if it is ambiguous, so it is evidence, not a guess. It is
+    # used only to place calls the document does not define.
+    id_destination_pattern: str = ""
+
+    @property
+    def id_destination_re(self):
+        return re.compile(self.id_destination_pattern) if self.id_destination_pattern else None
+
     @property
     def id_re(self):
         return re.compile(self.id_pattern)
@@ -72,6 +93,52 @@ _SPACE_DEST = ("Open Strategic Autonomy in Developing, Deploying and Using Globa
                "Infrastructure, Services, Applications and Data")
 
 CLUSTERS = {
+    "WIDERA": ClusterConfig(
+        key="WIDERA", cluster_id="WIDERA", source_tag="widera",
+        cluster_name="Horizon Europe – WIDERA",
+        populate_path="/widera/populate",
+        pdf=PDF_DIR / "HORIZON-WIDERA-2026-2027_final version.pdf",
+        base=HERE / "HORIZON-WIDERA.PREPILOT.bak",
+        grouped=OUT_DIR / "HORIZON-WIDERA.json",
+        summaries=OUT_DIR / "destination_summaries_widera.json",
+        wp_edition="HORIZON 2026-2027 / Part 11 - Widening Participation and "
+                   "Strengthening the European Research Area",
+        id_pattern=r'(HORIZON-WIDERA-20\d\d-[0-9A-Za-z\-]+?)\s*:',
+        edition_pattern=r'HORIZON-WIDERA-20(?:26|27)-',
+        has_destinations=False,
+        single_bucket_title="WIDERA",
+    ),
+    "CL1": ClusterConfig(
+        key="CL1", cluster_id="CL1", source_tag="cluster_1",
+        cluster_name="Health (Cluster 1)",
+        populate_path="/cluster1/populate",
+        pdf=PDF_DIR / "HORIZON-CL1-2026-2027.pdf",
+        base=HERE / "cluster_CL1.grouped.PREPILOT.bak",
+        grouped=OUT_DIR / "cluster_CL1.grouped.json",
+        summaries=OUT_DIR / "destination_summaries_cl1.json",
+        wp_edition="HORIZON 2026-2027 / Part 4 - Health",
+        # Health topic ids are namespaced HLTH, not CL1.
+        id_pattern=r'(HORIZON-HLTH-20\d\d-[0-9A-Za-z\-]+?)\s*:',
+        edition_pattern=r'HORIZON-HLTH-20(?:26|27)-',
+        # Every Health topic id carries its destination token
+        # (HORIZON-HLTH-2026-01-STAYHLTH-02 -> "Staying healthy...").
+        id_destination_pattern=r'-\d{2}-([A-Z0-9]+)-\d',
+    ),
+    "CL2": ClusterConfig(
+        key="CL2", cluster_id="CL2", source_tag="cluster_2",
+        cluster_name="Culture, Creativity and Inclusive Society (Cluster 2)",
+        populate_path="/cluster2/populate",
+        pdf=PDF_DIR / "HORIZON-CL2-2026-2027_07_23_2026.pdf",
+        base=HERE / "cluster_CL2.grouped.PREPILOT.bak",
+        grouped=OUT_DIR / "cluster_CL2.grouped.json",
+        summaries=OUT_DIR / "destination_summaries_cl2.json",
+        wp_edition="HORIZON 2026-2027 / Part 5 - Culture, Creativity and Inclusive Society (2026-07-23)",
+        id_pattern=r'(HORIZON-CL2-20\d\d-[0-9A-Za-z\-]+?)\s*:',
+        edition_pattern=r'HORIZON-CL2-20(?:26|27)-',
+        # Every CL2 topic id carries its destination token
+        # (HORIZON-CL2-2026-01-DEMOCRACY-01 -> Democracy and Governance).
+        id_destination_pattern=r'-\d{2}-([A-Z0-9]+)-\d',
+    ),
     "CL3": ClusterConfig(
         key="CL3", cluster_id="CL3", source_tag="cluster_3",
         cluster_name="Civil Security for Society (Cluster 3)",
@@ -91,6 +158,42 @@ CLUSTERS = {
             "HORIZON-CL3-2025-01-INFRA-02",
             "HORIZON-CL3-2024-DRS-01-04",
         }),
+    ),
+    "CL6": ClusterConfig(
+        key="CL6", cluster_id="CL6", source_tag="cluster_6",
+        cluster_name="Food, Bioeconomy, Natural Resources, Agriculture and Environment (Cluster 6)",
+        populate_path="/cluster6/populate",
+        pdf=PDF_DIR / "HORIZON-CL6-2026-2027_07_28_2026_version clean.pdf",
+        base=HERE / "cluster_CL6.grouped.PREPILOT.bak",
+        grouped=OUT_DIR / "cluster_CL6.grouped.json",
+        summaries=OUT_DIR / "destination_summaries_cl6.json",
+        wp_edition="HORIZON 2026-2027 / Part 9 - Food, Bioeconomy, Natural Resources, "
+                   "Agriculture and Environment (2026-07-28)",
+        id_pattern=r'(HORIZON-CL6-20\d\d-[0-9A-Za-z\-]+?)\s*:',
+        edition_pattern=r'HORIZON-CL6-20(?:26|27)-',
+        # Every CL6 topic id carries its destination token
+        # (HORIZON-CL6-2026-01-BIODIV-01 -> Biodiversity and ecosystem services).
+        id_destination_pattern=r'-\d{2}-([A-Z0-9]+)-\d',
+        # Appears once, in prose ("...considering the topic 'HORIZON-CL6-2026-CIRCBIO-10:
+        # Understanding biomass flows in Europe'"), and note the id lacks the -NN- call
+        # segment every real 2026 topic has. The 700-char window catches the next topic's
+        # Specific-conditions table and promotes it to a phantom definition.
+        crossref_only=frozenset({"HORIZON-CL6-2026-CIRCBIO-10"}),
+    ),
+    "CL5": ClusterConfig(
+        key="CL5", cluster_id="CL5", source_tag="cluster_5",
+        cluster_name="Climate, Energy and Mobility (Cluster 5)",
+        populate_path="/cluster5/populate",
+        pdf=PDF_DIR / "Amended-HORIZON-CL5-2026-2027_28_07_2026_Clean.pdf",
+        base=HERE / "cluster_CL5.grouped.PREPILOT.bak",
+        grouped=OUT_DIR / "cluster_CL5.grouped.json",
+        summaries=OUT_DIR / "destination_summaries_cl5.json",
+        wp_edition="HORIZON 2026-2027 / Part 8 - Climate, Energy and Mobility (amended 2026-07-28)",
+        id_pattern=r'(HORIZON-CL5-20\d\d-[0-9A-Za-z\-]+?)\s*:',
+        edition_pattern=r'HORIZON-CL5-20(?:26|27)-',
+        # CL5's work programme numbers its six destinations and every topic id
+        # carries that number: HORIZON-CL5-2026-02-D3-14 belongs to Destination 3.
+        id_destination_pattern=r'-(D\d)-',
     ),
     "CL4": ClusterConfig(
         key="CL4", cluster_id="CL4", source_tag="cluster_4",

@@ -256,6 +256,7 @@ DETACH DELETE d
 RETURN count(*) AS outdated_destinations_deleted;
 
 
+
 // ---------------------------------------------------------------------------
 // PHASE 7 - repair Call.keywords (free, no API calls).
 // The grouped files carry no `keywords` key and _sanitize_props preserves empty
@@ -297,6 +298,7 @@ MATCH (c:Call {source:'cluster_3'})
 OPTIONAL MATCH (d:Destination)-[:HAS_CALL]->(c)
 WITH c, count(d) AS parents
 RETURN parents, count(c) AS calls ORDER BY parents;   // expect one row: 1 | 45
+
 
 MATCH (c:Call {source:'cluster_3'})
 RETURN sum(CASE WHEN c.technology_readiness_level IS NOT NULL

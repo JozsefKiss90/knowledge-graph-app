@@ -1,0 +1,78 @@
+{
+  "cluster": "CL5",
+  "cluster_node_id": "CL5",
+  "source_tag": "cluster_5",
+  "populate_path": "/cluster5/populate",
+  "document": "Amended-HORIZON-CL5-2026-2027_28_07_2026_Clean.pdf",
+  "generated_from": "cluster_CL5.merged.v2.json",
+  "id_rewrites": [],
+  "dropped_artefacts": [
+    [
+      "HORIZON-CL5-2026-06-Two-Stage",
+      "HORIZON-CL5-2026-06-Two-Stage-D5-10"
+    ],
+    [
+      "HORIZON-CL5-2026-08-Two-Stage",
+      "HORIZON-CL5-2026-08-Two-Stage-D1-06"
+    ],
+    [
+      "HORIZON-CL5-2026-04-Two-Stage",
+      "HORIZON-CL5-2026-04-Two-Stage-D3-02"
+    ],
+    [
+      "HORIZON-CL5-2027-04-Two-Stage",
+      "HORIZON-CL5-2027-04-Two-Stage-D5-09"
+    ]
+  ],
+  "cancelled": [],
+  "document_only": [
+    "HORIZON-CL5-2027-01-D1-07",
+    "HORIZON-CL5-2027-01-D1-08",
+    "HORIZON-CL5-2027-01-D1-09",
+    "HORIZON-CL5-2027-01-D1-10",
+    "HORIZON-CL5-2027-01-D1-11",
+    "HORIZON-CL5-2027-01-D1-12",
+    "HORIZON-CL5-2027-01-D1-13",
+    "HORIZON-CL5-2027-02-D3-33",
+    "HORIZON-CL5-2027-05-D3-31"
+  ],
+  "portal_only": [
+    "HORIZON-CL5-2026-01-D5-17",
+    "HORIZON-CL5-2026-01-D6-03",
+    "HORIZON-CL5-2026-01-D6-04",
+    "HORIZON-CL5-2026-01-D6-05",
+    "HORIZON-CL5-2026-01-D6-06",
+    "HORIZON-CL5-2026-01-D6-07",
+    "HORIZON-CL5-2026-01-D6-08",
+    "HORIZON-CL5-2026-01-D6-09",
+    "HORIZON-CL5-2026-01-D6-10",
+    "HORIZON-CL5-2026-01-D6-13",
+    "HORIZON-CL5-2026-01-D6-14",
+    "HORIZON-CL5-2026-01-D6-15",
+    "HORIZON-CL5-2026-02-D3-01",
+    "HORIZON-CL5-2026-02-D3-02",
+    "HORIZON-CL5-2026-02-D3-05",
+    "HORIZON-CL5-2026-02-D3-07",
+    "HORIZON-CL5-2026-02-D3-08",
+    "HORIZON-CL5-2026-02-D3-10",
+    "HORIZON-CL5-2026-02-D3-12",
+    "HORIZON-CL5-2026-02-D3-13",
+    "HORIZON-CL5-2026-02-D3-14",
+    "HORIZON-CL5-2026-02-D3-18",
+    "HORIZON-CL5-2026-02-D3-19",
+    "HORIZON-CL5-2026-02-D3-20",
+    "HORIZON-CL5-2026-02-D3-22",
+    "HORIZON-CL5-2026-02-D3-24",
+    "HORIZON-CL5-2026-01-D2-01",
+    "HORIZON-CL5-2026-01-D2-04",
+    "HORIZON-CL5-2026-01-D2-05",
+    "HORIZON-CL5-2026-01-D2-09",
+    "HORIZON-CL5-2026-02-D4-01",
+    "HORIZON-CL5-2026-02-D4-02",
+    "HORIZON-CL5-2026-02-D4-03",
+    "HORIZON-CL5-2026-02-D4-04",
+    "HORIZON-CL5-2026-02-D4-05",
+    "HORIZON-CL5-2026-02-D4-06",
+    "HORIZON-CL5-2027-02-D3-31"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "cluster": "CL1",
+  "cluster_node_id": "CL1",
+  "source_tag": "cluster_1",
+  "populate_path": "/cluster1/populate",
+  "document": "HORIZON-CL1-2026-2027.pdf",
+  "generated_from": "cluster_CL1.merged.v2.json",
+  "id_rewrites": [],
+  "dropped_artefacts": [],
+  "cancelled": [],
+  "document_only": [],
+  "portal_only": [],
+  "deduped": [
+    [
+      "HORIZON-HLTH-2027-02-DISEASE-14-two-stage",
+      "14-two-stage|50140558|bg"
+    ]
+  ]
+}

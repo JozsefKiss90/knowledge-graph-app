@@ -1,0 +1,35 @@
+{
+  "cluster": "CL6",
+  "cluster_node_id": "CL6",
+  "source_tag": "cluster_6",
+  "populate_path": "/cluster6/populate",
+  "document": "HORIZON-CL6-2026-2027_07_28_2026_version clean.pdf",
+  "generated_from": "cluster_CL6.merged.v2.json",
+  "id_rewrites": [],
+  "dropped_artefacts": [
+    [
+      "HORIZON-CL6-2026-01-two-stage",
+      "HORIZON-CL6-2026-01-CIRCBIO-02-two-stage"
+    ],
+    [
+      "HORIZON-CL6-2027-01-two-stage",
+      "HORIZON-CL6-2027-01-CIRCBIO-02-two-stage"
+    ],
+    [
+      "HORIZON-CL6-2027-02-two-stage",
+      "HORIZON-CL6-2027-02-FARM2FORK-02-two-stage"
+    ],
+    [
+      "HORIZON-CL6-2026-02-two-stage",
+      "HORIZON-CL6-2026-02-FARM2FORK-02-two-stage"
+    ],
+    [
+      "HORIZON-CL6-2026-03-two-stage",
+      "HORIZON-CL6-2026-03-GOVERNANCE-01-two-stage"
+    ]
+  ],
+  "cancelled": [],
+  "document_only": [],
+  "portal_only": [],
+  "deduped": []
+}
